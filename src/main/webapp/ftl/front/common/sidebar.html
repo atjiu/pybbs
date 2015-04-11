@@ -1,0 +1,104 @@
+<#macro sidebar sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="">
+<#if sidebar_user_info == "show">
+<div class="jf_panel">
+    <#if session.user??>
+        <div class="jf_header">
+            个人信息
+        </div>
+        <div class="jf_inner">
+            <div>
+                <a href="${ctx_path}/user/${session.user.id!}">
+                    <img src="${session.user.avatar!}" title="${session.user.nickname!}" width="48">
+                </a>&nbsp;
+                <span><a class="dark" href="${ctx_path}/user/${session.user.id!}">${session.user.nickname!}</a></span>
+                <div style="margin-top: 10px;">
+                    <span >积分: ${session.user.score!} </span>
+                </div>
+            </div>
+        </div>
+    <#else>
+        <div class="jf_inner">
+            <span style="font-size: 16px; font-weight: 400; display: inline-block;">JFinal社区</span><br>
+            您可以使用下列第三方登录<br>
+            <a href="${ctx_path}/qqlogin" class="btn btn-success">&nbsp;&nbsp;&nbsp;通过 QQ 登录&nbsp;&nbsp;&nbsp;</a>
+        </div>
+    </#if>
+</div>
+</#if>
+<#if sidebar_topic_user == "show">
+<div class="jf_panel">
+    <div class="jf_header">
+        作者
+    </div>
+    <div class="jf_inner">
+        <div>
+            <a href="${ctx_path}/user/${topic.author_id!}">
+                <img src="${topic.avatar!}" title="${topic.nickname!}" width="48">&nbsp;&nbsp;
+            </a>
+            <span><a class="dark" href="${ctx_path}/user/${topic.author_id!}">${topic.nickname!}</a></span>
+            <div style="margin-top: 10px;">
+                <span class="big">积分: ${topic.score!} </span>
+            </div>
+        </div>
+    </div>
+</div>
+</#if>
+<#--签到-->
+<#if sidebar_checkin == "show">
+    <#if session.user?? && session.user.mission?date != session.today?date>
+    <div class="jf_panel">
+        <div class="jf_inner">
+            <a href="${ctx_path}/mission/daily" class="btn btn-success">领取今日的登录奖励</a>
+        </div>
+    </div>
+    </#if>
+</#if>
+<#if sidebar_create == "show">
+    <#if session.user??>
+        <div class="jf_panel">
+            <div class="jf_inner">
+                <a href="${ctx_path}/topic/create" class="btn btn-success">&nbsp;发布话题&nbsp;</a>
+            </div>
+        </div>
+    </#if>
+</#if>
+<#if sidebar_scoretop == "show">
+<div class="jf_panel">
+    <div class="jf_header">积分榜&nbsp;&nbsp;<a href="${ctx_path}/user/top100">TOP 100 &gt;&gt;</a></div>
+    <div class="jf_inner">
+        <#list scoreTopTen as top>
+            <div>
+                <span style="display: inline-block; width: 60px; float: left;">${top.score!}</span>
+                <span>${top.nickname!}</span>
+            </div>
+        </#list>
+    </div>
+</div>
+</#if>
+<#if sidebar_create_info == "show">
+    <#if session.user??>
+        <div class="jf_panel">
+            <div class="jf_header">话题发布指南</div>
+            <div class="jf_inner">
+                发布话题 <b style="color: red; font-size: 16px;">奖励3</b> 积分，但是被管理员删除话题将会扣除作者5积分<br>
+                尽量把话题要点浓缩到标题里<br>
+                给话题选择合适的板块方便查找浏览<br>
+            </div>
+        </div>
+    </#if>
+</#if>
+<#if sidebar_friendlylinks == "show">
+<div class="jf_panel">
+    <div class="jf_header">
+        友情链接
+    </div>
+    <div class="jf_inner" style="padding-left: 20px;">
+        <p><a href="http://www.jfinal.com" target="_blank">JFinal官网</a></p>
+        <p><a href="http://www.oschina.net" target="_blank">开源中国</a></p>
+        <p><a href="http://jfinalxm.sturgeon.mopaas.com/" target="_blank">小木学堂</a></p>
+        <p><a href="http://www.91zcm.com/" target="_blank">91注册码</a></p>
+        <p><a href="http://www.xx566.com/" target="_blank">JFBlog</a></p>
+    </div>
+</div>
+</#if>
+</#macro>

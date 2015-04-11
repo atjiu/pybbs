@@ -1,0 +1,70 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - ${current_user.nickname} 的个人主页" description="JFinal社区 - ${current_user.nickname} 的个人主页" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<div class="jf_panel">
+    <div class="jf_header">
+        <ul class="jf_breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">${current_user.nickname!}</li>
+        </ul>
+    </div>
+    <div class="jf_inner">
+        <div class="inner">
+            <a href="${ctx_path}/user/${current_user.id!}">
+                <img src="${current_user.avatar!}" title="${current_user.nickname!}" width="48">
+            </a>&nbsp;
+            <span><a class="dark" href="${ctx_path}/user/${current_user.id!}">${current_user.nickname!}</a></span>
+            <div style="margin-top: 10px;">
+                <span >积分: ${current_user.score!} </span>
+            </div>
+            <div>
+                <span><a class="dark" href="${ctx_path}/user/collects/${current_user.id!}">${collectPage.totalRow!}话题收藏</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jf_panel">
+    <div class="jf_header">
+        <ul class="jf_breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">最近创建的话题</li>
+        </ul>
+    </div>
+    <div class="jf_inner">
+        <div class="jf_inner" style="padding: 0px;">
+            <#list topics as topic>
+            <div class="jf_cell">
+                <img src="${topic.avatar!}" title="${topic.nickname!}" width="30">
+                <span style="display: inline-block; min-width: 40px;text-align: center;" class="hidden-xs">
+                    <span title="回复数">${topic.reply_count!}</span>
+                    /
+                    <span title="点击数">${topic.view!}</span>
+                </span>
+                <#if topic.top == 1>
+                    <span class="label label-success">置顶</span>
+                <#elseif topic.good == 1>
+                    <span class="label label-success">精华</span>
+                <#else>
+                    <span class="label label-default">
+                        <#if topic.tab == "ask">
+                            讨论
+                        <#elseif topic.tab == "blog">
+                            博客
+                        <#elseif topic.tab == "code">
+                            代码
+                        </#if>
+                    </span>
+                </#if>
+                    <span class="jf_topic_title">
+                    &nbsp;&nbsp;<a href="${ctx_path}/topic/${topic.id!}.html">${topic.title!}</a>
+                </span>
+                <span style="display: inline-block; float: right;">
+                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                </span>
+            </div>
+            </#list>
+            <div style="margin-left: 10px;"><a class="dark" href="${ctx_path}/user/topics/${current_user.id!}">查看更多»</a></div>
+        </div>
+    </div>
+</div>
+</@html>

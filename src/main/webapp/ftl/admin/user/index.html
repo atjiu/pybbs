@@ -1,0 +1,28 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="topic">
+<ol class="breadcrumb">
+    <li><a href="/admin">首页</a></li>
+    <li><a href="/admin/user">用户</a></li>
+    <li class="active">列表</li>
+</ol>
+<table class="table table-hover">
+    <thead>
+    <th>头像</th>
+    <th>昵称</th>
+    <th>性别</th>
+    <th>时间</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as user>
+        <tr>
+            <td><img src="${user.avatar}" width="30"></td>
+            <td>${user.nickname}</td>
+            <td>${user.gender!}</td>
+            <td>${user.in_time!}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/ftl/front/common/_paginate.html"/>
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/user/index" urlParas="" />
+</@layout>

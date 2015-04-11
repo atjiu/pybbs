@@ -1,0 +1,43 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - 未读消息" description="JFinal社区 - 未读消息" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<div class="jf_panel">
+    <div class="jf_header">
+        <ul class="jf_breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">新消息</li>
+        </ul>
+    </div>
+    <div class="jf_inner" style="padding: 0;">
+        <#list notifications as notification>
+            <div class="jf_cell" style="font-weight: bold;">
+                <a href="${ctx_path}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
+                ${notification.message!}
+                <a href="${ctx_path}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+            </div>
+        </#list>
+    </div>
+</div>
+
+<div class="jf_panel">
+    <div class="jf_header">
+        <ul class="jf_breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">过往消息</li>
+        </ul>
+    </div>
+    <div class="jf_inner" style="padding: 0;">
+        <#list oldMessages.getList() as notification>
+            <div class="jf_cell">
+                    <span>
+                        <a href="${ctx_path}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
+                        ${notification.message!}
+                        <a href="${ctx_path}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+                    </span>
+                <span style="float: right;">已读</span>
+            </div>
+        </#list>
+        <#include "/ftl/front/common/_paginate.html" />
+        <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="/user/message/${session.user.id!}" urlParas="" />
+    </div>
+</div>
+</@html>

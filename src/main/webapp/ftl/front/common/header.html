@@ -1,0 +1,49 @@
+<#macro header page_tab="">
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style="color:#fff;" href="/">JFinal社区</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li <#if page_tab == 'all'> class="active" </#if>><a href="${ctx_path}/?tab=all">首页</a></li>
+                <li <#if page_tab == 'ask'> class="active" </#if>><a href="${ctx_path}/?tab=ask">讨论</a></li>
+                <li <#if page_tab == 'blog'> class="active" </#if>><a href="${ctx_path}/?tab=blog">博客</a></li>
+                <li <#if page_tab == 'code'> class="active" </#if>><a href="${ctx_path}/?tab=code">代码</a></li>
+                <li <#if page_tab == 'job'> class="active" </#if>><a href="${ctx_path}/?tab=job">招聘</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" id="search_form" role="search" method="get" action="${ctx_path}/">
+                <div class="form-group">
+                    <input type="text" name="q" class="form-control" style="width: 240px" value="${q!}"
+                           placeholder="搜索" onkeypress="enterSearch(event)">
+                </div>
+            </form>
+            <script type="text/javascript">
+                function enterSearch(e) {
+                    var e = e || window.event;
+                    if(e.keyCode == 13) {
+                        if($("input[name='q']").val() != "") {
+                            $("#search_form").submit();
+                        }
+                    }
+                }
+            </script>
+            <ul class="nav navbar-nav navbar-right">
+            <#if session.user??>
+                <li><a href="${ctx_path}/user/message/${session.user.id!}">未读消息 <span class="badge" id="badge"></span></a></li>
+                <li><a href="${ctx_path}/user/${session.user.id!}">${session.user.nickname!}</a></li>
+                <li><a href="${ctx_path}/logout">退出</a></li>
+            <#else>
+                <li <#if page_tab == 'login'> class="active" </#if>><a href="${ctx_path}/qqlogin">登录</a></li>
+            </#if>
+            </ul>
+        </div>
+    </div>
+</nav>
+</#macro>

@@ -1,0 +1,66 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - 首页" description="" page_tab="${tab!}" sidebar_user_info="show" sidebar_checkin="show" sidebar_create="show" sidebar_scoretop="show" sidebar_friendlylinks="show">
+<div class="jf_panel">
+    <div class="jf_header">
+        <#if q??>
+            <a class="topic-tab <#if tab == 'all'> current-tab </#if>" href="${ctx_path}/?tab=all&q=${q!}">全部</a>
+            <a class="topic-tab <#if tab == 'ask'> current-tab </#if>" href="${ctx_path}/?tab=ask&q=${q!}">讨论</a>
+            <a class="topic-tab <#if tab == 'blog'> current-tab </#if>" href="${ctx_path}/?tab=blog&q=${q!}">博客</a>
+            <a class="topic-tab <#if tab == 'code'> current-tab </#if>" href="${ctx_path}/?tab=code&q=${q!}">代码</a>
+            <a class="topic-tab <#if tab == 'job'> current-tab </#if>" href="${ctx_path}/?tab=job&q=${q!}">招聘</a>
+        <#else>
+            <ul class="jf_breadcrumb">
+                <li><a href="/">首页</a></li>
+                <#if tab == "all">
+                    <li class="active">全部</li>
+                <#elseif tab == "ask">
+                    <li class="active">讨论</li>
+                <#elseif tab == "blog">
+                    <li class="active">博客</li>
+                <#elseif tab == "code">
+                    <li class="active">代码</li>
+                <#elseif tab == "job">
+                    <li class="active">招聘</li>
+                </#if>
+            </ul>
+        </#if>
+    </div>
+    <div class="jf_inner" style="padding: 0px;">
+        <#list page.getList() as topic>
+            <div class="jf_cell">
+                <img src="${topic.avatar!}" title="${topic.nickname!}" width="30">
+                <span style="display: inline-block; min-width: 40px;text-align: center;" class="hidden-xs">
+                    <span title="回复数">${topic.reply_count!}</span>
+                    /
+                    <span title="点击数">${topic.view!}</span>
+                </span>
+                <#if topic.top == 1>
+                    <span class="label label-success">置顶</span>
+                <#elseif topic.good == 1>
+                    <span class="label label-success">精华</span>
+                <#else>
+                    <span class="label label-default">
+                        <#if topic.tab == "ask">
+                            讨论
+                        <#elseif topic.tab == "blog">
+                            博客
+                        <#elseif topic.tab == "code">
+                            代码
+                        <#elseif topic.tab == "job">
+                            招聘
+                        </#if>
+                    </span>
+                </#if>
+                <span class="jf_topic_title">
+                    &nbsp;&nbsp;<a href="${ctx_path}/topic/${topic.id!}.html">${topic.title!}</a>
+                </span>
+                <span style="display: inline-block; float: right;">
+                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                </span>
+            </div>
+        </#list>
+        <#include "/ftl/front/common/_paginate.html" />
+        <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&q=${q!}&tab=${tab!}" />
+    </div>
+</div>
+</@html>

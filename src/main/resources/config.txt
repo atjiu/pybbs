@@ -1,0 +1,4 @@
+jdbcUrl = jdbc:mysql://localhost/jfinalbbs?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password =
+devMode = true

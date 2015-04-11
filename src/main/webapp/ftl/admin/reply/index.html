@@ -1,0 +1,32 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="reply">
+<ol class="breadcrumb">
+    <li><a href="/admin">首页</a></li>
+    <li><a href="/admin/topic">回复</a></li>
+    <li class="active">列表</li>
+</ol>
+<table class="table table-hover" style="table-layout: fixed;">
+    <thead>
+    <th width="300">标题</th>
+    <th>内容</th>
+    <th width="170">时间</th>
+    <th width="50">操作</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as reply>
+        <tr>
+            <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${reply.title!}</td>
+            <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+                <a href="/topic/${reply.tid!}.html#${reply.id}" target="_blank">${reply.content!}</a>
+            </td>
+            <td>${reply.in_time!}</td>
+            <td>
+                <a href="javascript:if(confirm('确定要删除吗？'))location='/admin/reply/delete/${reply.id!}'"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/ftl/front/common/_paginate.html"/>
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/reply/index" urlParas="" />
+</@layout>

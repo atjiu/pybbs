@@ -1,0 +1,46 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - ${current_user.nickname!} 创建的话题" description="JFinal社区 - ${current_user.nickname!} 创建的话题" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<div class="jf_panel">
+    <div class="jf_header">
+        <ul class="jf_breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">${current_user.nickname!} 创建的话题</li>
+        </ul>
+    </div>
+    <div class="jf_inner" style="padding: 0px;">
+        <#list page.getList() as topic>
+            <div class="jf_cell">
+                <img src="${topic.avatar!}" title="${topic.nickname!}" width="30">
+                    <span style="display: inline-block; min-width: 40px;text-align: center;" class="hidden-xs">
+                        <span title="回复数">${topic.reply_count!}</span>
+                        /
+                        <span title="点击数">${topic.view!}</span>
+                    </span>
+                <#if topic.top == 1>
+                    <span class="label label-success">置顶</span>
+                <#elseif topic.good == 1>
+                    <span class="label label-success">精华</span>
+                <#else>
+                    <span class="label label-default">
+                        <#if topic.tab == "ask">
+                            讨论
+                        <#elseif topic.tab == "blog">
+                            博客
+                        <#elseif topic.tab == "code">
+                            代码
+                        </#if>
+                    </span>
+                </#if>
+                    <span class="jf_topic_title">
+                        &nbsp;&nbsp;<a href="${ctx_path}/topic/${topic.id!}.html">${topic.title!}</a>
+                    </span>
+                <span style="display: inline-block; float: right;">
+                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                </span>
+            </div>
+        </#list>
+        <#include "/ftl/front/common/_paginate.html" />
+        <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/user/topics/${session.user.id!}" urlParas="" />
+    </div>
+</div>
+</@html>

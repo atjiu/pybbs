@@ -1,0 +1,94 @@
+<#macro html title description page_tab="" sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="">
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <title>${title!"JFinal社区"}</title>
+    <meta name="Description" content="${description!'JFinal社区'}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="baidu-site-verification" content="9b2DBQmg7d" />
+    <meta property="qc:admins" content="100353765161422364117051246375" />
+    <meta name="google-site-verification" content="3GSSItytjNf3Ol_A8gkGS6Q91GTnpCAGh6OJ9YNfmmA" />
+
+    <link href="${ctx_path}/static/bootstrap/css/bootstrap.min.css?v=20150408_01" rel="stylesheet">
+    <link href="${ctx_path}/static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" rel="stylesheet">
+    <script type="text/javascript" src="${ctx_path}/static/bootstrap/js/bootstrap.min.js?v=20150408_01"></script>
+
+    <script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/ueditor.config.js?v=20150408_01"></script>
+    <script type="text/javascript" src="${ctx_path}/static/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <#--<script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/ueditor.all.min.js"> </script>-->
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <#--<script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/lang/zh-cn/zh-cn.js"></script>-->
+
+    <script type="text/javascript" src="${ctx_path}/static/js/jfinalbbs.js?v=20150408_01"></script>
+</head>
+<body style="background-color: #e1e1e1;">
+<#--页面头部信息-->
+<#include "/ftl/front/common/header.html"/>
+<@header page_tab=page_tab/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <#nested>
+        </div>
+        <div class="col-md-3 hidden-xs hidden-sm" style="padding-left: 0px;">
+            <div id="jf_sidebar" class="hidden-xs">
+                <#include "/ftl/front/common/sidebar.html"/>
+                <@sidebar sidebar_user_info=sidebar_user_info sidebar_topic_user=sidebar_topic_user sidebar_checkin=sidebar_checkin sidebar_create=sidebar_create sidebar_scoretop=sidebar_scoretop sidebar_create_info=sidebar_create_info sidebar_friendlylinks=sidebar_friendlylinks />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="backtotop" style="display: none; top: 502px; right: 0px;">回到顶部</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        function t() {
+            n.css({
+                top: o,
+                right: 0
+            });
+        }
+        var n = $("#backtotop"),
+                o = $(window).height() - n.height() - 200;
+        n.click(function() {
+            return $("html,body").animate({
+                scrollTop: 0
+            });
+            !1
+        });
+        $(window).scroll(function() {
+            var t = $(window).scrollTop();
+            t > 200 ? n.fadeIn() : n.fadeOut()
+        });
+        t();
+        $(window).resize(t);
+        <#if user??>
+        // 定时取未读消息
+            setTimeout(function(){
+                $.ajax({
+                    url : "${ctx_path}/notification/countnotread",
+                    async : false,
+                    cache : false,
+                    type : 'post',
+                    dataType : "json",
+                    data : {},
+                    success : function(data) {
+                        if(data.code == '200') {
+                            if(data.detail > 0) {
+                                $("#badge").html(data.detail);
+                            }
+                        }
+                    }
+                });
+            }, 1000);
+        </#if>
+    });
+</script>
+<#--footer-->
+<#include "/ftl/front/common/footer.html"/>
+<@footer/>
+</body>
+</html>
+</#macro>

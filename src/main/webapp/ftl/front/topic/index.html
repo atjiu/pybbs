@@ -1,0 +1,158 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - ${topic.title!}" description="${topic.title!}" page_tab="${topic.tab!}" sidebar_topic_user="show">
+<div class="jf_panel">
+    <div class="jf_header jf_topic_header">
+        <#if topic.top == 1>
+            <span class="label label-success">置顶</span>
+        <#elseif topic.good == 1>
+            <span class="label label-success">精华</span>
+        </#if>
+        <span class="jf_topic_full_title">
+            ${topic.title!}
+        </span>
+        <#if session.user??>
+            <#if collect??>
+                <span style="display: inline-block; float: right;">
+                    <input type="button" id="collect" onclick="collect(2, '${topic.id!}')" class="btn btn-default" value="取消收藏"/>
+                </span>
+            <#else>
+                <span style="display: inline-block; float: right;">
+                    <input type="button" id="collect" onclick="collect(1, '${topic.id!}')" class="btn btn-success" value="加入收藏"/>
+                </span>
+            </#if>
+        </#if>
+        <br>
+        <span class="changes">
+            <span>•发布于
+                <script>document.write(formatDateTime('${topic.in_time!}'))</script>&nbsp;
+            </span>
+            <span>•作者 ${topic.nickname!}&nbsp;</span>
+            <span>•${topic.view!} 次浏览&nbsp;</span>
+            <#if topic.modify_time??>
+                <span>•最后一次编辑是
+                    <script>document.write(formatDateTime('${topic.modify_time!}'))</script>&nbsp;
+                </span>
+            </#if>
+            <span>
+                •来自
+                <#if topic.tab == 'ask'>
+                    讨论
+                <#elseif topic.tab == 'blog'>
+                    博客
+                <#elseif topic.tab == 'code'>
+                    代码
+                <#elseif topic.tab == 'job'>
+                    招聘
+                </#if>
+            </span>
+            <#if session.user?? && topic.author_id == session.user.id>
+                <span style="display: inline-block; float: right;">
+                    <a href="${ctx_path}/topic/edit/${topic.id!}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                    <a href="javascript:if(confirm('确定要删除此话题吗？'))location='${ctx_path}/topic/delete/${topic.id!}'"><span class="glyphicon glyphicon-trash" style="cursor:pointer;"></span></a>
+                </span>
+            </#if>
+        </span>
+    </div>
+    <div class="jf_inner jf_topic">
+        ${topic.content!}
+        <#if topic.reposted?? && topic.reposted == 1>
+            <div>原文地址：<a href="${topic.original_url!}" target="_blank">${topic.original_url!}</a></div>
+        </#if>
+    </div>
+</div>
+<div class="jf_panel">
+    <div class="jf_header">${topic.reply_count!"0"} 回复</div>
+    <#list replies as reply>
+    <div class="jf_cell" id="${reply.id!}">
+        <div class="jf_author_content">
+            <a href="${ctx_path}/user/${reply.author_id}" class="jf_user_avatar">
+                <img src="${reply.avatar!}" width="30" title="${reply.nickname!}">
+            </a>
+            <div class="jf_user_info">
+                <a href="${ctx_path}/user/${reply.author_id!}">${reply.nickname!}</a>
+                <script>document.write(formatDateTime('${reply.in_time!}'))</script>
+            </div>
+            <#if session.user??>
+            <div style="float: right;">
+                <span>
+                    <a href="#reply_input" onclick="reply_input('${reply.id!}')">
+                        <img src="${ctx_path}/static/img/reply.png" width="20">
+                    </a>
+                </span>
+            </div>
+            </#if>
+        </div>
+        <div class="jf_reply_content">
+            <#if reply.quote?? && reply.quote != '0'>
+                <div class="ref">
+                    <span>引用来自『${reply.quote_author_nickname!}』的评论</span>
+                    <span>${reply.quote_content!}</span>
+                </div>
+            </#if>
+            ${reply.content!}
+        </div>
+    </div>
+    </#list>
+</div>
+<#if session.user??>
+    <div class="jf_panel" id="reply_input">
+        <div class="jf_header">
+            添加回复 <b style="color:red;">注:回复会奖励1点积分，但被管理员删除回复，将扣除作者2积分</b>
+        </div>
+        <div class="jf_inner" style="line-height: 0em;">
+            <form action="${ctx_path}/reply/${topic.id!}" method="post" id="reply_form">
+                <input type="hidden" name="quote" id="quote" value="">
+                <textarea id="reply_content" name="content" style="height: 200px; margin-bottom: 5px;"></textarea>
+                <input type="submit" class="btn btn-primary" value="回复">
+            </form>
+        </div>
+    </div>
+</#if>
+<script type="text/javascript">
+    var _type = 0;
+    var ue = UE.getEditor("reply_content");
+    function reply_input(id) {
+        $("input[name='quote']").val(id);
+    }
+    function collect(type, tid){
+        var url = "/collect/" + tid;
+        if(_type == 0) _type = type;
+        if(_type == 2) url = "/collect/delete/" + tid;
+        $.ajax({
+            url : url,
+            async : false,
+            cache : false,
+            type : 'post',
+            dataType : "json",
+            data : {},
+            success : function(data) {
+                if(data.code == '200') {
+                    if(_type == 1) {
+                        _type = 2;
+                        $("#collect").removeClass("btn-success");
+                        $("#collect").addClass("btn-default");
+                        $("#collect").val("取消收藏");
+                    } else {
+                        _type = 1;
+                        $("#collect").removeClass("btn-default");
+                        $("#collect").addClass("btn-success");
+                        $("#collect").val("加入收藏");
+                    }
+                } else {
+                    alert(data.description);
+                }
+            }
+        });
+    }
+    $(function(){
+        SyntaxHighlighter.all();
+        $("#reply_form").submit(function () {
+            if(ue.getContent() == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
+</@html>
