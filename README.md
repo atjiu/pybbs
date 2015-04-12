@@ -1,5 +1,4 @@
 ##### JFinal社区：一个是使用JFinal框架开发的社区网站
-##### JFinal社区：一个是使用jfinal框架开发的社区网站
 ##### 线上地址：http://jfinalbbs.liygheart.com/
 ##### 后台页面入口地址：http://你的域名/adminlogin
 ##### 项目组成：
