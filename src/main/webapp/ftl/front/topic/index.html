@@ -35,20 +35,12 @@
             </#if>
             <span>
                 •来自
-                <#if topic.tab == 'ask'>
-                    讨论
-                <#elseif topic.tab == 'blog'>
-                    博客
-                <#elseif topic.tab == 'code'>
-                    代码
-                <#elseif topic.tab == 'job'>
-                    招聘
-                </#if>
+                ${topic.sectionName!}
             </span>
             <#if session.user?? && topic.author_id == session.user.id>
                 <span style="display: inline-block; float: right;">
-                    <a href="${ctx_path}/topic/edit/${topic.id!}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
-                    <a href="javascript:if(confirm('确定要删除此话题吗？'))location='${ctx_path}/topic/delete/${topic.id!}'"><span class="glyphicon glyphicon-trash" style="cursor:pointer;"></span></a>
+                    <a href="${baseUrl!}/topic/edit/${topic.id!}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                    <a href="javascript:if(confirm('确定要删除此话题吗？'))location='${baseUrl!}/topic/delete/${topic.id!}'"><span class="glyphicon glyphicon-trash" style="cursor:pointer;"></span></a>
                 </span>
             </#if>
         </span>
@@ -65,18 +57,18 @@
     <#list replies as reply>
     <div class="jf_cell" id="${reply.id!}">
         <div class="jf_author_content">
-            <a href="${ctx_path}/user/${reply.author_id}" class="jf_user_avatar">
+            <a href="${baseUrl!}/user/${reply.author_id}" class="jf_user_avatar">
                 <img src="${reply.avatar!}" width="30" title="${reply.nickname!}">
             </a>
             <div class="jf_user_info">
-                <a href="${ctx_path}/user/${reply.author_id!}">${reply.nickname!}</a>
+                <a href="${baseUrl!}/user/${reply.author_id!}">${reply.nickname!}</a>
                 <script>document.write(formatDateTime('${reply.in_time!}'))</script>
             </div>
             <#if session.user??>
             <div style="float: right;">
                 <span>
                     <a href="#reply_input" onclick="reply_input('${reply.id!}')">
-                        <img src="${ctx_path}/static/img/reply.png" width="20">
+                        <img src="${baseUrl!}/static/img/reply.png" width="20">
                     </a>
                 </span>
             </div>
@@ -100,7 +92,7 @@
             添加回复 <b style="color:red;">注:回复会奖励1点积分，但被管理员删除回复，将扣除作者2积分</b>
         </div>
         <div class="jf_inner" style="line-height: 0em;">
-            <form action="${ctx_path}/reply/${topic.id!}" method="post" id="reply_form">
+            <form action="${baseUrl!}/reply/${topic.id!}" method="post" id="reply_form">
                 <input type="hidden" name="quote" id="quote" value="">
                 <textarea id="reply_content" name="content" style="height: 200px; margin-bottom: 5px;"></textarea>
                 <input type="submit" class="btn btn-primary" value="回复">

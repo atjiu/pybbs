@@ -1,4 +1,4 @@
-<#macro html title description page_tab="" sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="">
+<#macro html title description page_tab="" sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="" sidebar_about="">
 <!DOCTYPE HTML>
 <html lang="zh-cn">
 <head>
@@ -7,22 +7,22 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="baidu-site-verification" content="9b2DBQmg7d" />
-    <meta property="qc:admins" content="100353765161422364117051246375" />
-    <meta name="google-site-verification" content="3GSSItytjNf3Ol_A8gkGS6Q91GTnpCAGh6OJ9YNfmmA" />
 
-    <link href="${ctx_path}/static/bootstrap/css/bootstrap.min.css?v=20150408_01" rel="stylesheet">
-    <link href="${ctx_path}/static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" rel="stylesheet">
-    <script type="text/javascript" src="${ctx_path}/static/bootstrap/js/bootstrap.min.js?v=20150408_01"></script>
+    <link href="${baseUrl!}/static/bootstrap/css/bootstrap.min.css?v=20150604" rel="stylesheet">
+    <link href="${baseUrl!}/static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" rel="stylesheet">
+    <link href="${baseUrl!}/static/css/jfinalbbs.css?v=20150604" rel="stylesheet">
 
-    <script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/ueditor.config.js?v=20150408_01"></script>
-    <script type="text/javascript" src="${ctx_path}/static/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
-    <#--<script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/ueditor.all.min.js"> </script>-->
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
+
+    <script type="text/javascript" charset="utf-8" src="${baseUrl}/static/ueditor/ueditor.config.js?v=20150421"></script>
+    <script type="text/javascript" src="${baseUrl}/static/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${baseUrl}/static/ueditor/ueditor.all.min.js"> </script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-    <#--<script type="text/javascript" charset="utf-8" src="${ctx_path}/static/ueditor/lang/zh-cn/zh-cn.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="${baseUrl}/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js?v=20150604"></script>
 
-    <script type="text/javascript" src="${ctx_path}/static/js/jfinalbbs.js?v=20150408_01"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/js/jfinalbbs.js?v=20150604"></script>
 </head>
 <body style="background-color: #e1e1e1;">
 <#--页面头部信息-->
@@ -36,7 +36,7 @@
         <div class="col-md-3 hidden-xs hidden-sm" style="padding-left: 0px;">
             <div id="jf_sidebar" class="hidden-xs">
                 <#include "/ftl/front/common/sidebar.html"/>
-                <@sidebar sidebar_user_info=sidebar_user_info sidebar_topic_user=sidebar_topic_user sidebar_checkin=sidebar_checkin sidebar_create=sidebar_create sidebar_scoretop=sidebar_scoretop sidebar_create_info=sidebar_create_info sidebar_friendlylinks=sidebar_friendlylinks />
+                <@sidebar sidebar_user_info=sidebar_user_info sidebar_topic_user=sidebar_topic_user sidebar_checkin=sidebar_checkin sidebar_create=sidebar_create sidebar_scoretop=sidebar_scoretop sidebar_create_info=sidebar_create_info sidebar_friendlylinks=sidebar_friendlylinks sidebar_about=sidebar_about />
             </div>
         </div>
     </div>
@@ -64,11 +64,11 @@
         });
         t();
         $(window).resize(t);
-        <#if user??>
+        <#if session.user??>
         // 定时取未读消息
             setTimeout(function(){
                 $.ajax({
-                    url : "${ctx_path}/notification/countnotread",
+                    url : "${baseUrl!}/notification/countnotread",
                     async : false,
                     cache : false,
                     type : 'post',

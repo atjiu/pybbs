@@ -1,0 +1,28 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="link">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/link">友链</a></li>
+    <li class="active">编辑</li>
+</ol>
+<form class="form-horizontal" action="edit" method="post">
+    <input type="hidden" name="link.id" value="${link.id!}">
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="name" name="link.name" value="${link.name!}" placeholder="名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="url" class="col-sm-2 control-label">访问地址</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="url" name="link.url" value="${link.url!}" placeholder="访问地址">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+</@layout>

@@ -4,7 +4,7 @@
     <groupId>cn.jfinalbbs</groupId>
     <artifactId>jfinalbbs</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <name>jfinalbbs Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -26,6 +26,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
             <groupId>com.jfinal</groupId>
             <artifactId>jfinal</artifactId>
             <version>1.9</version>
@@ -40,58 +45,58 @@
             <scope>provided</scope>
         </dependency>
          -->
-        <dependency><!-- jetty-server-8.1.8 开发时JSP 支持 -->
+        <!--<dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>javax.servlet.jsp</artifactId>
             <version>2.2.0.v201112011158</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- jetty-server-8.1.8 开发时JSP 支持 -->
+        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>org.apache.jasper.glassfish</artifactId>
             <version>2.2.2.v201112011158</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- jetty-server-8.1.8 开发时JSP 支持 -->
+        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>javax.el</artifactId>
             <version>2.2.0.v201108011116</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- jetty-server-8.1.8 开发时JSP 支持 -->
+        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>com.sun.el</artifactId>
             <version>2.2.0.v201108011116</version>
             <scope>provided</scope>
         </dependency>
-        <dependency><!-- jetty-server-8.1.8 开发时JSP 支持 -->
+        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>org.eclipse.jdt.core</artifactId>
             <version>3.7.1</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency><!-- JSTL 支持 -->
+        </dependency>-->
+        <!--<dependency>&lt;!&ndash; JSTL 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>javax.servlet.jsp.jstl</artifactId>
             <version>1.2.0.v201105211821</version>
-            <exclusions><!-- 避免导出 servlet jar 包 -->
+            <exclusions>&lt;!&ndash; 避免导出 servlet jar 包 &ndash;&gt;
                 <exclusion>
                     <groupId>org.eclipse.jetty.orbit</groupId>
                     <artifactId>javax.servlet</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency><!-- JSTL 支持 -->
+        </dependency>-->
+        <!--<dependency>&lt;!&ndash; JSTL 支持 &ndash;&gt;
             <groupId>org.eclipse.jetty.orbit</groupId>
             <artifactId>org.apache.taglibs.standard.glassfish</artifactId>
             <version>1.2.0.v201112081803</version>
-            <exclusions><!-- 避免导出 servlet jar 包 -->
+            <exclusions>&lt;!&ndash; 避免导出 servlet jar 包 &ndash;&gt;
                 <exclusion>
                     <groupId>org.eclipse.jetty.orbit</groupId>
                     <artifactId>javax.servlet</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>c3p0</groupId>
@@ -108,6 +113,11 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
+        <!--<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -120,20 +130,74 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>2.8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-codec-1.9.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>Sdk4J</groupId>
+            <artifactId>Sdk4J</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/Sdk4J.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-fileupload-1.3.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-io-2.4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>json</groupId>
+            <artifactId>json</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/json.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ueditor</groupId>
+            <artifactId>ueditor</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.1.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -153,7 +217,7 @@
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>80</port>
+                            <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

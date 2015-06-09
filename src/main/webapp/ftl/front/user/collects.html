@@ -3,7 +3,7 @@
 <div class="jf_panel">
     <div class="jf_header">
         <ul class="jf_breadcrumb">
-            <li><a href="/">首页</a></li>
+            <li><a href="${baseUrl!}/">首页</a></li>
             <li class="active">${current_user.nickname!} 收藏的话题</li>
         </ul>
     </div>
@@ -22,17 +22,11 @@
                 <span class="label label-success">精华</span>
             <#else>
                 <span class="label label-default">
-                    <#if topic.tab == "ask">
-                        讨论
-                    <#elseif topic.tab == "blog">
-                        博客
-                    <#elseif topic.tab == "code">
-                        代码
-                    </#if>
+                    ${topic.sectionName!}
                 </span>
             </#if>
                 <span class="jf_topic_title">
-                    &nbsp;&nbsp;<a href="${ctx_path}/topic/${topic.id!}.html">${topic.title!}</a>
+                    &nbsp;&nbsp;<a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
                 </span>
             <span style="display: inline-block; float: right;">
                 <script>document.write(formatDateTime('${topic.in_time!}'))</script>

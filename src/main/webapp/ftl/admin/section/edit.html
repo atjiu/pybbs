@@ -1,0 +1,28 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="section">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/section">模块</a></li>
+    <li class="active">编辑</li>
+</ol>
+<form class="form-horizontal" action="edit" method="post">
+    <input type="hidden" name="id" value="${section.id!}">
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="name" name="name" value="${section.name!}" placeholder="名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="tab" class="col-sm-2 control-label">标识</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="tab" name="tab" value="${section.tab!}" placeholder="标识">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+    </div>
+</form>
+</@layout>

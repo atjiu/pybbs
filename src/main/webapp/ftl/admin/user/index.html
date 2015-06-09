@@ -1,8 +1,8 @@
 <#include "/ftl/admin/common/_layout.html"/>
-<@layout page_tab="topic">
+<@layout page_tab="user">
 <ol class="breadcrumb">
-    <li><a href="/admin">首页</a></li>
-    <li><a href="/admin/user">用户</a></li>
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/user">用户</a></li>
     <li class="active">列表</li>
 </ol>
 <table class="table table-hover">
@@ -10,6 +10,8 @@
     <th>头像</th>
     <th>昵称</th>
     <th>性别</th>
+    <th>积分</th>
+    <th>来源</th>
     <th>时间</th>
     </thead>
     <tbody>
@@ -18,11 +20,14 @@
             <td><img src="${user.avatar}" width="30"></td>
             <td>${user.nickname}</td>
             <td>${user.gender!}</td>
+            <td>${user.score!}</td>
+            <td>${user.thirdlogin_type!}</td>
             <td>${user.in_time!}</td>
         </tr>
     </#list>
     </tbody>
 </table>
+<div class="pull-right">总用户数：${page.getTotalRow()}</div>
 <#include "/ftl/front/common/_paginate.html"/>
     <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/user/index" urlParas="" />
 </@layout>

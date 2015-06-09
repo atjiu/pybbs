@@ -1,7 +1,7 @@
 package cn.jfinalbbs.interceptor;
 
 import cn.jfinalbbs.common.Constants;
-import cn.jfinalbbs.user.model.User;
+import cn.jfinalbbs.user.User;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
 

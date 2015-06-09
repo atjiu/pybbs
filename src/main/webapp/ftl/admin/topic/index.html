@@ -1,40 +1,109 @@
 <#include "/ftl/admin/common/_layout.html"/>
 <@layout page_tab="topic">
 <ol class="breadcrumb">
-    <li><a href="/admin">首页</a></li>
-    <li><a href="/admin/topic">话题</a></li>
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/topic">话题</a></li>
     <li class="active">列表</li>
 </ol>
 <table class="table table-hover">
     <thead>
     <th>标题</th>
     <th>分类</th>
+    <th>置顶</th>
+    <th>精华</th>
     <th>时间</th>
     <th>操作</th>
     </thead>
     <tbody>
     <#list page.getList() as topic>
-        <tr>
+        <tr id="topic_${topic.id!}">
             <td><a href="/topic/${topic.id!}.html" target="_blank">${topic.title!}</a></td>
-            <td>
-                <#if topic.tab="ask">
-                    讨论
-                <#elseif topic.tab="blog">
-                    博客
-                <#elseif topic.tab="code">
-                    代码
-                <#elseif topic.tab="job">
-                    招聘
-                </#if>
-            </td>
+            <td>${topic.sectionName!}</td>
+            <td id="topic_top_${topic.id!}"><script>document.write(topic_top[${topic.top!}])</script></td>
+            <td id="topic_good_${topic.id!}"><script>document.write(topic_good[${topic.good!}])</script></td>
             <td>${topic.in_time!}</td>
             <td>
-                <a href="javascript:if(confirm('确定要删除吗？'))location='/admin/topic/delete/${topic.id!}'"><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="javascript:setTop('${topic.id!}')"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                <a href="javascript:setGood('${topic.id!}')"><span class="glyphicon glyphicon-bookmark"></span></a>
+                <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>
     </#list>
     </tbody>
 </table>
 <#include "/ftl/front/common/_paginate.html"/>
-    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/topic/index" urlParas="" />
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/topic/index" urlParas="" />
 </@layout>
+<script type="text/javascript">
+    function deleteTopic(id) {
+        if(confirm("确定 删除话题 吗？\n(注：这会删除话题下的所有回复以及被别人收藏的记录！)")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/topic/delete",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        $("#topic_" + id).remove();
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+    function setTop(id) {
+        if(confirm("确定 置顶/取消置顶 吗？")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/topic/top",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        if(data.detail.top == 1) {
+                            $("#topic_top_" + id).html("<span style='color: yellowgreen'>置顶</span>");
+                        } else if(data.detail.top == 0) {
+                            $("#topic_top_" + id).html("");
+                        }
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+    function setGood(id) {
+        if(confirm("确定 加精/取消加精 吗？")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/topic/good",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        if(data.detail.good == 1) {
+                            $("#topic_good_" + id).html("<span style='color: yellowgreen'>精华</span>");
+                        } else if(data.detail.good == 0) {
+                            $("#topic_good_" + id).html("");
+                        }
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+</script>

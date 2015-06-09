@@ -9,15 +9,18 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="http://jfinalbbs.liygheart.com/favicon.ico">
+    <link rel="icon" href="${baseUrl!}/favicon.ico">
 
     <title>JFinal社区 - 后台管理</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${baseUrl!}/static/bootstrap/css/bootstrap.min.css?v=20150604" rel="stylesheet">
 
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap.min.js?v=20150604"></script>
+    <script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+
+    <script src="${baseUrl!}/static/js/jfinalbbs.js"></script>
 </head>
 
 <body>
@@ -36,13 +39,15 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li <#if page_tab="index"> class="active" </#if>><a href="/admin/index">首页</a></li>
-                <li <#if page_tab="topic"> class="active" </#if>><a href="/admin/topic">话题</a></li>
-                <li <#if page_tab="reply"> class="active" </#if>><a href="/admin/reply">回复</a></li>
-                <li <#if page_tab="user"> class="active" </#if>><a href="/admin/user">用户</a></li>
+                <li <#if page_tab="index"> class="active" </#if>><a href="${baseUrl!}/admin/index">首页</a></li>
+                <li <#if page_tab="section"> class="active" </#if>><a href="${baseUrl!}/admin/section">模块</a></li>
+                <li <#if page_tab="topic"> class="active" </#if>><a href="${baseUrl!}/admin/topic">话题</a></li>
+                <li <#if page_tab="reply"> class="active" </#if>><a href="${baseUrl!}/admin/reply">回复</a></li>
+                <li <#if page_tab="user"> class="active" </#if>><a href="${baseUrl!}/admin/user">用户</a></li>
+                <li <#if page_tab="link"> class="active" </#if>><a href="${baseUrl!}/admin/link">友链</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/admin/logout">退出</a></li>
+                <li><a href="${baseUrl!}/admin/logout">退出</a></li>
             </ul>
         </div>
     </div>

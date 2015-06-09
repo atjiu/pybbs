@@ -18,8 +18,8 @@
 			<#if (currentPage == 1)>
                 <!--<li>上页</li>-->
 			<#else>
-                <li><a href="${actionUrl}?p=1${urlParas!}">首页</a></li>
-                <li><a href="${actionUrl}?p=#{currentPage - 1}${urlParas!}">上页</a></li>
+                <li><a href="${actionUrl}?p=1${urlParas!}">&lt;&lt;</a></li>
+                <li><a href="${actionUrl}?p=#{currentPage - 1}${urlParas!}">&lt;</a></li>
 			</#if>
 			
 			<#list startPage..endPage as i>
@@ -33,8 +33,8 @@
 			<#if (currentPage == totalPage)>
 				<!--<li>下页</li>-->
 			<#else>
-				<li><a href="${actionUrl}?p=#{currentPage + 1}${urlParas!}">下页</a></li>
-				<li><a href="${actionUrl}?p=#{totalPage}${urlParas!}">尾页</a></li>
+				<li><a href="${actionUrl}?p=#{currentPage + 1}${urlParas!}">&gt;</a></li>
+				<li><a href="${actionUrl}?p=#{totalPage}${urlParas!}">&gt;&gt;</a></li>
 			</#if>
         </ul>
 	</div>

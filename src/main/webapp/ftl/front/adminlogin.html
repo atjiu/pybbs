@@ -20,7 +20,6 @@
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
-    <script src="http://jfinalbbs.liygheart.com/static/js/md5-min.js"></script>
 
 </head>
 
@@ -28,15 +27,15 @@
 
 <div class="container">
 
-    <form class="form-signin" id="adminlogin_form" action="${ctx_path}/adminlogin" method="post">
+    <form class="form-signin" id="adminlogin_form" action="${baseUrl!}/adminlogin" method="post">
         <h2 class="form-signin-heading">请登录</h2>
-        <label for="用户名" class="sr-only">用户名</label>
-        <input type="username" name="username" value="${username!}" class="form-control" placeholder="用户名" required autofocus>
+        <label for="username" class="sr-only">用户名</label>
+        <input type="username" id="username" name="username" value="${username!}" class="form-control" placeholder="用户名" required autofocus>
         <label for="password" class="sr-only">密码</label>
-        <input type="password" name="password" class="form-control" placeholder="密码" required>
+        <input type="password" id="password" name="password" value="${password!}" class="form-control" placeholder="密码" required>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="remember_me" value="1"> 记住用户名
+                <input type="checkbox" name="remember_me" checked="checked" value="1"> 记住我
             </label>&nbsp;&nbsp;&nbsp;&nbsp;
             <b style="color:red">${error!}</b>
         </div>

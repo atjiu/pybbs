@@ -1,4 +1,4 @@
-<#macro sidebar sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="">
+<#macro sidebar sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="" sidebar_about="">
 <#if sidebar_user_info == "show">
 <div class="jf_panel">
     <#if session.user??>
@@ -7,10 +7,10 @@
         </div>
         <div class="jf_inner">
             <div>
-                <a href="${ctx_path}/user/${session.user.id!}">
+                <a href="${baseUrl!}/user/${session.user.id!}">
                     <img src="${session.user.avatar!}" title="${session.user.nickname!}" width="48">
                 </a>&nbsp;
-                <span><a class="dark" href="${ctx_path}/user/${session.user.id!}">${session.user.nickname!}</a></span>
+                <span><a class="dark" href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a></span>
                 <div style="margin-top: 10px;">
                     <span >积分: ${session.user.score!} </span>
                 </div>
@@ -19,8 +19,8 @@
     <#else>
         <div class="jf_inner">
             <span style="font-size: 16px; font-weight: 400; display: inline-block;">JFinal社区</span><br>
-            您可以使用下列第三方登录<br>
-            <a href="${ctx_path}/qqlogin" class="btn btn-success">&nbsp;&nbsp;&nbsp;通过 QQ 登录&nbsp;&nbsp;&nbsp;</a>
+            <a href="${baseUrl!}/qqlogin" class="btn btn-success">QQ 登录</a>
+            <a href="${baseUrl!}/weibologin" class="btn btn-primary">微博 登录</a>
         </div>
     </#if>
 </div>
@@ -32,10 +32,10 @@
     </div>
     <div class="jf_inner">
         <div>
-            <a href="${ctx_path}/user/${topic.author_id!}">
+            <a href="${baseUrl!}/user/${topic.author_id!}">
                 <img src="${topic.avatar!}" title="${topic.nickname!}" width="48">&nbsp;&nbsp;
             </a>
-            <span><a class="dark" href="${ctx_path}/user/${topic.author_id!}">${topic.nickname!}</a></span>
+            <span><a class="dark" href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a></span>
             <div style="margin-top: 10px;">
                 <span class="big">积分: ${topic.score!} </span>
             </div>
@@ -48,7 +48,7 @@
     <#if session.user?? && session.user.mission?date != session.today?date>
     <div class="jf_panel">
         <div class="jf_inner">
-            <a href="${ctx_path}/mission/daily" class="btn btn-success">领取今日的登录奖励</a>
+            <a href="${baseUrl!}/mission/daily" class="btn btn-success">领取今日的登录奖励</a>
         </div>
     </div>
     </#if>
@@ -57,14 +57,14 @@
     <#if session.user??>
         <div class="jf_panel">
             <div class="jf_inner">
-                <a href="${ctx_path}/topic/create" class="btn btn-success">&nbsp;发布话题&nbsp;</a>
+                <a href="${baseUrl!}/topic/create" class="btn btn-success">&nbsp;发布话题&nbsp;</a>
             </div>
         </div>
     </#if>
 </#if>
 <#if sidebar_scoretop == "show">
 <div class="jf_panel">
-    <div class="jf_header">积分榜&nbsp;&nbsp;<a href="${ctx_path}/user/top100">TOP 100 &gt;&gt;</a></div>
+    <div class="jf_header">积分榜&nbsp;&nbsp;<a href="${baseUrl!}/user/top100">TOP 100 &gt;&gt;</a></div>
     <div class="jf_inner">
         <#list scoreTopTen as top>
             <div>
@@ -92,13 +92,28 @@
     <div class="jf_header">
         友情链接
     </div>
-    <div class="jf_inner" style="padding-left: 20px;">
-        <p><a href="http://www.jfinal.com" target="_blank">JFinal官网</a></p>
-        <p><a href="http://www.oschina.net" target="_blank">开源中国</a></p>
-        <p><a href="http://jfinalxm.sturgeon.mopaas.com/" target="_blank">小木学堂</a></p>
-        <p><a href="http://www.91zcm.com/" target="_blank">91注册码</a></p>
-        <p><a href="http://www.xx566.com/" target="_blank">JFBlog</a></p>
+    <div class="jf_inner">
+        <ul class="nav nav-pills">
+            <#list links as link>
+                <li><a href="${link.url!}" target="_blank">${link.name!}</a></li>
+            </#list>
+        </ul>
     </div>
 </div>
 </#if>
+    <#if sidebar_about == "show">
+        <div class="jf_panel">
+            <div class="jf_header">关于</div>
+            <div class="jf_inner">
+                <p>JFinal社区：JFinal框架开发的社区</p>
+                <p>在这里你可以：</p>
+                <ul>
+                    <li>向别人提出你遇到的问题</li>
+                    <li>帮助遇到问题的人</li>
+                    <li>分享自己的知识</li>
+                    <li>和其它人一起进步</li>
+                </ul>
+            </div>
+        </div>
+    </#if>
 </#macro>
