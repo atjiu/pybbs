@@ -21,7 +21,8 @@ public class LinkAdminController extends BaseController {
         if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
             render("add.html");
         } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-            int maxDisplayIndex = Link.me.maxDisplayIndex();
+            Integer maxDisplayIndex = Link.me.maxDisplayIndex();
+            if(maxDisplayIndex == null) maxDisplayIndex = 0;
             getModel(Link.class).set("display_index", maxDisplayIndex + 1).save();
             clearCache(Constants.CacheName.LINKLIST, null);
             redirect(Constants.getBaseUrl() + "/admin/link");

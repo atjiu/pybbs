@@ -1,0 +1,30 @@
+<#macro html title description>
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+    <title>${title!"JFinal社区"}</title>
+    <meta name="description" content="${description!} - JFinal社区">
+    <meta name="keywords" content="java,社区,jfinal,jfinal社区,JFinal社区,java社区,java论坛,论坛,bootstrap,flatui" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="baidu-site-verification" content="bpIBr3OKJ6" />
+    <meta property="qc:admins" content="100353765161422364117051246375" />
+    <meta property="wb:webmaster" content="e8873adac5bd1ad8" />
+    <meta name="google-site-verification" content="CJIBvG4L5-mV4jvuRXv6irwZ4dL4HuHfWbEbuLcJWmo" />
+
+    <link href="${baseUrl!}/static/mobile/css/mobile.css?v=20150604" rel="stylesheet">
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
+
+    <script type="text/javascript" src="${baseUrl!}/static/js/jfinalbbs.js?v=20150604"></script>
+</head>
+<body style="background-color: #e1e1e1;">
+<#--页面头部信息-->
+<#include "/ftl/mobile/common/header.html"/>
+<@header/>
+<#nested />
+<#include "/ftl/mobile/common/footer.html"/>
+<@footer/>
+</body>
+</html>
+</#macro>

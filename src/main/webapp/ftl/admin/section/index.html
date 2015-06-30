@@ -11,6 +11,7 @@
     <thead>
     <th>名称</th>
     <th>Tab</th>
+    <th>是否显示</th>
     <th>操作</th>
     </thead>
     <tbody id="sortable">
@@ -21,6 +22,13 @@
                 ${section.name!}
             </td>
             <td>${section.tab!}</td>
+            <td>
+                <#if section.show_status == 1>
+                    显示
+                <#elseif section.show_status == 0>
+                    不显示
+                </#if>
+            </td>
             <td>
                 <a href="${baseUrl!}/admin/section/edit?id=${section.id!}"><span class="glyphicon glyphicon-edit"></span></a>
                 <a href="javascript:deleteSection('${section.id!}')"><span class="glyphicon glyphicon-trash"></span></a>

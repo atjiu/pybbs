@@ -24,11 +24,13 @@ public class SectionAdminController extends BaseController {
             render("add.html");
         } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String name = getPara("name");
+            Integer show_status = getParaToInt("show_status");
             String tab = getPara("tab");
             Section section = new Section();
-            section.set("name", name).set("tab", tab).set("display_index", 99).save();
+            section.set("name", name).set("show_status", show_status).set("tab", tab).set("display_index", 99).save();
             // clear cache
             clearCache(Constants.CacheName.SECTIONLIST, null);
+            clearCache(Constants.CacheName.SECTIONSHOWLIST, null);
             redirect(Constants.getBaseUrl() + "/admin/section/index");
         }
     }
@@ -42,11 +44,13 @@ public class SectionAdminController extends BaseController {
             render("edit.html");
         } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String name = getPara("name");
+            Integer show_status = getParaToInt("show_status");
             String tab = getPara("tab");
             Section section = Section.me.findById(id);
-            section.set("name", name).set("tab", tab).update();
+            section.set("name", name).set("show_status", show_status).set("tab", tab).update();
             // clear cache
             clearCache(Constants.CacheName.SECTIONLIST, null);
+            clearCache(Constants.CacheName.SECTIONSHOWLIST, null);
             redirect(Constants.getBaseUrl() + "/admin/section/index");
         }
     }

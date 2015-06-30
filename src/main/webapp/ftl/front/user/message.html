@@ -1,43 +1,55 @@
 <#include "/ftl/front/common/_layout.html"/>
 <@html title="JFinal社区 - 未读消息" description="JFinal社区 - 未读消息" page_tab="message" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
-<div class="jf_panel">
-    <div class="jf_header">
-        <ul class="jf_breadcrumb">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
             <li><a href="${baseUrl!}/">首页</a></li>
             <li class="active">新消息</li>
-        </ul>
+        </ol>
     </div>
-    <div class="jf_inner" style="padding: 0;">
+    <table class="table table-hover">
         <#list notifications as notification>
-            <div class="jf_cell" style="font-weight: bold;">
-                <a href="${baseUrl!}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
-                ${notification.message!}
-                <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
-            </div>
+            <tr>
+                <td style="padding-left: 10px;">
+                    <a href="${baseUrl!}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
+                </td>
+                <td>
+                    ${notification.message!}
+                </td>
+                <td>
+                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+                </td>
+            </tr>
         </#list>
-    </div>
+    </table>
 </div>
 
-<div class="jf_panel">
-    <div class="jf_header">
-        <ul class="jf_breadcrumb">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
             <li><a href="/">首页</a></li>
             <li class="active">过往消息</li>
-        </ul>
+        </ol>
     </div>
-    <div class="jf_inner" style="padding: 0;">
+    <table class="table table-hover">
         <#list oldMessages.getList() as notification>
-            <div class="jf_cell">
-                    <span>
-                        <a href="${baseUrl!}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
-                        ${notification.message!}
-                        <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
-                    </span>
-                <span style="float: right;">已读</span>
-            </div>
+            <tr>
+                <td style="padding-left: 10px;">
+                    <a href="${baseUrl!}/user/${notification.author_id!}" target="_blank">${notification.nickname!} </a>
+                </td>
+                <td>
+                    ${notification.message!}
+                </td>
+                <td>
+                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+                </td>
+                <td>
+                    已读
+                </td>
+            </tr>
         </#list>
-        <#include "/ftl/front/common/_paginate.html" />
-        <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="/user/message/${session.user.id!}" urlParas="" />
-    </div>
+    </table>
+    <#include "/ftl/front/common/_paginate.html" />
+    <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="/user/message/${session.user.id!}" urlParas="" />
 </div>
 </@html>

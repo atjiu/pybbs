@@ -2,17 +2,22 @@ package cn.jfinalbbs.index;
 
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
-import cn.jfinalbbs.system.Code;
 import cn.jfinalbbs.topic.Topic;
 import cn.jfinalbbs.user.AdminUser;
 import cn.jfinalbbs.user.User;
-import cn.jfinalbbs.utils.*;
+import cn.jfinalbbs.utils.AgentUtil;
+import cn.jfinalbbs.utils.DateUtil;
+import cn.jfinalbbs.utils.StrUtil;
 import cn.weibo.Users;
 import cn.weibo.model.WeiboException;
-import cn.weibo.util.BareBonesBrowserLaunch;
+import com.jfinal.kit.FileKit;
+import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
+import com.qiniu.common.QiniuException;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
@@ -21,156 +26,50 @@ import com.qq.connect.javabeans.qzone.UserInfoBean;
 import com.qq.connect.oauth.Oauth;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
 
 public class IndexController extends BaseController {
 
-    //首页
+    /**
+     * 首页
+     */
 	public void index() {
         String tab = getPara("tab");
         String q = getPara("q");
         if(tab == null) tab = "all";
-        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), tab, q);
+        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), tab, q, 1);
         setAttr("page", page);
         List<User> scoreTopTen = User.me.findBySize(10);
         setAttr("scoreTopTen", scoreTopTen);
         setAttr("tab", tab);
         setAttr("q", q);
-        render("index.html");
+        if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.html");
+        else render("front/index.html");
 	}
 
-    //本地登录
-    /*public void login() {
-        String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            String email = getCookie(Constants.COOKIE_EMAIL);
-            setAttr(Constants.COOKIE_EMAIL, email);
-            render("user/login.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-            String email = getPara("email");
-            String password = getPara("password");
-            User user = User.me.localLogin(email, EncryptionUtil.md5Encrypt(password));
-            if(user == null) {
-                error("邮箱或密码错误");
-            } else {
-                // 记住邮箱
-                String remember_me = getPara("remember_me");
-                if("1".equalsIgnoreCase(remember_me)) {
-                    setCookie(Constants.COOKIE_EMAIL, email, 60*60*24*30);
-                }
-                setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30*24*60*60);
-                setSessionAttr(Constants.USER_SESSION, user);
-                success();
-            }
-        }
-    }
-
-    //找回密码
-    public void search_pass() throws Exception {
-        String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            render("user/search_pass.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-            String email = getPara("email");
-            if(User.me.findByEmail(email) == null) {
-                error("该邮箱未注册");
-            } else {
-                //发送邮件
-                String code = StrUtil.getUUID();
-                getModel(Code.class)
-                        .set("code", code)
-                        .set("in_time", new Date())
-                        .set("expire_time", DateUtil.getDateAfter(new Date(), 1))
-                        .set("status", 0)
-                        .set("type", Constants.SystemCode.TYPE_SEARCH_PASS)
-                        .set("target", email)
-                        .save();
-                EmailSender.getInstance().send("JFinal社区密码重置", new String[]{email}, "点击链接重置密码：" + Constants.getBaseUrl() + "/reset/" + code);
-                success("我们已给您填写的电子邮箱发送了一封邮件，请在24小时内点击里面的链接来重置密码。");
-            }
-        }
-    }
-
-    //重置密码
-    public void reset() {
-        String method = getRequest().getMethod();
-        String code = getPara(0);
-        if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-            code = getPara("code");
-        }
-        if (StrUtil.isBlank(code)) {
-            error(Constants.OP_ERROR_MESSAGE);
-        } else {
-            if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-                Code c = Code.me.findByCode(code, 0, new Date());
-                if (c == null) {
-                    renderText("链接失效");
-                } else {
-                    Code.me.updateByCode(code);
-                    setAttr("code", code);
-                    setAttr("email", c.get("target"));
-                    render("user/reset.html");
-                }
-            } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-                String newPass = getPara("newPass");
-                String email = getPara("email");
-                int i = User.me.updateByEmail(email, EncryptionUtil.md5Encrypt(newPass));
-                if(i == 0) error("重置失败");
-                success("重置成功，快去登录吧！");
-            }
-        }
-    }
-
-    //本地注册
-    public void register() {
-        String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            render("user/register.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
-            String nickname = getPara("nickname");
-            String gender = getPara("gender");
-            String password = getPara("password");
-            String email = getPara("email");
-            if(User.me.findByEmail(email) == null) {
-                User user = new User();
-                user.set("id", StrUtil.getUUID())
-                    .set("nickname", nickname)
-                    .set("token", StrUtil.getUUID())
-                    .set("gender", gender)
-                    .set("score", 0)
-                    .set("mission", new Date())
-                    .set("in_time", new Date())
-                    .set("email", email)
-                    .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
-                    .set("password", EncryptionUtil.md5Encrypt(password))
-                    .save();
-                setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30*24*60*60);
-                setSessionAttr(Constants.USER_SESSION, user);
-                success();
-            } else {
-                error("邮箱已经注册过");
-            }
-        }
-    }*/
-
-    //登出
+    /**
+     * 登出
+     */
     public void logout() {
         removeCookie(Constants.USER_COOKIE);
         removeSessionAttr(Constants.USER_SESSION);
         redirect(Constants.getBaseUrl() + "/");
     }
 
-    //跳转qq登录
+    /**
+     * 跳转qq登录
+     * @throws QQConnectException
+     */
     public void qqlogin() throws QQConnectException {
         redirect(new Oauth().getAuthorizeURL(getRequest()));
     }
 
-    //qq登录回调方法
+    /**
+     * qq登录回调方法
+     * @throws QQConnectException
+     */
     public void qqlogincallback() throws QQConnectException {
         HttpServletRequest request = getRequest();
         AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
@@ -190,6 +89,7 @@ public class IndexController extends BaseController {
                 UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
                 if (userInfoBean.getRet() == 0) {
                     String nickname = userInfoBean.getNickname();
+                    if(StrUtil.isBlank(nickname)) nickname = "jf_" + StrUtil.randomString(6);
                     String gender = userInfoBean.getGender();
                     String avatar = userInfoBean.getAvatar().getAvatarURL50();
                     Date expire_in = DateUtil.getDateAfter(new Date(), (int) tokenExpireIn / 60 / 60 / 24);
@@ -222,54 +122,72 @@ public class IndexController extends BaseController {
         }
     }
 
-    //新浪微博登录
+    /**
+     * 新浪微博登录
+     * @throws WeiboException
+     * @throws IOException
+     */
     public void weibologin() throws WeiboException, IOException {
         cn.weibo.Oauth oauth = new cn.weibo.Oauth();
-//        BareBonesBrowserLaunch.openURL(oauth.authorize("code"));
         redirect(oauth.authorize("code"));
     }
 
-    //新浪微博登录后回调
+    /**
+     * 新浪微博登录后回调
+     * @throws WeiboException
+     */
     public void weibologincallback() throws WeiboException {
         String code = getPara("code");
         cn.weibo.Oauth oauth = new cn.weibo.Oauth();
-        cn.weibo.http.AccessToken accessToken = oauth.getAccessTokenByCode(code);
-        Users users = new Users(accessToken.getAccessToken());
-        cn.weibo.model.User weiboUser = users.showUserById(accessToken.getUid());
-        if(weiboUser != null) {
-            String gender = "未知";
-            if (weiboUser.getGender().equals("m")) {
-                gender = "男";
-            } else if (weiboUser.getGender().equals("f")) {
-                gender = "女";
-            }
-            Date expire_in = DateUtil.getDateAfter(new Date(), Integer.parseInt(accessToken.getExpireIn()) / 60 / 60 / 24);
-            User user = User.me.findByOpenID(weiboUser.getId(), "weibo_sina");
-            if (user == null) {
-                user = new User();
-                user.set("id", StrUtil.getUUID())
-                        .set("nickname", weiboUser.getScreenName())
-                        .set("token", StrUtil.getUUID())
-                        .set("score", 0)
-                        .set("gender", gender)
-                        .set("avatar", weiboUser.getAvatarLarge())
-                        .set("open_id", weiboUser.getId())
-                        .set("expire_time", expire_in)
-                        .set("in_time", new Date())
-                        .set("mission", new Date())
-                        .set("thirdlogin_type", "weibo_sina").save();
-            } else if (DateUtil.isExpire((Date) user.get("expire_time"))) {
-                user.set("expire_time", expire_in).update();
-            }
-            setSessionAttr(Constants.USER_SESSION, user);
-            setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
-            redirect(Constants.getBaseUrl() + "/");
+        String error = getPara("error");
+        if(!StrUtil.isBlank(error) && error.equals("access_denied")) {
+            renderText("用户拒绝了新浪微博登录");
         } else {
-            renderText("新浪微博登陆失败");
+            cn.weibo.http.AccessToken accessToken = oauth.getAccessTokenByCode(code);
+            Users users = new Users(accessToken.getAccessToken());
+            cn.weibo.model.User weiboUser = users.showUserById(accessToken.getUid());
+            if (weiboUser != null) {
+                String gender = "未知";
+                if (weiboUser.getGender().equals("m")) {
+                    gender = "男";
+                } else if (weiboUser.getGender().equals("f")) {
+                    gender = "女";
+                }
+                Date expire_in = DateUtil.getDateAfter(new Date(), Integer.parseInt(accessToken.getExpireIn()) / 60 / 60 / 24);
+                User user = User.me.findByOpenID(weiboUser.getId(), "weibo_sina");
+                if (user == null) {
+                    String nickname = weiboUser.getScreenName();
+                    if (StrUtil.isBlank(nickname)) nickname = "jf_" + StrUtil.randomString(6);
+                    user = new User();
+                    user.set("id", StrUtil.getUUID())
+                            .set("nickname", nickname)
+                            .set("token", StrUtil.getUUID())
+                            .set("score", 0)
+                            .set("gender", gender)
+                            .set("avatar", weiboUser.getAvatarLarge())
+                            .set("open_id", weiboUser.getId())
+                            .set("expire_time", expire_in)
+                            .set("in_time", new Date())
+                            .set("mission", new Date())
+                            .set("thirdlogin_type", "weibo_sina").save();
+                } else if (DateUtil.isExpire((Date) user.get("expire_time"))) {
+                    user.set("expire_time", expire_in).update();
+                }
+                setSessionAttr(Constants.USER_SESSION, user);
+                setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
+                redirect(Constants.getBaseUrl() + "/");
+            } else {
+                renderText("新浪微博登陆失败");
+            }
         }
     }
 
-    //后台管理登录
+    /**
+     * 后台管理登录
+     * 默认账号admin
+     * 默认密码123123
+     * 对应表 admin_user
+     */
     public void adminlogin() {
         String method = getRequest().getMethod();
         if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
@@ -279,7 +197,7 @@ public class IndexController extends BaseController {
                 setAttr("username", namePwd[0]);
                 setAttr("password", namePwd[1]);
             }
-            render("adminlogin.html");
+            render("front/adminlogin.html");
         } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String username = getPara("username");
             String password = getPara("password");
@@ -287,7 +205,7 @@ public class IndexController extends BaseController {
             AdminUser adminUser = AdminUser.me.login(username, password);
             if(adminUser == null) {
                 setAttr(Constants.ERROR, "用户名或密码错误");
-                render("adminlogin.html");
+                render("front/adminlogin.html");
             } else {
                 setSessionAttr(Constants.SESSION_ADMIN_USER, adminUser);
                 if(remember_me == 1) {
@@ -300,4 +218,42 @@ public class IndexController extends BaseController {
         }
     }
 
+    /**
+     * markdown图片本地上传
+     */
+    public void localupload() {
+        UploadFile uploadFile = getFile();
+        String path = Constants.getBaseUrl() + "/" + Constants.UPLOAD_DIR + "/" + uploadFile.getFileName();
+        renderText(path);
+    }
+
+    /**
+     * markdown图片上传七牛云
+     * 需要在config.properties配置文件里配置一下七牛的key,secret等信息
+     * @throws QiniuException
+     */
+    public void qiniuupload() throws QiniuException {
+        Prop prop = PropKit.use("config.properties");
+        Auth auth = Auth.create(prop.get("qiniu.access_key"), prop.get("qiniu.secret_key"));
+        String token = auth.uploadToken(prop.get("qiniu.bucket"));
+        UploadManager uploadManager = new UploadManager();
+        UploadFile uploadFile = getFile();
+        // 上传文件添加时间戳，防止文件重名，七牛报错
+        String datetime = DateUtil.formatDateTime(new Date(), "yyyyMMddHHmmss");
+        String fileName = uploadFile.getFileName().substring(0, uploadFile.getFileName().lastIndexOf("."));
+        String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf("."), uploadFile.getFileName().length());
+        String _fileName = fileName + datetime + suffix;
+        uploadManager.put(uploadFile.getFile(), _fileName, token);
+        String path = prop.get("qiniu.url") + "/" + _fileName;
+        // 删除保存在本地的文件
+        FileKit.delete(uploadFile.getFile());
+        renderText(path);
+    }
+
+    /**
+     * 线上Api入口
+     */
+    public void api() {
+        render("front/api.html");
+    }
 }

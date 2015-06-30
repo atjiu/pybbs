@@ -1,0 +1,33 @@
+<#macro header>
+<div id="Top">
+    <div class="content">
+        <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                <tr>
+                    <td width="5" align="left"></td>
+                    <td width="80" align="left" style="padding-top: 4px;">
+                        <a href="/">
+                            <img src="${baseUrl!}/static/mobile/img/logo.jpg" align="default" alt="JFinal社区" width="80" height="25">
+                        </a>
+                    </td>
+                    <#if session.user?? >
+                        <td width="auto" align="right" style="padding-top: 2px;">
+                            <a href="javascript:;">${session.user.nickname!}</a>&nbsp;&nbsp;
+                            <a href="${baseUrl!}/logout">退出</a>&nbsp;&nbsp;
+                        </td>
+                    <#else>
+                        <td width="auto" align="right" style="padding-top: 2px;">
+                            <a href="${baseUrl!}/">首页</a>&nbsp;&nbsp;
+                            <a href="${baseUrl!}/qqlogin">QQ</a>&nbsp;&nbsp;
+                            <a href="${baseUrl!}/weibologin">微博</a>&nbsp;&nbsp;
+                        </td>
+                    </#if>
+                    <td width="10" align="left"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</#macro>

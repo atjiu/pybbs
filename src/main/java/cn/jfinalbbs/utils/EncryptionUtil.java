@@ -1,11 +1,11 @@
 package cn.jfinalbbs.utils;
 
-import com.jfinal.kit.EncryptionKit;
+import com.jfinal.kit.HashKit;
 
 /**
  * Created by liuyang on 15/4/21.
  */
-public class EncryptionUtil extends EncryptionKit {
+public class EncryptionUtil extends HashKit {
 
     /**
      * 码表;

@@ -1,53 +1,57 @@
-<#macro sidebar sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_create_info="" sidebar_friendlylinks="" sidebar_about="">
+<#macro sidebar sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create="" sidebar_scoretop="" sidebar_md_help="" sidebar_create_info="" sidebar_friendlylinks="" sidebar_about="">
 <#if sidebar_user_info == "show">
-<div class="jf_panel">
+<div class="panel panel-default">
     <#if session.user??>
-        <div class="jf_header">
+        <div class="panel-heading">
             个人信息
         </div>
-        <div class="jf_inner">
+        <div class="panel-body">
             <div>
                 <a href="${baseUrl!}/user/${session.user.id!}">
                     <img src="${session.user.avatar!}" title="${session.user.nickname!}" width="48">
                 </a>&nbsp;
-                <span><a class="dark" href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a></span>
+                <span><a href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a></span>
                 <div style="margin-top: 10px;">
-                    <span >积分: ${session.user.score!} </span>
+                    <div>积分: ${session.user.score!} </div>
+                    <#if session.user.signature?? && session.user.signature != "">
+                        <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;"><i>“ ${session.user.signature!} ” </i></div>
+                    </#if>
                 </div>
             </div>
         </div>
     <#else>
-        <div class="jf_inner">
-            <span style="font-size: 16px; font-weight: 400; display: inline-block;">JFinal社区</span><br>
-            <a href="${baseUrl!}/qqlogin" class="btn btn-success">QQ 登录</a>
-            <a href="${baseUrl!}/weibologin" class="btn btn-primary">微博 登录</a>
+        <div class="panel-body">
+            <p>JFinal社区</p>
+            <a href="${baseUrl!}/qqlogin" class="btn btn-success btn-sm">QQ 登录</a>
+            <a href="${baseUrl!}/weibologin" class="btn btn-primary btn-sm">微博 登录</a>
         </div>
     </#if>
 </div>
 </#if>
 <#if sidebar_topic_user == "show">
-<div class="jf_panel">
-    <div class="jf_header">
+<div class="panel panel-default">
+    <div class="panel-heading">
         作者
     </div>
-    <div class="jf_inner">
+    <div class="panel-body">
         <div>
             <a href="${baseUrl!}/user/${topic.author_id!}">
                 <img src="${topic.avatar!}" title="${topic.nickname!}" width="48">&nbsp;&nbsp;
             </a>
-            <span><a class="dark" href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a></span>
-            <div style="margin-top: 10px;">
-                <span class="big">积分: ${topic.score!} </span>
-            </div>
+            <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>
         </div>
+        <div style="margin-top: 10px;">积分: ${topic.score!} </div>
+        <#if topic.signature?? && topic.signature != "">
+            <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;"><i>“ ${topic.signature!} ” </i></div>
+        </#if>
     </div>
 </div>
 </#if>
 <#--签到-->
 <#if sidebar_checkin == "show">
     <#if session.user?? && session.user.mission?date != session.today?date>
-    <div class="jf_panel">
-        <div class="jf_inner">
+    <div class="panel panel-default">
+        <div class="panel-body">
             <a href="${baseUrl!}/mission/daily" class="btn btn-success">领取今日的登录奖励</a>
         </div>
     </div>
@@ -55,31 +59,46 @@
 </#if>
 <#if sidebar_create == "show">
     <#if session.user??>
-        <div class="jf_panel">
-            <div class="jf_inner">
+        <div class="panel panel-default">
+            <div class="panel-body">
                 <a href="${baseUrl!}/topic/create" class="btn btn-success">&nbsp;发布话题&nbsp;</a>
             </div>
         </div>
     </#if>
 </#if>
 <#if sidebar_scoretop == "show">
-<div class="jf_panel">
-    <div class="jf_header">积分榜&nbsp;&nbsp;<a href="${baseUrl!}/user/top100">TOP 100 &gt;&gt;</a></div>
-    <div class="jf_inner">
+<div class="panel panel-default">
+    <div class="panel-heading">积分榜&nbsp;&nbsp;<a href="${baseUrl!}/user/top100" target="_blank">TOP 100 &gt;&gt;</a></div>
+    <div class="panel-body">
         <#list scoreTopTen as top>
             <div>
                 <span style="display: inline-block; width: 60px; float: left;">${top.score!}</span>
-                <span>${top.nickname!}</span>
+                ${top.nickname!}
             </div>
         </#list>
     </div>
 </div>
 </#if>
+<#if sidebar_md_help == "show">
+    <#if session.user??>
+        <div class="panel panel-default">
+            <div class="panel-heading">Markdown 语法参考</div>
+            <div class="panel-body">
+                ### 单行的标题<br>
+                **粗体**<br>
+                `console.log('行内代码')`<br>
+                ```js\n code \n``` 标记代码块<br>
+                [内容](链接)<br>
+                ![文字说明](图片链接)<br>
+            </div>
+        </div>
+    </#if>
+</#if>
 <#if sidebar_create_info == "show">
     <#if session.user??>
-        <div class="jf_panel">
-            <div class="jf_header">话题发布指南</div>
-            <div class="jf_inner">
+        <div class="panel panel-default">
+            <div class="panel-heading">话题发布指南</div>
+            <div class="panel-body">
                 发布话题 <b style="color: red; font-size: 16px;">奖励3</b> 积分，但是被管理员删除话题将会扣除作者5积分<br>
                 尽量把话题要点浓缩到标题里<br>
                 给话题选择合适的板块方便查找浏览<br>
@@ -88,11 +107,11 @@
     </#if>
 </#if>
 <#if sidebar_friendlylinks == "show">
-<div class="jf_panel">
-    <div class="jf_header">
+<div class="panel panel-default">
+    <div class="panel-heading">
         友情链接
     </div>
-    <div class="jf_inner">
+    <div class="panel-body">
         <ul class="nav nav-pills">
             <#list links as link>
                 <li><a href="${link.url!}" target="_blank">${link.name!}</a></li>
@@ -102,9 +121,9 @@
 </div>
 </#if>
     <#if sidebar_about == "show">
-        <div class="jf_panel">
-            <div class="jf_header">关于</div>
-            <div class="jf_inner">
+        <div class="panel panel-default">
+            <div class="panel-heading">关于</div>
+            <div class="panel-body">
                 <p>JFinal社区：JFinal框架开发的社区</p>
                 <p>在这里你可以：</p>
                 <ul>

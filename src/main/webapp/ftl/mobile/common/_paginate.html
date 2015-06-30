@@ -1,0 +1,27 @@
+<#macro paginate currentPage totalPage actionUrl urlParas="">
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tbody>
+    <tr>
+        <td width="120" align="left" style="padding: 5px;">
+            <#if currentPage == 1>
+                <a href="" class="btn btn-default btn-xs disabled">&lt;上一页</a>
+            <#else>
+                <a href="${actionUrl}?p=${currentPage-1}${urlParas}" class="btn btn-default btn-xs">&lt;上一页</a>
+            </#if>
+        </td>
+        <td width="auto" align="center">
+            <strong class="fade">
+            ${currentPage}/${totalPage}
+            </strong>
+        </td>
+        <td width="120" align="right" style="padding: 5px;">
+            <#if currentPage == totalPage>
+                <a href="" class="btn btn-default btn-xs disabled">下一页&gt;</a>
+            <#else>
+                <a href="${actionUrl}?p=${currentPage+1}${urlParas}" class="btn btn-default btn-xs">下一页&gt;</a>
+            </#if>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</#macro>

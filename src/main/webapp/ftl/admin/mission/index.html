@@ -1,0 +1,28 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="mission">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/mission">签到</a></li>
+    <li class="active">列表</li>
+</ol>
+<table class="table table-hover">
+    <thead>
+    <th>用户</th>
+    <th>签到积分</th>
+    <th>时间</th>
+    <th>连续签到天数</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as mission>
+        <tr>
+            <td>${mission.nickname!}</td>
+            <td>${mission.score!}</td>
+            <td>${mission.in_time!}</td>
+            <td>${mission.day!}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/ftl/front/common/_paginate.html"/>
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/mission/index" urlParas="" />
+</@layout>

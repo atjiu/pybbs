@@ -10,6 +10,7 @@ import java.util.List;
  * Created by liuyang on 15/4/6.
  */
 public class Notification extends Model<Notification> {
+
     public static final Notification me = new Notification();
 
     //查询未读消息
@@ -38,5 +39,4 @@ public class Notification extends Model<Notification> {
     public int countNotRead(String uid) {
         return super.find("select n.id as not_read_count from notification n where n.read = 0 and n.author_id = ?", uid).size();
     }
-
 }

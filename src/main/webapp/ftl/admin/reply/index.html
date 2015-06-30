@@ -8,6 +8,7 @@
 <table class="table table-hover" style="table-layout: fixed;">
     <thead>
     <th width="300">标题</th>
+    <th width="100">作者</th>
     <th>内容</th>
     <th width="170">时间</th>
     <th width="50">操作</th>
@@ -16,6 +17,7 @@
     <#list page.getList() as reply>
         <tr id="reply_${reply.id!}">
             <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">${reply.title!}</td>
+            <td>${reply.nickname}</td>
             <td style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
                 <a href="/topic/${reply.tid!}.html#${reply.id}" target="_blank">${reply.content!}</a>
             </td>

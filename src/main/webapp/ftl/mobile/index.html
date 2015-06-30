@@ -1,0 +1,48 @@
+<#include "/ftl/mobile/common/_layout.html"/>
+<@html title="JFinal社区 - 首页" description="">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="label <#if tab == 'all'>label-success</#if>"><a href="${baseUrl!}/?tab=all">全部</a></span>
+        <#list sections as section>
+            <span class="label <#if section.tab == tab>label-success</#if>"><a href="${baseUrl!}/?tab=${section.tab!}">${section.name!}</a></span>
+        </#list>
+    </div>
+    <table class="table">
+        <#list page.getList() as topic>
+        <tr>
+            <td style="padding: 8px 0px 0px 5px; width: 25px;">
+                <a href="${baseUrl!}/user/${topic.author_id}">
+                    <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
+                         title="${topic.nickname!}" width="24">
+                </a>
+            </td>
+            <td>
+                <span style="display: block;font-size: 16px;"><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></span>
+                <span style="display: block;color:#ccc;padding:3px 0 3px 0">
+                    <#if topic.top == 1>
+                        <span class="label label-success">置顶</span>
+                    <#elseif topic.good == 1>
+                        <span class="label label-success">精华</span>
+                    <#else>
+                        <span class="label label-default">${topic.sectionName!}</span>
+                    </#if>
+                    <span title="回复数" class="label label-info">${topic.reply_count!}</span>
+                    <span style="display: inline-block; float: right;">
+                        <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                    </span>
+                </span>
+            </td>
+        </#list>
+    </table>
+    <#include "/ftl/mobile/common/_paginate.html"/>
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&tab=${tab!}" />
+</div>
+<div class="panel panel-default">
+    <div class="panel-body sep">友情链接</div>
+    <div class="panel-body sep">
+        <#list links as link>
+            <a href="${link.url!}" target="_blank">${link.name}</a>&nbsp;
+        </#list>
+    </div>
+</div>
+</@html>

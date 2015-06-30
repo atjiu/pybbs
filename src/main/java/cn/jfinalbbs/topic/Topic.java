@@ -15,13 +15,16 @@ public class Topic extends Model<Topic> {
     public static final Topic me = new Topic();
 
     // --------------- 前台查询方法 开始 --------------
-    public Page<Topic> paginate(int pageNumber, int pageSize, String tab, String q) {
+    public Page<Topic> paginate(int pageNumber, int pageSize, String tab, String q, Integer show_status) {
         String select = "select s.tab, s.name as sectionName, t.*, (select count(r.id) from reply r where t.id = r.tid) as reply_count, " +
                 "(select u.avatar from user u where u.id = t.author_id) as avatar, " +
                 "(select u.nickname from user u where u.id = t.author_id) as nickname";
         String orderBy = " order by t.top desc, t.in_time desc ";
         StringBuffer condition = new StringBuffer();
         condition.append("from topic t left join section s on t.s_id = s.id where 1 = 1 ");
+        if(show_status != null) {
+            condition.append(" and t.show_status = " + show_status);
+        }
         if(!StrKit.isBlank(tab) && tab.equals("all")) {
             tab = null;
         }
@@ -37,7 +40,7 @@ public class Topic extends Model<Topic> {
             }
             condition.append(" ) ");
         }
-        List<Section> sections = Section.me.findAll();
+        List<Section> sections = Section.me.findShow();
         if(sections.size()>0) {
             String sid = "";
             for(Section s: sections) {
@@ -50,7 +53,8 @@ public class Topic extends Model<Topic> {
 
     public Topic findByIdWithUser(String id) {
         List<Topic> topics = find(
-                "select t.*, s.name as sectionName, s.tab, u.nickname, u.avatar, u.score, (select count(r.id) from reply r where r.tid = t.id) as reply_count " +
+                "select t.*, s.name as sectionName, s.tab, u.nickname, u.avatar, u.score, u.signature, " +
+                        "(select count(r.id) from reply r where r.tid = t.id) as reply_count " +
                         " from topic t left join user u on t.author_id = u.id " +
                         " left join section s on s.id = t.s_id " +
                         "where t.id = ?", id);
@@ -83,7 +87,7 @@ public class Topic extends Model<Topic> {
 
     // --------------- 后台查询方法 开始 --------------
     public Page<Topic> page(int pageNumber, int pageSize) {
-        return super.paginate(pageNumber, pageSize, "select t.*, s.name as sectionName, s.tab ", "from topic t left join section s on t.s_id = s.id order by t.top desc, t.in_time desc");
+        return super.paginate(pageNumber, pageSize, "select t.*, s.name as sectionName, s.tab, u.nickname ", "from topic t left join section s on t.s_id = s.id left join user u on t.author_id = u.id order by t.top desc, t.in_time desc");
     }
     // --------------- 后台查询方法 结束 --------------
 

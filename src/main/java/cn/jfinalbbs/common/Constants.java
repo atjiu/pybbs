@@ -7,6 +7,8 @@ import com.jfinal.kit.PropKit;
  */
 public class Constants {
 
+    public static final String UPLOAD_DIR = "static/upload";
+
     public static final String ERROR = "error";
     public static final String USER_COOKIE = "user_token_v2";
     public static final String USER_SESSION = "user";
@@ -21,7 +23,6 @@ public class Constants {
     public static final String DELETE_FAILURE = "删除失败";
 
     public static final String COOKIE_ADMIN_TOKEN = "admin_user_token";
-    public static final String COOKIE_EMAIL = "email";
 
     public static String getBaseUrl() {
         return PropKit.use("config.properties").get("base.url");
@@ -42,17 +43,15 @@ public class Constants {
         public static final String POST = "post";
     }
 
-    public static class SystemCode {
-        public static final String TYPE_SEARCH_PASS = "search_pass";
-    }
-
     public static class CacheName {
         public static final String SECTIONLIST = "section_list";
+        public static final String SECTIONSHOWLIST = "section_show_list";
         public static final String LINKLIST = "link_list";
     }
 
     public static class CacheKey {
         public static final String SECTIONLISTKEY = "section_list_key";
+        public static final String SECTIONSHOWLISTKEY = "section_show_list_key";
         public static final String LINKLISTKEY = "link_list_key";
     }
 

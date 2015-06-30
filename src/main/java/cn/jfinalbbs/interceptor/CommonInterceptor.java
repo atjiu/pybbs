@@ -7,8 +7,7 @@ import cn.jfinalbbs.user.User;
 import cn.jfinalbbs.utils.DateUtil;
 import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Interceptor;
-import com.jfinal.core.ActionInvocation;
-import com.jfinal.kit.PropKit;
+import com.jfinal.aop.Invocation;
 
 import java.util.Date;
 
@@ -17,8 +16,7 @@ import java.util.Date;
  */
 public class CommonInterceptor implements Interceptor {
 
-    @Override
-    public void intercept(ActionInvocation ai) {
+    public void intercept(Invocation ai) {
         // session cookie 互换
         String user_cookie = ai.getController().getCookie(Constants.USER_COOKIE);
         User user_session = (User) ai.getController().getSession().getAttribute(Constants.USER_SESSION);
@@ -33,7 +31,7 @@ public class CommonInterceptor implements Interceptor {
         ai.getController().setSessionAttr(Constants.TODAY, DateUtil.formatDate(new Date()));
 
         // 查询模块
-        ai.getController().getRequest().setAttribute("sections", Section.me.findAll());
+        ai.getController().getRequest().setAttribute("sections", Section.me.findShow());
 
         // 查询友链
         ai.getController().getRequest().setAttribute("links", Link.me.findAll());

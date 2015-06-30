@@ -8,9 +8,11 @@
 <table class="table table-hover">
     <thead>
     <th>标题</th>
+    <th>作者</th>
     <th>分类</th>
     <th>置顶</th>
     <th>精华</th>
+    <th>是否显示</th>
     <th>时间</th>
     <th>操作</th>
     </thead>
@@ -18,13 +20,22 @@
     <#list page.getList() as topic>
         <tr id="topic_${topic.id!}">
             <td><a href="/topic/${topic.id!}.html" target="_blank">${topic.title!}</a></td>
+            <td>${topic.nickname!}</td>
             <td>${topic.sectionName!}</td>
             <td id="topic_top_${topic.id!}"><script>document.write(topic_top[${topic.top!}])</script></td>
             <td id="topic_good_${topic.id!}"><script>document.write(topic_good[${topic.good!}])</script></td>
+            <td id="topic_show_status_${topic.id!}">
+                <#if topic.show_status == 1>
+                    显示
+                <#elseif topic.show_status == 0>
+                    不显示
+                </#if>
+            </td>
             <td>${topic.in_time!}</td>
             <td>
                 <a href="javascript:setTop('${topic.id!}')"><span class="glyphicon glyphicon-arrow-up"></span></a>
                 <a href="javascript:setGood('${topic.id!}')"><span class="glyphicon glyphicon-bookmark"></span></a>
+                <a href="javascript:setShowStatus('${topic.id!}')"><span class="glyphicon glyphicon-edit"></span></a>
                 <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
         </tr>
@@ -98,6 +109,31 @@
                             $("#topic_good_" + id).html("<span style='color: yellowgreen'>精华</span>");
                         } else if(data.detail.good == 0) {
                             $("#topic_good_" + id).html("");
+                        }
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+    function setShowStatus(id) {
+        if(confirm("确定 更改显示状态 吗？")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/topic/show_status",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        if(data.detail.show_status == 1) {
+                            $("#topic_show_status_" + id).html("显示");
+                        } else if(data.detail.show_status == 0) {
+                            $("#topic_show_status_" + id).html("不显示");
                         }
                     } else {
                         alert(data.description);

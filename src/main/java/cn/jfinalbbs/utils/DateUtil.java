@@ -28,6 +28,13 @@ public class DateUtil {
         return sdf.format(date);
     }
 
+    public static String formatDateTime(Date date, String style) {
+        if(date == null) return null;
+        SimpleDateFormat sdf = new SimpleDateFormat(style);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        return sdf.format(date);
+    }
+
     /**
      * 字符串转时间
      * @param dateString
@@ -56,10 +63,6 @@ public class DateUtil {
     public static boolean isExpire(Date date) {
         if(date.before(new Date())) return true;
         return false;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(isExpire(DateUtil.string2Date("2015-04-09 20:57:15", FORMAT_DATETIME)));
     }
 
     public static Date getHourAfter(Date date, int hour) {

@@ -49,5 +49,24 @@ redirect_URI=http://你的域名/weibologincallback
 UI预览：
 ![](https://dn-outside.qbox.me/QQ20150607-1.png)
 
-#### 感谢大家的支持，如果项目中遇到什么问题，欢迎联系我：[liygheart@qq.com](mailto:liygheart@qq.com)
-#### 也可以到JFinal社区群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
+---
+### 2015年06月30日 更新
+
+- 将百度UE编辑器更换成Markdown编辑器[editor.md](http://git.oschina.net/pandao/editor.md)
+- - editor.md编辑器的图片上传需要将editormd.js里图片地址修改成自己的服务器访问地址
+- - `imageUploadURL: "http://你的域名/qiniuupload/"`
+- 增加手机浏览器打开页面适配
+- 社区接口开放，详见[Api](http://jfbbs.tomoya.cn/api)
+- 增加连续签到天数统计
+- 增加用户设置个人信息
+- 后台增加签到列表查询，方便统计当日签到量
+- 后台话题列表，回复列表增加用户列，方便知道对应作者是谁
+- 后台话题添加前台显示隐藏功能
+- 后台模块列表添加显示隐藏功能
+- 数据库脚本添加字段注释，并附带初始数据
+- 修复初次设置友链报错bug
+
+
+##### 感谢大家的支持，如果项目中遇到什么问题，欢迎联系我：[liygheart@qq.com](mailto:liygheart@qq.com)
+##### 也可以到JFinal社区群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
+##### 喜欢JFinal社区的朋友，也可以 [捐助](http://jfbbs.tomoya.cn/donate) 朋也哦，朋也会更有动力的^_^

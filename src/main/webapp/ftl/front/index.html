@@ -1,14 +1,8 @@
 <#include "/ftl/front/common/_layout.html"/>
 <@html title="JFinal社区 - 首页" description="" page_tab="${tab!}" sidebar_user_info="show" sidebar_checkin="show" sidebar_create="show" sidebar_scoretop="show" sidebar_friendlylinks="show">
-<div class="jf_panel">
-    <div class="jf_header">
-        <#if q??>
-            <a class="topic-tab <#if tab == 'all'> current-tab </#if>" href="${baseUrl!}/?tab=all&q=${q!}">全部</a>
-            <#list sections as section>
-                <a class="topic-tab <#if tab == '${section.tab!}'> current-tab </#if>" href="${baseUrl!}/?tab=${section.tab!}&q=${q!}">${section.name!}</a>
-            </#list>
-        <#else>
-            <ul class="jf_breadcrumb">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ol class="breadcrumb">
                 <li><a href="${baseUrl!}/">首页</a></li>
 
                 <#list sections as section>
@@ -20,37 +14,38 @@
                         <li class="active">${section.name!}</li>
                     </#if>
                 </#list>
-            </ul>
-        </#if>
-    </div>
-    <div class="jf_inner" style="padding: 0px;">
-        <#list page.getList() as topic>
-            <div class="jf_cell">
-                <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'" title="${topic.nickname!}" width="30">
-                <span style="display: inline-block; min-width: 40px;text-align: center;" class="hidden-xs">
-                    <span title="回复数">${topic.reply_count!}</span>
-                    /
-                    <span title="点击数">${topic.view!}</span>
-                </span>
-                <#if topic.top == 1>
-                    <span class="label label-success">置顶</span>
-                <#elseif topic.good == 1>
-                    <span class="label label-success">精华</span>
-                <#else>
-                    <span class="label label-default">
-                        ${topic.sectionName!}
-                    </span>
-                </#if>
-                <span class="jf_topic_title">
-                    &nbsp;&nbsp;<a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
-                </span>
-                <span style="display: inline-block; float: right;">
-                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>
-                </span>
-            </div>
-        </#list>
+            </ol>
+        </div>
+        <table class="table table-hover">
+            <#list page.getList() as topic>
+                <tr>
+                    <td style="padding-left: 10px; width: 45px;">
+                        <a href="${baseUrl!}/user/${topic.author_id}">
+                            <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'" title="${topic.nickname!}" width="30">
+                        </a>
+                    </td>
+                    <td style="width: 70px; text-align: center;">
+                        <span title="回复数">${topic.reply_count!}</span>
+                        /
+                        <span title="点击数">${topic.view!}</span>
+                    </td>
+                    <td style="width: 40px;">
+                        <#if topic.top == 1>
+                            <span class="label label-success">置顶</span>
+                        <#elseif topic.good == 1>
+                            <span class="label label-success">精华</span>
+                        <#else>
+                            <span class="label label-default">
+                            ${topic.sectionName!}
+                            </span>
+                        </#if>
+                    </td>
+                    <td><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></td>
+                    <td><script>document.write(formatDateTime('${topic.in_time!}'))</script></td>
+                </tr>
+            </#list>
+        </table>
         <#include "/ftl/front/common/_paginate.html" />
         <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&q=${q!}&tab=${tab!}" />
     </div>
-</div>
 </@html>

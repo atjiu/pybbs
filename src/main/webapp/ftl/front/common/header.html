@@ -12,9 +12,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li <#if page_tab == 'all'> class="active" </#if>><a href="${baseUrl!}/?tab=all">首页</a></li>
+                <li <#if page_tab == 'all'> class="active" </#if>><a href="${baseUrl!}/?tab=all&q=${q!}">首页</a></li>
                 <#list sections as section>
-                    <li <#if page_tab == '${section.tab!}'> class="active" </#if>><a href="${baseUrl!}/?tab=${section.tab!}">${section.name!}</a></li>
+                    <li <#if page_tab == '${section.tab!}'> class="active" </#if>><a href="${baseUrl!}/?tab=${section.tab!}&q=${q!}">${section.name!}</a></li>
                 </#list>
             </ul>
             <form class="navbar-form navbar-left" id="search_form" role="search" method="get" action="${baseUrl!}/">
@@ -34,18 +34,24 @@
                 }
             </script>
             <ul class="nav navbar-nav navbar-right">
-            <#if session.user??>
-                <li <#if page_tab == 'message'> class="active" </#if>><a href="${baseUrl!}/user/message/${session.user.id!}">未读消息 <span class="badge" id="badge"></span></a></li>
-                <li class="dropdown">
-                    <a href="${baseUrl!}/user/${session.user.id!}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${session.user.nickname!} <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="${baseUrl!}/logout">退出</a></li>
-                    </ul>
-                </li>
-            <#else>
-                <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/qqlogin">QQ登录</a></li>
-                <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/weibologin">微博登录</a></li>
-            </#if>
+                <li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">Api</a></li>
+                <#if session.user??>
+                    <li <#if page_tab == 'message'> class="active" </#if>><a href="${baseUrl!}/user/message/${session.user.id!}">未读消息 <span class="badge" id="badge"></span></a></li>
+                    <li class="dropdown">
+                        <a href="${baseUrl!}/user/${session.user.id!}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+                            ${session.user.nickname!}
+                            <span class="caret"></span>
+                        </a>
+                        <span class="dropdown-arrow"></span>
+                        <ul class="dropdown-menu">
+                            <li><a href="${baseUrl!}/user/setting"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;设置</a></li>
+                            <li><a href="${baseUrl!}/logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;退出</a></li>
+                        </ul>
+                    </li>
+                <#else>
+                    <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/qqlogin">QQ登录</a></li>
+                    <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/weibologin">微博登录</a></li>
+                </#if>
             </ul>
         </div>
     </div>

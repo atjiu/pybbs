@@ -1,0 +1,165 @@
+<#include "/ftl/mobile/common/_layout.html"/>
+<@html title="JFinal社区 - ${topic.title!}" description="${topic.title!}">
+<link href="${baseUrl!}/static/editor_md/css/editormd.css" rel="stylesheet">
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/marked.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/prettify.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/raphael.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/underscore.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/sequence-diagram.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/flowchart.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/jquery.flowchart.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/editormd.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div style="font-size: 16px;padding-bottom: 5px; font-weight: 600;">${topic.title!}</div>
+        <div style="font-size: 10px;color: #838383;">
+            <span>
+                <script>document.write(formatDateTime('${topic.in_time!}'))</script>&nbsp;
+            </span>
+            <span>作者 朋也&nbsp;</span>
+            <span>${topic.view!} 次浏览&nbsp;</span>
+            <span>
+                来自${topic.sectionName!}
+            </span>
+            <#if session.user?? && topic.author_id == session.user.id>
+                <span style="display: inline-block; float: right;padding-top:2px;">
+                    <a href="${baseUrl!}/topic/edit/${topic.id!}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                    <a href="javascript:if(confirm('确定要删除此话题吗？'))location='${baseUrl!}/topic/delete/${topic.id!}'"><span
+                            class="glyphicon glyphicon-trash" style="cursor:pointer;"></span></a>
+                </span>
+            </#if>
+        </div>
+    </div>
+    <div class="panel-body sep">
+        <div id="topic_content">
+            <textarea id="_topic_content" style="display: none;">${topic.content!}</textarea>
+        </div>
+        <#if topic.reposted?? && topic.reposted == 1>
+            <div>原文地址：<a href="${topic.original_url!}" target="_blank">${topic.original_url!}</a></div>
+        </#if>
+    </div>
+    <#if session.user??>
+        <div class="panel-body sep">
+            <#if collect??>
+                <input type="button" id="collect" onclick="collect(2, '${topic.id!}')"
+                       class="btn btn-xs btn-default" value="取消收藏"/>
+            <#else>
+                <input type="button" id="collect" onclick="collect(1, '${topic.id!}')"
+                       class="btn btn-xs btn-default" value="加入收藏"/>
+            </#if>
+        </div>
+    </#if>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body sep" style="padding-top:3px;">${topic.reply_count!"0"} 回复</div>
+    <#list replies as reply>
+        <div class="panel-body" style="border-top: solid #F0F0F0 1px;">
+            <div id="${reply.id!}">
+                <a href="${baseUrl!}/user/${reply.author_id}">
+                    <img src="${reply.avatar!}" width="24" title="${reply.nickname!}">
+                </a>
+                <span style="vertical-align: super;">
+                    <a href="${baseUrl!}/user/${reply.author_id!}">${reply.nickname!}</a>
+                    <script>document.write(formatDateTime('${reply.in_time!}'))</script>
+                </span>
+                <#if session.user??>
+                    <div style="float: right;">
+                        <span>
+                            <a href="#reply_input" onclick="reply_input('${reply.id!}')">
+                                <img src="${baseUrl!}/static/img/reply.png" width="16">
+                            </a>
+                        </span>
+                    </div>
+                </#if>
+                <div>
+                    <#if reply.quote?? && reply.quote != '0'>
+                        <div id="ref_${reply_index}">
+                            引用来自『${reply.quote_author_nickname!}』的评论
+                        <textarea id="reply_ref_${reply_index}"
+                                  style="display: none;"> > ${reply.quote_content!}</textarea>
+                        </div>
+                    </#if>
+                    <div id="reply_content_${reply_index}">
+                        <textarea name="_reply_content" style="display: none;">${reply.content!}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#list>
+</div>
+<#if session.user??>
+    <div class="panel panel-default" id="reply_input">
+        <div class="panel-body sep" style="padding-top:3px;">添加回复</div>
+        <div class="panel-body sep">
+            <form action="${baseUrl!}/reply/${topic.id!}" method="post" id="reply_form">
+                <input type="hidden" name="quote" id="quote" value="">
+                <div id="reply_content"><textarea name="content" style="display: none;"></textarea></div>
+                <input type="submit" class="btn btn-default btn-xs" value="回复" style="margin: 3px 0 0 0;">
+            </form>
+        </div>
+    </div>
+</#if>
+<script>
+    var editor;
+
+    //格式化话题内容的markdown
+    editormd.markdownToHTML("topic_content", {markdown: $("#_topic_content").val()});
+
+    //格式化回复的markdown
+    var _reply_content = $("textarea[name='_reply_content']");
+    $.each(_reply_content, function (index, data) {
+        editormd.markdownToHTML("reply_content_" + index, {markdown: $(data).val()});
+        //格式化引用内容
+        editormd.markdownToHTML("ref_" + index, {markdown: $("#reply_ref_" + index).val()});
+    });
+
+    $(function () {
+        editor = editormd("reply_content", {height: 100, autoFocus: false, watch: false, toolbar: false,lineNumbers:false});
+        $("#reply_form").submit(function () {
+            if (editor.getValue().trim() == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            return true;
+        });
+    });
+
+    var _type = 0;
+
+    function reply_input(id) {
+        $("input[name='quote']").val(id);
+        editor.focus();
+    }
+    function collect(type, tid) {
+        var url = "${baseUrl!}/collect/" + tid;
+        if (_type == 0) _type = type;
+        if (_type == 2) url = "${baseUrl!}/collect/delete/" + tid;
+        $.ajax({
+            url: url,
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.code == '200') {
+                    if (_type == 1) {
+                        _type = 2;
+                        $("#collect").removeClass("btn-success");
+                        $("#collect").addClass("btn-default");
+                        $("#collect").val("取消收藏");
+                    } else {
+                        _type = 1;
+                        $("#collect").removeClass("btn-default");
+                        $("#collect").addClass("btn-success");
+                        $("#collect").val("加入收藏");
+                    }
+                } else {
+                    alert(data.description);
+                }
+            }
+        });
+    }
+</script>
+</@html>

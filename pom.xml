@@ -14,12 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.jfinal</groupId>
             <artifactId>jetty-server</artifactId>
             <version>8.1.8</version>
@@ -30,73 +24,6 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
         </dependency>
-        <dependency>
-            <groupId>com.jfinal</groupId>
-            <artifactId>jfinal</artifactId>
-            <version>1.9</version>
-        </dependency>
-        <!-- Jetty JSP：根据 Dependency Hierarchy 视图拆分成了七个 dependency，
-                - 方便项目以及便于 导出 war的在jetty与tomcat间无缝迁移
-                - Dependencies: http://mvnrepository.com/artifact/org.eclipse.jetty/jetty-jsp
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp</artifactId>
-            <version>8.1.8.v20121106</version>
-            <scope>provided</scope>
-        </dependency>
-         -->
-        <!--<dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>javax.servlet.jsp</artifactId>
-            <version>2.2.0.v201112011158</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>org.apache.jasper.glassfish</artifactId>
-            <version>2.2.2.v201112011158</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>2.2.0.v201108011116</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>com.sun.el</artifactId>
-            <version>2.2.0.v201108011116</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>&lt;!&ndash; jetty-server-8.1.8 开发时JSP 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>org.eclipse.jdt.core</artifactId>
-            <version>3.7.1</version>
-            <scope>provided</scope>
-        </dependency>-->
-        <!--<dependency>&lt;!&ndash; JSTL 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>javax.servlet.jsp.jstl</artifactId>
-            <version>1.2.0.v201105211821</version>
-            <exclusions>&lt;!&ndash; 避免导出 servlet jar 包 &ndash;&gt;
-                <exclusion>
-                    <groupId>org.eclipse.jetty.orbit</groupId>
-                    <artifactId>javax.servlet</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-        <!--<dependency>&lt;!&ndash; JSTL 支持 &ndash;&gt;
-            <groupId>org.eclipse.jetty.orbit</groupId>
-            <artifactId>org.apache.taglibs.standard.glassfish</artifactId>
-            <version>1.2.0.v201112081803</version>
-            <exclusions>&lt;!&ndash; 避免导出 servlet jar 包 &ndash;&gt;
-                <exclusion>
-                    <groupId>org.eclipse.jetty.orbit</groupId>
-                    <artifactId>javax.servlet</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
 
         <dependency>
             <groupId>c3p0</groupId>
@@ -113,11 +40,6 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -172,37 +94,23 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/Sdk4J.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.0</version>
+            <groupId>jfinal</groupId>
+            <artifactId>jfinal</artifactId>
+            <version>2.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-fileupload-1.3.1.jar</systemPath>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jfinal-2.0-bin-with-src.jar</systemPath>
         </dependency>
+
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-io-2.4.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>json</groupId>
-            <artifactId>json</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/json.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>ueditor</groupId>
-            <artifactId>ueditor</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.1.jar</systemPath>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.0.0, 7.0.99]</version>
         </dependency>
 
     </dependencies>
     <build>
         <finalName>jfinalbbs</finalName>
+        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>

@@ -29,7 +29,7 @@ public class Reply extends Model<Reply> {
 
     // ------- 后台查询方法 -------
     public Page<Reply> page(int pageNumber, int pageSize) {
-        return super.paginate(pageNumber, pageSize, "select r.*, t.title ", "from reply r left join topic t on r.tid = t.id order by r.in_time desc");
+        return super.paginate(pageNumber, pageSize, "select r.*, t.title, u.nickname ", "from reply r left join topic t on r.tid = t.id left join user u on r.author_id = u.id order by r.in_time desc");
     }
 
 }

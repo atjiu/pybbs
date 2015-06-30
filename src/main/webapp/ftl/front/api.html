@@ -1,0 +1,32 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - 首页" description="社区接口" page_tab="api" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<link href="${baseUrl!}/static/editor_md/css/editormd.css" rel="stylesheet">
+
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/marked.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/prettify.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/raphael.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/underscore.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/sequence-diagram.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/flowchart.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/jquery.flowchart.min.js"></script>
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/editormd.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="${baseUrl!}/">首页</a></li>
+            <li class="active">接口</li>
+        </ol>
+    </div>
+    <div class="panel-body">
+        <div id="apicontent"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $.get("${baseUrl!}/static/upload/api/api.md", function(md){
+            editormd.markdownToHTML("apicontent", {markdown: md});
+        });
+    });
+</script>
+</@html>

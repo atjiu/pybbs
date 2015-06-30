@@ -3,7 +3,7 @@ package cn.jfinalbbs.interceptor;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.user.User;
 import com.jfinal.aop.Interceptor;
-import com.jfinal.core.ActionInvocation;
+import com.jfinal.aop.Invocation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,8 +14,7 @@ import java.io.UnsupportedEncodingException;
  * Created by liuyang on 15/4/2.
  */
 public class UserInterceptor implements Interceptor {
-    @Override
-    public void intercept(ActionInvocation ai) {
+    public void intercept(Invocation ai) {
         HttpServletRequest request = ai.getController().getRequest();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.USER_SESSION);

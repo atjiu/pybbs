@@ -21,6 +21,16 @@
     <script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
 
     <script src="${baseUrl!}/static/js/jfinalbbs.js"></script>
+
+    <style>
+        .breadcrumb {
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            list-style: outside none none;
+            background-color: #F5F5F5;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,6 +55,7 @@
                 <li <#if page_tab="reply"> class="active" </#if>><a href="${baseUrl!}/admin/reply">回复</a></li>
                 <li <#if page_tab="user"> class="active" </#if>><a href="${baseUrl!}/admin/user">用户</a></li>
                 <li <#if page_tab="link"> class="active" </#if>><a href="${baseUrl!}/admin/link">友链</a></li>
+                <li <#if page_tab="mission"> class="active" </#if>><a href="${baseUrl!}/admin/mission">签到</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="${baseUrl!}/admin/logout">退出</a></li>

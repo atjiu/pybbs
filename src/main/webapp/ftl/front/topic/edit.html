@@ -1,13 +1,17 @@
 <#include "/ftl/front/common/_layout.html"/>
-<@html title="JFinal社区 - 编辑话题" description="JFinal社区 - 编辑话题" sidebar_create_info="show">
-<div class="jf_panel">
-    <div class="jf_header">
-        <ul class="jf_breadcrumb">
+<@html title="JFinal社区 - 编辑话题" description="JFinal社区 - 编辑话题" sidebar_create_info="show" sidebar_md_help="show">
+<link href="${baseUrl!}/static/editor_md/css/editormd.css" rel="stylesheet">
+
+<script type="text/javascript" src="${baseUrl!}/static/editor_md/editormd.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
             <li><a href="${baseUrl!}/">首页</a></li>
             <li class="active">编辑话题</li>
-        </ul>
+        </ol>
     </div>
-    <div class="jf_inner" style="line-height: 0em;">
+    <div class="panel-body">
         <form id="create_form" action="${baseUrl!}/topic/update" method="post">
             <input type="hidden" name="tid" value="${topic.id!}"/>
             <select name="sid" id="sid" class="form-control" style="width: 20%; margin-bottom: 5px;">
@@ -16,21 +20,22 @@
                 </#list>
             </select>
             <input type="text" placeholder="标题字数10字以上" id="title" name="title" value="${topic.title!}" class="form-control" style="margin-bottom: 5px;"/>
-            <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" value="${topic.original_url!}" class="form-control"/>
-            <textarea style="height: 450px; margin: 5px 0px 5px 0px;" name="content" id="content">${topic.content!}</textarea>
-            <input type="submit" value="提交" class="btn btn-primary">
+            <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" value="${topic.original_url!}" class="form-control" style="margin-bottom: 5px;"/>
+            <div id="content"><textarea style="display: none;" name="content">${topic.content!}</textarea></div>
+            <input type="submit" value="提交" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">
         </form>
     </div>
 </div>
 <script type="text/javascript">
-    var ue = UE.getEditor("content");
+    var editor;
     $(function(){
+        editor = editormd("content",{height: 500,watch:false});
         $("#create_form").submit(function () {
             if($("#title").val().trim().length < 10) {
                 alert("标题字数10字以上");
                 $("#title").focus();
                 return false;
-            } else if(ue.getContent() == "") {
+            } else if(editor.getValue().trim() == "") {
                 alert("内容不能为空");
                 return false;
             }

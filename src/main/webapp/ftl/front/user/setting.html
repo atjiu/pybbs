@@ -1,0 +1,80 @@
+<#include "/ftl/front/common/_layout.html"/>
+<@html title="JFinal社区 - 设置" description="" page_tab="${tab!}" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="${baseUrl!}/">首页</a></li>
+            <li class="active">设置</li>
+        </ol>
+    </div>
+    <div class="panel-body">
+        <#if save?? && save == "success">
+            <div class="alert alert-success" role="alert">保存成功。</div>
+        <#elseif save?? && save == "fail">
+            <div class="alert alert-danger" role="alert">保存失败。</div>
+        </#if>
+        <form class="form form-horizontal" id="form" method="post" style="margin-top: 20px;">
+            <div class="form-group">
+                <label class="control-label col-sm-2">昵称</label>
+
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" disabled value="${session.user.nickname!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">电子邮件</label>
+
+                <div class="col-sm-5">
+                    <input type="email" class="form-control" value="${session.user.email!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">个人网站</label>
+
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="url" value="${session.user.url!}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">个性签名</label>
+
+                <div class="col-sm-5">
+                    <textarea name="signature" class="form-control">${session.user.signature!}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">&nbsp;</label>
+
+                <div class="col-sm-4">
+                    <input type="submit" id="saveBtn" value="保存设置" class="btn btn-primary btn-sm">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">令牌</div>
+    <div class="panel-body">
+        <div style="padding-left: 23px;">使用客户端扫描登录</div>
+        <img src="http://api.k780.com:88/?app=qr.get&data=${session.user.token!}@||@${session.user.nickname!}&level=H&size=6">
+    </div>
+</div>
+
+<script>
+    $("#form").submit(function () {
+        var email = $("input[name='email']").val();
+        var signature = $("input[name='signature']").val();
+        if (email.length > 0) {
+            if (!emailReg.test(email)) {
+                alert("请输入正确的邮箱地址");
+                return false;
+            }
+        } else if (signature.length > 1000) {
+            alert("个性签名不得超过1000个字符");
+            return false;
+        }
+        $("#saveBtn").addClass("disabled");
+    });
+</script>
+</@html>

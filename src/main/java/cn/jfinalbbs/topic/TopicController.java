@@ -6,6 +6,7 @@ import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.UserInterceptor;
 import cn.jfinalbbs.reply.Reply;
 import cn.jfinalbbs.user.User;
+import cn.jfinalbbs.utils.AgentUtil;
 import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
@@ -31,7 +32,8 @@ public class TopicController extends BaseController {
                 Collect collect = Collect.me.findByTidAndAuthorId(id, user.getStr("id"));
                 setAttr("collect", collect);
             }
-            render("index.html");
+            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/index.html");
+            else render("front/topic/index.html");
         } else {
             renderText("您查询的话题不存在");
         }
@@ -39,7 +41,7 @@ public class TopicController extends BaseController {
 
     @Before(UserInterceptor.class)
     public void create(){
-        render("create.html");
+        render("front/topic/create.html");
     }
 
     @Before(UserInterceptor.class)
@@ -50,7 +52,7 @@ public class TopicController extends BaseController {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             setAttr("topic", topic);
-            render("edit.html");
+            render("front/topic/edit.html");
         }
     }
 
@@ -117,6 +119,7 @@ public class TopicController extends BaseController {
                 .set("original_url", original_url)
                 .set("top", 0)
                 .set("good", 0)
+                .set("show_status", 1)
                 .save();
         //将积分增加3分
         user.set("score", user.getInt("score") + 3).update();

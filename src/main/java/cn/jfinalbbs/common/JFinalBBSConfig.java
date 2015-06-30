@@ -1,36 +1,36 @@
 package cn.jfinalbbs.common;
 
 import cn.jfinalbbs.collect.Collect;
+import cn.jfinalbbs.collect.CollectClientController;
 import cn.jfinalbbs.collect.CollectController;
 import cn.jfinalbbs.handler.HtmlHandler;
 import cn.jfinalbbs.index.IndexAdminController;
+import cn.jfinalbbs.index.IndexClientController;
 import cn.jfinalbbs.index.IndexController;
 import cn.jfinalbbs.interceptor.CommonInterceptor;
 import cn.jfinalbbs.link.Link;
 import cn.jfinalbbs.link.LinkAdminController;
 import cn.jfinalbbs.mission.Mission;
+import cn.jfinalbbs.mission.MissionAdminController;
 import cn.jfinalbbs.mission.MissionController;
 import cn.jfinalbbs.notification.Notification;
+import cn.jfinalbbs.notification.NotificationClientController;
 import cn.jfinalbbs.notification.NotificationController;
-import cn.jfinalbbs.reply.ReplyAdminController;
 import cn.jfinalbbs.reply.Reply;
+import cn.jfinalbbs.reply.ReplyAdminController;
+import cn.jfinalbbs.reply.ReplyClientController;
 import cn.jfinalbbs.reply.ReplyController;
 import cn.jfinalbbs.section.Section;
 import cn.jfinalbbs.section.SectionAdminController;
+import cn.jfinalbbs.section.SectionClientController;
 import cn.jfinalbbs.system.Code;
-import cn.jfinalbbs.topic.TopicAdminController;
 import cn.jfinalbbs.topic.Topic;
+import cn.jfinalbbs.topic.TopicAdminController;
+import cn.jfinalbbs.topic.TopicClientController;
 import cn.jfinalbbs.topic.TopicController;
-import cn.jfinalbbs.user.UserAdminController;
-import cn.jfinalbbs.user.AdminUser;
-import cn.jfinalbbs.user.User;
-import cn.jfinalbbs.user.UserController;
+import cn.jfinalbbs.user.*;
 import com.jfinal.config.Constants;
-import com.jfinal.config.Handlers;
-import com.jfinal.config.Interceptors;
-import com.jfinal.config.JFinalConfig;
-import com.jfinal.config.Plugins;
-import com.jfinal.config.Routes;
+import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -49,21 +49,26 @@ public class JFinalBBSConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("config.properties");
 		me.setDevMode(getPropertyToBoolean("devMode", false));
+        me.setUploadedFileSaveDirectory(cn.jfinalbbs.common.Constants.UPLOAD_DIR);
+		me.setMaxPostSize(2048000);
+		// ApiConfigKit 设为开发模式可以在开发阶段输出请求交互的 xml 与 json 数据
     }
 	
 	/**
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
-		me.add("/", IndexController.class, "ftl/front");	// 第三个参数为该Controller的视图存放路径
-		me.add("/topic", TopicController.class, "ftl/front/topic");
-		me.add("/user", UserController.class, "ftl/front/user");
-		me.add("/mission", MissionController.class, "ftl/front/mission");
-		me.add("/reply", ReplyController.class, "ftl/front/topic");
-		me.add("/collect", CollectController.class, "ftl/front/collect");
-		me.add("/notification", NotificationController.class, "ftl/front/notification");
+		me.add("/", IndexController.class, "ftl");	// 第三个参数为该Controller的视图存放路径
+		me.add("/topic", TopicController.class, "ftl");
+		me.add("/user", UserController.class, "ftl");
+		me.add("/mission", MissionController.class, "ftl");
+		me.add("/reply", ReplyController.class, "ftl");
+		me.add("/collect", CollectController.class, "ftl");
+		me.add("/notification", NotificationController.class, "ftl");
         //添加后台路由
         adminRoute(me);
+        //添加客户端路由
+        clientRoute(me);
 	}
 
 	//后台路由配置
@@ -74,7 +79,18 @@ public class JFinalBBSConfig extends JFinalConfig {
         me.add("/admin/user", UserAdminController.class, "ftl/admin/user");
         me.add("/admin/section", SectionAdminController.class, "ftl/admin/section");
         me.add("/admin/link", LinkAdminController.class, "ftl/admin/link");
+        me.add("/admin/mission", MissionAdminController.class, "ftl/admin/mission");
     }
+
+	public void clientRoute(Routes me) {
+        me.add("/api/index", IndexClientController.class);
+        me.add("/api/topic", TopicClientController.class);
+        me.add("/api/reply", ReplyClientController.class);
+        me.add("/api/user", UserClientController.class);
+        me.add("/api/notification", NotificationClientController.class);
+        me.add("/api/section", SectionClientController.class);
+        me.add("/api/collect", CollectClientController.class);
+	}
 
 	/**
 	 * 配置插件
@@ -100,7 +116,6 @@ public class JFinalBBSConfig extends JFinalConfig {
 		arp.addMapping("code", Code.class);
 		arp.addMapping("section", Section.class);
 		arp.addMapping("link", Link.class);
-
 	}
 
 	/**
