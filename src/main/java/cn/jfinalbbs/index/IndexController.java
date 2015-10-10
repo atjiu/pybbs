@@ -2,22 +2,20 @@ package cn.jfinalbbs.index;
 
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
+import cn.jfinalbbs.reply.Reply;
 import cn.jfinalbbs.topic.Topic;
 import cn.jfinalbbs.user.AdminUser;
 import cn.jfinalbbs.user.User;
 import cn.jfinalbbs.utils.AgentUtil;
 import cn.jfinalbbs.utils.DateUtil;
+import cn.jfinalbbs.utils.EmailSender;
 import cn.jfinalbbs.utils.StrUtil;
+import cn.jfinalbbs.valicode.ValiCode;
 import cn.weibo.Users;
 import cn.weibo.model.WeiboException;
-import com.jfinal.kit.FileKit;
-import com.jfinal.kit.Prop;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.upload.UploadFile;
-import com.qiniu.common.QiniuException;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
 import com.qq.connect.QQConnectException;
 import com.qq.connect.api.OpenID;
 import com.qq.connect.api.qzone.UserInfo;
@@ -35,19 +33,30 @@ public class IndexController extends BaseController {
     /**
      * 首页
      */
-	public void index() {
+    public void index() {
         String tab = getPara("tab");
         String q = getPara("q");
-        if(tab == null) tab = "all";
-        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), tab, q, 1);
+        if (tab == null) tab = "all";
+        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
+                getParaToInt("size", PropKit.use("config.properties").getInt("page_size")), tab, q, 1);
         setAttr("page", page);
         List<User> scoreTopTen = User.me.findBySize(10);
         setAttr("scoreTopTen", scoreTopTen);
         setAttr("tab", tab);
         setAttr("q", q);
-        if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.html");
+        //查询无人回复的话题
+        List<Topic> notReplyTopics = Topic.me.findNotReply(5);
+        setAttr("notReplyTopics", notReplyTopics);
+        //社区运行状态
+        int userCount = User.me.countUsers();
+        int topicCount = Topic.me.topicCount();
+        int replyCount = Reply.me.replyCount();
+        setAttr("userCount", userCount);
+        setAttr("topicCount", topicCount);
+        setAttr("replyCount", replyCount);
+        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.html");
         else render("front/index.html");
-	}
+    }
 
     /**
      * 登出
@@ -60,122 +69,145 @@ public class IndexController extends BaseController {
 
     /**
      * 跳转qq登录
+     *
      * @throws QQConnectException
      */
     public void qqlogin() throws QQConnectException {
+        String source = getPara("source");
+        if (!StrUtil.isBlank(source)) {
+            getSession().setAttribute("source", source);
+        }
         redirect(new Oauth().getAuthorizeURL(getRequest()));
     }
 
     /**
      * qq登录回调方法
+     *
      * @throws QQConnectException
      */
     public void qqlogincallback() throws QQConnectException {
         HttpServletRequest request = getRequest();
         AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
-        String accessToken = null,openID = null;
-        long tokenExpireIn = 0L;
+        String accessToken = null, openID = null;
         if (accessTokenObj.getAccessToken().equals("")) {
             renderText("用户取消了授权或没有获取到响应参数");
         } else {
             accessToken = accessTokenObj.getAccessToken();
-            tokenExpireIn = accessTokenObj.getExpireIn();
             // 利用获取到的accessToken 去获取当前用的openid -------- start
-            OpenID openIDObj =  new OpenID(accessToken);
+            OpenID openIDObj = new OpenID(accessToken);
             openID = openIDObj.getUserOpenID();
-            User user = User.me.findByOpenID(openID, "qq");
+            UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
+            UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
+            String avatar = userInfoBean.getAvatar().getAvatarURL50();
+            String nickname = userInfoBean.getNickname();
+            System.out.println(nickname);
+            User user = (User) getSession().getAttribute(Constants.USER_SESSION);
             if (user == null) {
-                UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
-                UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
-                if (userInfoBean.getRet() == 0) {
-                    String nickname = userInfoBean.getNickname();
-                    if(StrUtil.isBlank(nickname)) nickname = "jf_" + StrUtil.randomString(6);
-                    String gender = userInfoBean.getGender();
-                    String avatar = userInfoBean.getAvatar().getAvatarURL50();
-                    Date expire_in = DateUtil.getDateAfter(new Date(), (int) tokenExpireIn / 60 / 60 / 24);
+                user = User.me.findByOpenID(openID, "qq");
+                if (user == null) {
                     user = new User();
                     user.set("id", StrUtil.getUUID())
-                        .set("nickname", nickname)
-                        .set("token", StrUtil.getUUID())
-                        .set("score", 0)
-                        .set("gender", gender)
-                        .set("avatar", avatar)
-                        .set("open_id", openID)
-                        .set("expire_time", expire_in)
-                        .set("in_time", new Date())
-                        .set("mission", new Date())
-                        .set("thirdlogin_type", "qq").save();
+                            .set("qq_nickname", nickname)
+                            .set("qq_avatar", avatar)
+                            .set("qq_open_id", openID);
                 } else {
-                    renderText("很抱歉，我们没能正确获取到您的信息，原因是： " + userInfoBean.getMsg());
+                    user.set("qq_nickname", nickname)
+                            .set("qq_avatar", avatar);
                 }
-            } else if(DateUtil.isExpire((Date) user.get("expire_time"))) {
-                user.set("expire_time", tokenExpireIn).set("open_id", openID).update();
-            }
-            setSessionAttr(Constants.USER_SESSION, user);
-            setCookie(Constants.USER_COOKIE, user != null ? StrUtil.getEncryptionToken(user.getStr("token")) : null, 30*24*60*60);
-            String uri = getSessionAttr(Constants.BEFORE_URL);
-            if(StrUtil.isBlank(uri)) {
-                redirect(Constants.getBaseUrl() + "/");
+                setSessionAttr("unsave_user", user);
             } else {
-                redirect(uri);
+                user.set("qq_nickname", nickname)
+                        .set("qq_open_id", openID)
+                        .set("qq_avatar", avatar)
+                        .update();
+            }
+            if (StrUtil.isBlank(user.getStr("email"))) {
+                setSessionAttr("open_id", openID);
+                setSessionAttr("thirdlogin_type", "qq");
+                redirect(Constants.getBaseUrl() + "/reg.html");
+            } else {
+                setSessionAttr(Constants.USER_SESSION, user);
+                setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
+                String source = (String) getSession().getAttribute("source");
+                if (!StrUtil.isBlank(source)) {
+                    if (source.equalsIgnoreCase("usersetting")) {
+                        getSession().removeAttribute("source");
+                        redirect(Constants.getBaseUrl() + "/user/setting");
+                    }
+                } else {
+                    redirect(Constants.getBaseUrl() + "/");
+                }
             }
         }
     }
 
     /**
      * 新浪微博登录
+     *
      * @throws WeiboException
      * @throws IOException
      */
     public void weibologin() throws WeiboException, IOException {
+        String source = getPara("source");
+        if (!StrUtil.isBlank(source)) {
+            getSession().setAttribute("source", source);
+        }
         cn.weibo.Oauth oauth = new cn.weibo.Oauth();
         redirect(oauth.authorize("code"));
     }
 
     /**
      * 新浪微博登录后回调
+     *
      * @throws WeiboException
      */
     public void weibologincallback() throws WeiboException {
         String code = getPara("code");
         cn.weibo.Oauth oauth = new cn.weibo.Oauth();
         String error = getPara("error");
-        if(!StrUtil.isBlank(error) && error.equals("access_denied")) {
+        if (!StrUtil.isBlank(error) && error.equals("access_denied")) {
             renderText("用户拒绝了新浪微博登录");
         } else {
             cn.weibo.http.AccessToken accessToken = oauth.getAccessTokenByCode(code);
             Users users = new Users(accessToken.getAccessToken());
             cn.weibo.model.User weiboUser = users.showUserById(accessToken.getUid());
             if (weiboUser != null) {
-                String gender = "未知";
-                if (weiboUser.getGender().equals("m")) {
-                    gender = "男";
-                } else if (weiboUser.getGender().equals("f")) {
-                    gender = "女";
-                }
-                Date expire_in = DateUtil.getDateAfter(new Date(), Integer.parseInt(accessToken.getExpireIn()) / 60 / 60 / 24);
-                User user = User.me.findByOpenID(weiboUser.getId(), "weibo_sina");
+                User user = (User) getSession().getAttribute(Constants.USER_SESSION);
                 if (user == null) {
-                    String nickname = weiboUser.getScreenName();
-                    if (StrUtil.isBlank(nickname)) nickname = "jf_" + StrUtil.randomString(6);
-                    user = new User();
-                    user.set("id", StrUtil.getUUID())
-                            .set("nickname", nickname)
-                            .set("token", StrUtil.getUUID())
-                            .set("score", 0)
-                            .set("gender", gender)
-                            .set("avatar", weiboUser.getAvatarLarge())
-                            .set("open_id", weiboUser.getId())
-                            .set("expire_time", expire_in)
-                            .set("in_time", new Date())
-                            .set("mission", new Date())
-                            .set("thirdlogin_type", "weibo_sina").save();
-                } else if (DateUtil.isExpire((Date) user.get("expire_time"))) {
-                    user.set("expire_time", expire_in).update();
+                    user = User.me.findByOpenID(weiboUser.getId(), "sina");
+                    if (user == null) {
+                        user = new User();
+                        user.set("id", StrUtil.getUUID())
+                                .set("sina_nickname", weiboUser.getScreenName())
+                                .set("sina_avatar", weiboUser.getAvatarLarge())
+                                .set("sina_open_id", weiboUser.getId());
+                    } else {
+                        user.set("sina_nickname", weiboUser.getScreenName())
+                                .set("sina_avatar", weiboUser.getAvatarLarge());
+                    }
+                    setSessionAttr("unsave_user", user);
+                } else {
+                    user.set("sina_nickname", weiboUser.getScreenName())
+                            .set("sina_avatar", weiboUser.getAvatarLarge())
+                            .set("sina_open_id", weiboUser.getId()).update();
                 }
-                setSessionAttr(Constants.USER_SESSION, user);
-                setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
-                redirect(Constants.getBaseUrl() + "/");
+                if (StrUtil.isBlank(user.getStr("email"))) {
+                    setSessionAttr("open_id", weiboUser.getId());
+                    setSessionAttr("thirdlogin_type", "sina");
+                    redirect(Constants.getBaseUrl() + "/reg.html");
+                } else {
+                    setSessionAttr(Constants.USER_SESSION, user);
+                    setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
+                    String source = (String) getSession().getAttribute("source");
+                    if (!StrUtil.isBlank(source)) {
+                        if (source.equalsIgnoreCase("usersetting")) {
+                            getSession().removeAttribute("source");
+                            redirect(Constants.getBaseUrl() + "/user/setting");
+                        }
+                    } else {
+                        redirect(Constants.getBaseUrl() + "/");
+                    }
+                }
             } else {
                 renderText("新浪微博登陆失败");
             }
@@ -190,64 +222,32 @@ public class IndexController extends BaseController {
      */
     public void adminlogin() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
             String userAdminToken = getCookie(Constants.COOKIE_ADMIN_TOKEN);
-            if(!StrUtil.isBlank(userAdminToken)) {
+            if (!StrUtil.isBlank(userAdminToken)) {
                 String[] namePwd = StrUtil.getDecryptToken(userAdminToken).split("@&@");
                 setAttr("username", namePwd[0]);
                 setAttr("password", namePwd[1]);
             }
             render("front/adminlogin.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String username = getPara("username");
             String password = getPara("password");
             int remember_me = getParaToInt("remember_me", 0);
             AdminUser adminUser = AdminUser.me.login(username, password);
-            if(adminUser == null) {
+            if (adminUser == null) {
                 setAttr(Constants.ERROR, "用户名或密码错误");
                 render("front/adminlogin.html");
             } else {
                 setSessionAttr(Constants.SESSION_ADMIN_USER, adminUser);
-                if(remember_me == 1) {
-                    setCookie(Constants.COOKIE_ADMIN_TOKEN, StrUtil.getEncryptionToken(username + "@&@" + password), 30*24*60*60);
+                if (remember_me == 1) {
+                    setCookie(Constants.COOKIE_ADMIN_TOKEN, StrUtil.getEncryptionToken(username + "@&@" + password), 30 * 24 * 60 * 60);
                 }
                 String before_url = getSessionAttr(Constants.ADMIN_BEFORE_URL);
-                if(!StrUtil.isBlank(before_url) && !before_url.contains("adminlogin")) redirect(before_url);
+                if (!StrUtil.isBlank(before_url) && !before_url.contains("adminlogin")) redirect(before_url);
                 redirect(Constants.getBaseUrl() + "/admin/index");
             }
         }
-    }
-
-    /**
-     * markdown图片本地上传
-     */
-    public void localupload() {
-        UploadFile uploadFile = getFile();
-        String path = Constants.getBaseUrl() + "/" + Constants.UPLOAD_DIR + "/" + uploadFile.getFileName();
-        renderText(path);
-    }
-
-    /**
-     * markdown图片上传七牛云
-     * 需要在config.properties配置文件里配置一下七牛的key,secret等信息
-     * @throws QiniuException
-     */
-    public void qiniuupload() throws QiniuException {
-        Prop prop = PropKit.use("config.properties");
-        Auth auth = Auth.create(prop.get("qiniu.access_key"), prop.get("qiniu.secret_key"));
-        String token = auth.uploadToken(prop.get("qiniu.bucket"));
-        UploadManager uploadManager = new UploadManager();
-        UploadFile uploadFile = getFile();
-        // 上传文件添加时间戳，防止文件重名，七牛报错
-        String datetime = DateUtil.formatDateTime(new Date(), "yyyyMMddHHmmss");
-        String fileName = uploadFile.getFileName().substring(0, uploadFile.getFileName().lastIndexOf("."));
-        String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf("."), uploadFile.getFileName().length());
-        String _fileName = fileName + datetime + suffix;
-        uploadManager.put(uploadFile.getFile(), _fileName, token);
-        String path = prop.get("qiniu.url") + "/" + _fileName;
-        // 删除保存在本地的文件
-        FileKit.delete(uploadFile.getFile());
-        renderText(path);
     }
 
     /**
@@ -256,4 +256,181 @@ public class IndexController extends BaseController {
     public void api() {
         render("front/api.html");
     }
+
+    public void login() {
+        String method = getRequest().getMethod();
+        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.html");
+        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+            String email = getPara("email");
+            String password = getPara("password");
+            if (StrUtil.isBlank(email) || StrUtil.isBlank(password)) {
+                error("用户名或密码都不能为空");
+            } else {
+                User user = User.me.localLogin(email, HashKit.md5(password));
+                if (user == null) {
+                    error("用户名或密码错误");
+                } else {
+                    setSessionAttr(Constants.USER_SESSION, user);
+                    setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
+                    success();
+                }
+            }
+        }
+    }
+
+    public void reg() {
+        String method = getRequest().getMethod();
+        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.html");
+            else render("front/user/reg.html");
+        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+            String email = getPara("reg_email");
+            String password = getPara("reg_password");
+            String nickname = getPara("reg_nickname");
+            String valicode = getPara("valicode");
+            String open_id = (String) getSession().getAttribute("open_id");
+            if (StrUtil.isBlank(email) || StrUtil.isBlank(password) || StrUtil.isBlank(nickname) || StrUtil.isBlank(valicode)) {
+                error("请完善注册信息");
+            } else {
+                if (!StrUtil.isEmail(email)) {
+                    error("请输入正确的邮箱地址");
+                } else {
+                    ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.ValiCodeType.REG);
+                    if (code == null) {
+                        error("验证码不存在或已使用(已过期)");
+                    } else {
+                        User user = User.me.findByEmail(email);
+                        if (user != null) {
+                            error("邮箱已经注册，请直接登录");
+                        } else {
+                            String uuid = StrUtil.getUUID();
+                            String token = StrUtil.getUUID();
+                            Date date = new Date();
+                            if (StrUtil.isBlank(open_id)) {
+                                user = new User();
+                                user.set("id", uuid)
+                                        .set("nickname", nickname)
+                                        .set("password", HashKit.md5(password))
+                                        .set("score", 0)
+                                        .set("mission", date)
+                                        .set("in_time", date)
+                                        .set("email", email)
+                                        .set("token", token)
+                                        .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                        .save();
+                            } else {
+                                user = getSessionAttr("unsave_user");
+                                if (user == null) {
+                                    user = new User();
+                                    user.set("id", uuid)
+                                            .set("nickname", nickname)
+                                            .set("password", HashKit.md5(password))
+                                            .set("score", 0)
+                                            .set("mission", date)
+                                            .set("in_time", date)
+                                            .set("email", email)
+                                            .set("token", token)
+                                            .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                            .save();
+                                } else {
+                                    user.set("nickname", nickname)
+                                            .set("password", HashKit.md5(password))
+                                            .set("mission", date)
+                                            .set("email", email)
+                                            .update();
+                                }
+                                removeSessionAttr("unsave_user");
+                                removeSessionAttr("open_id");
+                            }
+                            setSessionAttr(Constants.USER_SESSION, user);
+                            setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
+                            //更新验证状态
+                            code.set("status", 1).update();
+                            success();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void sendValiCode() {
+        String email = getPara("email");
+        if (StrUtil.isBlank(email)) {
+            error("邮箱不能为空");
+        } else if (!StrUtil.isEmail(email)) {
+            error("邮箱格式不正确");
+        } else {
+            String type = getPara("type");
+            String valicode = StrUtil.randomString(6);
+            if (type.equalsIgnoreCase(Constants.ValiCodeType.FORGET_PWD)) {
+                User user = User.me.findByEmail(email);
+                if (user == null) {
+                    error("改邮箱未被注册，请先注册");
+                } else {
+                    ValiCode code = new ValiCode();
+                    code.set("code", valicode)
+                            .set("type", type)
+                            .set("in_time", new Date())
+                            .set("status", 0)
+                            .set("expire_time", DateUtil.getMinuteAfter(new Date(), 30))
+                            .set("target", email)
+                            .save();
+                    EmailSender.sendMail("JFinal社区－找回密码验证码", new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
+                    success();
+                }
+            } else if (type.equalsIgnoreCase(Constants.ValiCodeType.REG)) {
+                User user = User.me.findByEmail(email);
+                if (user != null) {
+                    error("邮箱已经注册，请直接登录");
+                } else {
+                    ValiCode code = new ValiCode();
+                    code.set("code", valicode)
+                            .set("type", type)
+                            .set("in_time", new Date())
+                            .set("status", 0)
+                            .set("expire_time", DateUtil.getMinuteAfter(new Date(), 30))
+                            .set("target", email)
+                            .save();
+                    EmailSender.sendMail("JFinal社区－注册账户验证码", new String[]{email}, "您注册账户的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
+                    success();
+                }
+            }
+        }
+    }
+
+    public void forgetpwd() {
+        String method = getRequest().getMethod();
+        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.html");
+            else render("front/user/forgetpwd.html");
+        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+            String email = getPara("email");
+            String valicode = getPara("valicode");
+            String newpwd = getPara("newpwd");
+            if (StrUtil.isBlank(email) || StrUtil.isBlank(valicode) || StrUtil.isBlank(newpwd)) {
+                error("请完善信息");
+            } else {
+                ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.ValiCodeType.FORGET_PWD);
+                if (code == null) {
+                    error("验证码不存在或已使用(已过期)");
+                } else {
+                    User user = User.me.findByEmail(email);
+                    if (user == null) {
+                        error("改邮箱未被注册，请先注册");
+                    } else {
+                        user.set("password", HashKit.md5(newpwd)).update();
+                        code.set("status", 1).update();
+                        success();
+                    }
+                }
+            }
+        }
+    }
+
+    public void donate() {
+        render("front/donate.html");
+    }
+
 }
