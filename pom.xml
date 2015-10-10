@@ -26,10 +26,11 @@
         </dependency>
 
         <dependency>
-            <groupId>c3p0</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.15</version>
         </dependency>
+
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -39,6 +40,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -86,6 +92,7 @@
             <scope>system</scope>
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-codec-1.9.jar</systemPath>
         </dependency>
+
         <dependency>
             <groupId>Sdk4J</groupId>
             <artifactId>Sdk4J</artifactId>
@@ -102,15 +109,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-            <version>[7.0.0, 7.0.99]</version>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.8.3</version>
         </dependency>
 
     </dependencies>
     <build>
         <finalName>jfinalbbs</finalName>
-        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -131,6 +137,16 @@
                     </connectors>
                 </configuration>
             </plugin>
+            <!--<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <fork>true</fork>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>-XDignore.symbol.file</compilerArguments>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 </project>

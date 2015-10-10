@@ -1,0 +1,41 @@
+<#include "/ftl/mobile/common/_layout.html"/>
+<@html title="JFinal社区 - 编辑话题" description="JFinal社区 - 编辑话题">
+
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="${baseUrl!}/">首页</a> / 发布话题</div>
+    <div class="panel-body">
+        <form action="${baseUrl!}/topic/update" method="post" id="topic_form">
+            <input type="hidden" name="tid" value="${topic.id!}" />
+            <div class="divider">
+                <select name="sid" id="sid" class="form-control" style="width: 30%;">
+                    <#list sections as section>
+                        <option <#if topic.tab == '${section.tab!}'> selected </#if> value="${section.id}">${section.name}</option>
+                    </#list>
+                </select>
+            </div>
+            <div class="divider">
+                <input type="text" name="title" id="title" class="form-control" value="${topic.title!}" placeholder="标题(必填)"/>
+            </div>
+            <div class="divider">
+                <textarea class="form-control" name="content" id="content" style="height: 150px;" placeholder="内容(必填)">${topic.content!}</textarea>
+            </div>
+            <div class="divider">
+                <input type="button" onclick="udpate_btn()" value="提交" class="btn btn-default"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function udpate_btn() {
+        if($.trim($("#title").val()) == "") {
+            alert("标题不能为空");
+            return false;
+        } else if($.trim($("#content").val()) == "") {
+            alert("内容不能为空");
+            return false;
+        } else {
+            $("#topic_form").submit();
+        }
+    }
+</script>
+</@html>

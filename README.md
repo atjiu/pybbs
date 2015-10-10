@@ -17,9 +17,10 @@
 * 至此配置就结束了，运行一下查看效果吧！
 
 ---
-### 2015年04月26日 更新
+### 2015年04月26日 更新 V1.1
 - 社区模块后台设置
 - 社区添加登录注册功能（找回密码的话需要发送邮件，这时候需要自己配置邮箱的用户名，密码，配置类：EmailSender
+
 ```java
     // 邮箱服务器
     private String host = "smtp.exmail.qq.com";
@@ -32,7 +33,7 @@
 - 模块，友链，后台排序（使用的是 jqueryui）
 
 ---
-### 2015年06月07日 更新
+### 2015年06月07日 更新 V1.2
 - 添加新浪微博登录
 - - 需要配置weiboconfig.properties
 ```
@@ -50,7 +51,7 @@ UI预览：
 ![](https://dn-outside.qbox.me/QQ20150607-1.png)
 
 ---
-### 2015年06月30日 更新
+### 2015年06月30日 更新 V1.3
 
 - 将百度UE编辑器更换成Markdown编辑器[editor.md](http://git.oschina.net/pandao/editor.md)
 - - editor.md编辑器的图片上传需要将editormd.js里图片地址修改成自己的服务器访问地址
@@ -66,6 +67,62 @@ UI预览：
 - 数据库脚本添加字段注释，并附带初始数据
 - 修复初次设置友链报错bug
 
+### 2015年10月08日 更新 V1.4
+
+##### 侧边栏新增
+
+- 无人回复话题列表
+- 积分榜添加超链接
+- 社区运行状态
+- 当前作者的其他话题列表
+
+#### 其他新增功能
+
+- 本地的用户登录注册
+- 用户设置里绑定/解绑 QQ，新浪微博
+- 上传自定义头像
+- 找回密码，发送邮件功能
+- 增加我回复的话题列表
+
+#### 更新
+
+- 友链移动到页面底部
+- 底部增加源码地址
+- 话题列表添加最后回复用户的头像显示
+- 话题列表排序按照最后回复时间排序（挖坟）
+- 侧边栏增加小图标，是不是比以前的又好看了些^_^
+- 其他一些小瑕疵的修复
+
+#### 数据库更新
+- code表修改名称为：valicode
+- topic表添加字段last_reply_time，last_reply_author_id
+- user表删除字段thirdlogin_type，expire_time，open_id
+- user表添加字段sina_avatar，sina_open_id，sina_nickname，qq_avatar，qq_open_id，qq_nickname
+- 具体详情解释请对照jfinalbbs_v1.4.sql文件
+
+
+具体更新效果可以到线上体验，欢迎大家提出宝贵的意见以及建议
+
+
+### 2015年10月10日 更新 V1.4.1
+
+#### 手机端适配
+
+- 支持手机端发布话题了
+- 支持手机端修改话题
+- 手机端支持登录注册了
+- 手机端可以查看个人中心了
+- 手机端去掉了editor_md编辑器，不过还支持markdown语法
+
+#### 其他更新
+
+- 修复一些bug
+- 创建了2个分支，一个是editor_md编辑器的版本，一个是ueditor编辑器的版本，可以到git@osc里去查看下载
+
+分支地址：http://git.oschina.net/20110516/jfinalbbs/branches/recent
+
+
+------
 
 ##### 感谢大家的支持，如果项目中遇到什么问题，欢迎联系我：[liygheart@qq.com](mailto:liygheart@qq.com)
 ##### 也可以到JFinal社区群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
