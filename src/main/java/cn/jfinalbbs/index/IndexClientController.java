@@ -13,7 +13,7 @@ public class IndexClientController extends BaseController {
         String tab = getPara("tab");
         String q = getPara("q");
         if(tab == null) tab = "all";
-        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), tab, q, 1);
+        Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), tab, q, 1, null);
         success(page);
     }
 }
