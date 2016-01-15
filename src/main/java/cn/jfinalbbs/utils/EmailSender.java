@@ -16,26 +16,28 @@ public class EmailSender {
 
     public static final String EMAIL_BODY_HEADER = "";
     // 邮箱服务器
-    private String host = "smtp.exmail.qq.com";
+    private String host;
     private String MAIL_SUBJECT = "测试邮件";
-    private String PERSONAL_NAME = "朋也";
+    private String sender;
     private String username;
     private String password;
     private String mail_from;
 
     static class EmailSenderHolder {
         static Prop prop = PropKit.getProp("config.properties");
-        static EmailSender instance = new EmailSender(prop.get("email.username"), prop.get("email.password"));
+        static EmailSender instance = new EmailSender(prop);
     }
 
     public static EmailSender getInstance() {
         return EmailSenderHolder.instance;
     }
 
-    public EmailSender(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public EmailSender(Prop prop) {
+        this.host=prop.get("email.smtp");
+        this.username = prop.get("email.username");
+        this.password = prop.get("email.password");
         this.mail_from = username;
+        this.sender=prop.get("email.sender");
     }
 
     /**
@@ -53,9 +55,9 @@ public class EmailSender {
             // message.setContent("foobar, "application/x-foobar"); // 设置邮件格式
             message.setSubject(subject == null?MAIL_SUBJECT:subject); // 设置邮件主题
             message.setText(mailBody); // 设置邮件正文
-//			message.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
+//          message.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
             message.setSentDate(new Date()); // 设置邮件发送日期
-            Address address = new InternetAddress(mail_from, PERSONAL_NAME);
+            Address address = new InternetAddress(mail_from, sender);
             message.setFrom(address); // 设置邮件发送者的地址
             Address toAddress = null;
             for (int i = 0; i < mailTo.length; i++) {

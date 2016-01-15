@@ -1,15 +1,8 @@
 <#include "/ftl/front/common/_layout.html"/>
-<@html title="JFinal社区 - 首页" description="社区接口" page_tab="api" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
-<link href="${baseUrl!}/static/editor_md/css/editormd.css" rel="stylesheet">
-
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/marked.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/prettify.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/raphael.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/underscore.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/sequence-diagram.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/flowchart.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/lib/jquery.flowchart.min.js"></script>
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/editormd.js"></script>
+<@html title="首页 - ${siteTitle!}" description="社区接口" page_tab="api" sidebar_user_info="show" sidebar_create="show">
+<link rel="stylesheet" href="${baseUrl!}/static/css/highlight.css">
+<script src="${baseUrl!}/static/js/marked.min.js"></script>
+<script src="${baseUrl!}/static/js/highlight.min.js"></script>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -25,7 +18,8 @@
 <script>
     $(function(){
         $.get("${baseUrl!}/static/upload/api/api.md", function(md){
-            editormd.markdownToHTML("apicontent", {markdown: md});
+            $("#apicontent").html(marked(md));
+            hljs.initHighlightingOnLoad();
         });
     });
 </script>

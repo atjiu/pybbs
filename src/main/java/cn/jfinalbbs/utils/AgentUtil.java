@@ -9,6 +9,11 @@ public class AgentUtil {
 	public static String ANDROID = "android";
 	public static String WEB = "web";
 
+	/**
+	 * ¼ì²âä¯ÀÀÆ÷UA
+	 * 
+	 * @return
+	 */
 	public static String getAgent(HttpServletRequest request) {
 		String agent = request.getHeader("USER-AGENT");
 		if (agent == null || agent.equals("")) {

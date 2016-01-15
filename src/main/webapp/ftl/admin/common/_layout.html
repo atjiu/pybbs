@@ -4,17 +4,15 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="${baseUrl!}/favicon.ico">
 
-    <title>JFinal社区 - 后台管理</title>
+    <title>后台管理 - ${siteTitle!}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="${baseUrl!}/static/bootstrap/css/bootstrap.min.css?v=20150604" rel="stylesheet">
+    <link rel="stylesheet" href="${baseUrl!}/static/css/style.css"/>
 
     <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
     <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap.min.js?v=20150604"></script>
@@ -45,12 +43,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/admin">JFinal社区</a>
+            <a class="navbar-brand" href="/admin">${siteTitle!}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li <#if page_tab="index"> class="active" </#if>><a href="${baseUrl!}/admin/index">首页</a></li>
                 <li <#if page_tab="section"> class="active" </#if>><a href="${baseUrl!}/admin/section">模块</a></li>
+                <li <#if page_tab="label"> class="active" </#if>><a href="${baseUrl!}/admin/label">标签</a></li>
                 <li <#if page_tab="topic"> class="active" </#if>><a href="${baseUrl!}/admin/topic">话题</a></li>
                 <li <#if page_tab="reply"> class="active" </#if>><a href="${baseUrl!}/admin/reply">回复</a></li>
                 <li <#if page_tab="user"> class="active" </#if>><a href="${baseUrl!}/admin/user">用户</a></li>

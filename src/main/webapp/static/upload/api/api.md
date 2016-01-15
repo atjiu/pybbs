@@ -144,6 +144,22 @@
             "tid": "867bcaa553164b8c9baf80751d683a0f",
             "content": "测试回复1",
             "quote_author_nickname": "朋也"
+        },
+        "user": {
+            "in_time": "2015-04-11 16:00:51",
+            "nickname": "朋也",
+            "open_id": "BE24E41FE40C...",
+            "thirdlogin_type": "qq",
+            "score": 708,
+            "expire_time": "2015-07-10 16:00:51",
+            "avatar": "http://qzapp.qlogo.cn/qzapp/101203891/BE24E41FE40CA067D2063611B9469A35/50",
+            "url": "http://www.tomoya.cn",
+            "id": "1a973292fc004c2...",
+            "token": "090aef9ccbef4...",
+            "mission": "2015-07-16",
+            "email": "liygheart@qq.com",
+            "gender": "男",
+            "signature": "一个爱好动漫的程序员"
         }
     }
 }
@@ -162,25 +178,88 @@
 
 ```json
 {
-    "code": "200",
-    "description": "success",
-    "detail": {
-        "gender": "男",
-        "open_id": "BE24E41FE40C...",
-        "signature": "一个爱好动漫的程序员",
-        "expire_time": "2015-07-10 16:00:51",
-        "avatar": "http://qzapp.qlogo.cn/qzapp/101203891/BE24E41FE40CA067D2063611B9469A35/50",
-        "url": "http://jfbbs.tomoya.cn",
-        "token": "9b76f4fcf654...",
-        "score": 669,
-        "mission": "2015-06-27",
-        "password": "",
-        "in_time": "2015-04-11 16:00:51",
-        "nickname": "朋也",
-        "id": "14fab41f30254d...",
-        "thirdlogin_type": "qq",
-        "email": "liygheart@qq.com"
-    }
+    detail: {
+        topics: [
+            {
+                in_time: "2015-06-29 11:18:30",
+                original_url: "",
+                reply_count: 3,
+                tab: "blog",
+                sectionName: "博客",
+                good: 0,
+                avatar: "http://qzapp.qlogo.cn/qzapp/101203891/C34B025877AFD0B5BBB3F31784B7E3AA/50",
+                id: "9032c8b84cf64b13b975149c253685d5",
+                content: "为什么JavaScript是单线程？ JavaScript语言的一大...",
+                title: " JavaScript 运行机制详解：再谈Event Loop ",
+                reposted: 0,
+                s_id: 2,
+                author_id: "e7d6427395ba43...",
+                view: 23,
+                modify_time: null,
+                top: 0
+            }
+        ],
+        user: {
+            in_time: "2015-04-11 16:00:51",
+            nickname: "朋也",
+            open_id: "BE24E41FE40C...",
+            thirdlogin_type: "qq",
+            score: 708,
+            expire_time: "2015-07-10 16:00:51",
+            avatar: "http://qzapp.qlogo.cn/qzapp/101203891/BE24E41FE40CA067D2063611B9469A35/50",
+            url: "http://www.tomoya.cn",
+            id: "1a973292fc004c2...",
+            token: "090aef9ccbef4...",
+            mission: "2015-07-16",
+            email: "liygheart@qq.com",
+            gender: "男",
+            signature: "一个爱好动漫的程序员"
+        },
+        collects: [
+            {
+                in_time: "2015-06-29 11:18:30",
+                original_url: "",
+                nickname: "、信仰",
+                reply_count: 3,
+                tab: "blog",
+                sectionName: "博客",
+                good: 0,
+                avatar: "http://qzapp.qlogo.cn/qzapp/101203891/C34B025877AFD0B5BBB3F31784B7E3AA/50",
+                id: "9032c8b84cf64b13b975149c253685d5",
+                content: "为什么JavaScript是单线程？ JavaScript语言的一大...",
+                title: " JavaScript 运行机制详解：再谈Event Loop ",
+                reposted: 0,
+                s_id: 2,
+                author_id: "e7d6427395ba43...",
+                view: 23,
+                modify_time: null,
+                top: 0
+            }
+        ]
+    },
+    description: "success",
+    code: "200"
+}
+```
+
+##### get /api/mission/daily 每日签到
+
+------------
+
+接收 get 参数
+
+- token String 用户令牌 **必填**
+
+返回值示例
+
+```json
+{
+    detail: {
+        score: 10, //签到获取的积分
+        day: 1 //连续签到天数
+    },
+    description: "success",
+    code: "200"
 }
 ```
 
@@ -216,28 +295,20 @@
     "code": "200",
     "description": "success",
     "detail": {
-        "oldMessages": {
-            "totalRow": 188,
-            "pageNumber": 1,
-            "firstPage": true,
-            "lastPage": false,
-            "totalPage": 10,
-            "pageSize": 20,
-            "list": [
-                {
-                    "read": 1,
-                    "in_time": "2015-06-26 08:52:46",
-                    "from_author_id": "31f33c2a91cc4d...",
-                    "nickname": "回声",
-                    "id": 435,
-                    "message": "回复了你的话题",
-                    "author_id": "1a973292fc00...",
-                    "rid": "1cb4fb1d2e2949e58bb96a247531fdb1",
-                    "title": "大网易，人才辈出啊！！",
-                    "tid": "15e5b091253641e78783a27e85a944f0"
-                }
-            ]
-        },
+        "oldMessages": [
+            {
+                "read": 0,
+                "in_time": "2015-06-28 19:36:50",
+                "from_author_id": "123",
+                "nickname": null,
+                "id": 449,
+                "message": "回复了你的话题",
+                "author_id": "1a973292fc0...",
+                "rid": "8c78cda152fc4c76a47ac93aa5177b00",
+                "title": "使用JFinal社区搭建自己的社区网站就是这么简单~~",
+                "tid": "867bcaa553164b8c9baf80751d683a0f"
+            }
+        ],
         "notifications": [
             {
                 "read": 0,

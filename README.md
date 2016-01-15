@@ -1,6 +1,11 @@
 ### JFinal社区：一个是使用JFinal框架开发的社区网站
 #### 线上地址：http://jfbbs.tomoya.cn/
 #### 后台页面入口地址：http://你的域名/adminlogin
+
+非常欢迎和感谢对本项目发起Pull Request的朋友，特别鸣谢以下朋友
+
+@奋斗一生 @冯先森 @liuyuyu 
+
 #### 项目组成：
 * 前端：bootstrap + freemarker
 * 后端：jfinal 
@@ -121,6 +126,26 @@ UI预览：
 
 分支地址：http://git.oschina.net/20110516/jfinalbbs/branches/recent
 
+
+### 2015年10月15日 V1.5更新内容
+
+#### 前台新增
+- 问答模块下采纳回复
+- 精华话题盖章
+![](http://i13.tietuku.com/8ec3c165cacabb0e.png)
+- 回复被删除章
+![](http://i13.tietuku.com/392f555f2f56726e.png)
+- 回复中可以@别人了
+- 发布，编辑话题可以添加标签了
+- **以上功能手机端页面也都实现了**
+
+#### 后台更新
+- 首页增加了今日话题，今日回复，今日注册用户，今日签到用户的展示
+![](http://i11.tietuku.com/2f77fe56f5dc06fb.png)
+- 话题增加了编辑，查看话题功能
+- 回复增加了查看回复功能
+- 用户增加了搜索
+- 增加了标签菜单
 
 ------
 

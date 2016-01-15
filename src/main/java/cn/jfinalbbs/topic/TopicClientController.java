@@ -1,5 +1,6 @@
 package cn.jfinalbbs.topic;
 
+import cn.jfinalbbs.collect.Collect;
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.reply.Reply;
@@ -22,6 +23,14 @@ public class TopicClientController extends BaseController {
         if(StrUtil.isBlank(id)) {
             error("非法请求");
         } else {
+            String token = getPara("token");
+            if(!StrUtil.isBlank(token)) {
+                User user = User.me.findByToken(token);
+                if(user != null) {
+                    Collect collect = Collect.me.findByTidAndAuthorId(id, user.getStr("id"));
+                    map.put("collect", collect);
+                }
+            }
             Topic topic = Topic.me.findByIdWithUser(id);
             List<Reply> replies = Reply.me.findByTid(id);
             map.put("topic", topic);
@@ -40,11 +49,11 @@ public class TopicClientController extends BaseController {
             if(user == null) {
                 error("用户不存在，请退出重新登录");
             } else {
-                String sid = getPara("sid");
+                Integer sid = getParaToInt("sid");
                 String title = getPara("title");
                 String content = getPara("content");
                 String original_url = getPara("original_url");
-                if(StrUtil.isBlank(sid) || StrUtil.isBlank(title) || StrUtil.isBlank(content)) {
+                if(sid == null || StrUtil.isBlank(title) || StrUtil.isBlank(content)) {
                     error(Constants.OP_ERROR_MESSAGE);
                 } else {
                     Topic topic = new Topic();

@@ -38,6 +38,8 @@ public class CommonInterceptor implements Interceptor {
 
         ai.getController().getRequest().setAttribute("baseUrl", Constants.getBaseUrl());
 
+        ai.getController().getRequest().setAttribute("siteTitle", Constants.getSiteTitle());
+
         ai.invoke();
     }
 }

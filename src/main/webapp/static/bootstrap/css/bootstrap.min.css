@@ -1701,7 +1701,7 @@ abbr[title], abbr[data-original-title] {
 
 blockquote {
     padding: 10px 20px;
-    margin: 0 0 20px;
+    margin: 0 0 10px;
     font-size: 17.5px;
     border-left: 5px solid #eee
 }
@@ -1771,7 +1771,7 @@ kbd kbd {
     box-shadow: none
 }
 
-pre {
+/*pre {
     display: block;
     padding: 9.5px;
     margin: 0 0 10px;
@@ -1790,7 +1790,7 @@ pre code {
     color: inherit;
     white-space: pre-wrap;
     background-color: transparent
-}
+}*/
 
 .pre-scrollable {
     max-height: 340px;

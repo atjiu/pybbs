@@ -36,3 +36,65 @@
     max-width: 100%
 }
 
+.np-label-digest {
+    background: url(../img/digest.gif) no-repeat;
+}
+
+.np-label-del {
+    background: url(../img/del.gif) right 10px no-repeat;
+}
+
+.modal-body img{
+    max-width: 100%;
+}
+
+.label-item {
+    margin-right: 3px;
+    padding: .6em;
+}
+
+.label-item-sm {
+    margin-right: 3px;
+    padding: .1em;
+}
+
+.label-item a {
+    font-size: 16px;
+}
+
+#labels {
+    line-height: 20px;
+}
+
+#labels .label {
+    overflow: hidden;
+    display: inline-block;
+}
+
+/*================================*/
+
+body {
+    font-family: "Microsoft YaHei", SimSun, SimHei;
+    line-height: 1.72222;
+}
+
+.nav-pills>li>a {
+    padding: 0 5px 0 5px;
+}
+
+.breadcrumb {
+    padding: 0px 15px 0px 5px;
+    margin-bottom: 0px;
+}
+
+.breadcrumb ol {
+    margin-bottom: 0px;
+}
+
+.panel {
+    margin-bottom: 10px;
+}
+
+.navbar {
+    border: 0;
+}

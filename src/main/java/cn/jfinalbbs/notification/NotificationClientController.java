@@ -4,6 +4,7 @@ import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.user.User;
 import cn.jfinalbbs.utils.StrUtil;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class NotificationClientController extends BaseController {
                 error("用户不存在，请退出重新登录");
             } else {
                 List<Notification> notifications = Notification.me.findNotReadByAuthorId(user.getStr("id"));
-                Page<Notification> oldMessages = Notification.me.paginate(getParaToInt("p", 1), getParaToInt("size", 20), user.getStr("id"));
+                List<Notification> oldMessages = Notification.me.findReadByAuthorId(user.getStr("id"), 20);
                 //将消息置为已读
                 Notification.me.updateNotification(user.getStr("id"));
                 Map<String, Object> map = new HashMap<String, Object>();

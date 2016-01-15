@@ -12,6 +12,7 @@
     <th>名称</th>
     <th>Tab</th>
     <th>是否显示</th>
+    <th>默认</th>
     <th>操作</th>
     </thead>
     <tbody id="sortable">
@@ -29,7 +30,13 @@
                     不显示
                 </#if>
             </td>
+            <td id="tab_${section.id!}">
+                <#if section.default_show == 1>
+                    默认
+                </#if>
+            </td>
             <td>
+                <a href="javascript:setDefault(${section.id!}, '${section.tab!}')"><span class="glyphicon glyphicon-flag"></span></a>
                 <a href="${baseUrl!}/admin/section/edit?id=${section.id!}"><span class="glyphicon glyphicon-edit"></span></a>
                 <a href="javascript:deleteSection('${section.id!}')"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
@@ -59,6 +66,31 @@
                 success : function(data) {
                     if(data.code == '200') {
                         $("#section_" + id).remove();
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+
+    function setDefault(id, tab) {
+        if(confirm("确定 设置成默认显示模块 吗？")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/section/setDefault",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    tab: tab
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        $("td[id^='tab_']").each(function () {
+                            $(this).html("");
+                        });
+                        $("#tab_" + id).html("默认");
                     } else {
                         alert(data.description);
                     }

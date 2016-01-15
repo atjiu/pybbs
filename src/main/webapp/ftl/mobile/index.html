@@ -1,8 +1,7 @@
 <#include "/ftl/mobile/common/_layout.html"/>
-<@html title="JFinal社区 - 首页" description="">
+<@html title="首页 - ${siteTitle!}" description="">
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="label <#if tab == 'all'>label-success</#if>"><a href="${baseUrl!}/?tab=all">全部</a></span>
         <#list sections as section>
             <span class="label <#if section.tab == tab>label-success</#if>"><a href="${baseUrl!}/?tab=${section.tab!}">${section.name!}</a></span>
         </#list>
@@ -17,7 +16,14 @@
                 </a>
             </td>
             <td>
-                <span style="display: block;font-size: 16px;"><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></span>
+                <span style="display: block;font-size: 16px;">
+                    <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
+                    <#list topic.labels as label>
+                        <a href="${baseUrl!}/?q=${q!}&l=${label.id!}">
+                            <span class="label label-info label-item-sm">${label.name!}</span>
+                        </a>
+                    </#list>
+                </span>
                 <span style="display: block;color:#ccc;padding:3px 0 3px 0">
                     <#if topic.top == 1>
                         <span class="label label-success">置顶</span>
@@ -28,10 +34,11 @@
                     </#if>
                     <span title="回复数" class="label label-info">${topic.reply_count!}</span>
                     <span style="display: inline-block; float: right;">
-                        <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                        <script>document.write(formatDateTime('${topic.last_reply_time!}'))</script>
                     </span>
                 </span>
             </td>
+        </tr>
         </#list>
     </table>
     <#include "/ftl/mobile/common/_paginate.html"/>

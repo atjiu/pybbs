@@ -1,5 +1,5 @@
 <#include "/ftl/front/common/_layout.html"/>
-<@html title="JFinal社区 - ${current_user.nickname} 的个人主页" description="JFinal社区 - ${current_user.nickname} 的个人主页" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<@html title="${current_user.nickname} 的个人主页 - ${siteTitle!}" description="${current_user.nickname} 的个人主页" sidebar_user_info="show" sidebar_create="show">
 <div class="panel panel-default">
     <div class="panel-heading">
         <ol class="breadcrumb">
@@ -12,11 +12,21 @@
             <img src="${current_user.avatar!}" title="${current_user.nickname!}" width="48">
         </a>&nbsp;
         <span><a href="${baseUrl!}/user/${current_user.id!}">${current_user.nickname!}</a></span>
+        <div>
+            <#if day??>
+                已连续签到<a href="${baseUrl!}/mission/top10" style="font-size: 20px; color: red;"> ${day!} </a>天
+            </#if>
+        </div>
         <div style="margin-top: 10px;">
             <span>积分: ${current_user.score!} </span>
         </div>
         <div>
-            <span><a class="dark" href="${baseUrl!}/user/collects/${current_user.id!}">${collectPage.totalRow!}话题收藏</a></span>
+            <span>
+                <span class="glyphicon glyphicon-bookmark"></span>
+                <a class="dark" href="${baseUrl!}/user/collects/${current_user.id!}">
+                    ${collectPage.totalRow!}话题收藏
+                </a>
+            </span>
         </div>
         <#if current_user.url?? && current_user.url != "">
             <div>
@@ -24,27 +34,28 @@
                 <a href="${current_user.url!}" target="_blank">${current_user.url!}</a>
             </div>
         </#if>
+        <span class="glyphicon glyphicon-log-in"></span>
+        注册时间 <script>document.write(formatDateTime('${current_user.in_time!}'))</script>
     </div>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <ol class="breadcrumb">
-            <li><a href="/">首页</a></li>
-            <li class="active">最近创建的话题</li>
-        </ol>
+        <span class="glyphicon glyphicon-th-list"></span>
+        最近创建的话题
     </div>
     <table class="table table-hover">
-        <#list topics as topic>
+        <#list topics.getList() as topic>
             <tr>
                 <td style="padding-left: 10px; width: 45px;">
-                    <img src="${topic.avatar!}"
-                          onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
-                          title="${topic.nickname!}" width="30"></td>
+                    <a href="${baseUrl!}/user/${topic.author_id!}">
+                        <img src="${topic.avatar!}"
+                              onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
+                              title="${topic.nickname!}" width="30">
+                    </a>
+                </td>
                 <td style="width: 70px;text-align: center;">
-                    <span title="回复数">${topic.reply_count!}</span>
-                    /
-                    <span title="点击数">${topic.view!}</span>
+                    <span title="回复数">${topic.reply_count!}</span>/<span title="点击数">${topic.view!}</span>
                 </td>
                 <td style="width: 40px;">
                     <#if topic.top == 1>
@@ -58,13 +69,68 @@
                     </#if>
                 </td>
                 <td><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></td>
-                <td>
+                <td align="right">
+                    <#if topic.last_reply_author_avatar??>
+                        <a href="${baseUrl!}/user/${topic.last_reply_author_id}">
+                            <img src="${topic.last_reply_author_avatar}" width="25" style="border-radius: 25px;" />
+                        </a>
+                    </#if>
+                </td>
+                <td style="width: 70px;">
                     <script>document.write(formatDateTime('${topic.in_time!}'))</script>
                 </td>
             </tr>
         </#list>
     </table>
-    <div style="padding: 10px;"><a class="dark" href="${baseUrl!}/user/topics/${current_user.id!}">查看更多&gt;&gt;</a>
+    <div style="padding: 10px;">
+        <a class="dark" href="${baseUrl!}/user/topics/${current_user.id!}">查看更多&gt;&gt;</a>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-th-list"></span>
+        最近参与的话题
+    </div>
+    <table class="table table-hover">
+        <#list myReplyTopics.getList() as topic>
+            <tr>
+                <td style="padding-left: 10px; width: 45px;">
+                    <a href="${baseUrl!}/user/${topic.author_id!}">
+                        <img src="${topic.avatar!}"
+                             onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
+                             title="${topic.nickname!}" width="30">
+                    </a>
+                </td>
+                <td style="width: 70px;text-align: center;">
+                    <span title="回复数">${topic.reply_count!}</span>/<span title="点击数">${topic.view!}</span>
+                </td>
+                <td style="width: 40px;">
+                    <#if topic.top == 1>
+                        <span class="label label-success">置顶</span>
+                    <#elseif topic.good == 1>
+                        <span class="label label-success">精华</span>
+                    <#else>
+                        <span class="label label-default">
+                        ${topic.sectionName!}
+                        </span>
+                    </#if>
+                </td>
+                <td><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></td>
+                <td align="right">
+                    <#if topic.last_reply_author_avatar??>
+                        <a href="${baseUrl!}/user/${topic.last_reply_author_id}">
+                            <img src="${topic.last_reply_author_avatar}" width="25" style="border-radius: 25px;" />
+                        </a>
+                    </#if>
+                </td>
+                <td style="width: 70px;">
+                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                </td>
+            </tr>
+        </#list>
+    </table>
+    <div style="padding: 10px;">
+        <a class="dark" href="${baseUrl!}/user/replies/${current_user.id!}">查看更多&gt;&gt;</a>
     </div>
 </div>
 </@html>

@@ -2,7 +2,9 @@ package cn.jfinalbbs.index;
 
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
+import cn.jfinalbbs.label.Label;
 import cn.jfinalbbs.reply.Reply;
+import cn.jfinalbbs.section.Section;
 import cn.jfinalbbs.topic.Topic;
 import cn.jfinalbbs.user.AdminUser;
 import cn.jfinalbbs.user.User;
@@ -26,7 +28,9 @@ import com.qq.connect.oauth.Oauth;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IndexController extends BaseController {
 
@@ -36,14 +40,29 @@ public class IndexController extends BaseController {
     public void index() {
         String tab = getPara("tab");
         String q = getPara("q");
-        if (tab == null) tab = "all";
+        Integer l = getParaToInt("l");
+        if (tab == null) {
+            if (l != null) {
+                tab = "all";
+                setAttr("_label", Label.me.findById(l));
+            } else if (!StrUtil.isBlank(q)) {
+                tab = "all";
+            } else {
+                Section section = Section.me.findDefault();
+                tab = section != null ? section.getStr("tab") : "news";
+            }
+        }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
-                getParaToInt("size", PropKit.use("config.properties").getInt("page_size")), tab, q, 1);
+                getParaToInt("size", PropKit.use("config.properties").getInt("page_size")), tab, q, 1, l);
+        for (Topic t : page.getList()) {
+            t.put("labels", Label.me.findByTid(t.getStr("id")));
+        }
         setAttr("page", page);
         List<User> scoreTopTen = User.me.findBySize(10);
         setAttr("scoreTopTen", scoreTopTen);
         setAttr("tab", tab);
         setAttr("q", q);
+        setAttr("l", l);
         //查询无人回复的话题
         List<Topic> notReplyTopics = Topic.me.findNotReply(5);
         setAttr("notReplyTopics", notReplyTopics);
@@ -85,7 +104,7 @@ public class IndexController extends BaseController {
      *
      * @throws QQConnectException
      */
-    public void qqlogincallback() throws QQConnectException {
+    public void qqlogincallback() throws QQConnectException, IOException {
         HttpServletRequest request = getRequest();
         AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
         String accessToken = null, openID = null;
@@ -104,9 +123,10 @@ public class IndexController extends BaseController {
             User user = (User) getSession().getAttribute(Constants.USER_SESSION);
             if (user == null) {
                 user = User.me.findByOpenID(openID, "qq");
+                String id = StrUtil.getUUID();
                 if (user == null) {
                     user = new User();
-                    user.set("id", StrUtil.getUUID())
+                    user.set("id", id)
                             .set("qq_nickname", nickname)
                             .set("qq_avatar", avatar)
                             .set("qq_open_id", openID);
@@ -114,17 +134,24 @@ public class IndexController extends BaseController {
                     user.set("qq_nickname", nickname)
                             .set("qq_avatar", avatar);
                 }
-                setSessionAttr("unsave_user", user);
-            } else {
-                user.set("qq_nickname", nickname)
-                        .set("qq_open_id", openID)
-                        .set("qq_avatar", avatar)
-                        .update();
-            }
-            if (StrUtil.isBlank(user.getStr("email"))) {
                 setSessionAttr("open_id", openID);
                 setSessionAttr("thirdlogin_type", "qq");
-                redirect(Constants.getBaseUrl() + "/reg.html");
+                setSessionAttr("unsave_user", user);
+            } else {
+                User user1 = User.me.findByOpenID(openID, "qq");
+                if (user1 != null) {
+                    getResponse().setCharacterEncoding("utf-8");
+                    getResponse().getWriter().write("<script>alert('此QQ号已经绑定其他账户,请更换绑定');location.href=\'/user/setting\'</script>");
+                    return;
+                } else {
+                    user.set("qq_nickname", nickname)
+                            .set("qq_open_id", openID)
+                            .set("qq_avatar", avatar)
+                            .update();
+                }
+            }
+            if (StrUtil.isBlank(user.getStr("email"))) {
+                redirect(Constants.getBaseUrl() + "/reg.html?third=qq");
             } else {
                 setSessionAttr(Constants.USER_SESSION, user);
                 setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -161,7 +188,7 @@ public class IndexController extends BaseController {
      *
      * @throws WeiboException
      */
-    public void weibologincallback() throws WeiboException {
+    public void weibologincallback() throws WeiboException, IOException {
         String code = getPara("code");
         cn.weibo.Oauth oauth = new cn.weibo.Oauth();
         String error = getPara("error");
@@ -175,9 +202,10 @@ public class IndexController extends BaseController {
                 User user = (User) getSession().getAttribute(Constants.USER_SESSION);
                 if (user == null) {
                     user = User.me.findByOpenID(weiboUser.getId(), "sina");
+                    String id = StrUtil.getUUID();
                     if (user == null) {
                         user = new User();
-                        user.set("id", StrUtil.getUUID())
+                        user.set("id", id)
                                 .set("sina_nickname", weiboUser.getScreenName())
                                 .set("sina_avatar", weiboUser.getAvatarLarge())
                                 .set("sina_open_id", weiboUser.getId());
@@ -185,16 +213,23 @@ public class IndexController extends BaseController {
                         user.set("sina_nickname", weiboUser.getScreenName())
                                 .set("sina_avatar", weiboUser.getAvatarLarge());
                     }
-                    setSessionAttr("unsave_user", user);
-                } else {
-                    user.set("sina_nickname", weiboUser.getScreenName())
-                            .set("sina_avatar", weiboUser.getAvatarLarge())
-                            .set("sina_open_id", weiboUser.getId()).update();
-                }
-                if (StrUtil.isBlank(user.getStr("email"))) {
                     setSessionAttr("open_id", weiboUser.getId());
                     setSessionAttr("thirdlogin_type", "sina");
-                    redirect(Constants.getBaseUrl() + "/reg.html");
+                    setSessionAttr("unsave_user", user);
+                } else {
+                    User user1 = User.me.findByOpenID(weiboUser.getId(), "sina");
+                    if (user1 != null) {
+                        getResponse().setCharacterEncoding("utf-8");
+                        getResponse().getWriter().write("<script>alert('此微博账号已经绑定其他账户,请更换绑定');location.href=\'/user/setting\'</script>");
+                        return;
+                    } else {
+                        user.set("sina_nickname", weiboUser.getScreenName())
+                                .set("sina_avatar", weiboUser.getAvatarLarge())
+                                .set("sina_open_id", weiboUser.getId()).update();
+                    }
+                }
+                if (StrUtil.isBlank(user.getStr("email"))) {
+                    redirect(Constants.getBaseUrl() + "/reg.html?third=qq");
                 } else {
                     setSessionAttr(Constants.USER_SESSION, user);
                     setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -234,14 +269,14 @@ public class IndexController extends BaseController {
             String username = getPara("username");
             String password = getPara("password");
             int remember_me = getParaToInt("remember_me", 0);
-            AdminUser adminUser = AdminUser.me.login(username, password);
+            AdminUser adminUser = AdminUser.me.login(username, HashKit.md5(password));
             if (adminUser == null) {
                 setAttr(Constants.ERROR, "用户名或密码错误");
                 render("front/adminlogin.html");
             } else {
                 setSessionAttr(Constants.SESSION_ADMIN_USER, adminUser);
                 if (remember_me == 1) {
-                    setCookie(Constants.COOKIE_ADMIN_TOKEN, StrUtil.getEncryptionToken(username + "@&@" + password), 30 * 24 * 60 * 60);
+                    setCookie(Constants.COOKIE_ADMIN_TOKEN, StrUtil.getEncryptionToken(username + "@&@" + HashKit.md5(password)), 30 * 24 * 60 * 60);
                 }
                 String before_url = getSessionAttr(Constants.ADMIN_BEFORE_URL);
                 if (!StrUtil.isBlank(before_url) && !before_url.contains("adminlogin")) redirect(before_url);
@@ -251,17 +286,24 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 线上Api入口
+     * Api入口
      */
     public void api() {
         render("front/api.html");
     }
 
+    /**
+     * 文档入口
+     */
+    public void doc() {
+        render("front/doc.html");
+    }
+
     public void login() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.html");
+        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String email = getPara("email");
             String password = getPara("password");
             if (StrUtil.isBlank(email) || StrUtil.isBlank(password)) {
@@ -282,7 +324,13 @@ public class IndexController extends BaseController {
     public void reg() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.html");
+            String third = getPara("third");
+            if (StrUtil.isBlank(third)) {
+                removeSessionAttr("open_id");
+                removeSessionAttr("thirdlogin_type");
+                removeSessionAttr("unsave_user");
+            }
+            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.html");
             else render("front/user/reg.html");
         } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String email = getPara("reg_email");
@@ -303,6 +351,8 @@ public class IndexController extends BaseController {
                         User user = User.me.findByEmail(email);
                         if (user != null) {
                             error("邮箱已经注册，请直接登录");
+                        } else if (User.me.findByNickname(nickname) != null) {
+                            error("昵称已经被注册，请更换其他昵称");
                         } else {
                             String uuid = StrUtil.getUUID();
                             String token = StrUtil.getUUID();
@@ -310,7 +360,7 @@ public class IndexController extends BaseController {
                             if (StrUtil.isBlank(open_id)) {
                                 user = new User();
                                 user.set("id", uuid)
-                                        .set("nickname", nickname)
+                                        .set("nickname", StrUtil.noHtml(nickname).trim())
                                         .set("password", HashKit.md5(password))
                                         .set("score", 0)
                                         .set("mission", date)
@@ -324,7 +374,7 @@ public class IndexController extends BaseController {
                                 if (user == null) {
                                     user = new User();
                                     user.set("id", uuid)
-                                            .set("nickname", nickname)
+                                            .set("nickname", StrUtil.noHtml(nickname).trim())
                                             .set("password", HashKit.md5(password))
                                             .set("score", 0)
                                             .set("mission", date)
@@ -334,14 +384,19 @@ public class IndexController extends BaseController {
                                             .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
                                             .save();
                                 } else {
-                                    user.set("nickname", nickname)
+                                    user.set("nickname", StrUtil.noHtml(nickname).trim())
                                             .set("password", HashKit.md5(password))
                                             .set("mission", date)
                                             .set("email", email)
-                                            .update();
+                                            .set("token", token)
+                                            .set("in_time", date)
+                                            .set("score", 0)
+                                            .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                            .save();
                                 }
                                 removeSessionAttr("unsave_user");
                                 removeSessionAttr("open_id");
+                                removeSessionAttr("thirdlogin_type");
                             }
                             setSessionAttr(Constants.USER_SESSION, user);
                             setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -403,7 +458,7 @@ public class IndexController extends BaseController {
     public void forgetpwd() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
-            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.html");
+            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.html");
             else render("front/user/forgetpwd.html");
         } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
             String email = getPara("email");

@@ -1,8 +1,14 @@
 package cn.jfinalbbs.user;
 
+import cn.jfinalbbs.collect.Collect;
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
+import cn.jfinalbbs.topic.Topic;
 import cn.jfinalbbs.utils.StrUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuyang on 2015/6/27.
@@ -16,11 +22,17 @@ public class UserClientController extends BaseController {
             if (StrUtil.isBlank(token)) {
                 error(Constants.ResultDesc.FAILURE);
             } else {
+                Map<String, Object> map = new HashMap<String, Object>();
                 User user = User.me.findByToken(token);
+                map.put("user", user);
                 if (user == null) {
                     error(Constants.ResultDesc.FAILURE);
                 } else {
-                    success(user);
+                    List<Topic> topics = Topic.me.paginateByAuthorId(1, 10, user.getStr("id")).getList();
+                    map.put("topics", topics);
+                    List<Collect> collects = Collect.me.findByAuthorIdWithTopic(user.getStr("id"));
+                    map.put("collects", collects);
+                    success(map);
                 }
             }
         } else {

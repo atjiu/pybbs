@@ -22,6 +22,14 @@ public class Notification extends Model<Notification> {
                 "where n.read = 1 and n.author_id = ? order by n.in_time desc", authorId);
     }
 
+    //查询已读消息
+    public List<Notification> findReadByAuthorId(String authorId, int size) {
+        return super.find("select n.*, t.title, u.nickname from notification n " +
+                "left join topic t on n.tid = t.id " +
+                "left join user u on u.id = n.from_author_id " +
+                "where n.read = 1 and n.author_id = ? order by n.in_time desc limit 0, ?", authorId, size);
+    }
+
     //查询未读消息
     public List<Notification> findNotReadByAuthorId(String authorId) {
         return super.find("select n.*, t.title, u.nickname from notification n " +

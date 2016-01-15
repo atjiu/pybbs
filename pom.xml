@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.jfinalbbs</groupId>
-    <artifactId>jfinalbbs</artifactId>
+    <groupId>cn.lazycoder</groupId>
+    <artifactId>jfbbs</artifactId>
     <packaging>war</packaging>
-    <version>1.1</version>
+    <version>1.5</version>
     <name>jfinalbbs Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -15,14 +15,18 @@
     <dependencies>
         <dependency>
             <groupId>com.jfinal</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>8.1.8</version>
-            <scope>provided</scope>
+            <artifactId>jfinal</artifactId>
+            <version>2.1</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
+            <version>7.6.0.v20120127</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>8.1.8</version>
         </dependency>
 
         <dependency>
@@ -37,24 +41,9 @@
             <version>2.3.20</version>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.20</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jfinal</groupId>
-            <artifactId>cos</artifactId>
-            <version>26Dec2008</version>
         </dependency>
 
         <dependency>
@@ -92,7 +81,6 @@
             <scope>system</scope>
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/commons-codec-1.9.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>Sdk4J</groupId>
             <artifactId>Sdk4J</artifactId>
@@ -101,17 +89,11 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/Sdk4J.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>jfinal</groupId>
-            <artifactId>jfinal</artifactId>
-            <version>2.0</version>
+            <groupId>weibo_sdk.jar</groupId>
+            <artifactId>weibo_sdk.jar</artifactId>
+            <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jfinal-2.0-bin-with-src.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.8.3</version>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/weibo_sdk.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -137,16 +119,6 @@
                     </connectors>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <fork>true</fork>
-                    <encoding>UTF-8</encoding>
-                    <compilerArguments>-XDignore.symbol.file</compilerArguments>
-                </configuration>
-            </plugin>-->
         </plugins>
     </build>
 </project>

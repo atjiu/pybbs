@@ -3,6 +3,7 @@ package cn.jfinalbbs.section;
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.AdminUserInterceptor;
+import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Before;
 
 /**
@@ -83,6 +84,23 @@ public class SectionAdminController extends BaseController {
                 e.printStackTrace();
                 error(Constants.DELETE_FAILURE);
             }
+        }
+    }
+
+    public void setDefault() {
+        String tab = getPara("tab");
+        if(StrUtil.isBlank(tab)) {
+            error("设置失败");
+        } else {
+            Section defaultSection = Section.me.findDefault();
+            if(!tab.equals(defaultSection.getStr("tab"))) {
+                defaultSection.set("default_show", 0).update();
+                Section section = Section.me.findByTab(tab);
+                section.set("default_show", 1).update();
+                clearCache(Constants.CacheName.SECTIONLIST, null);
+                clearCache(Constants.CacheName.DEFAULTSECTION, null);
+            }
+            success();
         }
     }
 }

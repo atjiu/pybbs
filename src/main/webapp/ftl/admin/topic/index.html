@@ -1,5 +1,8 @@
 <#include "/ftl/admin/common/_layout.html"/>
 <@layout page_tab="topic">
+<link rel="stylesheet" href="${baseUrl!}/static/css/highlight.css">
+<script src="${baseUrl!}/static/js/marked.min.js"></script>
+<script src="${baseUrl!}/static/js/highlight.min.js"></script>
 <ol class="breadcrumb">
     <li><a href="${baseUrl!}/admin">首页</a></li>
     <li><a href="${baseUrl!}/admin/topic">话题</a></li>
@@ -9,12 +12,12 @@
     <thead>
     <th>标题</th>
     <th>作者</th>
-    <th>分类</th>
-    <th>置顶</th>
-    <th>精华</th>
-    <th>是否显示</th>
-    <th>时间</th>
-    <th>操作</th>
+    <th width="38">分类</th>
+    <th width="38">置顶</th>
+    <th width="38">精华</th>
+    <th width="65">是否显示</th>
+    <th width="150">时间</th>
+    <th width="100">操作</th>
     </thead>
     <tbody>
     <#list page.getList() as topic>
@@ -24,25 +27,44 @@
             <td>${topic.sectionName!}</td>
             <td id="topic_top_${topic.id!}"><script>document.write(topic_top[${topic.top!}])</script></td>
             <td id="topic_good_${topic.id!}"><script>document.write(topic_good[${topic.good!}])</script></td>
-            <td id="topic_show_status_${topic.id!}">
+            <td>
                 <#if topic.show_status == 1>
-                    显示
+                    <input type="button" value="显示" id="topic_show_btn_${topic.id!}" onclick="setShowStatus('${topic.id!}')" class="btn btn-success btn-sm"/>
                 <#elseif topic.show_status == 0>
-                    不显示
+                    <input type="button" value="不显示" id="topic_show_btn_${topic.id!}" onclick="setShowStatus('${topic.id!}')" class="btn btn-warning btn-sm"/>
                 </#if>
             </td>
             <td>${topic.in_time!}</td>
             <td>
-                <a href="javascript:setTop('${topic.id!}')"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                <a href="javascript:setGood('${topic.id!}')"><span class="glyphicon glyphicon-bookmark"></span></a>
-                <a href="javascript:setShowStatus('${topic.id!}')"><span class="glyphicon glyphicon-edit"></span></a>
-                <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash"></span></a>
+                <a href="javascript:setTop('${topic.id!}')"><span class="glyphicon glyphicon-arrow-up" title="置顶"></span></a>
+                <a href="javascript:setGood('${topic.id!}')"><span class="glyphicon glyphicon-bookmark" title="精华"></span></a>
+                <a href="javascript:;" data-toggle="modal" data-target="#topic_detail_${topic.id!}">
+                    <span class="glyphicon glyphicon-eye-open" title="查看详情"></span>
+                </a>
+                <a href="${baseUrl!}/admin/topic/edit/${topic.id!}" target="_blank"><span class="glyphicon glyphicon-edit" title="编辑"></span></a>
+                <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash" title="删除"></span></a>
+                <div class="modal fade" id="topic_detail_${topic.id!}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">${topic.title!}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <textarea class="topic_content">${topic.content!}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     </#list>
     </tbody>
 </table>
-<#include "/ftl/front/common/_paginate.html"/>
+<#include "/ftl/admin/common/_paginate.html"/>
 <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/topic/index" urlParas="" />
 </@layout>
 <script type="text/javascript">
@@ -131,9 +153,9 @@
                 success : function(data) {
                     if(data.code == '200') {
                         if(data.detail.show_status == 1) {
-                            $("#topic_show_status_" + id).html("显示");
+                            $("#topic_show_btn_" + id).removeClass("btn-warning").addClass("btn-success").val("显示");
                         } else if(data.detail.show_status == 0) {
-                            $("#topic_show_status_" + id).html("不显示");
+                            $("#topic_show_btn_" + id).removeClass("btn-success").addClass("btn-warning").val("不显示");
                         }
                     } else {
                         alert(data.description);
@@ -142,4 +164,10 @@
             });
         }
     }
+
+    $(function () {
+        $(".topic_content").each(function (i, item) {
+            $(this).parent().html(marked($(this).text()));
+        })
+    })
 </script>

@@ -207,3 +207,130 @@ td, th {
 .sep {
     border-top: 1px #E5E5E5 solid;
 }
+
+#topic_content img {
+    max-width: 100%;
+}
+
+.reply_content img {
+    max-width: 100%;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #DDD;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+blockquote {
+    padding: 0 5px;
+    margin: 0;
+    border-left: 5px solid #eee;
+}
+
+blockquote p {
+    -webkit-margin-before: 0.25em;
+    -webkit-margin-after: 0.25em;
+}
+
+.divider {
+    margin-bottom: 3px;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+}
+
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.input-group-addon, .input-group-btn, .input-group .form-control {
+    display: table-cell;
+}
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.glyphicon-edit:before {
+    content: "\e065"
+}
+
+.glyphicon-log-out:before {
+    content: "\e163"
+}
+
+.word-wrap {
+    word-wrap: break-word;
+}
+
+.np-label-digest {
+    background: url(../../img/digest.gif) right no-repeat;
+}
+
+.np-label-del {
+    background: url(../../img/del.gif) right 10px no-repeat;
+}
+
+
+.label-item {
+    margin-right: 3px;
+    padding: .4em;
+}
+
+.label-item-sm {
+    margin-right: 3px;
+}
+
+.label-item a {
+    font-size: 16px;
+}
+
+#labels {
+    line-height: 15px;
+}
+
+#labels .label {
+    overflow: hidden;
+    display: inline-block;
+}

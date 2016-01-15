@@ -1,0 +1,65 @@
+<#include "/ftl/admin/common/_layout.html"/>
+<@layout page_tab="label">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/label">标签</a></li>
+    <li class="active">列表</li>
+</ol>
+<form class="form-inline" method="get" action="${baseUrl!}/admin/label">
+    <div class="form-group">
+        <input type="text" class="form-control" name="name" value="${name!}" placeholder="标签名"/>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">搜索</button>
+    <a href="" class="btn btn-success btn-sm pull-right">添加</a>
+</form>
+<div style="margin-bottom: 15px;"></div>
+<table class="table table-hover">
+    <thead>
+    <th>标签名</th>
+    <th width="60">话题数</th>
+    <th width="150">时间</th>
+    <th width="35">操作</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as label>
+        <tr id="label_${label.id!}">
+            <td>${label.name!}</td>
+            <td>${label.topic_count!}</td>
+            <td>${label.in_time!}</td>
+            <td>
+                <a href="javascript:deletelabel(${label.id!});">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/ftl/admin/common/_paginate.html"/>
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/label/index" urlParas="" />
+<div class="pull-right" style="margin: 20px 0;line-height:34px;">总标签数：${page.getTotalRow()}</div>
+
+<script>
+    function deletelabel(id) {
+        if(confirm("确定 删除标签 吗？)")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/label/delete",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        $("#label_" + id).remove();
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</@layout>

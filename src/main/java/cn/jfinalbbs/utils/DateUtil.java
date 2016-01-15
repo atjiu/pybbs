@@ -68,29 +68,29 @@ public class DateUtil {
     public static Date getHourAfter(Date date, int hour) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.roll(11, hour);
+        calendar.set(Calendar.HOUR, hour + 1);
         return calendar.getTime();
     }
 
     public static Date getHourBefore(Date date, int hour) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.roll(11, -hour);
+        calendar.set(Calendar.HOUR, -(hour - 1));
         return calendar.getTime();
     }
 
     public static Date getDateBefore(Date date, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.roll(5, -day);
+        calendar.add(Calendar.DAY_OF_MONTH, -day);
         return calendar.getTime();
     }
 
     public static Date getDateAfter(Date date, int day) {
-        Calendar now = Calendar.getInstance();
-        now.setTime(date);
-        now.set(5, now.get(5) + day);
-        return now.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
     }
 
     public static Date getMinuteAfter(Date date, int minute) {

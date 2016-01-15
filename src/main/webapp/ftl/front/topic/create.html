@@ -1,7 +1,8 @@
 <#include "/ftl/front/common/_layout.html"/>
-<@html title="JFinal社区 - 发布话题" description="JFinal社区 - 发布话题" sidebar_create_info="show" sidebar_md_help="show">
-<link href="${baseUrl!}/static/editor_md/css/editormd.css" rel="stylesheet">
-<script type="text/javascript" src="${baseUrl!}/static/editor_md/editormd.js"></script>
+<@html title="发布话题 - ${siteTitle!}" description="发布话题" sidebar_create_info="show" page_tab="topic" sidebar_md_help="show">
+<link rel="stylesheet" href="${baseUrl!}/static/bootstrap/css/jquery-ui.css"/>
+<script src="${baseUrl!}/static/js/marked.min.js"></script>
+<script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -17,24 +18,93 @@
                     <option value="${section.id}">${section.name}</option>
                 </#list>
             </select>
-            <input type="text" placeholder="标题字数10字以上" id="title" name="title" class="form-control" style="margin-bottom: 5px;"/>
-            <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" class="form-control" style="margin-bottom: 5px;"/>
-            <div id="content" style="margin-bottom: 5px;"><textarea name="content"></textarea></div>
-            <input type="button" onclick="submitForm()" value="提交" class="btn btn-primary">
+            <div id="labels"></div>
+            <input type="hidden" name="label" value=""/>
+            <input type="text" class="form-control" id="label" style="width: 40%;margin-bottom: 5px; display: inline-block;" placeholder="标签"/>
+            <input type="button" class="btn btn-success btn-sm" onclick="addLabel()" value="添加">
+            <input type="text" placeholder="标题字数10字以上" id="title" name="title" class="form-control"
+                   style="margin-bottom: 5px;"/>
+            <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" class="form-control"
+                   style="margin-bottom: 5px;"/>
+            <div style="margin-bottom: 5px;">
+                <textarea id="content" name="content" class="form-control" style="height: 400px;"></textarea>
+            </div>
+            <input type="button" onclick="submitForm()" value="提  交" class="btn btn-primary btn-sm">
+            <input type="button" onclick="preview()" value="预  览" class="btn btn-primary btn-sm pull-right">
+
+            <div id="preview_content" class="hidden"></div>
         </form>
     </div>
 </div>
 <script type="text/javascript">
-    var editor = editormd("content",{height: 500,watch:false});
     function submitForm() {
-        if($("#title").val().trim().length < 10) {
-            alert("标题字数10字以上");
+        //将标签格式化放入隐藏表单里
+        var labelName = '';
+        $("#labels span").each(function (i, item) {
+            labelName += $(this).attr("name") + ",";
+        });
+        $("input[name='label']").val(labelName);
+        if ($.trim($("#title").val()) == "") {
+            alert("标题不能为空");
             $("#title").focus();
-        } else if(editor.getValue().trim() == "") {
+        } else if ($.trim($("#content").val()) == "") {
             alert("内容不能为空");
         } else {
             $("#create_form").submit();
         }
+    }
+
+    function preview() {
+        var content = $("#content").val();
+        $("#preview_content").html(marked(content)).removeClass("hidden").addClass("pre_backgroud_color");
+    }
+
+    $(function () {
+        $( "#label" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: "${baseUrl!}/label/search",
+                    dataType: "json",
+                    data: {
+                        q: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            minLength: 2,
+            select: function( event, ui ) {
+                if($("#labels span").size() >= 5) {
+                    alert("每个话题最多添加5个标签");
+                } else {
+                    appendLabel(ui.item.label);
+                }
+                $("#label").val("");
+            },
+            open: function() {
+                $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+            },
+            close: function() {
+                $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+            }
+        });
+    });
+
+    function addLabel() {
+        if($("#labels span").size() >= 5) {
+            alert("每个话题最多添加5个标签");
+        } else {
+            if($.trim($("#label").val()).length > 0) {
+                appendLabel($('#label').val());
+            }
+        }
+        $('#label').val('');
+        $('#label').focus();
+    }
+
+    function appendLabel(labelName) {
+        $("#labels").append('<span class="label label-info label-item" name="'+labelName+'">'+labelName+'<a href="javascript:;" onclick="$(this).parents(\'.label\').remove();">&nbsp;x</a></span>');
     }
 </script>
 </@html>

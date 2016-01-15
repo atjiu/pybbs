@@ -23,4 +23,14 @@ public class Section extends Model<Section> implements Serializable {
         return super.findByCache(Constants.CacheName.SECTIONSHOWLIST, Constants.CacheKey.SECTIONSHOWLISTKEY, "select * from section where show_status = 1 order by display_index");
     }
 
+    public Section findByTab(String tab) {
+        return super.findFirst("select * from section where tab = ?", tab);
+    }
+
+    public Section findDefault() {
+        List<Section> sections = super.findByCache(Constants.CacheName.DEFAULTSECTION, Constants.CacheKey.DEFAULTSECTIONKEY, "select * from section where default_show = 1");
+        if(sections.size() > 0) return sections.get(0);
+        return null;
+    }
+
 }

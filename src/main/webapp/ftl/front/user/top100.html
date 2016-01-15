@@ -1,5 +1,5 @@
 <#include "/ftl/front/common/_layout.html"/>
-<@html title="JFinal社区 - Top100 积分榜" description="JFinal社区 - Top100 积分榜" sidebar_user_info="show" sidebar_create="show" sidebar_friendlylinks="show">
+<@html title="Top100 积分榜 - ${siteTitle!}" description="Top100 积分榜" sidebar_user_info="show" sidebar_create="show">
 <div class="panel panel-default">
     <div class="panel-heading">
         <ol class="breadcrumb">
@@ -23,7 +23,9 @@
                 <tr>
                     <td style="vertical-align: middle;padding:4px;">${user_index + 1}</td>
                     <td style="vertical-align: middle;padding:4px; max-width: 150px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                        <a href="${baseUrl!}/user/${user.id!}"><img src="${user.avatar!}" width="30"></a>
+                        <a href="${baseUrl!}/user/${user.id!}">
+                            <img src="${user.avatar!}" width="30">
+                        </a>
                         &nbsp;${user.nickname!}
                     </td>
                     <td style="vertical-align: middle;padding:4px;">${user.score!}</td>

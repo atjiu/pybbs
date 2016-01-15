@@ -8,10 +8,15 @@ import cn.jfinalbbs.index.IndexAdminController;
 import cn.jfinalbbs.index.IndexClientController;
 import cn.jfinalbbs.index.IndexController;
 import cn.jfinalbbs.interceptor.CommonInterceptor;
+import cn.jfinalbbs.label.Label;
+import cn.jfinalbbs.label.LabelAdminController;
+import cn.jfinalbbs.label.LabelController;
+import cn.jfinalbbs.label.LabelTopicId;
 import cn.jfinalbbs.link.Link;
 import cn.jfinalbbs.link.LinkAdminController;
 import cn.jfinalbbs.mission.Mission;
 import cn.jfinalbbs.mission.MissionAdminController;
+import cn.jfinalbbs.mission.MissionClientController;
 import cn.jfinalbbs.mission.MissionController;
 import cn.jfinalbbs.notification.Notification;
 import cn.jfinalbbs.notification.NotificationClientController;
@@ -23,18 +28,19 @@ import cn.jfinalbbs.reply.ReplyController;
 import cn.jfinalbbs.section.Section;
 import cn.jfinalbbs.section.SectionAdminController;
 import cn.jfinalbbs.section.SectionClientController;
-import cn.jfinalbbs.system.Code;
 import cn.jfinalbbs.topic.Topic;
 import cn.jfinalbbs.topic.TopicAdminController;
 import cn.jfinalbbs.topic.TopicClientController;
 import cn.jfinalbbs.topic.TopicController;
 import cn.jfinalbbs.user.*;
+import cn.jfinalbbs.valicode.ValiCode;
 import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 
 /**
@@ -49,9 +55,8 @@ public class JFinalBBSConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("config.properties");
 		me.setDevMode(getPropertyToBoolean("devMode", false));
-        me.setUploadedFileSaveDirectory(cn.jfinalbbs.common.Constants.UPLOAD_DIR);
+        me.setBaseUploadPath(cn.jfinalbbs.common.Constants.UPLOAD_DIR);
 		me.setMaxPostSize(2048000);
-		// ApiConfigKit 设为开发模式可以在开发阶段输出请求交互的 xml 与 json 数据
     }
 	
 	/**
@@ -65,8 +70,9 @@ public class JFinalBBSConfig extends JFinalConfig {
 		me.add("/reply", ReplyController.class, "ftl");
 		me.add("/collect", CollectController.class, "ftl");
 		me.add("/notification", NotificationController.class, "ftl");
+		me.add("/label", LabelController.class, "ftl");
         //添加后台路由
-        adminRoute(me);
+		adminRoute(me);
         //添加客户端路由
         clientRoute(me);
 	}
@@ -80,6 +86,7 @@ public class JFinalBBSConfig extends JFinalConfig {
         me.add("/admin/section", SectionAdminController.class, "ftl/admin/section");
         me.add("/admin/link", LinkAdminController.class, "ftl/admin/link");
         me.add("/admin/mission", MissionAdminController.class, "ftl/admin/mission");
+        me.add("/admin/label", LabelAdminController.class, "ftl/admin/label");
     }
 
 	public void clientRoute(Routes me) {
@@ -90,6 +97,7 @@ public class JFinalBBSConfig extends JFinalConfig {
         me.add("/api/notification", NotificationClientController.class);
         me.add("/api/section", SectionClientController.class);
         me.add("/api/collect", CollectClientController.class);
+        me.add("/api/mission", MissionClientController.class);
 	}
 
 	/**
@@ -97,13 +105,18 @@ public class JFinalBBSConfig extends JFinalConfig {
 	 */
 	public void configPlugin(Plugins me) {
 		// 配置C3p0数据库连接池插件
-		C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
-		me.add(c3p0Plugin);
+//		C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
+        DruidPlugin druidPlugin = new DruidPlugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
+        druidPlugin.setFilters("stat,wall");
+
+//		me.add(c3p0Plugin);
+		me.add(druidPlugin);
 
         me.add(new EhCachePlugin());
 		
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+//		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
         arp.setShowSql(getPropertyToBoolean("showSql", false));
 		me.add(arp);
 		arp.addMapping("topic", Topic.class);	// 映射blog 表到 Blog模型
@@ -113,9 +126,11 @@ public class JFinalBBSConfig extends JFinalConfig {
 		arp.addMapping("collect", Collect.class);
 		arp.addMapping("notification", Notification.class);
 		arp.addMapping("admin_user", AdminUser.class);
-		arp.addMapping("code", Code.class);
 		arp.addMapping("section", Section.class);
 		arp.addMapping("link", Link.class);
+		arp.addMapping("valicode", ValiCode.class);
+		arp.addMapping("label", Label.class);
+		arp.addMapping("label_topic_id", LabelTopicId.class);
 	}
 
 	/**
@@ -130,6 +145,8 @@ public class JFinalBBSConfig extends JFinalConfig {
 	 * 配置处理器
 	 */
 	public void configHandler(Handlers me) {
+        //配置druid的监听，可以在浏览器里输入http://localhost:8080/druid 查看druid监听的数据
+        me.add(new DruidStatViewHandler("/druid"));
         me.add(new HtmlHandler());
 	}
 	

@@ -1,5 +1,6 @@
 package cn.jfinalbbs.reply;
 
+import cn.jfinalbbs.collect.Collect;
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.UserInterceptor;
@@ -10,6 +11,7 @@ import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Before;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by liuyang on 15/4/3.
@@ -19,52 +21,80 @@ public class ReplyController extends BaseController {
     @Before(UserInterceptor.class)
     public void index() {
         String tid = getPara(0);
+        Date date = new Date();
         Topic topic = Topic.me.findById(tid);
-        User user = getSessionAttr(Constants.USER_SESSION);
+        User sessionUser = getSessionAttr(Constants.USER_SESSION);
+        User user = User.me.findById(sessionUser.get("id"));
         if (topic == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             // 增加1积分
             Reply reply = new Reply();
-            String quote = getPara("quote");
             String content = getPara("content");
             reply.set("id", StrUtil.getUUID())
                     .set("tid", tid)
                     .set("content", content)
-                    .set("in_time", new Date())
-                    .set("quote", 0)
+                    .set("in_time", date)
                     .set("author_id", user.get("id"));
-            Reply r = Reply.me.findById(quote);
-            if (r != null) {
-                User quote_user = User.me.findById(r.get("author_id"));
-                reply.set("quote", quote)
-                        .set("quote_content", r.get("content"))
-                        .set("quote_author_nickname", quote_user.get("nickname"));
-                // 通知话题发布者
-                Notification replyNoti = new Notification();
-                replyNoti.set("tid", tid)
-                        .set("rid", reply.get("id"))
-                        .set("read", 0)
-                        .set("message", Constants.NOTIFICATION_MESSAGE2)
-                        .set("from_author_id", user.get("id"))
-                        .set("author_id", r.get("author_id"))
-                        .set("in_time", new Date()).save();
-            }
             reply.save();
+            //话题最后回复时间更新
+            topic.set("last_reply_time", date).set("last_reply_author_id", user.get("id")).update();
+            //用户积分增加
             user.set("score", user.getInt("score") + 1).update();
-            //引用回复且是自己的话题的话，不用发送通知
-            if (!user.get("id").equals(topic.get("author_id"))) {
-                // 通知话题发布者
-                Notification topicNoti = new Notification();
-                topicNoti.set("tid", tid)
+            setSessionAttr(Constants.USER_SESSION, user);
+            List<String> ats = StrUtil.findAt(content);
+            //发送通知
+            boolean flag = false;
+            if(ats.size() > 0) {
+                for (String nickname: ats) {
+                    User user1 = User.me.findByNickname(nickname);
+                    if(user1 != null) {
+                        //将@xx转换成链接
+                        content = content.replace("@" + nickname, "[@" + nickname + "]("+Constants.getBaseUrl()+"/user/"+user1.getStr("id")+")");
+                        if(!user1.getStr("id").equals(user.getStr("id"))) {
+                            Notification collectNoti = new Notification();
+                            collectNoti.set("tid", tid)
+                                    .set("rid", reply.get("id"))
+                                    .set("read", 0)
+                                    .set("message", Constants.NOTIFICATION_MESSAGE)
+                                    .set("from_author_id", user.get("id"))
+                                    .set("author_id", user1.get("id"))
+                                    .set("in_time", date).save();
+                        }
+                        if(user1.getStr("id").equals(topic.getStr("author_id"))) {
+                            flag = true;
+                        }
+                    }
+                }
+            }
+            //更新内容
+            reply.set("content", content).update();
+            //通知话题作者
+            if(!user.getStr("id").equals(topic.getStr("author_id")) && !flag) {
+                Notification collectNoti = new Notification();
+                collectNoti.set("tid", tid)
                         .set("rid", reply.get("id"))
                         .set("read", 0)
                         .set("message", Constants.NOTIFICATION_MESSAGE1)
                         .set("from_author_id", user.get("id"))
-                        .set("author_id", topic.get("author_id"))
-                        .set("in_time", new Date()).save();
+                        .set("author_id", topic.get("id"))
+                        .set("in_time", date).save();
             }
             redirect(Constants.getBaseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));
+        }
+    }
+
+    @Before(UserInterceptor.class)
+    public void best() {
+        String tid = getPara("tid");
+        String rid = getPara("rid");
+        Reply reply = Reply.me.findBestReplyByTid(tid);
+        if(reply != null) {
+            error("该话题已经采纳最佳答案了,请不要重复采纳");
+        } else {
+            Reply reply1 = Reply.me.findById(rid);
+            reply1.set("best", 1).update();
+            success();
         }
     }
 }
