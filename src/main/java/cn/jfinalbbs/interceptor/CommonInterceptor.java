@@ -12,7 +12,7 @@ import com.jfinal.aop.Invocation;
 import java.util.Date;
 
 /**
- * Created by liuyang on 15/4/2.
+ * Created by tomoya on 15/4/2.
  */
 public class CommonInterceptor implements Interceptor {
 

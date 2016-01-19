@@ -4,12 +4,11 @@ import cn.jfinalbbs.utils.DateUtil;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/2.
+ * Created by tomoya on 15/4/2.
  */
 public class Mission extends Model<Mission> {
     public static final Mission me = new Mission();

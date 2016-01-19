@@ -1,0 +1,74 @@
+<#include "/page/mobile/common/_layout.html"/>
+<@html title="忘记密码 - ${siteTitle!}" description="忘记密码">
+
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="${baseUrl!}/">首页</a> / 忘记密码</div>
+    <div class="panel-body">
+        <div class="input-group divider">
+            <input type="email" class="form-control" id="forgetpwd_email" placeholder="邮箱(必填)" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="send_email_btn" onclick="sendEmail()">发送邮件</button>
+            </span>
+        </div>
+        <div class="divider">
+            <input type="text" id="valicode" class="form-control" placeholder="验证码(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="password" id="newpwd" class="form-control" placeholder="新密码(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="button" onclick="forgetpwd()" id="forgetpwd_btn" value="确定" class="btn btn-default"/>
+            <span id="errMsg"></span>
+        </div>
+    </div>
+</div>
+<script>
+    function sendEmail() {
+        $("#send_email_btn").attr("disabled", true);
+        $.ajax({
+            url: "${baseUrl!}/sendValiCode",
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {
+                type: 'forgetpwd',
+                email: $("#forgetpwd_email").val()
+            },
+            success: function (data) {
+                if (data.code == '200') {
+                    $("#send_email_btn").html("发送成功");
+                    $("#forgetpwd_email").attr("disabled", true);
+                } else {
+                    $("#errMsg").css("color", "red").html(data.description);
+                    $("#send_email_btn").attr("disabled", false);
+                }
+            }
+        });
+    }
+    function forgetpwd() {
+        $("#forgetpwd_btn").attr("disabled", true);
+        $.ajax({
+            url: "${baseUrl!}/forgetpwd",
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {
+                email: $("#forgetpwd_email").val(),
+                valicode: $("#valicode").val(),
+                newpwd: $("#newpwd").val()
+            },
+            success: function (data) {
+                if (data.code == '200') {
+                    alert("密码修改成功，请重新登录")
+                    location.href="${baseUrl!}/";
+                } else {
+                    $("#errMsg").css("color", "red").html(data.description);
+                    $("#forgetpwd_btn").attr("disabled", false);
+                }
+            }
+        });
+    }
+</script>
+</@html>

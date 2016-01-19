@@ -8,7 +8,7 @@ import cn.jfinalbbs.utils.StrUtil;
 import java.util.Date;
 
 /**
- * Created by liuyang on 2015/6/28.
+ * Created by tomoya on 2015/6/28.
  */
 public class CollectClientController extends BaseController {
 

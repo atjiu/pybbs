@@ -38,6 +38,7 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.kit.HashKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
@@ -46,7 +47,7 @@ import com.jfinal.plugin.ehcache.EhCachePlugin;
 /**
  * API引导式配置
  */
-public class JFinalBBSConfig extends JFinalConfig {
+public class JFinalbbsConfig extends JFinalConfig {
 	
 	/**
 	 * 配置常量
@@ -63,14 +64,14 @@ public class JFinalBBSConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
-		me.add("/", IndexController.class, "ftl");	// 第三个参数为该Controller的视图存放路径
-		me.add("/topic", TopicController.class, "ftl");
-		me.add("/user", UserController.class, "ftl");
-		me.add("/mission", MissionController.class, "ftl");
-		me.add("/reply", ReplyController.class, "ftl");
-		me.add("/collect", CollectController.class, "ftl");
-		me.add("/notification", NotificationController.class, "ftl");
-		me.add("/label", LabelController.class, "ftl");
+		me.add("/", IndexController.class, "page");	// 第三个参数为该Controller的视图存放路径
+		me.add("/topic", TopicController.class, "page");
+		me.add("/user", UserController.class, "page");
+		me.add("/mission", MissionController.class, "page");
+		me.add("/reply", ReplyController.class, "page");
+		me.add("/collect", CollectController.class, "page");
+		me.add("/notification", NotificationController.class, "page");
+		me.add("/label", LabelController.class, "page");
         //添加后台路由
 		adminRoute(me);
         //添加客户端路由
@@ -79,14 +80,14 @@ public class JFinalBBSConfig extends JFinalConfig {
 
 	//后台路由配置
     public void adminRoute(Routes me) {
-        me.add("/admin", IndexAdminController.class, "ftl/admin");
-        me.add("/admin/topic", TopicAdminController.class, "ftl/admin/topic");
-        me.add("/admin/reply", ReplyAdminController.class, "ftl/admin/reply");
-        me.add("/admin/user", UserAdminController.class, "ftl/admin/user");
-        me.add("/admin/section", SectionAdminController.class, "ftl/admin/section");
-        me.add("/admin/link", LinkAdminController.class, "ftl/admin/link");
-        me.add("/admin/mission", MissionAdminController.class, "ftl/admin/mission");
-        me.add("/admin/label", LabelAdminController.class, "ftl/admin/label");
+        me.add("/admin", IndexAdminController.class, "page/admin");
+        me.add("/admin/topic", TopicAdminController.class, "page/admin/topic");
+        me.add("/admin/reply", ReplyAdminController.class, "page/admin/reply");
+        me.add("/admin/user", UserAdminController.class, "page/admin/user");
+        me.add("/admin/section", SectionAdminController.class, "page/admin/section");
+        me.add("/admin/link", LinkAdminController.class, "page/admin/link");
+        me.add("/admin/mission", MissionAdminController.class, "page/admin/mission");
+        me.add("/admin/label", LabelAdminController.class, "page/admin/label");
     }
 
 	public void clientRoute(Routes me) {
@@ -155,6 +156,7 @@ public class JFinalBBSConfig extends JFinalConfig {
 	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
 	 */
 	public static void main(String[] args) {
+		System.out.println(HashKit.md5("123456"));
 		JFinal.start("src/main/webapp", 8080, "/", 5);
 	}
 }

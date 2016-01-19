@@ -1,0 +1,81 @@
+<#include "/page/admin/common/_layout.html"/>
+<@layout page_tab="reply">
+<link rel="stylesheet" href="${baseUrl!}/static/css/highlight.css">
+<script src="${baseUrl!}/static/js/highlight.min.js"></script>
+
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/topic">回复</a></li>
+    <li class="active">列表</li>
+</ol>
+<table class="table table-hover" style="table-layout: fixed;">
+    <thead>
+    <th>标题</th>
+    <th width="150">作者</th>
+    <th width="70">内容</th>
+    <th width="150">时间</th>
+    <th width="40" align="right">操作</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as reply>
+        <tr>
+            <td><a href="${baseUrl!}/topic/${reply.tid!}.html#${reply.id!}" target="_blank">${reply.title!}</a></td>
+            <td>${reply.nickname}</td>
+            <td>
+                <#if reply.isdelete == 1>
+                    <input type="button" value="已删除" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-danger btn-sm"/>
+                <#else>
+                    <input type="button" value="查看" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-default btn-sm"/>
+                </#if>
+                <div class="modal fade" id="reply_${reply.id!}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">${reply.title!}</h4>
+                            </div>
+                            <div class="modal-body">
+                                ${reply.md2html(reply.content)!}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>${reply.in_time!}</td>
+            <td>
+                <a href="javascript:deleteReply('${reply.id!}')"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/page/admin/common/_paginate.html"/>
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/reply/index" urlParas="" />
+</@layout>
+<script type="text/javascript">
+    function deleteReply(id) {
+        if(confirm("确定 删除回复 吗？)")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/reply/delete",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        $("#reply_input_" + id).removeClass("btn-default").addClass("btn-danger").val("已删除");
+                        $("#reply_" + id + " .modal-body").html("回复已被删除");
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,18 +1,15 @@
 package cn.jfinalbbs.notification;
 
 import cn.jfinalbbs.common.BaseController;
-import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.user.User;
 import cn.jfinalbbs.utils.StrUtil;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.Page;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuyang on 2015/6/27.
+ * Created by tomoya on 2015/6/27.
  */
 public class NotificationClientController extends BaseController {
 

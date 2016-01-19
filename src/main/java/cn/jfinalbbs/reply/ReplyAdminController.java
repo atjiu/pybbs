@@ -5,12 +5,11 @@ import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.AdminUserInterceptor;
 import cn.jfinalbbs.user.User;
 import com.jfinal.aop.Before;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.tx.Tx;
 
 /**
- * Created by liuyang on 15/4/11.
+ * Created by tomoya on 15/4/11.
  */
 @Before(AdminUserInterceptor.class)
 public class ReplyAdminController extends BaseController {

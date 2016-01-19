@@ -7,7 +7,7 @@ import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Before;
 
 /**
- * Created by liuyang on 15/4/25.
+ * Created by tomoya on 15/4/25.
  */
 @Before(AdminUserInterceptor.class)
 public class SectionAdminController extends BaseController {

@@ -10,6 +10,7 @@ import cn.jfinalbbs.utils.AgentUtil;
 import cn.jfinalbbs.utils.ImageUtil;
 import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.aop.Before;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -164,11 +165,13 @@ public class UserController extends BaseController {
         User user = (User) getSession().getAttribute(Constants.USER_SESSION);
         user.set("avatar", path).update();
         //裁剪图片
-        //如果服务器是tomcat,就不需要修改
-        //如果服务器是jetty,需要将下面static/upload/avatar/ 前加一个/,也就是修改成/static/upload/avatar
-        String realPath = getRequest().getRealPath("/") + "/static/upload/avatar/" + uploadFile.getFileName();
+        String realPath = PathKit.getWebRootPath() + "/static/upload/avatar/" + uploadFile.getFileName();
         System.out.println(realPath);
         ImageUtil.zoomImage(realPath, realPath, 100, 100);
         redirect(Constants.getBaseUrl() + "/user/setting");
+    }
+
+    public void testRootPath() {
+        System.out.println(PathKit.getWebRootPath());
     }
 }

@@ -1,6 +1,7 @@
 package cn.jfinalbbs.reply;
 
 import cn.jfinalbbs.utils.DateUtil;
+import cn.jfinalbbs.utils.MarkdownUtil;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -9,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/2.
+ * Created by tomoya on 15/4/2.
  */
 public class Reply extends Model<Reply> {
 
@@ -47,4 +48,8 @@ public class Reply extends Model<Reply> {
                         start, end);
     }
 
+    //markdown语法转html
+    public String md2html(String content) {
+        return MarkdownUtil.marked(content);
+    }
 }

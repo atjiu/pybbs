@@ -1,0 +1,226 @@
+<#include "/page/front/common/_layout.html"/>
+<@html title="${topic.title!} - ${siteTitle!}" description="${topic.title!}" page_tab="topic" sidebar_topic_user="show"
+    sidebar_other_topic="show" sidebar_not_reply_topic="show">
+<link rel="stylesheet" href="${baseUrl!}/static/css/highlight.css">
+<link rel="stylesheet" href="${baseUrl!}/static/css/jquery.atwho.min.css">
+<script src="${baseUrl!}/static/js/highlight.min.js"></script>
+<script src="${baseUrl!}/static/js/jquery.atwho.min.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div <#if topic.good == 1>class="np-label-digest"</#if>>
+            <#if topic.top == 1>
+                <span class="label label-success">置顶</span>
+            </#if>
+            <span style="font-size: 22px; font-weight: 700;vertical-align: middle;">
+            ${topic.title!}
+            </span>
+            <#if session.user??>
+                <#if collect??>
+                    <span style="display: inline-block; float: right;">
+                        <input type="button" id="collect" onclick="collect(2, '${topic.id!}')"
+                               class="btn btn-xs btn-default" value="取消收藏"/>
+                    </span>
+                <#else>
+                    <span style="display: inline-block; float: right;">
+                        <input type="button" id="collect" onclick="collect(1, '${topic.id!}')"
+                               class="btn btn-xs btn-default" value="加入收藏"/>
+                    </span>
+                </#if>
+            </#if>
+            <br>
+            <span style="font-size: 12px;color: #838383;">
+                <span>•发布于
+                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>&nbsp;
+                </span>
+                <span>•作者 <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>&nbsp;</span>
+                <span>•${topic.view!} 次浏览&nbsp;</span>
+                <#if topic.modify_time??>
+                    <span>•最后一次编辑是
+                        <script>document.write(formatDateTime('${topic.modify_time!}'))</script>&nbsp;
+                    </span>
+                </#if>
+                <span>
+                    •来自 <a href="${baseUrl!}/?tab=${topic.tab}">${topic.sectionName!}</a>
+                </span>
+                <#if session.user?? && topic.author_id == session.user.id>
+                    <span style="display: inline-block; float: right;">
+                        <a href="${baseUrl!}/topic/edit/${topic.id!}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                        <a href="javascript:if(confirm('确定要删除此话题吗？'))location='${baseUrl!}/topic/delete/${topic.id!}'"><span
+                                class="glyphicon glyphicon-trash" style="cursor:pointer;"></span></a>
+                    </span>
+                </#if>
+            </span>
+        </div>
+    </div>
+    <div class="panel-body" style="border-top: 1px #E5E5E5 solid; padding-top: 10px">
+        <div id="topic_content">
+            ${topic.md2html(topic.content)!}
+        </div>
+        <#if topic.reposted?? && topic.reposted == 1>
+            <div style="word-break: break-all;">原文地址：<a href="${topic.original_url!}" target="_blank">${topic.original_url!}</a></div>
+        </#if>
+        <div class="pull-left topic-label">
+            <#list labels as label>
+                <a href="${baseUrl!}/?tab=${topic.tab!}&l=${label.id!}">
+                    <span class="label label-success label-item">${label.name}</span>
+                </a>
+            </#list>
+        </div>
+        <div class="bdsharebuttonbox pull-right">
+            <a href="javascript:;" class="bds_more" data-cmd="more"></a>
+            <a href="javascript:;" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+            <a href="javascript:;" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="javascript:;" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+            <a href="javascript:;" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+            <a href="javascript:;" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        </div>
+        <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">${topic.reply_count!"0"} 回复</div>
+    <#list replies as reply>
+        <div class="panel-body" <#if reply_index &gt; 0>style="border-top: solid #F0F0F0 1px;"</#if>>
+            <div id="${reply.id!}" style="min-height:70px;" <#if reply.isdelete == 1> class="np-label-del" </#if>>
+                <a href="${baseUrl!}/user/${reply.author_id}" class="jf_user_avatar">
+                    <img src="${reply.avatar!}" width="30" title="${reply.nickname!}">
+                </a>
+                <span>
+                    <a href="${baseUrl!}/user/${reply.author_id!}" data_class="atwho" data_id="${reply.author_id!}">${reply.nickname!}</a>
+                    <script>document.write(formatDateTime('${reply.in_time!}'))</script>
+                </span>
+                <#if session.user??>
+                    <div style="float: right;">
+                        <span>
+                            <#if topic.tab == 'ask'>
+                                <#if bestReply == 1>
+                                    <#if reply.best == 1>
+                                        已采纳
+                                    </#if>
+                                <#else>
+                                    <#if session.user?? && topic.author_id == session.user.id>
+                                        <span id="bestReply_${reply.id!}">
+                                            <a href="javascritp:;" onclick="bestReply('${topic.id!}', '${reply.id!}')">
+                                                <span class="glyphicon glyphicon-ok" title="采纳此回复"></span>
+                                            </a>
+                                        </span>
+                                    </#if>
+                                </#if>
+                            </#if>
+                        </span>
+                    </div>
+                </#if>
+                <div style="padding-top: 5px;">
+                    <div id="reply_content_${reply_index}" class="reply_content">
+                        ${reply.md2html(reply.content)!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </#list>
+</div>
+<#if session.user??>
+    <div class="panel panel-default" id="reply_input">
+        <div class="panel-heading">
+            添加回复 <b style="color:red;">注:回复会奖励1点积分，但被管理员删除回复，将扣除作者2积分</b>
+        </div>
+        <div class="panel-body">
+            <form action="${baseUrl!}/reply/${topic.id!}" method="post" id="reply_form">
+                <div id="reply_content"><textarea id="content" name="content" class="form-control inputor" style="height: 200px; margin-bottom: 5px;"></textarea></div>
+                <input type="submit" class="btn btn-default btn-sm" value="回复">
+                <input type="button" onclick="preview()" value="预  览" class="btn btn-default btn-sm pull-right">
+                <div id="preview_content" class="hidden"></div>
+            </form>
+        </div>
+    </div>
+</#if>
+<script type="text/javascript">
+    $(function () {
+        $("#reply_form").submit(function () {
+            if ($.trim($("#content").val()) == "") {
+                alert("内容不能为空");
+                return false;
+            }
+            return true;
+        });
+        hljs.initHighlightingOnLoad();
+    });
+
+    var _type = 0;
+
+    function collect(type, tid) {
+        var url = "${baseUrl!}/collect/" + tid;
+        if (_type == 0) _type = type;
+        if (_type == 2) url = "${baseUrl!}/collect/delete/" + tid;
+        $.ajax({
+            url: url,
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if (data.code == '200') {
+                    if (_type == 1) {
+                        _type = 2;
+                        $("#collect").removeClass("btn-default");
+                        $("#collect").addClass("btn-default");
+                        $("#collect").val("取消收藏");
+                    } else {
+                        _type = 1;
+                        $("#collect").removeClass("btn-default");
+                        $("#collect").addClass("btn-default");
+                        $("#collect").val("加入收藏");
+                    }
+                } else {
+                    alert(data.description);
+                }
+            }
+        });
+    }
+
+    function bestReply(tid, rid) {
+        if(confirm("确定采纳此回答吗?")) {
+            $.ajax({
+                url: '${baseUrl!}/reply/best',
+                async: false,
+                cache: false,
+                type: 'post',
+                dataType: "json",
+                data: {
+                    rid: rid,
+                    tid: tid
+                },
+                success: function (data) {
+                    if (data.code == '200') {
+                        $("span[id^='bestReply_']").each(function (i, item) {
+                            $(item).html("");
+                        });
+                        $("#bestReply_" + rid).html("已采纳")
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+
+    function preview() {
+        var content = $("#content").val();
+        $("#preview_content").html(marked(content)).removeClass("hidden").addClass("pre_backgroud_color");
+    }
+
+    var nicknames = [];
+    nicknames[0] = {author_id:'${topic.author_id!}', name: '${topic.nickname!}'};
+    $("a[data_class='atwho']").each(function (i, item) {
+        nicknames[i + 1] = {author_id:$(item).attr('data_id') ,name:$(item).text()};
+    });
+
+    $('#content').atwho({
+        at: '@',
+        data: _.uniq(nicknames, 'author_id')
+    });
+
+</script>
+</@html>

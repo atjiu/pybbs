@@ -5,7 +5,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
- * Created by liuyang on 15/4/15.
+ * Created by tomoya on 15/4/15.
  */
 public class BaseController extends Controller {
 

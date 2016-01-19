@@ -1,7 +1,6 @@
 package cn.jfinalbbs.valicode;
 
 import cn.jfinalbbs.utils.DateUtil;
-import cn.jfinalbbs.utils.StrUtil;
 import com.jfinal.plugin.activerecord.Model;
 
 import java.io.Serializable;

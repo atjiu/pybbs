@@ -6,7 +6,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.PropKit;
 
 /**
- * Created by liuyang on 15/4/11.
+ * Created by tomoya on 15/4/11.
  */
 @Before(AdminUserInterceptor.class)
 public class UserAdminController extends BaseController {

@@ -47,9 +47,9 @@
     "description": "success",
     "detail": {
         "modify_time": "2015-06-11 12:07:18",
-        "title": "使用JFinal社区搭建自己的社区网站就是这么简单~~",
+        "title": "使用JFinalbbs搭建自己的社区网站就是这么简单~~",
         "good": 1,
-        "content": "**小白都会的使用JFinal社区搭建自己的社区网站的方法**\r\n#####...",
+        "content": "**小白都会的使用JFinalbbs搭建自己的社区网站的方法**\r\n#####...",
         "s_id": 2,
         "view": 2356,
         "in_time": "2015-05-05 16:55:44",
@@ -122,9 +122,9 @@
     "detail": {
         "topic": {
             "modify_time": "2015-06-11 12:07:18",
-            "title": "使用JFinal社区搭建自己的社区网站就是这么简单~~",
+            "title": "使用JFinalbbs搭建自己的社区网站就是这么简单~~",
             "good": 1,
-            "content": "**小白都会的使用JFinal社区搭建自己的社区网站的方法**\r\n##### ",
+            "content": "**小白都会的使用JFinalbbs搭建自己的社区网站的方法**\r\n##### ",
             "s_id": 2,
             "view": 2356,
             "in_time": "2015-05-05 16:55:44",
@@ -305,7 +305,7 @@
                 "message": "回复了你的话题",
                 "author_id": "1a973292fc0...",
                 "rid": "8c78cda152fc4c76a47ac93aa5177b00",
-                "title": "使用JFinal社区搭建自己的社区网站就是这么简单~~",
+                "title": "使用JFinalbbs搭建自己的社区网站就是这么简单~~",
                 "tid": "867bcaa553164b8c9baf80751d683a0f"
             }
         ],
@@ -319,7 +319,7 @@
                 "message": "回复了你的话题",
                 "author_id": "1a973292fc0...",
                 "rid": "8c78cda152fc4c76a47ac93aa5177b00",
-                "title": "使用JFinal社区搭建自己的社区网站就是这么简单~~",
+                "title": "使用JFinalbbs搭建自己的社区网站就是这么简单~~",
                 "tid": "867bcaa553164b8c9baf80751d683a0f"
             }
         ]

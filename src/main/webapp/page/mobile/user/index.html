@@ -1,0 +1,114 @@
+<#include "/page/mobile/common/_layout.html"/>
+<@html title="${current_user.nickname!} - ${siteTitle!}" description="${current_user.nickname!}">
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tbody>
+            <tr>
+                <td width="36" valign="top" align="center">
+                    <img src="${current_user.avatar!}" width="30">
+                </td>
+                <td width="10"></td>
+                <td width="auto" valign="top" align="left"><div class="fr">
+                </div>
+                    <div style="margin-bottom: 5px;">${current_user.nickname!}</div>
+                    <#if current_user.signature?? && current_user.signature != "">
+                        <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
+                            <i>“ ${current_user.signature!} ” </i>
+                        </div>
+                    </#if>
+                    <div>积分: ${current_user.score!}</div>
+                    <div>
+                        收藏:
+                        <a href="${baseUrl!}/user/collects/${current_user.id!}">
+                            ${collectPage.totalRow!}话题收藏
+                        </a>
+                    </div>
+                    <#if current_user.url?? && current_user.url != "">
+                        <div>主页: <a href="${current_user.url!}" target="_blank">${current_user.url!}</a></div>
+                    </#if>
+                    <div>入住: 注册时间 <script>document.write(formatDateTime('${current_user.in_time!}'))</script></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">最近创建的话题</div>
+    <div class="panel-body">
+        <table class="table">
+            <#list topics.getList() as topic>
+            <tr>
+                <td style="padding: 8px 0px 0px 5px; width: 25px;">
+                    <a href="${baseUrl!}/user/${topic.author_id}">
+                        <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
+                             title="${topic.nickname!}" width="24">
+                    </a>
+                </td>
+                <td>
+                    <span style="display: block;font-size: 16px;"><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></span>
+                    <span style="display: block;color:#ccc;padding:3px 0 3px 0">
+                        <#if topic.top == 1>
+                            <span class="label label-success">置顶</span>
+                        <#elseif topic.good == 1>
+                            <span class="label label-success">精华</span>
+                        <#else>
+                            <span class="label label-default">${topic.sectionName!}</span>
+                        </#if>
+                        <span title="回复数" class="label label-info">${topic.reply_count!}</span>
+                        <span style="display: inline-block; float: right;">
+                            <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            </#list>
+            <tr>
+                <td colspan="2" align="right" style="border-bottom: 0 solid #ddd;">
+                    <a href="javascript:;">查看更多&gt;&gt;</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">最近参与的话题</div>
+    <div class="panel-body">
+        <table class="table">
+            <#list myReplyTopics.getList() as topic>
+                <tr>
+                    <td style="padding: 8px 0px 0px 5px; width: 25px;">
+                        <a href="${baseUrl!}/user/${topic.author_id}">
+                            <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'"
+                                 title="${topic.nickname!}" width="24">
+                        </a>
+                    </td>
+                    <td>
+                        <span style="display: block;font-size: 16px;"><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></span>
+                    <span style="display: block;color:#ccc;padding:3px 0 3px 0">
+                        <#if topic.top == 1>
+                            <span class="label label-success">置顶</span>
+                        <#elseif topic.good == 1>
+                            <span class="label label-success">精华</span>
+                        <#else>
+                            <span class="label label-default">${topic.sectionName!}</span>
+                        </#if>
+                        <span title="回复数" class="label label-info">${topic.reply_count!}</span>
+                        <span style="display: inline-block; float: right;">
+                            <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                        </span>
+                    </span>
+                    </td>
+                </tr>
+            </#list>
+            <tr>
+                <td colspan="2" align="right" style="border-bottom: 0 solid #ddd;">
+                    <a href="javascript:;">查看更多&gt;&gt;</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</@html>

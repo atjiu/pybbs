@@ -9,7 +9,7 @@ import com.jfinal.aop.Before;
 import java.util.Date;
 
 /**
- * Created by liuyang on 15/4/4.
+ * Created by tomoya on 15/4/4.
  */
 public class CollectController extends BaseController {
 

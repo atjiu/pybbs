@@ -1,7 +1,6 @@
 package cn.jfinalbbs.mission;
 
 import cn.jfinalbbs.common.BaseController;
-import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.UserInterceptor;
 import cn.jfinalbbs.user.User;
 import cn.jfinalbbs.utils.DateUtil;

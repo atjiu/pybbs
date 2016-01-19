@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by liuyang on 15/4/8.
+ * Created by tomoya on 15/4/8.
  */
 public class HtmlHandler extends Handler {
     @Override

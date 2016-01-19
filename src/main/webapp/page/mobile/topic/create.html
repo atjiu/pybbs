@@ -1,0 +1,102 @@
+<#include "/page/mobile/common/_layout.html"/>
+<@html title="发布话题 - ${siteTitle!}" description="发布话题">
+<link rel="stylesheet" href="${baseUrl!}/static/bootstrap/css/jquery-ui.css"/>
+<script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="${baseUrl!}/">首页</a> / 发布话题</div>
+    <div class="panel-body">
+        <form action="${baseUrl!}/topic/save" method="post" id="topic_form">
+            <div class="divider">
+                <select name="sid" id="sid" class="form-control" style="width: 30%;">
+                    <#list sections as section>
+                        <option value="${section.id}">${section.name}</option>
+                    </#list>
+                </select>
+            </div>
+            <div class="divider">
+                <div id="labels"></div>
+                <input type="hidden" name="label" value=""/>
+                <input type="text" class="form-control" id="label" style="width: 40%; display: inline-block;" placeholder="标签"/>
+                <input type="button" class="btn btn-default btn-sm" onclick="addLabel()" value="添加">
+            </div>
+            <div class="divider">
+                <input type="text" name="title" id="title" class="form-control" placeholder="标题(必填)"/>
+            </div>
+            <div class="divider">
+                <textarea class="form-control" name="content" id="content" style="height: 150px;" placeholder="内容(必填)"></textarea>
+            </div>
+            <div class="divider">
+                <input type="button" onclick="create_btn()" value="提交" class="btn btn-default"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function create_btn() {
+        //将标签格式化放入隐藏表单里
+        var labelName = '';
+        $("#labels span").each(function (i, item) {
+            labelName += $(this).attr("name") + ",";
+        });
+        $("input[name='label']").val(labelName);
+        if($.trim($("#title").val()) == "") {
+            alert("标题不能为空");
+            return false;
+        } else if($.trim($("#content").val()) == "") {
+            alert("内容不能为空");
+            return false;
+        } else {
+            $("#topic_form").submit();
+        }
+    }
+
+    $(function () {
+        $( "#label" ).autocomplete({
+            source: function( request, response ) {
+                $.ajax({
+                    url: "${baseUrl!}/label/search",
+                    dataType: "json",
+                    data: {
+                        q: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            minLength: 2,
+            select: function( event, ui ) {
+                if($("#labels span").size() >= 5) {
+                    alert("每个话题最多添加5个标签");
+                } else {
+                    appendLabel(ui.item.label);
+                }
+                $("#label").val("");
+            },
+            open: function() {
+                $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+            },
+            close: function() {
+                $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+            }
+        });
+    });
+
+    function addLabel() {
+        if($("#labels span").size() >= 5) {
+            alert("每个话题最多添加5个标签");
+        } else {
+            if($.trim($("#label").val()).length > 0) {
+                appendLabel($('#label').val());
+            }
+        }
+        $('#label').val('');
+        $('#label').focus();
+    }
+
+    function appendLabel(labelName) {
+        $("#labels").append('<span class="label label-info label-item" name="'+labelName+'">'+labelName+'<a href="javascript:;" onclick="$(this).parents(\'.label\').remove();">&nbsp;x</a></span>');
+    }
+</script>
+</@html>

@@ -3,7 +3,7 @@ package cn.jfinalbbs.common;
 import com.jfinal.kit.PropKit;
 
 /**
- * Created by liuyang on 15/4/2.
+ * Created by tomoya on 15/4/2.
  */
 public class Constants {
 

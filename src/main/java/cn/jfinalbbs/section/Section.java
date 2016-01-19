@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/25.
+ * Created by tomoya on 15/4/25.
  */
 public class Section extends Model<Section> implements Serializable {
 

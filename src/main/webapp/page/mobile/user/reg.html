@@ -1,0 +1,77 @@
+<#include "/page/mobile/common/_layout.html"/>
+<@html title="注册 - ${siteTitle!}" description="注册">
+
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="${baseUrl!}/">首页</a> / 注册</div>
+    <div class="panel-body">
+        <div class="input-group divider">
+            <input type="email" class="form-control" id="reg_email" placeholder="邮箱(必填)" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="send_email_btn" onclick="sendEmail()">发送邮件</button>
+            </span>
+        </div>
+        <div class="divider">
+            <input type="text" id="valicode" class="form-control" placeholder="验证码(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="text" id="reg_nickname" class="form-control" placeholder="昵称(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="password" id="reg_password" class="form-control" placeholder="密码(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="button" onclick="reg()" id="reg_btn" value="注册" class="btn btn-default"/>
+            <span id="errMsg"></span>
+        </div>
+    </div>
+</div>
+<script>
+    function sendEmail() {
+        $("#send_email_btn").attr("disabled", true);
+        $.ajax({
+            url: "${baseUrl!}/sendValiCode",
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {
+                type: 'reg',
+                email: $("#reg_email").val()
+            },
+            success: function (data) {
+                if (data.code == '200') {
+                    $("#send_email_btn").html("发送成功");
+                    $("#reg_email").attr("disabled", true);
+                } else {
+                    $("#errMsg").css("color", "red").html(data.description);
+                    $("#send_email_btn").attr("disabled", false);
+                }
+            }
+        });
+    }
+    function reg() {
+        $("#reg_btn").attr("disabled", true);
+        $.ajax({
+            url: "${baseUrl!}/reg",
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {
+                valicode: $("#valicode").val(),
+                reg_email: $("#reg_email").val(),
+                reg_password: $("#reg_password").val(),
+                reg_nickname: $("#reg_nickname").val()
+            },
+            success: function (data) {
+                if (data.code == '200') {
+                    location.href="${baseUrl!}/";
+                } else {
+                    $("#errMsg").css("color", "red").html(data.description);
+                    $("#reg_btn").attr("disabled", false);
+                }
+            }
+        });
+    }
+</script>
+</@html>

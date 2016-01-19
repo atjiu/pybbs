@@ -7,7 +7,7 @@ import cn.jfinalbbs.user.User;
 import com.jfinal.aop.Before;
 
 /**
- * Created by liuyang on 15/4/7.
+ * Created by tomoya on 15/4/7.
  */
 public class NotificationController extends BaseController {
 

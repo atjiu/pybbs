@@ -1,9 +1,8 @@
 package cn.jfinalbbs.topic;
 
-import cn.jfinalbbs.label.Label;
 import cn.jfinalbbs.section.Section;
 import cn.jfinalbbs.utils.DateUtil;
-import cn.jfinalbbs.utils.StrUtil;
+import cn.jfinalbbs.utils.MarkdownUtil;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -12,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/1.
+ * Created by tomoya on 15/4/1.
  */
 public class Topic extends Model<Topic> {
 
@@ -22,56 +21,57 @@ public class Topic extends Model<Topic> {
     public Page<Topic> paginate(int pageNumber, int pageSize, String tab, String q, Integer show_status, Integer l) {
         String select = "select s.tab, s.name as sectionName, t.*, " +
                 "(select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
-                "(select count(r.id) from reply r where t.id = r.tid) as reply_count, " +
                 "(select u.avatar from user u where u.id = t.author_id) as avatar, " +
-                "(select u.nickname from user u where u.id = t.author_id) as nickname";
+                "(select u.nickname from user u where u.id = t.author_id) as nickname ";
         String orderBy = " order by t.top desc, t.last_reply_time desc ";
         StringBuffer condition = new StringBuffer();
-        if(l == null) {
-            condition.append("from topic t left join section s on t.s_id = s.id where 1 = 1 ");
+        if (l == null) {
+            condition.append(" from topic t left join section s on t.s_id = s.id where 1 = 1 ");
         } else {
-            condition.append("from topic t left join section s on t.s_id = s.id ")
+            condition.append(" from topic t left join section s on t.s_id = s.id ")
                     .append(" left join label_topic_id lti on t.id = lti.tid ")
                     .append(" left join label l on l.id = lti.lid ")
                     .append(" where 1 = 1 and l.id = ").append(l);
         }
-        if(show_status != null) {
+        if (show_status != null) {
             condition.append(" and t.show_status = " + show_status);
         }
-        if(!StrKit.isBlank(tab) && tab.equals("all")) {
+        if (tab.equals("good")) {
+            condition.append(" and t.good = 1 ");
+        }
+        if (!StrKit.isBlank(tab) && (tab.equals("all") || tab.equals("good"))) {
             tab = null;
         }
-        if(!StrKit.isBlank(tab)) {
+        if (!StrKit.isBlank(tab)) {
             condition.append(" and s.tab = '" + tab + "'");
         }
-        if(!StrKit.isBlank(q)) {
+        if (!StrKit.isBlank(q)) {
             String[] qs = q.split(" ");
             condition.append(" and (");
-            for(int c = 0; c < qs.length; c++) {
+            for (int c = 0; c < qs.length; c++) {
                 condition.append("t.title like \"%" + qs[c] + "%\" or t.content like \"%" + qs[c] + "%\" ");
-                if(c + 1 < qs.length) condition.append(" or ");
+                if (c + 1 < qs.length) condition.append(" or ");
             }
             condition.append(" ) ");
         }
         List<Section> sections = Section.me.findShow();
-        if(sections.size()>0) {
+        if (sections.size() > 0) {
             String sid = "";
-            for(Section s: sections) {
+            for (Section s : sections) {
                 sid += s.get("id") + ",";
             }
-            condition.append(" and t.s_id in ("+sid.substring(0, sid.length() - 1)+") ");
+            condition.append(" and t.s_id in (" + sid.substring(0, sid.length() - 1) + ") ");
         }
         return super.paginate(pageNumber, pageSize, select, condition + orderBy);
     }
 
     public Topic findByIdWithUser(String id) {
         List<Topic> topics = find(
-                "select t.*, s.name as sectionName, s.tab, u.nickname, u.avatar, u.score, u.signature, " +
-                        "(select count(r.id) from reply r where r.tid = t.id) as reply_count " +
+                "select t.*, s.name as sectionName, s.tab, u.nickname, u.avatar, u.score, u.signature " +
                         " from topic t left join user u on t.author_id = u.id " +
                         " left join section s on s.id = t.s_id " +
                         "where t.id = ?", id);
-        if(topics.size()>0) {
+        if (topics.size() > 0) {
             Topic topic = topics.get(0);
             topic.set("view", topic.getInt("view") + 1).update();
             //view+1
@@ -93,10 +93,9 @@ public class Topic extends Model<Topic> {
     public Page<Topic> paginateByAuthorId(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize,
                 "select t.*, (select s.tab from section s where s.id = t.s_id) as tab, " +
-                        "(select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
-                        "(select s.name from section s where s.id = t.s_id) as sectionName, " +
-                        "(select count(r.id) from reply r where r.tid = t.id) as reply_count," +
-                        "(select u.avatar from user u where u.id = t.author_id) as avatar",
+                "(select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
+                "(select s.name from section s where s.id = t.s_id) as sectionName, " +
+                "(select u.avatar from user u where u.id = t.author_id) as avatar",
                 "from topic t where t.author_id = ? order by in_time desc", authorId);
     }
 
@@ -107,10 +106,9 @@ public class Topic extends Model<Topic> {
     //查询我回复的话题
     public Page<Topic> paginateMyReplyTopics(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, "select t.*, " +
-                "(select count(r.id) from reply r where r.tid = t.id) as reply_count, " +
                 "(select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
                 "(select s.name from section s where s.id = t.s_id) as sectionName ",
-                "from topic t left join reply r on t.id = r.tid where r.author_id = ? group by r.tid order by r.in_time desc", authorId);
+                "from reply r left join topic t on t.id = r.tid where r.author_id = ? group by r.tid order by r.in_time desc", authorId);
     }
 
     //查询话题总数
@@ -132,8 +130,9 @@ public class Topic extends Model<Topic> {
     }
     // --------------- 后台查询方法 结束 --------------
 
-    public List<Topic> findAll() {
-        return super.find("select * from topic");
+    //格式化markdown语法
+    public String md2html(String content) {
+        return MarkdownUtil.marked(content);
     }
 
 }

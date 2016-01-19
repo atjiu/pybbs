@@ -1,0 +1,72 @@
+
+<#macro layout page_tab="">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="${baseUrl!}/favicon.ico">
+
+    <title>后台管理 - ${siteTitle!}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="${baseUrl!}/static/bootstrap/css/bootstrap.min.css?v=20150604" rel="stylesheet">
+    <link href="${baseUrl!}/static/css/admin.css?v=20150604" rel="stylesheet">
+
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap.min.js?v=20150604"></script>
+    <script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+
+    <script src="${baseUrl!}/static/js/jfinalbbs.js"></script>
+
+    <style>
+        .breadcrumb {
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            list-style: outside none none;
+            background-color: #F5F5F5;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/admin">${siteTitle!}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li <#if page_tab="index"> class="active" </#if>><a href="${baseUrl!}/admin/index">首页</a></li>
+                <li <#if page_tab="section"> class="active" </#if>><a href="${baseUrl!}/admin/section">模块</a></li>
+                <li <#if page_tab="label"> class="active" </#if>><a href="${baseUrl!}/admin/label">标签</a></li>
+                <li <#if page_tab="topic"> class="active" </#if>><a href="${baseUrl!}/admin/topic">话题</a></li>
+                <li <#if page_tab="reply"> class="active" </#if>><a href="${baseUrl!}/admin/reply">回复</a></li>
+                <li <#if page_tab="user"> class="active" </#if>><a href="${baseUrl!}/admin/user">用户</a></li>
+                <li <#if page_tab="link"> class="active" </#if>><a href="${baseUrl!}/admin/link">友链</a></li>
+                <li <#if page_tab="mission"> class="active" </#if>><a href="${baseUrl!}/admin/mission">签到</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="${baseUrl!}/admin/logout">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <#nested>
+</div>
+</body>
+</html>
+</#macro>

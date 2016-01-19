@@ -1,7 +1,7 @@
 package cn.jfinalbbs.utils;
 
 /**
- * Created by liuyang on 15/4/4.
+ * Created by tomoya on 15/4/4.
  */
 public class Result {
 

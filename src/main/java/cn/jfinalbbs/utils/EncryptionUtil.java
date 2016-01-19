@@ -3,7 +3,7 @@ package cn.jfinalbbs.utils;
 import com.jfinal.kit.HashKit;
 
 /**
- * Created by liuyang on 15/4/21.
+ * Created by tomoya on 15/4/21.
  */
 public class EncryptionUtil extends HashKit {
 

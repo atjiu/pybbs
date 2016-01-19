@@ -7,7 +7,7 @@ import com.jfinal.plugin.activerecord.Page;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/6.
+ * Created by tomoya on 15/4/6.
  */
 public class Notification extends Model<Notification> {
 

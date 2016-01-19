@@ -28,9 +28,7 @@ import com.qq.connect.oauth.Oauth;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class IndexController extends BaseController {
 
@@ -41,11 +39,12 @@ public class IndexController extends BaseController {
         String tab = getPara("tab");
         String q = getPara("q");
         Integer l = getParaToInt("l");
+        if (l != null) {
+            tab = "all";
+            setAttr("_label", Label.me.findById(l));
+        }
         if (tab == null) {
-            if (l != null) {
-                tab = "all";
-                setAttr("_label", Label.me.findById(l));
-            } else if (!StrUtil.isBlank(q)) {
+            if (!StrUtil.isBlank(q)) {
                 tab = "all";
             } else {
                 Section section = Section.me.findDefault();
@@ -432,7 +431,7 @@ public class IndexController extends BaseController {
                             .set("expire_time", DateUtil.getMinuteAfter(new Date(), 30))
                             .set("target", email)
                             .save();
-                    EmailSender.sendMail("JFinal社区－找回密码验证码", new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
+                    EmailSender.sendMail("JFinalbbs－找回密码验证码", new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
                     success();
                 }
             } else if (type.equalsIgnoreCase(Constants.ValiCodeType.REG)) {
@@ -448,7 +447,7 @@ public class IndexController extends BaseController {
                             .set("expire_time", DateUtil.getMinuteAfter(new Date(), 30))
                             .set("target", email)
                             .save();
-                    EmailSender.sendMail("JFinal社区－注册账户验证码", new String[]{email}, "您注册账户的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
+                    EmailSender.sendMail("JFinalbbs－注册账户验证码", new String[]{email}, "您注册账户的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
                     success();
                 }
             }

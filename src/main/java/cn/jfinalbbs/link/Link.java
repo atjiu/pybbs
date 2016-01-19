@@ -6,7 +6,7 @@ import com.jfinal.plugin.activerecord.Model;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/26.
+ * Created by tomoya on 15/4/26.
  */
 public class Link extends Model<Link> {
     public static final Link me = new Link();

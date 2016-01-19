@@ -7,7 +7,7 @@ import com.jfinal.plugin.activerecord.Page;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/4.
+ * Created by tomoya on 15/4/4.
  */
 public class Collect extends Model<Collect> {
 
@@ -33,7 +33,6 @@ public class Collect extends Model<Collect> {
     public Page<Collect> findByAuthorIdWithTopic(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, " select t.*, s.name as sectionName, s.tab, u.avatar, " +
                         " (select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
-                        " (select count(r.id) from reply r where r.tid = t.id) as reply_count ",
                         " from collect c left join topic t on c.tid = t.id " +
                         " left join section s on s.id = t.s_id " +
                         " left join user u on u.id = t.author_id " +
@@ -41,8 +40,7 @@ public class Collect extends Model<Collect> {
     }
 
     public List<Collect> findByAuthorIdWithTopic(String authorId) {
-        return super.find("select t.*, s.name as sectionName, s.tab, u.avatar, " +
-                "(select count(r.id) from reply r where r.tid = t.id) as reply_count, u.nickname" +
+        return super.find("select t.*, s.name as sectionName, s.tab, u.avatar, u.nickname" +
                 " from collect c left join topic t on c.tid = t.id " +
                 " left join section s on s.id = t.s_id " +
                 " left join user u on u.id = t.author_id " +

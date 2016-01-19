@@ -1,0 +1,47 @@
+<#include "/page/front/common/_layout.html"/>
+<@html title="${current_user.nickname!} 创建的话题 - ${siteTitle!}" description="${current_user.nickname!} 创建的话题" sidebar_user_info="show" sidebar_create="show">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="${baseUrl!}/">首页</a></li>
+            <li class="active">${current_user.nickname!} 创建的话题</li>
+        </ol>
+    </div>
+    <table class="table table-hover">
+        <#list page.getList() as topic>
+            <tr>
+                <td style="padding-left: 10px; width: 45px;">
+                    <a href="${baseUrl!}/user/${topic.author_id!}">
+                        <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'" title="${topic.nickname!}" width="30">
+                    </a>
+                </td>
+                <td style="width: 70px;text-align: center;">
+                    <span title="回复数">${topic.reply_count!}</span>/<span title="点击数">${topic.view!}</span>
+                </td>
+                <td style="width: 40px;">
+                    <#if topic.top == 1>
+                        <span class="label label-success">置顶</span>
+                    <#elseif topic.good == 1>
+                        <span class="label label-success">精华</span>
+                    <#else>
+                        <span class="label label-default">
+                        ${topic.sectionName!}
+                        </span>
+                    </#if>
+                </td>
+                <td><a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a></td>
+                <td align="right">
+                    <#if topic.last_reply_author_avatar??>
+                        <a href="${baseUrl!}/user/${topic.last_reply_author_id}">
+                            <img src="${topic.last_reply_author_avatar}" width="25" style="border-radius: 25px;" />
+                        </a>
+                    </#if>
+                </td>
+                <td style="width: 70px;"><script>document.write(formatDateTime('${topic.in_time!}'))</script></td>
+            </tr>
+        </#list>
+    </table>
+    <#include "/page/front/common/_paginate.html" />
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/user/topics/${current_user.id!}" urlParas="" />
+</div>
+</@html>

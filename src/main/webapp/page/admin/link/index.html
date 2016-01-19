@@ -1,0 +1,63 @@
+<#include "/page/admin/common/_layout.html"/>
+<@layout page_tab="link">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/link">友链</a></li>
+    <li class="active">列表</li>
+</ol>
+<a href="${baseUrl!}/admin/link/add" class="btn btn-sm btn-default pull-right">添加</a>
+<form id="form-sort" action="${baseUrl!}/admin/link/sort" method="post">
+<table class="table table-hover">
+    <thead>
+    <th>名称</th>
+    <th>访问地址</th>
+    <th>操作</th>
+    </thead>
+    <tbody id="sortable">
+    <#list admin_links as link>
+        <tr class="ui-state-default" id="link_${link.id!}">
+            <td>
+                <input type="hidden" name="ids" value="${link.id!}">
+                ${link.name!}
+            </td>
+            <td><a href="${link.url!}" target="_blank">${link.url!}</a></td>
+            <td>
+                <a href="${baseUrl!}/admin/link/edit?id=${link.id!}"><span class="glyphicon glyphicon-edit"></span></a>
+                <a href="javascript:deleteLink('${link.id!}')"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<input type="submit" class="btn btn-default btn-sm" value="点击保存排序">
+</form>
+<div style="margin-bottom: 15px;"></div>
+<script>
+    $(function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+    });
+
+    function deleteLink(id) {
+        if(confirm("确定 删除友链 吗？")) {
+            $.ajax({
+                url : "${baseUrl!}/admin/link/delete",
+                async : false,
+                cache : false,
+                type : 'post',
+                dataType : "json",
+                data : {
+                    id: id
+                },
+                success : function(data) {
+                    if(data.code == '200') {
+                        $("#link_" + id).remove();
+                    } else {
+                        alert(data.description);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</@layout>

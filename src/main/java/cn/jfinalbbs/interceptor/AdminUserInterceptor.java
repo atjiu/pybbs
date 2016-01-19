@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by liuyang on 15/4/9.
+ * Created by tomoya on 15/4/9.
  */
 public class AdminUserInterceptor implements Interceptor {
     public void intercept(Invocation ai) {

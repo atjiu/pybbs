@@ -3,7 +3,7 @@ package cn.jfinalbbs.user;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * Created by liuyang on 15/4/9.
+ * Created by tomoya on 15/4/9.
  */
 public class AdminUser extends Model<AdminUser> {
 

@@ -1,4 +1,4 @@
-### JFinal社区：一个是使用JFinal框架开发的社区网站
+### JFinalbbs：一个是使用JFinal框架开发的社区网站
 #### 线上地址：http://jfbbs.tomoya.cn/
 #### 后台页面入口地址：http://你的域名/adminlogin
 
@@ -150,5 +150,5 @@ UI预览：
 ------
 
 ##### 感谢大家的支持，如果项目中遇到什么问题，欢迎联系我：[liygheart@qq.com](mailto:liygheart@qq.com)
-##### 也可以到JFinal社区群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
-##### 喜欢JFinal社区的朋友，也可以 [捐助](http://jfbbs.tomoya.cn/donate) 朋也哦，朋也会更有动力的^_^
+##### 也可以到JFinalbbs群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
+##### 喜欢JFinalbbs的朋友，也可以 [捐助](http://jfbbs.tomoya.cn/donate) 朋也哦，朋也会更有动力的^_^

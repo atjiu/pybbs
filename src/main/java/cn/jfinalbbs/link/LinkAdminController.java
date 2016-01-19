@@ -6,7 +6,7 @@ import cn.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinal.aop.Before;
 
 /**
- * Created by liuyang on 15/4/26.
+ * Created by tomoya on 15/4/26.
  */
 @Before(AdminUserInterceptor.class)
 public class LinkAdminController extends BaseController {

@@ -1,0 +1,52 @@
+<#include "/page/admin/common/_layout.html"/>
+<@layout page_tab="user">
+<ol class="breadcrumb">
+    <li><a href="${baseUrl!}/admin">首页</a></li>
+    <li><a href="${baseUrl!}/admin/user">用户</a></li>
+    <li class="active">列表</li>
+</ol>
+<form class="form-inline" method="get" action="${baseUrl!}/admin/user">
+    <div class="form-group">
+        <input type="text" class="form-control" name="nickname" value="${nickname!}" placeholder="昵称"/>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" name="email" value="${email!}" placeholder="邮箱">
+    </div>
+    <button type="submit" class="btn btn-default btn-sm">搜索</button>
+</form>
+<div style="margin-bottom: 15px;"></div>
+<table class="table table-hover">
+    <thead>
+    <th>头像</th>
+    <th>昵称</th>
+    <th>邮箱</th>
+    <th>QQ绑定</th>
+    <th>微博绑定</th>
+    <th>积分</th>
+    <th>注册时间</th>
+    </thead>
+    <tbody>
+    <#list page.getList() as user>
+        <tr>
+            <td><a href="${baseUrl!}/user/${user.id}"><img src="${user.avatar!}" width="30"></a></td>
+            <td><a href="${baseUrl!}/user/${user.id}">${user.nickname!}</a></td>
+            <td><a href="mailto:${user.email!}">${user.email!}</a></td>
+            <td>
+                <#if user.qq_nickname?? && user.qq_nickname != "">
+                    <img src="${user.qq_avatar!}" width="30"/>${user.qq_nickname!}
+                </#if>
+            </td>
+            <td>
+                <#if user.sina_nickname?? && user.sina_nickname != "">
+                    <img src="${user.sina_avatar!}" width="30"/>${user.sina_nickname!}</td>
+                </#if>
+            <td>${user.score!}</td>
+            <td>${user.in_time!}</td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+<#include "/page/admin/common/_paginate.html"/>
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/user/index" urlParas="" />
+<div class="pull-right" style="margin: 20px 0;line-height:34px;">总用户数：${page.getTotalRow()}</div>
+</@layout>

@@ -1,6 +1,5 @@
 package cn.jfinalbbs.reply;
 
-import cn.jfinalbbs.collect.Collect;
 import cn.jfinalbbs.common.BaseController;
 import cn.jfinalbbs.common.Constants;
 import cn.jfinalbbs.interceptor.UserInterceptor;
@@ -14,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/3.
+ * Created by tomoya on 15/4/3.
  */
 public class ReplyController extends BaseController {
 
@@ -28,6 +27,8 @@ public class ReplyController extends BaseController {
         if (topic == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
+            // 回复数量+1
+            topic.set("reply_count", topic.getInt("reply_count") + 1).update();
             // 增加1积分
             Reply reply = new Reply();
             String content = getPara("content");

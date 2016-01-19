@@ -826,7 +826,7 @@
     };
 
     Renderer.prototype.table = function(header, body) {
-        return '<table>\n'
+        return '<table class="table table-bordered">\n'
             + '<thead>\n'
             + header
             + '</thead>\n'
@@ -882,7 +882,7 @@
                 return '';
             }
         }
-        var out = '<a href="' + href + '"';
+        var out = '<a target="_blank" href="' + href + '"';
         if (title) {
             out += ' title="' + title + '"';
         }

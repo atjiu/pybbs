@@ -1,0 +1,55 @@
+<#include "/page/front/common/_layout.html"/>
+<@html title="未读消息 - ${siteTitle!}" description="未读消息" page_tab="message" sidebar_user_info="show" sidebar_create="show">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="${baseUrl!}/">首页</a></li>
+            <li class="active">新消息</li>
+        </ol>
+    </div>
+    <table class="table table-hover">
+        <#list notifications as notification>
+            <tr>
+                <td style="padding-left: 10px;width:110px;">
+                    <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
+                </td>
+                <td style="width: 135px;">
+                    ${notification.message!}
+                </td>
+                <td>
+                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+                </td>
+            </tr>
+        </#list>
+    </table>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="/">首页</a></li>
+            <li class="active">过往消息</li>
+        </ol>
+    </div>
+    <table class="table table-hover">
+        <#list oldMessages.getList() as notification>
+            <tr>
+                <td style="padding-left: 10px;width:110px;">
+                    <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
+                </td>
+                <td style="width: 135px;">
+                    ${notification.message!}
+                </td>
+                <td>
+                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+                </td>
+                <td style="width: 45px;">
+                    已读
+                </td>
+            </tr>
+        </#list>
+    </table>
+    <#include "/page/front/common/_paginate.html" />
+    <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="/user/message/${session.user.id!}" urlParas="" />
+</div>
+</@html>

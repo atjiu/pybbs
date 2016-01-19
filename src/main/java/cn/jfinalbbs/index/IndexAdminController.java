@@ -12,7 +12,7 @@ import com.jfinal.aop.Before;
 import java.util.List;
 
 /**
- * Created by liuyang on 15/4/9.
+ * Created by tomoya on 15/4/9.
  */
 @Before(AdminUserInterceptor.class)
 public class IndexAdminController extends BaseController {

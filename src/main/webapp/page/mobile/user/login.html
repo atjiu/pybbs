@@ -1,0 +1,42 @@
+<#include "/page/mobile/common/_layout.html"/>
+<@html title="登录 - ${siteTitle!}" description="登录">
+
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="${baseUrl!}/">首页</a> / 登录</div>
+    <div class="panel-body">
+        <div class="divider">
+            <input type="email" id="email" class="form-control" placeholder="邮箱(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="password" id="password" class="form-control" placeholder="密码(必填)"/>
+        </div>
+        <div class="divider">
+            <input type="button" onclick="login_btn()" value="提交" class="btn btn-default"/>
+            <span id="errMsg"></span>
+            <div class="pull-right" style="line-height: 34px;"><a href="${baseUrl!}/forgetpwd">忘记密码?</a></div>
+        </div>
+    </div>
+</div>
+<script>
+    function login_btn() {
+        $.ajax({
+            url: "${baseUrl!}/login",
+            async: false,
+            cache: false,
+            type: 'post',
+            dataType: "json",
+            data: {
+                email: $("#email").val(),
+                password: $("#password").val()
+            },
+            success: function (data) {
+                if (data.code == '200') {
+                    location.href="${baseUrl!}/";
+                } else {
+                    $("#errMsg").css("color", "red").html(data.description);
+                }
+            }
+        });
+    }
+</script>
+</@html>

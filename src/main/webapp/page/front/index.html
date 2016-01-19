@@ -1,0 +1,106 @@
+<#include "/page/front/common/_layout.html"/>
+<@html title="首页 - ${siteTitle!}" description="" page_tab="topic" sidebar_user_info="show" sidebar_checkin="show"
+    sidebar_create="show" sidebar_scoretop="show" sidebar_not_reply_topic="show" sidebar_jfbbs_run_status="show">
+    <div class="panel panel-default">
+        <div class="panel-heading ot-tab-heading">
+            <ul class="nav nav-pills">
+                <li <#if tab == 'good'> class="active" </#if> style="margin-right: 8px;">
+                    <a href="${baseUrl!}/?tab=good">精华</a>
+                </li>
+                <#list sections as section>
+                    <li <#if tab == section.tab> class="active" </#if> style="margin-right:8px;">
+                        <a href="${baseUrl!}/?tab=${section.tab!}&q=${q!}">${section.name!}</a>
+                    </li>
+                </#list>
+                <#if l??>
+                    <li class="active">
+                        <a href="javascript:;">标签：${_label.name!}</a>
+                    </li>
+                <#elseif q?? && q != "">
+                    <li class="active">
+                        <a href="javascript:;">搜索：${q!}</a>
+                    </li>
+                </#if>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <#list page.getList() as topic>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="${baseUrl!}/user/${topic.author_id}">
+                            <img src="${topic.avatar!}" alt="avatar" class="media-object avatar">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <div class="media-heading item-title">
+                            <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
+                        </div>
+                        <p class="small-fade">
+                            <#if topic.top == 1>
+                                <a class="node" href="javascript:;">置顶</a>
+                            <#elseif topic.good == 1>
+                                <a class="node" href="${baseUrl!}/?tab=good">精华</a>
+                            <#else>
+                                <a class="node" href="${baseUrl!}/?tab=${topic.tab!}">${topic.sectionName!}</a>
+                            </#if>
+                             • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • <script>document.write(formatDateTime('${topic.last_reply_time!}'))</script>
+                        </p>
+                    </div>
+                    <#if topic.last_reply_author_avatar??>
+                        <div class="media-right">
+                            <a href="${baseUrl!}/user/${topic.last_reply_author_id}" title="最后回复">
+                                <img src="${topic.last_reply_author_avatar}" width="25" style="border-radius: 25px;" />
+                            </a>
+                        </div>
+                    </#if>
+                </div>
+                <#if topic_has_next>
+                    <div class="divide"></div>
+                </#if>
+            </#list>
+        </div>
+        <#--<table class="table table-hover">
+            <#list page.getList() as topic>
+                <tr>
+                    <td style="padding-left: 10px; width: 45px;">
+                        <a href="${baseUrl!}/user/${topic.author_id}">
+                            <img src="${topic.avatar!}" onerror="this.src='${baseUrl!}/static/img/default_avatar.png'" title="${topic.nickname!}" width="30">
+                        </a>
+                    </td>
+                    <td style="width: 70px; text-align: center;">
+                        <span title="回复数">${topic.reply_count!}</span>/<span title="点击数">${topic.view!}</span>
+                    </td>
+                    <td style="width: 40px;">
+                        <#if topic.top == 1>
+                            <span class="label label-primary">置顶</span>
+                        <#elseif topic.good == 1>
+                            <span class="label label-primary">精华</span>
+                        <#else>
+                            <span class="label label-default">
+                            ${topic.sectionName!}
+                            </span>
+                        </#if>
+                    </td>
+                    <td>
+                        <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
+                        <#list topic.labels as label>
+                            <a href="${baseUrl!}/?q=${q!}&l=${label.id!}">
+                                <span class="label label-info label-item-sm">${label.name!}</span>
+                            </a>
+                        </#list>
+                    </td>
+                    <td align="right">
+                        <#if topic.last_reply_author_avatar??>
+                            <a href="${baseUrl!}/user/${topic.last_reply_author_id}">
+                                <img src="${topic.last_reply_author_avatar}" width="25" style="border-radius: 25px;" />
+                            </a>
+                        </#if>
+                    </td>
+                    <td style="width: 72px;"><script>document.write(formatDateTime('${topic.last_reply_time!}'))</script></td>
+                </tr>
+            </#list>
+        </table>-->
+        <#include "/page/front/common/_paginate.html" />
+        <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&q=${q!}&tab=${tab!}" />
+    </div>
+</@html>
