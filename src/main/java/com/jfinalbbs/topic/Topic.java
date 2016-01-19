@@ -1,5 +1,6 @@
 package com.jfinalbbs.topic;
 
+import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.section.Section;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.MarkdownUtil;
@@ -108,9 +109,10 @@ public class Topic extends Model<Topic> {
     //查询我回复的话题
     public Page<Topic> paginateMyReplyTopics(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, "select t.*, " +
+                "(select u.avatar from user u where u.id = t.author_id) as avatar, " +
                 "(select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
                 "(select s.name from section s where s.id = t.s_id) as sectionName ",
-                "from reply r left join topic t on t.id = r.tid where r.author_id = ? group by r.tid order by r.in_time desc", authorId);
+                "from reply r left join topic t on t.id = r.tid where r.author_id = ? group by r.id order by r.in_time desc", authorId);
     }
 
     //查询话题总数
