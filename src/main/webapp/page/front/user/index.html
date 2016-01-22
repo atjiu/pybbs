@@ -35,7 +35,7 @@
             </div>
         </#if>
         <span class="glyphicon glyphicon-log-in"></span>
-        注册时间 <script>document.write(formatDateTime('${current_user.in_time!}'))</script>
+        注册时间 ${current_user.formatDate(current_user.in_time)!}
     </div>
 </div>
 
@@ -64,7 +64,7 @@
                         <#else>
                             <a class="node" href="${baseUrl!}/?tab=${topic.tab!}">${topic.sectionName!}</a>
                         </#if>
-                        • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • <script>document.write(formatDateTime('${topic.last_reply_time!}'))</script>
+                        • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • ${topic.formatDate(topic.last_reply_time)!}
                     </p>
                 </div>
                 <#if topic.last_reply_author_avatar??>
@@ -109,7 +109,7 @@
                         <#else>
                             <a class="node" href="${baseUrl!}/?tab=${topic.tab!}">${topic.sectionName!}</a>
                         </#if>
-                        • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • <script>document.write(formatDateTime('${topic.last_reply_time!}'))</script>
+                        • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • ${topic.formatDate(topic.last_reply_time)!}
                     </p>
                 </div>
                 <#if topic.last_reply_author_avatar??>

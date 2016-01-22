@@ -10,7 +10,7 @@
         <div style="font-size: 16px;padding-bottom: 5px; font-weight: 600;">${topic.title!}</div>
         <div style="font-size: 10px;color: #838383;">
             <span>
-                <script>document.write(formatDateTime('${topic.in_time!}'))</script>&nbsp;
+                ${topic.formatDate(topic.in_time)!}&nbsp;
             </span>
             <span>作者 <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname}</a>&nbsp;</span>
             <span>${topic.view!} 次浏览&nbsp;</span>
@@ -74,7 +74,7 @@
                 </a>
                 <span style="vertical-align: super;">
                     <a href="${baseUrl!}/user/${reply.author_id!}" data_class="atwho" data_id="${reply.author_id!}">${reply.nickname!}</a>
-                    <script>document.write(formatDateTime('${reply.in_time!}'))</script>
+                    ${reply.formatDate(reply.in_time)!}
                 </span>
                 <#if session.user??>
                     <div style="float: right;">

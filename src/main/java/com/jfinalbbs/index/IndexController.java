@@ -436,7 +436,8 @@ public class IndexController extends BaseController {
                             .set("expire_time", DateUtil.getMinuteAfter(new Date(), 30))
                             .set("target", email)
                             .save();
-                    EmailSender.sendMail("JFinalbbs－找回密码验证码", new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
+                    EmailSender.sendMail("JFinalbbs－找回密码验证码",
+                            new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
                     success();
                 }
             } else if (type.equalsIgnoreCase(Constants.ValiCodeType.REG)) {

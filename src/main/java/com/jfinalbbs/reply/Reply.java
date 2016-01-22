@@ -5,9 +5,11 @@ import com.jfinalbbs.utils.MarkdownUtil;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Tomoya.
@@ -57,5 +59,10 @@ public class Reply extends Model<Reply> {
 
     public Page<Reply> pageByAuthorId(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, "select * ", " from reply r where r.author_id = ? group by r.tid", authorId);
+    }
+
+    public String formatDate(Date date) {
+        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+        return prettyTime.format(date);
     }
 }

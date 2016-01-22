@@ -6,9 +6,11 @@ import com.jfinalbbs.utils.StrUtil;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Tomoya.
@@ -83,6 +85,11 @@ public class User extends Model<User> {
         String end = DateUtil.formatDate(new Date()) + " 23:59:59";
         return super.find("select nickname, email, qq_nickname, sina_nickname, qq_avatar, sina_avatar, in_time " +
                 "from user where in_time between ? and ? order by in_time desc", start, end);
+    }
+
+    public String formatDate(Date date) {
+        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+        return prettyTime.format(date);
     }
 
 }

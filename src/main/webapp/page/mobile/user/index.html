@@ -28,7 +28,7 @@
                     <#if current_user.url?? && current_user.url != "">
                         <div>主页: <a href="${current_user.url!}" target="_blank">${current_user.url!}</a></div>
                     </#if>
-                    <div>入住: 注册时间 <script>document.write(formatDateTime('${current_user.in_time!}'))</script></div>
+                    <div>入住: 注册时间 ${current_user.formatDate(current_user.in_time)!}</div>
                 </td>
             </tr>
             </tbody>
@@ -59,7 +59,7 @@
                         </#if>
                         <span title="回复数" class="label label-info">${topic.reply_count!}</span>
                         <span style="display: inline-block; float: right;">
-                            <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                            ${topic.formatDate(topic.in_time)!}
                         </span>
                     </span>
                 </td>
@@ -97,7 +97,7 @@
                         </#if>
                         <span title="回复数" class="label label-info">${topic.reply_count!}</span>
                         <span style="display: inline-block; float: right;">
-                            <script>document.write(formatDateTime('${topic.in_time!}'))</script>
+                            ${topic.formatDate(topic.in_time)!}
                         </span>
                     </span>
                     </td>

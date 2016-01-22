@@ -37,7 +37,7 @@
                         </a>
                     </#if>
                 </td>
-                <td style="width: 70px;"><script>document.write(formatDateTime('${topic.in_time!}'))</script></td>
+                <td style="width: 70px;">${topic.formatDate(topic.in_time)!}</td>
             </tr>
         </#list>
     </table>

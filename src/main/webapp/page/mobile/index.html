@@ -34,7 +34,7 @@
                     </#if>
                     <span title="回复数" class="label label-info">${topic.reply_count!}</span>
                     <span style="display: inline-block; float: right;">
-                        <script>document.write(formatDateTime('${topic.last_reply_time!}'))</script>
+                        ${topic.formatDate(topic.last_reply_time)!}
                     </span>
                 </span>
             </td>

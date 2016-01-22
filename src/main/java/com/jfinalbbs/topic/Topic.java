@@ -7,9 +7,11 @@ import com.jfinalbbs.utils.MarkdownUtil;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Tomoya.
@@ -137,6 +139,11 @@ public class Topic extends Model<Topic> {
     //格式化markdown语法
     public String md2html(String content) {
         return MarkdownUtil.marked(content);
+    }
+
+    public String formatDate(Date date) {
+        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+        return prettyTime.format(date);
     }
 
 }

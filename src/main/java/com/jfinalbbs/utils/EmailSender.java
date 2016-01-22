@@ -55,8 +55,8 @@ public class EmailSender {
             // 设置session,和邮件服务器进行通讯。
             MimeMessage message = new MimeMessage(session);
             // message.setContent("foobar, "application/x-foobar"); // 设置邮件格式
-            message.setSubject(subject == null?MAIL_SUBJECT:subject); // 设置邮件主题
-            message.setText(mailBody); // 设置邮件正文
+            message.setSubject(subject == null?MAIL_SUBJECT:subject, "UTF-8"); // 设置邮件主题
+            message.setText(mailBody, "UTF-8"); // 设置邮件正文
 //          message.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
             message.setSentDate(new Date()); // 设置邮件发送日期
             Address address = new InternetAddress(mail_from, sender);
@@ -105,7 +105,7 @@ public class EmailSender {
     }
 
     public static void main(String[] args) {
-        sendMail(null, new String[]{""}, "测试邮件内容");
+        sendMail(null, new String[]{"1956587218@qq.com"}, "测试邮件内容");
     }
 
 }

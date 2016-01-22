@@ -31,13 +31,13 @@
             <br>
             <span style="font-size: 12px;color: #838383;">
                 <span>•发布于
-                    <script>document.write(formatDateTime('${topic.in_time!}'))</script>&nbsp;
+                    ${topic.formatDate(topic.in_time)!}&nbsp;
                 </span>
                 <span>•作者 <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>&nbsp;</span>
                 <span>•${topic.view!} 次浏览&nbsp;</span>
                 <#if topic.modify_time??>
                     <span>•最后一次编辑是
-                        <script>document.write(formatDateTime('${topic.modify_time!}'))</script>&nbsp;
+                        ${topic.formatDate(topic.modify_time)!}&nbsp;
                     </span>
                 </#if>
                 <span>
@@ -88,7 +88,7 @@
                 </a>
                 <span>
                     <a href="${baseUrl!}/user/${reply.author_id!}" data_class="atwho" data_id="${reply.author_id!}">${reply.nickname!}</a>
-                    <script>document.write(formatDateTime('${reply.in_time!}'))</script>
+                    ${reply.formatDate(reply.in_time)!}
                 </span>
                 <#if session.user??>
                     <div style="float: right;">
