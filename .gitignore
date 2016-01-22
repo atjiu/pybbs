@@ -11,3 +11,6 @@
 hs_err_pid*
 
 .idea/
+jfinalbbs.iml
+jfinalbbs.log
+target/

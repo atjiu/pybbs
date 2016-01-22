@@ -105,7 +105,7 @@ public class EmailSender {
     }
 
     public static void main(String[] args) {
-        sendMail(null, new String[]{"1956587218@qq.com"}, "测试邮件内容");
+        sendMail(null, new String[]{""}, "测试邮件内容");
     }
 
 }
