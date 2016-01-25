@@ -187,4 +187,19 @@ public class TopicController extends BaseController {
         redirect(Constants.getBaseUrl() + "/topic/" + topic.get("id"));
     }
 
+    public void md2html() {
+        List<Topic> topics = Topic.me.findAll();
+//        for(Topic t: topics) {
+//            t.set("content", Topic.me.md2html(t.get("content").toString()));
+//            t.update();
+//        }
+        renderText("topic transate over!");
+        List<Reply> replies = Reply.me.find("select * from reply");
+        for(Reply r: replies) {
+            r.set("content", Topic.me.md2html(r.get("content").toString()));
+            r.update();
+        }
+        renderText("reply transate over!");
+    }
+
 }

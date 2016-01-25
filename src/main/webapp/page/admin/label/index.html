@@ -36,7 +36,7 @@
     </tbody>
 </table>
 <#include "/page/admin/common/_paginate.html"/>
-<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/label/index" urlParas="" />
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/admin/label/index" urlParas="" />
 <div class="pull-right" style="margin: 20px 0;line-height:34px;">总标签数：${page.getTotalRow()}</div>
 
 <script>

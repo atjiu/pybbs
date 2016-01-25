@@ -53,7 +53,7 @@ public class ReplyController extends BaseController {
                     User user1 = User.me.findByNickname(nickname);
                     if(user1 != null) {
                         //将@xx转换成链接
-                        content = content.replace("@" + nickname, "[@" + nickname + "]("+Constants.getBaseUrl()+"/user/"+user1.getStr("id")+")");
+                        content = content.replace("@" + nickname, "<a href='"+Constants.getBaseUrl()+"/user/"+user1.getStr("id")+"'>@"+nickname+"</a>");
                         if(!user1.getStr("id").equals(user.getStr("id"))) {
                             Notification collectNoti = new Notification();
                             collectNoti.set("tid", tid)

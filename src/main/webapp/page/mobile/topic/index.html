@@ -28,7 +28,7 @@
     </div>
     <div class="panel-body sep">
         <div id="topic_content" class="hidden word-wrap">
-            ${topic.md2html(topic.content)!}
+            ${topic.content!}
         </div>
         <div>
             <#list labels as label>
@@ -99,7 +99,7 @@
                 </#if>
                 <div>
                     <div id="reply_content_${reply_index}" class="hidden reply_content word-wrap">
-                        ${reply.md2html(reply.content)!}
+                        ${reply.content!}
                     </div>
                 </div>
             </div>

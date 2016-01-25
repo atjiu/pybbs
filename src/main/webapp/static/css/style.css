@@ -77,6 +77,12 @@ a.node:hover {
 #topic_content img{
     max-width: 100%;
 }
+#reply_content {
+    margin-bottom: 5px;
+}
+.reply_content {
+    text-indent: 24px;
+}
 .reply_content img {
     max-width: 100%
 }

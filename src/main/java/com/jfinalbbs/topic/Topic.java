@@ -136,6 +136,10 @@ public class Topic extends Model<Topic> {
     }
     // --------------- 后台查询方法 结束 --------------
 
+    public List<Topic> findAll() {
+        return super.find("select * from topic");
+    }
+
     //格式化markdown语法
     public String md2html(String content) {
         return MarkdownUtil.marked(content);

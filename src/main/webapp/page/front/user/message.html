@@ -50,6 +50,6 @@
         </#list>
     </table>
     <#include "/page/front/common/_paginate.html" />
-    <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="/user/message/${session.user.id!}" urlParas="" />
+    <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="${baseUrl!}/user/message/${session.user.id!}" urlParas="" />
 </div>
 </@html>

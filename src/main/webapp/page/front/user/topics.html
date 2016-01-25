@@ -42,6 +42,6 @@
         </#list>
     </table>
     <#include "/page/front/common/_paginate.html" />
-    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/user/topics/${current_user.id!}" urlParas="" />
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/user/topics/${current_user.id!}" urlParas="" />
 </div>
 </@html>

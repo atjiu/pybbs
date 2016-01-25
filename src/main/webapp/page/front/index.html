@@ -60,6 +60,6 @@
             </#list>
         </div>
         <#include "/page/front/common/_paginate.html" />
-        <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&q=${q!}&tab=${tab!}" />
+        <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/" urlParas="&q=${q!}&tab=${tab!}" />
     </div>
 </@html>

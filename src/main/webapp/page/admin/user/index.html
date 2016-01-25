@@ -47,6 +47,6 @@
     </tbody>
 </table>
 <#include "/page/admin/common/_paginate.html"/>
-<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/admin/user/index" urlParas="" />
+<@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/admin/user/index" urlParas="" />
 <div class="pull-right" style="margin: 20px 0;line-height:34px;">总用户数：${page.getTotalRow()}</div>
 </@layout>

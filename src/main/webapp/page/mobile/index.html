@@ -42,7 +42,7 @@
         </#list>
     </table>
     <#include "/page/mobile/common/_paginate.html"/>
-    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="/" urlParas="&tab=${tab!}" />
+    <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/" urlParas="&tab=${tab!}" />
 </div>
 <div class="panel panel-default">
     <div class="panel-body sep">友情链接</div>

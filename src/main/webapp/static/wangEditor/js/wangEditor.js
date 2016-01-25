@@ -362,7 +362,7 @@ $.extend($E, {
             '          pluginspage="http://www.macromedia.com/go/getflashplayer" ',
             '          type="application/x-shockwave-flash"/>',
             '</object>',
-            '<p><br></p>'
+            '<p><</p>'
         ].join(''),
 
         // 视频 -html5
@@ -3261,7 +3261,7 @@ $.extend($E.fn, {
             ['viewSourceCode'],
             ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor', 'strikethrough'],
             ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
-            ['createLink', 'insertTable', 'insertExpression'],
+            ['createLink', 'insertTable'],
             ['insertImage', 'insertCode', 'fullScreen']
         ];
 	}
