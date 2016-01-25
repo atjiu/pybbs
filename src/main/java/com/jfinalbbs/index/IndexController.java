@@ -1,5 +1,6 @@
 package com.jfinalbbs.index;
 
+import com.jfinal.upload.UploadFile;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.label.Label;
@@ -26,7 +27,9 @@ import com.qq.connect.javabeans.qzone.UserInfoBean;
 import com.qq.connect.oauth.Oauth;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -491,6 +494,31 @@ public class IndexController extends BaseController {
 
     public void donate() {
         render("front/donate.html");
+    }
+
+    public void upload() {
+        List<UploadFile> uploadFiles = getFiles("imgs");
+//        System.out.println(uploadFile.getOriginalFileName());//图片原来的名字
+//        System.out.println(uploadFile.getFileName());//图片保存到服务器的名字
+        List<String> imgFiles = new ArrayList<String>();
+        for(UploadFile uf: uploadFiles) {
+            imgFiles.add(Constants.getBaseUrl() + "/static/upload/imgs/" + uf.getFileName());
+        }
+        if(imgFiles.size() == 1) {
+            renderText(imgFiles.get(0));
+        } else {
+            renderText(imgFiles.toString());
+        }
+    }
+
+    public void pasteupload() {
+        UploadFile uploadFile = getFile("wangEditorPasteFile", "imgs");
+        if(uploadFile != null) {
+            //剪贴板里的图片没有后缀,要重命名一下,页面上才能识别
+            File file = new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName());
+            file.renameTo(new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName() + ".jpg"));
+            renderText(Constants.getBaseUrl() + "/static/upload/imgs/" + uploadFile.getFileName() + ".jpg");
+        }
     }
 
 }

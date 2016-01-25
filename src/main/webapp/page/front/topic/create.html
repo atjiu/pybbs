@@ -1,8 +1,10 @@
 <#include "/page/front/common/_layout.html"/>
 <@html title="发布话题 - ${siteTitle!}" description="发布话题" sidebar_create_info="show" page_tab="topic" sidebar_md_help="show">
 <link rel="stylesheet" href="${baseUrl!}/static/bootstrap/css/jquery-ui.css"/>
-<script src="${baseUrl!}/static/js/marked.js"></script>
+<link rel="stylesheet" href="${baseUrl!}/static/wangEditor/css/wangEditor.css">
 <script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+<script src="${baseUrl!}/static/wangEditor/js/wangEditor.js"></script>
+<script src="${baseUrl!}/static/plupload/js/plupload.full.min.js"></script>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -30,10 +32,14 @@
                 <textarea id="content" name="content" class="form-control" style="height: 400px;"></textarea>
             </div>
             <input type="button" onclick="submitForm()" value="提  交" class="btn btn-default btn-sm">
-            <input type="button" onclick="preview()" value="预  览" class="btn btn-default btn-sm pull-right">
 
             <div id="preview_content" class="hidden"></div>
         </form>
+    </div>
+    <div id="uploadContainer">
+        <input type="button" value="选择文件" id="btnBrowse"/>
+        <input type="button" value="上传文件" id="btnUpload">
+        <ul id="fileList"></ul>
     </div>
 </div>
 <script type="text/javascript">
@@ -52,11 +58,6 @@
         } else {
             $("#create_form").submit();
         }
-    }
-
-    function preview() {
-        var content = $("#content").val();
-        $("#preview_content").html(marked(content)).removeClass("hidden").addClass("pre_backgroud_color");
     }
 
     $(function () {
@@ -88,6 +89,86 @@
             close: function() {
                 $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
             }
+        });
+
+        //获取dom节点
+        var $uploadContainer = $('#uploadContainer'),
+                $fileList = $('#fileList'),
+                $btnUpload = $('#btnUpload');
+
+        var editor = $('#content').wangEditor({
+            //重要：传入 uploadImgComponent 参数，值为 $uploadContainer
+            uploadImgComponent: $uploadContainer,
+            pasteUrl: '${baseUrl!}/pasteupload'
+        });
+
+        //实例化一个上传对象
+        var uploader = new plupload.Uploader({
+            browse_button: 'btnBrowse',
+            url: '${baseUrl!}/upload',
+            flash_swf_url: 'plupload/Moxie.swf',
+            sliverlight_xap_url: 'plupload/Moxie.xap',
+            filters: {
+                mime_types: [
+                    //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
+                    { title: "图片文件", extensions: "jpg,gif,png,bmp" }
+                ]
+            }
+        });
+
+        //存储多个图片的url地址
+        var urls = [];
+
+        //重要：定义 event 变量，会在下文（触发上传事件时）被赋值
+        var event;
+
+        //初始化
+        uploader.init();
+
+        //绑定文件添加到队列的事件
+        uploader.bind('FilesAdded', function (uploader, files) {
+            //显示添加进来的文件名
+            $.each(files, function(key, value){
+                var fileName = value.name,
+                        html = '<li>' + fileName + '</li>';
+                $fileList.append(html);
+            });
+        });
+
+        //单个文件上传之后
+        uploader.bind('FileUploaded', function (uploader, file, responseObject) {
+            //从服务器返回图片url地址
+            var url = responseObject.response;
+            //先将url地址存储来，待所有图片都上传完了，再统一处理
+            urls.push(url);
+        });
+
+        //全部文件上传时候
+        uploader.bind('UploadComplete', function (uploader, files) {
+            // 用 try catch 兼容IE低版本的异常情况
+            try {
+                //打印出所有图片的url地址
+                $.each(urls, function (key, value) {
+                    //重要：调用 editor.command 方法，把每一个图片的url，都插入到编辑器中
+                    //重要：此处的 event 即上文定义的 event 变量
+                    editor.command(event, 'insertHTML', '<img src="' + value + '"/>');
+                });
+            } catch (ex) {
+                // 此处可不写代码
+            } finally {
+                //清空url数组
+                urls = [];
+
+                //清空显示列表
+                $fileList.html('');
+            }
+        });
+
+        //上传事件
+        $btnUpload.click(function(e){
+            //重要：将事件参数 e 赋值给 上文定义的 event 变量
+            event = e;
+            uploader.start();
         });
     });
 

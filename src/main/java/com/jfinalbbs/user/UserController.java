@@ -176,7 +176,4 @@ public class UserController extends BaseController {
         redirect(Constants.getBaseUrl() + "/user/setting");
     }
 
-    public void testRootPath() {
-        System.out.println(PathKit.getWebRootPath());
-    }
 }
