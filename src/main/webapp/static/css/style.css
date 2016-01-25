@@ -81,7 +81,7 @@ a.node:hover {
     margin-bottom: 5px;
 }
 .reply_content {
-    text-indent: 24px;
+    margin-left: 24px;
 }
 .reply_content img {
     max-width: 100%
