@@ -168,7 +168,7 @@ td, th {
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    border: 1px solid transparent;
+    border: 1px solid #ccc;
     border-radius: 4px;
 }
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {

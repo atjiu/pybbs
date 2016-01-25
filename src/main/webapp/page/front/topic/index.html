@@ -2,11 +2,11 @@
 <@html title="${topic.title!} - ${siteTitle!}" description="${topic.title!}" page_tab="topic" sidebar_topic_user="show"
     sidebar_other_topic="show" sidebar_not_reply_topic="show">
 <link rel="stylesheet" href="${baseUrl!}/static/wangEditor/css/wangEditor.css">
-<#--<link rel="stylesheet" href="${baseUrl!}/static/css/jquery.atwho.min.css">-->
-<#--<script src="${baseUrl!}/static/js/lodash.min.js"></script>-->
+<link rel="stylesheet" href="${baseUrl!}/static/css/jquery.atwho.min.css">
+<script src="${baseUrl!}/static/js/lodash.min.js"></script>
 <script src="${baseUrl!}/static/wangEditor/js/wangEditor.js"></script>
 <script src="${baseUrl!}/static/plupload/js/plupload.full.min.js"></script>
-<#--<script src="${baseUrl!}/static/js/jquery.atwho.min.js"></script>-->
+<script src="${baseUrl!}/static/js/jquery.atwho.min.js"></script>
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -234,6 +234,17 @@
         });
 
         //==========wangEditor End============
+
+        var nicknames = [];
+        nicknames[0] = {author_id:'${topic.author_id!}', name: '${topic.nickname!}'};
+        $("a[data_class='atwho']").each(function (i, item) {
+            nicknames[i + 1] = {author_id:$(item).attr('data_id') ,name:$(item).text()};
+        });
+
+        editor.$txt.atwho({
+            at: '@',
+            data: _.uniq(nicknames, 'author_id')
+        });
     });
 
     var _type = 0;
@@ -294,17 +305,6 @@
             });
         }
     }
-
-    <#--var nicknames = [];-->
-    <#--nicknames[0] = {author_id:'${topic.author_id!}', name: '${topic.nickname!}'};-->
-    <#--$("a[data_class='atwho']").each(function (i, item) {-->
-        <#--nicknames[i + 1] = {author_id:$(item).attr('data_id') ,name:$(item).text()};-->
-    <#--});-->
-
-    <#--$('#content').atwho({-->
-        <#--at: '@',-->
-        <#--data: _.uniq(nicknames, 'author_id')-->
-    <#--});-->
 
 </script>
 </@html>
