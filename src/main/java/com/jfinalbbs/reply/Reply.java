@@ -52,15 +52,6 @@ public class Reply extends Model<Reply> {
                         start, end);
     }
 
-    //markdown语法转html
-    public String md2html(String content) {
-        return MarkdownUtil.marked(content);
-    }
-
-    public Page<Reply> pageByAuthorId(int pageNumber, int pageSize, String authorId) {
-        return super.paginate(pageNumber, pageSize, "select * ", " from reply r where r.author_id = ? group by r.tid", authorId);
-    }
-
     public String formatDate(Date date) {
         PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
         return prettyTime.format(date);

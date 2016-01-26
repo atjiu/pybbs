@@ -186,21 +186,4 @@ public class TopicController extends BaseController {
         setSessionAttr(Constants.USER_SESSION, user);
         redirect(Constants.getBaseUrl() + "/topic/" + topic.get("id"));
     }
-
-    public void md2html() {
-        List<Topic> topics = Topic.me.findAll();
-        for(Topic t: topics) {
-            t.set("content", Topic.me.md2html(t.get("content").toString()));
-            t.update();
-        }
-        System.out.println("topic over");
-        List<Reply> replies = Reply.me.find("select * from reply");
-        for(Reply r: replies) {
-            r.set("content", Topic.me.md2html(r.get("content").toString()));
-            r.update();
-        }
-        System.out.println("reply over");
-        renderText("reply transate over!");
-    }
-
 }

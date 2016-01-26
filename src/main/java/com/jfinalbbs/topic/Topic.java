@@ -140,11 +140,6 @@ public class Topic extends Model<Topic> {
         return super.find("select * from topic");
     }
 
-    //格式化markdown语法
-    public String md2html(String content) {
-        return MarkdownUtil.marked(content);
-    }
-
     public String formatDate(Date date) {
         PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
         return prettyTime.format(date);
