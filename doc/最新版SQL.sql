@@ -224,6 +224,7 @@ CREATE TABLE `topic` (
   `top` int(11) NOT NULL DEFAULT '0' COMMENT '1置顶 0默认',
   `good` int(11) NOT NULL DEFAULT '0' COMMENT '1精华 0默认',
   `show_status` int(11) NOT NULL DEFAULT '1' COMMENT '1显示0不显示',
+  `reply_count` int(11) NOT NULL DEFAULT '0' COMMENT '话题回复数量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 

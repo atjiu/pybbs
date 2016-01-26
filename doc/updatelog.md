@@ -147,8 +147,18 @@ UI预览：
 - 用户增加了搜索
 - 增加了标签菜单
 
-------
+----- 
 
-##### 感谢大家的支持，如果项目中遇到什么问题，欢迎联系我：[liygheart@qq.com](mailto:liygheart@qq.com)
-##### 也可以到JFinalbbs群里反馈，qq群号：[419343003](http://shang.qq.com/wpa/qunwpa?idkey=c130a2aea2fa297b67d39eca4531bcf878735eecd3fe7645d49d8c7f5458147e)
-##### 喜欢JFinalbbs的朋友，也可以 [捐助](http://jfbbs.tomoya.cn/donate) 朋也哦，朋也会更有动力的^_^
+### 2016年1月26日 V2.0更新内容
+
+#### 前端
+1. 去掉了textarea编辑框,换成了[wangEditor](https://github.com/wangfupeng1988/wangEditor)
+2. 更新了首页显示的样式,个人觉得较以前好看些
+![](http://i8.tietuku.com/d980e57ef3ee9fea.png)
+
+#### 后端
+1. 后台模板换成AdminLTE,好看多了哦
+![](http://i8.tietuku.com/673362c86928317f.png)
+
+#### 数据库
+1. topic表里新增字段reply_count,现在查询列表明显快多了
