@@ -1,5 +1,5 @@
 # 如何开始
-1. clone代码,maven编译打成war包
+1. clone代码,maven编译打成war包,或者下载war包 链接: http://pan.baidu.com/s/1jHtlDOE 密码: v22e
 2. 下载tomcat,解压
 3. 将war包放到`tomcat/webapp`下,启动tomcat(`./bin/startup.sh`)
 4. 修改webapp下的`jfinalbbs/WEB-INF/classes/config.properties`文件的配置,怎么配置,打开看看就明白了,很简单
