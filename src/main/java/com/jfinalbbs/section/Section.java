@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class Section extends Model<Section> implements Serializable {
 
-    private static final long serialVersionUID = 4351698554467528103L;
-
     public final static Section me = new Section();
 
     public List<Section> findAll() {
