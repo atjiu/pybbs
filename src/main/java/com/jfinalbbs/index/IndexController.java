@@ -515,9 +515,10 @@ public class IndexController extends BaseController {
         UploadFile uploadFile = getFile("wangEditorPasteFile", "imgs");
         if(uploadFile != null) {
             //剪贴板里的图片没有后缀,要重命名一下,页面上才能识别
+            String newName = StrUtil.randomString(16);
             File file = new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName());
-            file.renameTo(new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName() + ".jpg"));
-            renderText(Constants.getBaseUrl() + "/static/upload/imgs/" + uploadFile.getFileName() + ".jpg");
+            file.renameTo(new File(uploadFile.getUploadPath() + "/" + newName + ".jpg"));
+            renderText(Constants.getBaseUrl() + "/static/upload/imgs/" + newName + ".jpg");
         }
     }
 

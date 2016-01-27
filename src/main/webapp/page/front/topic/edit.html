@@ -31,7 +31,7 @@
             <input type="button" class="btn btn-default btn-sm" onclick="addLabel()" value="添加">
             <input type="text" placeholder="标题字数10字以上" id="title" name="title" value="${topic.title!}" class="form-control" style="margin-bottom: 5px;"/>
             <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" value="${topic.original_url!}" class="form-control" style="margin-bottom: 5px;"/>
-            <div style="margin-bottom: 5px;"><textarea id="content" name="content" class="form-control" style="height: 400px;">${topic.content!}</textarea></div>
+            <div style="margin-bottom: 5px;"><textarea id="content" name="content" class="form-control" style="height: 400px;"></textarea></div>
             <input type="button" onclick="submitForm()" value="提  交" class="btn btn-default btn-sm">
         </form>
     </div>
@@ -89,6 +89,8 @@
                 $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
             }
         });
+
+        //==========wangEditor Start============
 
         //获取dom节点
         var $uploadContainer = $('#uploadContainer'),
@@ -169,6 +171,10 @@
             event = e;
             uploader.start();
         });
+
+        //==========wangEditor End============
+
+        editor.html('${topic.content!}');
     });
 
     function addLabel() {
