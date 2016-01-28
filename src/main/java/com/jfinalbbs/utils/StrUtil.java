@@ -78,7 +78,7 @@ public class StrUtil extends StrKit {
 
     public static List<String> findAt(String str) {
         List<String> ats = new ArrayList<String>();
-        String pattern = "[@]{1}([a-zA-Z0-9_\u4E00-\u9FA5]{1,})[ $]";
+        String pattern = "[@]{1}([a-zA-Z0-9_\u4E00-\u9FA5]{1,})[</span>$]";
         Pattern regex = Pattern.compile(pattern);
         Matcher regexMatcher = regex.matcher(str);
         while (regexMatcher.find()) {

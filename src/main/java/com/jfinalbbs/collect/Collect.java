@@ -3,8 +3,11 @@ package com.jfinalbbs.collect;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import org.ocpsoft.prettytime.PrettyTime;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Tomoya.
@@ -34,7 +37,7 @@ public class Collect extends Model<Collect> {
 
     public Page<Collect> findByAuthorIdWithTopic(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, " select t.*, s.name as sectionName, s.tab, u.avatar, " +
-                        " (select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
+                        " (select u.avatar from user u where u.id = t.last_reply_author_id) as last_reply_author_avatar ",
                         " from collect c left join topic t on c.tid = t.id " +
                         " left join section s on s.id = t.s_id " +
                         " left join user u on u.id = t.author_id " +
@@ -51,6 +54,11 @@ public class Collect extends Model<Collect> {
 
     public int deleteByTid(String tid) {
         return Db.update("delete from collect where tid = ?", tid);
+    }
+
+    public String formatDate(Date date) {
+        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+        return prettyTime.format(date);
     }
 
 }

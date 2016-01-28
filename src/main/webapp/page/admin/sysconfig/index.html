@@ -39,6 +39,20 @@
                             <input type="text" class="form-control" id="pageSize" name="pageSize" value="${pageSize!}" placeholder="分页条数,例:20">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="baidu_site_meta" class="col-sm-2 control-label">百度站长meta</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="baidu_site_meta" name="baidu_site_meta" value='${baidu_site_meta!}' placeholder='百度站长meta,例:&lt;meta property="baidu-site-verification" content="" /&gt;'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="google_site_meta" class="col-sm-2 control-label">谷歌站长meta</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="google_site_meta" name="google_site_meta" value='${google_site_meta!}' placeholder='谷歌站长meta,例:&lt;meta property="google-site-verification" content="" /&gt;'>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="box-header with-border">
@@ -68,6 +82,13 @@
                             <input type="text" class="form-control" id="qq_redirect_URI" name="qq_redirect_URI" value="${qq_redirect_URI!}" placeholder="REDIRECT_URI,例:http://jfinalbbs.com/qqlogincallback">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="qq_meta" class="col-sm-2 control-label">meta</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="qq_meta" name="qq_meta" value='${qq_meta!}' placeholder='meta,例:&lt;meta property="qc:admins" content="" /&gt;'>
+                        </div>
+                    </div>
                     <br>
                     <h5>新浪微博</h5>
                     <div class="form-group">
@@ -82,6 +103,13 @@
 
                         <div class="col-sm-5">
                             <input type="text" class="form-control" id="sina_clientSercret" name="sina_clientSercret" value="${sina_clientSercret!}" placeholder="CLIENT_SERCRET">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sina_meta" class="col-sm-2 control-label">meta</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="sina_meta" name="sina_meta" value='${sina_meta!}' placeholder='meta,例:&lt;meta property="wb:webmaster" content="" /&gt;'>
                         </div>
                     </div>
                 </div>

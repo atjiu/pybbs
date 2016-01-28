@@ -18,6 +18,9 @@ public class SysConfigAdminController extends BaseController {
         render("index.html");
     }
 
+    /**
+     * 更新系统设置
+     */
     public void save() {
         SysConfig.me.update("siteTitle", getPara("siteTitle"));
         SysConfig.me.update("baseUrl", getPara("baseUrl"));
@@ -31,6 +34,10 @@ public class SysConfigAdminController extends BaseController {
         SysConfig.me.update("emailSender", getPara("emailSender"));
         SysConfig.me.update("emailUsername", getPara("emailUsername"));
         SysConfig.me.update("emailPassword", getPara("emailPassword"));
+        SysConfig.me.update("qq_meta", getPara("qq_meta"));
+        SysConfig.me.update("sina_meta", getPara("sina_meta"));
+        SysConfig.me.update("baidu_site_meta", getPara("baidu_site_meta"));
+        SysConfig.me.update("google_site_meta", getPara("google_site_meta"));
         clearCache(Constants.SYSCONFIGCACHE, Constants.SYSCONFIGCACHEKEY);
         redirect(baseUrl() + "/admin/sysconfig");
     }

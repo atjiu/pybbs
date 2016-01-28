@@ -39,6 +39,10 @@ public class CommonInterceptor implements Interceptor {
         controller.setAttr("links", Link.me.findAll());
         controller.setAttr("baseUrl", Constants.getValue("baseUrl"));
         controller.setAttr("siteTitle", Constants.getValue("siteTitle"));
+        controller.setAttr("qq_meta", Constants.getValue("qq_meta"));
+        controller.setAttr("sina_meta", Constants.getValue("sina_meta"));
+        controller.setAttr("baidu_site_meta", Constants.getValue("baidu_site_meta"));
+        controller.setAttr("google_site_meta", Constants.getValue("google_site_meta"));
         ai.invoke();
     }
 }
