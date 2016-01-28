@@ -23,8 +23,11 @@ public class SysConfig extends Model<SysConfig> {
      * @return
      */
     public String findByKey(String key) {
-        Map<String, Object> map = findAll2Map();
-        return map.get(key).toString();
+        if(!StrUtil.isBlank(key)) {
+            Map<String, Object> map = findAll2Map();
+            return map.get(key).toString();
+        }
+        return null;
     }
 
     public Map<String, Object> findAll2Map() {

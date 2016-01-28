@@ -33,7 +33,7 @@ public class EmailSender {
     }
 
     public EmailSender() {
-        this.host = Constants.getValue("emailStmp");
+        this.host = Constants.getValue("emailSmtp");
         this.username = Constants.getValue("emailUsername");
         this.password = Constants.getValue("emailPassword");
         this.mail_from = username;
