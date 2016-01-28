@@ -1,5 +1,5 @@
-#### 模块
-##### get /api/section 模块列表
+#### 板块
+##### get /api/section 板块列表
 
 ------------
 
@@ -14,7 +14,7 @@
 接收 get 参数
 
 - p int 页数，默认1 **必填**
-- tab String 主题分类 [参照模块列表接口](http://jfbbs.tomoya.cn/api/section "参照模块列表接口")
+- tab String 主题分类 [参照板块列表接口](http://jfbbs.tomoya.cn/api/section "参照板块列表接口")
 - size int 每一页的主题数量，默认20
 
 示例：[/api/index](http://jfbbs.tomoya.cn/api/index "/api/index")
@@ -35,7 +35,7 @@
 
 - token String 用户令牌 **必填**
 - title String 标题 **必填**
-- sid String 模块id [参照模块列表接口](http://jfbbs.tomoya.cn/api/section "参照模块列表接口") **必填**
+- sid String 板块id [参照板块列表接口](http://jfbbs.tomoya.cn/api/section "参照板块列表接口") **必填**
 - content String 主体内容 **必填**
 - original_url 原文链接，原创可不填
 

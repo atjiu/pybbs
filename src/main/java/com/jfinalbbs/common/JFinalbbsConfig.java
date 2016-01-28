@@ -29,6 +29,7 @@ import com.jfinalbbs.section.Section;
 import com.jfinalbbs.section.SectionAdminController;
 import com.jfinalbbs.section.SectionClientController;
 import com.jfinalbbs.system.SysConfig;
+import com.jfinalbbs.system.SysConfigAdminController;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.topic.TopicAdminController;
 import com.jfinalbbs.topic.TopicClientController;
@@ -91,6 +92,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         me.add("/admin/link", LinkAdminController.class, "page/admin/link");
         me.add("/admin/mission", MissionAdminController.class, "page/admin/mission");
         me.add("/admin/label", LabelAdminController.class, "page/admin/label");
+        me.add("/admin/sysconfig", SysConfigAdminController.class, "page/admin/sysconfig");
     }
 
 	public void clientRoute(Routes me) {

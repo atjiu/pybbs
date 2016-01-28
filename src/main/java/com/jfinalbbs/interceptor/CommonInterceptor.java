@@ -33,7 +33,7 @@ public class CommonInterceptor implements Interceptor {
         Controller controller = ai.getController();
         // 获取今天时间，放到session里
         controller.setSessionAttr("today", DateUtil.formatDate(new Date()));
-        // 查询模块
+        // 查询板块
         controller.setAttr("sections", Section.me.findShow());
         // 查询友链
         controller.setAttr("links", Link.me.findAll());

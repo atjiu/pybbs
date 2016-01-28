@@ -179,11 +179,11 @@ DROP TABLE IF EXISTS `section`;
 
 CREATE TABLE `section` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL COMMENT '版块名称',
-  `tab` varchar(45) NOT NULL COMMENT '版块标签',
+  `name` varchar(45) NOT NULL COMMENT '板块名称',
+  `tab` varchar(45) NOT NULL COMMENT '板块标签',
   `show_status` int(11) NOT NULL DEFAULT '1' COMMENT '是否显示，0不显示1显示',
-  `display_index` int(11) NOT NULL COMMENT '版块排序',
-  `default_show` int(11) NOT NULL DEFAULT '0' COMMENT '默认显示模块 0默认，1显示',
+  `display_index` int(11) NOT NULL COMMENT '板块排序',
+  `default_show` int(11) NOT NULL DEFAULT '0' COMMENT '默认显示板块 0默认，1显示',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 

@@ -14,13 +14,13 @@ import com.jfinal.aop.Before;
 @Before(AdminUserInterceptor.class)
 public class SectionAdminController extends BaseController {
 
-    // 查询模块列表
+    // 查询板块列表
     public void index() {
         setAttr("admin_sections", Section.me.findAll());
         render("index.html");
     }
 
-    // 添加模块
+    // 添加板块
     public void add() {
         String method = getRequest().getMethod();
         if(method.equalsIgnoreCase(Constants.GET)) {
@@ -38,7 +38,7 @@ public class SectionAdminController extends BaseController {
         }
     }
 
-    // 编辑模块
+    // 编辑板块
     public void edit() {
         String method = getRequest().getMethod();
         Integer id = getParaToInt("id");
@@ -72,7 +72,7 @@ public class SectionAdminController extends BaseController {
         redirect(baseUrl() + "/admin/section/index");
     }
 
-    // 删除模块
+    // 删除板块
     public void delete() {
         Integer id = getParaToInt("id");
         if(id == null) {

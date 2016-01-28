@@ -1,0 +1,133 @@
+<#include "/page/admin/common/_layout.html"/>
+<@layout page_tab="sysconfig">
+<section class="content-header">
+    <h1>
+        设置
+        <small>列表</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="${baseUrl!}/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">设置</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box box-info">
+        <form class="form-horizontal" action="${baseUrl!}/admin/sysconfig/save" method="POST">
+            <div class="box-header with-border">
+                <h3 class="box-title">系统变量</h3>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="siteTitle" class="col-sm-2 control-label">站点标题</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="siteTitle" name="siteTitle" value="${siteTitle!}" placeholder="站点标题,例:JFinalbbs">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="baseUrl" class="col-sm-2 control-label">站点域名</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="baseUrl" name="baseUrl" value="${baseUrl!}" placeholder="站点域名,例:http://jfinalbbs.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pageSize" class="col-sm-2 control-label">分页条数</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="pageSize" name="pageSize" value="${pageSize!}" placeholder="分页条数,例:20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-header with-border">
+                <h3 class="box-title">第三方</h3>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <h5>QQ登录</h5>
+                    <div class="form-group">
+                        <label for="qq_appId" class="col-sm-2 control-label">APPID</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="qq_appId" name="qq_appId" value="${qq_appId!}" placeholder="APPID">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="qq_appKey" class="col-sm-2 control-label">APPKEY</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="qq_appKey" name="qq_appKey" value="${qq_appKey!}" placeholder="APPKEY">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="qq_redirect_URI" class="col-sm-2 control-label">REDIRECT_URI</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="qq_redirect_URI" name="qq_redirect_URI" value="${qq_redirect_URI!}" placeholder="REDIRECT_URI,例:http://jfinalbbs.com/qqlogincallback">
+                        </div>
+                    </div>
+                    <br>
+                    <h5>新浪微博</h5>
+                    <div class="form-group">
+                        <label for="sina_clientId" class="col-sm-2 control-label">CLIENT_ID</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="sina_clientId" name="sina_clientId" value="${sina_clientId!}" placeholder="CLIENT_ID">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sina_clientSercret" class="col-sm-2 control-label">CLIENT_SERCRET</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="sina_clientSercret" name="sina_clientSercret" value="${sina_clientSercret!}" placeholder="CLIENT_SERCRET">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-header with-border">
+                <h3 class="box-title">邮箱</h3>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="emailSmtp" class="col-sm-2 control-label">SMTP</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="emailSmtp" name="emailSmtp" value="${emailSmtp!}" placeholder="STMP,例:smtp.qq.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailSender" class="col-sm-2 control-label">发件人名称</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="emailSender" name="emailSender" value="${emailSender!}" placeholder="发件人名称,例:JFinalbbs">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailUsername" class="col-sm-2 control-label">邮箱地址</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="emailUsername" name="emailUsername" value="${emailUsername!}" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailPassword" class="col-sm-2 control-label">邮箱密码</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="emailPassword" name="emailPassword" value="${emailPassword!}" placeholder="Password">
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-default btn-sm">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+
+</script>
+</@layout>
