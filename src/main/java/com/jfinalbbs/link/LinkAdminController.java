@@ -20,27 +20,27 @@ public class LinkAdminController extends BaseController {
 
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if(method.equalsIgnoreCase(Constants.GET)) {
             render("add.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if(method.equalsIgnoreCase(Constants.POST)) {
             Integer maxDisplayIndex = Link.me.maxDisplayIndex();
             if(maxDisplayIndex == null) maxDisplayIndex = 0;
             getModel(Link.class).set("display_index", maxDisplayIndex + 1).save();
-            clearCache(Constants.CacheName.LINKLIST, null);
-            redirect(Constants.getBaseUrl() + "/admin/link");
+            clearCache(Constants.LINKLIST, null);
+            redirect(baseUrl() + "/admin/link");
         }
     }
 
     public void edit() {
         String method = getRequest().getMethod();
         Integer id = getParaToInt("id");
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if(method.equalsIgnoreCase(Constants.GET)) {
             setAttr("link", Link.me.findById(id));
             render("edit.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if(method.equalsIgnoreCase(Constants.POST)) {
             getModel(Link.class).update();
-            clearCache(Constants.CacheName.LINKLIST, null);
-            redirect(Constants.getBaseUrl() + "/admin/link");
+            clearCache(Constants.LINKLIST, null);
+            redirect(baseUrl() + "/admin/link");
         }
     }
 
@@ -51,7 +51,7 @@ public class LinkAdminController extends BaseController {
         } else {
             try {
                 Link.me.deleteById(id);
-                clearCache(Constants.CacheName.LINKLIST, null);
+                clearCache(Constants.LINKLIST, null);
                 success();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -66,8 +66,8 @@ public class LinkAdminController extends BaseController {
             for(int i = 0; i < ids.length; i++) {
                 Link.me.findById(ids[i]).set("display_index", i + 1).update();
             }
-            clearCache(Constants.CacheName.LINKLIST, null);
+            clearCache(Constants.LINKLIST, null);
         }
-        redirect(Constants.getBaseUrl() + "/admin/link");
+        redirect(baseUrl() + "/admin/link");
     }
 }

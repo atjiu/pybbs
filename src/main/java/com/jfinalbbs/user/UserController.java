@@ -32,7 +32,7 @@ public class UserController extends BaseController {
             setAttr("current_user", user);
             setAttr("day", day);
             Page<Collect> collectPage = Collect.me.findByAuthorId(getParaToInt("p", 1),
-                    PropKit.use("config.properties").getInt("page_size"), user.getStr("id"));
+                    defaultPageSize(), user.getStr("id"));
             setAttr("collectPage", collectPage);
             Page<Topic> topics = Topic.me.paginateByAuthorId(1, 5, user.getStr("id"));
             setAttr("topics", topics);
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
         } else {
             setAttr("current_user", user);
             Page<Collect> collectPage = Collect.me.findByAuthorIdWithTopic(getParaToInt("p", 1),
-                    PropKit.use("config.properties").getInt("page_size"), user.getStr("id"));
+                    defaultPageSize(), user.getStr("id"));
             setAttr("page", collectPage);
             render("front/user/collects.html");
         }
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
         } else {
             setAttr("current_user", user);
             Page<Topic> page = Topic.me.paginateByAuthorId(getParaToInt("p", 1),
-                    PropKit.use("config.properties").getInt("page_size"), user.getStr("id"));
+                    defaultPageSize(), user.getStr("id"));
             setAttr("page", page);
             render("front/user/topics.html");
         }
@@ -81,7 +81,7 @@ public class UserController extends BaseController {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             setAttr("current_user", user);
-            Page<Topic> myReplyTopics = Topic.me.paginateMyReplyTopics(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size"), user.getStr("id"));
+            Page<Topic> myReplyTopics = Topic.me.paginateMyReplyTopics(getParaToInt("p", 1), defaultPageSize(), user.getStr("id"));
             setAttr("page", myReplyTopics);
             render("front/user/replies.html");
         }
@@ -100,7 +100,7 @@ public class UserController extends BaseController {
         List<Notification> notifications = Notification.me.findNotReadByAuthorId(uid);
         setAttr("notifications", notifications);
         Page<Notification> oldMessages = Notification.me.paginate(getParaToInt("p", 1),
-                PropKit.use("config.properties").getInt("page_size"), uid);
+                defaultPageSize(), uid);
         setAttr("oldMessages", oldMessages);
         //将消息置为已读
         Notification.me.updateNotification(uid);
@@ -110,10 +110,10 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void setting() throws InterruptedException {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if(method.equalsIgnoreCase(Constants.GET)) {
             setAttr("save", getPara("save"));
             render("front/user/setting.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if(method.equalsIgnoreCase(Constants.POST)) {
             User user = getSessionAttr(Constants.USER_SESSION);
             String url = getPara("url");
             String nickname = getPara("nickname");
@@ -142,12 +142,12 @@ public class UserController extends BaseController {
             error("非法操作");
         } else {
             User user = (User) getSession().getAttribute(Constants.USER_SESSION);
-            if(pt.equalsIgnoreCase(Constants.ThirdLogin.QQ)) {
+            if(pt.equalsIgnoreCase(Constants.QQ)) {
                 user.set("qq_open_id", null)
                         .set("qq_avatar", null)
                         .set("qq_nickname", null)
                         .update();
-            } else if(pt.equalsIgnoreCase(Constants.ThirdLogin.SINA)) {
+            } else if(pt.equalsIgnoreCase(Constants.SINA)) {
                 user.set("sina_open_id", null)
                         .set("sina_avatar", null)
                         .set("sina_nickname", null)
@@ -166,14 +166,14 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void uploadAvatar() throws Exception {
         UploadFile uploadFile = getFile("avatar", Constants.UPLOAD_DIR_AVATAR);
-        String path = Constants.getBaseUrl() + "/" + Constants.UPLOAD_DIR + "/" + Constants.UPLOAD_DIR_AVATAR + "/" + uploadFile.getFileName();
+        String path = baseUrl() + "/" + Constants.UPLOAD_DIR + "/" + Constants.UPLOAD_DIR_AVATAR + "/" + uploadFile.getFileName();
         User user = (User) getSession().getAttribute(Constants.USER_SESSION);
         user.set("avatar", path).update();
         //裁剪图片
         String realPath = PathKit.getWebRootPath() + "/static/upload/avatar/" + uploadFile.getFileName();
         System.out.println(realPath);
         ImageUtil.zoomImage(realPath, realPath, 100, 100);
-        redirect(Constants.getBaseUrl() + "/user/setting");
+        redirect(baseUrl() + "/user/setting");
     }
 
 }

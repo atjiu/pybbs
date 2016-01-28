@@ -87,6 +87,14 @@ public class StrUtil extends StrKit {
         return ats;
     }
 
+    public static int str2int(String s) {
+        if(s == null || s.equals("")) {
+            return 0;
+        } else {
+            return Integer.parseInt(s);
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(findAt("[@朋也](http://jfbbs.tomoya.cn/user/1a973292fc004c29bfc0d95045c1c340)"));
     }

@@ -16,7 +16,7 @@ public class UserAdminController extends BaseController {
     public void index() {
         String nickname = getPara("nickname");
         String email = getPara("email");
-        setAttr("page", User.me.page(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size"), nickname, email));
+        setAttr("page", User.me.page(getParaToInt("p", 1), defaultPageSize(), nickname, email));
         setAttr("nickname", nickname);
         setAttr("email", email);
         render("index.html");

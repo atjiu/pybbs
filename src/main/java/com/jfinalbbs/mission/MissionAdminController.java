@@ -14,7 +14,7 @@ import com.jfinal.kit.PropKit;
 public class MissionAdminController extends BaseController {
 
     public void index() {
-        setAttr("page", Mission.me.paginate(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size")));
+        setAttr("page", Mission.me.paginate(getParaToInt("p", 1), defaultPageSize()));
         render("index.html");
     }
 }

@@ -22,9 +22,9 @@ public class User extends Model<User> {
 
     public User findByOpenID(String openId, String type) {
         String sql = "";
-        if(type.equalsIgnoreCase(Constants.ThirdLogin.QQ)) {
+        if(type.equalsIgnoreCase(Constants.QQ)) {
             sql = "select u.* from user u where u.qq_open_id = ?";
-        } else if(type.equalsIgnoreCase(Constants.ThirdLogin.SINA)) {
+        } else if(type.equalsIgnoreCase(Constants.SINA)) {
             sql = "select u.* from user u where u.sina_open_id = ?";
         }
         return super.findFirst(sql, openId);

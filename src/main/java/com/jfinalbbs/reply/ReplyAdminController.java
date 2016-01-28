@@ -17,7 +17,7 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 public class ReplyAdminController extends BaseController {
 
     public void index() {
-        setAttr("page", Reply.me.page(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size")));
+        setAttr("page", Reply.me.page(getParaToInt("p", 1), defaultPageSize()));
         render("index.html");
     }
 

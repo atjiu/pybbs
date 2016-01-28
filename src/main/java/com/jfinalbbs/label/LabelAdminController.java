@@ -18,7 +18,7 @@ public class LabelAdminController extends BaseController {
 
     public void index() {
         String name = getPara("name");
-        setAttr("page", Label.me.page(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size"), name));
+        setAttr("page", Label.me.page(getParaToInt("p", 1), defaultPageSize(), name));
         setAttr("name", name);
         render("index.html");
     }
@@ -40,12 +40,12 @@ public class LabelAdminController extends BaseController {
 
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if(method.equalsIgnoreCase(Constants.GET)) {
             render("add.html");
-        } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if(method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             getModel(Label.class).set("name", name).set("in_time", new Date()).set("topic_count", 0).save();
-            redirect(Constants.getBaseUrl() + "/admin/label/index");
+            redirect(baseUrl() + "/admin/label/index");
         }
     }
 }

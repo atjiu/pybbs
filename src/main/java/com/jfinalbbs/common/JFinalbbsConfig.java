@@ -28,6 +28,7 @@ import com.jfinalbbs.reply.ReplyController;
 import com.jfinalbbs.section.Section;
 import com.jfinalbbs.section.SectionAdminController;
 import com.jfinalbbs.section.SectionClientController;
+import com.jfinalbbs.system.SysConfig;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.topic.TopicAdminController;
 import com.jfinalbbs.topic.TopicClientController;
@@ -134,6 +135,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 		arp.addMapping("valicode", ValiCode.class);
 		arp.addMapping("label", Label.class);
 		arp.addMapping("label_topic_id", LabelTopicId.class);
+		arp.addMapping("sys_config", SysConfig.class);
 	}
 
 	/**

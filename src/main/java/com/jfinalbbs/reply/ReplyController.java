@@ -53,7 +53,7 @@ public class ReplyController extends BaseController {
                     User user1 = User.me.findByNickname(nickname);
                     if(user1 != null) {
                         //将@xx转换成链接
-                        content = content.replace("@" + nickname, "<a href='"+Constants.getBaseUrl()+"/user/"+user1.getStr("id")+"'>@"+nickname+"</a>");
+                        content = content.replace("@" + nickname, "<a href='"+baseUrl()+"/user/"+user1.getStr("id")+"'>@"+nickname+"</a>");
                         if(!user1.getStr("id").equals(user.getStr("id"))) {
                             Notification collectNoti = new Notification();
                             collectNoti.set("tid", tid)
@@ -83,7 +83,7 @@ public class ReplyController extends BaseController {
                         .set("author_id", topic.get("id"))
                         .set("in_time", date).save();
             }
-            redirect(Constants.getBaseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));
+            redirect(baseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));
         }
     }
 

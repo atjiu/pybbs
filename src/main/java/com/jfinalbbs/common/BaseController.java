@@ -3,6 +3,7 @@ package com.jfinalbbs.common;
 import com.jfinalbbs.utils.Result;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinalbbs.utils.StrUtil;
 
 /**
  * Created by Tomoya.
@@ -11,16 +12,24 @@ import com.jfinal.plugin.ehcache.CacheKit;
  */
 public class BaseController extends Controller {
 
+    public String baseUrl() {
+        return Constants.getValue("baseUrl");
+    }
+
+    public Integer defaultPageSize() {
+        return StrUtil.str2int(Constants.getValue("pageSize"));
+    }
+
     public void success() {
         success(null);
     }
 
     public void success(Object object) {
-        renderJson(new Result(Constants.ResultCode.SUCCESS, Constants.ResultDesc.SUCCESS, object));
+        renderJson(new Result(Constants.CODE_SUCCESS, Constants.DESC_SUCCESS, object));
     }
 
     public void error(String message) {
-        renderJson(new Result(Constants.ResultCode.FAILURE, message, null));
+        renderJson(new Result(Constants.CODE_FAILURE, message, null));
     }
 
     /**

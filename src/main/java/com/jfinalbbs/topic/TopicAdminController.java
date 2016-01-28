@@ -27,7 +27,7 @@ import java.util.List;
 public class TopicAdminController extends BaseController {
 
     public void index() {
-        setAttr("page", Topic.me.page(getParaToInt("p", 1), PropKit.use("config.properties").getInt("page_size")));
+        setAttr("page", Topic.me.page(getParaToInt("p", 1), defaultPageSize()));
         render("index.html");
     }
 
@@ -108,7 +108,7 @@ public class TopicAdminController extends BaseController {
             if (topic == null) {
                 renderText("话题不存在");
             } else {
-                if(method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+                if(method.equalsIgnoreCase(Constants.GET)) {
                     setAttr("sections", Section.me.findShow());
                     Section topicTab = Section.me.findById(topic.get("s_id"));
                     setAttr("topic_tab", topicTab);
@@ -117,7 +117,7 @@ public class TopicAdminController extends BaseController {
                     List<Label> labels = Label.me.findByTid(id);
                     setAttr("labels", labels);
                     render("edit.html");
-                } else if(method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+                } else if(method.equalsIgnoreCase(Constants.POST)) {
                     String title = getPara("title");
                     String content = getPara("content");
                     String sid = getPara("sid");

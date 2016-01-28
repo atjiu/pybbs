@@ -60,7 +60,7 @@ public class IndexController extends BaseController {
             }
         }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
-                getParaToInt("size", PropKit.use("config.properties").getInt("page_size")), tab, q, 1, l);
+                getParaToInt("size", defaultPageSize()), tab, q, 1, l);
         for (Topic t : page.getList()) {
             t.put("labels", Label.me.findByTid(t.getStr("id")));
         }
@@ -90,7 +90,7 @@ public class IndexController extends BaseController {
     public void logout() {
         removeCookie(Constants.USER_COOKIE);
         removeSessionAttr(Constants.USER_SESSION);
-        redirect(Constants.getBaseUrl() + "/");
+        redirect(baseUrl() + "/");
     }
 
     /**
@@ -158,7 +158,7 @@ public class IndexController extends BaseController {
                 }
             }
             if (StrUtil.isBlank(user.getStr("email"))) {
-                redirect(Constants.getBaseUrl() + "/reg.html?third=qq");
+                redirect(baseUrl() + "/reg.html?third=qq");
             } else {
                 setSessionAttr(Constants.USER_SESSION, user);
                 setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -166,10 +166,10 @@ public class IndexController extends BaseController {
                 if (!StrUtil.isBlank(source)) {
                     if (source.equalsIgnoreCase("usersetting")) {
                         getSession().removeAttribute("source");
-                        redirect(Constants.getBaseUrl() + "/user/setting");
+                        redirect(baseUrl() + "/user/setting");
                     }
                 } else {
-                    redirect(Constants.getBaseUrl() + "/");
+                    redirect(baseUrl() + "/");
                 }
             }
         }
@@ -236,7 +236,7 @@ public class IndexController extends BaseController {
                     }
                 }
                 if (StrUtil.isBlank(user.getStr("email"))) {
-                    redirect(Constants.getBaseUrl() + "/reg.html?third=qq");
+                    redirect(baseUrl() + "/reg.html?third=qq");
                 } else {
                     setSessionAttr(Constants.USER_SESSION, user);
                     setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -244,10 +244,10 @@ public class IndexController extends BaseController {
                     if (!StrUtil.isBlank(source)) {
                         if (source.equalsIgnoreCase("usersetting")) {
                             getSession().removeAttribute("source");
-                            redirect(Constants.getBaseUrl() + "/user/setting");
+                            redirect(baseUrl() + "/user/setting");
                         }
                     } else {
-                        redirect(Constants.getBaseUrl() + "/");
+                        redirect(baseUrl() + "/");
                     }
                 }
             } else {
@@ -264,7 +264,7 @@ public class IndexController extends BaseController {
      */
     public void adminlogin() {
         String method = getRequest().getMethod();
-        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             String userAdminToken = getCookie(Constants.COOKIE_ADMIN_TOKEN);
             if (!StrUtil.isBlank(userAdminToken)) {
                 String[] namePwd = StrUtil.getDecryptToken(userAdminToken).split("@&@");
@@ -272,13 +272,13 @@ public class IndexController extends BaseController {
                 setAttr("password", namePwd[1]);
             }
             render("front/adminlogin.html");
-        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String username = getPara("username");
             String password = getPara("password");
             int remember_me = getParaToInt("remember_me", 0);
             AdminUser adminUser = AdminUser.me.login(username, HashKit.md5(password));
             if (adminUser == null) {
-                setAttr(Constants.ERROR, "用户名或密码错误");
+                setAttr("error", "用户名或密码错误");
                 render("front/adminlogin.html");
             } else {
                 setSessionAttr(Constants.SESSION_ADMIN_USER, adminUser);
@@ -287,7 +287,7 @@ public class IndexController extends BaseController {
                 }
                 String before_url = getSessionAttr(Constants.ADMIN_BEFORE_URL);
                 if (!StrUtil.isBlank(before_url) && !before_url.contains("adminlogin")) redirect(before_url);
-                redirect(Constants.getBaseUrl() + "/admin/index");
+                redirect(baseUrl() + "/admin/index");
             }
         }
     }
@@ -308,9 +308,9 @@ public class IndexController extends BaseController {
 
     public void login() {
         String method = getRequest().getMethod();
-        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.html");
-        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("email");
             String password = getPara("password");
             if (StrUtil.isBlank(email) || StrUtil.isBlank(password)) {
@@ -330,7 +330,7 @@ public class IndexController extends BaseController {
 
     public void reg() {
         String method = getRequest().getMethod();
-        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             String third = getPara("third");
             if (StrUtil.isBlank(third)) {
                 removeSessionAttr("open_id");
@@ -339,7 +339,7 @@ public class IndexController extends BaseController {
             }
             if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.html");
             else render("front/user/reg.html");
-        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("reg_email");
             String password = getPara("reg_password");
             String nickname = getPara("reg_nickname");
@@ -351,7 +351,7 @@ public class IndexController extends BaseController {
                 if (!StrUtil.isEmail(email)) {
                     error("请输入正确的邮箱地址");
                 } else {
-                    ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.ValiCodeType.REG);
+                    ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.REG);
                     if (code == null) {
                         error("验证码不存在或已使用(已过期)");
                     } else {
@@ -374,7 +374,7 @@ public class IndexController extends BaseController {
                                         .set("in_time", date)
                                         .set("email", email)
                                         .set("token", token)
-                                        .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                        .set("avatar", baseUrl() + "/static/img/default_avatar.png")
                                         .save();
                             } else {
                                 user = getSessionAttr("unsave_user");
@@ -388,7 +388,7 @@ public class IndexController extends BaseController {
                                             .set("in_time", date)
                                             .set("email", email)
                                             .set("token", token)
-                                            .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                            .set("avatar", baseUrl() + "/static/img/default_avatar.png")
                                             .save();
                                 } else {
                                     user.set("nickname", StrUtil.noHtml(nickname).trim())
@@ -398,7 +398,7 @@ public class IndexController extends BaseController {
                                             .set("token", token)
                                             .set("in_time", date)
                                             .set("score", 0)
-                                            .set("avatar", Constants.getBaseUrl() + "/static/img/default_avatar.png")
+                                            .set("avatar", baseUrl() + "/static/img/default_avatar.png")
                                             .save();
                                 }
                                 removeSessionAttr("unsave_user");
@@ -426,7 +426,7 @@ public class IndexController extends BaseController {
         } else {
             String type = getPara("type");
             String valicode = StrUtil.randomString(6);
-            if (type.equalsIgnoreCase(Constants.ValiCodeType.FORGET_PWD)) {
+            if (type.equalsIgnoreCase(Constants.FORGET_PWD)) {
                 User user = User.me.findByEmail(email);
                 if (user == null) {
                     error("改邮箱未被注册，请先注册");
@@ -443,7 +443,7 @@ public class IndexController extends BaseController {
                             new String[]{email}, "您找回密码的验证码是：" + valicode + "\r\n" + "该验证码只能使用一次，并且有效期仅30分钟。");
                     success();
                 }
-            } else if (type.equalsIgnoreCase(Constants.ValiCodeType.REG)) {
+            } else if (type.equalsIgnoreCase(Constants.REG)) {
                 User user = User.me.findByEmail(email);
                 if (user != null) {
                     error("邮箱已经注册，请直接登录");
@@ -465,17 +465,17 @@ public class IndexController extends BaseController {
 
     public void forgetpwd() {
         String method = getRequest().getMethod();
-        if (method.equalsIgnoreCase(Constants.RequestMethod.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.html");
             else render("front/user/forgetpwd.html");
-        } else if (method.equalsIgnoreCase(Constants.RequestMethod.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("email");
             String valicode = getPara("valicode");
             String newpwd = getPara("newpwd");
             if (StrUtil.isBlank(email) || StrUtil.isBlank(valicode) || StrUtil.isBlank(newpwd)) {
                 error("请完善信息");
             } else {
-                ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.ValiCodeType.FORGET_PWD);
+                ValiCode code = ValiCode.me.findByCodeAndEmail(valicode, email, Constants.FORGET_PWD);
                 if (code == null) {
                     error("验证码不存在或已使用(已过期)");
                 } else {
@@ -502,7 +502,7 @@ public class IndexController extends BaseController {
 //        System.out.println(uploadFile.getFileName());//图片保存到服务器的名字
         List<String> imgFiles = new ArrayList<String>();
         for(UploadFile uf: uploadFiles) {
-            imgFiles.add(Constants.getBaseUrl() + "/static/upload/imgs/" + uf.getFileName());
+            imgFiles.add(baseUrl() + "/static/upload/imgs/" + uf.getFileName());
         }
         if(imgFiles.size() == 1) {
             renderText(imgFiles.get(0));
@@ -518,7 +518,7 @@ public class IndexController extends BaseController {
             String newName = StrUtil.randomString(16);
             File file = new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName());
             file.renameTo(new File(uploadFile.getUploadPath() + "/" + newName + ".jpg"));
-            renderText(Constants.getBaseUrl() + "/static/upload/imgs/" + newName + ".jpg");
+            renderText(baseUrl() + "/static/upload/imgs/" + newName + ".jpg");
         }
     }
 

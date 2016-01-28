@@ -16,6 +16,6 @@ public class HtmlHandler extends Handler {
         if(s.lastIndexOf(".html") != -1) {
             s = s.substring(0, s.indexOf(".html"));
         }
-        nextHandler.handle(s, httpServletRequest, httpServletResponse, booleans);
+        next.handle(s, httpServletRequest, httpServletResponse, booleans);
     }
 }

@@ -16,8 +16,8 @@ public class Link extends Model<Link> {
 
     public List<Link> findAll() {
         return super.findByCache(
-                Constants.CacheName.LINKLIST,
-                Constants.CacheKey.LINKLISTKEY,
+                Constants.LINKLIST,
+                Constants.LINKLISTKEY,
                 "select * from link order by display_index");
     }
 

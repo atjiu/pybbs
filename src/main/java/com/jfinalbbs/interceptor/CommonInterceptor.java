@@ -1,13 +1,15 @@
 package com.jfinalbbs.interceptor;
 
+import com.jfinal.aop.Interceptor;
+import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.link.Link;
 import com.jfinalbbs.section.Section;
+import com.jfinalbbs.system.SysConfig;
 import com.jfinalbbs.user.User;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Interceptor;
-import com.jfinal.aop.Invocation;
 
 import java.util.Date;
 
@@ -28,20 +30,15 @@ public class CommonInterceptor implements Interceptor {
             User user = User.me.findByToken(StrUtil.getDecryptToken(user_cookie));
             ai.getController().setSessionAttr(Constants.USER_SESSION, user);
         }
-
+        Controller controller = ai.getController();
         // 获取今天时间，放到session里
-        ai.getController().setSessionAttr(Constants.TODAY, DateUtil.formatDate(new Date()));
-
+        controller.setSessionAttr("today", DateUtil.formatDate(new Date()));
         // 查询模块
-        ai.getController().getRequest().setAttribute("sections", Section.me.findShow());
-
+        controller.setAttr("sections", Section.me.findShow());
         // 查询友链
-        ai.getController().getRequest().setAttribute("links", Link.me.findAll());
-
-        ai.getController().getRequest().setAttribute("baseUrl", Constants.getBaseUrl());
-
-        ai.getController().getRequest().setAttribute("siteTitle", Constants.getSiteTitle());
-
+        controller.setAttr("links", Link.me.findAll());
+        controller.setAttr("baseUrl", Constants.getValue("baseUrl"));
+        controller.setAttr("siteTitle", Constants.getValue("siteTitle"));
         ai.invoke();
     }
 }

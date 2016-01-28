@@ -16,11 +16,11 @@ public class Section extends Model<Section> implements Serializable {
     public final static Section me = new Section();
 
     public List<Section> findAll() {
-        return super.findByCache(Constants.CacheName.SECTIONLIST, Constants.CacheKey.SECTIONLISTKEY, "select * from section order by display_index");
+        return super.findByCache(Constants.SECTIONLIST, Constants.SECTIONLISTKEY, "select * from section order by display_index");
     }
 
     public List<Section> findShow() {
-        return super.findByCache(Constants.CacheName.SECTIONSHOWLIST, Constants.CacheKey.SECTIONSHOWLISTKEY, "select * from section where show_status = 1 order by display_index");
+        return super.findByCache(Constants.SECTIONSHOWLIST, Constants.SECTIONSHOWLISTKEY, "select * from section where show_status = 1 order by display_index");
     }
 
     public Section findByTab(String tab) {
@@ -28,7 +28,7 @@ public class Section extends Model<Section> implements Serializable {
     }
 
     public Section findDefault() {
-        List<Section> sections = super.findByCache(Constants.CacheName.DEFAULTSECTION, Constants.CacheKey.DEFAULTSECTIONKEY, "select * from section where default_show = 1");
+        List<Section> sections = super.findByCache(Constants.DEFAULTSECTION, Constants.DEFAULTSECTIONKEY, "select * from section where default_show = 1");
         if(sections.size() > 0) return sections.get(0);
         return null;
     }
