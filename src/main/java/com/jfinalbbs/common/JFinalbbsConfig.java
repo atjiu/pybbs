@@ -7,6 +7,7 @@ import com.jfinalbbs.handler.HtmlHandler;
 import com.jfinalbbs.index.IndexAdminController;
 import com.jfinalbbs.index.IndexClientController;
 import com.jfinalbbs.index.IndexController;
+import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.interceptor.CommonInterceptor;
 import com.jfinalbbs.label.Label;
 import com.jfinalbbs.label.LabelAdminController;
@@ -157,6 +158,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 	public void configInterceptor(Interceptors me) {
         me.add(new SessionInViewInterceptor());
         me.add(new CommonInterceptor());
+        me.add(new AdminUserInterceptor());
 	}
 	
 	/**
@@ -164,9 +166,9 @@ public class JFinalbbsConfig extends JFinalConfig {
 	 */
 	public void configHandler(Handlers me) {
         //配置druid的监听，可以在浏览器里输入http://localhost:8080/druid 查看druid监听的数据
-        me.add(new DruidStatViewHandler("/druid"));
+//        me.add(new DruidStatViewHandler("/druid"));
         me.add(new HtmlHandler());
-	}
+    }
 	
 	/**
 	 * 建议使用 JFinal 手册推荐的方式启动项目

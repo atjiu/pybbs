@@ -8,7 +8,7 @@
 			<param-value>com.jfinalbbs.common.JFinalbbsConfig</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>jfinal</filter-name>
 		<url-pattern>/*</url-pattern>

@@ -10,7 +10,6 @@ import com.jfinal.aop.Before;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-@Before(AdminUserInterceptor.class)
 public class LinkAdminController extends BaseController {
 
     public void index() {

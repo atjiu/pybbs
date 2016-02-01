@@ -10,7 +10,6 @@ import com.jfinal.kit.PropKit;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-@Before(AdminUserInterceptor.class)
 public class MissionAdminController extends BaseController {
 
     public void index() {

@@ -13,7 +13,6 @@ import java.util.Date;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-@Before(AdminUserInterceptor.class)
 public class LabelAdminController extends BaseController {
 
     public void index() {

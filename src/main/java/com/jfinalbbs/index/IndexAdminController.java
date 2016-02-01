@@ -16,7 +16,6 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-@Before(AdminUserInterceptor.class)
 public class IndexAdminController extends BaseController {
 
     public void index() {

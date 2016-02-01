@@ -13,7 +13,6 @@ import com.jfinal.plugin.activerecord.tx.Tx;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-@Before(AdminUserInterceptor.class)
 public class ReplyAdminController extends BaseController {
 
     public void index() {
