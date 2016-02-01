@@ -90,8 +90,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="${baseUrl!}/qqlogin" class="btn btn-default pull-left">QQ</a>
-                <a href="${baseUrl!}/weibologin" class="btn btn-default pull-left">微博</a>
+                <a href="${baseUrl!}/oauth/qqlogin" class="btn btn-default pull-left">QQ</a>
+                <a href="${baseUrl!}/oauth/weibologin" class="btn btn-default pull-left">微博</a>
+                <a href="${baseUrl!}/oauth/githublogin" class="btn btn-default pull-left">Github</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-default" onclick="login()">登录</button>
             </div>
@@ -108,7 +109,7 @@
             dataType: "json",
             data: {
                 email: $("#email").val(),
-                password: $("#password").val()
+                password: md5($("#password").val())
             },
             success: function (data) {
                 if (data.code == '200') {

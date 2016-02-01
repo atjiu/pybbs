@@ -27,7 +27,7 @@
             dataType: "json",
             data: {
                 email: $("#email").val(),
-                password: $("#password").val()
+                password: md5($("#password").val())
             },
             success: function (data) {
                 if (data.code == '200') {

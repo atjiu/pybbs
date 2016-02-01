@@ -38,6 +38,8 @@ public class SysConfigAdminController extends BaseController {
         SysConfig.me.update("sina_meta", getPara("sina_meta"));
         SysConfig.me.update("baidu_site_meta", getPara("baidu_site_meta"));
         SysConfig.me.update("google_site_meta", getPara("google_site_meta"));
+        SysConfig.me.update("bing_site_meta", getPara("bing_site_meta"));
+        SysConfig.me.update("beian_name", getPara("beian_name"));
         clearCache(Constants.SYSCONFIGCACHE, Constants.SYSCONFIGCACHEKEY);
         redirect(baseUrl() + "/admin/sysconfig");
     }

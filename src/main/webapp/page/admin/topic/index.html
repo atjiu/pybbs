@@ -20,8 +20,6 @@
                     <th>标题</th>
                     <th>作者</th>
                     <th width="45">分类</th>
-                    <th width="45">置顶</th>
-                    <th width="45">精华</th>
                     <th width="80">是否显示</th>
                     <th>时间</th>
                     <th>操作</th>
@@ -29,11 +27,21 @@
                     <tbody>
                         <#list page.getList() as topic>
                         <tr id="topic_${topic.id!}">
-                            <td><a href="/topic/${topic.id!}.html" target="_blank">${topic.title!}</a></td>
+                            <td>
+                                <span id="topic_top_${topic.id!}">
+                                    <#if topic.top == 1>
+                                        <span class="label label-success">顶</span>
+                                    </#if>
+                                </span>
+                                <span id="topic_good_${topic.id!}">
+                                    <#if topic.good == 1>
+                                        <span class="label label-primary">精</span>
+                                    </#if>
+                                </span>
+                                <a href="/topic/${topic.id!}.html" target="_blank">${topic.title!}</a>
+                            </td>
                             <td>${topic.nickname!}</td>
                             <td>${topic.sectionName!}</td>
-                            <td id="topic_top_${topic.id!}"><script>document.write(topic_top[${topic.top!}])</script></td>
-                            <td id="topic_good_${topic.id!}"><script>document.write(topic_good[${topic.good!}])</script></td>
                             <td>
                                 <#if topic.show_status == 1>
                                     <input type="button" value="显示" id="topic_show_btn_${topic.id!}" onclick="setShowStatus('${topic.id!}')" class="btn btn-default btn-sm"/>
@@ -123,7 +131,7 @@
                 success : function(data) {
                     if(data.code == '200') {
                         if(data.detail.top == 1) {
-                            $("#topic_top_" + id).html("<span style='color: yellowgreen'>置顶</span>");
+                            $("#topic_top_" + id).html('<span class="label label-success">顶</span>');
                         } else if(data.detail.top == 0) {
                             $("#topic_top_" + id).html("");
                         }
@@ -148,7 +156,7 @@
                 success : function(data) {
                     if(data.code == '200') {
                         if(data.detail.good == 1) {
-                            $("#topic_good_" + id).html("<span style='color: yellowgreen'>精华</span>");
+                            $("#topic_good_" + id).html('<span class="label label-primary">精</span>');
                         } else if(data.detail.good == 0) {
                             $("#topic_good_" + id).html("");
                         }

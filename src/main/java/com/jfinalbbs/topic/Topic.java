@@ -126,7 +126,10 @@ public class Topic extends Model<Topic> {
 
     // --------------- 后台查询方法 开始 --------------
     public Page<Topic> page(int pageNumber, int pageSize) {
-        return super.paginate(pageNumber, pageSize, "select t.*, s.name as sectionName, s.tab, u.nickname ", "from topic t left join section s on t.s_id = s.id left join user u on t.author_id = u.id order by t.top desc, t.in_time desc");
+        return super.paginate(pageNumber, pageSize,
+                "select t.*, s.name as sectionName, s.tab, u.nickname ",
+                "from topic t left join section s on t.s_id = s.id " +
+                "left join user u on t.author_id = u.id order by t.top desc, t.in_time desc");
     }
 
     public List<Topic> findToday() {

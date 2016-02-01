@@ -4,8 +4,8 @@
     <groupId>com.jfinalbbs</groupId>
     <artifactId>jfinalbbs</artifactId>
     <packaging>war</packaging>
-    <version>1.5</version>
-    <name>jfinalbbs Maven Webapp</name>
+    <version>2.0</version>
+    <name>jfinalbbs</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
-            <version>7.6.0.v20120127</version>
+            <version>9.2.13.v20150730</version>
         </dependency>
         <dependency>
             <groupId>com.jfinal</groupId>
@@ -124,9 +124,9 @@
         <finalName>jfinalbbs</finalName>
         <plugins>
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
+                <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.1.8.v20121106</version>
+                <version>9.2.13.v20150730</version>
                 <configuration>
                     <stopKey>stop</stopKey>
                     <stopPort>5599</stopPort>

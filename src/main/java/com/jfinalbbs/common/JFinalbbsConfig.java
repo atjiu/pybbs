@@ -21,6 +21,7 @@ import com.jfinalbbs.mission.MissionController;
 import com.jfinalbbs.notification.Notification;
 import com.jfinalbbs.notification.NotificationClientController;
 import com.jfinalbbs.notification.NotificationController;
+import com.jfinalbbs.oauth.OauthController;
 import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.reply.ReplyAdminController;
 import com.jfinalbbs.reply.ReplyClientController;
@@ -68,6 +69,16 @@ public class JFinalbbsConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
+        //添加前台路由
+		frontRoute(me);
+		//添加后台路由
+		adminRoute(me);
+        //添加客户端路由
+        clientRoute(me);
+	}
+
+	//前台路由配置
+	public void frontRoute(Routes me) {
 		me.add("/", IndexController.class, "page");	// 第三个参数为该Controller的视图存放路径
 		me.add("/topic", TopicController.class, "page");
 		me.add("/user", UserController.class, "page");
@@ -76,10 +87,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 		me.add("/collect", CollectController.class, "page");
 		me.add("/notification", NotificationController.class, "page");
 		me.add("/label", LabelController.class, "page");
-        //添加后台路由
-		adminRoute(me);
-        //添加客户端路由
-        clientRoute(me);
+		me.add("/oauth", OauthController.class);
 	}
 
 	//后台路由配置
@@ -138,6 +146,9 @@ public class JFinalbbsConfig extends JFinalConfig {
 		arp.addMapping("label", Label.class);
 		arp.addMapping("label_topic_id", LabelTopicId.class);
 		arp.addMapping("sys_config", SysConfig.class);
+
+		//====
+
 	}
 
 	/**
