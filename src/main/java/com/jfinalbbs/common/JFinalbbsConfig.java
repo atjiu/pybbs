@@ -1,5 +1,7 @@
 package com.jfinalbbs.common;
 
+import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
 import com.jfinalbbs.collect.Collect;
 import com.jfinalbbs.collect.CollectClientController;
 import com.jfinalbbs.collect.CollectController;
@@ -48,13 +50,17 @@ import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinalbbs.user.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
 public class JFinalbbsConfig extends JFinalConfig {
-	
+
 	/**
 	 * 配置常量
 	 */
@@ -65,7 +71,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         me.setBaseUploadPath(com.jfinalbbs.common.Constants.UPLOAD_DIR);
 		me.setMaxPostSize(2048000);
     }
-	
+
 	/**
 	 * 配置路由
 	 */
@@ -128,7 +134,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 		me.add(druidPlugin);
 
         me.add(new EhCachePlugin());
-		
+
 		// 配置ActiveRecord插件
 //		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
@@ -160,7 +166,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         me.add(new CommonInterceptor());
         me.add(new AdminUserInterceptor());
 	}
-	
+
 	/**
 	 * 配置处理器
 	 */
@@ -169,8 +175,31 @@ public class JFinalbbsConfig extends JFinalConfig {
 //        me.add(new DruidStatViewHandler("/druid"));
         me.add(new HtmlHandler());
     }
-	
-	/**
+
+    /**
+     * 启动完毕所做的处理
+     */
+    public void afterJFinalStart() {
+        try {
+            String qq_properties = "qqconnectconfig.properties";
+            Properties qq_prop = PropKit.use(qq_properties).getProperties();
+            qq_prop.setProperty("app_ID", com.jfinalbbs.common.Constants.getValue("qq_appId"));
+            qq_prop.setProperty("app_KEY", com.jfinalbbs.common.Constants.getValue("qq_appKey"));
+            qq_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("qq_redirect_URI"));
+            qq_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + qq_properties), "read db config write to prop file");
+
+            String sina_properties = "weiboconfig.properties";
+            Properties sina_prop = PropKit.use(sina_properties).getProperties();
+            sina_prop.setProperty("client_ID", com.jfinalbbs.common.Constants.getValue("sina_clientId"));
+            sina_prop.setProperty("client_SERCRET", com.jfinalbbs.common.Constants.getValue("sina_clientSercret"));
+            sina_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("sina_redirect_URI"));
+            sina_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + sina_properties), "read db config write to prop file");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
 	 * 建议使用 JFinal 手册推荐的方式启动项目
 	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
 	 */

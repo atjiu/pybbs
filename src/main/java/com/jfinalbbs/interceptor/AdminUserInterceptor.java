@@ -21,7 +21,6 @@ public class AdminUserInterceptor implements Interceptor {
         HttpSession session = ai.getController().getSession();
 
         String requestURI = request.getRequestURI();
-        System.out.println("=======" + requestURI);
         if(requestURI.contains("/admin") && !requestURI.equals("/adminlogin")) {
             String namePwd = ai.getController().getCookie(Constants.COOKIE_ADMIN_TOKEN);
             AdminUser adminUser = (AdminUser) session.getAttribute(Constants.SESSION_ADMIN_USER);
