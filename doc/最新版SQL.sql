@@ -20,33 +20,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table admin_user
+# Dump of table jfbbs_admin_user
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `admin_user`;
+DROP TABLE IF EXISTS `jfbbs_admin_user`;
 
-CREATE TABLE `admin_user` (
+CREATE TABLE `jfbbs_admin_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL COMMENT '后台用户名',
   `password` varchar(45) NOT NULL COMMENT '后台密码(123456)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
-LOCK TABLES `admin_user` WRITE;
-/*!40000 ALTER TABLE `admin_user` DISABLE KEYS */;
+LOCK TABLES `jfbbs_admin_user` WRITE;
+/*!40000 ALTER TABLE `jfbbs_admin_user` DISABLE KEYS */;
 
-INSERT INTO `admin_user` (`id`, `username`, `password`)
+INSERT INTO `jfbbs_admin_user` (`id`, `username`, `password`)
 VALUES
 	(1,'admin','e10adc3949ba59abbe56e057f20f883e');
 
-/*!40000 ALTER TABLE `admin_user` ENABLE KEYS */;
+/*!40000 ALTER TABLE `jfbbs_admin_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table collect
+# Dump of table jfbbs_collect
 # ------------------------------------------------------------
 
-CREATE TABLE `collect` (
+CREATE TABLE `jfbbs_collect` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `tid` varchar(32) NOT NULL COMMENT '收藏话题id',
   `author_id` varchar(32) NOT NULL COMMENT '用户id',
@@ -56,12 +56,12 @@ CREATE TABLE `collect` (
 
 
 
-# Dump of table label
+# Dump of table jfbbs_label
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `label`;
+DROP TABLE IF EXISTS `jfbbs_label`;
 
-CREATE TABLE `label` (
+CREATE TABLE `jfbbs_label` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `in_time` datetime NOT NULL,
@@ -70,10 +70,10 @@ CREATE TABLE `label` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
-LOCK TABLES `label` WRITE;
-/*!40000 ALTER TABLE `label` DISABLE KEYS */;
+LOCK TABLES `jfbbs_label` WRITE;
+/*!40000 ALTER TABLE `jfbbs_label` DISABLE KEYS */;
 
-INSERT INTO `label` (`id`, `name`, `in_time`, `topic_count`)
+INSERT INTO `jfbbs_label` (`id`, `name`, `in_time`, `topic_count`)
 VALUES
 	(1,'Java','2015-10-13 22:38:27',3),
 	(3,'软件更新','2015-10-13 22:39:23',2),
@@ -85,14 +85,14 @@ VALUES
 	(14,'工具分享','2015-10-15 18:15:00',1),
 	(19,'编辑器','2015-10-15 18:15:01',1);
 
-/*!40000 ALTER TABLE `label` ENABLE KEYS */;
+/*!40000 ALTER TABLE `jfbbs_label` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table label_topic_id
+# Dump of table jfbbs_label_topic_id
 # ------------------------------------------------------------
 
-CREATE TABLE `label_topic_id` (
+CREATE TABLE `jfbbs_label_topic_id` (
   `tid` varchar(32) NOT NULL,
   `lid` int(11) NOT NULL,
   KEY `fk_label_id` (`lid`),
@@ -101,12 +101,12 @@ CREATE TABLE `label_topic_id` (
 
 
 
-# Dump of table link
+# Dump of table jfbbs_link
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `link`;
+DROP TABLE IF EXISTS `jfbbs_link`;
 
-CREATE TABLE `link` (
+CREATE TABLE `jfbbs_link` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '友链名称',
   `url` varchar(255) NOT NULL COMMENT '友链地址',
@@ -114,21 +114,21 @@ CREATE TABLE `link` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
-LOCK TABLES `link` WRITE;
+LOCK TABLES `jfbbs_link` WRITE;
 /*!40000 ALTER TABLE `link` DISABLE KEYS */;
 
-INSERT INTO `link` (`id`, `name`, `url`, `display_index`)
+INSERT INTO `jfbbs_link` (`id`, `name`, `url`, `display_index`)
 VALUES
 	(1,'JFinalbbs','http://jfinalbbs.com/',1);
 
-/*!40000 ALTER TABLE `link` ENABLE KEYS */;
+/*!40000 ALTER TABLE `jfbbs_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table mission
+# Dump of table jfbbs_mission
 # ------------------------------------------------------------
 
-CREATE TABLE `mission` (
+CREATE TABLE `jfbbs_mission` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `score` int(11) NOT NULL COMMENT '签到随机获得积分',
   `author_id` varchar(32) NOT NULL COMMENT '用户id',
@@ -139,10 +139,10 @@ CREATE TABLE `mission` (
 
 
 
-# Dump of table notification
+# Dump of table jfbbs_notification
 # ------------------------------------------------------------
 
-CREATE TABLE `notification` (
+CREATE TABLE `jfbbs_notification` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `message` varchar(255) NOT NULL COMMENT '消息内容',
   `read` int(11) NOT NULL COMMENT '是否已读：0默认 1已读',
@@ -156,10 +156,10 @@ CREATE TABLE `notification` (
 
 
 
-# Dump of table reply
+# Dump of table jfbbs_reply
 # ------------------------------------------------------------
 
-CREATE TABLE `reply` (
+CREATE TABLE `jfbbs_reply` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `tid` varchar(32) NOT NULL COMMENT '话题id',
   `content` longtext NOT NULL COMMENT '回复内容',
@@ -172,12 +172,12 @@ CREATE TABLE `reply` (
 
 
 
-# Dump of table section
+# Dump of table jfbbs_section
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `section`;
+DROP TABLE IF EXISTS `jfbbs_section`;
 
-CREATE TABLE `section` (
+CREATE TABLE `jfbbs_section` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '板块名称',
   `tab` varchar(45) NOT NULL COMMENT '板块标签',
@@ -187,10 +187,10 @@ CREATE TABLE `section` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
-LOCK TABLES `section` WRITE;
-/*!40000 ALTER TABLE `section` DISABLE KEYS */;
+LOCK TABLES `jfbbs_section` WRITE;
+/*!40000 ALTER TABLE `jfbbs_section` DISABLE KEYS */;
 
-INSERT INTO `section` (`id`, `name`, `tab`, `show_status`, `display_index`, `default_show`)
+INSERT INTO `jfbbs_section` (`id`, `name`, `tab`, `show_status`, `display_index`, `default_show`)
 VALUES
 	(1,'问答','ask',1,4,0),
 	(2,'博客','blog',1,5,0),
@@ -201,14 +201,14 @@ VALUES
 	(11,'招聘','job',1,99,0),
 	(12,'私活','privatejob',1,99,0);
 
-/*!40000 ALTER TABLE `section` ENABLE KEYS */;
+/*!40000 ALTER TABLE `jfbbs_section` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table topic
+# Dump of table jfbbs_topic
 # ------------------------------------------------------------
 
-CREATE TABLE `topic` (
+CREATE TABLE `jfbbs_topic` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `s_id` int(11) NOT NULL COMMENT '版块id',
   `title` varchar(255) NOT NULL COMMENT '话题标题',
@@ -230,10 +230,10 @@ CREATE TABLE `topic` (
 
 
 
-# Dump of table user
+# Dump of table jfbbs_user
 # ------------------------------------------------------------
 
-CREATE TABLE `user` (
+CREATE TABLE `jfbbs_user` (
   `id` varchar(32) NOT NULL,
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
   `score` int(11) NOT NULL COMMENT '积分',
@@ -258,10 +258,10 @@ CREATE TABLE `user` (
 
 
 
-# Dump of table valicode
+# Dump of table jfbbs_valicode
 # ------------------------------------------------------------
 
-CREATE TABLE `valicode` (
+CREATE TABLE `jfbbs_valicode` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(32) NOT NULL COMMENT '验证码',
   `in_time` datetime NOT NULL COMMENT '录入时间',
