@@ -1,7 +1,16 @@
 package com.jfinalbbs.common;
 
+import com.jfinal.config.Constants;
+import com.jfinal.config.*;
+import com.jfinal.core.JFinal;
+import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.ext.plugin.tablebind.AutoTableBindPlugin;
+import com.jfinal.ext.plugin.tablebind.SimpleNameStyles;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinalbbs.collect.Collect;
 import com.jfinalbbs.collect.CollectClientController;
 import com.jfinalbbs.collect.CollectController;
@@ -38,17 +47,8 @@ import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.topic.TopicAdminController;
 import com.jfinalbbs.topic.TopicClientController;
 import com.jfinalbbs.topic.TopicController;
-import com.jfinalbbs.valicode.ValiCode;
-import com.jfinal.config.Constants;
-import com.jfinal.config.*;
-import com.jfinal.core.JFinal;
-import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.kit.HashKit;
-import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.druid.DruidStatViewHandler;
-import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinalbbs.user.*;
+import com.jfinalbbs.valicode.ValiCode;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -126,36 +126,27 @@ public class JFinalbbsConfig extends JFinalConfig {
 	 */
 	public void configPlugin(Plugins me) {
 		// 配置C3p0数据库连接池插件
-//		C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
         DruidPlugin druidPlugin = new DruidPlugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
         druidPlugin.setFilters("stat,wall");
-
-//		me.add(c3p0Plugin);
 		me.add(druidPlugin);
-
         me.add(new EhCachePlugin());
-
-		// 配置ActiveRecord插件
-//		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+        // 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
         arp.setShowSql(getPropertyToBoolean("showSql", false));
-		me.add(arp);
-		arp.addMapping("topic", Topic.class);	// 映射blog 表到 Blog模型
-		arp.addMapping("reply", Reply.class);
-		arp.addMapping("user", User.class);
-		arp.addMapping("mission", Mission.class);
-		arp.addMapping("collect", Collect.class);
-		arp.addMapping("notification", Notification.class);
-		arp.addMapping("admin_user", AdminUser.class);
-		arp.addMapping("section", Section.class);
-		arp.addMapping("link", Link.class);
-		arp.addMapping("valicode", ValiCode.class);
-		arp.addMapping("label", Label.class);
-		arp.addMapping("label_topic_id", LabelTopicId.class);
-		arp.addMapping("sys_config", SysConfig.class);
-
-		//====
-
+		arp.addMapping("jfbbs_topic", Topic.class);	// 映射blog 表到 Blog模型
+		arp.addMapping("jfbbs_reply", Reply.class);
+		arp.addMapping("jfbbs_user", User.class);
+		arp.addMapping("jfbbs_mission", Mission.class);
+		arp.addMapping("jfbbs_collect", Collect.class);
+		arp.addMapping("jfbbs_notification", Notification.class);
+		arp.addMapping("jfbbs_admin_user", AdminUser.class);
+		arp.addMapping("jfbbs_section", Section.class);
+		arp.addMapping("jfbbs_link", Link.class);
+		arp.addMapping("jfbbs_valicode", ValiCode.class);
+		arp.addMapping("jfbbs_label", Label.class);
+		arp.addMapping("jfbbs_label_topic_id", LabelTopicId.class);
+		arp.addMapping("jfbbs_sys_config", SysConfig.class);
+        me.add(arp);
 	}
 
 	/**
@@ -204,7 +195,6 @@ public class JFinalbbsConfig extends JFinalConfig {
 	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
 	 */
 	public static void main(String[] args) {
-		System.out.println(HashKit.md5("123456"));
 		JFinal.start("src/main/webapp", 8080, "/", 5);
 	}
 }

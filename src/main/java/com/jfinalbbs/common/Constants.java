@@ -10,7 +10,7 @@ import com.jfinalbbs.system.SysConfig;
 public class Constants {
 
     // 系统变量KEY
-    public static final String UPLOAD_DIR = "static/upload";
+    public static final String UPLOAD_DIR = "/Users/tomoya/Desktop/static/upload";
     public static final String UPLOAD_DIR_AVATAR = "avatar";
     public static final String NOTIFICATION_MESSAGE = "有人@你";
     public static final String NOTIFICATION_MESSAGE1 = "回复了你的话题";
