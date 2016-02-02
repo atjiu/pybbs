@@ -18,11 +18,11 @@ public class Link extends Model<Link> {
         return super.findByCache(
                 Constants.LINKLIST,
                 Constants.LINKLISTKEY,
-                "select * from link order by display_index");
+                "select * from jfbbs_link order by display_index");
     }
 
     public Integer maxDisplayIndex() {
-        return super.findFirst("select max(display_index) as display_index from link").getInt("display_index");
+        return super.findFirst("select max(display_index) as display_index from jfbbs_link").getInt("display_index");
     }
 
 }

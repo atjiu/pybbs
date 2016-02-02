@@ -17,6 +17,6 @@ public class ValiCode extends Model<ValiCode> implements Serializable {
     //查询未过期的验证码
     public ValiCode findByCodeAndEmail(String code, String email, String type) {
         String nowTime = DateUtil.formatDateTime(new Date());
-        return super.findFirst("select * from valicode v where v.status = 0 and v.code = ? and v.target = ? and v.expire_time > ? and v.type = ?", code, email, nowTime, type);
+        return super.findFirst("select * from jfbbs_valicode v where v.status = 0 and v.code = ? and v.target = ? and v.expire_time > ? and v.type = ?", code, email, nowTime, type);
     }
 }

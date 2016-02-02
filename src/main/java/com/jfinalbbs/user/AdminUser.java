@@ -13,6 +13,6 @@ public class AdminUser extends Model<AdminUser> {
 
     //根据用户名，密码登录
     public AdminUser login(String username, String password) {
-        return super.findFirst("select * from admin_user where username = ? and password = ?", username, password);
+        return super.findFirst("select * from jfbbs_admin_user where username = ? and password = ?", username, password);
     }
 }

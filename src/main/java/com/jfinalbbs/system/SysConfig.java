@@ -34,7 +34,7 @@ public class SysConfig extends Model<SysConfig> {
         List<SysConfig> list = super.findByCache(
                 Constants.SYSCONFIGCACHE,
                 Constants.SYSCONFIGCACHEKEY,
-                "select * from sys_config"
+                "select * from jfbbs_sys_config"
         );
         Map<String, Object> map = new HashMap<String, Object>();
         for(SysConfig sc: list) {
@@ -45,7 +45,7 @@ public class SysConfig extends Model<SysConfig> {
 
     public void update(String key, String value) {
         if(!StrUtil.isBlank(value)) {
-            SysConfig sysConfig = findFirst("select * from sys_config where `key` = ?", key);
+            SysConfig sysConfig = findFirst("select * from jfbbs_sys_config where `key` = ?", key);
             if (sysConfig != null) {
                 sysConfig.set("value", value);
                 sysConfig.update();

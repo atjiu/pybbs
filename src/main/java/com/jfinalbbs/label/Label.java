@@ -19,15 +19,15 @@ public class Label extends Model<Label> {
     public Page<Label> page(int pageNumber, int pageSize, String name) {
         StringBuffer condition = new StringBuffer();
         if(!StrUtil.isBlank(name)) condition.append(" and l.name like \"%" + name + "%\" ");
-        return super.paginate(pageNumber, pageSize, "select l.* ", "from label l where 1 = 1 " + condition + " order by l.topic_count desc, l.in_time desc");
+        return super.paginate(pageNumber, pageSize, "select l.* ", "from jfbbs_label l where 1 = 1 " + condition + " order by l.topic_count desc, l.in_time desc");
     }
 
     public List<Label> findByNameLike(String name) {
-        return super.find("select * from label where name like ?", "%"+name+"%");
+        return super.find("select * from jfbbs_label where name like ?", "%"+name+"%");
     }
 
     public Label findByName(String name) {
-        return super.findFirst("select * from label where name = ?", name);
+        return super.findFirst("select * from jfbbs_label where name = ?", name);
     }
 
     public List<Label> findByTid(String tid) {
