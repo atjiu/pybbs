@@ -10,9 +10,7 @@
         </div>
         <div class="panel-body">
             <div>
-                <a href="${baseUrl!}/user/${session.user.id!}">
-                    <img src="${session.user.avatar!}" title="${session.user.nickname!}" class="avatar">
-                </a>&nbsp;
+                <img src="${session.user.avatar!}" title="${session.user.nickname!}" class="avatar">&nbsp;
                 <span><a href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a></span>
                 <div style="margin-top: 10px;">
                     <div>积分: ${session.user.score!} </div>
@@ -40,9 +38,7 @@
     </div>
     <div class="panel-body">
         <div>
-            <a href="${baseUrl!}/user/${topic.author_id!}">
-                <img src="${topic.avatar!}" title="${topic.nickname!}" width="48">&nbsp;&nbsp;
-            </a>
+            <img src="${topic.avatar!}" title="${topic.nickname!}" class="avatar">&nbsp;&nbsp;
             <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>
         </div>
         <div style="margin-top: 10px;">积分: ${topic.score!} </div>

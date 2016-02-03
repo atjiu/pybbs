@@ -166,12 +166,11 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void uploadAvatar() throws Exception {
         UploadFile uploadFile = getFile("avatar", Constants.UPLOAD_DIR_AVATAR);
-        String path = baseUrl() + "/" + Constants.UPLOAD_DIR + "/" + Constants.UPLOAD_DIR_AVATAR + "/" + uploadFile.getFileName();
+        String path = baseUrl() + "/static/upload/" + Constants.UPLOAD_DIR_AVATAR + "/" + uploadFile.getFileName();
         User user = (User) getSession().getAttribute(Constants.USER_SESSION);
         user.set("avatar", path).update();
         //裁剪图片
-        String realPath = PathKit.getWebRootPath() + "/static/upload/avatar/" + uploadFile.getFileName();
-        System.out.println(realPath);
+        String realPath = Constants.UPLOAD_DIR + "/avatar/" + uploadFile.getFileName();
         ImageUtil.zoomImage(realPath, realPath, 100, 100);
         redirect(baseUrl() + "/user/setting");
     }

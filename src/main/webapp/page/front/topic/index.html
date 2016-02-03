@@ -73,45 +73,31 @@
 </div>
 <div class="panel panel-default">
     <div class="panel-heading">${topic.reply_count!"0"} 回复</div>
-    <#list replies as reply>
-        <div class="panel-body" <#if reply_index &gt; 0>style="border-top: solid #F0F0F0 1px;"</#if>>
-            <div id="${reply.id!}" style="min-height:70px;" <#if reply.isdelete == 1> class="np-label-del" </#if>>
-                <a href="${baseUrl!}/user/${reply.author_id}" class="jf_user_avatar">
-                    <img src="${reply.avatar!}" width="30" title="${reply.nickname!}">
-                </a>
-                <span>
-                    <a href="${baseUrl!}/user/${reply.author_id!}" data_class="atwho" data_id="${reply.author_id!}">${reply.nickname!}</a>
-                    ${reply.formatDate(reply.in_time)!}
-                </span>
-                <#if session.user??>
-                    <div style="float: right;">
-                        <span>
-                            <#if topic.tab == 'ask'>
-                                <#if bestReply == 1>
-                                    <#if reply.best == 1>
-                                        已采纳
-                                    </#if>
-                                <#else>
-                                    <#if session.user?? && topic.author_id == session.user.id>
-                                        <span id="bestReply_${reply.id!}">
-                                            <a href="javascritp:;" onclick="bestReply('${topic.id!}', '${reply.id!}')">
-                                                <span class="glyphicon glyphicon-ok" title="采纳此回复"></span>
-                                            </a>
-                                        </span>
-                                    </#if>
-                                </#if>
-                            </#if>
-                        </span>
+    <div class="panel-body">
+        <#list replies as reply>
+            <div class="media">
+                <div class="media-left">
+                    <a href="${baseUrl!}/user/${reply.author_id}">
+                        <img src="${reply.avatar!}" alt="avatar" class="media-object avatar">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="media-heading">
+                        <p class="small-fade">
+                            <a href="${baseUrl!}/user/${reply.author_id!}">${reply.nickname!}</a>
+                            <span>${reply.formatDate(reply.in_time)!}</span>
+                        </p>
                     </div>
-                </#if>
-                <div style="padding-top: 5px;">
-                    <div id="reply_content_${reply_index}" class="reply_content">
+                    <div class="media-body reply_content">
                         ${reply.content!}
                     </div>
                 </div>
             </div>
-        </div>
-    </#list>
+            <#if reply_has_next>
+                <div class="divide"></div>
+            </#if>
+        </#list>
+    </div>
 </div>
 <#if session.user??>
     <div class="panel panel-default" id="reply_input">

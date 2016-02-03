@@ -90,10 +90,16 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="${baseUrl!}/oauth/qqlogin" class="btn btn-default pull-left">QQ</a>
-                <a href="${baseUrl!}/oauth/weibologin" class="btn btn-default pull-left">微博</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-default" onclick="login()">登录</button>
+                <p class="pull-left">
+                    <a href="${baseUrl!}/oauth/qqlogin">
+                        <img src="${baseUrl!}/static/img/QQ_Logo_wiki.png" width="24" alt="QQ 登录">
+                    </a>&nbsp;&nbsp;
+                    <a href="${baseUrl!}/oauth/weibologin">
+                        <img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_24x24.png" alt="微博登录">
+                    </a>
+                </p>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-sm btn-default" onclick="login()">登录</button>
             </div>
         </div>
     </div>
