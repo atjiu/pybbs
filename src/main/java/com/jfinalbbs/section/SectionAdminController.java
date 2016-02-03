@@ -2,9 +2,7 @@ package com.jfinalbbs.section;
 
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Before;
 
 /**
  * Created by Tomoya.
@@ -22,9 +20,9 @@ public class SectionAdminController extends BaseController {
     // 添加板块
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             render("add.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             Integer show_status = getParaToInt("show_status");
             String tab = getPara("tab");
@@ -41,10 +39,10 @@ public class SectionAdminController extends BaseController {
     public void edit() {
         String method = getRequest().getMethod();
         Integer id = getParaToInt("id");
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("section", Section.me.findById(id));
             render("edit.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             Integer show_status = getParaToInt("show_status");
             String tab = getPara("tab");
@@ -60,10 +58,10 @@ public class SectionAdminController extends BaseController {
     // 排序
     public void sort() {
         Integer[] ids = getParaValuesToInt("ids");
-        if(ids != null && ids.length > 0) {
-            for(int i = 0; i < ids.length; i++) {
+        if (ids != null && ids.length > 0) {
+            for (int i = 0; i < ids.length; i++) {
                 Section section = Section.me.findById(ids[i]);
-                section.set("display_index", i+1).update();
+                section.set("display_index", i + 1).update();
             }
         }
         // clear cache
@@ -74,7 +72,7 @@ public class SectionAdminController extends BaseController {
     // 删除板块
     public void delete() {
         Integer id = getParaToInt("id");
-        if(id == null) {
+        if (id == null) {
             error(Constants.OP_ERROR_MESSAGE);
         } else {
             try {
@@ -90,11 +88,11 @@ public class SectionAdminController extends BaseController {
 
     public void setDefault() {
         String tab = getPara("tab");
-        if(StrUtil.isBlank(tab)) {
+        if (StrUtil.isBlank(tab)) {
             error("设置失败");
         } else {
             Section defaultSection = Section.me.findDefault();
-            if(!tab.equals(defaultSection.getStr("tab"))) {
+            if (!tab.equals(defaultSection.getStr("tab"))) {
                 defaultSection.set("default_show", 0).update();
                 Section section = Section.me.findByTab(tab);
                 section.set("default_show", 1).update();

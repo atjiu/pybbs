@@ -2,12 +2,10 @@ package com.jfinalbbs.index;
 
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.mission.Mission;
 import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.user.User;
-import com.jfinal.aop.Before;
 
 import java.util.List;
 

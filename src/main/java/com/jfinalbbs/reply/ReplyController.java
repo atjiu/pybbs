@@ -1,5 +1,6 @@
 package com.jfinalbbs.reply;
 
+import com.jfinal.aop.Before;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.interceptor.UserInterceptor;
@@ -7,7 +8,6 @@ import com.jfinalbbs.notification.Notification;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.user.User;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Before;
 
 import java.util.Date;
 import java.util.List;
@@ -48,13 +48,13 @@ public class ReplyController extends BaseController {
             List<String> ats = StrUtil.findAt(content);
             //发送通知
             boolean flag = false;
-            if(ats.size() > 0) {
-                for (String nickname: ats) {
+            if (ats.size() > 0) {
+                for (String nickname : ats) {
                     User user1 = User.me.findByNickname(nickname);
-                    if(user1 != null) {
+                    if (user1 != null) {
                         //将@xx转换成链接
-                        content = content.replace("@" + nickname, "<a href='"+baseUrl()+"/user/"+user1.getStr("id")+"'>@"+nickname+"</a>");
-                        if(!user1.getStr("id").equals(user.getStr("id"))) {
+                        content = content.replace("@" + nickname, "<a href='" + baseUrl() + "/user/" + user1.getStr("id") + "'>@" + nickname + "</a>");
+                        if (!user1.getStr("id").equals(user.getStr("id"))) {
                             Notification collectNoti = new Notification();
                             collectNoti.set("tid", tid)
                                     .set("rid", reply.get("id"))
@@ -64,7 +64,7 @@ public class ReplyController extends BaseController {
                                     .set("author_id", user1.get("id"))
                                     .set("in_time", date).save();
                         }
-                        if(user1.getStr("id").equals(topic.getStr("author_id"))) {
+                        if (user1.getStr("id").equals(topic.getStr("author_id"))) {
                             flag = true;
                         }
                     }
@@ -73,7 +73,7 @@ public class ReplyController extends BaseController {
             //更新内容
             reply.set("content", content).update();
             //通知话题作者
-            if(!user.getStr("id").equals(topic.getStr("author_id")) && !flag) {
+            if (!user.getStr("id").equals(topic.getStr("author_id")) && !flag) {
                 Notification collectNoti = new Notification();
                 collectNoti.set("tid", tid)
                         .set("rid", reply.get("id"))
@@ -92,7 +92,7 @@ public class ReplyController extends BaseController {
         String tid = getPara("tid");
         String rid = getPara("rid");
         Reply reply = Reply.me.findBestReplyByTid(tid);
-        if(reply != null) {
+        if (reply != null) {
             error("该话题已经采纳最佳答案了,请不要重复采纳");
         } else {
             Reply reply1 = Reply.me.findById(rid);

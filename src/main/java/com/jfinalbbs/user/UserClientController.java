@@ -20,7 +20,7 @@ public class UserClientController extends BaseController {
     public void index() {
         String token = getPara("token");
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.POST)) {
+        if (method.equalsIgnoreCase(Constants.POST)) {
             if (StrUtil.isBlank(token)) {
                 error(Constants.DESC_FAILURE);
             } else {

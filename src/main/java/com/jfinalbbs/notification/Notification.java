@@ -1,8 +1,8 @@
 package com.jfinalbbs.notification;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinalbbs.common.BaseModel;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class Notification extends Model<Notification> {
+public class Notification extends BaseModel<Notification> {
 
     public static final Notification me = new Notification();
 
@@ -19,9 +19,9 @@ public class Notification extends Model<Notification> {
     public Page<Notification> paginate(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, "select n.*, t.title, u.nickname ",
                 "from jfbbs_notification n " +
-                "left join jfbbs_topic t on n.tid = t.id " +
-                "left join jfbbs_user u on u.id = n.from_author_id " +
-                "where n.read = 1 and n.author_id = ? order by n.in_time desc", authorId);
+                        "left join jfbbs_topic t on n.tid = t.id " +
+                        "left join jfbbs_user u on u.id = n.from_author_id " +
+                        "where n.read = 1 and n.author_id = ? order by n.in_time desc", authorId);
     }
 
     //查询已读消息

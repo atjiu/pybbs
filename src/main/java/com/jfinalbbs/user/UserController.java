@@ -1,5 +1,8 @@
 package com.jfinalbbs.user;
 
+import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.upload.UploadFile;
 import com.jfinalbbs.collect.Collect;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
@@ -9,11 +12,6 @@ import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.utils.AgentUtil;
 import com.jfinalbbs.utils.ImageUtil;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PathKit;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.upload.UploadFile;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class UserController extends BaseController {
         String id = getPara(0);
         User user = User.me.findById(id);
         Integer day = User.me.findDayByAuthorId(id);
-        if(user != null) {
+        if (user != null) {
             setAttr("current_user", user);
             setAttr("day", day);
             Page<Collect> collectPage = Collect.me.findByAuthorId(getParaToInt("p", 1),
@@ -39,7 +37,7 @@ public class UserController extends BaseController {
             //查询我回复的话题
             Page<Topic> myReplyTopics = Topic.me.paginateMyReplyTopics(1, 5, user.getStr("id"));
             setAttr("myReplyTopics", myReplyTopics);
-            if(!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/index.html");
+            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/index.html");
             else render("front/user/index.html");
         } else {
             renderText(Constants.OP_ERROR_MESSAGE);
@@ -49,7 +47,7 @@ public class UserController extends BaseController {
     public void collects() {
         String uid = getPara(0);
         User user = User.me.findById(uid);
-        if(user == null) {
+        if (user == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             setAttr("current_user", user);
@@ -63,7 +61,7 @@ public class UserController extends BaseController {
     public void topics() {
         String uid = getPara(0);
         User user = User.me.findById(uid);
-        if(user == null) {
+        if (user == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             setAttr("current_user", user);
@@ -77,7 +75,7 @@ public class UserController extends BaseController {
     public void replies() {
         String uid = getPara(0);
         User user = User.me.findById(uid);
-        if(user == null) {
+        if (user == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             setAttr("current_user", user);
@@ -96,7 +94,7 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void message() {
         String uid = getPara(0);
-        if(StrUtil.isBlank(uid)) renderText(Constants.OP_ERROR_MESSAGE);
+        if (StrUtil.isBlank(uid)) renderText(Constants.OP_ERROR_MESSAGE);
         List<Notification> notifications = Notification.me.findNotReadByAuthorId(uid);
         setAttr("notifications", notifications);
         Page<Notification> oldMessages = Notification.me.paginate(getParaToInt("p", 1),
@@ -110,17 +108,17 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void setting() throws InterruptedException {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("save", getPara("save"));
             render("front/user/setting.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             User user = getSessionAttr(Constants.USER_SESSION);
             String url = getPara("url");
             String nickname = getPara("nickname");
-            if(!user.getStr("nickname").equalsIgnoreCase(nickname) && User.me.findByNickname(nickname) != null) {
+            if (!user.getStr("nickname").equalsIgnoreCase(nickname) && User.me.findByNickname(nickname) != null) {
                 error("此昵称已被注册,请更换昵称");
             } else {
-                if(!StrUtil.isBlank(url)) {
+                if (!StrUtil.isBlank(url)) {
                     if (!url.substring(0, 7).equalsIgnoreCase("http://")) {
                         url = "http://" + url;
                     }
@@ -138,16 +136,16 @@ public class UserController extends BaseController {
     @Before(UserInterceptor.class)
     public void cancelBind() {
         String pt = getPara("pt");
-        if(StrUtil.isBlank(pt)) {
+        if (StrUtil.isBlank(pt)) {
             error("非法操作");
         } else {
             User user = (User) getSession().getAttribute(Constants.USER_SESSION);
-            if(pt.equalsIgnoreCase(Constants.QQ)) {
+            if (pt.equalsIgnoreCase(Constants.QQ)) {
                 user.set("qq_open_id", null)
                         .set("qq_avatar", null)
                         .set("qq_nickname", null)
                         .update();
-            } else if(pt.equalsIgnoreCase(Constants.SINA)) {
+            } else if (pt.equalsIgnoreCase(Constants.SINA)) {
                 user.set("sina_open_id", null)
                         .set("sina_avatar", null)
                         .set("sina_nickname", null)

@@ -14,6 +14,7 @@ public class Constants {
     public static final String UPLOAD_DIR_AVATAR = "avatar";
     public static final String NOTIFICATION_MESSAGE = "有人@你";
     public static final String NOTIFICATION_MESSAGE1 = "回复了你的话题";
+    public static final String NOTIFICATION_PRIVATE_MESSAGE = "给你发了一条私信";
 
     // COOKIE SESSION变量KEY
     public static final String USER_COOKIE = "user_token_v2";

@@ -1,12 +1,10 @@
 package com.jfinalbbs.reply;
 
+import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.user.User;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.tx.Tx;
 
 /**
  * Created by Tomoya.
@@ -27,7 +25,7 @@ public class ReplyAdminController extends BaseController {
             Reply reply = Reply.me.findById(id);
             User user = User.me.findById(reply.get("author_id"));
             getModel(Reply.class).set("id", id).set("content", "回复已被删除").set("isdelete", 1).update();
-            if(user.getInt("score") <= 2) {
+            if (user.getInt("score") <= 2) {
                 user.set("score", 0).update();
             } else {
                 user.set("score", user.getInt("score") - 2).update();

@@ -17,7 +17,7 @@ public class NotificationClientController extends BaseController {
 
     public void countnotread() {
         String token = getPara("token");
-        if(StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             error("请先登录");
         } else {
             //根据token获取用户信息
@@ -33,12 +33,12 @@ public class NotificationClientController extends BaseController {
 
     public void index() {
         String token = getPara("token");
-        if(StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             error("请先登录");
         } else {
             //根据token获取用户信息
             User user = User.me.findByToken(token);
-            if(user == null) {
+            if (user == null) {
                 error("用户不存在，请退出重新登录");
             } else {
                 List<Notification> notifications = Notification.me.findNotReadByAuthorId(user.getStr("id"));

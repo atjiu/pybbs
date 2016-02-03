@@ -1,6 +1,6 @@
 package com.jfinalbbs.system;
 
-import com.jfinal.plugin.activerecord.Model;
+import com.jfinalbbs.common.BaseModel;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.utils.StrUtil;
 
@@ -13,17 +13,18 @@ import java.util.Map;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class SysConfig extends Model<SysConfig> {
+public class SysConfig extends BaseModel<SysConfig> {
 
     public final static SysConfig me = new SysConfig();
 
     /**
      * 根据key查询value,并放入缓存里
+     *
      * @param key
      * @return
      */
     public String findByKey(String key) {
-        if(!StrUtil.isBlank(key)) {
+        if (!StrUtil.isBlank(key)) {
             Map<String, Object> map = findAll2Map();
             return map.get(key).toString();
         }
@@ -37,14 +38,14 @@ public class SysConfig extends Model<SysConfig> {
                 "select * from jfbbs_sys_config"
         );
         Map<String, Object> map = new HashMap<String, Object>();
-        for(SysConfig sc: list) {
+        for (SysConfig sc : list) {
             map.put(sc.getStr("key"), sc.getStr("value"));
         }
         return map;
     }
 
     public void update(String key, String value) {
-        if(!StrUtil.isBlank(value)) {
+        if (!StrUtil.isBlank(value)) {
             SysConfig sysConfig = findFirst("select * from jfbbs_sys_config where `key` = ?", key);
             if (sysConfig != null) {
                 sysConfig.set("value", value);

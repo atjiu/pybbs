@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HtmlHandler extends Handler {
     @Override
     public void handle(String s, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, boolean[] booleans) {
-        if(s.lastIndexOf(".html") != -1) {
+        if (s.lastIndexOf(".html") != -1) {
             s = s.substring(0, s.indexOf(".html"));
         }
         next.handle(s, httpServletRequest, httpServletResponse, booleans);

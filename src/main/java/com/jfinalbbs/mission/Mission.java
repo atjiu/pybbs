@@ -1,8 +1,8 @@
 package com.jfinalbbs.mission;
 
-import com.jfinalbbs.utils.DateUtil;
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinalbbs.common.BaseModel;
+import com.jfinalbbs.utils.DateUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class Mission extends Model<Mission> {
+public class Mission extends BaseModel<Mission> {
     public static final Mission me = new Mission();
 
     public Mission findLastByAuthorId(String author_id) {

@@ -22,7 +22,7 @@ public class StrUtil extends StrKit {
     static final String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 
     public static boolean isEmail(String email) {
-        if(isBlank(email)) {
+        if (isBlank(email)) {
             return false;
         } else {
             Pattern pattern = Pattern.compile(check);
@@ -66,13 +66,13 @@ public class StrUtil extends StrKit {
         return encryptionToken;
     }
 
-    public static String noHtml(String s){
-        if(isBlank(s)) return "";
-        else return s.replaceAll("<[.[^<]]*>","");
+    public static String noHtml(String s) {
+        if (isBlank(s)) return "";
+        else return s.replaceAll("<[.[^<]]*>", "");
     }
 
     public static String transHtml(String s) {
-        if(isBlank(s)) return "";
+        if (isBlank(s)) return "";
         else return s.replace("<", "&lt;").replace(">", "&gt;");
     }
 
@@ -88,7 +88,7 @@ public class StrUtil extends StrKit {
     }
 
     public static int str2int(String s) {
-        if(s == null || s.equals("")) {
+        if (s == null || s.equals("")) {
             return 0;
         } else {
             return Integer.parseInt(s);

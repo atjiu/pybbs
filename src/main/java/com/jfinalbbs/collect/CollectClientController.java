@@ -16,7 +16,7 @@ public class CollectClientController extends BaseController {
 
     public void index() {
         String token = getPara("token");
-        if(StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             error("请先登录");
         } else {
             //根据token获取用户信息
@@ -44,7 +44,7 @@ public class CollectClientController extends BaseController {
 
     public void delete() {
         String token = getPara("token");
-        if(StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             error("请先登录");
         } else {
             //根据token获取用户信息

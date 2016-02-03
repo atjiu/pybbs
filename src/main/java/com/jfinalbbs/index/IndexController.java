@@ -1,5 +1,7 @@
 package com.jfinalbbs.index;
 
+import com.jfinal.kit.HashKit;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
@@ -14,21 +16,8 @@ import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.EmailSender;
 import com.jfinalbbs.utils.StrUtil;
 import com.jfinalbbs.valicode.ValiCode;
-import cn.weibo.Users;
-import cn.weibo.model.WeiboException;
-import com.jfinal.kit.HashKit;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.Page;
-import com.qq.connect.QQConnectException;
-import com.qq.connect.api.OpenID;
-import com.qq.connect.api.qzone.UserInfo;
-import com.qq.connect.javabeans.AccessToken;
-import com.qq.connect.javabeans.qzone.UserInfoBean;
-import com.qq.connect.oauth.Oauth;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -339,10 +328,10 @@ public class IndexController extends BaseController {
 //        System.out.println(uploadFile.getOriginalFileName());//图片原来的名字
 //        System.out.println(uploadFile.getFileName());//图片保存到服务器的名字
         List<String> imgFiles = new ArrayList<String>();
-        for(UploadFile uf: uploadFiles) {
+        for (UploadFile uf : uploadFiles) {
             imgFiles.add(baseUrl() + "/static/upload/imgs/" + uf.getFileName());
         }
-        if(imgFiles.size() == 1) {
+        if (imgFiles.size() == 1) {
             renderText(imgFiles.get(0));
         } else {
             renderText(imgFiles.toString());
@@ -351,7 +340,7 @@ public class IndexController extends BaseController {
 
     public void pasteupload() {
         UploadFile uploadFile = getFile("wangEditorPasteFile", "imgs");
-        if(uploadFile != null) {
+        if (uploadFile != null) {
             //剪贴板里的图片没有后缀,要重命名一下,页面上才能识别
             String newName = StrUtil.randomString(16);
             File file = new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName());

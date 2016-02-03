@@ -1,13 +1,13 @@
 package com.jfinalbbs.user;
 
-import com.jfinal.plugin.activerecord.Model;
+import com.jfinalbbs.common.BaseModel;
 
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class AdminUser extends Model<AdminUser> {
+public class AdminUser extends BaseModel<AdminUser> {
 
     public final static AdminUser me = new AdminUser();
 

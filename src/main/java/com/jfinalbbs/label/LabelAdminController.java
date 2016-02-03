@@ -2,9 +2,6 @@ package com.jfinalbbs.label;
 
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
 
 import java.util.Date;
 
@@ -24,8 +21,8 @@ public class LabelAdminController extends BaseController {
 
     public void delete() {
         Integer id = getParaToInt("id");
-        if(id != null) {
-            if(Label.me.deleteById(id)) {
+        if (id != null) {
+            if (Label.me.deleteById(id)) {
                 //删除中间表里关联的话题
                 LabelTopicId.me.deleteByLid(id);
                 success();
@@ -39,9 +36,9 @@ public class LabelAdminController extends BaseController {
 
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             render("add.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             getModel(Label.class).set("name", name).set("in_time", new Date()).set("topic_count", 0).save();
             redirect(baseUrl() + "/admin/label/index");

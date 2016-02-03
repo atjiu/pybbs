@@ -1,10 +1,10 @@
 package com.jfinalbbs.notification;
 
+import com.jfinal.aop.Before;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.interceptor.UserInterceptor;
 import com.jfinalbbs.user.User;
-import com.jfinal.aop.Before;
 
 /**
  * Created by Tomoya.
@@ -16,7 +16,7 @@ public class NotificationController extends BaseController {
     @Before(UserInterceptor.class)
     public void countnotread() {
         User user = getSessionAttr(Constants.USER_SESSION);
-        if(user == null) {
+        if (user == null) {
             error(Constants.DESC_FAILURE);
         } else {
             try {

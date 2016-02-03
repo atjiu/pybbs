@@ -1,10 +1,10 @@
 package com.jfinalbbs.interceptor;
 
+import com.jfinal.aop.Interceptor;
+import com.jfinal.aop.Invocation;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.user.AdminUser;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Interceptor;
-import com.jfinal.aop.Invocation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,19 +21,19 @@ public class AdminUserInterceptor implements Interceptor {
         HttpSession session = ai.getController().getSession();
 
         String requestURI = request.getRequestURI();
-        if(requestURI.contains("/admin") && !requestURI.equals("/adminlogin")) {
+        if (requestURI.contains("/admin") && !requestURI.equals("/adminlogin")) {
             String namePwd = ai.getController().getCookie(Constants.COOKIE_ADMIN_TOKEN);
             AdminUser adminUser = (AdminUser) session.getAttribute(Constants.SESSION_ADMIN_USER);
 
-            if(StrUtil.isBlank(namePwd) && adminUser != null) {
+            if (StrUtil.isBlank(namePwd) && adminUser != null) {
                 ai.getController().setCookie(Constants.COOKIE_ADMIN_TOKEN, StrUtil.getEncryptionToken(adminUser.get("username") + "@&@" + adminUser.get("password")), 30 * 60 * 60 * 24);
-            } else if(!StrUtil.isBlank(namePwd) && adminUser == null) {
+            } else if (!StrUtil.isBlank(namePwd) && adminUser == null) {
                 String[] strings = StrUtil.getDecryptToken(namePwd).split("@&@");
                 adminUser = AdminUser.me.login(strings[0], strings[1]);
                 session.setAttribute(Constants.SESSION_ADMIN_USER, adminUser);
             }
 
-            if(StrUtil.isBlank(namePwd) && adminUser == null) {
+            if (StrUtil.isBlank(namePwd) && adminUser == null) {
                 String uri = request.getRequestURI();
                 String param = "";
                 if (request.getQueryString() != null) {

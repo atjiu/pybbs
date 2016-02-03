@@ -2,8 +2,6 @@ package com.jfinalbbs.link;
 
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
-import com.jfinal.aop.Before;
 
 /**
  * Created by Tomoya.
@@ -19,11 +17,11 @@ public class LinkAdminController extends BaseController {
 
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             render("add.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             Integer maxDisplayIndex = Link.me.maxDisplayIndex();
-            if(maxDisplayIndex == null) maxDisplayIndex = 0;
+            if (maxDisplayIndex == null) maxDisplayIndex = 0;
             getModel(Link.class).set("display_index", maxDisplayIndex + 1).save();
             clearCache(Constants.LINKLIST, null);
             redirect(baseUrl() + "/admin/link");
@@ -33,10 +31,10 @@ public class LinkAdminController extends BaseController {
     public void edit() {
         String method = getRequest().getMethod();
         Integer id = getParaToInt("id");
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("link", Link.me.findById(id));
             render("edit.html");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             getModel(Link.class).update();
             clearCache(Constants.LINKLIST, null);
             redirect(baseUrl() + "/admin/link");
@@ -45,7 +43,7 @@ public class LinkAdminController extends BaseController {
 
     public void delete() {
         Integer id = getParaToInt("id");
-        if(id == null) {
+        if (id == null) {
             error(Constants.OP_ERROR_MESSAGE);
         } else {
             try {
@@ -61,8 +59,8 @@ public class LinkAdminController extends BaseController {
 
     public void sort() {
         Integer[] ids = getParaValuesToInt("ids");
-        if(ids != null && ids.length > 0) {
-            for(int i = 0; i < ids.length; i++) {
+        if (ids != null && ids.length > 0) {
+            for (int i = 0; i < ids.length; i++) {
                 Link.me.findById(ids[i]).set("display_index", i + 1).update();
             }
             clearCache(Constants.LINKLIST, null);

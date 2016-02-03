@@ -1,24 +1,20 @@
 package com.jfinalbbs.topic;
 
-import com.jfinalbbs.reply.Reply;
+import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinalbbs.common.BaseModel;
 import com.jfinalbbs.section.Section;
 import com.jfinalbbs.utils.DateUtil;
-import com.jfinalbbs.utils.MarkdownUtil;
-import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
-import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class Topic extends Model<Topic> {
+public class Topic extends BaseModel<Topic> {
 
     public static final Topic me = new Topic();
 
@@ -98,9 +94,9 @@ public class Topic extends Model<Topic> {
     public Page<Topic> paginateByAuthorId(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize,
                 "select t.*, (select s.tab from jfbbs_section s where s.id = t.s_id) as tab, " +
-                "(select u.avatar from jfbbs_user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
-                "(select s.name from jfbbs_section s where s.id = t.s_id) as sectionName, " +
-                "(select u.avatar from jfbbs_user u where u.id = t.author_id) as avatar",
+                        "(select u.avatar from jfbbs_user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
+                        "(select s.name from jfbbs_section s where s.id = t.s_id) as sectionName, " +
+                        "(select u.avatar from jfbbs_user u where u.id = t.author_id) as avatar",
                 "from jfbbs_topic t where t.author_id = ? order by in_time desc", authorId);
     }
 
@@ -111,9 +107,9 @@ public class Topic extends Model<Topic> {
     //查询我回复的话题
     public Page<Topic> paginateMyReplyTopics(int pageNumber, int pageSize, String authorId) {
         return super.paginate(pageNumber, pageSize, "select t.*, " +
-                "(select u.avatar from jfbbs_user u where u.id = t.author_id) as avatar, " +
-                "(select u.avatar from jfbbs_user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
-                "(select s.name from jfbbs_section s where s.id = t.s_id) as sectionName ",
+                        "(select u.avatar from jfbbs_user u where u.id = t.author_id) as avatar, " +
+                        "(select u.avatar from jfbbs_user u where u.id = t.last_reply_author_id) as last_reply_author_avatar, " +
+                        "(select s.name from jfbbs_section s where s.id = t.s_id) as sectionName ",
                 "from jfbbs_reply r left join jfbbs_topic t on t.id = r.tid where r.author_id = ? group by r.id order by r.in_time desc", authorId);
     }
 
@@ -129,7 +125,7 @@ public class Topic extends Model<Topic> {
         return super.paginate(pageNumber, pageSize,
                 "select t.*, s.name as sectionName, s.tab, u.nickname ",
                 "from jfbbs_topic t left join jfbbs_section s on t.s_id = s.id " +
-                "left join jfbbs_user u on t.author_id = u.id order by t.top desc, t.in_time desc");
+                        "left join jfbbs_user u on t.author_id = u.id order by t.top desc, t.in_time desc");
     }
 
     public List<Topic> findToday() {
@@ -141,11 +137,6 @@ public class Topic extends Model<Topic> {
 
     public List<Topic> findAll() {
         return super.find("select * from jfbbs_topic");
-    }
-
-    public String formatDate(Date date) {
-        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
-        return prettyTime.format(date);
     }
 
 }

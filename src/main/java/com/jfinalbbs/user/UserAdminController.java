@@ -1,9 +1,6 @@
 package com.jfinalbbs.user;
 
 import com.jfinalbbs.common.BaseController;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
 
 /**
  * Created by Tomoya.

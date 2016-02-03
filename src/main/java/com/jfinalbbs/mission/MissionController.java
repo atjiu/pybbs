@@ -1,11 +1,11 @@
 package com.jfinalbbs.mission;
 
+import com.jfinal.aop.Before;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.interceptor.UserInterceptor;
 import com.jfinalbbs.user.User;
 import com.jfinalbbs.utils.DateUtil;
-import com.jfinal.aop.Before;
 
 import java.util.Date;
 import java.util.Random;
@@ -26,14 +26,14 @@ public class MissionController extends BaseController {
         Mission mission = Mission.me.findByInTime(user.getStr("id"),
                 DateUtil.formatDate(new Date()) + " 00:00:00",
                 DateUtil.formatDate(new Date()) + " 23:59:59");
-        if(mission == null) {
+        if (mission == null) {
             //查询最后一次签到记录
             Mission lastMission = Mission.me.findLastByAuthorId(user.getStr("id"));
             Integer day = 1;
-            if(lastMission != null) {
+            if (lastMission != null) {
                 String lastMissionInTimeStr = DateUtil.formatDate(lastMission.getDate("in_time"));
                 String beforeDateStr = DateUtil.formatDate(DateUtil.getDateBefore(new Date(), 1));
-                if(lastMissionInTimeStr != null && lastMissionInTimeStr.equalsIgnoreCase(beforeDateStr)) {
+                if (lastMissionInTimeStr != null && lastMissionInTimeStr.equalsIgnoreCase(beforeDateStr)) {
                     day = lastMission.getInt("day") + 1;
                 }
             }

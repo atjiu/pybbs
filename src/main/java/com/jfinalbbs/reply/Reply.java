@@ -1,22 +1,19 @@
 package com.jfinalbbs.reply;
 
-import com.jfinalbbs.utils.DateUtil;
-import com.jfinalbbs.utils.MarkdownUtil;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
-import org.ocpsoft.prettytime.PrettyTime;
+import com.jfinalbbs.common.BaseModel;
+import com.jfinalbbs.utils.DateUtil;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class Reply extends Model<Reply> {
+public class Reply extends BaseModel<Reply> {
 
     public static final Reply me = new Reply();
 
@@ -43,7 +40,7 @@ public class Reply extends Model<Reply> {
     public Page<Reply> page(int pageNumber, int pageSize) {
         return super.paginate(pageNumber, pageSize, "select r.*, t.title, u.nickname ",
                 "from jfbbs_reply r left join jfbbs_topic t on r.tid = t.id " +
-                "left join jfbbs_user u on r.author_id = u.id order by r.in_time desc");
+                        "left join jfbbs_user u on r.author_id = u.id order by r.in_time desc");
     }
 
     public List<Reply> findToday() {
@@ -51,11 +48,7 @@ public class Reply extends Model<Reply> {
         String end = DateUtil.formatDate(new Date()) + " 23:59:59";
         return super.find("select r.id, r.tid, r.content, r.in_time, t.title, r.isdelete " +
                         "from jfbbs_reply r left join jfbbs_topic t on r.tid = t.id where r.in_time between ? and ? order by r.in_time desc",
-                        start, end);
+                start, end);
     }
 
-    public String formatDate(Date date) {
-        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
-        return prettyTime.format(date);
-    }
 }

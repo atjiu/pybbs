@@ -17,21 +17,21 @@ public class DateUtil {
     public static final String FORMAT_DATE = "yyyy-MM-dd";
 
     public static String formatDateTime(Date date) {
-        if(date == null) return null;
+        if (date == null) return null;
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATETIME);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         return sdf.format(date);
     }
 
     public static String formatDate(Date date) {
-        if(date == null) return null;
+        if (date == null) return null;
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         return sdf.format(date);
     }
 
     public static String formatDateTime(Date date, String style) {
-        if(date == null) return null;
+        if (date == null) return null;
         SimpleDateFormat sdf = new SimpleDateFormat(style);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         return sdf.format(date);
@@ -39,6 +39,7 @@ public class DateUtil {
 
     /**
      * 字符串转时间
+     *
      * @param dateString
      * @param style
      * @return
@@ -59,11 +60,12 @@ public class DateUtil {
      * 判断传入的时间是否在当前时间之后，返回boolean值
      * true: 过期
      * false: 还没过期
+     *
      * @param date
      * @return
      */
     public static boolean isExpire(Date date) {
-        if(date.before(new Date())) return true;
+        if (date.before(new Date())) return true;
         return false;
     }
 

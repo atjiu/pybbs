@@ -1,18 +1,16 @@
 package com.jfinalbbs.topic;
 
+import com.jfinal.aop.Before;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.jfinalbbs.collect.Collect;
 import com.jfinalbbs.common.BaseController;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.label.Label;
 import com.jfinalbbs.label.LabelTopicId;
 import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.section.Section;
 import com.jfinalbbs.user.User;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.tx.Tx;
 
 import java.io.IOException;
 import java.util.Date;
@@ -44,7 +42,7 @@ public class TopicAdminController extends BaseController {
         Collect.me.deleteByTid(id);
         //扣除积分
         User user = User.me.findById(author_id);
-        if(user.getInt("score") <= 5) {
+        if (user.getInt("score") <= 5) {
             user.set("score", 0).update();
         } else {
             user.set("score", user.getInt("score") - 5).update();
@@ -54,14 +52,14 @@ public class TopicAdminController extends BaseController {
 
     public void top() {
         String id = getPara("id");
-        if(StrUtil.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             error(Constants.OP_ERROR_MESSAGE);
         } else {
             Topic topic = Topic.me.findById(id);
-            if(topic == null) {
+            if (topic == null) {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
-                topic.set("top", topic.getInt("top") == 1?0:1).update();
+                topic.set("top", topic.getInt("top") == 1 ? 0 : 1).update();
                 success(topic);
             }
         }
@@ -69,14 +67,14 @@ public class TopicAdminController extends BaseController {
 
     public void good() {
         String id = getPara("id");
-        if(StrUtil.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             error(Constants.OP_ERROR_MESSAGE);
         } else {
             Topic topic = Topic.me.findById(id);
-            if(topic == null) {
+            if (topic == null) {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
-                topic.set("good", topic.getInt("good") == 1?0:1).update();
+                topic.set("good", topic.getInt("good") == 1 ? 0 : 1).update();
                 success(topic);
             }
         }
@@ -84,14 +82,14 @@ public class TopicAdminController extends BaseController {
 
     public void show_status() {
         String id = getPara("id");
-        if(StrUtil.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             error(Constants.OP_ERROR_MESSAGE);
         } else {
             Topic topic = Topic.me.findById(id);
-            if(topic == null) {
+            if (topic == null) {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
-                topic.set("show_status", topic.getInt("show_status") == 1?0:1).update();
+                topic.set("show_status", topic.getInt("show_status") == 1 ? 0 : 1).update();
                 success(topic);
             }
         }
@@ -107,7 +105,7 @@ public class TopicAdminController extends BaseController {
             if (topic == null) {
                 renderText("话题不存在");
             } else {
-                if(method.equalsIgnoreCase(Constants.GET)) {
+                if (method.equalsIgnoreCase(Constants.GET)) {
                     setAttr("sections", Section.me.findShow());
                     Section topicTab = Section.me.findById(topic.get("s_id"));
                     setAttr("topic_tab", topicTab);
@@ -117,7 +115,7 @@ public class TopicAdminController extends BaseController {
                     List<Label> labels = Label.me.findByTid(id);
                     setAttr("labels", labels);
                     render("edit.html");
-                } else if(method.equalsIgnoreCase(Constants.POST)) {
+                } else if (method.equalsIgnoreCase(Constants.POST)) {
                     String title = getPara("title");
                     String content = getPara("content");
                     String sid = getPara("sid");

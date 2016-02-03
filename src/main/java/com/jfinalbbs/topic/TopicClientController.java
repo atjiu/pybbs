@@ -22,13 +22,13 @@ public class TopicClientController extends BaseController {
     public void index() {
         Map<String, Object> map = new HashMap<String, Object>();
         String id = getPara(0);
-        if(StrUtil.isBlank(id)) {
+        if (StrUtil.isBlank(id)) {
             error("非法请求");
         } else {
             String token = getPara("token");
-            if(!StrUtil.isBlank(token)) {
+            if (!StrUtil.isBlank(token)) {
                 User user = User.me.findByToken(token);
-                if(user != null) {
+                if (user != null) {
                     Collect collect = Collect.me.findByTidAndAuthorId(id, user.getStr("id"));
                     map.put("collect", collect);
                 }
@@ -43,19 +43,19 @@ public class TopicClientController extends BaseController {
 
     public void create() {
         String token = getPara("token");
-        if(StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             error("请先登录");
         } else {
             //根据token获取用户信息
             User user = User.me.findByToken(token);
-            if(user == null) {
+            if (user == null) {
                 error("用户不存在，请退出重新登录");
             } else {
                 Integer sid = getParaToInt("sid");
                 String title = getPara("title");
                 String content = getPara("content");
                 String original_url = getPara("original_url");
-                if(sid == null || StrUtil.isBlank(title) || StrUtil.isBlank(content)) {
+                if (sid == null || StrUtil.isBlank(title) || StrUtil.isBlank(content)) {
                     error(Constants.OP_ERROR_MESSAGE);
                 } else {
                     Topic topic = new Topic();

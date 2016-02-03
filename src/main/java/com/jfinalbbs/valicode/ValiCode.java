@@ -1,7 +1,7 @@
 package com.jfinalbbs.valicode;
 
+import com.jfinalbbs.common.BaseModel;
 import com.jfinalbbs.utils.DateUtil;
-import com.jfinal.plugin.activerecord.Model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.Date;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class ValiCode extends Model<ValiCode> implements Serializable {
+public class ValiCode extends BaseModel<ValiCode> implements Serializable {
     public final static ValiCode me = new ValiCode();
 
     //查询未过期的验证码

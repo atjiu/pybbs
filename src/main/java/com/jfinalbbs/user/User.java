@@ -1,30 +1,28 @@
 package com.jfinalbbs.user;
 
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinalbbs.common.BaseModel;
 import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
-import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class User extends Model<User> {
+public class User extends BaseModel<User> {
     public static final User me = new User();
 
     public User findByOpenID(String openId, String type) {
         String sql = "";
-        if(type.equalsIgnoreCase(Constants.QQ)) {
+        if (type.equalsIgnoreCase(Constants.QQ)) {
             sql = "select u.* from jfbbs_user u where u.qq_open_id = ?";
-        } else if(type.equalsIgnoreCase(Constants.SINA)) {
+        } else if (type.equalsIgnoreCase(Constants.SINA)) {
             sql = "select u.* from jfbbs_user u where u.sina_open_id = ?";
         }
         return super.findFirst(sql, openId);
@@ -66,14 +64,14 @@ public class User extends Model<User> {
     // ---------- 后台查询方法 -------
     public Page<User> page(int pageNumber, int pageSize, String nickname, String email) {
         StringBuffer condition = new StringBuffer();
-        if(!StrUtil.isBlank(nickname)) {
+        if (!StrUtil.isBlank(nickname)) {
             condition.append(" and nickname like \"%" + nickname + "%\" ");
         }
-        if(!StrUtil.isBlank(email)) {
+        if (!StrUtil.isBlank(email)) {
             condition.append(" and email like \"%" + email + "%\" ");
         }
         return super.paginate(pageNumber, pageSize, "select * ",
-                "from jfbbs_user where 1 = 1 "+condition+" order by in_time desc");
+                "from jfbbs_user where 1 = 1 " + condition + " order by in_time desc");
     }
 
     public List<User> list() {
@@ -85,11 +83,6 @@ public class User extends Model<User> {
         String end = DateUtil.formatDate(new Date()) + " 23:59:59";
         return super.find("select nickname, email, qq_nickname, sina_nickname, qq_avatar, sina_avatar, in_time " +
                 "from jfbbs_user where in_time between ? and ? order by in_time desc", start, end);
-    }
-
-    public String formatDate(Date date) {
-        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
-        return prettyTime.format(date);
     }
 
 }

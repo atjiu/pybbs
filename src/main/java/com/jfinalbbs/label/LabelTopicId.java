@@ -1,7 +1,7 @@
 package com.jfinalbbs.label;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Model;
+import com.jfinalbbs.common.BaseModel;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class LabelTopicId extends Model<LabelTopicId> {
+public class LabelTopicId extends BaseModel<LabelTopicId> {
     public static final LabelTopicId me = new LabelTopicId();
 
     public int deleteByLid(int lid) {
@@ -19,8 +19,8 @@ public class LabelTopicId extends Model<LabelTopicId> {
 
     public void deleteByTid(String tid) {
         List<LabelTopicId> labelTopicIds = super.find("select * from jfbbs_label_topic_id where tid = ?", tid);
-        if(labelTopicIds.size()>0) {
-            for(LabelTopicId lti: labelTopicIds) {
+        if (labelTopicIds.size() > 0) {
+            for (LabelTopicId lti : labelTopicIds) {
                 Db.update("update jfbbs_label set topic_count = (topic_count - 1) where id = ?", lti.get("lid"));
                 Db.update("delete from jfbbs_label_topic_id where lid = ? and tid = ?", lti.get("lid"), lti.get("tid"));
             }
@@ -29,7 +29,7 @@ public class LabelTopicId extends Model<LabelTopicId> {
 
     public void save(Integer lid, String tid) {
         LabelTopicId labelTopicId = super.findFirst("select * from jfbbs_label_topic_id where lid = ? and tid = ?", lid, tid);
-        if(labelTopicId == null) {
+        if (labelTopicId == null) {
             labelTopicId = new LabelTopicId();
             labelTopicId.set("lid", lid)
                     .set("tid", tid).save();

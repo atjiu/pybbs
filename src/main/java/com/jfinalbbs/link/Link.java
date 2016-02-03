@@ -1,7 +1,7 @@
 package com.jfinalbbs.link;
 
+import com.jfinalbbs.common.BaseModel;
 import com.jfinalbbs.common.Constants;
-import com.jfinal.plugin.activerecord.Model;
 
 import java.util.List;
 
@@ -10,9 +10,8 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
-public class Link extends Model<Link> {
+public class Link extends BaseModel<Link> {
     public static final Link me = new Link();
-    private static final long serialVersionUID = 6848091981098837558L;
 
     public List<Link> findAll() {
         return super.findByCache(
