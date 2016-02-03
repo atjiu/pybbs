@@ -1,5 +1,5 @@
 <#macro header page_tab="">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="border-radius: 0;">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -12,7 +12,6 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <#--<li><a href="${baseUrl!}/">首页</a></li>-->
                 <li <#if page_tab == 'topic'> class="active" </#if>><a href="${baseUrl!}/?tab=news&q=${q!}">社区</a></li>
                 <li <#if page_tab == 'doc'> class="active" </#if>><a href="${baseUrl!}/doc">文档</a></li>
                 <li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">api</a></li>

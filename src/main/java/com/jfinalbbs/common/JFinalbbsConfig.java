@@ -70,6 +70,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 		me.setDevMode(getPropertyToBoolean("devMode", false));
         me.setBaseUploadPath(com.jfinalbbs.common.Constants.UPLOAD_DIR);
 		me.setMaxPostSize(2048000);
+		me.setFreeMarkerTemplateUpdateDelay(0);
     }
 
 	/**

@@ -68,6 +68,7 @@ public class TopicController extends BaseController {
         if(topic == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
+            topic.set("content", topic.getStr("content").replaceAll("\r|\n", ""));
             setAttr("topic", topic);
             //查询标签
             List<Label> labels = Label.me.findByTid(tid);

@@ -111,6 +111,7 @@ public class TopicAdminController extends BaseController {
                     setAttr("sections", Section.me.findShow());
                     Section topicTab = Section.me.findById(topic.get("s_id"));
                     setAttr("topic_tab", topicTab);
+                    topic.set("content", topic.getStr("content").replaceAll("\r|\n", ""));
                     setAttr("topic", topic);
                     //查询标签
                     List<Label> labels = Label.me.findByTid(id);
