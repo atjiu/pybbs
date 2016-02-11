@@ -23,6 +23,7 @@ public class EmailSender {
     private String username;
     private String password;
     private String mail_from;
+    private String charset = "utf-8";
 
     static class EmailSenderHolder {
         static EmailSender instance = new EmailSender();
@@ -53,8 +54,8 @@ public class EmailSender {
             // 设置session,和邮件服务器进行通讯。
             MimeMessage message = new MimeMessage(session);
             // message.setContent("foobar, "application/x-foobar"); // 设置邮件格式
-            message.setSubject(subject == null ? MAIL_SUBJECT : subject, "UTF-8"); // 设置邮件主题
-            message.setText(mailBody, "UTF-8"); // 设置邮件正文
+            message.setSubject(subject == null ? MAIL_SUBJECT : subject, charset); // 设置邮件主题
+            message.setText("<html><head><meta charset='utf-8'></head><body>" + mailBody + "</body></html>", charset, "html"); // 设置邮件正文
 //          message.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
             message.setSentDate(new Date()); // 设置邮件发送日期
             Address address = new InternetAddress(mail_from, sender);

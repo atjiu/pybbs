@@ -65,7 +65,8 @@ public class TopicController extends BaseController {
     public void edit() {
         String tid = getPara(0);
         Topic topic = Topic.me.findWithSection(tid);
-        if (topic == null) {
+        User user = getSessionAttr(Constants.USER_SESSION);
+        if (topic == null || !topic.get("author_id").equals(user.get("id"))) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             topic.set("content", topic.getStr("content").replaceAll("\r|\n", ""));
