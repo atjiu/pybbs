@@ -337,23 +337,18 @@ public class IndexController extends BaseController {
 //        System.out.println(uploadFile.getFileName());//图片保存到服务器的名字
         List<String> imgFiles = new ArrayList<String>();
         for (UploadFile uf : uploadFiles) {
-            imgFiles.add(baseUrl() + "/static/upload/imgs/" + uf.getFileName());
+            String contentType = uf.getContentType();
+            String suffix = "." + contentType.split("/")[1];
+            System.out.println(suffix);
+            String newName = StrUtil.randomString(16);
+            File file = new File(uf.getUploadPath() + "/" + uf.getFileName());
+            file.renameTo(new File(uf.getUploadPath() + "/" + newName + suffix));
+            imgFiles.add(baseUrl() + "/static/upload/imgs/" + newName + suffix);
         }
         if (imgFiles.size() == 1) {
             renderText(imgFiles.get(0));
         } else {
             renderText(imgFiles.toString());
-        }
-    }
-
-    public void pasteupload() {
-        UploadFile uploadFile = getFile("wangEditorPasteFile", "imgs");
-        if (uploadFile != null) {
-            //剪贴板里的图片没有后缀,要重命名一下,页面上才能识别
-            String newName = StrUtil.randomString(16);
-            File file = new File(uploadFile.getUploadPath() + "/" + uploadFile.getFileName());
-            file.renameTo(new File(uploadFile.getUploadPath() + "/" + newName + ".jpg"));
-            renderText(baseUrl() + "/static/upload/imgs/" + newName + ".jpg");
         }
     }
 
