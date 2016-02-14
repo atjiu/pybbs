@@ -43,7 +43,7 @@
                 <label class="control-label col-sm-2">&nbsp;</label>
 
                 <div class="col-sm-4">
-                    <button type="button" id="saveBtn" onclick="saveSetting()" class="btn btn-info btn-sm">保存设置</button>
+                    <button type="button" id="saveBtn" onclick="saveSetting()" class="btn btn-raised btn-info ">保存设置</button>
                 </div>
             </div>
         </form>
@@ -58,7 +58,7 @@
                 <input type="file" name="avatar" id="avatar">
                 <p class="help-block">请选择正方形图片，否则会出现变形，支持格式：.gif.jpg.png.jpeg</p>
             </div>
-            <button type="submit" class="btn btn-info btn-sm">上传</button>
+            <button type="submit" class="btn btn-raised btn-info ">上传</button>
         </form>
     </div>
 </div>
@@ -75,9 +75,9 @@
             </#if>
             <div class="pull-right">
                 <#if session.user.qq_open_id?? && session.user.qq_open_id != "">
-                    <button class="btn btn-danger btn-xs" id="cancelbind_qq" onclick="cancelBind('qq')">解除绑定</button>
+                    <button class="btn btn-raised btn-danger btn-xs" id="cancelbind_qq" onclick="cancelBind('qq')">解除绑定</button>
                 <#else>
-                    <a class="btn btn-info btn-xs" href="${baseUrl!}/qqlogin?source=usersetting">立即绑定</a>
+                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/qqlogin?source=usersetting">立即绑定</a>
                 </#if>
             </div>
         </div>
@@ -92,9 +92,9 @@
             </#if>
             <div class="pull-right">
                 <#if session.user.sina_open_id?? && session.user.sina_open_id != "">
-                    <button class="btn btn-danger btn-xs" id="cancelbind_sina" onclick="cancelBind('sina')">解除绑定</button>
+                    <button class="btn btn-raised btn-danger btn-xs" id="cancelbind_sina" onclick="cancelBind('sina')">解除绑定</button>
                 <#else>
-                    <a class="btn btn-info btn-xs" href="${baseUrl!}/weibologin?source=usersetting">立即绑定</a>
+                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/weibologin?source=usersetting">立即绑定</a>
                 </#if>
             </div>
         </div>
@@ -102,7 +102,7 @@
         <#--<div class="media">-->
             <#--<img src="${baseUrl!}/static/img/wechat24.png"/> 微信-->
             <#--<div class="pull-right">-->
-                <#--<button class="btn btn-danger btn-xs" onclick="cancelBind('wechat')">解除绑定</button>-->
+                <#--<button class="btn btn-raised btn-danger btn-xs" onclick="cancelBind('wechat')">解除绑定</button>-->
             <#--</div>-->
         <#--</div>-->
     </div>

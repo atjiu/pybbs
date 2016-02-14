@@ -36,18 +36,15 @@
                 </a>
             </#list>
         </div>
-        <#if topic.reposted?? && topic.reposted == 1>
-            <div>原文地址：<a href="${topic.original_url!}" target="_blank">${topic.original_url!}</a></div>
-        </#if>
     </div>
     <#if session.user??>
         <div class="panel-body sep">
             <#if collect??>
                 <input type="button" id="collect" onclick="collect(2, '${topic.id!}')"
-                       class="btn btn-xs btn-default" value="取消收藏"/>
+                       class="btn btn-raised btn-xs btn-default" value="取消收藏"/>
             <#else>
                 <input type="button" id="collect" onclick="collect(1, '${topic.id!}')"
-                       class="btn btn-xs btn-default" value="加入收藏"/>
+                       class="btn btn-raised btn-xs btn-default" value="加入收藏"/>
             </#if>
         </div>
     </#if>
@@ -100,7 +97,7 @@
         <div class="panel-body sep">
             <form action="${baseUrl!}/reply/${topic.id!}" method="post" id="reply_form">
                 <div id="reply_content"><textarea id="content" name="content" class="form-control" style="height: 70px;"></textarea></div>
-                <input type="submit" class="btn btn-default btn-xs" value="回复" style="margin: 3px 0 0 0;">
+                <input type="submit" class="btn btn-raised btn-default btn-xs" value="回复" style="margin: 3px 0 0 0;">
             </form>
         </div>
     </div>

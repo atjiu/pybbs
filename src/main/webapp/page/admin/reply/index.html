@@ -30,9 +30,9 @@
                             <td>${reply.nickname}</td>
                             <td>
                                 <#if reply.isdelete == 1>
-                                    <input type="button" value="已删除" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-danger btn-sm"/>
+                                    <input type="button" value="已删除" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-raised btn-danger "/>
                                 <#else>
-                                    <input type="button" value="查看" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-default btn-sm"/>
+                                    <input type="button" value="查看" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-raised btn-default "/>
                                 </#if>
                                 <div class="modal fade" id="reply_${reply.id!}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                     <div class="modal-dialog" role="document">
@@ -45,7 +45,7 @@
                                             ${reply.content!}
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">关闭</button>
                                             </div>
                                         </div>
                                     </div>

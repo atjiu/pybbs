@@ -54,7 +54,6 @@ public class TopicClientController extends BaseController {
                 Integer sid = getParaToInt("sid");
                 String title = getPara("title");
                 String content = getPara("content");
-                String original_url = getPara("original_url");
                 if (sid == null || StrUtil.isBlank(title) || StrUtil.isBlank(content)) {
                     error(Constants.OP_ERROR_MESSAGE);
                 } else {
@@ -66,8 +65,6 @@ public class TopicClientController extends BaseController {
                             .set("content", content)
                             .set("view", 0)
                             .set("author_id", user.get("id"))
-                            .set("reposted", StrUtil.isBlank(original_url) ? 0 : 1)
-                            .set("original_url", original_url)
                             .set("top", 0)
                             .set("good", 0)
                             .set("show_status", 1)

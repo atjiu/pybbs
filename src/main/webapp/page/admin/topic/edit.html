@@ -39,21 +39,17 @@
                     </p>
                     <input type="hidden" name="label" value=""/>
                     <input type="text" class="form-control" id="label" style="width: 40%;margin-bottom: 5px; display: inline-block;" placeholder="标签"/>
-                    <input type="button" class="btn btn-default btn-sm" onclick="addLabel()" value="添加">
+                    <input type="button" class="btn btn-raised btn-default " onclick="addLabel()" value="添加">
                 </div>
                 <div class="form-group">
                     <label for="title">标题</label>
                     <input type="text" placeholder="标题字数10字以上" id="title" name="title" value="${topic.title!}" class="form-control" style="margin-bottom: 5px;"/>
                 </div>
                 <div class="form-group">
-                    <label for="original_url">原文地址</label>
-                    <input type="text" placeholder="原文地址（原创可不写）" id="original_url" name="original_url" value="${topic.original_url!}" class="form-control" style="margin-bottom: 5px;"/>
-                </div>
-                <div class="form-group">
                     <label for="content">内容</label>
                     <textarea id="content" name="content" class="form-control" rows="20"></textarea>
                 </div>
-                <input type="button" value="提  交" class="btn btn-info btn-sm" onclick="submitForm()">
+                <input type="button" value="提  交" class="btn btn-raised btn-info " onclick="submitForm()">
             </div>
         </form>
     </div>
@@ -108,90 +104,35 @@
         });
 
         //==========wangEditor Start============
-
-        //获取dom节点
-        var $uploadContainer = $('#uploadContainer'),
-                $fileList = $('#fileList'),
-                $btnUpload = $('#btnUpload');
-
-        var editor = $('#content').wangEditor({
-            //重要：传入 uploadImgComponent 参数，值为 $uploadContainer
-            uploadImgComponent: $uploadContainer,
-            pasteUrl: '${baseUrl!}/pasteupload'
-        });
-
-        //实例化一个上传对象
-        var uploader = new plupload.Uploader({
-            browse_button: 'btnBrowse',
-            url: '${baseUrl!}/upload',
-            flash_swf_url: 'plupload/Moxie.swf',
-            sliverlight_xap_url: 'plupload/Moxie.xap',
-            filters: {
-                mime_types: [
-                    //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
-                    { title: "图片文件", extensions: "jpg,gif,png,bmp" }
-                ]
-            }
-        });
-
-        //存储多个图片的url地址
-        var urls = [];
-
-        //重要：定义 event 变量，会在下文（触发上传事件时）被赋值
-        var event;
-
-        //初始化
-        uploader.init();
-
-        //绑定文件添加到队列的事件
-        uploader.bind('FilesAdded', function (uploader, files) {
-            //显示添加进来的文件名
-            $.each(files, function(key, value){
-                var fileName = value.name,
-                        html = '<li>' + fileName + '</li>';
-                $fileList.append(html);
-            });
-        });
-
-        //单个文件上传之后
-        uploader.bind('FileUploaded', function (uploader, file, responseObject) {
-            //从服务器返回图片url地址
-            var url = responseObject.response;
-            //先将url地址存储来，待所有图片都上传完了，再统一处理
-            urls.push(url);
-        });
-
-        //全部文件上传时候
-        uploader.bind('UploadComplete', function (uploader, files) {
-            // 用 try catch 兼容IE低版本的异常情况
-            try {
-                //打印出所有图片的url地址
-                $.each(urls, function (key, value) {
-                    //重要：调用 editor.command 方法，把每一个图片的url，都插入到编辑器中
-                    //重要：此处的 event 即上文定义的 event 变量
-                    editor.command(event, 'insertHTML', '<img src="' + value + '"/>');
-                });
-            } catch (ex) {
-                // 此处可不写代码
-            } finally {
-                //清空url数组
-                urls = [];
-
-                //清空显示列表
-                $fileList.html('');
-            }
-        });
-
-        //上传事件
-        $btnUpload.click(function(e){
-            //重要：将事件参数 e 赋值给 上文定义的 event 变量
-            event = e;
-            uploader.start();
-        });
-
+        var editor = new wangEditor("content");
+        // 自定义菜单
+        editor.config.menus = [
+            'source',
+            '|',
+            'bold',
+            'underline',
+            'italic',
+            'strikethrough',
+            'forecolor',
+            'bgcolor',
+            'quote',
+            'fontfamily',
+            'fontsize',
+            'head',
+            'unorderlist',
+            'orderlist',
+            'link',
+            'table',
+            'img',
+            'insertcode',
+            '|',
+            'fullscreen'
+        ];
+        editor.config.uploadImgUrl = '${baseUrl!}/upload';
+        editor.create();
         //==========wangEditor End============
 
-        editor.html('${topic.content!}');
+        editor.$txt.html('${topic.content!}');
     });
 
     function addLabel() {

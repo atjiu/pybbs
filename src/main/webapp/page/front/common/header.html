@@ -1,5 +1,5 @@
 <#macro header page_tab="">
-<nav class="navbar navbar-inverse" style="border-radius: 0;">
+<nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -89,17 +89,17 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <p class="pull-left">
+            <div class="modal-footer" style="padding-top: 20px">
+                <span class="pull-left" style="margin: 8px; 0 0;">
                     <a href="${baseUrl!}/oauth/qqlogin">
                         <img src="${baseUrl!}/static/img/QQ_Logo_wiki.png" width="24" alt="QQ 登录">
                     </a>&nbsp;&nbsp;
                     <a href="${baseUrl!}/oauth/weibologin">
                         <img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_24x24.png" alt="微博登录">
                     </a>
-                </p>
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-sm btn-default" onclick="login()">登录</button>
+                </span>
+                <button type="button" class="btn btn-raised  btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-raised  btn-default" onclick="login()">登录</button>
             </div>
         </div>
     </div>

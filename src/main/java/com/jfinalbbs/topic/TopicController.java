@@ -27,27 +27,33 @@ public class TopicController extends BaseController {
         String id = getPara(0);
         Topic topic = Topic.me.findByIdWithUser(id);
         if (topic != null) {
-            List<Reply> replies = Reply.me.findByTid(id);
             setAttr("topic", topic);
+            //查询话题下的回复
+            List<Reply> replies = Reply.me.findByTid(id);
+            setAttr("replies", replies);
             //查询标签
             List<Label> labels = Label.me.findByTid(id);
             setAttr("labels", labels);
-            setAttr("replies", replies);
+            //根据当前话题的标签查询相关话题
+            if(labels.size() > 0) {
+                List<Topic> xgTopics = Label.me.findByLabels(id, labels, 10);
+                setAttr("xgTopics", xgTopics);
+            }
             //查询收藏信息
             User user = getSessionAttr(Constants.USER_SESSION);
             if (user != null) {
                 Collect collect = Collect.me.findByTidAndAuthorId(id, user.getStr("id"));
                 setAttr("collect", collect);
             }
+            //查询该话题被收藏的数量
+            int collectCount = Collect.me.findByTid(id).size();
+            setAttr("collectCount", collectCount);
             //查询该作者下的其他话题
             List<Topic> otherTopics = Topic.me.findByAuthorIdNotTid(topic.getStr("author_id"), id, 5);
             setAttr("otherTopics", otherTopics);
             //查询无人回复的话题
             List<Topic> notReplyTopics = Topic.me.findNotReply(5);
             setAttr("notReplyTopics", notReplyTopics);
-            //查询该话题下的回复是否有被采纳的
-            Reply reply = Reply.me.findBestReplyByTid(id);
-            setAttr("bestReply", reply == null ? 0 : 1);
             if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/index.html");
             else render("front/topic/index.html");
         } else {
@@ -89,14 +95,11 @@ public class TopicController extends BaseController {
             String sid = getPara("sid");
             String title = getPara("title");
             String content = getPara("content");
-            String original_url = getPara("original_url");
             String label = getPara("label");
             Date date = new Date();
             topic.set("title", StrUtil.transHtml(title))
                     .set("s_id", StrUtil.transHtml(sid))
                     .set("content", content)
-                    .set("reposted", StrUtil.isBlank(original_url) ? 0 : 1)
-                    .set("original_url", StrUtil.transHtml(original_url))
                     .set("modify_time", date)
                     .set("last_reply_time", date)
                     .update();
@@ -148,7 +151,6 @@ public class TopicController extends BaseController {
         String sid = getPara("sid");
         String title = getPara("title");
         String content = getPara("content");
-        String original_url = getPara("original_url");
         String label = getPara("label");
         Date date = new Date();
         Topic topic = new Topic();
@@ -161,8 +163,6 @@ public class TopicController extends BaseController {
                 .set("content", content)
                 .set("view", 0)
                 .set("author_id", user.get("id"))
-                .set("reposted", StrUtil.isBlank(original_url) ? 0 : 1)
-                .set("original_url", StrUtil.transHtml(original_url))
                 .set("top", 0)
                 .set("good", 0)
                 .set("show_status", 1)

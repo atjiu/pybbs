@@ -3,8 +3,11 @@ body {
     height: 100%;
     font-size: 14px;
     background-color: #e2e2e2;
-    /*background: url('../img/bg.gif') repeat;*/
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+::selection{
+    background-color: #009688;
+    color: #fff;
 }
 .container{width: 1050px !important;}
 a:link, a:visited, a:active {
@@ -74,7 +77,32 @@ a.node:hover {
 .pre_backgroud_color img {
     max-width: 100%;
 }
+.panel-body {
+    word-wrap: break-word;
+}
+#topic_title {
+    font-size: 22px;
+    font-weight: 700;
+    vertical-align: middle;
+}
 #topic_content img{
+    max-width: 100%;
+}
+#topic_footer {
+    padding: 0 5px;
+}
+#topic_footer .btn{
+    margin: 5px 1px;
+    padding: 4px 5px;
+}
+#topic_footer .collect-count {
+    color: #999;
+    font-size: 12px;
+    padding-right: 5px;
+    line-height: 35px;
+    text-shadow: 0px 1px 0px #fff;
+}
+.reply_content img {
     max-width: 100%;
 }
 #reply_content {
@@ -82,9 +110,6 @@ a.node:hover {
 }
 .reply_content {
     margin-left: 24px;
-}
-.reply_content img {
-    max-width: 100%
 }
 .np-label-digest {
     background: url(../img/digest.gif) no-repeat;
@@ -117,23 +142,38 @@ a.node:hover {
     padding-right: 0;
 }
 .navbar {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+}
+.navbar .navbar-brand {
+    height: 50px;
+    padding: 10px 15px;
+}
+.navbar .navbar-form {
+    margin-top: 10px;
+}
+.navbar .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 .nav-pills>li>a {
-    padding: 0 5px 0 5px;
+    padding: 0 5px;
+}
+#links>li:first-child {
+    padding: 5px 0;
+}
+#links>li>a {
+    padding: 5px 10px;
 }
 .breadcrumb {
     padding: 0px 15px 0px 5px;
     margin-bottom: 0px;
+    background-color: transparent!important;
 }
 .breadcrumb ol {
     margin-bottom: 0px;
 }
 .panel {
     margin-bottom: 10px;
-}
-.panel-default>.panel-heading {
-    background-color: #fff;
 }
 .ot-tab-heading {
     padding-top: 15px;
@@ -175,4 +215,8 @@ a.node:hover {
 }
 .topic-label {
     margin-top: 10px;
+}
+.form-group {
+    padding-bottom: 0;
+    margin: 5px;
 }

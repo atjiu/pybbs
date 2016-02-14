@@ -2,6 +2,7 @@ package com.jfinalbbs.label;
 
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinalbbs.common.BaseModel;
+import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.utils.StrUtil;
 
 import java.util.ArrayList;
@@ -37,5 +38,28 @@ public class Label extends BaseModel<Label> {
             labels.add(super.findById(lti.getInt("lid")));
         }
         return labels;
+    }
+
+    //根据标签查询同类的话题
+    public List<Topic> findByLabels(String id, List<Label> labels, int limit) {
+        String labels_str = "";
+        List<Topic> topics = new ArrayList<Topic>();
+        for (Label label : labels) {
+            labels_str += label.get("id") + ",";
+        }
+        labels_str = labels_str.substring(0, labels_str.length() - 1);
+        List<LabelTopicId> labelTopicIds = LabelTopicId.me.find(
+                "select * from jfbbs_label_topic_id where lid in (?);", labels_str);
+        if(labelTopicIds.size() > 0) {
+            String topics_id_str = "";
+            for(LabelTopicId labelTopicId: labelTopicIds) {
+                topics_id_str += "'" + labelTopicId.getStr("tid") + "',";
+            }
+            topics_id_str = topics_id_str.substring(0, topics_id_str.length() - 1);
+//            topics = Topic.me.find(
+//                    "select * from jfbbs_topic where `id` in ( ? ) limit ?;", topics_id_str, limit);
+            topics = Topic.me.find("select * from jfbbs_topic where id in (" + topics_id_str + ") and id <> ? limit ?", id, limit);
+        }
+        return topics;
     }
 }

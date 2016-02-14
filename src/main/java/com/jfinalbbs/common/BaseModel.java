@@ -15,8 +15,12 @@ import java.util.Locale;
 public class BaseModel<T extends Model> extends Model<T> {
 
     public String formatDate(Date date) {
-        PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
-        return prettyTime.format(date);
+        String dateStr = "";
+        if(date != null) {
+            PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+            dateStr = prettyTime.format(date);
+        }
+        return dateStr.replace(" ", "");
     }
 
 }

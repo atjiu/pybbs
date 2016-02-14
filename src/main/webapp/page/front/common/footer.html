@@ -2,7 +2,7 @@
 <div style="background-color: #fff; padding: 20px; margin-top:10px;text-align: center;">
     <div class="container">
         <div style="padding-bottom: 10px; text-align: left;">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills" id="links">
                 <li>友情链接：</li>
                 <#list links as link>
                     <li><a href="${link.url!}" target="_blank">${link.name!}</a></li>
@@ -15,7 +15,7 @@
         <a href="${baseUrl!}/donate">捐助</a>
         <br>
         <#--感谢使用JFinalbbs代码，为了能让社区被更多人知晓，请不要修改下面一行的代码，谢谢！-->
-        &copy;2015 Powered by <a href="http://jfinalbbs.com" target="_blank">${siteTitle!}</a>
+        &copy;2015 Powered by <a href="http://jfinalbbs.com" target="_blank">JFinalbbs</a>
         <a href="http://www.miitbeian.gov.cn/">${beian_name!}</a>
     </div>
 </div>

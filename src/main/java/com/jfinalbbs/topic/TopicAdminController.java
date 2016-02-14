@@ -119,12 +119,9 @@ public class TopicAdminController extends BaseController {
                     String title = getPara("title");
                     String content = getPara("content");
                     String sid = getPara("sid");
-                    String original_url = getPara("original_url");
                     topic.set("title", title)
                             .set("content", content)
                             .set("s_id", sid)
-                            .set("original_url", original_url)
-                            .set("reposted", StrUtil.isBlank(original_url) ? 0 : 1)
                             .set("modify_time", new Date())
                             .update();
                     getResponse().setCharacterEncoding("utf-8");

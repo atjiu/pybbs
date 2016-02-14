@@ -80,7 +80,7 @@ public class ReplyController extends BaseController {
                         .set("read", 0)
                         .set("message", Constants.NOTIFICATION_MESSAGE1)
                         .set("from_author_id", user.get("id"))
-                        .set("author_id", topic.get("id"))
+                        .set("author_id", topic.get("author_id"))
                         .set("in_time", date).save();
             }
             redirect(baseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));

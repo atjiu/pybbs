@@ -339,7 +339,6 @@ public class IndexController extends BaseController {
         for (UploadFile uf : uploadFiles) {
             String contentType = uf.getContentType();
             String suffix = "." + contentType.split("/")[1];
-            System.out.println(suffix);
             String newName = StrUtil.randomString(16);
             File file = new File(uf.getUploadPath() + "/" + uf.getFileName());
             file.renameTo(new File(uf.getUploadPath() + "/" + newName + suffix));

@@ -12,7 +12,7 @@
         <span><a href="${baseUrl!}/user/${current_user.id!}">${current_user.nickname!}</a></span>
         <#if current_user.id != session.user.id>
             <span class="pull-right">
-                <a href="javascript:void(0);" data-toggle="modal" data-target="#newMessageModal" class="btn btn-sm btn-default">私信</a>
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#newMessageModal" class="btn btn-raised  btn-default">私信</a>
             </span>
         </#if>
         <div>
@@ -88,8 +88,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-sm btn-default" onclick="sendMessage()">发送</button>
+                <button type="button" class="btn btn-raised  btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-raised  btn-default" onclick="sendMessage()">发送</button>
             </div>
         </div>
     </div>
