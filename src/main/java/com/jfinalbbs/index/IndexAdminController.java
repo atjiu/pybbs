@@ -29,7 +29,7 @@ public class IndexAdminController extends BaseController {
         //今日用户
         List<User> users = User.me.findToday();
         setAttr("users", users);
-        render("index.html");
+        render("index.ftl");
     }
 
     public void logout() {

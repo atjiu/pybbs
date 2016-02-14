@@ -12,13 +12,13 @@ public class LinkAdminController extends BaseController {
 
     public void index() {
         setAttr("admin_links", Link.me.findAll());
-        render("index.html");
+        render("index.ftl");
     }
 
     public void add() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
-            render("add.html");
+            render("add.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             Integer maxDisplayIndex = Link.me.maxDisplayIndex();
             if (maxDisplayIndex == null) maxDisplayIndex = 0;
@@ -33,7 +33,7 @@ public class LinkAdminController extends BaseController {
         Integer id = getParaToInt("id");
         if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("link", Link.me.findById(id));
-            render("edit.html");
+            render("edit.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             getModel(Link.class).update();
             clearCache(Constants.LINKLIST, null);

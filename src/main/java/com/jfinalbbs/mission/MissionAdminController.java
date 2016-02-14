@@ -11,6 +11,6 @@ public class MissionAdminController extends BaseController {
 
     public void index() {
         setAttr("page", Mission.me.paginate(getParaToInt("p", 1), defaultPageSize()));
-        render("index.html");
+        render("index.ftl");
     }
 }

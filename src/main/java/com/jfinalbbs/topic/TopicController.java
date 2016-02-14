@@ -54,8 +54,8 @@ public class TopicController extends BaseController {
             //查询无人回复的话题
             List<Topic> notReplyTopics = Topic.me.findNotReply(5);
             setAttr("notReplyTopics", notReplyTopics);
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/index.html");
-            else render("front/topic/index.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/index.ftl");
+            render("front/topic/index.ftl");
         } else {
             renderText("您查询的话题不存在");
         }
@@ -63,8 +63,8 @@ public class TopicController extends BaseController {
 
     @Before(UserInterceptor.class)
     public void create() {
-        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/create.html");
-        else render("front/topic/create.html");
+//        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/create.ftl");
+        render("front/topic/create.ftl");
     }
 
     @Before(UserInterceptor.class)
@@ -80,8 +80,8 @@ public class TopicController extends BaseController {
             //查询标签
             List<Label> labels = Label.me.findByTid(tid);
             setAttr("labels", labels);
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/edit.html");
-            else render("front/topic/edit.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/edit.ftl");
+            render("front/topic/edit.ftl");
         }
     }
 

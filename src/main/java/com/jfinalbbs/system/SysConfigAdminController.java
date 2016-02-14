@@ -15,7 +15,7 @@ public class SysConfigAdminController extends BaseController {
     public void index() {
         Map<String, Object> map = SysConfig.me.findAll2Map();
         setAttrs(map);
-        render("index.html");
+        render("index.ftl");
     }
 
     /**

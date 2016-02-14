@@ -30,7 +30,7 @@ public class MsgMessageController extends BaseController {
         if (user != null) {
             List<MsgContact> msgContacts = me.findByAuthorId(user.getStr("id"));
             setAttr("msgContacts", msgContacts);
-            render("front/message/index.html");
+            render("front/message/index.ftl");
         } else {
             redirect(baseUrl());
         }
@@ -44,7 +44,7 @@ public class MsgMessageController extends BaseController {
             setAttr("toUser", toUser);
             List<Message> messages = Message.me.findByContactId(contactId);
             setAttr("messages", messages);
-            render("front/message/read.html");
+            render("front/message/read.ftl");
         }
     }
 

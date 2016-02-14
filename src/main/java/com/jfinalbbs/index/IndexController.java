@@ -69,8 +69,8 @@ public class IndexController extends BaseController {
         setAttr("userCount", userCount);
         setAttr("topicCount", topicCount);
         setAttr("replyCount", replyCount);
-        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.html");
-        else render("front/index.html");
+//        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.ftl");
+        render("front/index.ftl");
     }
 
     /**
@@ -96,7 +96,7 @@ public class IndexController extends BaseController {
                 String namePwd = StrUtil.getDecryptToken(userAdminToken);
                 setAttr("username", namePwd);
             }
-            render("front/adminlogin.html");
+            render("front/adminlogin.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String username = getPara("username");
             String password = getPara("password");
@@ -104,7 +104,7 @@ public class IndexController extends BaseController {
             AdminUser adminUser = AdminUser.me.login(username, password);
             if (adminUser == null) {
                 setAttr("error", "用户名或密码错误");
-                render("front/adminlogin.html");
+                render("front/adminlogin.ftl");
             } else {
                 setSessionAttr(Constants.SESSION_ADMIN_USER, adminUser);
                 if (remember_me == 1) {
@@ -123,20 +123,20 @@ public class IndexController extends BaseController {
      * Api入口
      */
     public void api() {
-        render("front/api.html");
+        render("front/api.ftl");
     }
 
     /**
      * 文档入口
      */
     public void doc() {
-        render("front/doc.html");
+        render("front/doc.ftl");
     }
 
     public void login() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/login.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("email");
             String password = getPara("password");
@@ -164,8 +164,8 @@ public class IndexController extends BaseController {
                 removeSessionAttr("thirdlogin_type");
                 removeSessionAttr("unsave_user");
             }
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.html");
-            else render("front/user/reg.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/reg.ftl");
+            render("front/user/reg.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("reg_email");
             String password = getPara("reg_password");
@@ -301,8 +301,9 @@ public class IndexController extends BaseController {
     public void forgetpwd() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.html");
-            else render("front/user/forgetpwd.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/forgetpwd.ftl");
+//            else
+            render("front/user/forgetpwd.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String email = getPara("email");
             String valicode = getPara("valicode");
@@ -328,7 +329,7 @@ public class IndexController extends BaseController {
     }
 
     public void donate() {
-        render("front/donate.html");
+        render("front/donate.ftl");
     }
 
     public void upload() {

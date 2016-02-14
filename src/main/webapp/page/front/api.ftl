@@ -1,0 +1,26 @@
+<#include "/page/front/common/_layout.ftl"/>
+<@html title="首页 - ${siteTitle!}" description="社区接口" page_tab="api" sidebar_user_info="show" sidebar_create="show">
+<link rel="stylesheet" href="${baseUrl!}/static/css/highlight.css">
+<script src="${baseUrl!}/static/js/marked.js"></script>
+<script src="${baseUrl!}/static/js/highlight.min.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ol class="breadcrumb">
+            <li><a href="${baseUrl!}/">首页</a></li>
+            <li class="active">接口</li>
+        </ol>
+    </div>
+    <div class="panel-body">
+        <div id="apicontent"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $.get("${baseUrl!}/static/upload/api/api.md", function(md){
+            $("#apicontent").html(marked(md));
+            hljs.initHighlightingOnLoad();
+        });
+    });
+</script>
+</@html>

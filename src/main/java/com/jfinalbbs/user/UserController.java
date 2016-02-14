@@ -37,8 +37,8 @@ public class UserController extends BaseController {
             //查询我回复的话题
             Page<Topic> myReplyTopics = Topic.me.paginateMyReplyTopics(1, 5, user.getStr("id"));
             setAttr("myReplyTopics", myReplyTopics);
-            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/index.html");
-            else render("front/user/index.html");
+//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/user/index.ftl");
+            render("front/user/index.ftl");
         } else {
             renderText(Constants.OP_ERROR_MESSAGE);
         }
@@ -54,7 +54,7 @@ public class UserController extends BaseController {
             Page<Collect> collectPage = Collect.me.findByAuthorIdWithTopic(getParaToInt("p", 1),
                     defaultPageSize(), user.getStr("id"));
             setAttr("page", collectPage);
-            render("front/user/collects.html");
+            render("front/user/collects.ftl");
         }
     }
 
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
             Page<Topic> page = Topic.me.paginateByAuthorId(getParaToInt("p", 1),
                     defaultPageSize(), user.getStr("id"));
             setAttr("page", page);
-            render("front/user/topics.html");
+            render("front/user/topics.ftl");
         }
     }
 
@@ -81,14 +81,14 @@ public class UserController extends BaseController {
             setAttr("current_user", user);
             Page<Topic> myReplyTopics = Topic.me.paginateMyReplyTopics(getParaToInt("p", 1), defaultPageSize(), user.getStr("id"));
             setAttr("page", myReplyTopics);
-            render("front/user/replies.html");
+            render("front/user/replies.ftl");
         }
     }
 
     public void top100() {
         List<User> top100 = User.me.findBySize(100);
         setAttr("top100", top100);
-        render("front/user/top100.html");
+        render("front/user/top100.ftl");
     }
 
     @Before(UserInterceptor.class)
@@ -102,7 +102,7 @@ public class UserController extends BaseController {
         setAttr("oldMessages", oldMessages);
         //将消息置为已读
         Notification.me.updateNotification(uid);
-        render("front/user/message.html");
+        render("front/user/message.ftl");
     }
 
     @Before(UserInterceptor.class)
@@ -110,7 +110,7 @@ public class UserController extends BaseController {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("save", getPara("save"));
-            render("front/user/setting.html");
+            render("front/user/setting.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             User user = getSessionAttr(Constants.USER_SESSION);
             String url = getPara("url");

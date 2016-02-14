@@ -2,14 +2,18 @@ body {
     margin: 0;
     height: 100%;
     font-size: 14px;
-    background-color: #e2e2e2;
+    background-color: #EEEEEE;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1100px;
+    }
 }
 ::selection{
     background-color: #009688;
     color: #fff;
 }
-.container{width: 1050px !important;}
 a:link, a:visited, a:active {
     color: #778087;
     text-decoration: none;
@@ -48,7 +52,7 @@ a.node:hover {
     font-size: 11px;
 }
 .content-wrap {
-    background-color: #fff;
+    background-color: #EEE;
 }
 .ellipsis-1 {
     width: 100%;
@@ -138,9 +142,20 @@ a.node:hover {
     overflow: hidden;
     display: inline-block;
 }
-.col-md-9 {
-    padding-right: 0;
+.col-md-9, .col-md-3 {
+    background-color: #EEE;
 }
+@media (min-width: 992px) {
+    .col-md-9 {
+        padding-right: 5px;
+    }
+    .col-md-3 {
+        padding-left: 5px;
+    }
+}
+/*.col-md-3 {*/
+    /*background-color: #EEE;*/
+/*}*/
 .navbar {
     margin-bottom: 20px;
 }

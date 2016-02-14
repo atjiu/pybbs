@@ -52,11 +52,11 @@ public class MissionController extends BaseController {
             setAttr("msg", "msg");
         }
         setSessionAttr(Constants.USER_SESSION, user);
-        render("front/mission/result.html");
+        render("front/mission/result.ftl");
     }
 
     public void top10() {
         setAttr("missionList", Mission.me.findTop10());
-        render("front/mission/top10.html");
+        render("front/mission/top10.ftl");
     }
 }

@@ -25,7 +25,7 @@ public class TopicAdminController extends BaseController {
 
     public void index() {
         setAttr("page", Topic.me.page(getParaToInt("p", 1), defaultPageSize()));
-        render("index.html");
+        render("index.ftl");
     }
 
     @Before(Tx.class)
@@ -114,7 +114,7 @@ public class TopicAdminController extends BaseController {
                     //查询标签
                     List<Label> labels = Label.me.findByTid(id);
                     setAttr("labels", labels);
-                    render("edit.html");
+                    render("edit.ftl");
                 } else if (method.equalsIgnoreCase(Constants.POST)) {
                     String title = getPara("title");
                     String content = getPara("content");

@@ -69,6 +69,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         // 加载少量必要配置，随后可用getProperty(...)获取值
         loadPropertyFile("config.properties");
         me.setDevMode(getPropertyToBoolean("devMode", false));
+        me.setFreeMarkerViewExtension("ftl");
         me.setBaseUploadPath(com.jfinalbbs.common.Constants.UPLOAD_DIR);
         me.setMaxPostSize(2048000);
         me.setFreeMarkerTemplateUpdateDelay(0);

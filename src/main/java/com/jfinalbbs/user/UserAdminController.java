@@ -15,7 +15,7 @@ public class UserAdminController extends BaseController {
         setAttr("page", User.me.page(getParaToInt("p", 1), defaultPageSize(), nickname, email));
         setAttr("nickname", nickname);
         setAttr("email", email);
-        render("index.html");
+        render("index.ftl");
     }
 
 }

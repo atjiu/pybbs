@@ -15,7 +15,7 @@ public class ReplyAdminController extends BaseController {
 
     public void index() {
         setAttr("page", Reply.me.page(getParaToInt("p", 1), defaultPageSize()));
-        render("index.html");
+        render("index.ftl");
     }
 
     @Before(Tx.class)

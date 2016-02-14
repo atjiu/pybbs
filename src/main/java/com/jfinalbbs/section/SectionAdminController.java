@@ -14,14 +14,14 @@ public class SectionAdminController extends BaseController {
     // 查询板块列表
     public void index() {
         setAttr("admin_sections", Section.me.findAll());
-        render("index.html");
+        render("index.ftl");
     }
 
     // 添加板块
     public void add() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
-            render("add.html");
+            render("add.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             Integer show_status = getParaToInt("show_status");
@@ -41,7 +41,7 @@ public class SectionAdminController extends BaseController {
         Integer id = getParaToInt("id");
         if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("section", Section.me.findById(id));
-            render("edit.html");
+            render("edit.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             Integer show_status = getParaToInt("show_status");
