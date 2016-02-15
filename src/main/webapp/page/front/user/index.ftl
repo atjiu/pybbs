@@ -8,37 +8,55 @@
         </ol>
     </div>
     <div class="panel-body">
-        <img class="avatar" src="${current_user.avatar!}" title="${current_user.nickname!}">&nbsp;
-        <span><a href="${baseUrl!}/user/${current_user.id!}">${current_user.nickname!}</a></span>
-        <#if current_user.id != session.user.id>
-            <span class="pull-right">
-                <a href="javascript:void(0);" data-toggle="modal" data-target="#newMessageModal" class="btn btn-raised  btn-default">私信</a>
-            </span>
-        </#if>
-        <div>
-            <#if day??>
-                已连续签到<a href="${baseUrl!}/mission/top10" style="font-size: 20px; color: red;"> ${day!} </a>天
-            </#if>
-        </div>
-        <div style="margin-top: 10px;">
-            <span>积分: ${current_user.score!} </span>
-        </div>
-        <div>
-            <span>
-                <span class="glyphicon glyphicon-bookmark"></span>
-                <a class="dark" href="${baseUrl!}/user/collects/${current_user.id!}">
-                    ${collectPage.totalRow!}话题收藏
-                </a>
-            </span>
-        </div>
-        <#if current_user.url?? && current_user.url != "">
-            <div>
-                <span class="glyphicon glyphicon-home"></span>
-                <a href="${current_user.url!}" target="_blank">${current_user.url!}</a>
+        <div class="media">
+            <div class="media-left">
+                <img class="big-avatar" src="${current_user.avatar!}" title="${current_user.nickname!}">
             </div>
-        </#if>
-        <span class="glyphicon glyphicon-log-in"></span>
-        注册时间 ${current_user.formatDate(current_user.in_time)!}
+            <div class="media-body">
+                <h3 class="media-heading">
+                    ${current_user.nickname!}
+                </h3>
+                <#if current_user.signature??>
+                    <p class="signature">
+                        <i>“ ${current_user.signature!} ” </i>
+                    </p>
+                </#if>
+                <p>
+                    <span class="glyphicon glyphicon-euro"></span>
+                    积分: ${current_user.score!}
+                </p>
+                <p>
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    注册时间 ${current_user.formatDate(current_user.in_time)!}&nbsp;&nbsp;
+                    <#if day??>
+                        已连续签到<a href="${baseUrl!}/mission/top10" style="font-size: 20px; color: red;"> ${day!} </a>天
+                    </#if>
+                </p>
+            </div>
+            <div class="media-right">
+                <#if current_user.id != session.user.id>
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#newMessageModal" class="btn btn-raised btn-sm btn-default">私信</a>
+                </#if>
+            </div>
+            <ul class="nav nav-pills">
+                <#if current_user.url?? && current_user.url != "">
+                    <li>
+                        <a href="${current_user.url!}" target="_blank">
+                            <span class="glyphicon glyphicon-home"></span>
+                            ${current_user.url!}
+                        </a>
+                    </li>
+                </#if>
+                <#if collectPage.totalRow &gt; 0>
+                    <li>
+                        <a class="dark" href="${baseUrl!}/user/collects/${current_user.id!}">
+                            <span class="glyphicon glyphicon-star"></span>
+                            ${collectPage.totalRow!}话题收藏
+                        </a>
+                    </li>
+                </#if>
+            </ul>
+        </div>
     </div>
 </div>
 

@@ -23,6 +23,9 @@ a:hover {
     color: #4d5256;
     text-decoration: underline;
 }
+p {
+    margin-bottom: 5px;
+}
 .item_title {
     font-size: 16px;
     line-height: 130%;
@@ -214,6 +217,14 @@ a.node:hover {
 .avatar {
     width: 48px;
     border-radius: 4px;
+}
+.big-avatar {
+    width: 73px;
+    border-radius: 4px;
+}
+.signature {
+    color: #7A7A7A;
+    font-size: 12px;
 }
 .media {
     margin-top: 10px;

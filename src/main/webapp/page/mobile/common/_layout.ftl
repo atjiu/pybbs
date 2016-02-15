@@ -6,8 +6,8 @@
     <meta name="description" content="${description!} - ${siteTitle!}">
     <meta name="keywords" content="java,社区,jfinal,JFinalbbs,java社区,java论坛,论坛,bootstrap" />
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     ${qq_meta!}
     ${sina_meta!}
     ${baidu_site_meta!}

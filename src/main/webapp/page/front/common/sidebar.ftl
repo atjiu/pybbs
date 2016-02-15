@@ -9,17 +9,23 @@
             个人信息
         </div>
         <div class="panel-body">
-            <div>
-                <img src="${session.user.avatar!}" title="${session.user.nickname!}" class="avatar">&nbsp;
-                <span><a href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a></span>
-                <div style="margin-top: 10px;">
-                    <div>积分: ${session.user.score!} </div>
-                    <#if session.user.signature?? && session.user.signature != "">
-                        <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
-                            <i>“ ${session.user.signature!} ” </i>
-                        </div>
-                    </#if>
+            <div class="media">
+                <div class="media-left">
+                    <a href="${baseUrl!}/user/${session.user.id!}" style="text-decoration: none;">
+                        <img src="${session.user.avatar!}" title="${session.user.nickname!}" class="avatar">
+                    </a>
                 </div>
+                <div class="media-body">
+                    <div class="media-heading">
+                        <a href="${baseUrl!}/user/${session.user.id!}">${session.user.nickname!}</a>
+                    </div>
+                    <p>积分: ${session.user.score!}</p>
+                </div>
+                <#if session.user.signature?? && session.user.signature != "">
+                    <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
+                        <i>“ ${session.user.signature!} ” </i>
+                    </div>
+                </#if>
             </div>
         </div>
     <#else>
@@ -37,14 +43,24 @@
         作者
     </div>
     <div class="panel-body">
-        <div>
-            <img src="${topic.avatar!}" title="${topic.nickname!}" class="avatar">&nbsp;&nbsp;
-            <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>
+        <div class="media">
+            <div class="media-left">
+                <a href="${baseUrl!}/user/${topic.author_id!}" style="text-decoration: none;">
+                    <img src="${topic.avatar!}" title="${topic.nickname!}" class="avatar">
+                </a>
+            </div>
+            <div class="media-body">
+                <div class="media-heading">
+                    <a href="${baseUrl!}/user/${topic.author_id!}">${topic.nickname!}</a>
+                </div>
+                <p>积分: ${topic.score!}</p>
+            </div>
+            <#if topic.signature?? && topic.signature != "">
+                <div style="margin-top:5px;" class="signature">
+                    <i>“ ${topic.signature!} ” </i>
+                </div>
+            </#if>
         </div>
-        <div style="margin-top: 10px;">积分: ${topic.score!} </div>
-        <#if topic.signature?? && topic.signature != "">
-            <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;"><i>“ ${topic.signature!} ” </i></div>
-        </#if>
     </div>
 </div>
 </#if>
