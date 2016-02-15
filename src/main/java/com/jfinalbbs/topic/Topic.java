@@ -135,10 +135,5 @@ public class Topic extends BaseModel<Topic> {
         String end = DateUtil.formatDate(new Date()) + " 23:59:59";
         return super.find("select id, title, in_time from jfbbs_topic where in_time between ? and ? order by in_time desc", start, end);
     }
-    // --------------- 后台查询方法 结束 --------------
-
-    public List<Topic> findAll() {
-        return super.find("select * from jfbbs_topic");
-    }
 
 }

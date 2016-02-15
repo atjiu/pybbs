@@ -23,7 +23,7 @@ public class LinkAdminController extends BaseController {
             Integer maxDisplayIndex = Link.me.maxDisplayIndex();
             if (maxDisplayIndex == null) maxDisplayIndex = 0;
             getModel(Link.class).set("display_index", maxDisplayIndex + 1).save();
-            clearCache(Constants.LINKLIST, null);
+            clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
             redirect(baseUrl() + "/admin/link");
         }
     }
@@ -36,7 +36,7 @@ public class LinkAdminController extends BaseController {
             render("edit.ftl");
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             getModel(Link.class).update();
-            clearCache(Constants.LINKLIST, null);
+            clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
             redirect(baseUrl() + "/admin/link");
         }
     }
@@ -48,7 +48,7 @@ public class LinkAdminController extends BaseController {
         } else {
             try {
                 Link.me.deleteById(id);
-                clearCache(Constants.LINKLIST, null);
+                clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
                 success();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,7 +63,7 @@ public class LinkAdminController extends BaseController {
             for (int i = 0; i < ids.length; i++) {
                 Link.me.findById(ids[i]).set("display_index", i + 1).update();
             }
-            clearCache(Constants.LINKLIST, null);
+            clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
         }
         redirect(baseUrl() + "/admin/link");
     }

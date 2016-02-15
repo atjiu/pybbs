@@ -40,19 +40,20 @@ public class Constants {
     public static final String POST = "post";
 
     // 缓存名称
-    public static final String SECTIONLIST = "section_list";
-    public static final String SECTIONSHOWLIST = "section_show_list";
-    public static final String SECTIONBYTAB = "sectionbytab";
-    public static final String LINKLIST = "link_list";
-    public static final String DEFAULTSECTION = "default_section";
+    public static final String SECTIONCACHE = "sectioncache";
+    public static final String LINKCACHE = "linkcache";
     public static final String SYSCONFIGCACHE = "sysconfigcache";
+    public static final String TOPICCACHE = "topiccache";
 
     // 缓存KEY
-    public static final String SECTIONLISTKEY = "section_list_key";
+    // section
+    public static final String SECTIONLISTKEY = "sectionlistkey";
     public static final String SECTIONBYTABKEY = "sectionbytabkey";
-    public static final String SECTIONSHOWLISTKEY = "section_show_list_key";
-    public static final String LINKLISTKEY = "link_list_key";
-    public static final String DEFAULTSECTIONKEY = "default_section_key";
+    public static final String SECTIONSHOWLISTKEY = "sectionshowlistkey";
+    public static final String DEFAULTSECTIONKEY = "defaultsectionkey";
+    //link
+    public static final String LINKLISTKEY = "linklistkey";
+    //sysconfig
     public static final String SYSCONFIGCACHEKEY = "sysconfigcachekey";
 
     // 第三方

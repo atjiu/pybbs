@@ -9,7 +9,7 @@
     <meta name="keywords" content="java,社区,jfinal,jfinalbbs,JFinalbbs,javabbs,java论坛,论坛,bootstrap,flatui"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=0.1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     ${qq_meta!}
     ${sina_meta!}
     ${baidu_site_meta!}

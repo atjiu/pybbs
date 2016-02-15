@@ -15,7 +15,7 @@ public class Link extends BaseModel<Link> {
 
     public List<Link> findAll() {
         return super.findByCache(
-                Constants.LINKLIST,
+                Constants.LINKCACHE,
                 Constants.LINKLISTKEY,
                 "select * from jfbbs_link order by display_index");
     }
