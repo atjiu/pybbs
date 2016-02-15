@@ -20,7 +20,7 @@
                 <div class="form-group has-feedback">
                     <input type="text" name="q" class="form-control" style="width: 240px" value="${q!}"
                            placeholder="回车搜索" onkeypress="enterSearch(event)">
-                    <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="line-height: 28px;"></span>
                 </div>
             </form>
             <script type="text/javascript">

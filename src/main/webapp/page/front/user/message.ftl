@@ -7,23 +7,15 @@
             <li class="active">新消息</li>
         </ol>
     </div>
-    <table class="table table-hover">
-        <#list notifications as notification>
-            <tr>
-                <td style="padding-left: 10px;width:110px;">
-                    <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
-                </td>
-                <td style="width: 135px;">
-                    ${notification.message!}
-                </td>
-                <td>
-                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
-                </td>
-            </tr>
-        </#list>
-    </table>
+    <#list notifications as notification>
+        <div class="panel-body">
+            <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
+            ${notification.message!}
+            <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+        </div>
+        <#if notification_has_next><div class="divide" style="margin-top:0;"></div></#if>
+    </#list>
 </div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <ol class="breadcrumb">
@@ -31,24 +23,15 @@
             <li class="active">过往消息</li>
         </ol>
     </div>
-    <table class="table table-hover">
-        <#list oldMessages.getList() as notification>
-            <tr>
-                <td style="padding-left: 10px;width:110px;">
-                    <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
-                </td>
-                <td style="width: 135px;">
-                    ${notification.message!}
-                </td>
-                <td>
-                    <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
-                </td>
-                <td style="width: 45px;">
-                    已读
-                </td>
-            </tr>
-        </#list>
-    </table>
+    <#list oldMessages.getList() as notification>
+        <div class="panel-body">
+            <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
+            ${notification.message!}
+            <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+        </div>
+        <#if notification_has_next><div class="divide" style="margin-top:0;"></div></#if>
+    </#list>
+    <div style="height: 10px;"></div>
     <#include "/page/front/common/_paginate.ftl" />
     <@paginate currentPage=oldMessages.pageNumber totalPage=oldMessages.totalPage actionUrl="${baseUrl!}/user/message/${session.user.id!}" urlParas="" />
 </div>

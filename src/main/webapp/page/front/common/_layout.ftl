@@ -27,23 +27,6 @@
     <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js?v=20150604"></script>
     <script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
     <script src="http://cdn.bootcss.com/blueimp-md5/2.1.0/js/md5.min.js"></script>
-    <style>
-        /*body {*/
-            /*background: url("http://sass-lang.com/assets/img/textures/grey-prism-63478a91.svg") center;*/
-        /*}*/
-        /*让网站变灰色*/
-        /*html {
-            filter: grayscale(100%);
-            -webkit-filter: grayscale(100%);
-            -moz-filter: grayscale(100%);
-            -ms-filter: grayscale(100%);
-            -o-filter: grayscale(100%);
-            filter: url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"grayscale\"><feColorMatrix type=\"matrix\" values=\"0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\"/></filter></svg>#grayscale");
-            filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
-            filter: gray;
-            -webkit-filter: grayscale(1)
-        }*/
-    </style>
 </head>
 <body>
 <#--页面头部信息-->
@@ -55,7 +38,7 @@
             <div class="col-md-9">
                 <#nested>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 hidden-sm hidden-xs">
                 <div id="jf_sidebar">
                     <#include "/page/front/common/sidebar.ftl"/>
                 <@sidebar sidebar_user_info=sidebar_user_info sidebar_topic_user=sidebar_topic_user sidebar_checkin=sidebar_checkin

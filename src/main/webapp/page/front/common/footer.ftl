@@ -1,7 +1,7 @@
 <#macro footer>
 <div class="footer">
     <div class="container">
-        <div style="padding-bottom: 10px; text-align: left;">
+        <div style="padding-bottom: 10px; text-align: left;" class="hidden-sm hidden-xs">
             <ul class="nav nav-pills" id="links">
                 <li>友情链接：</li>
                 <#list links as link>

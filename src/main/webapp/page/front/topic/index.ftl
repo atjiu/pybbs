@@ -24,12 +24,12 @@
             </span>
             <span>&nbsp;•&nbsp;${topic.view!} 次浏览</span>
             <#if topic.modify_time??>
-                <span>&nbsp;•&nbsp;最后编辑于
+                <span>&nbsp;•&nbsp;更新
                     ${topic.formatDate(topic.modify_time)!}
                 </span>
             </#if>
             <span>
-                &nbsp;•&nbsp;来自 <a href="${baseUrl!}/?tab=${topic.tab}">${topic.sectionName!}</a>
+                &nbsp;•&nbsp;<a href="${baseUrl!}/?tab=${topic.tab}">${topic.sectionName!}</a>
             </span>
             &nbsp;
             <#if session.user?? && topic.author_id == session.user.id>

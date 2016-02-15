@@ -6,7 +6,7 @@
 	<#local endPage = currentPage + 2>
 	<#if (endPage > totalPage)><#local endPage = totalPage></#if>
 
-	<ul class="pagination pagination-sm">
+	<ul class="pagination">
 		<#if (currentPage <= 3)>
 			<#local startPage = 1>
 		</#if>

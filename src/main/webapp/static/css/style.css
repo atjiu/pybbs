@@ -166,10 +166,6 @@ a.node:hover {
     .navbar {
         margin-bottom: 10px;
     }
-    .container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
-        margin-right: -25px;
-        margin-left: -25px;
-    }
     .col-md-3, .col-md-9 {
         padding-left: 5px;
         padding-right: 5px;
@@ -264,6 +260,6 @@ a.node:hover {
 }
 .footer {
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 0;
     text-align: center;
 }
