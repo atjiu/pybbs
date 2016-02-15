@@ -26,7 +26,7 @@ public class Topic extends BaseModel<Topic> {
                 "(select u.nickname from jfbbs_user u where u.id = t.author_id) as nickname ";
         String orderBy = " order by t.top desc, t.last_reply_time desc ";
         StringBuffer condition = new StringBuffer();
-        if (l == null) {
+        if (l == null || l == 0) {
             condition.append(" from jfbbs_topic t left join jfbbs_section s on t.s_id = s.id where 1 = 1 ");
         } else {
             condition.append(" from jfbbs_topic t left join jfbbs_section s on t.s_id = s.id ")
@@ -39,8 +39,10 @@ public class Topic extends BaseModel<Topic> {
         }
         if (tab.equals("good")) {
             condition.append(" and t.good = 1 ");
+        } else if(tab.equals("noreply")) {
+            condition.append(" and t.id not in (select tid from jfbbs_reply) ");
         }
-        if (!StrKit.isBlank(tab) && (tab.equals("all") || tab.equals("good"))) {
+        if (!StrKit.isBlank(tab) && (tab.equals("all") || tab.equals("good") || tab.equals("noreply"))) {
             tab = null;
         }
         if (!StrKit.isBlank(tab)) {

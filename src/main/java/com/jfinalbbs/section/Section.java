@@ -24,7 +24,7 @@ public class Section extends BaseModel<Section> implements Serializable {
     }
 
     public Section findByTab(String tab) {
-        return super.findFirst("select * from jfbbs_section where tab = ?", tab);
+        return super.findFirstByCache(Constants.SECTIONBYTAB + "-" + tab, Constants.SECTIONBYTABKEY + "-" + tab, "select * from jfbbs_section where tab = ?", tab);
     }
 
     public Section findDefault() {

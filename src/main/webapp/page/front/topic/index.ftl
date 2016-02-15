@@ -47,7 +47,7 @@
         </div>
         <div class="pull-left topic-label">
             <#list labels as label>
-                <a href="${baseUrl!}/?tab=${topic.tab!}&l=${label.id!}">
+                <a href="${baseUrl!}/?l=${label.id!}" style="text-decoration: none;">
                     <span class="label label-success label-item">${label.name}</span>
                 </a>
             </#list>

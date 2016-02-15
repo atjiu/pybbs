@@ -1,5 +1,5 @@
 <#macro footer>
-<div style="background-color: #fff; padding: 20px; margin-top:10px;text-align: center;">
+<div class="footer">
     <div class="container">
         <div style="padding-bottom: 10px; text-align: left;">
             <ul class="nav nav-pills" id="links">

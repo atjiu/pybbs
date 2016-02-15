@@ -4,15 +4,29 @@
     <div class="panel panel-default">
         <div class="panel-heading ot-tab-heading">
             <ul class="nav nav-pills">
+                <li <#if l == 0 && tab == 'all'> class="active" </#if> style="margin-right: 8px;">
+                    <a href="${baseUrl!}/?tab=all">最新</a>
+                </li>
                 <li <#if tab == 'good'> class="active" </#if> style="margin-right: 8px;">
                     <a href="${baseUrl!}/?tab=good">精华</a>
                 </li>
-                <#list sections as section>
-                    <li <#if tab == section.tab> class="active" </#if> style="margin-right:8px;">
-                        <a href="${baseUrl!}/?tab=${section.tab!}&q=${q!}">${section.name!}</a>
-                    </li>
-                </#list>
-                <#if l??>
+                <li <#if tab == 'noreply'> class="active" </#if> style="margin-right: 8px;">
+                    <a href="${baseUrl!}/?tab=noreply">等待回复</a>
+                </li>
+                <li class="dropdown <#if tab != 'good' && tab != 'all' && tab != 'noreply'>active</#if>"
+                    style="margin-right: 8px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-target="#">
+                        ${sectionName!} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <#list sections as section>
+                            <li>
+                                <a href="${baseUrl!}/?tab=${section.tab!}">${section.name!}</a>
+                            </li>
+                        </#list>
+                    </ul>
+                </li>
+                <#if l?? && l &gt; 0>
                     <li class="active">
                         <a href="javascript:;">标签：${_label.name!}</a>
                     </li>

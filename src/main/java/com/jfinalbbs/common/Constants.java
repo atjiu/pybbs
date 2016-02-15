@@ -42,12 +42,14 @@ public class Constants {
     // 缓存名称
     public static final String SECTIONLIST = "section_list";
     public static final String SECTIONSHOWLIST = "section_show_list";
+    public static final String SECTIONBYTAB = "sectionbytab";
     public static final String LINKLIST = "link_list";
     public static final String DEFAULTSECTION = "default_section";
     public static final String SYSCONFIGCACHE = "sysconfigcache";
 
     // 缓存KEY
     public static final String SECTIONLISTKEY = "section_list_key";
+    public static final String SECTIONBYTABKEY = "sectionbytabkey";
     public static final String SECTIONSHOWLISTKEY = "section_show_list_key";
     public static final String LINKLISTKEY = "link_list_key";
     public static final String DEFAULTSECTIONKEY = "default_section_key";

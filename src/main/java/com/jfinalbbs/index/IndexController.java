@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.sun.tools.doclint.Entity.nu;
+
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -33,26 +35,21 @@ public class IndexController extends BaseController {
      * 首页
      */
     public void index() {
-        String tab = getPara("tab");
+        String tab = getPara("tab", "all");
         String q = getPara("q");
-        Integer l = getParaToInt("l");
-        if (l != null) {
+        Integer l = getParaToInt("l", 0);
+        if (l != null && l > 0) {
             tab = "all";
             setAttr("_label", Label.me.findById(l));
         }
-        if (tab == null) {
-            if (!StrUtil.isBlank(q)) {
-                tab = "all";
-            } else {
-                Section section = Section.me.findDefault();
-                tab = section != null ? section.getStr("tab") : "news";
-            }
+        if(tab.equals("all") || tab.equals("good")) {
+            setAttr("sectionName", "板块");
+        } else {
+            Section section = Section.me.findByTab(tab);
+            setAttr("sectionName", section!=null?section.get("name"):"板块");
         }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
                 getParaToInt("size", defaultPageSize()), tab, q, 1, l);
-        for (Topic t : page.getList()) {
-            t.put("labels", Label.me.findByTid(t.getStr("id")));
-        }
         setAttr("page", page);
         List<User> scoreTopTen = User.me.findBySize(10);
         setAttr("scoreTopTen", scoreTopTen);
