@@ -14,8 +14,8 @@
     ${google_site_meta!}
     ${bing_site_meta!}
     <link rel="icon" href="${baseUrl!}/static/favicon.ico">
-    <link href="${baseUrl!}/static/mobile/css/mobile.css?v=20150604" rel="stylesheet">
-    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js?v=20150604"></script>
+    <link href="${baseUrl!}/static/mobile/css/mobile.css" rel="stylesheet">
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/blueimp-md5/2.1.0/js/md5.min.js"></script>
 </head>
 <body style="background-color: #e1e1e1;">

@@ -23,9 +23,6 @@ a:hover {
     color: #4d5256;
     text-decoration: underline;
 }
-p {
-    margin-bottom: 5px;
-}
 .item-title {
     color: #155faa;
     font-size: 16px;
@@ -83,17 +80,11 @@ a.node:hover {
     margin: 20px auto;
     background: transparent url("../img/spacer.png") repeat-x scroll 0 0;
 }
-.pre_backgroud_color {
-    margin-top: 5px;
-    /*border-top: 1px solid #e2e2e2;*/
-    padding: 10px;
-    background-color: #f9f9f5;
-}
-.pre_backgroud_color img {
-    max-width: 100%;
-}
 .panel-body {
     word-wrap: break-word;
+}
+.panel-body p {
+    line-height: 1.7;
 }
 #topic_title {
     font-size: 22px;
@@ -253,7 +244,7 @@ a.node:hover {
     margin: 0 0 10px 15px;
 }
 .divide {
-    margin-top: 10px;
+    margin-top: 5px;
     border-top: 1px solid #f5f5f5;
 }
 .breadcrumb {

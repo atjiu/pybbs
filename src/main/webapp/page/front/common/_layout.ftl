@@ -19,12 +19,12 @@
     <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/css/bootstrap-material-design.min.css" rel="stylesheet">
     <link href="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/css/ripples.min.css" rel="stylesheet">
-    <link href="${baseUrl!}/static/css/style.css?v=20150604" rel="stylesheet">
+    <link href="${baseUrl!}/static/css/style.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/js/material.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/js/ripples.min.js"></script>
-    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js?v=20150604"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
     <script src="http://cdn.bootcss.com/blueimp-md5/2.1.0/js/md5.min.js"></script>
 </head>

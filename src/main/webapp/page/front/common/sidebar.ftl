@@ -101,7 +101,7 @@
     </#if>
 </#if>
 <#if sidebar_xgtopic == "show">
-    <#if xgTopics.size() &gt; 0>
+    <#if xgTopics?? && xgTopics.size() &gt; 0>
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-th-list"></span>

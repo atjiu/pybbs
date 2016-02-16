@@ -40,7 +40,11 @@
                 <div class="media-body">
                     <div class="alert <#if message.author_id == session.user.id>alert-info <#else> alert-success pull-right</#if>" role="alert" style="width: 80%;">
                         <p>
-                            <a href="${baseUrl!}/user/${session.user.id!}">我</a>:
+                            <#if message.author_id == session.user.id>
+                                <a href="${baseUrl!}/user/${session.user.id!}">我</a>:
+                            <#else>
+                                <a href="${baseUrl!}/user/${session.user.id!}">${message.nickname!}</a>:
+                            </#if>
                             ${message.content!}
                         </p>
                         <p class="small-fade">
