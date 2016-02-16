@@ -2,7 +2,7 @@ body {
     margin: 0;
     height: 100%;
     font-size: 14px;
-    background-color: #EEEEEE;
+    background-color: #fafafa;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
 @media (min-width: 1200px) {
@@ -15,7 +15,7 @@ body {
     color: #fff;
 }
 a:link, a:visited, a:active {
-    color: #778087;
+    color: #444;
     text-decoration: none;
     word-break: break-all;
 }
@@ -25,7 +25,7 @@ a:hover {
 }
 .item-title {
     color: #155faa;
-    font-size: 16px;
+    /*font-size: 16px;*/
     line-height: 130%;
     text-shadow: 0px 1px 0px #fff;
     word-wrap: break-word;
@@ -48,6 +48,9 @@ a.node:hover {
     background-color: #e2e2e2;
     color: #777;
 }
+.dgray {
+    color: #ccc;
+}
 .mar-5 {
     margin: 5px 0;
 }
@@ -60,7 +63,7 @@ a.node:hover {
     font-size: 12px;
 }
 .content-wrap {
-    background-color: #EEE;
+    background-color: #fafafa;
 }
 .ellipsis-1 {
     width: 100%;
@@ -145,7 +148,7 @@ a.node:hover {
     display: inline-block;
 }
 .col-md-9, .col-md-3 {
-    background-color: #EEE;
+    background-color: #fafafa;
 }
 @media (min-width: 992px) {
     .navbar {

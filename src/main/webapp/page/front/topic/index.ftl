@@ -69,7 +69,7 @@
     </#if>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">${topic.reply_count!"0"} 回复</div>
+    <div class="panel-heading">${topic.reply_count!"0"}个回复</div>
     <div class="panel-body">
         <#list replies as reply>
             <div class="media" id="${reply.id!}">

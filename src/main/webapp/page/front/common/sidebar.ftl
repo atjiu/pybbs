@@ -6,7 +6,7 @@
     <#if session.user??>
         <div class="panel-heading">
             <span class="glyphicon glyphicon-user"></span>
-            个人信息
+            <b>个人信息</b>
         </div>
         <div class="panel-body">
             <div class="media">
@@ -40,7 +40,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="glyphicon glyphicon-user"></span>
-        作者
+        <b>作者</b>
     </div>
     <div class="panel-body">
         <div class="media">
@@ -88,13 +88,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-th-list"></span>
-            无人回复话题
+            <b>等待回复</b>
         </div>
         <div class="panel-body">
             <#list notReplyTopics as topic>
                 <div class="ellipsis-1 media">
+                    <span class="dgray">• </span>
                     <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
                 </div>
+                <#if topic_has_next><div class="divide"></div></#if>
             </#list>
         </div>
     </div>
@@ -105,13 +107,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-th-list"></span>
-            相关话题
+            <b>相关话题</b>
         </div>
         <div class="panel-body">
             <#list xgTopics as topic>
                 <div class="ellipsis-1 media">
+                    <span class="dgray">• </span>
                     <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
                 </div>
+                <#if topic_has_next><div class="divide"></div></#if>
             </#list>
         </div>
     </div>
@@ -121,14 +125,19 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="glyphicon glyphicon-th-list"></span>
-        积分榜&nbsp;&nbsp;<a href="${baseUrl!}/user/top100">TOP 100 &gt;&gt;</a>
+        <b>积分榜</b>&nbsp;&nbsp;<a href="${baseUrl!}/user/top100" class="small-gray">TOP100 &gt;&gt;</a>
     </div>
     <div class="panel-body">
         <#list scoreTopTen as top>
-            <div>
-                <span style="display: inline-block; width: 60px; float: left;">${top.score!}</span>
-                <a href="${baseUrl!}/user/${top.id}">${top.nickname!}</a>
+            <div class="media" style="margin-top: 5px;">
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-sm-3">${top.score!}</div>
+                        <div class="col-sm-9"><a href="${baseUrl!}/user/${top.id}">${top.nickname!}</a></div>
+                    </div>
+                </div>
             </div>
+            <#if top_has_next><div class="divide"></div></#if>
         </#list>
     </div>
 </div>
@@ -138,13 +147,13 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-paperclip"></span>
-                话题发布指南
+                <b>话题发布指南</b>
             </div>
             <div class="panel-body">
-                <p>• 关于积分：发布话题奖励 3 积分，但是被管理员删除话题将会扣除作者 5 积分</p>
-                <p>• 问题标题: 请用准确的语言描述您发布的问题思想</p>
-                <p>• 添加标签: 添加一个或者多个合适的标签, 让您发布的问题得到更多有相同兴趣的人参与.</p>
-                <p>• 给话题选择合适的板块方便查找浏览</p>
+                <p><span class="dgray">• </span>关于积分：发布话题奖励 3 积分，但是被管理员删除话题将会扣除作者 5 积分</p>
+                <p><span class="dgray">• </span>问题标题: 请用准确的语言描述您发布的问题思想</p>
+                <p><span class="dgray">• </span>添加标签: 添加一个或者多个合适的标签, 让您发布的问题得到更多有相同兴趣的人参与.</p>
+                <p><span class="dgray">• </span>给话题选择合适的板块方便查找浏览</p>
             </div>
         </div>
     </#if>
@@ -154,13 +163,17 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-th-list"></span>
-            作者其他话题
+            <b>作者其他话题</b>
         </div>
         <div class="panel-body">
             <#list otherTopics as topic>
                 <div class="ellipsis-1 media">
-                    <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
+                    <div class="media-body">
+                        <span class="dgray">• </span>
+                        <a href="${baseUrl!}/topic/${topic.id!}.html">${topic.title!}</a>
+                    </div>
                 </div>
+                <#if topic_has_next><div class="divide"></div></#if>
             </#list>
         </div>
     </div>
@@ -170,14 +183,14 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-paperclip"></span>
-            关于
+            <b>关于</b>
         </div>
         <div class="panel-body">
             <p>在这里你可以：</p>
-            <p>• 向别人提出你遇到的问题</p>
-            <p>• 帮助遇到问题的人</p>
-            <p>• 分享自己的知识</p>
-            <p>• 和其它人一起进步</p>
+            <p><span class="dgray">• </span>向别人提出你遇到的问题</p>
+            <p><span class="dgray">• </span>帮助遇到问题的人</p>
+            <p><span class="dgray">• </span>分享自己的知识</p>
+            <p><span class="dgray">• </span>和其它人一起进步</p>
         </div>
     </div>
 </#if>
@@ -185,25 +198,35 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-paperclip"></span>
-            社区运行状态
+            <b>社区运行状态</b>
         </div>
         <div class="panel-body">
-            <table cellpadding="5" cellspacing="0" border="0">
-                <tbody>
-                    <tr>
-                        <td style="width: 60px;" align="right"><span>注册用户</span></td>
-                        <td style="padding-left: 20px;" align="left">${userCount!0}</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 60px;" align="right"><span>主题</span></td>
-                        <td style="padding-left: 20px;" align="left">${topicCount!0}</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 60px;" align="right"><span>回复</span></td>
-                        <td style="padding-left: 20px;" align="left">${replyCount!0}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="media">
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-sm-5">注册用户</div>
+                        <div class="col-sm-7">${userCount!0}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="divide"></div>
+            <div class="media">
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-sm-5">话题</div>
+                        <div class="col-sm-7">${topicCount!0}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="divide"></div>
+            <div class="media">
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-sm-5">回复</div>
+                        <div class="col-sm-7">${replyCount!0}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </#if>

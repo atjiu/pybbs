@@ -18,7 +18,7 @@
                 <#else>
                     <a class="node" href="${baseUrl!}/?tab=${topic.tab!}">${topic.sectionName!}</a>
                 </#if>
-                • ${topic.reply_count!} 个回复 • ${topic.view!} 次浏览 • ${topic.formatDate(topic.last_reply_time)!}
+                • ${topic.reply_count!}个回复 • ${topic.view!}次浏览 • ${topic.formatDate(topic.last_reply_time)!}
             </p>
         </div>
         <#if topic.last_reply_author_avatar??>
