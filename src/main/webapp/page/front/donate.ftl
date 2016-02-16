@@ -5,17 +5,19 @@
     <div class="panel-heading">
         <ol class="breadcrumb">
             <li><a href="${baseUrl!}/">首页</a></li>
-            <li class="active">捐助</li>
+            <li class="active">捐赠</li>
         </ol>
     </div>
-    <div class="panel-body" style="text-align: center; padding: 40px 10px;">
-        <div style="float: left; width: 50%;">
-            <img src="${baseUrl!}/static/img/jz_alipay.jpg"/><br>
-            <p>支付宝二维码扫描捐助</p>
-        </div>
-        <div style="float: right; width: 49%;">
-            <img src="${baseUrl!}/static/img/jz_weixin.jpg" /><br>
-            <p>微信二维码扫描捐助</p>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img src="${baseUrl!}/static/img/jz_alipay.jpg"/><br>
+                <p>支付宝二维码扫描捐助</p>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="${baseUrl!}/static/img/jz_weixin.jpg" /><br>
+                <p>微信二维码扫描捐助</p>
+            </div>
         </div>
     </div>
 </div>
