@@ -12,13 +12,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li <#if page_tab == 'topic'> class="active" </#if>><a href="${baseUrl!}/?tab=news&q=${q!}">社区</a></li>
+                <li <#if page_tab == 'topic'> class="active" </#if>><a href="${baseUrl!}/">社区</a></li>
+                <li <#if page_tab == 'label'> class="active" </#if>><a href="${baseUrl!}/label">标签</a></li>
                 <li <#if page_tab == 'doc'> class="active" </#if>><a href="${baseUrl!}/doc">文档</a></li>
                 <li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">api</a></li>
             </ul>
             <form class="navbar-form navbar-left" id="search_form" role="search" method="get" action="${baseUrl!}/">
                 <div class="form-group has-feedback">
-                    <input type="text" name="q" class="form-control" style="width: 240px" value="${q!}"
+                    <input type="text" name="q" class="form-control" style="width: 240px;" value="${q!}"
                            placeholder="回车搜索" onkeypress="enterSearch(event)">
                     <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="line-height: 28px;"></span>
                 </div>

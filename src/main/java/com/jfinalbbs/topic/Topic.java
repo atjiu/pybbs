@@ -37,9 +37,9 @@ public class Topic extends BaseModel<Topic> {
         if (show_status != null) {
             condition.append(" and t.show_status = " + show_status);
         }
-        if (tab.equals("good")) {
+        if (!StrKit.isBlank(tab) && tab.equals("good")) {
             condition.append(" and t.good = 1 ");
-        } else if(tab.equals("noreply")) {
+        } else if(!StrKit.isBlank(tab) && tab.equals("noreply")) {
             condition.append(" and t.id not in (select tid from jfbbs_reply) ");
         }
         if (!StrKit.isBlank(tab) && (tab.equals("all") || tab.equals("good") || tab.equals("noreply"))) {

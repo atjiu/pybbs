@@ -51,9 +51,16 @@ a.node:hover {
     background-color: #e2e2e2;
     color: #777;
 }
+.mar-5 {
+    margin: 5px 0;
+}
 .small-fade {
     color: #ccc;
     font-size: 11px;
+}
+.small-gray {
+    color: #999;
+    font-size: 12px;
 }
 .content-wrap {
     background-color: #EEE;

@@ -58,6 +58,11 @@
     }
 
     $(function () {
+
+        <#if label??>
+            appendLabel('${label.name!}');
+        </#if>
+
         $( "#label" ).autocomplete({
             source: function( request, response ) {
                 $.ajax({

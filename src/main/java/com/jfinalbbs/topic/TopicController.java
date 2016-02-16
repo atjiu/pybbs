@@ -63,6 +63,11 @@ public class TopicController extends BaseController {
 
     @Before(UserInterceptor.class)
     public void create() {
+        String labelName = getPara(0);
+        if(!StrUtil.isBlank(labelName)) {
+            Label label = Label.me.findByName(labelName);
+            setAttr("label", label);
+        }
 //        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/create.ftl");
         render("front/topic/create.ftl");
     }
