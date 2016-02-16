@@ -17,7 +17,7 @@
                         <textarea name="messageContent" id="messageContent" rows="4" class="form-control" placeholder="你想对TA说点什么..."></textarea>
                     </div>
                     <div class="form-group pull-right">
-                        <input type="button" value="发送" class="btn btn-raised  btn-default">
+                        <input type="button" value="发送" id="sendMessage" data-loading-text="Loading..." class="btn btn-raised  btn-default">
                     </div>
                 </form>
             </div>
@@ -59,4 +59,13 @@
         </#list>
     </div>
 </div>
+<script>
+    $("#sendMessage").on("click", function() {
+        var messageContent = $("#messageContent").val();
+        if($.trim(messageContent) != ''){
+            $(this).button('loading');
+            $("#newMessageForm").submit();
+        }
+    })
+</script>
 </@html>

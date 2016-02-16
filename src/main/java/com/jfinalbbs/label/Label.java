@@ -62,4 +62,8 @@ public class Label extends BaseModel<Label> {
         }
         return topics;
     }
+
+    public List<Label> findAll() {
+        return super.find("select * from jfbbs_label order by topic_count desc, in_time desc");
+    }
 }

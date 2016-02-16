@@ -27,7 +27,4 @@ public class Message extends BaseModel<Message> {
                 "where contact_id = ? and mc.is_delete = 0 order by in_time desc", contactId);
     }
 
-    public void deleteByContactId(Integer contactId) {
-        Db.update("delete from jfbbs_message where contact_id = ?", contactId);
-    }
 }

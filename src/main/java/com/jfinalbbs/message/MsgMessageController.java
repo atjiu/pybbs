@@ -56,7 +56,7 @@ public class MsgMessageController extends BaseController {
             if (method.equalsIgnoreCase(Constants.POST)) {
                 Date date = new Date();
                 String toAuthorId = getPara("toAuthorId");
-                String messageContent = getPara("messageContent");
+                String messageContent = StrUtil.transHtml(getPara("messageContent"));
                 Integer msgCount = 0;
                 //保存会话记录
                 MsgContact msgContact = me.findByAuthorIdAndToAuthorId(user.getStr("id"), toAuthorId);
@@ -69,7 +69,7 @@ public class MsgMessageController extends BaseController {
                     msgCount = msgContact.getInt("msg_count");
                 }
                 msgContact.set("msg_count", msgCount + 1)
-                        .set("last_msg_content", StrUtil.transHtml(messageContent))
+                        .set("last_msg_content", messageContent)
                         .set("last_msg_time", date)
                         .set("is_delete", 0);
                 if (msgContact.get("id") == null) {
@@ -87,7 +87,7 @@ public class MsgMessageController extends BaseController {
                     msgCount = msgContact1.getInt("msg_count");
                 }
                 msgContact1.set("msg_count", msgCount + 1)
-                        .set("last_msg_content", StrUtil.transHtml(messageContent))
+                        .set("last_msg_content", messageContent)
                         .set("last_msg_time", date)
                         .set("is_delete", 0);
                 if (msgContact1.get("id") == null) {
@@ -98,23 +98,27 @@ public class MsgMessageController extends BaseController {
                 //保存消息内容
                 Message message = new Message();
                 message.set("contact_id", msgContact.get("id"))
-                        .set("content", StrUtil.transHtml(messageContent))
+                        .set("content", messageContent)
                         .set("author_id", user.getStr("id"))
                         .set("in_time", date)
                         .save();
                 Message message1 = new Message();
                 message1.set("contact_id", msgContact1.get("id"))
-                        .set("content", StrUtil.transHtml(messageContent))
+                        .set("content", messageContent)
                         .set("author_id", user.getStr("id"))
                         .set("in_time", date)
                         .save();
                 //发送通知
+                String notiMsg = messageContent.length() > 50 ? messageContent.substring(0, 50) : messageContent;
                 Notification notification = new Notification();
                 notification.set("read", 0)
-                        .set("message", Constants.NOTIFICATION_PRIVATE_MESSAGE)
+                        .set("target_id", msgContact1.get("id"))
+                        .set("action", Constants.NOTIFICATION_PRIVATE_MESSAGE)
+                        .set("message", notiMsg)
                         .set("from_author_id", user.getStr("id"))
                         .set("author_id", toAuthorId)
-                        .set("in_time", date).save();
+                        .set("in_time", date)
+                        .set("source", "message").save();
                 redirect(baseUrl() + "/message");
             }
         }

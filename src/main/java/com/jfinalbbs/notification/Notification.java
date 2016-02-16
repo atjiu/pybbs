@@ -17,25 +17,22 @@ public class Notification extends BaseModel<Notification> {
 
     //查询未读消息
     public Page<Notification> paginate(int pageNumber, int pageSize, String authorId) {
-        return super.paginate(pageNumber, pageSize, "select n.*, t.title, u.nickname ",
+        return super.paginate(pageNumber, pageSize, "select n.*, u.nickname ",
                 "from jfbbs_notification n " +
-                        "left join jfbbs_topic t on n.tid = t.id " +
                         "left join jfbbs_user u on u.id = n.from_author_id " +
                         "where n.read = 1 and n.author_id = ? order by n.in_time desc", authorId);
     }
 
     //查询已读消息
     public List<Notification> findReadByAuthorId(String authorId, int size) {
-        return super.find("select n.*, t.title, u.nickname from jfbbs_notification n " +
-                "left join jfbbs_topic t on n.tid = t.id " +
+        return super.find("select n.*, u.nickname from jfbbs_notification n " +
                 "left join jfbbs_user u on u.id = n.from_author_id " +
                 "where n.read = 1 and n.author_id = ? order by n.in_time desc limit 0, ?", authorId, size);
     }
 
     //查询未读消息
     public List<Notification> findNotReadByAuthorId(String authorId) {
-        return super.find("select n.*, t.title, u.nickname from jfbbs_notification n " +
-                "left join jfbbs_topic t on n.tid = t.id " +
+        return super.find("select n.*, u.nickname from jfbbs_notification n " +
                 "left join jfbbs_user u on u.id = n.from_author_id " +
                 "where n.read = 0 and n.author_id = ? order by n.in_time desc", authorId);
     }

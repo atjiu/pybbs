@@ -13,6 +13,12 @@ import java.util.List;
  */
 public class LabelController extends BaseController {
 
+    public void index() {
+        List<Label> labels = Label.me.findAll();
+        setAttr("labels", labels);
+        render("front/label/index.ftl");
+    }
+
     public void search() {
         String q = getPara("q");
         if (StrUtil.isBlank(q)) {
@@ -26,4 +32,5 @@ public class LabelController extends BaseController {
             renderJson(list);
         }
     }
+
 }

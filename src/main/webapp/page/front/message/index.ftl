@@ -10,6 +10,11 @@
     <div class="panel-body">
         <#list msgContacts as contact>
             <div class="media">
+                <div class="media-left">
+                    <a href="${baseUrl!}/user/${contact.to_author_id!}">
+                        <img src="${contact.avatar!}" alt="avatar" class="media-object avatar">
+                    </a>
+                </div>
                 <div class="media-body">
                     <div class="media-heading">
                         <p><a href="${baseUrl!}/user/${contact.to_author_id!}">${contact.nickname!}</a></p>
@@ -17,14 +22,9 @@
                     </div>
                     <p class="small-fade">
                         <span>${contact.formatDate(contact.last_msg_time)!}</span>
-                        &nbsp;•&nbsp;<a href="${baseUrl!}/message/read/${contact.id!}">共${contact.msg_count!}条对话</a>
+                        <a href="${baseUrl!}/message/read/${contact.id!}">共${contact.msg_count!}条对话</a>
                         &nbsp;•&nbsp;<a href="javascript:if(confirm('确定要删除这条会话吗？\r\n注意: 这会删除当前会话下的所有信息!!')) location.href='${baseUrl!}/message/delete/${contact.id!}'">删除</a>
                     </p>
-                </div>
-                <div class="media-right">
-                    <a href="${baseUrl!}/user/${contact.to_author_id!}">
-                        <img src="${contact.avatar!}" alt="avatar" class="media-object avatar">
-                    </a>
                 </div>
             </div>
             <#if contact_has_next>

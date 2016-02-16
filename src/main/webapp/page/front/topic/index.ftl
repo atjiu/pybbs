@@ -72,7 +72,7 @@
     <div class="panel-heading">${topic.reply_count!"0"} 回复</div>
     <div class="panel-body">
         <#list replies as reply>
-            <div class="media">
+            <div class="media" id="${reply.id!}">
                 <div class="media-left">
                     <a href="${baseUrl!}/user/${reply.author_id}">
                         <img src="${reply.avatar!}" alt="avatar" class="media-object avatar">

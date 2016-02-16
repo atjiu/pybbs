@@ -56,13 +56,14 @@ public class ReplyController extends BaseController {
                         content = content.replace("@" + nickname, "<a href='" + baseUrl() + "/user/" + user1.getStr("id") + "'>@" + nickname + "</a>");
                         if (!user1.getStr("id").equals(user.getStr("id"))) {
                             Notification collectNoti = new Notification();
-                            collectNoti.set("tid", tid)
-                                    .set("rid", reply.get("id"))
+                            collectNoti.set("target_id", tid + "#" + reply.get("id"))
                                     .set("read", 0)
-                                    .set("message", Constants.NOTIFICATION_MESSAGE)
+                                    .set("action", Constants.NOTIFICATION_MESSAGE)
+                                    .set("message", topic.get("title"))
                                     .set("from_author_id", user.get("id"))
                                     .set("author_id", user1.get("id"))
-                                    .set("in_time", date).save();
+                                    .set("in_time", date)
+                                    .set("source", "topic").save();
                         }
                         if (user1.getStr("id").equals(topic.getStr("author_id"))) {
                             flag = true;
@@ -75,13 +76,14 @@ public class ReplyController extends BaseController {
             //通知话题作者
             if (!user.getStr("id").equals(topic.getStr("author_id")) && !flag) {
                 Notification collectNoti = new Notification();
-                collectNoti.set("tid", tid)
-                        .set("rid", reply.get("id"))
+                collectNoti.set("target_id", tid + "#" + reply.get("id"))
                         .set("read", 0)
-                        .set("message", Constants.NOTIFICATION_MESSAGE1)
+                        .set("action", Constants.NOTIFICATION_MESSAGE1)
+                        .set("message", topic.get("title"))
                         .set("from_author_id", user.get("id"))
                         .set("author_id", topic.get("author_id"))
-                        .set("in_time", date).save();
+                        .set("in_time", date)
+                        .set("source", "topic").save();
             }
             redirect(baseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));
         }

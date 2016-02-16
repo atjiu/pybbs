@@ -10,8 +10,13 @@
     <#list notifications as notification>
         <div class="panel-body">
             <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
-            ${notification.message!}
-            <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+            ${notification.formatDate(notification.in_time)!}
+            ${notification.action!}
+            <#if notification.source == 'topic'>
+                <a href="${baseUrl!}/topic/${notification.target_id!}" target="_blank">${notification.message!}</a>
+            <#elseif notification.source == 'message'>
+                <a href="${baseUrl!}/message/read/${notification.target_id!}" target="_blank">${notification.message!}</a>
+            </#if>
         </div>
         <#if notification_has_next><div class="divide" style="margin-top:0;"></div></#if>
     </#list>
@@ -26,8 +31,13 @@
     <#list oldMessages.getList() as notification>
         <div class="panel-body">
             <a href="${baseUrl!}/user/${notification.from_author_id!}" target="_blank">${notification.nickname!} </a>
-            ${notification.message!}
-            <a href="${baseUrl!}/topic/${notification.tid!}.html#${notification.rid!}" target="_blank">${notification.title!}</a>
+            ${notification.formatDate(notification.in_time)!}
+            ${notification.action!}
+            <#if notification.source == 'topic'>
+                <a href="${baseUrl!}/topic/${notification.target_id!}" target="_blank">${notification.message!}</a>
+            <#elseif notification.source == 'message'>
+                <a href="${baseUrl!}/message/read/${notification.target_id!}" target="_blank">${notification.message!}</a>
+            </#if>
         </div>
         <#if notification_has_next><div class="divide" style="margin-top:0;"></div></#if>
     </#list>
