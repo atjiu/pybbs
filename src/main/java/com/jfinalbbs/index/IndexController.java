@@ -123,9 +123,6 @@ public class IndexController extends BaseController {
         render("front/api.ftl");
     }
 
-    /**
-     * 文档入口
-     */
     public void service() {
         render("front/service.ftl");
     }
