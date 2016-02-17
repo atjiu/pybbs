@@ -2,7 +2,7 @@
 
 # 如何开始
 
-- clone代码,maven编译打成war包
+- clone代码,maven编译打成war包, 或者直接[下载war包](https://github.com/liygheart/jfinalbbs/releases)
 - 将`doc/最新版SQL.sql`脚本在mysql数据库里运行，创建jfinalbbs数据库
 - [下载tomcat](http://tomcat.apache.org),解压
 - 将war包放到`tomcat/webapp`下,启动tomcat(`./bin/startup.sh`)
