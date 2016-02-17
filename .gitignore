@@ -16,3 +16,4 @@ jfinalbbs.log
 target/
 out/
 src/main/webapp/page/front/service.ftl
+src/main/webapp/page/front/donate.ftl

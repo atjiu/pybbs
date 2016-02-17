@@ -36,7 +36,6 @@
                 </script>
             </span>
             <ul class="nav navbar-nav navbar-right">
-                <li <#if page_tab == 'donate'> class="active" </#if>><a href="${baseUrl!}/donate">捐赠</a></li>
                 <#if session.user??>
                     <li <#if page_tab == 'message'> class="active" </#if>><a href="${baseUrl!}/user/message/${session.user.id!}">通知 <span class="badge" id="badge"></span></a></li>
                     <li class="dropdown">
