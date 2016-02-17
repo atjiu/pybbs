@@ -36,6 +36,7 @@
                 <input type="text" placeholder="标题字数10字以上" id="title" name="title" value="${topic.title!}" class="form-control" style="margin-bottom: 5px;"/>
             </div>
             <div class="form-group label-floating">
+                <textarea id="temp_content" class="hidden">${topic.content}</textarea>
                 <textarea id="content" name="content" class="form-control" style="height: 400px;"></textarea>
             </div>
             <div class="form-group label-floating">
@@ -124,7 +125,8 @@
 
         //==========wangEditor End============
 
-        editor.$txt.html('${topic.content!}');
+        editor.$txt.html($("#temp_content").val());
+        $("#temp_content").remove();
     });
 
     function addLabel() {

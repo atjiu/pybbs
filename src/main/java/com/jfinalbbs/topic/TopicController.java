@@ -80,7 +80,7 @@ public class TopicController extends BaseController {
         if (topic == null || !topic.get("author_id").equals(user.get("id"))) {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
-            topic.set("content", topic.getStr("content").replaceAll("\r|\n", ""));
+            topic.set("content", topic.getStr("content"));
             setAttr("topic", topic);
             //查询标签
             List<Label> labels = Label.me.findByTid(tid);

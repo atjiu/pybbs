@@ -47,6 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label for="content">内容</label>
+                    <textarea id="temp_content" class="hidden">${topic.content}</textarea>
                     <textarea id="content" name="content" class="form-control" rows="20"></textarea>
                 </div>
                 <input type="button" value="提  交" class="btn btn-raised btn-info " onclick="submitForm()">
@@ -132,7 +133,8 @@
         editor.create();
         //==========wangEditor End============
 
-        editor.$txt.html('${topic.content!}');
+        editor.$txt.html($("#temp_content").val());
+        $("#temp_content").remove();
     });
 
     function addLabel() {
