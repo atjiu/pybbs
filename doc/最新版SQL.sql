@@ -66,24 +66,24 @@ CREATE TABLE `jfbbs_label` (
   `name` varchar(255) NOT NULL,
   `in_time` datetime NOT NULL,
   `topic_count` int(11) NOT NULL DEFAULT '0',
+  `img` varchar(255) DEFAULT NULL COMMENT '标签图片',
+  `description` varchar(500) DEFAULT NULL COMMENT '标签描述',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `jfbbs_label` WRITE;
 /*!40000 ALTER TABLE `jfbbs_label` DISABLE KEYS */;
 
-INSERT INTO `jfbbs_label` (`id`, `name`, `in_time`, `topic_count`)
+INSERT INTO `jfbbs_label` (`id`, `name`, `in_time`, `topic_count`, `img`, `description`)
 VALUES
-	(1,'Java','2015-10-13 22:38:27',3),
-	(3,'软件更新','2015-10-13 22:39:23',2),
-	(6,'Freemarker','2015-10-13 22:40:22',1),
-	(7,'Jfinal','2015-10-13 22:40:50',1),
-	(11,'jfinalbbs','2015-10-15 18:10:24',1),
-	(12,'友链','2015-10-15 18:10:51',1),
-	(13,'微信','2015-10-15 18:14:38',1),
-	(14,'工具分享','2015-10-15 18:15:00',1),
-	(19,'编辑器','2015-10-15 18:15:01',1);
+  (1, 'Java', '2015-10-13 22:38:27', 0, NULL, NULL),
+  (3, '软件更新', '2015-10-13 22:39:23', 0, NULL, NULL),
+  (6, 'Freemarker', '2015-10-13 22:40:22', 0, NULL, NULL),
+  (7, 'Jfinal', '2015-10-13 22:40:50', 0, NULL, NULL),
+  (11, 'jfinal社区', '2015-10-15 18:10:24', 0, NULL, NULL),
+  (12, '友链', '2015-10-15 18:10:51', 0, NULL, NULL),
+  (13, '微信', '2015-10-15 18:14:38', 0, NULL, NULL);
 
 /*!40000 ALTER TABLE `jfbbs_label` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -125,6 +125,19 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table jfbbs_message
+# ------------------------------------------------------------
+
+CREATE TABLE `jfbbs_message` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `contact_id` int(11) NOT NULL COMMENT '消息属于哪一个对话下的',
+  `content` varchar(1000) NOT NULL DEFAULT '',
+  `author_id` varchar(32) NOT NULL DEFAULT '' COMMENT '消息发出者',
+  `in_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+
 # Dump of table jfbbs_mission
 # ------------------------------------------------------------
 
@@ -138,6 +151,22 @@ CREATE TABLE `jfbbs_mission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
+# Dump of table jfbbs_msg_contact
+# ------------------------------------------------------------
+
+CREATE TABLE `jfbbs_msg_contact` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `author_id` varchar(32) NOT NULL DEFAULT '' COMMENT '用户id',
+  `to_author_id` varchar(32) NOT NULL DEFAULT '' COMMENT '发送消息对象（包括接收，发送的人）id',
+  `msg_count` int(11) NOT NULL COMMENT '当前会话下的消息数量',
+  `last_msg_content` varchar(1000) NOT NULL DEFAULT '' COMMENT '当前会话的最后一条消息',
+  `in_time` datetime NOT NULL,
+  `last_msg_time` datetime DEFAULT NULL,
+  `is_delete` int(1) NOT NULL DEFAULT '0' COMMENT '是否删除会话，0默认1删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+
 
 # Dump of table jfbbs_notification
 # ------------------------------------------------------------
@@ -148,11 +177,12 @@ CREATE TABLE `jfbbs_notification` (
   `read` int(11) NOT NULL COMMENT '是否已读：0默认 1已读',
   `from_author_id` varchar(32) NOT NULL COMMENT '来源用户id',
   `author_id` varchar(32) NOT NULL COMMENT '目标用户id',
-  `tid` varchar(32) DEFAULT NULL COMMENT '话题id',
-  `rid` varchar(32) DEFAULT NULL COMMENT '回复id',
+  `target_id` varchar(255) DEFAULT NULL COMMENT '目标id',
   `in_time` datetime NOT NULL COMMENT '录入时间',
+  `action` varchar(255) DEFAULT NULL COMMENT '通知动作',
+  `source` varchar(32) DEFAULT NULL COMMENT '通知来源',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=1844 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
 
@@ -229,6 +259,29 @@ CREATE TABLE `jfbbs_topic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 
+# Dump of table jfbbs_sys_config
+# ------------------------------------------------------------
+
+CREATE TABLE `jfbbs_sys_config` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(45) NOT NULL DEFAULT '',
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+
+LOCK TABLES `jfbbs_sys_config` WRITE;
+/*!40000 ALTER TABLE `jfbbs_sys_config` DISABLE KEYS */;
+
+INSERT INTO `jfbbs_sys_config` (`id`, `key`, `value`)
+VALUES
+  (1, 'baseUrl', 'http://localhost:8080/jfinalbbs'),
+  (2, 'pageSize', '20'),
+  (3, 'siteTitle', 'JFinalbbs');
+
+/*!40000 ALTER TABLE `jfbbs_sys_config` ENABLE KEYS */;
+UNLOCK TABLES;
 
 # Dump of table jfbbs_user
 # ------------------------------------------------------------

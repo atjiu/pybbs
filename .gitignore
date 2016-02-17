@@ -15,3 +15,4 @@ jfinalbbs.iml
 jfinalbbs.log
 target/
 out/
+src/main/webapp/page/front/service.ftl

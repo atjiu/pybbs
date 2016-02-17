@@ -84,7 +84,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         //添加后台路由
         adminRoute(me);
         //添加客户端路由
-        clientRoute(me);
+//        clientRoute(me);
     }
 
     //前台路由配置

@@ -126,8 +126,8 @@ public class IndexController extends BaseController {
     /**
      * 文档入口
      */
-    public void doc() {
-        render("front/doc.ftl");
+    public void service() {
+        render("front/service.ftl");
     }
 
     public void login() {
