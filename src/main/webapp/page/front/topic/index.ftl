@@ -69,6 +69,11 @@
     </#if>
 </div>
 <div class="panel panel-default">
+<#if topic.reply_count == 0>
+    <div class="panel-body text-center">
+        目前尚无回复
+    </div>
+<#else>
     <div class="panel-heading">${topic.reply_count!"0"}个回复</div>
     <div class="panel-body">
         <#list replies as reply>
@@ -83,10 +88,14 @@
                         <p class="small-fade">
                             <a href="${baseUrl!}/user/${reply.author_id!}" data_class="atwho" data_id="${reply.author_id!}">${reply.nickname!}</a>
                             <span>${reply.formatDate(reply.in_time)!}</span>
+                            <span class="pull-right">
+
+                                ${reply_index + 1}楼
+                            </span>
                         </p>
                     </div>
                     <div class="media-body reply_content">
-                        ${reply.content!}
+                    ${reply.content!}
                     </div>
                 </div>
             </div>
@@ -95,6 +104,7 @@
             </#if>
         </#list>
     </div>
+</#if>
 </div>
 <#if session.user??>
     <div class="panel panel-default" id="reply_input">

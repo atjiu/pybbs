@@ -277,8 +277,25 @@ LOCK TABLES `jfbbs_sys_config` WRITE;
 INSERT INTO `jfbbs_sys_config` (`id`, `key`, `value`)
 VALUES
   (1, 'baseUrl', 'http://localhost:8080/jfinalbbs'),
-  (2, 'pageSize', '20'),
-  (3, 'siteTitle', 'JFinalbbs');
+  (2, 'emailPassword', ''),
+  (3, 'emailSender', 'JFinalbbs'),
+  (4, 'emailSmtp', ''),
+  (5, 'emailUsername', ''),
+  (6, 'pageSize', '20'),
+  (7, 'qq_appId', ''),
+  (8, 'qq_appKey', ''),
+  (9, 'qq_redirect_URI', ''),
+  (10, 'sina_clientId', ''),
+  (11, 'sina_clientSercret', ''),
+  (12, 'siteTitle', 'JFinalbbs'),
+  (14, 'qq_meta', ''),
+  (15, 'sina_meta', ''),
+  (16, 'baidu_site_meta', ''),
+  (17, 'google_site_meta', ''),
+  (18, 'bing_site_meta', ''),
+  (19, 'beian_name', ''),
+  (20, 'sina_redirect_URI', '');
+
 
 /*!40000 ALTER TABLE `jfbbs_sys_config` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -11,7 +11,6 @@ import com.jfinalbbs.section.Section;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.user.AdminUser;
 import com.jfinalbbs.user.User;
-import com.jfinalbbs.utils.AgentUtil;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.EmailSender;
 import com.jfinalbbs.utils.StrUtil;
@@ -21,8 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.sun.tools.doclint.Entity.nu;
 
 /**
  * Created by Tomoya.

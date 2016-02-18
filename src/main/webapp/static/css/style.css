@@ -3,7 +3,6 @@ body {
     height: 100%;
     font-size: 14px;
     background-color: #fafafa;
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
 @media (min-width: 1200px) {
     .container {
@@ -22,6 +21,9 @@ a:link, a:visited, a:active {
 a:hover {
     color: #4d5256;
     text-decoration: underline;
+}
+ul, ol {
+    padding-left: 10px;
 }
 .item-title {
     color: #155faa;
