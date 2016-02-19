@@ -2,6 +2,7 @@ package com.jfinalbbs.common;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinalbbs.user.User;
 import com.jfinalbbs.utils.Result;
 import com.jfinalbbs.utils.StrUtil;
 
@@ -45,5 +46,14 @@ public class BaseController extends Controller {
         } else {
             CacheKit.remove(cacheName, cacheKey);
         }
+    }
+
+    /**
+     * 根据用户令牌获取用户信息
+     * @param token
+     * @return
+     */
+    public User getUser(String token) {
+        return User.me.findByToken(token);
     }
 }

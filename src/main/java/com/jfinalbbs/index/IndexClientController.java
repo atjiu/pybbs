@@ -12,11 +12,14 @@ import com.jfinalbbs.topic.Topic;
 public class IndexClientController extends BaseController {
 
     public void index() {
-        String tab = getPara("tab");
+        String tab = getPara("tab", "all");
         String q = getPara("q");
-        if (tab == null) tab = "all";
+        Integer l = getParaToInt("l", 0);
+        if (l != null && l > 0) {
+            tab = "all";
+        }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
-                getParaToInt("size", defaultPageSize()), tab, q, 1, null);
+                getParaToInt("size", defaultPageSize()), tab, q, 1, l);
         success(page);
     }
 }

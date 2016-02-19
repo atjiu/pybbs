@@ -7,7 +7,6 @@ import com.jfinalbbs.utils.StrUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

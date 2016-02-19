@@ -18,10 +18,7 @@ import com.jfinalbbs.index.IndexClientController;
 import com.jfinalbbs.index.IndexController;
 import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.interceptor.CommonInterceptor;
-import com.jfinalbbs.label.Label;
-import com.jfinalbbs.label.LabelAdminController;
-import com.jfinalbbs.label.LabelController;
-import com.jfinalbbs.label.LabelTopicId;
+import com.jfinalbbs.label.*;
 import com.jfinalbbs.link.Link;
 import com.jfinalbbs.link.LinkAdminController;
 import com.jfinalbbs.message.Message;
@@ -84,7 +81,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         //添加后台路由
         adminRoute(me);
         //添加客户端路由
-//        clientRoute(me);
+        clientRoute(me);
     }
 
     //前台路由配置
@@ -123,6 +120,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         me.add("/api/section", SectionClientController.class);
         me.add("/api/collect", CollectClientController.class);
         me.add("/api/mission", MissionClientController.class);
+        me.add("/api/label", LabelClientController.class);
     }
 
     /**

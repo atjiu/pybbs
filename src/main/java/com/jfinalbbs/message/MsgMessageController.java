@@ -12,8 +12,6 @@ import com.jfinalbbs.utils.StrUtil;
 import java.util.Date;
 import java.util.List;
 
-import static com.jfinalbbs.message.MsgContact.me;
-
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -28,7 +26,7 @@ public class MsgMessageController extends BaseController {
     public void index() {
         User user = getSessionAttr(Constants.USER_SESSION);
         if (user != null) {
-            List<MsgContact> msgContacts = me.findByAuthorId(user.getStr("id"));
+            List<MsgContact> msgContacts = MsgContact.me.findByAuthorId(user.getStr("id"));
             setAttr("msgContacts", msgContacts);
             render("front/message/index.ftl");
         } else {
@@ -36,6 +34,9 @@ public class MsgMessageController extends BaseController {
         }
     }
 
+    /**
+     * 查看会话详情
+     */
     public void read() {
         Integer contactId = getParaToInt(0);
         if (contactId != null) {
@@ -59,7 +60,7 @@ public class MsgMessageController extends BaseController {
                 String messageContent = StrUtil.transHtml(getPara("messageContent"));
                 Integer msgCount = 0;
                 //保存会话记录
-                MsgContact msgContact = me.findByAuthorIdAndToAuthorId(user.getStr("id"), toAuthorId);
+                MsgContact msgContact = MsgContact.me.findByAuthorIdAndToAuthorId(user.getStr("id"), toAuthorId);
                 if (msgContact == null) {
                     msgContact = new MsgContact();
                     msgContact.set("author_id", user.getStr("id"))
@@ -77,7 +78,7 @@ public class MsgMessageController extends BaseController {
                 } else {
                     msgContact.update();
                 }
-                MsgContact msgContact1 = me.findByAuthorIdAndToAuthorId(toAuthorId, user.getStr("id"));
+                MsgContact msgContact1 = MsgContact.me.findByAuthorIdAndToAuthorId(toAuthorId, user.getStr("id"));
                 if (msgContact1 == null) {
                     msgContact1 = new MsgContact();
                     msgContact1.set("author_id", toAuthorId)
@@ -128,7 +129,7 @@ public class MsgMessageController extends BaseController {
     public void delete() {
         Integer contactId = getParaToInt(0);
         if (contactId != null) {
-            MsgContact msgContact = me.findById(contactId);
+            MsgContact msgContact = MsgContact.me.findById(contactId);
             if(msgContact != null) {
                 msgContact.set("is_delete", 1).update();
                 redirect(baseUrl() + "/message");

@@ -1,10 +1,10 @@
 package com.jfinalbbs.user;
 
+import com.jfinal.aop.Before;
 import com.jfinalbbs.collect.Collect;
 import com.jfinalbbs.common.BaseController;
-import com.jfinalbbs.common.Constants;
+import com.jfinalbbs.interceptor.ClientInterceptor;
 import com.jfinalbbs.topic.Topic;
-import com.jfinalbbs.utils.StrUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,30 +15,18 @@ import java.util.Map;
  * Copyright (c) 2016, All Rights Reserved.
  * http://jfinalbbs.com
  */
+@Before(ClientInterceptor.class)
 public class UserClientController extends BaseController {
 
     public void index() {
+        Map<String, Object> map = new HashMap<String, Object>();
         String token = getPara("token");
-        String method = getRequest().getMethod();
-        if (method.equalsIgnoreCase(Constants.POST)) {
-            if (StrUtil.isBlank(token)) {
-                error(Constants.DESC_FAILURE);
-            } else {
-                Map<String, Object> map = new HashMap<String, Object>();
-                User user = User.me.findByToken(token);
-                map.put("user", user);
-                if (user == null) {
-                    error(Constants.DESC_FAILURE);
-                } else {
-                    List<Topic> topics = Topic.me.paginateByAuthorId(1, 10, user.getStr("id")).getList();
-                    map.put("topics", topics);
-                    List<Collect> collects = Collect.me.findByAuthorIdWithTopic(user.getStr("id"));
-                    map.put("collects", collects);
-                    success(map);
-                }
-            }
-        } else {
-            error("请使用post请求");
-        }
+        User user = getUser(token);
+        map.put("user", user);
+        List<Topic> topics = Topic.me.paginateByAuthorId(1, 10, user.getStr("id")).getList();
+        map.put("topics", topics);
+        List<Collect> collects = Collect.me.findByAuthorIdWithTopic(user.getStr("id"));
+        map.put("collects", collects);
+        success(map);
     }
 }

@@ -9,7 +9,6 @@ import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.interceptor.UserInterceptor;
 import com.jfinalbbs.notification.Notification;
 import com.jfinalbbs.topic.Topic;
-import com.jfinalbbs.utils.AgentUtil;
 import com.jfinalbbs.utils.ImageUtil;
 import com.jfinalbbs.utils.StrUtil;
 

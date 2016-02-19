@@ -88,18 +88,4 @@ public class ReplyController extends BaseController {
             redirect(baseUrl() + "/topic/" + tid + ".html" + "#" + reply.get("id"));
         }
     }
-
-    @Before(UserInterceptor.class)
-    public void best() {
-        String tid = getPara("tid");
-        String rid = getPara("rid");
-        Reply reply = Reply.me.findBestReplyByTid(tid);
-        if (reply != null) {
-            error("该话题已经采纳最佳答案了,请不要重复采纳");
-        } else {
-            Reply reply1 = Reply.me.findById(rid);
-            reply1.set("best", 1).update();
-            success();
-        }
-    }
 }

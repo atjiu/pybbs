@@ -43,7 +43,7 @@ public class Constants {
     public static final String SECTIONCACHE = "sectioncache";
     public static final String LINKCACHE = "linkcache";
     public static final String SYSCONFIGCACHE = "sysconfigcache";
-    public static final String TOPICCACHE = "TOPICCACHE";
+    public static final String TOPICCACHE = "topiccache";
 
     // 缓存KEY
     // section
@@ -55,6 +55,8 @@ public class Constants {
     public static final String LINKLISTKEY = "linklistkey";
     //sysconfig
     public static final String SYSCONFIGCACHEKEY = "sysconfigcachekey";
+    //topic
+    public static final String TOPICCACHEKEY = "topiccachekey";
 
     // 第三方
     public static final String QQ = "qq";

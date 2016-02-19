@@ -1,6 +1,5 @@
 package com.jfinalbbs.message;
 
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinalbbs.common.BaseModel;
 
 import java.util.List;

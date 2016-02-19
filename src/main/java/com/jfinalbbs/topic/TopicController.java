@@ -10,7 +10,6 @@ import com.jfinalbbs.label.Label;
 import com.jfinalbbs.label.LabelTopicId;
 import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.user.User;
-import com.jfinalbbs.utils.AgentUtil;
 import com.jfinalbbs.utils.StrUtil;
 
 import java.util.Date;
@@ -54,13 +53,15 @@ public class TopicController extends BaseController {
             //查询无人回复的话题
             List<Topic> notReplyTopics = Topic.me.findNotReply(5);
             setAttr("notReplyTopics", notReplyTopics);
-//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/index.ftl");
             render("front/topic/index.ftl");
         } else {
             renderText("您查询的话题不存在");
         }
     }
 
+    /**
+     * 创建话题
+     */
     @Before(UserInterceptor.class)
     public void create() {
         String labelName = getPara(0);
@@ -68,8 +69,57 @@ public class TopicController extends BaseController {
             Label label = Label.me.findByName(labelName);
             setAttr("label", label);
         }
-//        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/create.ftl");
         render("front/topic/create.ftl");
+    }
+
+    /**
+     * 保存话题
+     */
+    @Before({UserInterceptor.class, Tx.class})
+    public void save() {
+        User sessionUser = getSessionAttr(Constants.USER_SESSION);
+        User user = User.me.findById(sessionUser.get("id"));
+        String sid = getPara("sid");
+        String title = getPara("title");
+        String content = getPara("content");
+        String label = getPara("label");
+        Date date = new Date();
+        Topic topic = new Topic();
+        String tid = StrUtil.getUUID();
+        topic.set("id", tid)
+                .set("in_time", date)
+                .set("last_reply_time", date)
+                .set("s_id", StrUtil.transHtml(sid))
+                .set("title", StrUtil.transHtml(title))
+                .set("content", content)
+                .set("view", 0)
+                .set("author_id", user.get("id"))
+                .set("top", 0)
+                .set("good", 0)
+                .set("show_status", 1)
+                .save();
+        //处理标签
+        if (!StrUtil.isBlank(label)) {
+            label = StrUtil.transHtml(label);
+            String[] labels = label.split(",");
+            for (String l : labels) {
+                Label label1 = Label.me.findByName(l);
+                if (label1 == null) {
+                    label1 = new Label();
+                    label1.set("name", l)
+                            .set("in_time", date)
+                            .set("topic_count", 1)
+                            .save();
+                } else {
+                    label1.set("topic_count", label1.getInt("topic_count") + 1).update();
+                }
+                LabelTopicId.me.save(label1.getInt("id"), tid);
+            }
+        }
+        //将积分增加3分
+        user.set("score", user.getInt("score") + 3).update();
+        setSessionAttr(Constants.USER_SESSION, user);
+        redirect(baseUrl() + "/topic/" + topic.get("id"));
     }
 
     @Before(UserInterceptor.class)
@@ -85,7 +135,6 @@ public class TopicController extends BaseController {
             //查询标签
             List<Label> labels = Label.me.findByTid(tid);
             setAttr("labels", labels);
-//            if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/topic/edit.ftl");
             render("front/topic/edit.ftl");
         }
     }
@@ -149,48 +198,4 @@ public class TopicController extends BaseController {
         }
     }
 
-    @Before({UserInterceptor.class, Tx.class})
-    public void save() {
-        User sessionUser = getSessionAttr(Constants.USER_SESSION);
-        User user = User.me.findById(sessionUser.get("id"));
-        String sid = getPara("sid");
-        String title = getPara("title");
-        String content = getPara("content");
-        String label = getPara("label");
-        Date date = new Date();
-        Topic topic = new Topic();
-        String tid = StrUtil.getUUID();
-        topic.set("id", tid)
-                .set("in_time", date)
-                .set("last_reply_time", date)
-                .set("s_id", StrUtil.transHtml(sid))
-                .set("title", StrUtil.transHtml(title))
-                .set("content", content)
-                .set("view", 0)
-                .set("author_id", user.get("id"))
-                .set("top", 0)
-                .set("good", 0)
-                .set("show_status", 1)
-                .save();
-        //处理标签
-        if (!StrUtil.isBlank(label)) {
-            label = StrUtil.transHtml(label);
-            String[] labels = label.split(",");
-            for (String l : labels) {
-                Label label1 = Label.me.findByName(l);
-                if (label1 == null) {
-                    label1 = new Label();
-                    label1.set("name", l)
-                            .set("in_time", date)
-                            .set("topic_count", 0)
-                            .save();
-                }
-                LabelTopicId.me.save(label1.getInt("id"), tid);
-            }
-        }
-        //将积分增加3分
-        user.set("score", user.getInt("score") + 3).update();
-        setSessionAttr(Constants.USER_SESSION, user);
-        redirect(baseUrl() + "/topic/" + topic.get("id"));
-    }
 }
