@@ -115,7 +115,7 @@ CREATE TABLE `jfbbs_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 LOCK TABLES `jfbbs_link` WRITE;
-/*!40000 ALTER TABLE `link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jfbbs_link` DISABLE KEYS */;
 
 INSERT INTO `jfbbs_link` (`id`, `name`, `url`, `display_index`)
 VALUES
