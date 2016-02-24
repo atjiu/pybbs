@@ -247,7 +247,7 @@ public class IndexController extends BaseController {
             if (type.equalsIgnoreCase(Constants.FORGET_PWD)) {
                 User user = User.me.findByEmail(email);
                 if (user == null) {
-                    error("改邮箱未被注册，请先注册");
+                    error("该邮箱未被注册，请先注册");
                 } else {
                     ValiCode code = new ValiCode();
                     code.set("code", valicode)
@@ -308,7 +308,7 @@ public class IndexController extends BaseController {
                 } else {
                     User user = User.me.findByEmail(email);
                     if (user == null) {
-                        error("改邮箱未被注册，请先注册");
+                        error("该邮箱未被注册，请先注册");
                     } else {
                         user.set("password", HashKit.md5(newpwd)).update();
                         code.set("status", 1).update();
