@@ -50,7 +50,7 @@
     </div>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">修改头像</div>
+    <div class="panel-heading">修改头像 <b class="text-red">上传图片不得超过2M</b></div>
     <div class="panel-body">
         <form action="${baseUrl!}/user/uploadAvatar" id="uploadAvatar" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -77,7 +77,7 @@
                 <#if session.user.qq_open_id?? && session.user.qq_open_id != "">
                     <button class="btn btn-raised btn-danger btn-xs" id="cancelbind_qq" onclick="cancelBind('qq')">解除绑定</button>
                 <#else>
-                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/qqlogin?source=usersetting">立即绑定</a>
+                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/oauth/qqlogin?source=usersetting">立即绑定</a>
                 </#if>
             </div>
         </div>
@@ -94,7 +94,7 @@
                 <#if session.user.sina_open_id?? && session.user.sina_open_id != "">
                     <button class="btn btn-raised btn-danger btn-xs" id="cancelbind_sina" onclick="cancelBind('sina')">解除绑定</button>
                 <#else>
-                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/weibologin?source=usersetting">立即绑定</a>
+                    <a class="btn btn-raised btn-info btn-xs" href="${baseUrl!}/oauth/weibologin?source=usersetting">立即绑定</a>
                 </#if>
             </div>
         </div>
@@ -108,14 +108,16 @@
     </div>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">令牌</div>
+    <div class="panel-heading">令牌(使用客户端扫描登录)</div>
     <div class="panel-body">
-        <div style="padding-left: 23px;">使用客户端扫描登录</div>
-        <img src="http://api.k780.com:88/?app=qr.get&data=${session.user.token!}@||@${session.user.nickname!}&level=H&size=6">
+        <div id="qrcode"></div>
     </div>
 </div>
-
+<script src="http://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 <script>
+    $(function () {
+        $("#qrcode").qrcode({width: 250, height: 250, text: '${session.user.token!}'});
+    });
     function saveSetting() {
         var nickname = $("#nickname").val();
         var signature = $("#signature").val();
@@ -159,6 +161,9 @@
                 alert("请上传正确格式的图片")
                 return false;
             }
+        } else {
+            alert("请选择图片");
+            return false;
         }
     });
 

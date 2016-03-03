@@ -1,6 +1,6 @@
 <#macro html title description page_tab="" sidebar_user_info="" sidebar_topic_user="" sidebar_checkin="" sidebar_create=""
     sidebar_scoretop="" sidebar_create_info="" sidebar_about="" sidebar_other_topic="" sidebar_not_reply_topic=""
-    sidebar_xgtopic="" sidebar_jfbbs_run_status="">
+    sidebar_xgtopic="" sidebar_jfbbs_run_status="" sidebar_app="">
 <!DOCTYPE HTML>
 <html lang="zh-cn">
 <head>
@@ -44,7 +44,8 @@
                 <@sidebar sidebar_user_info=sidebar_user_info sidebar_topic_user=sidebar_topic_user sidebar_checkin=sidebar_checkin
                 sidebar_create=sidebar_create sidebar_scoretop=sidebar_scoretop
                 sidebar_create_info=sidebar_create_info sidebar_about=sidebar_about sidebar_other_topic=sidebar_other_topic
-                sidebar_not_reply_topic=sidebar_not_reply_topic sidebar_xgtopic=sidebar_xgtopic sidebar_jfbbs_run_status=sidebar_jfbbs_run_status/>
+                sidebar_not_reply_topic=sidebar_not_reply_topic sidebar_xgtopic=sidebar_xgtopic sidebar_jfbbs_run_status=sidebar_jfbbs_run_status
+                sidebar_app=sidebar_app />
                 </div>
             </div>
         </div>

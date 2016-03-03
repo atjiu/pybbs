@@ -33,7 +33,7 @@ public class ReplyClientController extends BaseController {
             topic.set("reply_count", topic.getInt("reply_count") + 1).update();
             // 增加1积分
             Reply reply = new Reply();
-            String content = getPara("content");
+            String content = StrUtil.transHtml(getPara("content"));
             reply.set("id", StrUtil.getUUID())
                     .set("tid", tid)
                     .set("content", content)
@@ -84,7 +84,8 @@ public class ReplyClientController extends BaseController {
                         .set("in_time", date)
                         .set("source", "topic").save();
             }
-            success();
+            List<Reply> replies = Reply.me.findByTid(tid);
+            success(replies);
         }
     }
 }

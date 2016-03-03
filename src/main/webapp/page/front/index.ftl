@@ -1,6 +1,7 @@
 <#include "/page/front/common/_layout.ftl"/>
 <@html title="首页 - ${siteTitle!}" description="" page_tab="topic" sidebar_user_info="show" sidebar_checkin="show"
-    sidebar_create="show" sidebar_scoretop="show" sidebar_not_reply_topic="show" sidebar_jfbbs_run_status="show">
+    sidebar_create="show" sidebar_scoretop="show" sidebar_not_reply_topic="show" sidebar_jfbbs_run_status="show"
+    sidebar_app="show">
     <div class="panel panel-default">
         <div class="panel-heading ot-tab-heading">
             <ul class="nav nav-pills">

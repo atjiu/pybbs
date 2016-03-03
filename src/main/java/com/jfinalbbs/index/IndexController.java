@@ -113,17 +113,6 @@ public class IndexController extends BaseController {
         }
     }
 
-    /**
-     * Api入口
-     */
-    public void api() {
-        render("front/api.ftl");
-    }
-
-    public void service() {
-        render("front/service.ftl");
-    }
-
     public void login() {
         String method = getRequest().getMethod();
         if (method.equalsIgnoreCase(Constants.GET)) {
@@ -319,10 +308,6 @@ public class IndexController extends BaseController {
         }
     }
 
-    public void donate() {
-        render("front/donate.ftl");
-    }
-
     public void upload() {
         List<UploadFile> uploadFiles = getFiles("imgs");
 //        System.out.println(uploadFile.getOriginalFileName());//图片原来的名字
@@ -343,4 +328,15 @@ public class IndexController extends BaseController {
         }
     }
 
+    public void api() {
+        render("front/api.ftl");
+    }
+
+//    public void service() {
+//        render("front/service.ftl");
+//    }
+
+//    public void donate() {
+//        render("front/donate.ftl");
+//    }
 }
