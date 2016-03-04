@@ -69,6 +69,7 @@ public class TopicClientController extends BaseController {
             Topic topic = new Topic();
             topic.set("id", tid)
                     .set("in_time", date)
+                    .set("last_reply_time", date)
                     .set("s_id", sid)
                     .set("title", title)
                     .set("content", content)

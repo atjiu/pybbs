@@ -332,11 +332,11 @@ public class IndexController extends BaseController {
         render("front/api.ftl");
     }
 
-//    public void service() {
-//        render("front/service.ftl");
-//    }
+    public void service() {
+        render("front/service.ftl");
+    }
 
-//    public void donate() {
-//        render("front/donate.ftl");
-//    }
+    public void donate() {
+        render("front/donate.ftl");
+    }
 }

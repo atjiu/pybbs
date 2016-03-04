@@ -110,6 +110,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">令牌(使用客户端扫描登录)</div>
     <div class="panel-body">
+        <p>token: ${session.user.token!}</p>
         <div id="qrcode"></div>
     </div>
 </div>
