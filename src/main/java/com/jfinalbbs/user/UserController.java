@@ -1,6 +1,7 @@
 package com.jfinalbbs.user;
 
 import com.jfinal.aop.Before;
+import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 import com.jfinalbbs.collect.Collect;
@@ -167,7 +168,7 @@ public class UserController extends BaseController {
         User user = (User) getSession().getAttribute(Constants.USER_SESSION);
         user.set("avatar", path).update();
         //裁剪图片
-        String realPath = Constants.UPLOAD_DIR + "/avatar/" + uploadFile.getFileName();
+        String realPath = PathKit.getWebRootPath() + "/" + Constants.UPLOAD_DIR + "/avatar/" + uploadFile.getFileName();
         ImageUtil.zoomImage(realPath, realPath, 100, 100);
         redirect(baseUrl() + "/user/setting");
     }
