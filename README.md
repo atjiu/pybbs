@@ -2,6 +2,8 @@
 
 # 如何开始
 
+### 服务器环境部署
+
 - clone代码,maven编译打成war包, 或者直接[下载war包](https://github.com/liygheart/jfinalbbs/releases)
 - 将`doc/最新版SQL.sql`脚本在mysql数据库里运行，创建jfinalbbs数据库
 - [下载tomcat](http://tomcat.apache.org),解压
@@ -10,6 +12,13 @@
 - 重启tomcat
 - 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
 - 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+
+### 开发环境部署
+
+- 使用git将master分支的代码down下来
+- 使用maven编译
+- 运行`JFinalbbsConfig.java`类里的main方法
+- 浏览器访问`http://localhost:8080/`
 
 # 碰到问题怎么办?
 
