@@ -30,7 +30,7 @@ public class SectionAdminController extends BaseController {
             section.set("name", name).set("show_status", show_status).set("tab", tab).set("display_index", 99).save();
             // clear cache
             clearCache(Constants.SECTIONCACHE, null);
-            redirect(baseUrl() + "/admin/section/index");
+            redirect("/admin/section/index");
         }
     }
 
@@ -49,7 +49,7 @@ public class SectionAdminController extends BaseController {
             section.set("name", name).set("show_status", show_status).set("tab", tab).update();
             // clear cache
             clearCache(Constants.SECTIONCACHE, null);
-            redirect(baseUrl() + "/admin/section/index");
+            redirect("/admin/section/index");
         }
     }
 
@@ -64,7 +64,7 @@ public class SectionAdminController extends BaseController {
         }
         // clear cache
         clearCache(Constants.SECTIONCACHE, null);
-        redirect(baseUrl() + "/admin/section/index");
+        redirect("/admin/section/index");
     }
 
     // 删除板块

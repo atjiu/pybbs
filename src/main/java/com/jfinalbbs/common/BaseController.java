@@ -13,10 +13,6 @@ import com.jfinalbbs.utils.StrUtil;
  */
 public class BaseController extends Controller {
 
-    public String baseUrl() {
-        return Constants.getValue("baseUrl");
-    }
-
     public Integer defaultPageSize() {
         return StrUtil.str2int(Constants.getValue("pageSize"));
     }

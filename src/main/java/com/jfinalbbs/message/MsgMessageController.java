@@ -30,7 +30,7 @@ public class MsgMessageController extends BaseController {
             setAttr("msgContacts", msgContacts);
             render("front/message/index.ftl");
         } else {
-            redirect(baseUrl());
+            redirect("/");
         }
     }
 
@@ -120,7 +120,7 @@ public class MsgMessageController extends BaseController {
                         .set("author_id", toAuthorId)
                         .set("in_time", date)
                         .set("source", "message").save();
-                redirect(baseUrl() + "/message");
+                redirect("/message");
             }
         }
     }
@@ -132,7 +132,7 @@ public class MsgMessageController extends BaseController {
             MsgContact msgContact = MsgContact.me.findById(contactId);
             if(msgContact != null) {
                 msgContact.set("is_delete", 1).update();
-                redirect(baseUrl() + "/message");
+                redirect("/message");
             }
         }
     }

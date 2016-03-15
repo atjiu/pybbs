@@ -88,7 +88,7 @@ public class OauthController extends BaseController {
                 }
             }
             if (StrUtil.isBlank(user.getStr("email"))) {
-                redirect(baseUrl() + "/reg.html?third=qq");
+                redirect("/reg.html?third=qq");
             } else {
                 setSessionAttr(Constants.USER_SESSION, user);
                 setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -96,10 +96,10 @@ public class OauthController extends BaseController {
                 if (!StrUtil.isBlank(source)) {
                     if (source.equalsIgnoreCase("usersetting")) {
                         getSession().removeAttribute("source");
-                        redirect(baseUrl() + "/user/setting");
+                        redirect("/user/setting");
                     }
                 } else {
-                    redirect(baseUrl() + "/");
+                    redirect("/");
                 }
             }
         }
@@ -166,7 +166,7 @@ public class OauthController extends BaseController {
                     }
                 }
                 if (StrUtil.isBlank(user.getStr("email"))) {
-                    redirect(baseUrl() + "/reg.html?third=qq");
+                    redirect("/reg.html?third=qq");
                 } else {
                     setSessionAttr(Constants.USER_SESSION, user);
                     setCookie(Constants.USER_COOKIE, StrUtil.getEncryptionToken(user.getStr("token")), 30 * 24 * 60 * 60);
@@ -174,10 +174,10 @@ public class OauthController extends BaseController {
                     if (!StrUtil.isBlank(source)) {
                         if (source.equalsIgnoreCase("usersetting")) {
                             getSession().removeAttribute("source");
-                            redirect(baseUrl() + "/user/setting");
+                            redirect("/user/setting");
                         }
                     } else {
-                        redirect(baseUrl() + "/");
+                        redirect("/");
                     }
                 }
             } else {

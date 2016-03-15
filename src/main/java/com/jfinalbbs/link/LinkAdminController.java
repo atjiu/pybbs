@@ -24,7 +24,7 @@ public class LinkAdminController extends BaseController {
             if (maxDisplayIndex == null) maxDisplayIndex = 0;
             getModel(Link.class).set("display_index", maxDisplayIndex + 1).save();
             clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
-            redirect(baseUrl() + "/admin/link");
+            redirect("/admin/link");
         }
     }
 
@@ -37,7 +37,7 @@ public class LinkAdminController extends BaseController {
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             getModel(Link.class).update();
             clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
-            redirect(baseUrl() + "/admin/link");
+            redirect("/admin/link");
         }
     }
 
@@ -65,6 +65,6 @@ public class LinkAdminController extends BaseController {
             }
             clearCache(Constants.LINKCACHE, Constants.LINKLISTKEY);
         }
-        redirect(baseUrl() + "/admin/link");
+        redirect("/admin/link");
     }
 }

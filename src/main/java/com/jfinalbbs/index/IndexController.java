@@ -63,7 +63,6 @@ public class IndexController extends BaseController {
         setAttr("userCount", userCount);
         setAttr("topicCount", topicCount);
         setAttr("replyCount", replyCount);
-//        if (!AgentUtil.getAgent(getRequest()).equals(AgentUtil.WEB)) render("mobile/index.ftl");
         render("front/index.ftl");
     }
 
@@ -73,7 +72,7 @@ public class IndexController extends BaseController {
     public void logout() {
         removeCookie(Constants.USER_COOKIE);
         removeSessionAttr(Constants.USER_SESSION);
-        redirect(baseUrl() + "/");
+        redirect("/");
     }
 
     /**
@@ -108,7 +107,7 @@ public class IndexController extends BaseController {
                 }
                 String before_url = getSessionAttr(Constants.ADMIN_BEFORE_URL);
                 if (!StrUtil.isBlank(before_url) && !before_url.contains("adminlogin")) redirect(before_url);
-                redirect(baseUrl() + "/admin/index");
+                redirect("/admin/index");
             }
         }
     }
@@ -181,7 +180,7 @@ public class IndexController extends BaseController {
                                         .set("in_time", date)
                                         .set("email", email)
                                         .set("token", token)
-                                        .set("avatar", baseUrl() + "/static/img/default_avatar.png")
+                                        .set("avatar", "/static/img/default_avatar.png")
                                         .save();
                             } else {
                                 user = getSessionAttr("unsave_user");
@@ -195,7 +194,7 @@ public class IndexController extends BaseController {
                                             .set("in_time", date)
                                             .set("email", email)
                                             .set("token", token)
-                                            .set("avatar", baseUrl() + "/static/img/default_avatar.png")
+                                            .set("avatar", "/static/img/default_avatar.png")
                                             .save();
                                 } else {
                                     user.set("nickname", StrUtil.noHtml(nickname).trim())
@@ -205,7 +204,7 @@ public class IndexController extends BaseController {
                                             .set("token", token)
                                             .set("in_time", date)
                                             .set("score", 0)
-                                            .set("avatar", baseUrl() + "/static/img/default_avatar.png")
+                                            .set("avatar", "/static/img/default_avatar.png")
                                             .save();
                                 }
                                 removeSessionAttr("unsave_user");
@@ -319,7 +318,7 @@ public class IndexController extends BaseController {
             String newName = StrUtil.randomString(16);
             File file = new File(uf.getUploadPath() + "/" + uf.getFileName());
             file.renameTo(new File(uf.getUploadPath() + "/" + newName + suffix));
-            imgFiles.add(baseUrl() + "/static/upload/imgs/" + newName + suffix);
+            imgFiles.add("/static/upload/imgs/" + newName + suffix);
         }
         if (imgFiles.size() == 1) {
             renderText(imgFiles.get(0));

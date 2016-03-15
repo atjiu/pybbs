@@ -41,7 +41,7 @@ public class LabelAdminController extends BaseController {
         } else if (method.equalsIgnoreCase(Constants.POST)) {
             String name = getPara("name");
             getModel(Label.class).set("name", name).set("in_time", new Date()).set("topic_count", 0).save();
-            redirect(baseUrl() + "/admin/label/index");
+            redirect("/admin/label/index");
         }
     }
 }

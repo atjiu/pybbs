@@ -49,6 +49,7 @@ public class Topic extends BaseModel<Topic> {
             condition.append(" and s.tab = '" + tab + "'");
         }
         if (!StrKit.isBlank(q)) {
+            q = q.replace("\"", "");
             String[] qs = q.split(" ");
             condition.append(" and (");
             for (int c = 0; c < qs.length; c++) {

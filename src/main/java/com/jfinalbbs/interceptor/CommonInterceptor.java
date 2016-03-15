@@ -36,7 +36,6 @@ public class CommonInterceptor implements Interceptor {
         controller.setAttr("sections", Section.me.findShow());
         // 查询友链
         controller.setAttr("links", Link.me.findAll());
-        controller.setAttr("baseUrl", Constants.getValue("baseUrl"));
         controller.setAttr("siteTitle", Constants.getValue("siteTitle"));
         controller.setAttr("qq_meta", Constants.getValue("qq_meta"));
         controller.setAttr("sina_meta", Constants.getValue("sina_meta"));

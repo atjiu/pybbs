@@ -3,6 +3,7 @@ package com.jfinalbbs.common;
 import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
+import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
@@ -169,6 +170,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         //配置druid的监听，可以在浏览器里输入http://localhost:8080/druid 查看druid监听的数据
 //        me.add(new DruidStatViewHandler("/druid"));
         me.add(new HtmlHandler());
+        me.add(new ContextPathHandler("baseUrl"));
     }
 
     /**
