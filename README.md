@@ -64,6 +64,6 @@ ALTER TABLE `jfbbs_notification` DROP `rid`;
 
 其他版本更新日志参见 `doc/更新日志.md`
 
-![](http://i11.tietuku.com/6a33169a7659d90a.jpg)
+![](http://jfinalbbs.com/static/upload/imgs/381938b1861da719.jpeg)
 
 以上
