@@ -40,6 +40,7 @@ import com.jfinalbbs.reply.ReplyController;
 import com.jfinalbbs.section.Section;
 import com.jfinalbbs.section.SectionAdminController;
 import com.jfinalbbs.section.SectionClientController;
+import com.jfinalbbs.system.Donate;
 import com.jfinalbbs.system.SysConfig;
 import com.jfinalbbs.system.SysConfigAdminController;
 import com.jfinalbbs.topic.Topic;
@@ -151,6 +152,7 @@ public class JFinalbbsConfig extends JFinalConfig {
         arp.addMapping("jfbbs_sys_config", SysConfig.class);
         arp.addMapping("jfbbs_message", Message.class);
         arp.addMapping("jfbbs_msg_contact", MsgContact.class);
+        arp.addMapping("jfbbs_donate", Donate.class);
         me.add(arp);
     }
 

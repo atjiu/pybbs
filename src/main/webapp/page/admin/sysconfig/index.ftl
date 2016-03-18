@@ -67,6 +67,13 @@
                             <input type="text" class="form-control" id="beian_name" name="beian_name" value='${beian_name!}' placeholder='备案名称'>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="tongji_js" class="col-sm-2 control-label">统计JS</label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="tongji_js" name="tongji_js" value='${tongji_js!}' placeholder='统计JS'>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="box-header with-border">

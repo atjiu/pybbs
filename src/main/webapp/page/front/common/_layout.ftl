@@ -27,6 +27,10 @@
     <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
     <script src="http://cdn.bootcss.com/blueimp-md5/2.1.0/js/md5.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 <#--页面头部信息-->

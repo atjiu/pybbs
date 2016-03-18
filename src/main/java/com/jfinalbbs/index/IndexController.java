@@ -8,6 +8,7 @@ import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.label.Label;
 import com.jfinalbbs.reply.Reply;
 import com.jfinalbbs.section.Section;
+import com.jfinalbbs.system.Donate;
 import com.jfinalbbs.topic.Topic;
 import com.jfinalbbs.user.AdminUser;
 import com.jfinalbbs.user.User;
@@ -336,6 +337,8 @@ public class IndexController extends BaseController {
     }
 
     public void donate() {
+        List<Donate> donates = Donate.me.find("select * from jfbbs_donate order by in_time desc");
+        setAttr("donates", donates);
         render("front/donate.ftl");
     }
 }

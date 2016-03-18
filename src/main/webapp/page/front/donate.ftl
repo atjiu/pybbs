@@ -30,11 +30,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                <#list donates as donate>
                 <tr>
-                    <td>admin</td>
-                    <td>10元</td>
-                    <td>2016-02-17</td>
+                    <td>${donate.name!}</td>
+                    <td>${donate.price!}元</td>
+                    <td>${donate.in_time!}</td>
                 </tr>
+                </#list>
                 </tbody>
             </table>
             <p>

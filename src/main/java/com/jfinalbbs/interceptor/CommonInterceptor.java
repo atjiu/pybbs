@@ -43,6 +43,7 @@ public class CommonInterceptor implements Interceptor {
         controller.setAttr("google_site_meta", Constants.getValue("google_site_meta"));
         controller.setAttr("bing_site_meta", Constants.getValue("bing_site_meta"));
         controller.setAttr("beian_name", Constants.getValue("beian_name"));
+        controller.setAttr("tongji_js", Constants.getValue("tongji_js"));
         ai.invoke();
     }
 }

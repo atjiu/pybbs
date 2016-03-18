@@ -44,5 +44,6 @@
         </div>
         <#include "/page/front/common/_paginate.ftl" />
         <@paginate currentPage=page.pageNumber totalPage=page.totalPage actionUrl="${baseUrl!}/" urlParas="&q=${q!}&tab=${tab!}" />
+        <img src="http://jfinalbbs.com/static/upload/imgs/381938b1861da719.jpeg"/>
     </div>
 </@html>

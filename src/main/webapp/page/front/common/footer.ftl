@@ -16,6 +16,7 @@
         <#--感谢使用JFinalbbs代码，为了能让社区被更多人知晓，请不要修改下面一行的代码，谢谢！-->
         &copy;2015 Powered by <a href="http://jfinalbbs.com" target="_blank">JFinalbbs</a>
         <a href="http://www.miitbeian.gov.cn/">${beian_name!}</a>
+        ${tongji_js!}
     </div>
 </div>
 </#macro>

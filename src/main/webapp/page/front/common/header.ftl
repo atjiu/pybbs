@@ -14,7 +14,7 @@
             <ul class="nav navbar-nav">
                 <li <#if page_tab == 'topic'> class="active" </#if>><a href="${baseUrl!}/">社区</a></li>
                 <li <#if page_tab == 'label'> class="active" </#if>><a href="${baseUrl!}/label">标签</a></li>
-                <#--<li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">Api</a></li>-->
+                <li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">API</a></li>
             </ul>
             <span class="hidden-xs hidden-sm">
                 <form class="navbar-form navbar-left" id="search_form" role="search" method="get" action="${baseUrl!}/">
@@ -36,6 +36,8 @@
                 </script>
             </span>
             <ul class="nav navbar-nav navbar-right">
+                <li <#if page_tab == 'donate'> class="active" </#if>><a href="${baseUrl!}/donate">捐赠</a></li>
+                <li <#if page_tab == 'service'> class="active" </#if>><a href="${baseUrl!}/service">服务</a></li>
                 <#if session.user??>
                     <li <#if page_tab == 'message'> class="active" </#if>><a href="${baseUrl!}/user/message/${session.user.id!}">通知 <span class="badge" id="badge"></span></a></li>
                     <li class="dropdown">
@@ -53,6 +55,7 @@
                         </ul>
                     </li>
                 <#else>
+                    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="APPID" data-redirecturi="REDIRECTURI" charset="utf-8"></script>
                     <li><a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">登录</a></li>
                     <li <#if page_tab == 'reg'> class="active" </#if>><a href="${baseUrl!}/reg.html">注册</a></li>
                 </#if>
