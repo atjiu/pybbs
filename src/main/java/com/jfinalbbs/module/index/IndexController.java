@@ -120,7 +120,7 @@ public class IndexController extends BaseController {
             if (StrUtil.isBlank(email) || StrUtil.isBlank(password)) {
                 error("邮箱/密码都不能为空");
             } else {
-                User user = User.me.localLogin(email, password);
+                User user = User.me.localLogin(email, HashKit.md5(password));
                 if (user == null) {
                     error("邮箱/密码错误");
                 } else {
