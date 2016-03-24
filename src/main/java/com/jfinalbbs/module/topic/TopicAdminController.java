@@ -15,6 +15,7 @@ import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.utils.StrUtil;
 import com.jfinalbbs.utils.ext.route.ControllerBind;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 
 import java.io.IOException;
@@ -29,11 +30,13 @@ import java.util.List;
 @ControllerBind(controllerKey = "/admin/topic", viewPath = "page/admin/topic")
 public class TopicAdminController extends BaseController {
 
+    @RequiresPermissions("menu:topic")
     public void index() {
         setAttr("page", Topic.me.page(getParaToInt("p", 1), defaultPageSize()));
         render("index.ftl");
     }
 
+    @RequiresPermissions("topic:delete")
     @Before(Tx.class)
     public void delete() {
         String id = getPara("id");
@@ -67,6 +70,7 @@ public class TopicAdminController extends BaseController {
         success();
     }
 
+    @RequiresPermissions("topic:top")
     public void top() {
         String id = getPara("id");
         if (StrUtil.isBlank(id)) {
@@ -77,11 +81,22 @@ public class TopicAdminController extends BaseController {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
                 topic.set("top", topic.getInt("top") == 1 ? 0 : 1).update();
+                //记录日志
+                AdminUser adminUser = getAdminUser();
+                AdminLog adminLog = new AdminLog();
+                adminLog.set("uid", adminUser.getInt("id"))
+                        .set("target_id", id)
+                        .set("source", "topic")
+                        .set("in_time", new Date())
+                        .set("action", "top")
+                        .set("message", null)
+                        .save();
                 success(topic);
             }
         }
     }
 
+    @RequiresPermissions("topic:good")
     public void good() {
         String id = getPara("id");
         if (StrUtil.isBlank(id)) {
@@ -92,11 +107,22 @@ public class TopicAdminController extends BaseController {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
                 topic.set("good", topic.getInt("good") == 1 ? 0 : 1).update();
+                //记录日志
+                AdminUser adminUser = getAdminUser();
+                AdminLog adminLog = new AdminLog();
+                adminLog.set("uid", adminUser.getInt("id"))
+                        .set("target_id", id)
+                        .set("source", "topic")
+                        .set("in_time", new Date())
+                        .set("action", "good")
+                        .set("message", null)
+                        .save();
                 success(topic);
             }
         }
     }
 
+    @RequiresPermissions("topic:show_status")
     public void show_status() {
         String id = getPara("id");
         if (StrUtil.isBlank(id)) {
@@ -107,11 +133,22 @@ public class TopicAdminController extends BaseController {
                 error(Constants.OP_ERROR_MESSAGE);
             } else {
                 topic.set("show_status", topic.getInt("show_status") == 1 ? 0 : 1).update();
+                //记录日志
+                AdminUser adminUser = getAdminUser();
+                AdminLog adminLog = new AdminLog();
+                adminLog.set("uid", adminUser.getInt("id"))
+                        .set("target_id", id)
+                        .set("source", "topic")
+                        .set("in_time", new Date())
+                        .set("action", "show_status")
+                        .set("message", null)
+                        .save();
                 success(topic);
             }
         }
     }
 
+    @RequiresPermissions("topic:edit")
     public void edit() throws IOException {
         String method = getRequest().getMethod();
         String id = getPara(0);
@@ -141,6 +178,16 @@ public class TopicAdminController extends BaseController {
                             .set("s_id", sid)
                             .set("modify_time", new Date())
                             .update();
+//                    //记录日志
+//                    AdminUser adminUser = getAdminUser();
+//                    AdminLog adminLog = new AdminLog();
+//                    adminLog.set("uid", adminUser.getInt("id"))
+//                            .set("target_id", id)
+//                            .set("source", "topic")
+//                            .set("in_time", new Date())
+//                            .set("action", "edit")
+//                            .set("message", null)
+//                            .save();
                     getResponse().setCharacterEncoding("utf-8");
                     getResponse().getWriter().write("<script>alert('修改成功!');window.close();</script>");
                 }

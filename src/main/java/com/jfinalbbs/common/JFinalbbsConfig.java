@@ -74,7 +74,7 @@ public class JFinalbbsConfig extends JFinalConfig {
 
         AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, ParamNameStyles.lowerUnderlineModule("jfbbs"));
         atbp.addExcludeClasses(BaseModel.class);
-        atbp.setShowSql(true);
+        atbp.setShowSql(getPropertyToBoolean("showSql", true));
         me.add(atbp);
 
         ShiroPlugin shiroPlugin = new ShiroPlugin(routes);
