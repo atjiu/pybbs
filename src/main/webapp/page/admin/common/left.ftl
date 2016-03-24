@@ -72,7 +72,7 @@
                 </li>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="menu:setting">
-                <li class="treeview <#if page_tab="sysconfig" || page_tab="adminuser" || page_tab="role" || page_tab="permission">active</#if>">
+                <li class="treeview <#if page_tab="sysconfig" || page_tab="adminuser" || page_tab="role" || page_tab="permission" || page_tab="modifypwd">active</#if>">
                     <a href="javascript:;">
                         <i class="fa fa-cogs"></i> <span>设置</span>
                         <i class="fa fa-angle-left pull-right"></i>

@@ -44,7 +44,7 @@
 - 增加表: jfbbs_role, jfbbs_user_role, jfbbs_permission, jfbbs_role_permission, jfbbs_admin_log
 - 修改了: jfbbs_admin_user增加字段: salt, in_time
 - 修改了: jfbbs_topic删除字段: original_url, reposted, 增加字段: isdelete
-- **具体对照最新数据库脚本 `doc/最新版SQL.sql` **
+- **具体对照最新数据库脚本 `doc/最新版SQL.sql`**
 
 ## 截图欣赏
 
