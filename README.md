@@ -30,7 +30,7 @@
 
 目前jfinalbbs就一个`master`分支,就朋也一个人在开发维护,如果想分享自己拓展的功能等,可以给朋也的`master`分支推送`pull request`
 
-# 2016年2月17日 V2.1更新内容
+# 2016年3月24日 V2.2更新内容
 
 1. 后台增加shiro权限控制（使用了jfinal-ext）
 2. 后台标签可以增加/编辑
@@ -48,7 +48,7 @@
 
 ## 截图欣赏
 
-
+![](http://7xj5k8.com1.z0.glb.clouddn.com/QQ20160324-0.png)
 
 **更新体验[传送门](http://jfinalbbs.com)**
 
