@@ -25,7 +25,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/iCheck/flat/blue.css">
     <!-- Morris chart -->
-    <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/morris/morris.css">
+    <#--<link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/morris/morris.css">-->
     <!-- jvectormap -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <!-- Date Picker -->
@@ -33,7 +33,7 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <#--<link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">-->
 
     <link rel="stylesheet" href="${baseUrl!}/static/css/admin.css">
 
@@ -83,8 +83,8 @@
 <script src="${baseUrl!}/static/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="${baseUrl!}/static/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <!-- Morris.js charts -->
-<script src="${baseUrl!}/static/js/raphael-min.js"></script>
-<script src="${baseUrl!}/static/AdminLTE/plugins/morris/morris.min.js"></script>
+<#--<script src="${baseUrl!}/static/js/raphael-min.js"></script>-->
+<#--<script src="${baseUrl!}/static/AdminLTE/plugins/morris/morris.min.js"></script>-->
 <!-- Sparkline -->
 <script src="${baseUrl!}/static/AdminLTE/plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
@@ -98,7 +98,7 @@
 <!-- datepicker -->
 <script src="${baseUrl!}/static/AdminLTE/plugins/datepicker/bootstrap-datepicker.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
-<script src="${baseUrl!}/static/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<#--<script src="${baseUrl!}/static/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>-->
 <!-- Slimscroll -->
 <script src="${baseUrl!}/static/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -106,9 +106,9 @@
 <!-- AdminLTE App -->
 <script src="${baseUrl!}/static/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="${baseUrl!}/static/AdminLTE/dist/js/pages/dashboard.js"></script>
+<#--<script src="${baseUrl!}/static/AdminLTE/dist/js/pages/dashboard.js"></script>-->
 <!-- AdminLTE for demo purposes -->
-<script src="${baseUrl!}/static/AdminLTE/dist/js/demo.js"></script>
+<#--<script src="${baseUrl!}/static/AdminLTE/dist/js/demo.js"></script>-->
 </body>
 </html>
 </#macro>

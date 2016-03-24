@@ -4,9 +4,9 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.link.Link;
-import com.jfinalbbs.section.Section;
-import com.jfinalbbs.user.User;
+import com.jfinalbbs.module.link.Link;
+import com.jfinalbbs.module.section.Section;
+import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.StrUtil;
 

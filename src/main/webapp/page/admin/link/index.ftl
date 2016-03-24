@@ -13,9 +13,11 @@
 </section>
 <section class="content">
     <div class="box">
-        <div class="box-header">
-            <a href="${baseUrl!}/admin/link/add" class="btn btn-raised  btn-default pull-right">添加</a>
-        </div>
+        <@shiro.hasPermission name="link:add">
+            <div class="box-header">
+                <a href="${baseUrl!}/admin/link/add" class="btn btn-raised  btn-default pull-right">添加</a>
+            </div>
+        </@shiro.hasPermission>
         <div class="box-body">
             <div class="dataTables_wrapper form-inline dt-bootstrap">
                 <form id="form-sort" action="${baseUrl!}/admin/link/sort" method="post">
@@ -34,38 +36,46 @@
                                 </td>
                                 <td><a href="${link.url!}" target="_blank">${link.url!}</a></td>
                                 <td>
-                                    <a href="${baseUrl!}/admin/link/edit?id=${link.id!}"><span class="glyphicon glyphicon-edit"></span></a>
-                                    <a href="javascript:deleteLink('${link.id!}')"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <@shiro.hasPermission name="link:edit">
+                                        <a href="${baseUrl!}/admin/link/edit?id=${link.id!}"><span
+                                                class="glyphicon glyphicon-edit"></span></a>
+                                    </@shiro.hasPermission>
+                                    <@shiro.hasPermission name="link:delete">
+                                        <a href="javascript:deleteLink('${link.id!}')"><span
+                                                class="glyphicon glyphicon-trash"></span></a>
+                                    </@shiro.hasPermission>
                                 </td>
                             </tr>
                             </#list>
                         </tbody>
                     </table>
-                    <input type="submit" class="btn btn-raised btn-default " value="点击保存排序">
+                    <@shiro.hasPermission name="link:sort">
+                        <input type="submit" class="btn btn-raised btn-default " value="点击保存排序">
+                    </@shiro.hasPermission>
                 </form>
             </div>
         </div>
     </div>
 </section>
 <script>
-    $(function() {
-        $( "#sortable" ).sortable();
-        $( "#sortable" ).disableSelection();
+    $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
     });
 
     function deleteLink(id) {
-        if(confirm("确定 删除友链 吗？")) {
+        if (confirm("确定 删除友链 吗？")) {
             $.ajax({
-                url : "${baseUrl!}/admin/link/delete",
-                async : false,
-                cache : false,
-                type : 'post',
-                dataType : "json",
-                data : {
+                url: "${baseUrl!}/admin/link/delete",
+                async: false,
+                cache: false,
+                type: 'post',
+                dataType: "json",
+                data: {
                     id: id
                 },
-                success : function(data) {
-                    if(data.code == '200') {
+                success: function (data) {
+                    if (data.code == '200') {
                         $("#link_" + id).remove();
                     } else {
                         alert(data.description);

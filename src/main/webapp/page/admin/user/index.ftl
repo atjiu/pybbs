@@ -35,6 +35,7 @@
                     <th>微博绑定</th>
                     <th>积分</th>
                     <th>注册时间</th>
+                    <th>操作</th>
                     </thead>
                     <tbody>
                         <#list page.getList() as user>
@@ -53,13 +54,19 @@
                             </#if>
                             <td>${user.score!}</td>
                             <td>${user.in_time!}</td>
+                            <td>
+                                <@shiro.hasPermission name="user:disabled">
+                                    <a href="#" class="btn btn-danger btn-sm">禁用</a>
+                                </@shiro.hasPermission>
+                            </td>
                         </tr>
                         </#list>
                     </tbody>
                 </table>
                 <div class="row">
                     <div class="col-sm-5">
-                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">总用户数：${page.getTotalRow()}</div>
+                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                            总用户数：${page.getTotalRow()}</div>
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">

@@ -26,34 +26,51 @@
                     <tbody>
                         <#list page.getList() as reply>
                         <tr>
-                            <td><a href="${baseUrl!}/topic/${reply.tid!}.html#${reply.id!}" target="_blank">${reply.title!}</a></td>
+                            <td><a href="${baseUrl!}/topic/${reply.tid!}.html#${reply.id!}"
+                                   target="_blank">${reply.title!}</a></td>
                             <td>${reply.nickname}</td>
                             <td>
                                 <#if reply.isdelete == 1>
-                                    <input type="button" value="已删除" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-raised btn-danger "/>
+                                    <input type="button" value="已删除" id="reply_input_${reply.id!}" data-toggle="modal"
+                                           data-target="#reply_${reply.id!}" class="btn btn-raised btn-danger "/>
                                 <#else>
-                                    <input type="button" value="查看" id="reply_input_${reply.id!}" data-toggle="modal" data-target="#reply_${reply.id!}" class="btn btn-raised btn-default "/>
+                                    <input type="button" value="查看" id="reply_input_${reply.id!}" data-toggle="modal"
+                                           data-target="#reply_${reply.id!}" class="btn btn-raised btn-default "/>
                                 </#if>
-                                <div class="modal fade" id="reply_${reply.id!}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal fade" id="reply_${reply.id!}" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
                                                 <h4 class="modal-title" id="myModalLabel">${reply.title!}</h4>
                                             </div>
                                             <div class="modal-body">
-                                            ${reply.content!}
+                                            <#if reply.isdelete == 0>
+                                                ${reply.content!}
+                                            <#else>
+                                                回复已被删除
+                                            </#if>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-raised btn-default" data-dismiss="modal">关闭</button>
+                                                <button type="button" class="btn btn-raised btn-default"
+                                                        data-dismiss="modal">关闭
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td>${reply.in_time!}</td>
-                            <td>
-                                <a href="javascript:deleteReply('${reply.id!}')"><span class="glyphicon glyphicon-trash"></span></a>
+                            <td id="deletereply_${reply.id!}">
+                                <@shiro.hasPermission name="reply:delete">
+                                    <#if reply.isdelete == 0>
+                                        <a href="javascript:deleteReply('${reply.id!}')"><span
+                                                class="glyphicon glyphicon-trash"></span></a>
+                                    </#if>
+                                </@shiro.hasPermission>
                             </td>
                         </tr>
                         </#list>
@@ -61,7 +78,8 @@
                 </table>
                 <div class="row">
                     <div class="col-sm-5">
-                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">总回复数：${page.getTotalRow()}</div>
+                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                            总回复数：${page.getTotalRow()}</div>
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
@@ -77,20 +95,21 @@
 </@layout>
 <script type="text/javascript">
     function deleteReply(id) {
-        if(confirm("确定 删除回复 吗？)")) {
+        if (confirm("确定 删除回复 吗？)")) {
             $.ajax({
-                url : "${baseUrl!}/admin/reply/delete",
-                async : false,
-                cache : false,
-                type : 'post',
-                dataType : "json",
-                data : {
+                url: "${baseUrl!}/admin/reply/delete",
+                async: false,
+                cache: false,
+                type: 'post',
+                dataType: "json",
+                data: {
                     id: id
                 },
-                success : function(data) {
-                    if(data.code == '200') {
+                success: function (data) {
+                    if (data.code == '200') {
                         $("#reply_input_" + id).removeClass("btn-default").addClass("btn-danger").val("已删除");
                         $("#reply_" + id + " .modal-body").html("回复已被删除");
+                        $("#deletereply_" + id).html("");
                     } else {
                         alert(data.description);
                     }

@@ -92,7 +92,11 @@
                         </p>
                     </div>
                     <div class="media-body reply_content">
-                    ${reply.content!}
+                        <#if reply.isdelete == 0>
+                            ${reply.content!}
+                        <#else>
+                            回复已被删除
+                        </#if>
                     </div>
                 </div>
             </div>

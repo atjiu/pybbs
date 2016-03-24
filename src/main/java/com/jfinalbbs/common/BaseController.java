@@ -2,9 +2,12 @@ package com.jfinalbbs.common;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.jfinalbbs.user.User;
+import com.jfinalbbs.module.user.AdminUser;
+import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.utils.Result;
 import com.jfinalbbs.utils.StrUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 /**
  * Created by Tomoya.
@@ -51,5 +54,15 @@ public class BaseController extends Controller {
      */
     public User getUser(String token) {
         return User.me.findByToken(token);
+    }
+
+    /**
+     * 根据用户名查询后台用户
+     * @return
+     */
+    public AdminUser getAdminUser() {
+        Subject subject = SecurityUtils.getSubject();
+        String username = subject.getPrincipal().toString();
+        return AdminUser.me.findByUsername(username);
     }
 }

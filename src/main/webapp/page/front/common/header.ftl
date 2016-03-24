@@ -55,80 +55,80 @@
                         </ul>
                     </li>
                 <#else>
-                    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="APPID" data-redirecturi="REDIRECTURI" charset="utf-8"></script>
-                    <li><a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">登录</a></li>
+                    <#--<li><a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">登录</a></li>-->
+                    <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/login.html">登录</a></li>
                     <li <#if page_tab == 'reg'> class="active" </#if>><a href="${baseUrl!}/reg.html">注册</a></li>
                 </#if>
             </ul>
         </div>
     </div>
 </nav>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">登录</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="email" class="col-sm-2 control-label">邮箱</label>
-                        <div class="col-sm-8">
-                            <input type="email" class="form-control" id="email" placeholder="邮箱">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="col-sm-2 control-label">密码</label>
-                        <div class="col-sm-8">
-                            <input type="password" class="form-control" id="password" placeholder="密码">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <span id="errMsg"></span>
-                            <div class="pull-right">
-                                <a href="${baseUrl!}/forgetpwd">忘记密码?</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer" style="padding-top: 20px">
-                <span class="pull-left" style="margin: 8px; 0 0;">
-                    <a href="${baseUrl!}/oauth/qqlogin">
-                        <img src="${baseUrl!}/static/img/QQ_Logo_wiki.png" width="24" alt="QQ 登录">
-                    </a>&nbsp;&nbsp;
-                    <a href="${baseUrl!}/oauth/weibologin">
-                        <img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_24x24.png" alt="微博登录">
-                    </a>
-                </span>
-                <button type="button" class="btn btn-raised  btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-raised  btn-default" onclick="login()">登录</button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    function login() {
-        $.ajax({
-            url: "${baseUrl!}/login",
-            async: false,
-            cache: false,
-            type: 'post',
-            dataType: "json",
-            data: {
-                email: $("#email").val(),
-                password: md5($("#password").val())
-            },
-            success: function (data) {
-                if (data.code == '200') {
-                    location.href="${baseUrl!}/";
-                } else {
-                    $("#errMsg").css("color", "red").html(data.description);
-                }
-            }
-        });
-    }
-</script>
+<#--<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">-->
+    <#--<div class="modal-dialog">-->
+        <#--<div class="modal-content">-->
+            <#--<div class="modal-header">-->
+                <#--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <#--<h4 class="modal-title" id="gridSystemModalLabel">登录</h4>-->
+            <#--</div>-->
+            <#--<div class="modal-body">-->
+                <#--<form class="form-horizontal">-->
+                    <#--<div class="form-group">-->
+                        <#--<label for="email" class="col-sm-2 control-label">邮箱</label>-->
+                        <#--<div class="col-sm-8">-->
+                            <#--<input type="email" class="form-control" id="email" placeholder="邮箱">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<label for="password" class="col-sm-2 control-label">密码</label>-->
+                        <#--<div class="col-sm-8">-->
+                            <#--<input type="password" class="form-control" id="password" placeholder="密码">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<div class="col-sm-offset-2 col-sm-8">-->
+                            <#--<span id="errMsg"></span>-->
+                            <#--<div class="pull-right">-->
+                                <#--<a href="${baseUrl!}/forgetpwd">忘记密码?</a>-->
+                            <#--</div>-->
+                        <#--</div>-->
+                    <#--</div>-->
+                <#--</form>-->
+            <#--</div>-->
+            <#--<div class="modal-footer" style="padding-top: 20px">-->
+                <#--<span class="pull-left" style="margin: 8px; 0 0;">-->
+                    <#--<a href="${baseUrl!}/oauth/qqlogin">-->
+                        <#--<img src="${baseUrl!}/static/img/QQ_Logo_wiki.png" width="24" alt="QQ 登录">-->
+                    <#--</a>&nbsp;&nbsp;-->
+                    <#--<a href="${baseUrl!}/oauth/weibologin">-->
+                        <#--<img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_24x24.png" alt="微博登录">-->
+                    <#--</a>-->
+                <#--</span>-->
+                <#--<button type="button" class="btn btn-raised  btn-default" data-dismiss="modal">关闭</button>-->
+                <#--<button type="button" class="btn btn-raised  btn-default" onclick="login()">登录</button>-->
+            <#--</div>-->
+        <#--</div>-->
+    <#--</div>-->
+<#--</div>-->
+<#--<script>-->
+    <#--function login() {-->
+        <#--$.ajax({-->
+            <#--url: "${baseUrl!}/login",-->
+            <#--async: false,-->
+            <#--cache: false,-->
+            <#--type: 'post',-->
+            <#--dataType: "json",-->
+            <#--data: {-->
+                <#--email: $("#email").val(),-->
+                <#--password: md5($("#password").val())-->
+            <#--},-->
+            <#--success: function (data) {-->
+                <#--if (data.code == '200') {-->
+                    <#--location.href="${baseUrl!}/";-->
+                <#--} else {-->
+                    <#--$("#errMsg").css("color", "red").html(data.description);-->
+                <#--}-->
+            <#--}-->
+        <#--});-->
+    <#--}-->
+<#--</script>-->
 </#macro>

@@ -1,6 +1,5 @@
 package com.jfinalbbs.common;
 
-
 import com.jfinal.plugin.activerecord.Model;
 import org.ocpsoft.prettytime.PrettyTime;
 

@@ -19,7 +19,9 @@
                     <input type="text" class="form-control" name="name" value="${name!}" placeholder="标签名"/>
                 </div>
                 <button type="submit" class="btn btn-raised btn-default ">搜索</button>
-                <a href="" class="btn btn-raised btn-default  pull-right">添加</a>
+                <@shiro.hasPermission name="label:add">
+                    <a href="${baseUrl!}/admin/label/add" class="btn btn-raised btn-default  pull-right">添加</a>
+                </@shiro.hasPermission>
             </form>
         </div>
         <div class="box-body">
@@ -38,9 +40,18 @@
                             <td>${label.topic_count!}</td>
                             <td>${label.in_time!}</td>
                             <td>
-                                <a href="javascript:deletelabel(${label.id!});">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
+                                <@shiro.hasPermission name="label:edit">
+                                    <a href="${baseUrl!}/admin/label/edit/${label.id!}">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                </@shiro.hasPermission>
+                                <@shiro.hasPermission name="label:delete">
+                                    <#if label.topic_count &lt;= 0>
+                                        <a href="javascript:deletelabel(${label.id!});">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </#if>
+                                </@shiro.hasPermission>
                             </td>
                         </tr>
                         </#list>
@@ -48,7 +59,8 @@
                 </table>
                 <div class="row">
                     <div class="col-sm-5">
-                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">总标签数：${page.getTotalRow()}</div>
+                        <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                            总标签数：${page.getTotalRow()}</div>
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
@@ -63,18 +75,18 @@
 </section>
 <script>
     function deletelabel(id) {
-        if(confirm("确定 删除标签 吗？)")) {
+        if (confirm("确定 删除标签 吗？)")) {
             $.ajax({
-                url : "${baseUrl!}/admin/label/delete",
-                async : false,
-                cache : false,
-                type : 'post',
-                dataType : "json",
-                data : {
+                url: "${baseUrl!}/admin/label/delete",
+                async: false,
+                cache: false,
+                type: 'post',
+                dataType: "json",
+                data: {
                     id: id
                 },
-                success : function(data) {
-                    if(data.code == '200') {
+                success: function (data) {
+                    if (data.code == '200') {
                         $("#label_" + id).remove();
                     } else {
                         alert(data.description);

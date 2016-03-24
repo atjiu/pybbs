@@ -3,7 +3,7 @@ package com.jfinalbbs.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinalbbs.common.Constants;
-import com.jfinalbbs.user.User;
+import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.utils.Result;
 import com.jfinalbbs.utils.StrUtil;
 

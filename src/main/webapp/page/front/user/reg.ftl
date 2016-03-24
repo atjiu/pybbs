@@ -9,21 +9,6 @@
     </div>
     <div class="panel-body">
         <form class="form-horizontal" style="margin-top: 20px;">
-            <#if session.open_id?? && session.open_id != ''>
-                <div class="form-group">
-                    <#if session.thirdlogin_type == 'qq'>
-                        <label for="qq_nickname" class="col-sm-2 control-label">QQ昵称</label>
-                        <div class="col-sm-8">
-                            <input type="text" disabled="disabled" class="form-control" value="${session.unsave_user.qq_nickname!}"/>
-                        </div>
-                    <#elseif session.thirdlogin_type == 'sina'>
-                        <label for="qq_nickname" class="col-sm-2 control-label">微博昵称</label>
-                        <div class="col-sm-8">
-                            <input type="text" disabled="disabled" value="${session.unsave_user.sina_nickname!}"/>
-                        </div>
-                    </#if>
-                </div>
-            </#if>
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">邮箱</label>
                 <div class="col-sm-8">

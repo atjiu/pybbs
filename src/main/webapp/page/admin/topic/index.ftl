@@ -57,7 +57,9 @@
                                     <span class="glyphicon glyphicon-eye-open" title="查看详情"></span>
                                 </a>
                                 <a href="${baseUrl!}/admin/topic/edit/${topic.id!}" target="_blank"><span class="glyphicon glyphicon-edit" title="编辑"></span></a>
-                                <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash" title="删除"></span></a>
+                                <@shiro.hasPermission name="topic:delete">
+                                    <a href="javascript:deleteTopic('${topic.id}')"><span class="glyphicon glyphicon-trash" title="删除"></span></a>
+                                </@shiro.hasPermission>
                                 <div class="modal fade" id="topic_detail_${topic.id!}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">

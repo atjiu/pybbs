@@ -25,12 +25,13 @@ public class EmailSender {
     private String mail_from;
     private String charset = "utf-8";
 
-    static class EmailSenderHolder {
-        static EmailSender instance = new EmailSender();
-    }
+    private static EmailSender emailSender;
 
     public static EmailSender getInstance() {
-        return EmailSenderHolder.instance;
+        if(emailSender == null) {
+            emailSender = new EmailSender();
+        }
+        return emailSender;
     }
 
     public EmailSender() {

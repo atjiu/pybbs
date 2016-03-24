@@ -3,7 +3,7 @@
 <section class="content-header">
     <h1>
         设置
-        <small>列表</small>
+        <small>系统参数设置</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="${baseUrl!}/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -23,13 +23,6 @@
 
                         <div class="col-sm-5">
                             <input type="text" class="form-control" id="siteTitle" name="siteTitle" value="${siteTitle!}" placeholder="站点标题,例:JFinalbbs">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="baseUrl" class="col-sm-2 control-label">站点域名</label>
-
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" id="baseUrl" name="baseUrl" value="${baseUrl!}" placeholder="站点域名,例:http://jfinalbbs.com">
                         </div>
                     </div>
                     <div class="form-group">

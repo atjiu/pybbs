@@ -1,54 +1,25 @@
 package com.jfinalbbs.common;
 
+import com.jagregory.shiro.freemarker.ShiroTags;
 import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.jfinalbbs.collect.Collect;
-import com.jfinalbbs.collect.CollectClientController;
-import com.jfinalbbs.collect.CollectController;
+import com.jfinal.render.FreeMarkerRender;
 import com.jfinalbbs.handler.HtmlHandler;
-import com.jfinalbbs.index.IndexAdminController;
-import com.jfinalbbs.index.IndexClientController;
-import com.jfinalbbs.index.IndexController;
-import com.jfinalbbs.interceptor.AdminUserInterceptor;
 import com.jfinalbbs.interceptor.CommonInterceptor;
-import com.jfinalbbs.label.*;
-import com.jfinalbbs.link.Link;
-import com.jfinalbbs.link.LinkAdminController;
-import com.jfinalbbs.message.Message;
-import com.jfinalbbs.message.MsgContact;
-import com.jfinalbbs.message.MsgMessageController;
-import com.jfinalbbs.mission.Mission;
-import com.jfinalbbs.mission.MissionAdminController;
-import com.jfinalbbs.mission.MissionClientController;
-import com.jfinalbbs.mission.MissionController;
-import com.jfinalbbs.notification.Notification;
-import com.jfinalbbs.notification.NotificationClientController;
-import com.jfinalbbs.notification.NotificationController;
-import com.jfinalbbs.oauth.OauthController;
-import com.jfinalbbs.reply.Reply;
-import com.jfinalbbs.reply.ReplyAdminController;
-import com.jfinalbbs.reply.ReplyClientController;
-import com.jfinalbbs.reply.ReplyController;
-import com.jfinalbbs.section.Section;
-import com.jfinalbbs.section.SectionAdminController;
-import com.jfinalbbs.section.SectionClientController;
-import com.jfinalbbs.system.Donate;
-import com.jfinalbbs.system.SysConfig;
-import com.jfinalbbs.system.SysConfigAdminController;
-import com.jfinalbbs.topic.Topic;
-import com.jfinalbbs.topic.TopicAdminController;
-import com.jfinalbbs.topic.TopicClientController;
-import com.jfinalbbs.topic.TopicController;
-import com.jfinalbbs.user.*;
-import com.jfinalbbs.valicode.ValiCode;
+import com.jfinalbbs.utils.ext.plugin.shiro.ShiroInterceptor;
+import com.jfinalbbs.utils.ext.plugin.shiro.ShiroPlugin;
+import com.jfinalbbs.utils.ext.plugin.tablebind.AutoTableBindPlugin;
+import com.jfinalbbs.utils.ext.plugin.tablebind.ParamNameStyles;
+import com.jfinalbbs.utils.ext.route.AutoBindRoutes;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,6 +32,8 @@ import java.util.Properties;
  */
 public class JFinalbbsConfig extends JFinalConfig {
 
+    private Routes routes;
+
     /**
      * 配置常量
      */
@@ -72,57 +45,21 @@ public class JFinalbbsConfig extends JFinalConfig {
         me.setBaseUploadPath(com.jfinalbbs.common.Constants.UPLOAD_DIR);
         me.setMaxPostSize(2048000);
         me.setFreeMarkerTemplateUpdateDelay(0);
+
+        me.setErrorView(401, "/adminlogin");
+        me.setErrorView(403, "/adminlogin");
+        me.setError401View("/page/front/401.html");
+        me.setError403View("/page/front/403.html");
+        me.setError500View("/page/front/500.html");
+        FreeMarkerRender.getConfiguration().setSharedVariable("shiro", new ShiroTags());
     }
 
     /**
      * 配置路由
      */
     public void configRoute(Routes me) {
-        //添加前台路由
-        frontRoute(me);
-        //添加后台路由
-        adminRoute(me);
-        //添加客户端路由
-        clientRoute(me);
-    }
-
-    //前台路由配置
-    public void frontRoute(Routes me) {
-        me.add("/", IndexController.class, "page");    // 第三个参数为该Controller的视图存放路径
-        me.add("/topic", TopicController.class, "page");
-        me.add("/user", UserController.class, "page");
-        me.add("/mission", MissionController.class, "page");
-        me.add("/reply", ReplyController.class, "page");
-        me.add("/collect", CollectController.class, "page");
-        me.add("/notification", NotificationController.class, "page");
-        me.add("/label", LabelController.class, "page");
-        me.add("/oauth", OauthController.class);
-        me.add("/message", MsgMessageController.class, "page");
-    }
-
-    //后台路由配置
-    public void adminRoute(Routes me) {
-        me.add("/admin", IndexAdminController.class, "page/admin");
-        me.add("/admin/topic", TopicAdminController.class, "page/admin/topic");
-        me.add("/admin/reply", ReplyAdminController.class, "page/admin/reply");
-        me.add("/admin/user", UserAdminController.class, "page/admin/user");
-        me.add("/admin/section", SectionAdminController.class, "page/admin/section");
-        me.add("/admin/link", LinkAdminController.class, "page/admin/link");
-        me.add("/admin/mission", MissionAdminController.class, "page/admin/mission");
-        me.add("/admin/label", LabelAdminController.class, "page/admin/label");
-        me.add("/admin/sysconfig", SysConfigAdminController.class, "page/admin/sysconfig");
-    }
-
-    public void clientRoute(Routes me) {
-        me.add("/api/index", IndexClientController.class);
-        me.add("/api/topic", TopicClientController.class);
-        me.add("/api/reply", ReplyClientController.class);
-        me.add("/api/user", UserClientController.class);
-        me.add("/api/notification", NotificationClientController.class);
-        me.add("/api/section", SectionClientController.class);
-        me.add("/api/collect", CollectClientController.class);
-        me.add("/api/mission", MissionClientController.class);
-        me.add("/api/label", LabelClientController.class);
+        this.routes = me;
+        me.add(new AutoBindRoutes());
     }
 
     /**
@@ -134,26 +71,14 @@ public class JFinalbbsConfig extends JFinalConfig {
         druidPlugin.setFilters("stat,wall");
         me.add(druidPlugin);
         me.add(new EhCachePlugin());
-        // 配置ActiveRecord插件
-        ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-        arp.setShowSql(getPropertyToBoolean("showSql", false));
-        arp.addMapping("jfbbs_topic", Topic.class);    // 映射blog 表到 Blog模型
-        arp.addMapping("jfbbs_reply", Reply.class);
-        arp.addMapping("jfbbs_user", User.class);
-        arp.addMapping("jfbbs_mission", Mission.class);
-        arp.addMapping("jfbbs_collect", Collect.class);
-        arp.addMapping("jfbbs_notification", Notification.class);
-        arp.addMapping("jfbbs_admin_user", AdminUser.class);
-        arp.addMapping("jfbbs_section", Section.class);
-        arp.addMapping("jfbbs_link", Link.class);
-        arp.addMapping("jfbbs_valicode", ValiCode.class);
-        arp.addMapping("jfbbs_label", Label.class);
-        arp.addMapping("jfbbs_label_topic_id", LabelTopicId.class);
-        arp.addMapping("jfbbs_sys_config", SysConfig.class);
-        arp.addMapping("jfbbs_message", Message.class);
-        arp.addMapping("jfbbs_msg_contact", MsgContact.class);
-        arp.addMapping("jfbbs_donate", Donate.class);
-        me.add(arp);
+
+        AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, ParamNameStyles.lowerUnderlineModule("jfbbs"));
+        atbp.addExcludeClasses(BaseModel.class);
+        atbp.setShowSql(true);
+        me.add(atbp);
+
+        ShiroPlugin shiroPlugin = new ShiroPlugin(routes);
+        me.add(shiroPlugin);
     }
 
     /**
@@ -161,8 +86,8 @@ public class JFinalbbsConfig extends JFinalConfig {
      */
     public void configInterceptor(Interceptors me) {
         me.add(new SessionInViewInterceptor());
+        me.add(new ShiroInterceptor());
         me.add(new CommonInterceptor());
-        me.add(new AdminUserInterceptor());
     }
 
     /**
@@ -203,6 +128,7 @@ public class JFinalbbsConfig extends JFinalConfig {
      * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
      */
     public static void main(String[] args) {
+        System.out.println(HashKit.md5("123456"));
         JFinal.start("src/main/webapp", 8080, "/", 5);
     }
 }
