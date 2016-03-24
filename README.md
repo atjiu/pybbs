@@ -32,33 +32,23 @@
 
 # 2016年2月17日 V2.1更新内容
 
-1. 增加私信
-2. 增加标签
-3. pc，手机合并（页面自适应,手机查看的,可以[点击体验](http://jfinalbbs.com)）
-4. 界面美化，使用了bootstrap-material-design
-5. 编辑器升级2.0
-6. 其他页面布局优化
-7. 系统配置写入数据库
+1. 后台增加shiro权限控制（使用了jfinal-ext）
+2. 后台标签可以增加/编辑
+3. 前台登录另起一个页面
+4. 编辑器升级,可以直接拷贝word文档粘贴
+5. controller, table 增加了自动扫描注入（使用了jfinal-ext）
+6. 删除baseUrl从后台设置, 改用`me.add(new ContextPathHandler("baseUrl"));`方式
 
 ## 数据库更新
 
-- `jfbbs_label` 增加几个字段,对照`doc/最新SQL.sql`里的`jfbbs_label`表的建表语句增加上就好
-- `jfbbs_notification` 表结构及数据发生变化,执行下面sql脚本来更新
+- 增加表: jfbbs_role, jfbbs_user_role, jfbbs_permission, jfbbs_role_permission, jfbbs_admin_log
+- 修改了: jfbbs_admin_user增加字段: salt, in_time
+- 修改了: jfbbs_topic删除字段: original_url, reposted, 增加字段: isdelete
+- **具体对照最新数据库脚本 `doc/最新版SQL.sql` **
 
-**注意,执行下面MySQL脚本之前先备份数据库**
+## 截图欣赏
 
-```
-ALTER TABLE `jfbbs_notification` ADD `action` VARCHAR(255)  NULL  DEFAULT NULL  COMMENT '通知动作'  AFTER `in_time`;
-ALTER TABLE `jfbbs_notification` ADD `source` VARCHAR(32)  NULL  DEFAULT NULL  COMMENT '通知来源'  AFTER `action`;
-ALTER TABLE `jfbbs_notification` CHANGE `tid` `target_id` VARCHAR(255)  CHARACTER SET utf8  COLLATE utf8_general_ci  NULL  DEFAULT NULL  COMMENT '目标id';
-update jfbbs_notification set source = 'topic';
-update jfbbs_notification set source = 'message' where message = '给你发了一条私信';
-update jfbbs_notification set action = message;
-update jfbbs_notification n set n.message = (select t.title from jfbbs_topic t where t.id = n.target_id) where n.source = 'topic';
-update jfbbs_notification set target_id = concat(target_id, '#', rid) where rid is not null;
-delete from jfbbs_notification where message = '';
-ALTER TABLE `jfbbs_notification` DROP `rid`;
-```
+
 
 **更新体验[传送门](http://jfinalbbs.com)**
 
