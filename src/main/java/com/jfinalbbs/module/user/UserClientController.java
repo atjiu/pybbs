@@ -42,7 +42,7 @@ public class UserClientController extends BaseController {
     public void userinfo() {
         String token = getPara("token");
         User user = getUser(token);
-        if(user == null) {
+        if (user == null) {
             error("无效令牌");
         } else {
             User resultUser = new User();

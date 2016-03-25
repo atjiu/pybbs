@@ -125,7 +125,7 @@ public class MsgMessageClientController extends BaseController {
         Integer contactId = getParaToInt("contactId");
         if (contactId != null) {
             MsgContact msgContact = MsgContact.me.findById(contactId);
-            if(msgContact != null) {
+            if (msgContact != null) {
                 msgContact.set("is_delete", 1).update();
             }
         }

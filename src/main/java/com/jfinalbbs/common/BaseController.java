@@ -49,6 +49,7 @@ public class BaseController extends Controller {
 
     /**
      * 根据用户令牌获取用户信息
+     *
      * @param token
      * @return
      */
@@ -58,6 +59,7 @@ public class BaseController extends Controller {
 
     /**
      * 根据用户名查询后台用户
+     *
      * @return
      */
     public AdminUser getAdminUser() {

@@ -22,9 +22,9 @@ public class CollectClientController extends BaseController {
 
     public void index() {
         String tid = getPara("tid");
-        if(StrUtil.isBlank(tid)) {
+        if (StrUtil.isBlank(tid)) {
             error("话题id不能为空");
-        } else if(Topic.me.findById(tid) == null) {
+        } else if (Topic.me.findById(tid) == null) {
             error("无效话题");
         } else {
             String token = getPara("token");
@@ -48,9 +48,9 @@ public class CollectClientController extends BaseController {
 
     public void delete() {
         String tid = getPara("tid");
-        if(StrUtil.isBlank(tid)) {
+        if (StrUtil.isBlank(tid)) {
             error("话题id不能为空");
-        } else if(Topic.me.findById(tid) == null) {
+        } else if (Topic.me.findById(tid) == null) {
             error("无效话题");
         } else {
             String token = getPara("token");

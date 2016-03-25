@@ -25,7 +25,7 @@ public class AdminUser extends BaseModel<AdminUser> {
         //先删除已经存在的关联
         Db.update("delete from jfbbs_user_role where uid = ?", userId);
         //建立新的关联关系
-        for(Integer rid : roles) {
+        for (Integer rid : roles) {
             UserRole userRole = new UserRole();
             userRole.set("uid", userId)
                     .set("rid", rid)

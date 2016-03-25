@@ -22,7 +22,7 @@ public class Permission extends BaseModel<Permission> {
 
     public List<Permission> findAll() {
         List<Permission> permissions = this.findByPid(0);
-        for(Permission p: permissions) {
+        for (Permission p : permissions) {
             List<Permission> permissionList = this.findByPid(p.get("id"));
             p.put("childPermission", permissionList);
         }
@@ -32,9 +32,9 @@ public class Permission extends BaseModel<Permission> {
     public Set<String> findPermissions(String username) {
         List<Permission> permissions = super.findByCache(Constants.SHIROCACHE, Constants.PERMISSIONCACHEKEY + username,
                 "select p.* from jfbbs_admin_user u, jfbbs_role r, jfbbs_permission p, " +
-                "jfbbs_user_role ur, jfbbs_role_permission rp where u.id = ur.uid and r.id = ur.rid and r.id = rp.rid and p.id = rp.pid and u.username = ?", username);
+                        "jfbbs_user_role ur, jfbbs_role_permission rp where u.id = ur.uid and r.id = ur.rid and r.id = rp.rid and p.id = rp.pid and u.username = ?", username);
         Set<String> set = new HashSet<String>();
-        for(Permission p: permissions) {
+        for (Permission p : permissions) {
             set.add(p.getStr("name"));
         }
         return set;

@@ -34,7 +34,7 @@
                 </p>
             </div>
             <div class="media-right">
-                <#if current_user.id != session.user.id>
+                <#if session.user?? && current_user.id != session.user.id>
                     <a href="javascript:void(0);" data-toggle="modal" data-target="#newMessageModal" class="btn btn-raised btn-sm btn-default">私信</a>
                 </#if>
             </div>

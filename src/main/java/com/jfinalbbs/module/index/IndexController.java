@@ -15,7 +15,6 @@ import com.jfinalbbs.module.valicode.Valicode;
 import com.jfinalbbs.utils.DateUtil;
 import com.jfinalbbs.utils.EmailSender;
 import com.jfinalbbs.utils.StrUtil;
-import com.jfinalbbs.utils.ext.plugin.shiro.ShiroKit;
 import com.jfinalbbs.utils.ext.route.ControllerBind;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -46,11 +45,11 @@ public class IndexController extends BaseController {
             tab = "all";
             setAttr("_label", Label.me.findById(l));
         }
-        if(tab.equals("all") || tab.equals("good")) {
+        if (tab.equals("all") || tab.equals("good")) {
             setAttr("sectionName", "板块");
         } else {
             Section section = Section.me.findByTab(tab);
-            setAttr("sectionName", section!=null?section.get("name"):"板块");
+            setAttr("sectionName", section != null ? section.get("name") : "板块");
         }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
                 getParaToInt("size", defaultPageSize()), tab, q, 1, l);

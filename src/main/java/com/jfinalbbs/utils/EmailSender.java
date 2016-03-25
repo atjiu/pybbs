@@ -28,7 +28,7 @@ public class EmailSender {
     private static EmailSender emailSender;
 
     public static EmailSender getInstance() {
-        if(emailSender == null) {
+        if (emailSender == null) {
             emailSender = new EmailSender();
         }
         return emailSender;

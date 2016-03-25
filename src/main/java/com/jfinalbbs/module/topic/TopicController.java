@@ -36,7 +36,7 @@ public class TopicController extends BaseController {
             List<Label> labels = Label.me.findByTid(id);
             setAttr("labels", labels);
             //根据当前话题的标签查询相关话题
-            if(labels.size() > 0) {
+            if (labels.size() > 0) {
                 List<Topic> xgTopics = Label.me.findByLabels(id, labels, 10);
                 setAttr("xgTopics", xgTopics);
             }
@@ -67,7 +67,7 @@ public class TopicController extends BaseController {
     @Before(UserInterceptor.class)
     public void create() {
         String labelName = getPara(0);
-        if(!StrUtil.isBlank(labelName)) {
+        if (!StrUtil.isBlank(labelName)) {
             Label label = Label.me.findByName(labelName);
             setAttr("label", label);
         }

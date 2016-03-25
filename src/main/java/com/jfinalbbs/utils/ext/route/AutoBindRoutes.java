@@ -1,7 +1,5 @@
 package com.jfinalbbs.utils.ext.route;
 
-import java.util.List;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.jfinal.config.Routes;
@@ -9,6 +7,8 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.StrKit;
 import com.jfinalbbs.utils.ext.kit.ClassSearcher;
+
+import java.util.List;
 
 public class AutoBindRoutes extends Routes {
 
@@ -51,7 +51,7 @@ public class AutoBindRoutes extends Routes {
     }
 
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void config() {
         List<Class<? extends Controller>> controllerClasses = ClassSearcher.of(Controller.class)
                 .includeAllJarsInLib(includeAllJarsInLib).injars(includeJars).search();
@@ -80,7 +80,7 @@ public class AutoBindRoutes extends Routes {
 
     private String controllerKey(Class<Controller> clazz) {
         Preconditions.checkArgument(clazz.getSimpleName().endsWith(suffix),
-                clazz.getName()+" is not annotated with @ControllerBind and not end with " + suffix);
+                clazz.getName() + " is not annotated with @ControllerBind and not end with " + suffix);
         String controllerKey = "/" + StrKit.firstCharToLowerCase(clazz.getSimpleName());
         controllerKey = controllerKey.substring(0, controllerKey.indexOf(suffix));
         return controllerKey;

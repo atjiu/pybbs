@@ -49,10 +49,10 @@ public class Label extends BaseModel<Label> {
         }
         labels_str = labels_str.substring(0, labels_str.length() - 1);
         List<LabelTopicId> labelTopicIds = LabelTopicId.me.find(
-                "select * from jfbbs_label_topic_id where lid in ("+labels_str+");");
-        if(labelTopicIds.size() > 0) {
+                "select * from jfbbs_label_topic_id where lid in (" + labels_str + ");");
+        if (labelTopicIds.size() > 0) {
             String topics_id_str = "";
-            for(LabelTopicId labelTopicId: labelTopicIds) {
+            for (LabelTopicId labelTopicId : labelTopicIds) {
                 topics_id_str += "'" + labelTopicId.getStr("tid") + "',";
             }
             topics_id_str = topics_id_str.substring(0, topics_id_str.length() - 1);

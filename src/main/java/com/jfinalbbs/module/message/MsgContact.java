@@ -19,6 +19,7 @@ public class MsgContact extends BaseModel<MsgContact> {
 
     /**
      * 根据用户id查询此用户的会话列表
+     *
      * @param authorId
      * @return
      */

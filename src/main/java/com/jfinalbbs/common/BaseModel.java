@@ -15,7 +15,7 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     public String formatDate(Date date) {
         String dateStr = "";
-        if(date != null) {
+        if (date != null) {
             PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
             dateStr = prettyTime.format(date);
         }

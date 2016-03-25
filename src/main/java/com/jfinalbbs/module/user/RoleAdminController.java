@@ -8,11 +8,6 @@ import com.jfinalbbs.common.Constants;
 import com.jfinalbbs.utils.ext.route.ControllerBind;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -31,10 +26,10 @@ public class RoleAdminController extends BaseController {
     @Before(Tx.class)
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("permissions", Permission.me.findAll());
             render("add.ftl");
-        } else if(method.equalsIgnoreCase(Constants.POST)){
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             Role role = getModel(Role.class);
             role.save();
             Integer[] pids = getParaValuesToInt("permissions");
@@ -46,9 +41,9 @@ public class RoleAdminController extends BaseController {
     @RequiresPermissions("setting:role")
     public void edit() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             Integer id = getParaToInt("id");
-            if(id != null) {
+            if (id != null) {
                 Role role = Role.me.findById(id);
                 setAttr("role", role);
                 setAttr("permissions", Permission.me.findAll());
@@ -58,7 +53,7 @@ public class RoleAdminController extends BaseController {
                 LogKit.error("角色ID不能为空");
                 renderError(500);
             }
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             Role role = getModel(Role.class);
             role.update();
             Integer[] pids = getParaValuesToInt("permissions");
@@ -73,7 +68,7 @@ public class RoleAdminController extends BaseController {
     @Before(Tx.class)
     public void delete() {
         Integer roleId = getParaToInt("id");
-        if(roleId == null) {
+        if (roleId == null) {
             renderError(500);
         } else {
             Role.me.deleteById(roleId);

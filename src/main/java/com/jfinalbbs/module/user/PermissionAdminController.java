@@ -20,7 +20,7 @@ public class PermissionAdminController extends BaseController {
     public void index() {
         Integer permissionId = getParaToInt("permissionId");
         List<Permission> permissions = Permission.me.findAll();
-        if(permissionId == null) {
+        if (permissionId == null) {
             Permission permission = permissions.get(0);
             permissionId = permission.getInt("id");
         }

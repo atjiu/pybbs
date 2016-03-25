@@ -22,7 +22,7 @@ public class IndexClientController extends BaseController {
         }
         Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
                 getParaToInt("size", defaultPageSize()), tab, q, 1, l);
-        for(Topic t : page.getList()) {
+        for (Topic t : page.getList()) {
 //            t.set("content", )
         }
         success(page);

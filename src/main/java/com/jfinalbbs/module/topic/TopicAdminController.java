@@ -14,9 +14,7 @@ import com.jfinalbbs.module.user.AdminUser;
 import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.utils.StrUtil;
 import com.jfinalbbs.utils.ext.route.ControllerBind;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 
 import java.io.IOException;
 import java.util.Date;

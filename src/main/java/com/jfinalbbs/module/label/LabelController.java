@@ -21,7 +21,7 @@ public class LabelController extends BaseController {
 
     public void index() throws UnsupportedEncodingException {
         String name = getPara(0);
-        if(StrUtil.isBlank(name)) {
+        if (StrUtil.isBlank(name)) {
             List<Label> labels = Label.me.findAll();
             setAttr("labels", labels);
             render("front/label/list.ftl");
@@ -29,7 +29,7 @@ public class LabelController extends BaseController {
             name = URLDecoder.decode(name, "UTF-8");
             Label label = Label.me.findByName(name);
             setAttr("label", label);
-            if(label != null) {
+            if (label != null) {
                 Page<Topic> page = Topic.me.paginate(getParaToInt("p", 1),
                         getParaToInt("size", defaultPageSize()), null, null, 1, label.getInt("id"));
                 setAttr("page", page);

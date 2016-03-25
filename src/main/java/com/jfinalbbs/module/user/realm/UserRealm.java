@@ -19,7 +19,7 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String username = (String)principals.getPrimaryPrincipal();
+        String username = (String) principals.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(Role.me.findRoles(username));
@@ -30,11 +30,11 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String username = (String)token.getPrincipal();
+        String username = (String) token.getPrincipal();
 
         AdminUser adminUser = AdminUser.me.findByUsername(username);
 
-        if(adminUser == null) {
+        if (adminUser == null) {
             throw new UnknownAccountException();//没找到帐号
         }
 

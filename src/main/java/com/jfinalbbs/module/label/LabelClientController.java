@@ -18,14 +18,14 @@ public class LabelClientController extends BaseController {
 
     public void index() {
         String name = getPara("name");
-        if(StrUtil.isBlank(name)) {
+        if (StrUtil.isBlank(name)) {
             List<Label> labels = Label.me.findAll();
             setAttr("labels", labels);
             success(labels);
         } else {
             Label label = Label.me.findByName(name);
             Page<Topic> page = null;
-            if(label != null) {
+            if (label != null) {
                 page = Topic.me.paginate(getParaToInt("p", 1),
                         getParaToInt("size", defaultPageSize()), null, null, 1, label.getInt("id"));
             }

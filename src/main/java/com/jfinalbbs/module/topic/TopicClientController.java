@@ -113,14 +113,14 @@ public class TopicClientController extends BaseController {
         String tid = getPara("tid");
         String token = getPara("token");
         User user = getUser(token);
-        if(StrUtil.isBlank(tid)) {
+        if (StrUtil.isBlank(tid)) {
             error("话题id不能为空");
         } else {
             Topic topic = Topic.me.findById(tid);
-            if(topic == null) {
+            if (topic == null) {
                 error("话题不存在");
             } else {
-                if(user.get("id").equals(topic.get("author_id"))) {
+                if (user.get("id").equals(topic.get("author_id"))) {
                     //删除关联的标签
                     LabelTopicId.me.deleteByTid(tid);
                     topic.delete();

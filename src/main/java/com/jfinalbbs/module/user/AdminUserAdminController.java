@@ -9,7 +9,6 @@ import com.jfinalbbs.utils.PasswordHelper;
 import com.jfinalbbs.utils.StrUtil;
 import com.jfinalbbs.utils.ext.route.ControllerBind;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 
@@ -34,7 +33,7 @@ public class AdminUserAdminController extends BaseController {
     @Before(Tx.class)
     public void add() {
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("roles", Role.me.findAll());
             render("add.ftl");
         } else {
@@ -57,7 +56,7 @@ public class AdminUserAdminController extends BaseController {
     public void edit() {
         Integer id = getParaToInt("id");
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             setAttr("adminUser", AdminUser.me.findById(id));
             setAttr("roles", Role.me.findAll());
             setAttr("uroles", UserRole.me.findByUserId(id));
@@ -69,7 +68,7 @@ public class AdminUserAdminController extends BaseController {
             adminUser.set("id", id)
                     .set("username", username)
                     .set("in_time", new Date());
-            if(StrUtil.notBlank(password)) {
+            if (StrUtil.notBlank(password)) {
                 adminUser.set("password", password);
                 PasswordHelper passwordHelper = new PasswordHelper();
                 passwordHelper.encryptPassword(adminUser);
@@ -88,7 +87,7 @@ public class AdminUserAdminController extends BaseController {
     @Before(Tx.class)
     public void delete() {
         Integer id = getParaToInt("id");
-        if(id == null) {
+        if (id == null) {
             renderError(500);
         } else {
             AdminUser.me.deleteById(id);
@@ -103,13 +102,13 @@ public class AdminUserAdminController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         String username = subject.getPrincipal().toString();
         String method = getRequest().getMethod();
-        if(method.equalsIgnoreCase(Constants.GET)) {
+        if (method.equalsIgnoreCase(Constants.GET)) {
             AdminUser adminUser = AdminUser.me.findByUsername(username);
             setAttr("adminUser", adminUser);
             render("modifypwd.ftl");
-        } else if(method.equalsIgnoreCase(Constants.POST)) {
+        } else if (method.equalsIgnoreCase(Constants.POST)) {
             String password = getPara("password");
-            if(StrUtil.isBlank(password)) {
+            if (StrUtil.isBlank(password)) {
                 setAttr("errMsg", "密码不能为空");
                 render("modifypwd.ftl");
             } else {

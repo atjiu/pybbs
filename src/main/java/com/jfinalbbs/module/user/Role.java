@@ -30,7 +30,7 @@ public class Role extends BaseModel<Role> {
         List<Role> roles = super.findByCache(Constants.SHIROCACHE, Constants.ROLECACHEKEY + username,
                 "select r.* from jfbbs_admin_user u, jfbbs_role r, jfbbs_user_role ur where u.id = ur.uid and r.id = ur.rid and u.username = ?", username);
         Set<String> set = new HashSet<String>();
-        for(Role r: roles) {
+        for (Role r : roles) {
             set.add(r.getStr("name"));
         }
         return set;
@@ -40,7 +40,7 @@ public class Role extends BaseModel<Role> {
         //先删除已经存在的关联
         Db.update("delete from jfbbs_role_permission where rid = ?", roleId);
         //建立新的关联关系
-        for(Integer pid : permissionIds) {
+        for (Integer pid : permissionIds) {
             RolePermission rolePermission = new RolePermission();
             rolePermission.set("rid", roleId)
                     .set("pid", pid)
