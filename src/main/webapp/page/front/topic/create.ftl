@@ -1,8 +1,8 @@
 <#include "/page/front/common/_layout.ftl"/>
 <@html title="发布话题 - ${siteTitle!}" description="发布话题" sidebar_create_info="show" page_tab="topic">
-<link rel="stylesheet" href="${baseUrl!}/static/bootstrap/css/jquery-ui.css"/>
+<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${baseUrl!}/static/wangEditor/css/wangEditor.css">
-<script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="${baseUrl!}/static/wangEditor/js/wangEditor.js"></script>
 
 <div class="panel panel-default">

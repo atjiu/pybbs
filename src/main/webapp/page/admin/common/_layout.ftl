@@ -14,9 +14,11 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/plugins/datatables/dataTables.bootstrap.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${baseUrl!}/static/font-awesome/css/font-awesome.min.css">
+    <#--<link rel="stylesheet" href="${baseUrl!}/static/font-awesome/css/font-awesome.min.css">-->
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${baseUrl!}/static/ionicons/css/ionicons.min.css">
+    <#--<link rel="stylesheet" href="${baseUrl!}/static/ionicons/css/ionicons.min.css">-->
+    <link href="http://cdn.bootcss.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -47,7 +49,8 @@
     <!-- jQuery 2.2.0 -->
     <script src="${baseUrl!}/static/AdminLTE/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+    <#--<script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>-->
+    <script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -93,7 +96,8 @@
 <!-- jQuery Knob Chart -->
 <script src="${baseUrl!}/static/AdminLTE/plugins/knob/jquery.knob.js"></script>
 <!-- daterangepicker -->
-<script src="${baseUrl!}/static/js/moment.min.js"></script>
+<#--<script src="${baseUrl!}/static/js/moment.min.js"></script>-->
+<script src="http://cdn.bootcss.com/moment.js/2.10.6/moment.min.js"></script>
 <script src="${baseUrl!}/static/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="${baseUrl!}/static/AdminLTE/plugins/datepicker/bootstrap-datepicker.js"></script>

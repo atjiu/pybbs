@@ -24,7 +24,7 @@
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/js/material.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-material-design/0.5.8/js/ripples.min.js"></script>
-    <script type="text/javascript" src="${baseUrl!}/static/bootstrap/js/bootstrap-paginator.js"></script>
+    <script type="text/javascript" src="${baseUrl!}/static/js/bootstrap-paginator.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
     <script src="http://cdn.bootcss.com/blueimp-md5/2.1.0/js/md5.min.js"></script>
     <!--[if lt IE 9]>

@@ -11,9 +11,9 @@
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${baseUrl!}/static/font-awesome/css/font-awesome.min.css">
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${baseUrl!}/static/ionicons/css/ionicons.min.css">
+    <link href="http://cdn.bootcss.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="${baseUrl!}/static/AdminLTE/dist/css/AdminLTE.min.css">
     <!-- iCheck -->

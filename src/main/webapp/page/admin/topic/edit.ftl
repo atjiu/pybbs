@@ -1,9 +1,9 @@
 <#include "/page/admin/common/_layout.ftl"/>
 <@layout page_tab="topic">
 <link rel="stylesheet" href="${baseUrl!}/static/wangEditor/css/wangEditor.css">
-<link rel="stylesheet" href="${baseUrl!}/static/bootstrap/css/jquery-ui.css"/>
+<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
 <script src="${baseUrl!}/static/wangEditor/js/wangEditor.js"></script>
-<script src="${baseUrl!}/static/bootstrap/js/jquery-ui.js"></script>
+<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <section class="content-header">
     <h1>
         话题
