@@ -102,25 +102,25 @@ public class JFinalbbsConfig extends JFinalConfig {
     /**
      * 启动完毕所做的处理
      */
-    public void afterJFinalStart() {
-        try {
-            String qq_properties = "qqconnectconfig.properties";
-            Properties qq_prop = PropKit.use(qq_properties).getProperties();
-            qq_prop.setProperty("app_ID", com.jfinalbbs.common.Constants.getValue("qq_appId"));
-            qq_prop.setProperty("app_KEY", com.jfinalbbs.common.Constants.getValue("qq_appKey"));
-            qq_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("qq_redirect_URI"));
-            qq_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + qq_properties), "read db config write to prop file");
-
-            String sina_properties = "weiboconfig.properties";
-            Properties sina_prop = PropKit.use(sina_properties).getProperties();
-            sina_prop.setProperty("client_ID", com.jfinalbbs.common.Constants.getValue("sina_clientId"));
-            sina_prop.setProperty("client_SERCRET", com.jfinalbbs.common.Constants.getValue("sina_clientSercret"));
-            sina_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("sina_redirect_URI"));
-            sina_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + sina_properties), "read db config write to prop file");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void afterJFinalStart() {
+//        try {
+//            String qq_properties = "qqconnectconfig.properties";
+//            Properties qq_prop = PropKit.use(qq_properties).getProperties();
+//            qq_prop.setProperty("app_ID", com.jfinalbbs.common.Constants.getValue("qq_appId"));
+//            qq_prop.setProperty("app_KEY", com.jfinalbbs.common.Constants.getValue("qq_appKey"));
+//            qq_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("qq_redirect_URI"));
+//            qq_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + qq_properties), "read db config write to prop file");
+//
+//            String sina_properties = "weiboconfig.properties";
+//            Properties sina_prop = PropKit.use(sina_properties).getProperties();
+//            sina_prop.setProperty("client_ID", com.jfinalbbs.common.Constants.getValue("sina_clientId"));
+//            sina_prop.setProperty("client_SERCRET", com.jfinalbbs.common.Constants.getValue("sina_clientSercret"));
+//            sina_prop.setProperty("redirect_URI", com.jfinalbbs.common.Constants.getValue("sina_redirect_URI"));
+//            sina_prop.store(new FileOutputStream(PathKit.getRootClassPath() + "/" + sina_properties), "read db config write to prop file");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 建议使用 JFinal 手册推荐的方式启动项目

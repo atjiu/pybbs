@@ -82,7 +82,7 @@ public class ClassSearcher {
                         String close = ".class";
                         int start = fileName.indexOf(open);
                         int end = fileName.indexOf(close, start + open.length());
-                        String className = fileName.substring(start + open.length(), end).replaceAll(File.separator, ".");
+                        String className = fileName.substring(start + open.length(), end).replace(File.separator, ".");
                         classFiles.add(className);
                     }
                 }
