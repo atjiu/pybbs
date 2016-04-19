@@ -4,12 +4,23 @@
 
 ### 服务器环境部署
 
-- clone代码,maven编译打成war包, 或者直接[下载war包](https://github.com/liygheart/jfinalbbs/releases)
+#### jetty运行
+
+- clone代码
 - 将`doc/最新版SQL.sql`脚本在mysql数据库里运行，创建jfinalbbs数据库
+- 修改`src/main/resources`下的`config.properties`文件里的数据库连接
+- 使用jetty运行,命令:`mvn jetty:run`(前提是电脑上安装了maven)
+- 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
+- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+
+#### war包放在tomcat里运行
+
+- clone代码
+- 将`doc/最新版SQL.sql`脚本在mysql数据库里运行，创建jfinalbbs数据库
+- 修改`src/main/resources`下的`config.properties`文件里的数据库连接
+- 使用maven命令:`mvn clean package`,等待编译打包,成功后打开target文件夹,会有一个jfinalbbs.war
 - [下载tomcat](http://tomcat.apache.org),解压
 - 将war包放到`tomcat/webapp`下,启动tomcat(`./bin/startup.sh`)
-- 修改`tomcat/webapp/jfinalbbs/WEB-INF/classes/config.properties`文件的配置(就一个数据库的jdbc连接信息)
-- 重启tomcat
 - 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
 - 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
 
