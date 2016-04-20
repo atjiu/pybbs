@@ -1,5 +1,6 @@
 package com.jfinalbbs.common;
 
+import com.jfinal.kit.PathKit;
 import com.jfinalbbs.module.system.SysConfig;
 
 /**
@@ -11,7 +12,7 @@ public class Constants {
 
     // 系统变量KEY
 //    public static final String UPLOAD_DIR = "/home/www/jfinalbbs/static/upload";
-    public static final String UPLOAD_DIR = "static/upload";
+    public static final String UPLOAD_DIR = PathKit.getWebRootPath() + "/static/upload";
     public static final String UPLOAD_DIR_AVATAR = "avatar";
     public static final String UPLOAD_DIR_LABEL = "label";
     public static final String NOTIFICATION_MESSAGE = "有人@你";

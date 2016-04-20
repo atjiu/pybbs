@@ -170,7 +170,7 @@ public class UserController extends BaseController {
         User user = (User) getSession().getAttribute(Constants.USER_SESSION);
         user.set("avatar", path).update();
         //裁剪图片
-        String realPath = PathKit.getWebRootPath() + "/" + Constants.UPLOAD_DIR + "/avatar/" + uploadFile.getFileName();
+        String realPath = Constants.UPLOAD_DIR + "/avatar/" + uploadFile.getFileName();
         ImageUtil.zoomImage(realPath, realPath, 100, 100);
         redirect("/user/setting");
     }
