@@ -11,7 +11,7 @@
 - 修改`src/main/resources`下的`config.properties`文件里的数据库连接
 - 使用jetty运行,命令:`mvn jetty:run`(前提是电脑上安装了maven)
 - 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
-- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`,默认密码: 123123
 
 #### war包放在tomcat里运行
 
@@ -22,7 +22,7 @@
 - [下载tomcat](http://tomcat.apache.org),解压
 - 将war包放到`tomcat/webapp`下,启动tomcat(`./bin/startup.sh`)
 - 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
-- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`,默认密码: 123123
 
 ### 开发环境部署
 
