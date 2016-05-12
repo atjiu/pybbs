@@ -9,6 +9,7 @@ import com.jfinalbbs.module.label.Label;
 import com.jfinalbbs.module.reply.Reply;
 import com.jfinalbbs.module.section.Section;
 import com.jfinalbbs.module.system.Donate;
+import com.jfinalbbs.module.system.SysConfig;
 import com.jfinalbbs.module.topic.Topic;
 import com.jfinalbbs.module.user.User;
 import com.jfinalbbs.module.valicode.Valicode;
@@ -228,6 +229,10 @@ public class IndexController extends BaseController {
         } else {
             String type = getPara("type");
             String valicode = StrUtil.randomString(6);
+            String emailSender = SysConfig.me.findByKey("siteTitle");
+            if(StrUtil.isBlank(emailSender)){
+                emailSender = "JFinalbbs";
+            }
             if (type.equalsIgnoreCase(Constants.FORGET_PWD)) {
                 User user = User.me.findByEmail(email);
                 if (user == null) {
@@ -245,7 +250,7 @@ public class IndexController extends BaseController {
                     mailBody.append("You retrieve the password verification code is: ")
                             .append(valicode)
                             .append("<br/>The code can only be used once, and only valid for 30 minutes.");
-                    EmailSender.sendMail("JFinalbbs－Forgot password codes",
+                    EmailSender.sendMail(emailSender + "－Forgot password codes",
                             new String[]{email}, mailBody.toString());
                     success();
                 }
@@ -266,7 +271,7 @@ public class IndexController extends BaseController {
                     mailBody.append("Register your account verification code is: ")
                             .append(valicode)
                             .append("<br/>The code can only be used once, and only valid for 30 minutes.");
-                    EmailSender.sendMail("JFinalbbs－Registered Account codes", new String[]{email}, mailBody.toString());
+                    EmailSender.sendMail(emailSender + "－Registered Account codes", new String[]{email}, mailBody.toString());
                     success();
                 }
             }
