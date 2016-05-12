@@ -10,8 +10,8 @@
 - 将`doc/最新版SQL.sql`脚本在mysql数据库里运行，创建jfinalbbs数据库
 - 修改`src/main/resources`下的`config.properties`文件里的数据库连接
 - 使用jetty运行,命令:`mvn jetty:run`(前提是电脑上安装了maven)
-- 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
-- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+- 打开浏览器,输入`http://localhost:8080`回车
+- 后台访问路径`http://localhost:8080/admin/index`,默认密码: 123123
 
 #### war包放在tomcat里运行
 
@@ -22,7 +22,7 @@
 - [下载tomcat](http://tomcat.apache.org),解压
 - 将war包放到`tomcat/webapp`下,启动tomcat(`./bin/startup.sh`)
 - 打开浏览器,输入`http://localhost:8080/jfinalbbs`回车
-- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`
+- 后台访问路径`http://localhost:8080/jfinalbbs/admin/index`,默认密码: 123123
 
 ### 开发环境部署
 
@@ -30,6 +30,7 @@
 - 使用maven编译
 - 运行`JFinalbbsConfig.java`类里的main方法
 - 浏览器访问`http://localhost:8080/`
+- 后台访问路径`http://localhost:8080/admin/index`,默认密码: 123123
 
 # 碰到问题怎么办?
 
