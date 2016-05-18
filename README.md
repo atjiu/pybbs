@@ -1,5 +1,7 @@
 ### 友情提醒: 使用jfinalbbs的代码搭建自己的社区网站,不能删除页面底部的 powered by [JFinalbbs](http://jfinalbbs.com) ,如果嫌位置不好看,可以在页面其他显眼的地方加上提供者:[JFinalbbs](http://jfinalbbs.com), 谢谢配合
 
+[![Build Status](https://travis-ci.org/liygheart/jfinalbbs.svg?branch=master)](https://travis-ci.org/liygheart/jfinalbbs)
+
 # 如何开始
 
 ### 服务器环境部署
