@@ -16,6 +16,25 @@
                 <li <#if page_tab == 'label'> class="active" </#if>><a href="${baseUrl!}/label">标签</a></li>
                 <li <#if page_tab == 'api'> class="active" </#if>><a href="${baseUrl!}/api">API</a></li>
             </ul>
+            <span class="hidden-xs hidden-sm">
+                <form class="navbar-form navbar-left" id="search_form" role="search" method="get" action="${baseUrl!}/">
+                    <div class="form-group has-feedback">
+                        <input type="text" name="q" class="form-control" style="width: 240px;" value="${q!}"
+                               placeholder="回车搜索" onkeypress="enterSearch(event)">
+                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="line-height: 28px;"></span>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    function enterSearch(e) {
+                        var e = e || window.event;
+                        if(e.keyCode == 13) {
+                            if($.trim($("input[name='q']").val()) != "") {
+                                $("#search_form").submit();
+                            }
+                        }
+                    }
+                </script>
+            </span>
             <ul class="nav navbar-nav navbar-right">
                 <li <#if page_tab == 'donate'> class="active" </#if>><a href="${baseUrl!}/donate">捐赠</a></li>
                 <li <#if page_tab == 'service'> class="active" </#if>><a href="${baseUrl!}/service">服务</a></li>
@@ -36,7 +55,9 @@
                         </ul>
                     </li>
                 <#else>
-                    <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/oauth/githublogin">Github登录</a></li>
+                    <#--<li><a href="javascript:void(0);" data-toggle="modal" data-target="#loginModal">登录</a></li>-->
+                    <li <#if page_tab == 'login'> class="active" </#if>><a href="${baseUrl!}/login.html">登录</a></li>
+                    <li <#if page_tab == 'reg'> class="active" </#if>><a href="${baseUrl!}/reg.html">注册</a></li>
                 </#if>
             </ul>
         </div>
