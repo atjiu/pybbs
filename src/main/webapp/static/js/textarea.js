@@ -85,7 +85,7 @@
     $("#content").keydown(function (e) {
         var content = $(this);
         //插入粗体快捷键
-        if (e.ctrlKey && e.keyCode == 66) {//ctrl+b
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 66) {//ctrl+b
             e.preventDefault();
             var selectVal = content.getSelection();
             if (selectVal.length > 0) {
@@ -96,7 +96,7 @@
             }
         }
         //插入斜体快捷键
-        if (e.ctrlKey && e.keyCode == 73) {//ctrl+i
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 73) {//ctrl+i
             e.preventDefault();
             var selectVal = content.getSelection();
             if (selectVal.length > 0) {
@@ -107,7 +107,7 @@
             }
         }
         //插入链接快捷键
-        if (e.ctrlKey && e.keyCode == 76) {//ctrl+l
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 76) {//ctrl+l
             e.preventDefault();
             if(content.val().length == 0) {
                 content.insertAtCousor("[链接内容](链接地址)");
@@ -118,7 +118,7 @@
             content.setSelection(currentPosition - 11, currentPosition - 7);
         }
         //插入图片快捷键
-        if (e.ctrlKey && e.keyCode == 71) {//ctrl+g
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 71) {//ctrl+g
             e.preventDefault();
             if(content.val().length == 0) {
                 content.insertAtCousor("![image](图片地址)");
@@ -129,7 +129,7 @@
             content.setSelection(currentPosition - 5, currentPosition - 1);
         }
         //插入代码快捷键
-        if (e.ctrlKey && e.keyCode == 75) {//ctrl+k
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 75) {//ctrl+k
             e.preventDefault();
             if(content.val().length == 0) {
                 content.insertAtCousor("```\r\n代码内容\r\n```");
@@ -140,7 +140,7 @@
             content.setSelection(currentPosition - 8, currentPosition - 4);
         }
         //插入hr快捷键
-        if (e.ctrlKey && e.keyCode == 82) {//ctrl+r
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 82) {//ctrl+r
             e.preventDefault();
             if(content.val().length == 0) {
                 content.insertAtCousor("----------\r\n");
@@ -149,7 +149,7 @@
             }
         }
         //插入heading快捷键
-        if (e.ctrlKey && e.keyCode == 72) {//ctrl+h
+        if ((e.ctrlKey || e.metaKey) && e.keyCode == 72) {//ctrl+h
             e.preventDefault();
             if(content.val().length == 0) {
                 content.insertAtCousor("## 标题内容");
