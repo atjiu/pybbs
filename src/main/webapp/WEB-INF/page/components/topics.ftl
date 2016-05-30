@@ -9,7 +9,13 @@
                 <a href="/t/${topic.id!}">${topic.title!}</a>
             </div>
             <p>
-                <a href="#">${topic.getNameByTab(topic.tab)}</a>
+                <#if topic.isTop(topic) == "true">
+                    <span class="label label-primary">置顶</span>
+                <#elseif topic.isGood(topic) == "true">
+                    <span class="label label-success">精华</span>
+                <#else>
+                    <a href="/?tab=${topic.tab!}">${topic.getNameByTab(topic.tab)}</a>
+                </#if>
                 <span>&nbsp;•&nbsp;</span>
                 <span><a href="/user/${topic.author!}">${topic.author!}</a></span>
                 <span class="hidden-sm hidden-xs">&nbsp;•&nbsp;</span>
@@ -20,7 +26,7 @@
                 <span>${topic.formatDate(topic.in_time)}</span>
                 <#if topic.last_reply_author?? && topic.last_reply_author != "">
                     <span>&nbsp;•&nbsp;</span>
-                    <span>最后回复来自 <a href="#">${topic.last_reply_author!}</a></span>
+                    <span>最后回复来自 <a href="/user/${topic.last_reply_author!}">${topic.last_reply_author!}</a></span>
                 </#if>
             </p>
         </div>

@@ -71,6 +71,6 @@ public class Reply extends BaseModel<Reply> {
      * @param tid
      */
     public void deleteByTid(Integer tid) {
-        Db.update("update pybbs_reply set isdelete = 1 where tid = ?", tid);
+        Db.update("update pybbs_reply set isdelete = ? where tid = ?", true, tid);
     }
 }

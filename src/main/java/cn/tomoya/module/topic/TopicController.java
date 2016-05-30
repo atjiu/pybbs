@@ -42,8 +42,8 @@ public class TopicController extends BaseController {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             //处理一下置顶，精华
-            topic.put("_top", topic.getBoolean("top")?"置顶":"取消置顶");
-            topic.put("_good", topic.getBoolean("good")?"加精":"取消加精");
+            topic.put("_top", topic.getBoolean("top")?"取消置顶":"置顶");
+            topic.put("_good", topic.getBoolean("good")?"取消加精":"加精");
             //查询追加内容
             List<TopicAppend> topicAppends = TopicAppend.me.findByTid(tid);
             //话题浏览次数+1

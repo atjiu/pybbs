@@ -1,10 +1,10 @@
 package cn.tomoya.common;
 
-import cn.tomoya.module.user.User;
-import com.jfinal.plugin.activerecord.Model;
 import cn.tomoya.module.section.Section;
+import cn.tomoya.module.user.User;
 import cn.tomoya.utils.MarkdownUtil;
 import cn.tomoya.utils.StrUtil;
+import com.jfinal.plugin.activerecord.Model;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.Date;

@@ -7,8 +7,14 @@
                 <div class="media">
                     <div class="media-body">
                         <h2 class="topic-detail-title">${topic.title!}</h2>
-
                         <p class="gray">
+                            <#if topic.isTop(topic) == "true">
+                                <span class="label label-primary">置顶</span>
+                                <span>&nbsp;•&nbsp;</span>
+                            <#elseif topic.isGood(topic) == "true">
+                                <span class="label label-success">精华</span>
+                                <span>&nbsp;•&nbsp;</span>
+                            </#if>
                             <span><a href="/user/${topic.author!}">${topic.author!}</a></span>
                             <span>&nbsp;•&nbsp;</span>
                             <span>${topic.formatDate(topic.in_time)}</span>

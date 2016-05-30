@@ -42,7 +42,10 @@ public class ReplyController extends BaseController {
                         .save();
                 //topic reply_count++
                 Topic topic = Topic.me.findById(tid);
-                topic.set("reply_count", topic.getInt("reply_count") + 1).update();
+                topic.set("reply_count", topic.getInt("reply_count") + 1)
+                        .set("last_reply_time", now)
+                        .set("last_reply_author", user.getStr("nickname"))
+                        .update();
                 user.set("score", user.getInt("score") + 5).update();
                 //清理缓存，保持数据最新
                 clearCache(Constants.TOPIC_CACHE, Constants.TOPIC_CACHE_KEY + topic.getInt("id"));

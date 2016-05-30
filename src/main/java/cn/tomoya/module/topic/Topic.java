@@ -150,7 +150,7 @@ public class Topic extends BaseModel<Topic> {
      * @param id
      */
     public void deleteById(Integer id) {
-        Db.update("update pybbs_topic set isdelete = 1 where id = ?", id);
+        Db.update("update pybbs_topic set isdelete = ? where id = ?", true, id);
     }
 
     /**
@@ -169,6 +169,32 @@ public class Topic extends BaseModel<Topic> {
     public void good(Integer id) {
         Topic topic = findById(id);
         topic.set("good", !topic.getBoolean("good")).update();
+    }
+
+    /**
+     * 转换置顶状态
+     * @param topic
+     * @return
+     */
+    public String isTop(Topic topic) {
+        if(topic.getBoolean("top")) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
+    /**
+     * 转换精华状态
+     * @param topic
+     * @return
+     */
+    public String isGood(Topic topic) {
+        if(topic.getBoolean("good")) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 
 }
