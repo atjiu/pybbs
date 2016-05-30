@@ -1,7 +1,4 @@
 /**
- * Created by tomoya on 15/10/14.
- */
-/**
  * marked - a markdown parser
  * Copyright (c) 2011-2014, Christopher Jeffrey. (MIT Licensed)
  * https://github.com/chjj/marked
@@ -47,9 +44,9 @@
     ();
 
     block._tag = '(?!(?:'
-        + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code'
-        + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo'
-        + '|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b';
+    + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code'
+    + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo'
+    + '|span|br|wbr|ins|del|img)\\b)\\w+(?!:/|[^\\w\\s@]*@)\\b';
 
     block.html = replace(block.html)
     ('comment', /<!--[\s\S]*?-->/)
@@ -85,8 +82,8 @@
 
     block.gfm.paragraph = replace(block.paragraph)
     ('(?!', '(?!'
-        + block.gfm.fences.source.replace('\\1', '\\2') + '|'
-        + block.list.source.replace('\\1', '\\3') + '|')
+    + block.gfm.fences.source.replace('\\1', '\\2') + '|'
+    + block.list.source.replace('\\1', '\\3') + '|')
     ();
 
     /**
@@ -826,7 +823,7 @@
     };
 
     Renderer.prototype.table = function(header, body) {
-        return '<table class="table table-bordered">\n'
+        return '<table>\n'
             + '<thead>\n'
             + header
             + '</thead>\n'
@@ -882,7 +879,7 @@
                 return '';
             }
         }
-        var out = '<a target="_blank" href="' + href + '"';
+        var out = '<a href="' + href + '"';
         if (title) {
             out += ' title="' + title + '"';
         }
@@ -900,8 +897,7 @@
     };
 
     Renderer.prototype.text = function(text) {
-        var out = text.replace(/\n/g, '<br/>');
-        return out;
+        return text;
     };
 
     /**
@@ -1244,9 +1240,9 @@
     marked.defaults = {
         gfm: true,
         tables: true,
-        breaks: false,
+        breaks: true,
         pedantic: false,
-        sanitize: false,
+        sanitize: true,//输出html，不解析
         sanitizer: null,
         mangle: true,
         smartLists: false,

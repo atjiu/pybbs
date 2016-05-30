@@ -26,22 +26,27 @@
             maxElementsInMemory="10000"
             eternal="false"
             timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            timeToLiveSeconds="180"
             overflowToDisk="true"
             maxElementsOnDisk="10000000"
             diskPersistent="true"
             diskExpiryThreadIntervalSeconds="120"
-            memoryStoreEvictionPolicy="LRU"
-            />
+            memoryStoreEvictionPolicy="LRU"/>
 
-    <!-- 登录记录缓存 锁定10分钟 -->
-    <cache name="passwordRetryCache"
-           maxEntriesLocalHeap="2000"
+    <cache name="user_topics_cache"
+           maxElementsInMemory="10000"
            eternal="false"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="180"
+           overflowToDisk="true"
+           memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="user_replies_cache"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="180"
+           overflowToDisk="true"
+           memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>

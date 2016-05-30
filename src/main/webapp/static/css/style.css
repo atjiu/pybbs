@@ -1,294 +1,76 @@
 body {
-    margin: 0;
-    height: 100%;
-    font-size: 14px;
-    background-color: #fafafa;
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
-@media (min-width: 1200px) {
-    .container {
-        width: 1100px;
-    }
-}
-::selection{
-    background-color: #009688;
-    color: #fff;
-}
-a:link, a:visited, a:active {
-    color: #444;
-    text-decoration: none;
-    word-break: break-all;
-}
-a:hover {
-    color: #4d5256;
-    text-decoration: underline;
-}
-ul, ol {
-    padding-left: 25px;
-}
-.item-title {
-    color: #155faa;
-    /*font-size: 16px;*/
-    line-height: 130%;
-    text-shadow: 0px 1px 0px #fff;
-    word-wrap: break-word;
-    hyphens: auto;
-}
-a.node:link, a.node:visited, a.node:active {
-    background-color: #f5f5f5;
-    font-size: 10px;
-    line-height: 10px;
-    display: inline-block;
-    padding: 4px 4px 4px 4px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    text-decoration: none;
-    color: #999;
-}
-a.node:hover {
-    text-decoration: none;
-    background-color: #e2e2e2;
-    color: #777;
-}
-.dgray {
-    color: #ccc;
-}
-.mar-5 {
-    margin: 5px 0;
-}
-.small-fade {
-    color: #ccc;
-    font-size: 11px;
-}
-.small-gray {
-    color: #999;
-    font-size: 12px;
-}
-.content-wrap {
-    background-color: #fafafa;
-}
-.ellipsis-1 {
+
+.wrapper {
     width: 100%;
-    height: 20px;
-    line-height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    background-color: #e2e2e2;
 }
-.spacer, .YK_set .spacer {
-    clear: both;
-    height: 1px;
-    line-height: 1px;
-    overflow: hidden;
-    margin: 20px auto;
-    background: transparent url("../img/spacer.png") repeat-x scroll 0 0;
+
+.title a:visited {
+    color: #888;
 }
-.panel-body {
-    word-wrap: break-word;
-}
-.panel-body p {
-    line-height: 1.7;
-}
-#topic_title {
-    font-size: 22px;
-    font-weight: 700;
-    vertical-align: middle;
-}
-#topic_content img{
-    max-width: 100%;
-}
-#topic_footer {
-    padding: 0 5px;
-}
-#topic_footer .btn{
-    margin: 5px 1px;
-    padding: 4px 5px;
-}
-#topic_footer .collect-count {
-    color: #999;
-    font-size: 12px;
-    padding-right: 5px;
-    line-height: 35px;
-    text-shadow: 0px 1px 0px #fff;
-}
-.reply_content img {
-    max-width: 100%;
-}
-#reply_content {
-    margin-bottom: 5px;
-}
-.reply_content {
-    margin-left: 24px;
-}
-.np-label-digest {
-    background: url(../img/digest.gif) no-repeat;
-}
-.np-label-del {
-    background: url(../img/del.gif) right 10px no-repeat;
-}
-.modal-body img{
-    max-width: 100%;
-}
-.label-item {
-    margin-right: 3px;
-    padding: .6em;
-}
-.label-item-sm {
-    margin-right: 3px;
-    padding: .1em;
-}
-.label-item a {
-    font-size: 16px;
-}
-#labels {
-    line-height: 20px;
-}
-#labels .label {
-    overflow: hidden;
-    display: inline-block;
-}
-.col-md-9, .col-md-3 {
-    background-color: #fafafa;
-}
-@media (min-width: 992px) {
-    .navbar {
-        margin-bottom: 20px;
-    }
-    .col-md-9 {
-        padding-right: 5px;
-    }
-    .col-md-3 {
-        padding-left: 5px;
-    }
-    .footer {
-        margin-top: 10px;
-    }
-}
-@media (max-width: 768px) {
-    .navbar {
-        margin-bottom: 10px;
-    }
-    .col-md-3, .col-md-9 {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-    .footer {
-        margin-top: 0;
-    }
-}
-.navbar .navbar-brand {
-    height: 50px;
-    padding: 10px 15px;
-}
-.navbar .navbar-form {
-    margin-top: 10px;
-}
-.navbar .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-.nav-pills>li>a {
-    padding: 0 5px;
-}
-#links>li:first-child {
-    padding: 5px 0;
-}
-#links>li>a {
-    padding: 5px 10px;
-}
-.breadcrumb {
-    padding: 0px 15px 0px 5px;
-    margin-bottom: 0px;
-    background-color: transparent!important;
-}
-.breadcrumb ol {
-    margin-bottom: 0px;
-}
-.panel {
-    margin-bottom: 10px;
-}
-.ot-tab-heading {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-.navbar {
-    border: 0;
-}
-#backtotop {
-    width: 24px;
-    color: gray;
-    padding: 12px 0 12px 5px;
-    display: none;
-    position: fixed;
-    cursor: pointer;
-    text-align: center;
-    z-index: 20;
-    background-color: #fff;
-    display: none;
-    top: 502px;
-    right: 0px;
-}
+
 .avatar {
-    width: 48px;
     border-radius: 4px;
+    max-width: 48px;
 }
-.big-avatar {
-    width: 73px;
+
+.avatar-lg {
     border-radius: 4px;
+    max-width: 64px;
 }
-.signature {
-    color: #7A7A7A;
-    font-size: 12px;
+
+.title {
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 5px;
 }
-.media {
-    margin-top: 10px;
+
+.topic-detail-header {
+    padding-bottom: 0;
 }
-.pagination {
-    margin: 0 0 10px 15px;
+
+.topic-detail-title {
+    margin-top: 0;
+    font-weight: 500;
 }
-.divide {
+
+.topic-append-content {
+    background-color: #fffff9;
+}
+
+.gray {
+    color: #999;
+}
+
+.mar-top-5 {
     margin-top: 5px;
+}
+
+.pad-bot-10 {
+    padding-bottom: 10px;
+}
+
+.divide {
     border-top: 1px solid #f5f5f5;
 }
-.breadcrumb {
-    background-color: #ffffff;
+
+.header-navbar li a {
+    padding-left: 15px;
+    padding-right: 15px;
 }
-.topic-label {
-    margin-top: 10px;
-}
-.form-group {
+
+.paginate-bot {
     padding-bottom: 0;
-    margin: 5px;
 }
-.footer {
-    background-color: #fff;
-    padding: 20px 0;
-    text-align: center;
+.permission-item.active a {
+    color: white;
 }
-.item_node {
-    font-size: 12px;
-    line-height: 12px;
-    padding: 4px 10px 4px 10px;
-    margin: 0px 5px 5px 0px;
-    border-radius: 4px;
-    display: inline-block;
-    border: 1px solid #e5e5e5;
+.reply-content img {
+    max-width: 100%;
 }
-
-.item_node:hover {
-    text-decoration: none;
-    color: #333;
-    border: 1px solid #ccc;
-    box-shadow: 0px 1px 2px rgba(0, 0, 32, 0.1);
-}
-
-.item_node:active {
-    text-decoration: none;
-    background-color: #f9f9f9;
-    color: #333;
-    border: 1px solid #ccc;
-    box-shadow: 0px 1px 2px rgba(0, 0, 32, 0.1) inset;
-    outline: none;
+.panel td {
+    padding-left: 15px!important;
+    padding-right: 15px!important;
 }

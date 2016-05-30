@@ -11,9 +11,8 @@
 hs_err_pid*
 
 .idea/
-jfinalbbs.iml
-jfinalbbs.log
+pybbs.iml
+pybbs.log
 target/
 out/
-src/main/webapp/page/front/service.ftl
-src/main/webapp/page/front/donate.ftl
+dev.config.properties
