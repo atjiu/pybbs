@@ -2,6 +2,7 @@ package cn.tomoya.module.system;
 
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
+import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.user.User;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -13,7 +14,7 @@ import cn.tomoya.interceptor.UserInterceptor;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 @Before({
         UserInterceptor.class,

@@ -9,7 +9,7 @@ import com.jfinal.plugin.activerecord.Page;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 public class Reply extends BaseModel<Reply> {
 
@@ -37,7 +37,6 @@ public class Reply extends BaseModel<Reply> {
     public Page<Reply> page(Integer pageNumber, Integer pageSize, Integer tid) {
         int count = this.findCountByTid(tid);
         pageNumber = pageNumber == null ? (int)(count / PropKit.getInt("replyPageSize")) + 1 : pageNumber;
-        System.out.println(pageNumber);
         return super.paginate(
                 pageNumber,
                 pageSize,

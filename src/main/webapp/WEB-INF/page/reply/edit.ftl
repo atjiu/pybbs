@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 </@html>

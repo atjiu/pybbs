@@ -16,6 +16,11 @@ body {
     max-width: 48px;
 }
 
+.avatar-sm {
+    border-radius: 4px;
+    max-width: 24px;
+}
+
 .avatar-lg {
     border-radius: 4px;
     max-width: 64px;
@@ -42,6 +47,15 @@ body {
 
 .gray {
     color: #999;
+}
+.payload {
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 5px 10px 5px 10px;
+    word-break: break-all;
+    word-wrap: break-word;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .mar-top-5 {
@@ -71,6 +85,10 @@ body {
     max-width: 100%;
 }
 .panel td {
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+}
+.panel th {
     padding-left: 15px!important;
     padding-right: 15px!important;
 }

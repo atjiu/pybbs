@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 public class User extends BaseModel<User> {
     public static final User me = new User();

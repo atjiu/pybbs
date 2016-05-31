@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 @ControllerBind(controllerKey = "/", viewPath = "WEB-INF/page")
 public class IndexController extends BaseController {
@@ -93,6 +93,13 @@ public class IndexController extends BaseController {
      */
     public void top100() {
         render("top100.ftl");
+    }
+
+    /**
+     * 捐赠
+     */
+    public void donate() {
+        render("donate.ftl");
     }
 
     /**

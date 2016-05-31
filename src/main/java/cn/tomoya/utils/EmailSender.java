@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 public class EmailSender {
 
@@ -26,7 +26,9 @@ public class EmailSender {
     private String charset = "utf-8";
 
     private static EmailSender emailSender;
-
+    static{
+        PropKit.use("config.properties");
+    }
     public static EmailSender getInstance() {
         if (emailSender == null) {
             emailSender = new EmailSender();
@@ -54,10 +56,10 @@ public class EmailSender {
             Session session = Session.getDefaultInstance(props, auth);
             // 设置session,和邮件服务器进行通讯。
             MimeMessage message = new MimeMessage(session);
-            // message.setContent("foobar, "application/x-foobar"); // 设置邮件格式
+            // notification.setContent("foobar, "application/x-foobar"); // 设置邮件格式
             message.setSubject(subject == null ? MAIL_SUBJECT : subject, charset); // 设置邮件主题
             message.setText("<html><head><meta charset='utf-8'></head><body>" + mailBody + "</body></html>", charset, "html"); // 设置邮件正文
-//          message.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
+//          notification.setHeader(mail_head_name, mail_head_value); // 设置邮件标题
             message.setSentDate(new Date()); // 设置邮件发送日期
             Address address = new InternetAddress(mail_from, sender);
             message.setFrom(address); // 设置邮件发送者的地址

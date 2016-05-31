@@ -13,13 +13,16 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse header-navbar">
             <ul class="nav navbar-nav navbar-right">
+                <li <#if page_tab == 'donate'> class="active" </#if>>
+                    <a href="/donate">捐赠</a>
+                </li>
                 <li <#if page_tab == 'about'> class="active" </#if>>
                     <a href="/about">关于</a>
                 </li>
                 <#if userinfo??>
-                    <#--<li <#if page_tab == 'message'> class="active" </#if>>-->
-                        <#--<a href="#">通知 <span class="badge" id="badge"></span></a>-->
-                    <#--</li>-->
+                    <li <#if page_tab == 'notification'> class="active" </#if>>
+                        <a href="/notification">通知 <span class="badge" id="badge">${notifications!}</span></a>
+                    </li>
                     <li <#if page_tab == 'user'> class="active" </#if>>
                         <a href="/user/${userinfo.nickname!}">
                             ${userinfo.nickname!}

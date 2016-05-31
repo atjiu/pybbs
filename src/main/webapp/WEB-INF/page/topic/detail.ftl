@@ -10,37 +10,37 @@
                         <p class="gray">
                             <#if topic.isTop(topic) == "true">
                                 <span class="label label-primary">置顶</span>
-                                <span>&nbsp;•&nbsp;</span>
+                                <span>•</span>
                             <#elseif topic.isGood(topic) == "true">
                                 <span class="label label-success">精华</span>
-                                <span>&nbsp;•&nbsp;</span>
+                                <span>•</span>
                             </#if>
                             <span><a href="/user/${topic.author!}">${topic.author!}</a></span>
-                            <span>&nbsp;•&nbsp;</span>
+                            <span>•</span>
                             <span>${topic.formatDate(topic.in_time)}</span>
-                            <span>&nbsp;•&nbsp;</span>
+                            <span>•</span>
                             <span>${topic.view!1}次点击</span>
-                            <span>&nbsp;•&nbsp;</span>
+                            <span>•</span>
                             <span>来自 <a href="/?tab=${section.tab!}">${section.name!}</a></span>
                             <#if userinfo??>
                                 <#if userinfo.id == authorinfo.id>
-                                    <span>&nbsp;•&nbsp;</span>
+                                    <span>•</span>
                                     <span><a href="/t/append/${topic.id}">内容追加</a></span>
                                 </#if>
                                 <@py.hasPermission name="topic:edit" id="${userinfo.id!}">
-                                    <span>&nbsp;•&nbsp;</span>
+                                    <span>•</span>
                                     <span><a href="/t/edit?id=${topic.id}">编辑</a></span>
                                 </@py.hasPermission>
                                 <@py.hasPermission name="topic:delete" id="${userinfo.id!}">
-                                    <span>&nbsp;•&nbsp;</span>
+                                    <span>•</span>
                                     <span><a href="javascript:if(confirm('确定要删除吗？'))location.href='/t/delete?id=${topic.id}'">删除</a></span>
                                 </@py.hasPermission>
                                 <@py.hasPermission name="topic:top" id="${userinfo.id!}">
-                                    <span>&nbsp;•&nbsp;</span>
+                                    <span>•</span>
                                     <span><a href="javascript:if(confirm('确定要${topic._top!}吗？'))location.href='/t/top?id=${topic.id}'">${topic._top!}</a></span>
                                 </@py.hasPermission>
                                 <@py.hasPermission name="topic:good" id="${userinfo.id!}">
-                                    <span>&nbsp;•&nbsp;</span>
+                                    <span>•</span>
                                     <span><a href="javascript:if(confirm('确定要${topic._good!}吗？'))location.href='/t/good?id=${topic.id}'">${topic._good!}</a></span>
                                 </@py.hasPermission>
                             </#if>
@@ -62,11 +62,11 @@
                 <div class="panel-body topic-append-content">
                     <p class="gray">
                         <span>第 ${topicAppend_index + 1} 条追加</span>
-                        <span>&nbsp;•&nbsp;</span>
+                        <span>•</span>
                         <span>${topicAppend.formatDate(topicAppend.in_time)}</span>
                         <#if userinfo??>
                             <@py.hasPermission name="topic:appendedit" id="${userinfo.id!}">
-                                <span>&nbsp;•&nbsp;</span>
+                                <span>•</span>
                                 <a href="/t/appendedit?id=${topicAppend.id!}">编辑</a>
                             </@py.hasPermission>
                         </#if>
@@ -122,7 +122,7 @@
             </div>
         </#if>
     </div>
-    <div class="col-md-3 hidden-sm hidden-xs">
+    <div class="col-md-3 hidden-sm hidden-xs hidden-sm hidden-xs">
         <#include "../components/authorinfo.ftl"/>
         <@info/>
         <#include "../components/othertopics.ftl"/>

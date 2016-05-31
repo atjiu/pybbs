@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 hidden-sm hidden-xs">
             <#if userinfo??>
                 <#include "../components/userinfo.ftl">
                 <@info/>

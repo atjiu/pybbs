@@ -1,5 +1,6 @@
 package cn.tomoya.interceptor;
 
+import cn.tomoya.module.notification.Notification;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
@@ -14,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 public class CommonInterceptor implements Interceptor {
 
@@ -30,6 +31,8 @@ public class CommonInterceptor implements Interceptor {
             if(user == null) {
                 controller.removeCookie(Constants.USER_ACCESS_TOKEN, "/", PropKit.get("cookie.domain"));
             } else {
+                int count = Notification.me.findNotReadCount(user.getStr("nickname"));
+                controller.setAttr("notifications", count == 0 ? null : count);
                 controller.setAttr("userinfo", user);
             }
         }

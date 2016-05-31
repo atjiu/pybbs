@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 @ControllerBind(controllerKey = "/user", viewPath = "WEB-INF/page")
 public class UserController extends BaseController {

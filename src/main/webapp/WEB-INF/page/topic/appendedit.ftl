@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 hidden-sm hidden-xs">
         <#include "../components/userinfo.ftl">
             <@info/>
     </div>

@@ -4,18 +4,22 @@ import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
+import cn.tomoya.module.notification.Notification;
+import cn.tomoya.module.notification.NotificationEnum;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.module.user.User;
+import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.tx.Tx;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 @ControllerBind(controllerKey = "/r", viewPath = "WEB-INF/page")
 public class ReplyController extends BaseController {
@@ -47,6 +51,33 @@ public class ReplyController extends BaseController {
                         .set("last_reply_author", user.getStr("nickname"))
                         .update();
                 user.set("score", user.getInt("score") + 5).update();
+                //发送通知
+                //回复者与话题作者不是一个人的时候发送通知
+                if(!user.getStr("nickname").equals(topic.getStr("author"))) {
+                    Notification.me.sendNotification(
+                            user.getStr("nickname"),
+                            topic.getStr("author"),
+                            NotificationEnum.REPLY.name(),
+                            tid,
+                            content
+                    );
+                }
+                //检查回复内容里有没有at用户,有就发通知
+                List<String> atUsers = StrUtil.fetchUsers(content);
+                for(String u: atUsers) {
+                    if(!u.equals(topic.getStr("author"))) {
+                        User _user = User.me.findByNickname(u);
+                        if (_user != null) {
+                            Notification.me.sendNotification(
+                                    user.getStr("nickname"),
+                                    _user.getStr("nickname"),
+                                    NotificationEnum.AT.name(),
+                                    tid,
+                                    content
+                            );
+                        }
+                    }
+                }
                 //清理缓存，保持数据最新
                 clearCache(Constants.TOPIC_CACHE, Constants.TOPIC_CACHE_KEY + topic.getInt("id"));
                 clearCache(Constants.USER_REPLIES_CACHE, null);

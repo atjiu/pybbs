@@ -3,6 +3,9 @@ package cn.tomoya.module.collect;
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
+import cn.tomoya.module.notification.Notification;
+import cn.tomoya.module.notification.NotificationEnum;
+import cn.tomoya.module.topic.Topic;
 import cn.tomoya.module.user.User;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -12,7 +15,7 @@ import java.util.Date;
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://jfinalbbs.com
+ * http://bbs.tomoya.cn
  */
 @ControllerBind(controllerKey = "/collect", viewPath = "WEB-INF/page")
 public class CollectController extends BaseController {
@@ -23,12 +26,23 @@ public class CollectController extends BaseController {
     @Before(UserInterceptor.class)
     public void add() {
         Integer tid = getParaToInt("tid");
+        Date now = new Date();
         User user = getUser();
         Collect collect = new Collect();
         collect.set("tid", tid)
                 .set("uid", user.getInt("id"))
-                .set("in_time", new Date())
+                .set("in_time", now)
                 .save();
+        Topic topic = Topic.me.findById(tid);
+        //创建通知
+        Notification.me.sendNotification(
+                user.getStr("nickname"),
+                topic.getStr("author"),
+                NotificationEnum.COLLECT.name(),
+                tid,
+                ""
+        );
+        //清理缓存
         clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid);
         clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid + "_" + user.getInt("id"));
         redirect("/t/" + tid);
