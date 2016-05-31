@@ -42,6 +42,8 @@
                             <div class="divide mar-top-5"></div>
                         </#if>
                     </#list>
+                    <#include "../components/paginate.ftl"/>
+                    <@paginate currentPage=page.getPageNumber() totalPage=page.getTotalPage() actionUrl="/notifications"/>
                 </div>
             </div>
         </div>

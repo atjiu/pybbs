@@ -42,14 +42,13 @@ DROP TABLE IF EXISTS `pybbs_notification`;
 
 CREATE TABLE `pybbs_notification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `message` varchar(255) NOT NULL COMMENT '消息内容',
-  `read` int(11) NOT NULL COMMENT '是否已读：0默认 1已读',
-  `from_author_id` varchar(32) NOT NULL COMMENT '来源用户id',
-  `author_id` varchar(32) NOT NULL COMMENT '目标用户id',
-  `target_id` varchar(255) DEFAULT NULL COMMENT '目标id',
+  `read` tinyint(1) NOT NULL COMMENT '是否已读：0默认 1已读',
+  `author` varchar(50) NOT NULL DEFAULT '' COMMENT '发起通知用户昵称',
+  `target_author` varchar(50) NOT NULL COMMENT '要通知用户的昵称',
   `in_time` datetime NOT NULL COMMENT '录入时间',
-  `action` varchar(255) DEFAULT NULL COMMENT '通知动作',
-  `source` varchar(32) DEFAULT NULL COMMENT '通知来源',
+  `action` varchar(255) NOT NULL DEFAULT '' COMMENT '通知动作',
+  `tid` int(11) NOT NULL COMMENT '话题id',
+  `content` longtext,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
