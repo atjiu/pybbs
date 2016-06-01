@@ -86,11 +86,11 @@ public class OauthController extends BaseController {
                         .set("score", 0)
                         .set("github_id", String.valueOf(githubId))
                         .set("isblock", false)
+                        .set("access_token", access_token)
                         .set("receive_msg", true);//邮箱接收社区消息
                 flag = false;
             }
             user.set("nickname", login)
-                    .set("access_token", access_token)
                     .set("avatar", avatar_url)
                     .set("email", email)
                     .set("url", html_url)
