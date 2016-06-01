@@ -14,9 +14,6 @@ import com.jfinal.plugin.activerecord.Page;
 public class Reply extends BaseModel<Reply> {
 
     public static final Reply me = new Reply();
-    static {
-        PropKit.use("config.properties");
-    }
 
     /**
      * 根据话题id查询回复数量

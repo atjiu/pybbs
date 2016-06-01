@@ -28,10 +28,6 @@ import java.util.List;
 @ControllerBind(controllerKey = "/t", viewPath = "WEB-INF/page")
 public class TopicController extends BaseController {
 
-    static {
-        PropKit.use("config.properties");
-    }
-
     /**
      * 话题详情
      */

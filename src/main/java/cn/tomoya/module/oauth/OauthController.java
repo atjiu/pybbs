@@ -26,10 +26,6 @@ public class OauthController extends BaseController {
 
     private static final String STATE = "githublogin_state";
 
-    static {
-        PropKit.use("config.properties");
-    }
-
     public void githublogin() throws UnsupportedEncodingException {
         LogKit.info("githublogin");
         String state = StrUtil.randomString(6);

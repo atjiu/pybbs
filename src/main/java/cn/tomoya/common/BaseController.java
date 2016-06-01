@@ -14,6 +14,10 @@ import com.jfinal.plugin.ehcache.CacheKit;
  */
 public class BaseController extends Controller {
 
+    static {
+        PropKit.use("config.properties");
+    }
+
     public Integer defaultPageSize() {
         return StrUtil.str2int(PropKit.get("pageSize"));
     }

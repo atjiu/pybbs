@@ -4,6 +4,7 @@ import cn.tomoya.module.section.Section;
 import cn.tomoya.module.user.User;
 import cn.tomoya.utils.MarkdownUtil;
 import cn.tomoya.utils.StrUtil;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Model;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -17,6 +18,10 @@ import java.util.Locale;
  * http://bbs.tomoya.cn
  */
 public class BaseModel<T extends Model> extends Model<T> {
+
+    static {
+        PropKit.use("config.properties");
+    }
 
     /**
      * 格式化日期

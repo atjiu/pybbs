@@ -24,10 +24,6 @@ import java.util.List;
 @ControllerBind(controllerKey = "/user", viewPath = "WEB-INF/page")
 public class UserController extends BaseController {
 
-    static {
-        PropKit.use("config.properties");
-    }
-
     /**
      * 用户个人主页
      */

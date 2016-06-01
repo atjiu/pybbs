@@ -17,10 +17,6 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey = "/notification", viewPath = "WEB-INF/page")
 public class NotificationController extends BaseController {
 
-    static {
-        PropKit.use("config.properties");
-    }
-
     @Before(UserInterceptor.class)
     public void index() {
         User user = getUser();

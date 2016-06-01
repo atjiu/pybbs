@@ -161,49 +161,51 @@
         }
         content.scrollTop(content[0].scrollHeight);
     });
-    //打开下面的注释即可粘贴图片上传
-    // $("#content").on("paste", function(event) {
-    //     var em = $("#error_message");
-    //     var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    //     for (index in items) {
-    //         var item = items[index];
-    //         var type = item.type;
-    //         if(type && type.split('/')[0] == 'image') {
-    //             em.html("正在上传...");
-    //             var suffix = type.split('/')[1];
-    //             var blob = item.getAsFile();
-    //             var size = blob.size;
-    //             if(size / (1024 * 1024) < 2) {
-    //                 var reader = new FileReader();
-    //                 reader.onload = function (event) {
-    //                     //var base64Str = event.target.result;
-    //                     var form = document.createElement("form").setAttribute("enctype", "multipart/form-data");
-    //                     var formData = new FormData(form);
-    //                     formData.append("image", blob, "image." + suffix);
-    //                     var xhr = new XMLHttpRequest();
-    //                     xhr.open('POST', '/upload', true);
-    //                     xhr.onload = function (event) {
-    //                         var responseText = event.currentTarget.responseText;
-    //                         var json = JSON.parse(responseText);
-    //                         if (json.code == 200) {
-    //                             var content = $("#content");
-    //                             if (content.val().length > 0) {
-    //                                 content.val(content.val() + "\r\n![image](" + json.detail + ")\r\n");
-    //                             } else {
-    //                                 content.val(content.val() + "![image](" + json.detail + ")\r\n");
-    //                             }
-    //                             em.html("");
-    //                         } else {
-    //                             em.html(json.description);
-    //                         }
-    //                     };
-    //                     xhr.send(formData);
-    //                 };
-    //                 reader.readAsDataURL(blob);
-    //             } else {
-    //                 em.html("上传图片大小不能超过2M");
-    //             }
-    //         }
-    //     }
-    // });
+    // 打开下面的注释即可粘贴图片上传
+    $("#content").on("paste", function(event) {
+        var em = $("#error_message");
+        var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            var item = items[index];
+            var type = item.type;
+            if(type && type.split('/')[0] == 'image') {
+                em.html("正在上传...");
+                var suffix = type.split('/')[1];
+                var blob = item.getAsFile();
+                var size = blob.size;
+                if(size / (1024 * 1024) < 2) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        //var base64Str = event.target.result;
+                        var form = document.createElement("form").setAttribute("enctype", "multipart/form-data");
+                        var formData = new FormData(form);
+                        formData.append("image", blob, "image." + suffix);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/upload', true);
+                        xhr.onload = function (event) {
+                            var responseText = event.currentTarget.responseText;
+                            var json = JSON.parse(responseText);
+                            if (json.code == 200) {
+                                $.each(json.detail, function(i, v) {
+                                    var content = $("#content");
+                                    if (content.val().length > 0) {
+                                        content.val(content.val() + "\r\n![image](" + v + ")\r\n");
+                                    } else {
+                                        content.val(content.val() + "![image](" + v + ")\r\n");
+                                    }
+                                });
+                                em.html("");
+                            } else {
+                                em.html(json.description);
+                            }
+                        };
+                        xhr.send(formData);
+                    };
+                    reader.readAsDataURL(blob);
+                } else {
+                    em.html("上传图片大小不能超过2M");
+                }
+            }
+        }
+    });
 })(jQuery);

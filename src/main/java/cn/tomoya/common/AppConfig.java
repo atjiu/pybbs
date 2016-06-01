@@ -2,12 +2,14 @@ package cn.tomoya.common;
 
 import cn.tomoya.interceptor.CommonInterceptor;
 import cn.tomoya.template.PyTag;
+import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.plugin.tablebind.AutoTableBindPlugin;
 import cn.tomoya.utils.ext.plugin.tablebind.ParamNameStyles;
 import cn.tomoya.utils.ext.route.AutoBindRoutes;
 import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.FreeMarkerRender;
@@ -29,7 +31,8 @@ public class AppConfig extends JFinalConfig {
         loadPropertyFile("config.properties");
         me.setDevMode(getPropertyToBoolean("devMode", false));
         me.setFreeMarkerViewExtension("ftl");
-        me.setBaseUploadPath("static/upload");
+        String staticPath = getProperty("static.path");
+        me.setBaseUploadPath(StrUtil.isBlank(staticPath) ? "static/upload" : staticPath);
 //        me.setMaxPostSize(1024 * 1024 * 2);
 //        me.setFreeMarkerTemplateUpdateDelay(0);
         me.setError401View("401.html");

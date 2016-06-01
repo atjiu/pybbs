@@ -23,10 +23,6 @@ import cn.tomoya.interceptor.UserInterceptor;
 @ControllerBind(controllerKey = "/manage", viewPath = "WEB-INF/page")
 public class ManageController extends BaseController {
 
-    static {
-        PropKit.use("config.properties");
-    }
-
     /**
      * 用户列表
      */

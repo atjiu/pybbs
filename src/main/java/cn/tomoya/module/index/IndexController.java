@@ -5,6 +5,7 @@ import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.section.Section;
 import cn.tomoya.module.topic.Topic;
+import cn.tomoya.utils.QiniuUpload;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -12,7 +13,10 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,10 +26,6 @@ import java.util.Map;
  */
 @ControllerBind(controllerKey = "/", viewPath = "WEB-INF/page")
 public class IndexController extends BaseController {
-
-    static {
-        PropKit.use("config.properties");
-    }
 
     /**
      * 首页
@@ -77,11 +77,26 @@ public class IndexController extends BaseController {
     /**
      * 上传
      */
+    @Before(UserInterceptor.class)
     public void upload() {
         try {
-            UploadFile uploadFile = getFile();
-            String url = PropKit.get("file.domain") + "/static/upload/" + uploadFile.getFileName();
-            success(url);
+            List<UploadFile> uploadFiles = getFiles(PropKit.get("static.path"));
+            List<String> urls = new ArrayList<>();
+            for(UploadFile uf: uploadFiles) {
+                String url = "";
+                if(PropKit.get("upload.type").equals("local")) {
+                    url = PropKit.get("file.domain") + "/static/upload/" + uf.getFileName();
+                    urls.add(url);
+                } else if(PropKit.get("upload.type").equals("qiniu")) {
+                    // 将本地文件上传到七牛,并删除本地文件
+                    String filePath = uf.getUploadPath() + uf.getFileName();
+                    Map map = new QiniuUpload().upload(filePath);
+                    new File(filePath).delete();
+                    url = PropKit.get("qiniu.url") + "/" + map.get("key");
+                    urls.add(url);
+                }
+            }
+            success(urls);
         } catch (Exception e) {
             e.printStackTrace();
             error("上传失败");

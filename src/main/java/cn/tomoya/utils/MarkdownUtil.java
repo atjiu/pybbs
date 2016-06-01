@@ -25,7 +25,15 @@ public class MarkdownUtil {
         try {
             ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
             ScriptEngine scriptEngine = scriptEngineManager.getEngineByExtension("js");
-            scriptEngine.eval(new FileReader(PropKit.get("markedjs.path")));
+            String markedPath = PropKit.get("markedjs.path");
+            scriptEngine.eval(
+                    new FileReader(
+                            StrUtil.isBlank(
+                                    PropKit.get("markedjs.path")) ?
+                                    PathKit.getWebRootPath() + "/static/js/marked.js" :
+                                    markedPath
+                    )
+            );
             Invocable invocable = (Invocable) scriptEngine;
             return (String) invocable.invokeFunction("marked", content);
         } catch (ScriptException e) {
