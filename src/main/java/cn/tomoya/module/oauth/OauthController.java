@@ -85,12 +85,12 @@ public class OauthController extends BaseController {
                 user.set("in_time", now)
                         .set("score", 0)
                         .set("github_id", String.valueOf(githubId))
-                        .set("access_token", access_token)
                         .set("isblock", false)
                         .set("receive_msg", true);//邮箱接收社区消息
                 flag = false;
             }
             user.set("nickname", login)
+                    .set("access_token", access_token)
                     .set("avatar", avatar_url)
                     .set("email", email)
                     .set("url", html_url)

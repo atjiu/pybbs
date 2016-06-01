@@ -287,17 +287,6 @@ CREATE TABLE `pybbs_user` (
   UNIQUE KEY `NICKNAME_UNIQUE` (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
-LOCK TABLES `pybbs_user` WRITE;
-/*!40000 ALTER TABLE `pybbs_user` DISABLE KEYS */;
-
-INSERT INTO `pybbs_user` (`id`, `nickname`, `score`, `avatar`, `email`, `url`, `signature`, `github_id`, `access_token`, `receive_msg`, `in_time`, `expire_time`, `isblock`)
-VALUES
-	(1,'liygheart',0,'https://avatars.githubusercontent.com/u/6915570?v=3','py2qiuse@gmail.com','https://github.com/liygheart',NULL,'6915570.0','d1ec214a68524107828427221c346b51',1,'2016-05-29 00:00:22','2016-06-28 00:00:59',0);
-
-/*!40000 ALTER TABLE `pybbs_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # Dump of table pybbs_user_role
 # ------------------------------------------------------------
 
