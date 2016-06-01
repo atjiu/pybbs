@@ -1,11 +1,13 @@
 package cn.tomoya.module.user;
 
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Page;
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.module.system.UserRole;
 import cn.tomoya.utils.StrUtil;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 import java.util.Date;
 import java.util.List;
@@ -33,13 +35,16 @@ public class User extends BaseModel<User> {
      * @return
      */
     public User findByAccessToken(String accessToken) {
-        return super.findFirstByCache(
-                Constants.USERINFO_CACHE,
-                Constants.USERINFO_CACHE_KEY + accessToken,
-                "select * from pybbs_user where access_token = ? and expire_time > ?",
-                accessToken,
-                new Date()
-        );
+        Cache cache = Redis.use();
+        User user = cache.get(CacheEnum.useraccesstoken.name() + accessToken);
+        if(user == null) {
+            user = findFirst(
+                    "select * from pybbs_user where access_token = ? and expire_time > ?",
+                    accessToken,
+                    new Date());
+            cache.set(CacheEnum.useraccesstoken.name() + accessToken, user);
+        }
+        return user;
     }
 
     /**
@@ -51,12 +56,16 @@ public class User extends BaseModel<User> {
         if(StrUtil.isBlank(nickname)) {
             return null;
         }
-        return super.findFirstByCache(
-                Constants.USERINFO_CACHE,
-                Constants.USERINFO_CACHE_KEY + nickname,
-                "select * from pybbs_user where nickname = ?",
-                nickname
-        );
+        Cache cache = Redis.use();
+        User user = cache.get(CacheEnum.usernickname.name() + nickname);
+        if(user == null) {
+            user = findFirst(
+                    "select * from pybbs_user where nickname = ?",
+                    nickname
+            );
+            cache.set(CacheEnum.usernickname.name() + nickname, user);
+        }
+        return user;
     }
 
     /**
@@ -94,6 +103,17 @@ public class User extends BaseModel<User> {
                         .save();
             }
         }
+    }
+
+    /**
+     * 根据权限id查询拥有这个权限的用户列表
+     * @param id
+     * @return
+     */
+    public List<User> findByPermissionId(Integer id) {
+        return super.find("select u.* from pybbs_user u, pybbs_user_role ur, pybbs_role r, pybbs_role_permission rp, " +
+                "pybbs_permission p where u.id = ur.uid and ur.rid = r.id and r.id = rp.rid and rp.pid = p.id and p.id = ?",
+                id);
     }
 
     /**

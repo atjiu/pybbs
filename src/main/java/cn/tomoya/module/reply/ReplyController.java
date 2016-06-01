@@ -1,6 +1,7 @@
 package cn.tomoya.module.reply;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
@@ -79,10 +80,10 @@ public class ReplyController extends BaseController {
                     }
                 }
                 //清理缓存，保持数据最新
-                clearCache(Constants.TOPIC_CACHE, Constants.TOPIC_CACHE_KEY + topic.getInt("id"));
-                clearCache(Constants.USER_REPLIES_CACHE, null);
-                clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
-                clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
+                clearCache(CacheEnum.topic.name() + tid);
+
+                clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+                clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 redirect("/t/" + tid + "#reply" + reply.getInt("id"));
             }
         }
@@ -131,9 +132,8 @@ public class ReplyController extends BaseController {
         score = score > 7 ? score - 7 : 0;
         user.set("score", score).update();
         //清理缓存
-        clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
-        clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
-        clearCache(Constants.USER_REPLIES_CACHE, Constants.USER_REPLIES_CACHE_KEY + user.getStr("nickname"));
+        clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+        clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
         redirect("/t/" + topic.getInt("id"));
     }
 }

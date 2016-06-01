@@ -1,7 +1,7 @@
 package cn.tomoya.module.system;
 
-import com.jfinal.plugin.activerecord.Db;
 import cn.tomoya.common.BaseModel;
+import com.jfinal.plugin.activerecord.Db;
 
 import java.util.List;
 

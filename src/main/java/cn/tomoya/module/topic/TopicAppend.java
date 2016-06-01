@@ -1,8 +1,10 @@
 package cn.tomoya.module.topic;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
+import cn.tomoya.common.CacheEnum;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 import java.util.List;
 
@@ -21,13 +23,16 @@ public class TopicAppend extends BaseModel<TopicAppend> {
      * @return
      */
     public List<TopicAppend> findByTid(Integer tid) {
-        return super.findByCache(
-                Constants.TOPIC_APPEND_CACHE,
-                Constants.TOPIC_APPEND_CACHE_KEY + tid,
-                "select * from pybbs_topic_append where isdelete = ? and tid = ? order by in_time",
-                false,
-                tid
-        );
+        Cache cache = Redis.use();
+        List list = cache.get(CacheEnum.topicappends.name() + tid);
+        if(list == null) {
+            list = find(
+                    "select * from pybbs_topic_append where isdelete = ? and tid = ? order by in_time",
+                    false,
+                    tid);
+            cache.set(CacheEnum.topicappends.name() + tid, list);
+        }
+        return list;
     }
 
     /**

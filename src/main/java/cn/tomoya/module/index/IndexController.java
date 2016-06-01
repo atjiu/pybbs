@@ -15,7 +15,6 @@ import com.jfinal.upload.UploadFile;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,18 +124,18 @@ public class IndexController extends BaseController {
 //            PermissionInterceptor.class
     })
     public void clear() {
-        clearCache(Constants.SECTIONS_CACHE, null);
-        clearCache(Constants.SECTION_CACHE, null);
-        clearCache(Constants.TOPIC_CACHE, null);
-        clearCache(Constants.TOPIC_APPEND_CACHE, null);
-        clearCache(Constants.USERINFO_CACHE, null);
-        clearCache(Constants.USER_TOPICS_CACHE, null);
-        clearCache(Constants.USER_REPLIES_CACHE, null);
-        clearCache(Constants.USER_SCORE_CACHE, null);
-        clearCache(Constants.ROLE_CACHE, null);
-        clearCache(Constants.PERMISSION_CACHE, null);
-        clearCache(Constants.COLLECT_CACHE, null);
-        renderText("clear cache finish!");
+//        clearCache(Constants.SECTIONS_CACHE, null);
+//        clearCache(Constants.SECTION_CACHE, null);
+//        clearCache(Constants.TOPIC_CACHE, null);
+//        clearCache(Constants.TOPIC_APPEND_CACHE, null);
+//        clearCache(Constants.USERINFO_CACHE, null);
+//        clearCache(Constants.USER_TOPICS_CACHE, null);
+//        clearCache(Constants.USER_REPLIES_CACHE, null);
+//        clearCache(Constants.USER_SCORE_CACHE, null);
+//        clearCache(Constants.ROLE_CACHE, null);
+//        clearCache(Constants.PERMISSION_CACHE, null);
+//        clearCache(Constants.COLLECT_CACHE, null);
+//        renderText("clear cache finish!");
     }
 
 }

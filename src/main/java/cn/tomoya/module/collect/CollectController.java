@@ -1,7 +1,7 @@
 package cn.tomoya.module.collect;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.Constants;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.notification.Notification;
 import cn.tomoya.module.notification.NotificationEnum;
@@ -43,8 +43,8 @@ public class CollectController extends BaseController {
                 ""
         );
         //清理缓存
-        clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid);
-        clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid + "_" + user.getInt("id"));
+        clearCache(CacheEnum.collectcount.name() + tid);
+        clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
         redirect("/t/" + tid);
     }
 
@@ -60,8 +60,8 @@ public class CollectController extends BaseController {
             renderText("请先收藏");
         } else {
             collect.delete();
-            clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid);
-            clearCache(Constants.COLLECT_CACHE, Constants.COLLECT_CACHE_KEY + tid + "_" + user.getInt("id"));
+            clearCache(CacheEnum.collectcount.name() + tid);
+            clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
             redirect("/t/" + tid);
         }
     }

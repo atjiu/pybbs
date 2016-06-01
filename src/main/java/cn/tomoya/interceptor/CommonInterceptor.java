@@ -1,16 +1,13 @@
 package cn.tomoya.interceptor;
 
+import cn.tomoya.common.Constants;
 import cn.tomoya.module.notification.Notification;
+import cn.tomoya.module.user.User;
+import cn.tomoya.utils.StrUtil;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
-import cn.tomoya.common.Constants;
-import cn.tomoya.module.system.Permission;
-import cn.tomoya.module.user.User;
-import cn.tomoya.utils.StrUtil;
-
-import java.util.Map;
 
 /**
  * Created by Tomoya.

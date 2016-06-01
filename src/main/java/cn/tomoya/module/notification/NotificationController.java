@@ -1,7 +1,6 @@
 package cn.tomoya.module.notification;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.user.User;
 import cn.tomoya.utils.ext.route.ControllerBind;

@@ -6,6 +6,8 @@ import cn.tomoya.utils.StrUtil;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 /**
  * Created by Tomoya.
@@ -13,6 +15,11 @@ import com.jfinal.plugin.ehcache.CacheKit;
  * http://bbs.tomoya.cn
  */
 public class BaseController extends Controller {
+
+    // 接口返回状态码
+    private static final String CODE_SUCCESS = "200";
+    private static final String CODE_FAILURE = "201";
+    private static final String DESC_SUCCESS = "success";
 
     static {
         PropKit.use("config.properties");
@@ -27,11 +34,11 @@ public class BaseController extends Controller {
     }
 
     public void success(Object object) {
-        renderJson(new Result(Constants.CODE_SUCCESS, Constants.DESC_SUCCESS, object));
+        renderJson(new Result(CODE_SUCCESS, DESC_SUCCESS, object));
     }
 
     public void error(String message) {
-        renderJson(new Result(Constants.CODE_FAILURE, message, null));
+        renderJson(new Result(CODE_FAILURE, message, null));
     }
 
     /**
@@ -47,6 +54,15 @@ public class BaseController extends Controller {
         } else {
             CacheKit.remove(cacheName, cacheKey);
         }
+    }
+
+    /**
+     * 删除redis里的缓存
+     * @param key
+     */
+    public void clearCache(String key) {
+        Cache cache = Redis.use();
+        cache.del(key);
     }
 
     public User getUser() {

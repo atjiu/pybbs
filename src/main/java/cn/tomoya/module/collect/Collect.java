@@ -1,9 +1,9 @@
 package cn.tomoya.module.collect;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
-
-import java.util.List;
+import cn.tomoya.common.CacheEnum;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 /**
  * Created by Tomoya.
@@ -21,13 +21,17 @@ public class Collect extends BaseModel<Collect> {
      * @return
      */
     public Collect findByTidAndUid(Integer tid, Integer uid) {
-        return super.findFirstByCache(
-                Constants.COLLECT_CACHE,
-                Constants.COLLECT_CACHE_KEY + tid + "_" + uid,
-                "select * from pybbs_collect where tid = ? and uid = ?",
-                tid,
-                uid
-        );
+        Cache cache = Redis.use();
+        Collect collect = cache.get(CacheEnum.collect.name() + tid + "_" + uid);
+        if(collect == null) {
+            collect = super.findFirst(
+                    "select * from pybbs_collect where tid = ? and uid = ?",
+                    tid,
+                    uid
+            );
+            cache.set(CacheEnum.collect.name() + tid + "_" + uid, collect);
+        }
+        return collect;
     }
 
     /**
@@ -35,13 +39,17 @@ public class Collect extends BaseModel<Collect> {
      * @param tid
      * @return
      */
-    public long countByTid(Integer tid) {
-        return super.findFirstByCache(
-                Constants.COLLECT_CACHE,
-                Constants.COLLECT_CACHE_KEY + tid,
-                "select count(1) as count from pybbs_collect where tid = ?",
-                tid
-        ).getLong("count");
+    public Long countByTid(Integer tid) {
+        Cache cache = Redis.use();
+        Long count = cache.get(CacheEnum.collectcount.name() + tid);
+        if(count == null) {
+            count = super.findFirst(
+                    "select count(1) as count from pybbs_collect where tid = ?",
+                    tid
+            ).getLong("count");
+            cache.set(CacheEnum.collectcount.name() + tid, count);
+        }
+        return count;
     }
 
 }

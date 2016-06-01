@@ -1,15 +1,17 @@
 package cn.tomoya.module.system;
 
+import cn.tomoya.common.BaseController;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
-import cn.tomoya.module.reply.Reply;
+import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.user.User;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.tx.Tx;
-import cn.tomoya.common.BaseController;
-import cn.tomoya.interceptor.UserInterceptor;
+
+import java.util.List;
 
 /**
  * Created by Tomoya.
@@ -88,8 +90,7 @@ public class ManageController extends BaseController {
             Integer[] roles = getParaValuesToInt("roles");
             User.me.correlationRole(id, roles);
             //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
+            clearCache(CacheEnum.userpermissions.name() + id);
             redirect("/manage/users");
         }
     }
@@ -113,9 +114,6 @@ public class ManageController extends BaseController {
             //保存关联数据
             Integer[] roles = getParaValuesToInt("roles");
             Role.me.correlationPermission(role.getInt("id"), roles);
-            //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
             redirect("/manage/roles");
         }
     }
@@ -170,8 +168,10 @@ public class ManageController extends BaseController {
                     .set("pid", pid)
                     .update();
             //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
+            List<User> userpermissions = User.me.findByPermissionId(id);
+            for(User u: userpermissions) {
+                clearCache(CacheEnum.userpermissions.name() + u.getInt("id"));
+            }
             redirect("/manage/permissions?pid=" + pid);
         }
     }
@@ -199,8 +199,10 @@ public class ManageController extends BaseController {
             Integer[] permissions = getParaValuesToInt("permissions");
             Role.me.correlationPermission(roleId, permissions);
             //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
+            List<UserRole> userRoles = UserRole.me.findByRoleId(roleId);
+            for(UserRole ur: userRoles) {
+                clearCache(CacheEnum.userpermissions.name() + ur.getInt("uid"));
+            }
             redirect("/manage/roles");
         }
     }
@@ -218,8 +220,10 @@ public class ManageController extends BaseController {
             RolePermission.me.deleteByRoleId(id);
             Role.me.deleteById(id);
             //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
+            List<UserRole> userRoles = UserRole.me.findByRoleId(id);
+            for(UserRole ur: userRoles) {
+                clearCache(CacheEnum.userpermissions.name() + ur.getInt("uid"));
+            }
             redirect("/manage/roles");
         }
     }
@@ -245,8 +249,10 @@ public class ManageController extends BaseController {
             RolePermission.me.deleteByPermissionId(id);
             Permission.me.deleteById(id);
             //清除缓存
-            clearCache(Constants.ROLE_CACHE, null);
-            clearCache(Constants.PERMISSION_CACHE, null);
+            List<User> userpermissions = User.me.findByPermissionId(id);
+            for(User u: userpermissions) {
+                clearCache(CacheEnum.userpermissions.name() + u.getInt("id"));
+            }
             redirect(url);
         }
     }

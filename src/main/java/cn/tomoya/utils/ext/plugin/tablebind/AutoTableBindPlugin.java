@@ -15,6 +15,8 @@
  */
 package cn.tomoya.utils.ext.plugin.tablebind;
 
+import cn.tomoya.utils.ext.kit.ClassSearcher;
+import cn.tomoya.utils.ext.kit.Reflect;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
@@ -23,8 +25,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.IDataSourceProvider;
 import com.jfinal.plugin.activerecord.Model;
-import cn.tomoya.utils.ext.kit.ClassSearcher;
-import cn.tomoya.utils.ext.kit.Reflect;
 
 import javax.sql.DataSource;
 import java.io.File;

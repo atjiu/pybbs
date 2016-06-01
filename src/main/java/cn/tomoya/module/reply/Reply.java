@@ -1,7 +1,6 @@
 package cn.tomoya.module.reply;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -51,9 +50,7 @@ public class Reply extends BaseModel<Reply> {
      * @return
      */
     public Page<Reply> pageByAuthor(Integer pageNumber, Integer pageSize, String author) {
-        return super.paginateByCache(
-                Constants.USER_REPLIES_CACHE,
-                Constants.USER_REPLIES_CACHE_KEY + author + pageNumber + pageSize,
+        return super.paginate(
                 pageNumber,
                 pageSize,
                 "select t.title, t.author as topicAuthor, t.in_time, r.tid, r.content ",

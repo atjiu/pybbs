@@ -3,8 +3,6 @@ package cn.tomoya.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jfinal.kit.StrKit;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 import java.util.*;
 import java.util.regex.Matcher;

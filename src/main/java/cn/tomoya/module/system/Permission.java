@@ -1,10 +1,14 @@
 package cn.tomoya.module.system;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
+import cn.tomoya.common.CacheEnum;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tomoya.
@@ -53,29 +57,29 @@ public class Permission extends BaseModel<Permission> {
     }
 
     /**
-     * 根据用户名查询所拥有的权限
+     * 根据用户id查询所拥有的权限
      * @param userId
      * @return
      */
     public Map<String, String> findPermissions(Integer userId) {
         Map<String, String> map = new HashMap<String, String>();
         if(userId == null) return map;
-        List<Permission> permissions = super.findByCache(
-                Constants.PERMISSION_CACHE,
-                Constants.PERMISSION_CACHE_KEY + userId,
-                "select p.* from pybbs_user u, pybbs_role r, pybbs_permission p, " +
-                        "pybbs_user_role ur, pybbs_role_permission rp where u.id = ur.uid " +
-                        "and r.id = ur.rid and r.id = rp.rid and p.id = rp.pid " +
-                        "and u.id = ?",
-                userId
-        );
+        Cache cache = Redis.use();
+        List<Permission> permissions = cache.get(CacheEnum.userpermissions.name() + userId);
+        if(permissions == null) {
+            permissions = super.find(
+                    "select p.* from pybbs_user u, pybbs_role r, pybbs_permission p, " +
+                            "pybbs_user_role ur, pybbs_role_permission rp where u.id = ur.uid " +
+                            "and r.id = ur.rid and r.id = rp.rid and p.id = rp.pid " +
+                            "and u.id = ?",
+                    userId
+            );
+            cache.set(CacheEnum.userpermissions.name() + userId, permissions);
+        }
         for (Permission p : permissions) {
             map.put(p.getStr("name"), p.getStr("url"));
         }
         return map;
     }
 
-    public void hasPermission(String name) {
-
-    }
 }

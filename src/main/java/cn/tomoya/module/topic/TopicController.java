@@ -1,6 +1,7 @@
 package cn.tomoya.module.topic;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
@@ -106,9 +107,8 @@ public class TopicController extends BaseController {
                 //给用户加分
                 user.set("score", user.getInt("score") + 5).update();
                 //清理用户缓存
-                clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
-                clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
-                clearCache(Constants.USER_TOPICS_CACHE, null);
+                clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+                clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 redirect("/t/" + topic.getInt("id"));
             }
         }
@@ -138,8 +138,7 @@ public class TopicController extends BaseController {
                     .set("content", content)
                     .update();
             //清理缓存
-            clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + topic.getStr("author"));
-            clearCache(Constants.USER_TOPICS_CACHE, null);
+            clearCache(CacheEnum.usernickname.name() + topic.getStr("author"));
             redirect("/t/" + topic.getInt("id"));
         }
     }
@@ -167,7 +166,7 @@ public class TopicController extends BaseController {
                         .set("isdelete", false)
                         .save();
                 //清理缓存
-                clearCache(Constants.TOPIC_APPEND_CACHE, Constants.TOPIC_APPEND_CACHE_KEY + tid);
+                clearCache(CacheEnum.topicappends.name() + tid);
                 redirect("/t/" + tid);
             }
         } else {
@@ -196,7 +195,7 @@ public class TopicController extends BaseController {
             topicAppend.set("content", content)
                     .update();
             //清理缓存
-            clearCache(Constants.TOPIC_APPEND_CACHE, Constants.TOPIC_APPEND_CACHE_KEY + topic.getInt("id"));
+            clearCache(CacheEnum.topicappends.name() + topic.getInt("id"));
             redirect("/t/" + topic.getInt("id"));
         }
     }
@@ -225,8 +224,8 @@ public class TopicController extends BaseController {
             //删除话题（非物理删除）
             Topic.me.deleteById(id);
             //清理缓存
-            clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
-            clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
+            clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+            clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
             redirect("/");
         }
     }
@@ -237,7 +236,7 @@ public class TopicController extends BaseController {
     public void top() {
         Integer id = getParaToInt("id");
         Topic.me.top(id);
-        clearCache(Constants.TOPIC_CACHE, Constants.TOPIC_CACHE_KEY + id);
+        clearCache(CacheEnum.topic.name() + id);
         redirect("/t/" + id);
     }
 
@@ -247,7 +246,7 @@ public class TopicController extends BaseController {
     public void good() {
         Integer id = getParaToInt("id");
         Topic.me.good(id);
-        clearCache(Constants.TOPIC_CACHE, Constants.TOPIC_CACHE_KEY + id);
+        clearCache(CacheEnum.topic.name() + id);
         redirect("/t/" + id);
     }
 }

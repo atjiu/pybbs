@@ -45,7 +45,7 @@
                 <p>• ctrl+r hr</p>
                 <p>• ctrl+h 插入标题</p>
                 <p>• ctrl+k 插入代码</p>
-                <p>• 截图在textarea里直接粘贴即可上传(IE10+),服务器关闭了此功能</p>
+                <p>• 截图在textarea里直接粘贴即可上传(IE10+)</p>
             </div>
         </div>
     </div>

@@ -1,9 +1,11 @@
 package cn.tomoya.module.topic;
 
+import cn.tomoya.common.BaseModel;
+import cn.tomoya.common.CacheEnum;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
-import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.Constants;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 
 import java.util.List;
 
@@ -102,11 +104,13 @@ public class Topic extends BaseModel<Topic> {
      * @return
      */
     public Topic findById(Integer id) {
-        return super.findFirstByCache(Constants.TOPIC_CACHE,
-                Constants.TOPIC_CACHE_KEY + id,
-                "select * from pybbs_topic where id = ?",
-                id
-        );
+        Cache cache = Redis.use();
+        Topic topic = cache.get(CacheEnum.topic.name() + id);
+        if(topic == null) {
+            topic = super.findById(id);
+            cache.set(CacheEnum.topic.name() + id, topic);
+        }
+        return topic;
     }
 
     /**
@@ -134,9 +138,7 @@ public class Topic extends BaseModel<Topic> {
      * @return
      */
     public Page<Topic> pageByAuthor(Integer pageNumber, Integer pageSize, String author) {
-        return super.paginateByCache(
-                Constants.USER_TOPICS_CACHE,
-                Constants.USER_TOPICS_CACHE_KEY + author + pageNumber + pageSize,
+        return paginate(
                 pageNumber,
                 pageSize,
                 "select * ",

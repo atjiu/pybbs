@@ -1,7 +1,6 @@
 package cn.tomoya.template;
 
 import cn.tomoya.module.system.Permission;
-import cn.tomoya.module.user.User;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;

@@ -1,20 +1,18 @@
 package cn.tomoya.module.user;
 
-import cn.tomoya.interceptor.PermissionInterceptor;
-import com.jfinal.aop.Before;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.activerecord.Page;
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
+import com.jfinal.aop.Before;
+import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.Page;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-
-import java.util.List;
 
 /**
  * Created by Tomoya.
@@ -95,8 +93,8 @@ public class UserController extends BaseController {
                     .set("receive_msg", receive_msg == 1)
                     .update();
             //清理缓存
-            clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
-            clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
+            clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+            clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
             setAttr("msg", "保存成功。");
         }
         render("user/setting.ftl");

@@ -9,9 +9,9 @@ import cn.tomoya.utils.ext.route.AutoBindRoutes;
 import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
-import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
+import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
 /**
@@ -34,7 +34,7 @@ public class AppConfig extends JFinalConfig {
         String staticPath = getProperty("static.path");
         me.setBaseUploadPath(StrUtil.isBlank(staticPath) ? "static/upload" : staticPath);
 //        me.setMaxPostSize(1024 * 1024 * 2);
-//        me.setFreeMarkerTemplateUpdateDelay(0);
+        me.setFreeMarkerTemplateUpdateDelay(300);
         me.setError401View("401.html");
         me.setError404View("404.html");
         me.setError500View("500.html");
@@ -63,7 +63,15 @@ public class AppConfig extends JFinalConfig {
         );
         druidPlugin.setFilters("stat,wall");
         me.add(druidPlugin);
-        me.add(new EhCachePlugin());
+        //增加redis插件
+        me.add(new RedisPlugin(
+                getProperty("redis.cachename"),
+                getProperty("redis.host"),
+                getPropertyToInt("redis.port"),
+                getPropertyToInt("redis.timeout")
+//                getProperty("redis.password"),
+//                getPropertyToInt("redis.database")
+        ));
 
         AutoTableBindPlugin atbp = new AutoTableBindPlugin(
                 druidPlugin,

@@ -45,7 +45,6 @@ public class QiniuUpload {
             //调用put方法上传
             Response res = uploadManager.put(filePath, key, getUpToken());
             //打印返回的信息
-            System.out.println(res.bodyString());
             Map map = StrUtil.parseToMap(res.bodyString());
             return map;
         } catch (QiniuException e) {
