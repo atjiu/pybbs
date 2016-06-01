@@ -24,7 +24,7 @@ public class Reply extends BaseModel<Reply> {
      * @return
      */
     public int findCountByTid(Integer tid) {
-        return super.find("select id from pybbs_reply where tid = ?", tid).size();
+        return super.find("select id from pybbs_reply where isdelete = ? and tid = ?", false, tid).size();
     }
 
     /**
@@ -36,7 +36,7 @@ public class Reply extends BaseModel<Reply> {
      */
     public Page<Reply> page(Integer pageNumber, Integer pageSize, Integer tid) {
         int count = this.findCountByTid(tid);
-        pageNumber = pageNumber == null ? (int)(count / PropKit.getInt("replyPageSize")) + 1 : pageNumber;
+        pageNumber = pageNumber == null ? (count / PropKit.getInt("replyPageSize")) + 1 : pageNumber;
         return super.paginate(
                 pageNumber,
                 pageSize,
@@ -71,5 +71,9 @@ public class Reply extends BaseModel<Reply> {
      */
     public void deleteByTid(Integer tid) {
         Db.update("update pybbs_reply set isdelete = ? where tid = ?", true, tid);
+    }
+
+    public void deleteById(Integer id) {
+        Db.update("update pybbs_reply set isdelete = ? where id = ?", true, id);
     }
 }

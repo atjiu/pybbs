@@ -124,7 +124,7 @@ public class ReplyController extends BaseController {
         Reply reply = Reply.me.findById(id);
         Topic topic = Topic.me.findById(reply.getInt("tid"));
         topic.set("reply_count", topic.getInt("reply_count") - 1).update();
-        Reply.me.deleteByTid(id);
+        Reply.me.deleteById(id);
         //用户积分计算
         User user = User.me.findByNickname(reply.getStr("author"));
         Integer score = user.getInt("score");
@@ -133,6 +133,7 @@ public class ReplyController extends BaseController {
         //清理缓存
         clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("nickname"));
         clearCache(Constants.USERINFO_CACHE, Constants.USERINFO_CACHE_KEY + user.getStr("access_token"));
+        clearCache(Constants.USER_REPLIES_CACHE, Constants.USER_REPLIES_CACHE_KEY + user.getStr("nickname"));
         redirect("/t/" + topic.getInt("id"));
     }
 }

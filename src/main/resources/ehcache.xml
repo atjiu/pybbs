@@ -33,20 +33,4 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="user_topics_cache"
-           maxElementsInMemory="10000"
-           eternal="false"
-           timeToIdleSeconds="120"
-           timeToLiveSeconds="180"
-           overflowToDisk="true"
-           memoryStoreEvictionPolicy="LRU" />
-
-    <cache name="user_replies_cache"
-           maxElementsInMemory="10000"
-           eternal="false"
-           timeToIdleSeconds="120"
-           timeToLiveSeconds="180"
-           overflowToDisk="true"
-           memoryStoreEvictionPolicy="LRU" />
-
 </ehcache>

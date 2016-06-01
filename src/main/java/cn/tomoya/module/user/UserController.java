@@ -34,15 +34,19 @@ public class UserController extends BaseController {
     public void index() {
         String nickname = getPara(0);
         if (StrUtil.isBlank(nickname)) {
-
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             User currentUser = User.me.findByNickname(nickname);
-            Page<Topic> topicPage = Topic.me.pageByAuthor(1, 7, nickname);
-            Page<Reply> replyPage = Reply.me.pageByAuthor(1, 7, nickname);
             setAttr("currentUser", currentUser);
-            setAttr("topicPage", topicPage);
-            setAttr("replyPage", replyPage);
+            if(currentUser != null) {
+                Page<Topic> topicPage = Topic.me.pageByAuthor(1, 7, nickname);
+                Page<Reply> replyPage = Reply.me.pageByAuthor(1, 7, nickname);
+                setAttr("topicPage", topicPage);
+                setAttr("replyPage", replyPage);
+                setAttr("pageTitle", currentUser.getStr("nickname") + " 个人主页");
+            } else {
+                setAttr("pageTitle", "用户未找到");
+            }
             render("user/info.ftl");
         }
     }
