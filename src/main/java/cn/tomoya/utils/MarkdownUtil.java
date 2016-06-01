@@ -1,6 +1,7 @@
 package cn.tomoya.utils;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.PropKit;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -16,11 +17,15 @@ import java.io.FileReader;
  */
 public class MarkdownUtil {
 
+    static {
+        PropKit.use("config.properties");
+    }
+
     public static String marked(String content) {
         try {
             ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
             ScriptEngine scriptEngine = scriptEngineManager.getEngineByExtension("js");
-            scriptEngine.eval(new FileReader(PathKit.getWebRootPath() + "/static/js/marked.js"));
+            scriptEngine.eval(new FileReader(PropKit.get("markedjs.path")));
             Invocable invocable = (Invocable) scriptEngine;
             return (String) invocable.invokeFunction("marked", content);
         } catch (ScriptException e) {

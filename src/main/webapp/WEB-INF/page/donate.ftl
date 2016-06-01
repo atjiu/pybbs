@@ -10,7 +10,7 @@
                         <img src="/static/imgs/jz_alipay.jpg">
                     </div>
                     <div class="col-md-6">
-                        <img src="/static/imgs/jz_alipay.jpg">
+                        <img src="/static/imgs/jz_weixin.jpg">
                     </div>
                 </div>
                 <br>

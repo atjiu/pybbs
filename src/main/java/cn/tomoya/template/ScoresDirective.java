@@ -22,7 +22,7 @@ public class ScoresDirective implements TemplateDirectiveModel {
             throws TemplateException, IOException {
         List<User> scores = new ArrayList<User>();
         if(map.containsKey("limit") && map.get("limit") != null) {
-            scores = User.me.scores(10);
+            scores = User.me.scores(Integer.parseInt(map.get("limit").toString()));
         }
         DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23);
         environment.setVariable("list", builder.build().wrap(scores));
