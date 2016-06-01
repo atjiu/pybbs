@@ -23,6 +23,7 @@
 
 #### 服务器环境部署
 
+- 安装redis
 - `git clone https://github.com/liygheart/pybbs.git`
 - 将`pybbs.sql`脚本在mysql数据库里运行，创建pybbs数据库
 - 修改`src/main/resources`下的`config.properties`文件里的配置信息
@@ -35,10 +36,27 @@
 
 #### 开发环境部署
 
+- 安装redis
 - `git clone https://github.com/liygheart/pybbs.git`
 - 推荐使用 IDEA 打开项目
 - 运行`AppConfig.java`类里的main方法
 - 浏览器访问`http://localhost:8080/`
+
+## 权限设置
+
+`pybbs.sql`里默认配置了三个角色
+
+- 超级管理员
+- 版主
+- 普通用户
+
+通过 Github 登录的用户默认都是普通用户，在sql脚本里用户与角色配置管理表默认初始化了一条数据，即登录用户在pybbs_user表里的id为1的用户默认会是超级管理员权限
+
+**如果想指定超级管理员权限给特定用户怎么办？**
+
+只能手动修改数据库了，这个朋也想过做成可配置的，但一直没有好的思路或者实现方法，就只好麻烦手动修改下数据库了
+
+只需要在 pybbs_user_role 里添加一条关联数据即可，比如想给用户id为7的用户设置超级管理员权限，就在 pybbs_user_role 表里添加一条数据rid填1，uid填7即可，如果没有生效，请将 redis 的数据清理一下
 
 ## 碰到问题怎么办?
 
