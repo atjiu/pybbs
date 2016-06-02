@@ -1,6 +1,4 @@
-> 非商业使用：请保留页面底部的 powered by [朋也社区](http://bbs.tomoya.cn)
-
-> 商业使用：请联系[朋也](https://github.com/liygheart)
+> 使用说明：请保留页面底部的 powered by [朋也社区](http://bbs.tomoya.cn)
 
 ## 使用技术
 
@@ -70,4 +68,4 @@
 
 ## License
 
-AGPL
+MIT
