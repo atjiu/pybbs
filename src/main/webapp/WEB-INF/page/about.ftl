@@ -42,6 +42,11 @@
                     <li>权限配置简单,轻松管理用户</li>
                     <li>使用textarea作为编辑器,配置快捷键,书写更方便,ie11+/chrome/firefox/safari 还支持截图粘贴上传</li>
                 </ul>
+                <hr>
+                <p>使用者</p>
+                <ul>
+                    <li><a href="http://bbs.narutogis.com/" target="_blank">http://bbs.narutogis.com/</a></li>
+                </ul>
             </div>
         </div>
     </div>
