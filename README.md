@@ -70,4 +70,4 @@
 
 ## License
 
-MIT
+AGPL
