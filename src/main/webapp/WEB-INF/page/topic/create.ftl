@@ -25,8 +25,10 @@
                         </select>
                     </div>
                     <button type="button" onclick="publishTopic();" class="btn btn-default">发布</button>
+                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
+                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -38,6 +40,7 @@
             <div class="panel-body">
                 <p>• 话题内容支持 Markdown 文本标记语法</p>
                 <p>• 发布话题奖励 5 积分，但是被管理员删除话题将会扣除作者 7 积分</p>
+                <p>• 发布话题之前,可以点击预览查看</p>
                 <p>• ctrl+b 粗体</p>
                 <p>• ctrl+i 斜体</p>
                 <p>• ctrl+g 插入图片</p>
@@ -50,5 +53,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/static/js/marked.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 </@html>

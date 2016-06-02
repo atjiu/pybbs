@@ -81,7 +81,6 @@ public class ReplyController extends BaseController {
                 }
                 //清理缓存，保持数据最新
                 clearCache(CacheEnum.topic.name() + tid);
-
                 clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
                 clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 redirect("/t/" + tid + "#reply" + reply.getInt("id"));

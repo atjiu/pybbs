@@ -32,6 +32,12 @@ function publishTopic() {
         form.submit();
     }
 }
+function previewContent() {
+    var content = $("#content").val();
+    if(content.length > 0) {
+        $("#preview").html("<hr>" + marked(content));
+    }
+}
 function goTop() {
     $('body').animate({
         scrollTop: 0

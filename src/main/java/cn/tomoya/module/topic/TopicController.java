@@ -15,6 +15,8 @@ import com.jfinal.aop.Before;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -45,6 +47,13 @@ public class TopicController extends BaseController {
             List<TopicAppend> topicAppends = TopicAppend.me.findByTid(tid);
             //话题浏览次数+1
             topic.set("view", topic.getInt("view") + 1).update();
+            //更新redis里的topic数据
+            Cache cache = Redis.use();
+            Topic _topic = cache.get(CacheEnum.topic.name() + tid);
+            if(_topic != null) {
+                _topic.set("view", _topic.getInt("view") + 1);
+                cache.set(CacheEnum.topic.name() + tid, _topic);
+            }
             //查询版块名称
             Section section = Section.me.findByTab(topic.getStr("tab"));
             //查询话题作者信息

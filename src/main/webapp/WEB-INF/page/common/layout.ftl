@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>${page_title!JFinalbbs}</title>
+    <title>${page_title!siteTitle}</title>
     <link rel="icon" href="/static/favicon.ico">
 
     <link rel="stylesheet" href="/static/css/bootstrap.css"/>
