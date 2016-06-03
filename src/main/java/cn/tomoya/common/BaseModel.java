@@ -8,6 +8,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Model;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +56,7 @@ public class BaseModel<T extends Model> extends Model<T> {
      * @param nickname
      * @return
      */
-    public String getAvatarByNickname(String nickname) {
+    public String getAvatarByNickname(String nickname) throws UnsupportedEncodingException {
         User user = User.me.findByNickname(nickname);
         if (user != null) {
             return user.getStr("avatar");

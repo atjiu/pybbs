@@ -52,7 +52,7 @@
                     </li>
                 <#else>
                     <li>
-                        <a href="/oauth/githublogin">Github登录</a>
+                        <a href="${login_channel.loginChannelUrl!}">${login_channel.loginChannelName!}登录</a>
                     </li>
                 </#if>
             </ul>

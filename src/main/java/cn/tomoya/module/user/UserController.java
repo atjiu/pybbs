@@ -1,7 +1,7 @@
 package cn.tomoya.module.user;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.reply.Reply;
@@ -14,6 +14,9 @@ import com.jfinal.plugin.activerecord.Page;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -25,7 +28,7 @@ public class UserController extends BaseController {
     /**
      * 用户个人主页
      */
-    public void index() {
+    public void index() throws UnsupportedEncodingException {
         String nickname = getPara(0);
         if (StrUtil.isBlank(nickname)) {
             renderText(Constants.OP_ERROR_MESSAGE);
@@ -48,7 +51,7 @@ public class UserController extends BaseController {
     /**
      * 用户的话题列表
      */
-    public void topics() {
+    public void topics() throws UnsupportedEncodingException {
         String nickname = getPara(0);
         User user = User.me.findByNickname(nickname);
         if (user == null) {
@@ -64,7 +67,7 @@ public class UserController extends BaseController {
     /**
      * 用户的回复列表
      */
-    public void replies() {
+    public void replies() throws UnsupportedEncodingException {
         String nickname = getPara(0);
         User user = User.me.findByNickname(nickname);
         if (user == null) {
@@ -81,7 +84,7 @@ public class UserController extends BaseController {
      * 用户设置
      */
     @Before(UserInterceptor.class)
-    public void setting() {
+    public void setting() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if (method.equals("POST")) {
             String url = getPara("url");
@@ -93,7 +96,7 @@ public class UserController extends BaseController {
                     .set("receive_msg", receive_msg == 1)
                     .update();
             //清理缓存
-            clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+            clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
             clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
             setAttr("msg", "保存成功。");
         }

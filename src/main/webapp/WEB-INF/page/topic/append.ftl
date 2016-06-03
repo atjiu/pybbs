@@ -9,7 +9,8 @@
             <div class="panel-body">
                 <form action="/t/append/${topic.id}" method="post" id="replyForm">
                     <div class="form-group">
-                        <textarea name="content" id="content" rows="15" onkeydown="qsend(event)" class="form-control"></textarea>
+                        <textarea name="content" id="content" rows="15" onkeydown="qsend(event)"
+                                  class="form-control" placeholder="支持Markdown语法哦~"></textarea>
                     </div>
                     <button type="button" class="btn btn-default" onclick="replySubmit()">提交</button>
                     <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>

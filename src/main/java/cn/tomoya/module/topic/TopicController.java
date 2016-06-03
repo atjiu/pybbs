@@ -1,7 +1,7 @@
 package cn.tomoya.module.topic;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
@@ -20,6 +20,8 @@ import com.jfinal.plugin.redis.Redis;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class TopicController extends BaseController {
     /**
      * 话题详情
      */
-    public void index() {
+    public void index() throws UnsupportedEncodingException {
         Integer tid = getParaToInt(0);
         Topic topic = Topic.me.findById(tid);
         if(topic == null) {
@@ -85,7 +87,7 @@ public class TopicController extends BaseController {
      * 创建话题
      */
     @Before(UserInterceptor.class)
-    public void create() {
+    public void create() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if (method.equals("GET")) {
             setAttr("sections", Section.me.findAll());
@@ -116,7 +118,7 @@ public class TopicController extends BaseController {
                 //给用户加分
                 user.set("score", user.getInt("score") + 5).update();
                 //清理用户缓存
-                clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+                clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
                 clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 redirect("/t/" + topic.getInt("id"));
             }
@@ -130,7 +132,7 @@ public class TopicController extends BaseController {
             UserInterceptor.class,
             PermissionInterceptor.class
     })
-    public void edit() {
+    public void edit() throws UnsupportedEncodingException {
         Integer id = getParaToInt("id");
         Topic topic = Topic.me.findById(id);
         String method = getRequest().getMethod();
@@ -147,7 +149,7 @@ public class TopicController extends BaseController {
                     .set("content", content)
                     .update();
             //清理缓存
-            clearCache(CacheEnum.usernickname.name() + topic.getStr("author"));
+            clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(topic.getStr("author"), "utf-8"));
             redirect("/t/" + topic.getInt("id"));
         }
     }
@@ -217,7 +219,7 @@ public class TopicController extends BaseController {
             PermissionInterceptor.class,
             Tx.class
     })
-    public void delete() {
+    public void delete() throws UnsupportedEncodingException {
         Integer id = getParaToInt("id");
         if(id == null) {
             renderText(Constants.OP_ERROR_MESSAGE);
@@ -233,7 +235,7 @@ public class TopicController extends BaseController {
             //删除话题（非物理删除）
             Topic.me.deleteById(id);
             //清理缓存
-            clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+            clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
             clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
             redirect("/");
         }

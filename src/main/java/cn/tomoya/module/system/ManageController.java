@@ -1,7 +1,7 @@
 package cn.tomoya.module.system;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
