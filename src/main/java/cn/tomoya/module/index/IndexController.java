@@ -2,6 +2,7 @@ package cn.tomoya.module.index;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants;
+import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.section.Section;
 import cn.tomoya.module.topic.Topic;
@@ -11,6 +12,8 @@ import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
 import com.jfinal.upload.UploadFile;
 
 import java.io.File;
@@ -121,21 +124,11 @@ public class IndexController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
-//            PermissionInterceptor.class
+            PermissionInterceptor.class
     })
     public void clear() {
-//        clearCache(Constants.SECTIONS_CACHE, null);
-//        clearCache(Constants.SECTION_CACHE, null);
-//        clearCache(Constants.TOPIC_CACHE, null);
-//        clearCache(Constants.TOPIC_APPEND_CACHE, null);
-//        clearCache(Constants.USERINFO_CACHE, null);
-//        clearCache(Constants.USER_TOPICS_CACHE, null);
-//        clearCache(Constants.USER_REPLIES_CACHE, null);
-//        clearCache(Constants.USER_SCORE_CACHE, null);
-//        clearCache(Constants.ROLE_CACHE, null);
-//        clearCache(Constants.PERMISSION_CACHE, null);
-//        clearCache(Constants.COLLECT_CACHE, null);
-//        renderText("clear cache finish!");
+        Cache cache = Redis.use();
+        cache.getJedis().flushDB();
     }
 
 }

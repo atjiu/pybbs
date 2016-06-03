@@ -150,6 +150,7 @@ public class TopicController extends BaseController {
                     .update();
             //清理缓存
             clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(topic.getStr("author"), "utf-8"));
+            clearCache(CacheEnum.topic.name() + id);
             redirect("/t/" + topic.getInt("id"));
         }
     }

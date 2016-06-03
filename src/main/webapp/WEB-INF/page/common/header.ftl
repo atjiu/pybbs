@@ -47,6 +47,9 @@
                             <@py.hasPermission name="system:permissions" id="${userinfo.id!}">
                                 <li><a href="/manage/permissions">权限管理</a></li>
                             </@py.hasPermission>
+                            <@py.hasPermission name="system:clearcache" id="${userinfo.id!}">
+                                <li><a href="/clear">删除所有缓存</a></li>
+                            </@py.hasPermission>
                             <li><a href="/logout">退出</a></li>
                         </ul>
                     </li>

@@ -3,6 +3,7 @@ package cn.tomoya.common;
 import cn.tomoya.interceptor.CommonInterceptor;
 import cn.tomoya.template.PyTag;
 import cn.tomoya.utils.StrUtil;
+import cn.tomoya.utils.ext.plugin.cron.Cron4jPlugin;
 import cn.tomoya.utils.ext.plugin.tablebind.AutoTableBindPlugin;
 import cn.tomoya.utils.ext.plugin.tablebind.ParamNameStyles;
 import cn.tomoya.utils.ext.route.AutoBindRoutes;
@@ -72,6 +73,8 @@ public class AppConfig extends JFinalConfig {
 //                getProperty("redis.password"),
 //                getPropertyToInt("redis.database")
         ));
+
+        me.add(new Cron4jPlugin().config("cronjob.properties"));
 
         AutoTableBindPlugin atbp = new AutoTableBindPlugin(
                 druidPlugin,
