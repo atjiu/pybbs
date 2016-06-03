@@ -277,12 +277,14 @@ CREATE TABLE `pybbs_user` (
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `url` varchar(255) DEFAULT NULL COMMENT '个人主页',
   `signature` varchar(1000) DEFAULT NULL COMMENT '个性签名',
-  `github_id` varchar(50) NOT NULL,
+  `third_id` varchar(50) NOT NULL DEFAULT '' COMMENT '第三方账户id',
   `access_token` varchar(45) NOT NULL,
   `receive_msg` tinyint(1) NOT NULL COMMENT '邮箱是否接收社区消息',
   `in_time` datetime NOT NULL COMMENT '录入时间',
   `expire_time` datetime NOT NULL,
+  `channel` varchar(50) NOT NULL,
   `isblock` tinyint(1) NOT NULL COMMENT '禁用0默认 1禁用',
+  `third_access_token` varchar(50) DEFAULT NULL COMMENT '第三方登录获取的access_token',
   PRIMARY KEY (`id`),
   UNIQUE KEY `NICKNAME_UNIQUE` (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
