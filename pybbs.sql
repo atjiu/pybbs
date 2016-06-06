@@ -100,7 +100,9 @@ VALUES
   (81, 'section:changeshowstatus', '/section/changeshowstatus', '改变板块显示状态', 79),
   (82, 'section:delete', '/section/delete', '删除板块', 79),
   (83, 'section:add', '/section/add', '添加板块', 79),
-  (84, 'section:edit', '/section/edit', '编辑板块', 79);
+  (84, 'section:edit', '/section/edit', '编辑板块', 79),
+  (85, 'reply:list', '/r/list', '回复列表', 58);
+
 
 
 /*!40000 ALTER TABLE `pybbs_permission` ENABLE KEYS */;
@@ -190,6 +192,7 @@ VALUES
 	(1,82),
 	(1,83),
 	(1,84),
+	(1,85),
 	(2,71),
 	(2,75),
 	(2,76),

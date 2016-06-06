@@ -41,6 +41,9 @@
                             <@py.hasPermission name="section:list" id="${userinfo.id!}">
                                 <li><a href="/section/list">板块管理</a></li>
                             </@py.hasPermission>
+                            <@py.hasPermission name="reply:list" id="${userinfo.id!}">
+                                <li><a href="/r/list">回复管理</a></li>
+                            </@py.hasPermission>
                             <@py.hasPermission name="system:users" id="${userinfo.id!}">
                                 <li><a href="/manage/users">用户管理</a></li>
                             </@py.hasPermission>

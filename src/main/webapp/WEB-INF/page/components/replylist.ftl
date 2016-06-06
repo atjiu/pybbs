@@ -3,6 +3,7 @@
     <#list replies as reply>
         <tr>
             <td>
+                <a href="/user/${reply.replyAuthor!}">${reply.replyAuthor!}</a>
                 ${reply.formatDate(reply.in_time)!}
                 回复了
                 <a href="/user/${reply.topicAuthor!}">${reply.topicAuthor!}</a>

@@ -12,6 +12,7 @@ import cn.tomoya.module.user.User;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.tx.Tx;
 
 import java.io.UnsupportedEncodingException;
@@ -136,5 +137,17 @@ public class ReplyController extends BaseController {
         clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
         clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
         redirect("/t/" + topic.getInt("id"));
+    }
+
+    /**
+     * 回复列表
+     */
+    @Before({
+            UserInterceptor.class,
+            PermissionInterceptor.class
+    })
+    public void list() {
+        setAttr("page", Reply.me.findAll(getParaToInt("p", 1), PropKit.getInt("pageSize")));
+        render("reply/list.ftl");
     }
 }
