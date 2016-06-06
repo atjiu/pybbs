@@ -36,9 +36,9 @@ public class AppConfig extends JFinalConfig {
         me.setBaseUploadPath(StrUtil.isBlank(staticPath) ? "static/upload" : staticPath);
 //        me.setMaxPostSize(1024 * 1024 * 2);
         me.setFreeMarkerTemplateUpdateDelay(300);
-        me.setError401View("401.html");
-        me.setError404View("404.html");
-        me.setError500View("500.html");
+        me.setError401View("/WEB-INF/page/401.html");
+        me.setError404View("/WEB-INF/page/404.html");
+        me.setError500View("/WEB-INF/page/500.html");
         FreeMarkerRender.getConfiguration().setSharedVariable("py", new PyTag());
     }
 
