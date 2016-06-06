@@ -38,6 +38,9 @@
                         <span class="dropdown-arrow"></span>
                         <ul class="dropdown-menu">
                             <li><a href="/user/setting">个人资料</a></li>
+                            <@py.hasPermission name="section:list" id="${userinfo.id!}">
+                                <li><a href="/section/list">板块管理</a></li>
+                            </@py.hasPermission>
                             <@py.hasPermission name="system:users" id="${userinfo.id!}">
                                 <li><a href="/manage/users">用户管理</a></li>
                             </@py.hasPermission>

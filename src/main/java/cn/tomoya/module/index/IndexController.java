@@ -45,7 +45,7 @@ public class IndexController extends BaseController {
         }
         Page page = Topic.me.page(getParaToInt("p", 1), PropKit.getInt("pageSize", 20), tab);
         setAttr("tab", tab);
-        setAttr("sections", Section.me.findAll());
+        setAttr("sections", Section.me.findByShowStatus(true));
         setAttr("page", page);
         render("index.ftl");
     }

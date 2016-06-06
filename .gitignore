@@ -16,4 +16,3 @@ pybbs.log
 target/
 out/
 dev.config.properties
-donate.ftl

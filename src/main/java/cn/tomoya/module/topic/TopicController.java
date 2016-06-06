@@ -90,7 +90,7 @@ public class TopicController extends BaseController {
     public void create() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if (method.equals("GET")) {
-            setAttr("sections", Section.me.findAll());
+            setAttr("sections", Section.me.findByShowStatus(true));
             render("topic/create.ftl");
         } else if (method.equals("POST")) {
             Date now = new Date();
@@ -137,7 +137,7 @@ public class TopicController extends BaseController {
         Topic topic = Topic.me.findById(id);
         String method = getRequest().getMethod();
         if(method.equals("GET")) {
-            setAttr("sections", Section.me.findAll());
+            setAttr("sections", Section.me.findByShowStatus(true));
             setAttr("topic", topic);
             render("topic/edit.ftl");
         } else if(method.equals("POST")) {

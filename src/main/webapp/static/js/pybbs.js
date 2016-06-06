@@ -136,3 +136,22 @@ function roleSubmit() {
         form.submit();
     }
 }
+function saveSection() {
+    var errors = 0;
+    var em = $("error_message");
+    var name = $("name").val();
+    var tab = $("tab").val();
+    if(name.length == 0) {
+        errors++;
+        em.html("名称不能为空");
+    }
+    if(tab.length == 0) {
+        errors++;
+        em.html("tab不能为空");
+    }
+    if(errors == 0) {
+        var form = $("sectionForm");
+        $("#savesectionbtn").button("保存中...");
+        form.submit();
+    }
+}
