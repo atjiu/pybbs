@@ -34,7 +34,7 @@ public class Reply extends BaseModel<Reply> {
                 pageNumber,
                 pageSize,
                 "select r.author as replyAuthor, r.content, r.in_time, t.id as tid, t.author as topicAuthor, t.title ",
-                "from pybbs_reply r, pybbs_topic t order by r.in_time desc"
+                "from pybbs_reply r left join pybbs_topic t on r.tid = t.id order by r.in_time desc"
             );
     }
 
