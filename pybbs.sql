@@ -94,7 +94,14 @@ VALUES
 	(75,'topic:edit','/t/edit','话题编辑',57),
 	(76,'topic:appendedit','/t/appendedit','追加编辑',57),
 	(77,'topic:top','/t/top','话题置顶',57),
-	(78,'topic:good','/t/good','话题加精',57);
+	(78,'topic:good','/t/good','话题加精',57),
+  (79, 'section', '', '板块节点', 0),
+  (80, 'section:list', '/section/list', '板块列表', 79),
+  (81, 'section:changeshowstatus', '/section/changeshowstatus', '改变板块显示状态', 79),
+  (82, 'section:delete', '/section/delete', '删除板块', 79),
+  (83, 'section:add', '/section/add', '添加板块', 79),
+  (84, 'section:edit', '/section/edit', '编辑板块', 79);
+
 
 /*!40000 ALTER TABLE `pybbs_permission` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -178,6 +185,11 @@ VALUES
 	(1,78),
 	(1,73),
 	(1,74),
+	(1,80),
+	(1,81),
+	(1,82),
+	(1,83),
+	(1,84),
 	(2,71),
 	(2,75),
 	(2,76),
@@ -199,11 +211,12 @@ CREATE TABLE `pybbs_section` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL DEFAULT '' COMMENT '板块名称',
   `tab` varchar(45) NOT NULL DEFAULT '' COMMENT '板块标签',
-  `show_status` int(11) NOT NULL DEFAULT '1' COMMENT '是否显示，0不显示1显示',
+  `show_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否显示，0不显示1显示',
   `display_index` int(11) NOT NULL COMMENT '板块排序',
   `default_show` tinyint(1) NOT NULL DEFAULT '0' COMMENT '默认显示板块 0默认，1显示',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tabunique` (`tab`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 LOCK TABLES `pybbs_section` WRITE;
 /*!40000 ALTER TABLE `pybbs_section` DISABLE KEYS */;
