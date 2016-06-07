@@ -14,7 +14,7 @@ var moveEnd = function(obj){
 $(function () {
     //给table加上样式
     $("table").each(function (i, v) {
-        if(!$(this).hasClass("table table-bordered")) {
+        if(!$(this).hasClass("table")) {
             $(this).addClass("table table-bordered");
         }
     });
