@@ -133,6 +133,11 @@
             <artifactId>cron4j</artifactId>
             <version>2.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.6.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>pybbs</finalName>
