@@ -7,6 +7,7 @@ import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.section.Section;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.utils.QiniuUpload;
+import cn.tomoya.utils.SolrUtil;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -84,12 +85,12 @@ public class IndexController extends BaseController {
         try {
             List<UploadFile> uploadFiles = getFiles(PropKit.get("static.path"));
             List<String> urls = new ArrayList<>();
-            for(UploadFile uf: uploadFiles) {
+            for (UploadFile uf : uploadFiles) {
                 String url = "";
-                if(PropKit.get("upload.type").equals("local")) {
+                if (PropKit.get("upload.type").equals("local")) {
                     url = PropKit.get("file.domain") + "/static/upload/" + uf.getFileName();
                     urls.add(url);
-                } else if(PropKit.get("upload.type").equals("qiniu")) {
+                } else if (PropKit.get("upload.type").equals("qiniu")) {
                     // 将本地文件上传到七牛,并删除本地文件
                     String filePath = uf.getUploadPath() + uf.getFileName();
                     Map map = new QiniuUpload().upload(filePath);
@@ -102,6 +103,40 @@ public class IndexController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             error("上传失败");
+        }
+    }
+
+    /**
+     * 索引所有话题
+     */
+    @Before({
+            UserInterceptor.class,
+            PermissionInterceptor.class
+    })
+    public void solr() {
+        if (PropKit.getBoolean("solr.status")) {
+            SolrUtil solrUtil = new SolrUtil();
+            solrUtil.indexAll();
+            redirect("/");
+        } else {
+            renderText("网站没有开启搜索功能!");
+        }
+    }
+
+    /**
+     * 搜索
+     */
+    public void search() {
+        if (PropKit.getBoolean("solr.status")) {
+            Integer pageNumber = getParaToInt("p", 1);
+            String q = getPara("q");
+            SolrUtil solrUtil = new SolrUtil();
+            Page page = solrUtil.indexQuery(pageNumber, q);
+            setAttr("q", q);
+            setAttr("page", page);
+            render("search.ftl");
+        } else {
+            renderText("网站没有开启搜索功能!");
         }
     }
 
@@ -129,6 +164,7 @@ public class IndexController extends BaseController {
     public void clear() {
         Cache cache = Redis.use();
         cache.getJedis().flushDB();
+        redirect("/");
     }
 
 }

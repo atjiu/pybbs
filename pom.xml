@@ -118,6 +118,7 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>[7.0.0, 7.0.99]</version>
         </dependency>
+        <!--redis插件依赖lib-->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
@@ -128,16 +129,25 @@
             <artifactId>fst</artifactId>
             <version>2.47</version>
         </dependency>
+        <!--定时器lib-->
         <dependency>
             <groupId>it.sauronsoftware.cron4j</groupId>
             <artifactId>cron4j</artifactId>
             <version>2.2.5</version>
         </dependency>
+        <!--markdown转换lib-->
         <dependency>
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>1.6.0</version>
         </dependency>
+        <!--solr-->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>6.0.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>pybbs</finalName>

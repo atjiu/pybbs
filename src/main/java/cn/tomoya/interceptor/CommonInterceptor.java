@@ -51,6 +51,7 @@ public class CommonInterceptor implements Interceptor {
             loginChannelMap.put("loginChannelUrl", "/oauth/githublogin");
             controller.setAttr("login_channel", loginChannelMap);
         }
+        controller.setAttr("solrStatus", PropKit.getBoolean("solr.status")?"true":"false");
         controller.setAttr("shareDomain", PropKit.get("share.domain"));
         controller.setAttr("siteTitle", PropKit.get("siteTitle"));
         controller.setAttr("beianName", PropKit.get("beianName"));

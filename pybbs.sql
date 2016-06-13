@@ -101,7 +101,10 @@ VALUES
   (82, 'section:delete', '/section/delete', '删除板块', 79),
   (83, 'section:add', '/section/add', '添加板块', 79),
   (84, 'section:edit', '/section/edit', '编辑板块', 79),
-  (85, 'reply:list', '/r/list', '回复列表', 58);
+  (85, 'reply:list', '/r/list', '回复列表', 58),
+  (86, 'system:solr', '/solr', '索引所有话题', 56),
+  (87, 'system:clearcache', '/clear', '删除所有缓存', 56);
+
 
 
 
@@ -193,6 +196,8 @@ VALUES
 	(1,83),
 	(1,84),
 	(1,85),
+	(1,86),
+	(1,87),
 	(2,71),
 	(2,75),
 	(2,76),

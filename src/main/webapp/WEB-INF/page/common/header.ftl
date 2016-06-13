@@ -12,6 +12,13 @@
             <a class="navbar-brand" style="color:#fff;" href="/">${siteTitle!}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse header-navbar">
+            <#if solrStatus == "true">
+                <form class="navbar-form navbar-left" role="search" action="/search" method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="q" value="${q!}" placeholder="回车搜索">
+                    </div>
+                </form>
+            </#if>
             <ul class="nav navbar-nav navbar-right">
                 <li <#if page_tab == 'donate'> class="active" </#if>>
                     <a href="/donate">捐赠</a>
@@ -52,6 +59,9 @@
                             </@py.hasPermission>
                             <@py.hasPermission name="system:permissions" id="${userinfo.id!}">
                                 <li><a href="/manage/permissions">权限管理</a></li>
+                            </@py.hasPermission>
+                            <@py.hasPermission name="system:solr" id="${userinfo.id!}">
+                                <li><a href="/solr">索引所有话题(慎用)</a></li>
                             </@py.hasPermission>
                             <@py.hasPermission name="system:clearcache" id="${userinfo.id!}">
                                 <li><a href="/clear">删除所有缓存</a></li>

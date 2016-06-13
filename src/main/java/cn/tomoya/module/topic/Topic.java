@@ -148,6 +148,19 @@ public class Topic extends BaseModel<Topic> {
     }
 
     /**
+     * 查询所有话题
+     * @return
+     */
+    public List<Topic> findAll() {
+        List<Topic> topics = super.find("select * from pybbs_topic where isdelete = ?", false);
+        for(Topic topic: topics) {
+            List<TopicAppend> topicAppends = TopicAppend.me.findByTid(topic.getInt("id"));
+            topic.put("topicAppends", topicAppends);
+        }
+        return topics;
+    }
+
+    /**
      * 删除话题
      * @param id
      */
