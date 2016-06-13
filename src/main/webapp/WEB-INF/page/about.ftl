@@ -30,17 +30,19 @@
                     <li>JFinal</li>
                     <li>MySQL(druid数据源)</li>
                     <li>Freemarker</li>
-                    <li>Ehcache</li>
                     <li>Bootstrap</li>
+                    <li>redis</li>
+                    <li>solr6.0.1</li>
                 </ul>
                 <p>特性:
                 <ul>
                     <li>社区兼容性（IE9+）</li>
                     <li>不用session,选用cookie,为了集群方便</li>
                     <li>大量使用了缓存（redis）减轻服务器压力, 集群更加方便</li>
-                    <li>不做本地账户,不会出现用户密码泄露问题（目前就Github登录,后续可以陆续增加其他第三方登录）</li>
+                    <li>不做本地账户,不会出现用户密码泄露问题（已支持: Github登录, 新浪微博登录）</li>
                     <li>权限配置简单,轻松管理用户</li>
                     <li>使用textarea作为编辑器,配置快捷键,书写更方便,ie11+/chrome/firefox/safari 还支持截图粘贴上传</li>
+                    <li>使用solr来检索,速度更快,配置文件里可一键开关,方便使用</li>
                 </ul>
                 <hr>
                 <p>使用者</p>
