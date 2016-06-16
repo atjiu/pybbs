@@ -15,8 +15,10 @@
                                   class="form-control">${topicAppend.content!}</textarea>
                     </div>
                     <button type="button" class="btn btn-default" onclick="replySubmit()">提交</button>
+                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
+                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -25,5 +27,6 @@
             <@info/>
     </div>
 </div>
+<script type="text/javascript" src="/static/js/marked.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 </@html>

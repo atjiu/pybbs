@@ -1,7 +1,7 @@
 package cn.tomoya.module.reply;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
@@ -12,8 +12,11 @@ import cn.tomoya.module.user.User;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.tx.Tx;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +29,7 @@ import java.util.List;
 public class ReplyController extends BaseController {
 
     @Before(UserInterceptor.class)
-    public void save() {
+    public void save() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if(method.equals("GET")) {
             renderError(404);
@@ -81,8 +84,7 @@ public class ReplyController extends BaseController {
                 }
                 //清理缓存，保持数据最新
                 clearCache(CacheEnum.topic.name() + tid);
-
-                clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+                clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
                 clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 redirect("/t/" + tid + "#reply" + reply.getInt("id"));
             }
@@ -120,7 +122,7 @@ public class ReplyController extends BaseController {
             PermissionInterceptor.class,
             Tx.class
     })
-    public void delete() {
+    public void delete() throws UnsupportedEncodingException {
         Integer id = getParaToInt("id");
         Reply reply = Reply.me.findById(id);
         Topic topic = Topic.me.findById(reply.getInt("tid"));
@@ -132,8 +134,20 @@ public class ReplyController extends BaseController {
         score = score > 7 ? score - 7 : 0;
         user.set("score", score).update();
         //清理缓存
-        clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+        clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
         clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
         redirect("/t/" + topic.getInt("id"));
+    }
+
+    /**
+     * 回复列表
+     */
+    @Before({
+            UserInterceptor.class,
+            PermissionInterceptor.class
+    })
+    public void list() {
+        setAttr("page", Reply.me.findAll(getParaToInt("p", 1), PropKit.getInt("pageSize")));
+        render("reply/list.ftl");
     }
 }

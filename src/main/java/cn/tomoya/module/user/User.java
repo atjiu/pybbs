@@ -1,7 +1,7 @@
 package cn.tomoya.module.user;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.module.system.UserRole;
 import cn.tomoya.utils.StrUtil;
 import com.jfinal.plugin.activerecord.Db;
@@ -9,6 +9,9 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +25,11 @@ public class User extends BaseModel<User> {
 
     /**
      * 根据Github_access_token查询用户信息
-     * @param githubId
+     * @param thirdId
      * @return
      */
-    public User findByGithubId(String githubId) {
-        return super.findFirst("select * from pybbs_user where github_id = ?", githubId);
+    public User findByThirdId(String thirdId) {
+        return super.findFirst("select * from pybbs_user where third_id = ?", thirdId);
     }
 
     /**
@@ -52,18 +55,18 @@ public class User extends BaseModel<User> {
      * @param nickname
      * @return
      */
-    public User findByNickname(String nickname) {
+    public User findByNickname(String nickname) throws UnsupportedEncodingException {
         if(StrUtil.isBlank(nickname)) {
             return null;
         }
         Cache cache = Redis.use();
-        User user = cache.get(CacheEnum.usernickname.name() + nickname);
+        User user = cache.get(CacheEnum.usernickname.name() + URLEncoder.encode(nickname, "utf-8"));
         if(user == null) {
             user = findFirst(
                     "select * from pybbs_user where nickname = ?",
-                    nickname
+                    URLDecoder.decode(nickname, "utf-8")
             );
-            cache.set(CacheEnum.usernickname.name() + nickname, user);
+            cache.set(CacheEnum.usernickname.name() + URLEncoder.encode(nickname, "utf-8"), user);
         }
         return user;
     }

@@ -24,6 +24,21 @@ public class Reply extends BaseModel<Reply> {
     }
 
     /**
+     * 分页查询全部话题
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    public Page<Reply> findAll(Integer pageNumber, Integer pageSize) {
+        return super.paginate(
+                pageNumber,
+                pageSize,
+                "select r.author as replyAuthor, r.content, r.in_time, t.id as tid, t.author as topicAuthor, t.title ",
+                "from pybbs_reply r left join pybbs_topic t on r.tid = t.id order by r.in_time desc"
+            );
+    }
+
+    /**
      * 分页查询话题的回复列表
      * @param pageNumber
      * @param pageSize

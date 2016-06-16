@@ -1,7 +1,7 @@
 package cn.tomoya.module.topic;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.redis.Cache;
@@ -145,6 +145,19 @@ public class Topic extends BaseModel<Topic> {
                 "from pybbs_topic where author = ? order by in_time desc",
                 author
         );
+    }
+
+    /**
+     * 查询所有话题
+     * @return
+     */
+    public List<Topic> findAll() {
+        List<Topic> topics = super.find("select * from pybbs_topic where isdelete = ?", false);
+        for(Topic topic: topics) {
+            List<TopicAppend> topicAppends = TopicAppend.me.findByTid(topic.getInt("id"));
+            topic.put("topicAppends", topicAppends);
+        }
+        return topics;
     }
 
     /**

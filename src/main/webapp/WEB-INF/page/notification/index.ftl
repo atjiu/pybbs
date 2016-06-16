@@ -31,7 +31,7 @@
                                     </#if>
                                     <span>${notification.formatDate(notification.in_time)!}</span>
                                 </div>
-                                <#if notification.content??>
+                                <#if notification.content?? && notification.content != "">
                                     <div class="payload">
                                         ${notification.marked(notification.content)!}
                                     </div>

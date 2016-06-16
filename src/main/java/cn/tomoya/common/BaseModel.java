@@ -6,8 +6,11 @@ import cn.tomoya.utils.MarkdownUtil;
 import cn.tomoya.utils.StrUtil;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Model;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +58,7 @@ public class BaseModel<T extends Model> extends Model<T> {
      * @param nickname
      * @return
      */
-    public String getAvatarByNickname(String nickname) {
+    public String getAvatarByNickname(String nickname) throws UnsupportedEncodingException {
         User user = User.me.findByNickname(nickname);
         if (user != null) {
             return user.getStr("avatar");
@@ -75,7 +78,7 @@ public class BaseModel<T extends Model> extends Model<T> {
             content = content.replace("@" + user, "[@" + user + "](/user/" + user + ")");
         }
         //markdown 转 html 并返回
-        return MarkdownUtil.marked(content);
+        return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed());
     }
 
 }

@@ -1,7 +1,7 @@
 package cn.tomoya.module.collect;
 
 import cn.tomoya.common.BaseModel;
-import cn.tomoya.common.CacheEnum;
+import cn.tomoya.common.Constants.CacheEnum;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 

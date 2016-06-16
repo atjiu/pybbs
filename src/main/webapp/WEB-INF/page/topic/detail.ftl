@@ -116,8 +116,10 @@
                                       class="form-control"></textarea>
                         </div>
                         <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
+                        <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                         <span id="error_message"></span>
                     </form>
+                    <div id="preview"></div>
                 </div>
             </div>
         </#if>
@@ -132,6 +134,7 @@
 <link rel="stylesheet" href="/static/css/jquery.atwho.min.css"/>
 <script type="text/javascript" src="/static/js/jquery.atwho.min.js"></script>
 <script type="text/javascript" src="/static/js/lodash.min.js"></script>
+<script type="text/javascript" src="/static/js/marked.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 <script type="text/javascript">
     var data = [];

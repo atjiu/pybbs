@@ -29,8 +29,10 @@
                         </select>
                     </div>
                     <button type="button" onclick="publishTopic();" class="btn btn-default">发布</button>
+                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
+                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -51,5 +53,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/static/js/marked.js"></script>
 <script type="text/javascript" src="/static/js/textarea.js"></script>
 </@html>

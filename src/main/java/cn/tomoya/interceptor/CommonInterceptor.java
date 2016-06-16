@@ -1,5 +1,6 @@
 package cn.tomoya.interceptor;
 
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.module.notification.Notification;
 import cn.tomoya.module.user.User;
@@ -8,6 +9,9 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Tomoya.
@@ -34,6 +38,20 @@ public class CommonInterceptor implements Interceptor {
             }
         }
 
+        //如果是微博登录的话,要在页面头部添加meta标签
+        String loginChannel = PropKit.get("login.channel");
+        Map<String, String> loginChannelMap = new HashMap<String, String>();
+        if(loginChannel.equals(Constants.LoginEnum.Weibo.name())) {
+            loginChannelMap.put("loginChannelName", Constants.LoginEnum.Weibo.name());
+            loginChannelMap.put("loginChannelUrl", "/oauth/weibologin");
+            controller.setAttr("login_channel", loginChannelMap);
+            controller.setAttr("weibometa", PropKit.get("weibo.meta"));
+        } else if(StrUtil.isBlank(loginChannel) || loginChannel.equals(Constants.LoginEnum.Github.name())) {
+            loginChannelMap.put("loginChannelName", Constants.LoginEnum.Github.name());
+            loginChannelMap.put("loginChannelUrl", "/oauth/githublogin");
+            controller.setAttr("login_channel", loginChannelMap);
+        }
+        controller.setAttr("solrStatus", PropKit.getBoolean("solr.status")?"true":"false");
         controller.setAttr("shareDomain", PropKit.get("share.domain"));
         controller.setAttr("siteTitle", PropKit.get("siteTitle"));
         controller.setAttr("beianName", PropKit.get("beianName"));
