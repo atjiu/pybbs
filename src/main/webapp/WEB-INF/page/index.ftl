@@ -27,7 +27,7 @@
                 <#include "./components/topics.ftl"/>
                 <@topics/>
                 <#include "./components/paginate.ftl"/>
-                <@paginate currentPage=page.getPageNumber() totalPage=page.getTotalPage() actionUrl="/" urlParas="tab=${tab!}"/>
+                <@paginate currentPage=page.getPageNumber() totalPage=page.getTotalPage() actionUrl="/" urlParas="&tab=${tab!}"/>
             </div>
         </div>
     </div>
