@@ -155,6 +155,13 @@ public class IndexController extends BaseController {
     }
 
     /**
+     * API
+     */
+    public void api() {
+        render("api.ftl");
+    }
+
+    /**
      * 清理缓存
      */
     @Before({

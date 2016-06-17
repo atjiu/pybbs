@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-9">
         <div class="panel panel-default">
-            <div class="panel-heading">关于</div>
+            <div class="panel-heading"><a href="/">主页</a> / 关于</div>
             <div class="panel-body">
                 <p>朋也社区是用Java语言编写的社区（论坛）系统.</p>
                 <p>感谢 <a href="http://jfinal.com" target="_blank">JFinal</a> - Java极速开发框架</p>

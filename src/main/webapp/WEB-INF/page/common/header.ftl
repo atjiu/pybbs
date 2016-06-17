@@ -23,6 +23,9 @@
                 <li <#if page_tab == 'donate'> class="active" </#if>>
                     <a href="/donate">捐赠</a>
                 </li>
+                <li <#if page_tab == 'api'> class="active" </#if>>
+                    <a href="/api">API</a>
+                </li>
                 <li <#if page_tab == 'about'> class="active" </#if>>
                     <a href="/about">关于</a>
                 </li>

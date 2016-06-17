@@ -72,6 +72,7 @@ public class BaseModel<T extends Model> extends Model<T> {
      * @return
      */
     public String marked(String content) {
+        if(StrUtil.isBlank(content)) return "";
         //处理@
         List<String> users = StrUtil.fetchUsers(content);
         for (String user : users) {

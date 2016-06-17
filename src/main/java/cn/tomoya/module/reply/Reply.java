@@ -5,6 +5,8 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 
+import java.util.List;
+
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -55,6 +57,15 @@ public class Reply extends BaseModel<Reply> {
                 false,
                 tid
         );
+    }
+
+    /**
+     * 根据话题id查询回复列表
+     * @param topicId
+     * @return
+     */
+    public List<Reply> findByTopicId(Integer topicId) {
+        return super.find("select * from pybbs_reply where isdelete = ? and tid = ?", false, topicId);
     }
 
     /**

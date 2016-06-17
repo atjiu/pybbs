@@ -42,7 +42,7 @@ public class MarkdownUtil {
     private final static PegDownProcessor md = new PegDownProcessor(Extensions.ALL_WITH_OPTIONALS);
 
     public static String pegDown(String content) {
-        return md.markdownToHtml(content);
+        return md.markdownToHtml(content == null ? "" : content);
     }
 
 }
