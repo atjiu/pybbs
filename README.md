@@ -2,6 +2,8 @@
 
 ## 使用技术
 
+- jdk1.8
+- tomcat8
 - JFinal
 - freemarker
 - mysql

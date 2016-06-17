@@ -27,6 +27,8 @@
                 </ul>
                 <p>使用到的技术:
                 <ul>
+                    <li>jdk1.8</li>
+                    <li>tomcat8</li>
                     <li>JFinal</li>
                     <li>MySQL(druid数据源)</li>
                     <li>Freemarker</li>
