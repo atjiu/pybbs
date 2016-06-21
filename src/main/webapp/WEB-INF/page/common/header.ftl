@@ -30,6 +30,9 @@
                     <a href="/about">关于</a>
                 </li>
                 <#if userinfo??>
+                    <li class="hidden-md hidden-lg">
+                        <a href="/t/create">发布话题</a>
+                    </li>
                     <li <#if page_tab == 'notification'> class="active" </#if>>
                         <a href="/notification">通知 <span class="badge" id="badge">${notifications!}</span></a>
                     </li>

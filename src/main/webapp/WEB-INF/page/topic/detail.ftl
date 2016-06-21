@@ -122,7 +122,7 @@
             </div>
         </#if>
     </div>
-    <div class="col-md-3 hidden-sm hidden-xs hidden-sm hidden-xs">
+    <div class="col-md-3 hidden-sm hidden-xs">
         <#include "../components/authorinfo.ftl"/>
         <@info/>
         <#include "../components/othertopics.ftl"/>
