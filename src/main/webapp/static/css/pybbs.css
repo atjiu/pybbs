@@ -95,3 +95,6 @@ body {
 form textarea {
     resize: vertical;
 }
+#error_message {
+    color: red;
+}

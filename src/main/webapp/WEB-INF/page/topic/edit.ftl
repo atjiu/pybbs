@@ -29,10 +29,8 @@
                         </select>
                     </div>
                     <button type="button" onclick="publishTopic();" class="btn btn-default">发布</button>
-                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
-                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -43,16 +41,20 @@
             </div>
             <div class="panel-body">
                 <p>• 关于积分：发布话题奖励 5 积分，但是被管理员删除话题将会扣除作者 7 积分</p>
-
                 <p>• 问题标题: 请用准确的语言描述您发布的问题思想</p>
-
                 <p>• 添加标签: 添加一个或者多个合适的标签, 让您发布的问题得到更多有相同兴趣的人参与.</p>
-
                 <p>• 给话题选择合适的板块方便查找浏览</p>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/static/js/marked.js"></script>
-<script type="text/javascript" src="/static/js/textarea.js"></script>
+<link rel="stylesheet" href="/static/libs/editor/editor.css"/>
+<script type="text/javascript" src="/static/libs/webuploader/webuploader.withoutimage.js"></script>
+<script type="text/javascript" src="/static/libs/markdownit.js"></script>
+<script type="text/javascript" src="/static/libs/editor/editor.js"></script>
+<script type="text/javascript" src="/static/libs/editor/ext.js"></script>
+<script type="text/javascript">
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+</script>
 </@html>

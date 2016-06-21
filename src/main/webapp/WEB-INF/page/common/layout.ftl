@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="/static/css/pybbs.css">
     <script src="http://cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="/static/js/pybbs.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -27,6 +26,7 @@
 </div>
     <#include "./footer.ftl">
     <@footer/>
+<script src="/static/js/pybbs.js"></script>
 </body>
 </html>
 </#macro>

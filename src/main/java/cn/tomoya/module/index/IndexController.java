@@ -102,7 +102,7 @@ public class IndexController extends BaseController {
             success(urls);
         } catch (Exception e) {
             e.printStackTrace();
-            error("上传失败");
+            error("图片上传失败,再试一次吧");
         }
     }
 

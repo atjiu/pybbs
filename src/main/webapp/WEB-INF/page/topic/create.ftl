@@ -25,10 +25,8 @@
                         </select>
                     </div>
                     <button type="button" onclick="publishTopic();" class="btn btn-default">发布</button>
-                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
-                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -43,16 +41,23 @@
                 <p>• 发布话题之前,可以点击预览查看</p>
                 <p>• ctrl+b 粗体</p>
                 <p>• ctrl+i 斜体</p>
-                <p>• ctrl+g 插入图片</p>
-                <p>• ctrl+l 插入链接</p>
-                <p>• ctrl+r hr</p>
-                <p>• ctrl+h 插入标题</p>
-                <p>• ctrl+k 插入代码</p>
-                <p>• 截图在textarea里直接粘贴即可上传(IE10+)</p>
+                <p>• ctrl+k 插入链接</p>
+                <p>• ctrl+alt+i 插入图片</p>
+                <p>• ctrl+' 插入引用</p>
+                <p>• ctrl+alt+l 有序列表</p>
+                <p>• ctrl+l 无序列表</p>
+                <p>• 截图在编辑器里直接粘贴即可上传(IE10+)</p>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/static/js/marked.js"></script>
-<script type="text/javascript" src="/static/js/textarea.js"></script>
+<link rel="stylesheet" href="/static/libs/editor/editor.css"/>
+<script type="text/javascript" src="/static/libs/webuploader/webuploader.withoutimage.js"></script>
+<script type="text/javascript" src="/static/libs/markdownit.js"></script>
+<script type="text/javascript" src="/static/libs/editor/editor.js"></script>
+<script type="text/javascript" src="/static/libs/editor/ext.js"></script>
+<script type="text/javascript">
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+</script>
 </@html>
