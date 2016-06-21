@@ -140,6 +140,20 @@ public class IndexController extends BaseController {
         }
     }
 
+    @Before({
+            UserInterceptor.class,
+            PermissionInterceptor.class
+    })
+    public void deleteallindex() {
+        if (PropKit.getBoolean("solr.status")) {
+            SolrUtil solrUtil = new SolrUtil();
+            solrUtil.deleteAll();
+            redirect("/");
+        } else {
+            renderText("网站没有开启搜索功能!");
+        }
+    }
+
     /**
      * 积分前100名用户
      */

@@ -12,6 +12,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class SolrUtil {
                     content.append("\n")//换行
                             .append(ta.getStr("content"));
                 }
-                doc.addField("content", content);
+                doc.addField("content", content.toString());
                 docs.add(doc);
             }
             client.add(docs);
@@ -109,8 +111,8 @@ public class SolrUtil {
             query.setHighlight(true);
             query.addHighlightField("title");
             query.addHighlightField("content");
-            query.setHighlightSimplePre("<font color='red'>");
-            query.setHighlightSimplePost("</font>");
+            query.setHighlightSimplePre("<font color='red'><b>");
+            query.setHighlightSimplePost("</b></font>");
             query.setHighlightSnippets(1);
             query.setHighlightFragsize(150);
             QueryResponse res = solrClient.query(query);
@@ -129,7 +131,7 @@ public class SolrUtil {
                 }
                 List<String> contentList = highlightMap.get(id).get("content");
                 if (contentList != null && contentList.size() > 0) {
-                    topic.set("content", contentList.get(0) + "...");
+                    topic.set("content", Jsoup.clean(contentList.get(0) + "...", Whitelist.none().addTags("b").addAttributes("font", "color")));
                 }
                 list.add(topic);
             }
@@ -153,6 +155,17 @@ public class SolrUtil {
     public void indexDelete(String id) {
         try {
             client.deleteById(id);
+            client.commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAll() {
+        try {
+            client.deleteByQuery("*");
             client.commit();
         } catch (SolrServerException e) {
             e.printStackTrace();

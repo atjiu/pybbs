@@ -66,6 +66,9 @@
                             <@py.hasPermission name="system:solr" id="${userinfo.id!}">
                                 <li><a href="/solr">索引所有话题(慎用)</a></li>
                             </@py.hasPermission>
+                            <@py.hasPermission name="system:deleteallindex" id="${userinfo.id!}">
+                                <li><a href="/deleteallindex">删除所有索引</a></li>
+                            </@py.hasPermission>
                             <@py.hasPermission name="system:clearcache" id="${userinfo.id!}">
                                 <li><a href="/clear">删除所有缓存</a></li>
                             </@py.hasPermission>
