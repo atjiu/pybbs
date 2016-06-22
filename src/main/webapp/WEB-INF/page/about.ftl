@@ -4,7 +4,7 @@
     <div class="col-md-9">
         <div class="panel panel-default">
             <div class="panel-heading"><a href="/">主页</a> / 关于</div>
-            <div class="panel-body">
+            <div class="panel-body topic-detail-content">
                 <p>朋也社区是用Java语言编写的社区（论坛）系统.</p>
                 <p>感谢 <a href="http://jfinal.com" target="_blank">JFinal</a> - Java极速开发框架</p>
                 <p>界面布局参照
@@ -43,10 +43,9 @@
                     <li>大量使用了缓存（redis）减轻服务器压力, 集群更加方便</li>
                     <li>不做本地账户,不会出现用户密码泄露问题（已支持: Github登录, 新浪微博登录）</li>
                     <li>权限配置简单,轻松管理用户</li>
-                    <li>使用textarea作为编辑器,配置快捷键,书写更方便,ie11+/chrome/firefox/safari 还支持截图粘贴上传</li>
+                    <li>使用 <a href="https://github.com/lepture/editor" target="_blank">editor</a> 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传</li>
                     <li>使用solr来检索,速度更快,配置文件里可一键开关,方便使用</li>
                 </ul>
-                <hr>
                 <p>使用者</p>
                 <ul>
                     <li><a href="http://bbs.narutogis.com/" target="_blank">http://bbs.narutogis.com/</a></li>
