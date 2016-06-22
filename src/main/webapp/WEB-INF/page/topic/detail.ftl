@@ -138,11 +138,16 @@
     height: 150px;
 }
 </style>
+<script type="text/javascript" src="/static/js/highlight.min.js"></script>
 <script type="text/javascript" src="/static/libs/webuploader/webuploader.withoutimage.js"></script>
 <script type="text/javascript" src="/static/libs/markdownit.js"></script>
 <script type="text/javascript" src="/static/libs/editor/editor.js"></script>
 <script type="text/javascript" src="/static/libs/editor/ext.js"></script>
 <script type="text/javascript">
+
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
 
     var editor = new Editor({element: $("#content")[0], status: []});
     editor.render();
