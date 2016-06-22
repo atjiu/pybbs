@@ -12,7 +12,7 @@
 
                     <div class="form-group">
                         <textarea name="content" id="content" rows="15"
-                                  class="form-control">${reply.content!}</textarea>
+                                  class="form-control">${reply.content?html!}</textarea>
                     </div>
                     <button type="button" onclick="replySubmit()" class="btn btn-default">保存</button>
                     <span id="error_message"></span>

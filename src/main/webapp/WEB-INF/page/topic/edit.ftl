@@ -15,7 +15,7 @@
                     </div>
                     <div class="form-group">
                         <label for="title">内容</label>
-                        <textarea name="content" id="content" rows="15" class="form-control">${topic.content!}</textarea>
+                        <textarea name="content" id="content" rows="15" class="form-control">${topic.content?html!}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="title">版块</label>

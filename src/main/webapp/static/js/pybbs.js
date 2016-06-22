@@ -50,6 +50,10 @@ function goTop() {
         scrollTop: 0
     }, 300);
 }
+function goBottom() {
+    var windowHeight = parseInt($("body").css("height" ));//整个页面的高度
+    $("body").animate({ "scrollTop" : windowHeight }, 300);
+}
 function replySubmit() {
     var errors = 0;
     var em = $("#error_message");
