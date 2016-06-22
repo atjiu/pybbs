@@ -11,14 +11,6 @@ var moveEnd = function(obj){
         obj.selectionStart = obj.selectionEnd = len;
     }
 };
-$(function () {
-    //给table加上样式
-    $("table").each(function (i, v) {
-        if(!$(this).hasClass("table")) {
-            $(this).addClass("table table-bordered");
-        }
-    });
-});
 function publishTopic() {
     var em = $("#error_message");
     var errors = 0;
