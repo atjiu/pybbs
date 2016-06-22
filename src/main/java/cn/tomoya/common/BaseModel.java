@@ -82,4 +82,15 @@ public class BaseModel<T extends Model> extends Model<T> {
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed());
     }
 
+    /**
+     * 解析markdown文章(不解析@)
+     * @param content
+     * @return
+     */
+    public String markedNotAt(String content) {
+        if(StrUtil.isBlank(content)) return "";
+        //markdown 转 html 并返回
+        return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed());
+    }
+
 }

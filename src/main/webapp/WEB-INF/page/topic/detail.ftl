@@ -54,7 +54,7 @@
             <#if topic.content?? && topic.content != "">
                 <div class="divide"></div>
                 <div class="panel-body topic-detail-content">
-                ${topic.marked(topic.content)}
+                ${topic.markedNotAt(topic.content)}
                 </div>
             </#if>
             <#list topicAppends as topicAppend>
@@ -71,7 +71,7 @@
                             </@py.hasPermission>
                         </#if>
                     </p>
-                ${topicAppend.marked(topicAppend.content)}
+                ${topicAppend.markedNotAt(topicAppend.content)}
                 </div>
             </#list>
             <#if userinfo??>
