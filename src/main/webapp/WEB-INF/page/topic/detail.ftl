@@ -105,7 +105,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     添加一条新回复
-                    <a href="javascript:goTop();" class="pull-right">回到顶部</a>
+                    <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
                 </div>
                 <div class="panel-body">
                     <form action="/r/save" method="post" id="replyForm">

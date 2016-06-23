@@ -11,6 +11,14 @@ var moveEnd = function(obj){
         obj.selectionStart = obj.selectionEnd = len;
     }
 };
+$(function(){
+    var n = $("#goTop");
+    n.click(function () {
+        return $("html,body").animate({
+            scrollTop: 0
+        });
+    });
+});
 function publishTopic() {
     var em = $("#error_message");
     var errors = 0;
@@ -36,15 +44,6 @@ function previewContent() {
     if(content.length > 0) {
         $("#preview").html("<hr>" + marked(content));
     }
-}
-function goTop() {
-    $('body').animate({
-        scrollTop: 0
-    }, 300);
-}
-function goBottom() {
-    var windowHeight = parseInt($("body").css("height" ));//整个页面的高度
-    $("body").animate({ "scrollTop" : windowHeight }, 300);
 }
 function replySubmit() {
     var errors = 0;

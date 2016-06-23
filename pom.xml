@@ -147,22 +147,6 @@
             <artifactId>solr-solrj</artifactId>
             <version>6.0.1</version>
         </dependency>
-        <!--ElasticSearch-->
-        <dependency>
-            <groupId>io.searchbox</groupId>
-            <artifactId>jest</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.7.4</version>
-        </dependency>
     </dependencies>
     <build>
         <finalName>pybbs</finalName>
