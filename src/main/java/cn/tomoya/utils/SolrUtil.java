@@ -79,8 +79,14 @@ public class SolrUtil {
             SolrInputDocument doc = new SolrInputDocument();
             doc.addField("id", topic.getInt("id"));
             doc.addField("title", topic.getStr("title"));
-            doc.addField("content", topic.getStr("content"));
             doc.addField("in_time", topic.getDate("in_time"));
+            List<TopicAppend> topicAppends = TopicAppend.me.findByTid(topic.getInt("id"));
+            StringBuffer content = new StringBuffer(topic.getStr("content"));
+            for(TopicAppend ta: topicAppends) {
+                content.append("\n")//换行
+                        .append(ta.getStr("content"));
+            }
+            doc.addField("content", content.toString());
             client.add(doc);
             client.commit();
             return true;

@@ -80,7 +80,9 @@ public class Reply extends BaseModel<Reply> {
                 pageNumber,
                 pageSize,
                 "select t.title, t.author as topicAuthor, t.in_time, r.tid, r.content ",
-                "from pybbs_topic t, pybbs_reply r where t.id = r.tid and r.author = ? order by r.in_time desc",
+                "from pybbs_topic t, pybbs_reply r where t.isdelete = ? and r.isdelete = ? and t.id = r.tid and r.author = ? order by r.in_time desc",
+                false,
+                false,
                 author
         );
     }

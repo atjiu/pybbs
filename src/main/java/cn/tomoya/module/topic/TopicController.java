@@ -5,6 +5,7 @@ import cn.tomoya.common.Constants;
 import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
+import cn.tomoya.interceptor.UserStatusInterceptor;
 import cn.tomoya.module.collect.Collect;
 import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.section.Section;
@@ -87,7 +88,10 @@ public class TopicController extends BaseController {
     /**
      * 创建话题
      */
-    @Before(UserInterceptor.class)
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class
+    })
     public void create() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if (method.equals("GET")) {
@@ -136,6 +140,7 @@ public class TopicController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
+            UserStatusInterceptor.class,
             PermissionInterceptor.class
     })
     public void edit() throws UnsupportedEncodingException {
@@ -169,7 +174,10 @@ public class TopicController extends BaseController {
     /**
      * 话题追加
      */
-    @Before(UserInterceptor.class)
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class
+    })
     public void append() {
         String method = getRequest().getMethod();
         Integer tid = getParaToInt(0);
@@ -208,6 +216,7 @@ public class TopicController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
+            UserStatusInterceptor.class,
             PermissionInterceptor.class
     })
     public void appendedit() {
@@ -240,6 +249,7 @@ public class TopicController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
+            UserStatusInterceptor.class,
             PermissionInterceptor.class,
             Tx.class
     })
@@ -273,6 +283,11 @@ public class TopicController extends BaseController {
     /**
      * 置顶
      */
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class,
+            PermissionInterceptor.class
+    })
     public void top() {
         Integer id = getParaToInt("id");
         Topic.me.top(id);
@@ -283,6 +298,11 @@ public class TopicController extends BaseController {
     /**
      * 加精
      */
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class,
+            PermissionInterceptor.class
+    })
     public void good() {
         Integer id = getParaToInt("id");
         Topic.me.good(id);
