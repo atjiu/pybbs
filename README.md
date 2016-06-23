@@ -2,6 +2,8 @@
 
 ## 使用技术
 
+- jdk1.8
+- tomcat8
 - JFinal
 - freemarker
 - mysql
@@ -16,7 +18,7 @@
 - 大量使用了缓存（redis）减轻Mysql数据库的压力, 集群更加方便
 - 不做本地账户,不会出现用户密码泄露问题（已支持: Github登录, 新浪微博登录）
 - 权限配置简单,轻松管理用户
-- 使用textarea作为编辑器,配置快捷键,书写更方便,ie11+/chrome/firefox/safari 还支持截图粘贴上传
+- 使用 [editor](https://github.com/lepture/editor) 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
 - 使用solr来检索,速度更快,配置文件里可一键开关,方便使用
 
 ## 如何开始
@@ -61,7 +63,7 @@
 ## 碰到问题怎么办?
 
 1. 到 [http://bbs.tomoya.cn](http://bbs.tomoya.cn) 上提问答
-2. 在Github上提 [Issues](https://github.com/liygheart/pybbs/issues)
+2. 在Github上提 [Issues](https://github.com/tomoya92/pybbs/issues)
 3. 提问题的时候请将问题重现步骤描述清楚
 
 ## 贡献

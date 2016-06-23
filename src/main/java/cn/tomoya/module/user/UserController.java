@@ -4,6 +4,7 @@ import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.UserInterceptor;
+import cn.tomoya.interceptor.UserStatusInterceptor;
 import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.utils.StrUtil;
@@ -83,7 +84,10 @@ public class UserController extends BaseController {
     /**
      * 用户设置
      */
-    @Before(UserInterceptor.class)
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class
+    })
     public void setting() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if (method.equals("POST")) {

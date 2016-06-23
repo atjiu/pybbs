@@ -142,7 +142,8 @@ public class Topic extends BaseModel<Topic> {
                 pageNumber,
                 pageSize,
                 "select * ",
-                "from pybbs_topic where author = ? order by in_time desc",
+                "from pybbs_topic where isdelete = ? and author = ? order by in_time desc",
+                false,
                 author
         );
     }

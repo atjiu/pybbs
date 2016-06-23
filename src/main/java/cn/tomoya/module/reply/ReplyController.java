@@ -5,6 +5,7 @@ import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
+import cn.tomoya.interceptor.UserStatusInterceptor;
 import cn.tomoya.module.notification.Notification;
 import cn.tomoya.module.notification.NotificationEnum;
 import cn.tomoya.module.topic.Topic;
@@ -28,7 +29,10 @@ import java.util.List;
 @ControllerBind(controllerKey = "/r", viewPath = "WEB-INF/page")
 public class ReplyController extends BaseController {
 
-    @Before(UserInterceptor.class)
+    @Before({
+            UserInterceptor.class,
+            UserStatusInterceptor.class
+    })
     public void save() throws UnsupportedEncodingException {
         String method = getRequest().getMethod();
         if(method.equals("GET")) {
@@ -96,6 +100,7 @@ public class ReplyController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
+            UserStatusInterceptor.class,
             PermissionInterceptor.class
     })
     public void edit() {
@@ -119,6 +124,7 @@ public class ReplyController extends BaseController {
      */
     @Before({
             UserInterceptor.class,
+            UserStatusInterceptor.class,
             PermissionInterceptor.class,
             Tx.class
     })

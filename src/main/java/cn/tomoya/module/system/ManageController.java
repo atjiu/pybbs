@@ -96,6 +96,18 @@ public class ManageController extends BaseController {
     }
 
     /**
+     * 禁用账户
+     */
+    public void userblock() {
+        Integer id = getParaToInt("id");
+        User user = User.me.findById(id);
+        user.set("isblock", !user.getBoolean("isblock")).update();
+        clearCache(CacheEnum.usernickname.name() + user.getStr("nickname"));
+        clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
+        redirect("/manage/users");
+    }
+
+    /**
      * 添加角色
      */
     public void addrole() {

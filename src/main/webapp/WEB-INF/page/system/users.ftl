@@ -13,11 +13,18 @@
                     <#list page.getList() as user>
                         <tr>
                             <td>${user.id!}</td>
-                            <td>${user.nickname!}</td>
-                            <td>${user.email!}</td>
-                            <td>${user.url!}</td>
+                            <td><a href="/user/${user.nickname!}" target="_blank">${user.nickname!}</a></td>
+                            <td><a href="mailto:${user.email!}" target="_blank">${user.email!}</a></td>
+                            <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
                             <td>
                                 <a href="/manage/userrole?id=${user.id!}" class="btn btn-xs btn-warning">配置角色</a>
+                                <a href="javascript:if(confirm('确认此操作吗?')) location.href='/manage/userblock?id=${user.id!}'" class="btn btn-xs btn-danger">
+                                    <#if user.isblock == true>
+                                        取消禁用
+                                    <#elseif user.isblock == false>
+                                        禁用账户
+                                    </#if>
+                                </a>
                                 <a href="javascript:if(confirm('确认删除吗?')) location.href='/manage/deleteuser?id=${user.id!}'" class="btn btn-xs btn-danger">删除</a>
                             </td>
                         </tr>

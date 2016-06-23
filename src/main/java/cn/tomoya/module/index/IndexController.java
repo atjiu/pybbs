@@ -102,7 +102,7 @@ public class IndexController extends BaseController {
             success(urls);
         } catch (Exception e) {
             e.printStackTrace();
-            error("上传失败");
+            error("图片上传失败,再试一次吧");
         }
     }
 
@@ -140,6 +140,20 @@ public class IndexController extends BaseController {
         }
     }
 
+    @Before({
+            UserInterceptor.class,
+            PermissionInterceptor.class
+    })
+    public void deleteallindex() {
+        if (PropKit.getBoolean("solr.status")) {
+            SolrUtil solrUtil = new SolrUtil();
+            solrUtil.deleteAll();
+            redirect("/");
+        } else {
+            renderText("网站没有开启搜索功能!");
+        }
+    }
+
     /**
      * 积分前100名用户
      */
@@ -152,6 +166,13 @@ public class IndexController extends BaseController {
      */
     public void donate() {
         render("donate.ftl");
+    }
+
+    /**
+     * API
+     */
+    public void api() {
+        render("api.ftl");
     }
 
     /**

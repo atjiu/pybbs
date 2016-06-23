@@ -23,10 +23,16 @@
                 <li <#if page_tab == 'donate'> class="active" </#if>>
                     <a href="/donate">捐赠</a>
                 </li>
+                <li <#if page_tab == 'api'> class="active" </#if>>
+                    <a href="/api">API</a>
+                </li>
                 <li <#if page_tab == 'about'> class="active" </#if>>
                     <a href="/about">关于</a>
                 </li>
                 <#if userinfo??>
+                    <li class="hidden-md hidden-lg">
+                        <a href="/t/create">发布话题</a>
+                    </li>
                     <li <#if page_tab == 'notification'> class="active" </#if>>
                         <a href="/notification">通知 <span class="badge" id="badge">${notifications!}</span></a>
                     </li>
@@ -62,6 +68,9 @@
                             </@py.hasPermission>
                             <@py.hasPermission name="system:solr" id="${userinfo.id!}">
                                 <li><a href="/solr">索引所有话题(慎用)</a></li>
+                            </@py.hasPermission>
+                            <@py.hasPermission name="system:deleteallindex" id="${userinfo.id!}">
+                                <li><a href="/deleteallindex">删除所有索引</a></li>
                             </@py.hasPermission>
                             <@py.hasPermission name="system:clearcache" id="${userinfo.id!}">
                                 <li><a href="/clear">删除所有缓存</a></li>

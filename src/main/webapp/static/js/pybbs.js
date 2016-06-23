@@ -11,19 +11,18 @@ var moveEnd = function(obj){
         obj.selectionStart = obj.selectionEnd = len;
     }
 };
-$(function () {
-    //给table加上样式
-    $("table").each(function (i, v) {
-        if(!$(this).hasClass("table")) {
-            $(this).addClass("table table-bordered");
-        }
+$(function(){
+    var n = $("#goTop");
+    n.click(function () {
+        return $("html,body").animate({
+            scrollTop: 0
+        });
     });
 });
 function publishTopic() {
     var em = $("#error_message");
     var errors = 0;
     var title = $("#title").val();
-    var content = $("#content").val();
 
     if(title.length == 0) {
         errors++;
@@ -46,15 +45,10 @@ function previewContent() {
         $("#preview").html("<hr>" + marked(content));
     }
 }
-function goTop() {
-    $('body').animate({
-        scrollTop: 0
-    }, 300);
-}
 function replySubmit() {
     var errors = 0;
     var em = $("#error_message");
-    var content = $("#content").val();
+    var content = editor.value();
     if(content.length == 0) {
         errors++;
         em.html("回复内容不能为空");
@@ -64,27 +58,26 @@ function replySubmit() {
         form.submit();
     }
 }
-function qsend(e) {
-    if ((e.ctrlKey || e.metaKey) && e.which === 13) {
-        e.preventDefault();
-        replySubmit();
-    }
-}
 function replythis(author) {
-    var content = $("#content");
-    var oldContent = content.val();
+    var content = $(editor.codemirror.display.input);
+    var oldContent = editor.value();
     var prefix = "@" + author + " ";
     var newContent = '';
+    console.log(oldContent, prefix);
     if(oldContent.length > 0){
+        console.log(oldContent == prefix);
         if (oldContent != prefix) {
-            newContent = oldContent + "\n" + prefix;
+            console.log(1);
+            newContent = oldContent + '\n' + prefix;
         }
     } else {
+        console.log(2);
         newContent = prefix
     }
+    editor.value(newContent);
+    CodeMirror.commands.goDocEnd(editor.codemirror);
     content.focus();
-    content.val(newContent);
-    moveEnd($("#content"));
+    moveEnd(content);
 }
 function updateUserProfile() {
     var errors = 0;

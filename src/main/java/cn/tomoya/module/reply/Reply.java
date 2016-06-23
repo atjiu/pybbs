@@ -5,6 +5,8 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 
+import java.util.List;
+
 /**
  * Created by Tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -58,6 +60,15 @@ public class Reply extends BaseModel<Reply> {
     }
 
     /**
+     * 根据话题id查询回复列表
+     * @param topicId
+     * @return
+     */
+    public List<Reply> findByTopicId(Integer topicId) {
+        return super.find("select * from pybbs_reply where isdelete = ? and tid = ?", false, topicId);
+    }
+
+    /**
      * 分页查询回复列表
      * @param pageNumber
      * @param pageSize
@@ -69,7 +80,9 @@ public class Reply extends BaseModel<Reply> {
                 pageNumber,
                 pageSize,
                 "select t.title, t.author as topicAuthor, t.in_time, r.tid, r.content ",
-                "from pybbs_topic t, pybbs_reply r where t.id = r.tid and r.author = ? order by r.in_time desc",
+                "from pybbs_topic t, pybbs_reply r where t.isdelete = ? and r.isdelete = ? and t.id = r.tid and r.author = ? order by r.in_time desc",
+                false,
+                false,
                 author
         );
     }

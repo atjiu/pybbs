@@ -11,14 +11,12 @@
                     <input type="hidden" name="id" value="${topicAppend.id!}"/>
 
                     <div class="form-group">
-                        <textarea name="content" id="content" rows="15" onkeydown="qsend(event)"
-                                  class="form-control">${topicAppend.content!}</textarea>
+                        <textarea name="content" id="content" rows="15"
+                                  class="form-control">${topicAppend.content?html!}</textarea>
                     </div>
                     <button type="button" class="btn btn-default" onclick="replySubmit()">提交</button>
-                    <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                     <span id="error_message"></span>
                 </form>
-                <div id="preview"></div>
             </div>
         </div>
     </div>
@@ -27,6 +25,25 @@
             <@info/>
     </div>
 </div>
-<script type="text/javascript" src="/static/js/marked.js"></script>
-<script type="text/javascript" src="/static/js/textarea.js"></script>
+<link rel="stylesheet" href="/static/libs/editor/editor.css"/>
+<script type="text/javascript" src="/static/libs/webuploader/webuploader.withoutimage.js"></script>
+<script type="text/javascript" src="/static/libs/markdownit.js"></script>
+<script type="text/javascript" src="/static/libs/editor/editor.js"></script>
+<script type="text/javascript" src="/static/libs/editor/ext.js"></script>
+<script type="text/javascript">
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+
+    var $input = $(editor.codemirror.display.input);
+    $input.keydown(function(event){
+        if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault();
+            if(editor.codemirror.getValue().length == 0) {
+                $("#error_message").html("回复内容不能为空");
+            } else {
+                $("#replyForm").submit();
+            }
+        }
+    });
+</script>
 </@html>

@@ -54,7 +54,7 @@
             <#if topic.content?? && topic.content != "">
                 <div class="divide"></div>
                 <div class="panel-body topic-detail-content">
-                ${topic.marked(topic.content)}
+                ${topic.markedNotAt(topic.content)}
                 </div>
             </#if>
             <#list topicAppends as topicAppend>
@@ -71,7 +71,7 @@
                             </@py.hasPermission>
                         </#if>
                     </p>
-                ${topicAppend.marked(topicAppend.content)}
+                ${topicAppend.markedNotAt(topicAppend.content)}
                 </div>
             </#list>
             <#if userinfo??>
@@ -105,26 +105,24 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     添加一条新回复
-                    <a href="javascript:goTop();" class="pull-right">回到顶部</a>
+                    <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
                 </div>
                 <div class="panel-body">
                     <form action="/r/save" method="post" id="replyForm">
                         <input type="hidden" value="${topic.id}" name="tid"/>
 
                         <div class="form-group">
-                            <textarea name="content" id="content" onkeydown="qsend(event)" rows="5"
+                            <textarea name="content" id="content" rows="5"
                                       class="form-control"></textarea>
                         </div>
                         <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
-                        <button type="button" onclick="previewContent();" class="btn btn-default pull-right">预览</button>
                         <span id="error_message"></span>
                     </form>
-                    <div id="preview"></div>
                 </div>
             </div>
         </#if>
     </div>
-    <div class="col-md-3 hidden-sm hidden-xs hidden-sm hidden-xs">
+    <div class="col-md-3 hidden-sm hidden-xs">
         <#include "../components/authorinfo.ftl"/>
         <@info/>
         <#include "../components/othertopics.ftl"/>
@@ -134,17 +132,60 @@
 <link rel="stylesheet" href="/static/css/jquery.atwho.min.css"/>
 <script type="text/javascript" src="/static/js/jquery.atwho.min.js"></script>
 <script type="text/javascript" src="/static/js/lodash.min.js"></script>
-<script type="text/javascript" src="/static/js/marked.js"></script>
-<script type="text/javascript" src="/static/js/textarea.js"></script>
+<link rel="stylesheet" href="/static/libs/editor/editor.css"/>
+<style>
+.CodeMirror {
+    height: 150px;
+}
+</style>
+<script type="text/javascript" src="/static/js/highlight.min.js"></script>
+<script type="text/javascript" src="/static/libs/webuploader/webuploader.withoutimage.js"></script>
+<script type="text/javascript" src="/static/libs/markdownit.js"></script>
+<script type="text/javascript" src="/static/libs/editor/editor.js"></script>
+<script type="text/javascript" src="/static/libs/editor/ext.js"></script>
 <script type="text/javascript">
+
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+
+    var $input = $(editor.codemirror.display.input);
+    $input.keydown(function(event){
+        if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault();
+            if(editor.codemirror.getValue().length == 0) {
+                $("#error_message").html("回复内容不能为空");
+            } else {
+                $("#replyForm").submit();
+            }
+        }
+    });
+
+    // at.js 配置
+    var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
+    var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
+    var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
     var data = [];
     <#list page.getList() as reply>
         data.push('${reply.author}');
     </#list>
     data = _.unique(data);
-    $('#content').atwho({
+    $input.atwho({
         at: "@",
         data:data
+    }).on('shown.atwho', function () {
+        CodeMirror.commands.goLineUp = _.noop;
+        CodeMirror.commands.goLineDown = _.noop;
+        CodeMirror.commands.newlineAndIndent = _.noop;
     })
+    .on('hidden.atwho', function () {
+        CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
+        CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
+        CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
+    });
+    // END at.js 配置
 </script>
 </@html>

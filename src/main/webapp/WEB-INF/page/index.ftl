@@ -27,11 +27,11 @@
                 <#include "./components/topics.ftl"/>
                 <@topics/>
                 <#include "./components/paginate.ftl"/>
-                <@paginate currentPage=page.getPageNumber() totalPage=page.getTotalPage() actionUrl="/" urlParas="tab=${tab!}"/>
+                <@paginate currentPage=page.getPageNumber() totalPage=page.getTotalPage() actionUrl="/" urlParas="&tab=${tab!}"/>
             </div>
         </div>
     </div>
-    <div class="col-md-3 hidden-sm hidden-xs hidden-sm hidden-xs">
+    <div class="col-md-3 hidden-sm hidden-xs">
         <#if userinfo??>
             <#include "./components/userinfo.ftl">
             <@info/>
