@@ -28,6 +28,7 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     /**
      * 格式化日期
+     *
      * @param date
      * @return
      */
@@ -42,6 +43,7 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     /**
      * 根据版块标识查询版块名称
+     *
      * @param tab
      * @return
      */
@@ -55,6 +57,7 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     /**
      * 根据用户昵称查询用户头像
+     *
      * @param nickname
      * @return
      */
@@ -68,15 +71,16 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     /**
      * 解析markdown文章
+     *
      * @param content
      * @return
      */
     public String marked(String content) {
-        if(StrUtil.isBlank(content)) return "";
+        if (StrUtil.isBlank(content)) return "";
         //处理@
         List<String> users = StrUtil.fetchUsers(content);
         for (String user : users) {
-            content = content.replace("@" + user, "[@" + user + "](http://localhost:4000/user/" + user + ")");
+            content = content.replace("@" + user, "[@" + user + "](" + PropKit.get("site.domain") + "/user/" + user + ")");
         }
         //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
@@ -84,11 +88,12 @@ public class BaseModel<T extends Model> extends Model<T> {
 
     /**
      * 解析markdown文章(不解析@)
+     *
      * @param content
      * @return
      */
     public String markedNotAt(String content) {
-        if(StrUtil.isBlank(content)) return "";
+        if (StrUtil.isBlank(content)) return "";
         //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
     }
