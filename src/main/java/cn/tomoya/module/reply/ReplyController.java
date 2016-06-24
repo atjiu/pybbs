@@ -134,6 +134,7 @@ public class ReplyController extends BaseController {
         Topic topic = Topic.me.findById(reply.getInt("tid"));
         topic.set("reply_count", topic.getInt("reply_count") - 1).update();
         Reply.me.deleteById(id);
+        clearCache(CacheEnum.topic.name() + topic.getInt("id"));
         //用户积分计算
         User user = User.me.findByNickname(reply.getStr("author"));
         Integer score = user.getInt("score");
