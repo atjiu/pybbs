@@ -44,6 +44,61 @@
 - 运行`AppConfig.java`类里的main方法
 - 浏览器访问`http://localhost:8080/`
 
+## 开启搜索功能
+
+- 修改`config.properties` 里的solr相关配置
+
+    ```
+    # solr开关,true:开启,需要配置下面solr的相关参数,false:关闭
+    solr.status=true
+    # solr
+    solr.url=http://localhost:8080/solr/pybbs
+    solr.pageSize=20
+    ```
+
+- `git clone https://github.com/tomoya92/solr.git` 这个是配置好ik分词器的solr
+- 启动solr服务
+- 启动pybbs服务
+- 打开首页，会发现出现一个搜索框，赶快试试吧
+
+## 开启七牛上传
+
+- 修改`config.properties` 里的qiniu相关配置
+
+    ```
+    # 上传类型(只能填qiniu或者local,如果选择qiniu的话,请完善七牛的相关配置信息): qiniu, local
+    upload.type=local
+    # 七牛
+    qiniu.access_key=
+    qiniu.secret_key=
+    qiniu.url=
+    qiniu.bucketname=
+    ```
+    
+- 重启服务
+
+## 第三方登录配置
+
+- 修改`config.properties` 里的第三方登录相关配置
+
+    ```
+    # 第三方登录渠道,目前支持 Github, Weibo 如果此项不填,默认是Github登录
+    # 选择渠道后,请配置好相关渠道的配置信息
+    login.channel=
+    # github login
+    github.client_id=
+    github.client_secret=
+    # weibo login
+    weibo.meta=
+    weibo.appkey=
+    weibo.appsecret=
+    weibo.redirecturi=
+    ```
+
+- 重启服务
+
+**要检索网站所有话题，需要配合权限部分给当前账户开启 索引所有话题(慎用) 的权限**
+
 ## 权限设置
 
 `pybbs.sql`里默认配置了三个角色
@@ -59,6 +114,21 @@
 只能手动修改数据库了，这个朋也想过做成可配置的，但一直没有好的思路或者实现方法，就只好麻烦手动修改下数据库了
 
 只需要在 pybbs_user_role 里添加一条关联数据即可，比如想给用户id为7的用户设置超级管理员权限，就在 pybbs_user_role 表里添加一条数据rid填1，uid填7即可，如果没有生效，请将 redis 的数据清理一下
+
+超级管理员账户设置里的权限菜单：
+
+```
+板块管理
+回复管理
+用户管理
+角色管理
+权限管理
+索引所有话题(慎用)
+删除所有索引
+删除所有缓存
+```
+
+**如果你搭建起来的 朋也社区 没有这么多，那就是权限没配置好，如果比这多，那是不可能的 :-)**
 
 ## 碰到问题怎么办?
 
