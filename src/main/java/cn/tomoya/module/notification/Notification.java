@@ -7,9 +7,9 @@ import com.jfinal.plugin.activerecord.Page;
 import java.util.Date;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class Notification extends BaseModel<Notification> {
 

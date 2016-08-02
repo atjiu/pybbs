@@ -3,9 +3,9 @@ package cn.tomoya.utils;
 import com.jfinal.kit.HashKit;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class EncryptionUtil extends HashKit {
 

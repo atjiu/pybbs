@@ -3,9 +3,9 @@ package cn.tomoya.template;
 import freemarker.template.SimpleHash;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class PyTag extends SimpleHash {
 

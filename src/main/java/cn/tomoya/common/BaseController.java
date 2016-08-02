@@ -5,14 +5,13 @@ import cn.tomoya.utils.Result;
 import cn.tomoya.utils.StrUtil;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.ehcache.CacheKit;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class BaseController extends Controller {
 
@@ -23,10 +22,6 @@ public class BaseController extends Controller {
 
     static {
         PropKit.use("config.properties");
-    }
-
-    public Integer defaultPageSize() {
-        return StrUtil.str2int(PropKit.get("pageSize"));
     }
 
     public void success() {
@@ -42,25 +37,10 @@ public class BaseController extends Controller {
     }
 
     /**
-     * 根据cacheName, cacheKey来清除缓存
-     * cacheName 必填，cacheKey选填，不填的话为null
-     *
-     * @param cacheName
-     * @param cacheKey
-     */
-    public void clearCache(String cacheName, Object cacheKey) {
-        if (cacheKey == null) {
-            CacheKit.removeAll(cacheName);
-        } else {
-            CacheKit.remove(cacheName, cacheKey);
-        }
-    }
-
-    /**
      * 删除redis里的缓存
      * @param key
      */
-    public void clearCache(String key) {
+    protected void clearCache(String key) {
         Cache cache = Redis.use();
         cache.del(key);
     }

@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class BaseModel<T extends Model> extends Model<T> {
 

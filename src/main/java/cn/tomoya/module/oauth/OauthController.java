@@ -14,15 +14,14 @@ import com.jfinal.kit.PropKit;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/oauth", viewPath = "WEB-INF/page")
 public class OauthController extends BaseController {

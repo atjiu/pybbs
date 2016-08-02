@@ -11,14 +11,13 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.FreeMarkerRender;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class AppConfig extends JFinalConfig {
 
@@ -65,14 +64,16 @@ public class AppConfig extends JFinalConfig {
         druidPlugin.setFilters("stat,wall");
         me.add(druidPlugin);
         //增加redis插件
-        me.add(new RedisPlugin(
-                getProperty("redis.cachename"),
-                getProperty("redis.host"),
-                getPropertyToInt("redis.port"),
-                getPropertyToInt("redis.timeout")
+        if(getPropertyToBoolean("redis.status")) {
+            me.add(new RedisPlugin(
+                    getProperty("redis.cachename"),
+                    getProperty("redis.host"),
+                    getPropertyToInt("redis.port"),
+                    getPropertyToInt("redis.timeout")
 //                getProperty("redis.password"),
 //                getPropertyToInt("redis.database")
-        ));
+            ));
+        }
 
         me.add(new Cron4jPlugin().config("cronjob.properties"));
 

@@ -4,9 +4,9 @@ import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class MarkdownUtil {
 

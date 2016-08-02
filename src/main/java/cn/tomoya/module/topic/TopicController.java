@@ -28,9 +28,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/t", viewPath = "WEB-INF/page")
 public class TopicController extends BaseController {

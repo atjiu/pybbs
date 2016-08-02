@@ -9,9 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class StrUtil extends StrKit {
 
@@ -103,7 +103,7 @@ public class StrUtil extends StrKit {
     }
 
     public static void main(String[] args) {
-        System.out.println(getEncryptionToken("d1ec214a68524107828427221c346b51"));
+        System.out.println(getEncryptionToken("715e5dc73a624e36bac1e12955634bd8"));
     }
 
 }

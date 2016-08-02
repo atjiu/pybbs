@@ -41,8 +41,8 @@
             <#include "./components/welcome.ftl">
             <@welcome/>
         </#if>
-        <#include "./components/scores.ftl"/>
-        <@userscores limit=10 />
+        <#--<#include "./components/scores.ftl"/>-->
+        <#--<@userscores limit=10 />-->
     </div>
 </div>
 </@html>

@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class User extends BaseModel<User> {
     public static final User me = new User();

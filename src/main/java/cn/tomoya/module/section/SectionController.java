@@ -8,9 +8,9 @@ import cn.tomoya.utils.ext.route.ControllerBind;
 import com.jfinal.aop.Before;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @Before({
         UserInterceptor.class,

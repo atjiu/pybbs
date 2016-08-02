@@ -9,9 +9,9 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/notification", viewPath = "WEB-INF/page")
 public class NotificationController extends BaseController {

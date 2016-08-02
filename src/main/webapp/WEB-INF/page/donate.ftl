@@ -25,6 +25,11 @@
                         </thead>
                         <tbody>
                         <tr>
+                          <td>Linkerlin</td>
+                          <td>￥100</td>
+                          <td>2016-07-11</td>
+                        </tr>
+                        <tr>
                             <td>晴天</td>
                             <td>￥50</td>
                             <td>2016-06-17</td>

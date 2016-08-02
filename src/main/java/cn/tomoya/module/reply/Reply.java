@@ -8,9 +8,9 @@ import com.jfinal.plugin.activerecord.Page;
 import java.util.List;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class Reply extends BaseModel<Reply> {
 

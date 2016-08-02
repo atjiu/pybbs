@@ -6,9 +6,9 @@ import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class Collect extends BaseModel<Collect> {
 

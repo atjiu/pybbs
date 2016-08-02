@@ -1,8 +1,8 @@
 package cn.tomoya.module.system;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.module.user.User;
@@ -14,9 +14,9 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 import java.util.List;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @Before({
         UserInterceptor.class,

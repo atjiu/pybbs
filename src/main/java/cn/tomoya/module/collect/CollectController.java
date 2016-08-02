@@ -13,9 +13,9 @@ import com.jfinal.aop.Before;
 import java.util.Date;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/collect", viewPath = "WEB-INF/page")
 public class CollectController extends BaseController {

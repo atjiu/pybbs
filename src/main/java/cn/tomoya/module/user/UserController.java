@@ -1,8 +1,8 @@
 package cn.tomoya.module.user;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.interceptor.UserStatusInterceptor;
 import cn.tomoya.module.reply.Reply;
@@ -19,9 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/user", viewPath = "WEB-INF/page")
 public class UserController extends BaseController {

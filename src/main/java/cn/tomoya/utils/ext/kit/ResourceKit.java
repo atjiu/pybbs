@@ -15,14 +15,14 @@
  */
 package cn.tomoya.utils.ext.kit;
 
+import com.google.common.base.Throwables;
+import com.google.common.collect.Maps;
+import com.google.common.io.Resources;
+
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
-
-import com.google.common.base.Throwables;
-import com.google.common.collect.Maps;
-import com.google.common.io.Resources;
 
 public class ResourceKit {
     public static Map<String, String> readProperties(String resourceName) {

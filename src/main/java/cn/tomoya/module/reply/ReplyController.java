@@ -1,8 +1,8 @@
 package cn.tomoya.module.reply;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.PermissionInterceptor;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.interceptor.UserStatusInterceptor;
@@ -22,9 +22,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 @ControllerBind(controllerKey = "/r", viewPath = "WEB-INF/page")
 public class ReplyController extends BaseController {

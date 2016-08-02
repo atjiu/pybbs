@@ -1,6 +1,5 @@
 package cn.tomoya.interceptor;
 
-import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.common.Constants;
 import cn.tomoya.module.notification.Notification;
 import cn.tomoya.module.user.User;
@@ -14,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Tomoya.
+ * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * http://bbs.tomoya.cn
+ * http://tomoya.cn
  */
 public class CommonInterceptor implements Interceptor {
 
