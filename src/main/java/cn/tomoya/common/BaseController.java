@@ -54,4 +54,12 @@ public class BaseController extends Controller {
         return null;
     }
 
+    public User getUserByToken() {
+        String token = getPara("token");
+        if(StrUtil.notBlank(token)) {
+            return User.me.findByAccessToken(token);
+        }
+        return null;
+    }
+
 }

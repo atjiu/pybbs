@@ -51,12 +51,15 @@
                         <span class="dropdown-arrow"></span>
                         <ul class="dropdown-menu">
                             <li><a href="/user/setting">个人资料</a></li>
+                            <li><a href="/logout">退出</a></li>
+                            <li role="separator" class="divider"></li>
                             <@py.hasPermission name="section:list" id="${userinfo.id!}">
                                 <li><a href="/section/list">板块管理</a></li>
                             </@py.hasPermission>
                             <@py.hasPermission name="reply:list" id="${userinfo.id!}">
                                 <li><a href="/r/list">回复管理</a></li>
                             </@py.hasPermission>
+                            <li role="separator" class="divider"></li>
                             <@py.hasPermission name="system:users" id="${userinfo.id!}">
                                 <li><a href="/manage/users">用户管理</a></li>
                             </@py.hasPermission>
@@ -66,6 +69,7 @@
                             <@py.hasPermission name="system:permissions" id="${userinfo.id!}">
                                 <li><a href="/manage/permissions">权限管理</a></li>
                             </@py.hasPermission>
+                            <li role="separator" class="divider"></li>
                             <@py.hasPermission name="system:solr" id="${userinfo.id!}">
                                 <li><a href="/solr">索引所有话题(慎用)</a></li>
                             </@py.hasPermission>
@@ -75,7 +79,6 @@
                             <@py.hasPermission name="system:clearcache" id="${userinfo.id!}">
                                 <li><a href="/clear">删除所有缓存</a></li>
                             </@py.hasPermission>
-                            <li><a href="/logout">退出</a></li>
                         </ul>
                     </li>
                 <#else>

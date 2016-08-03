@@ -64,16 +64,14 @@ public class AppConfig extends JFinalConfig {
         druidPlugin.setFilters("stat,wall");
         me.add(druidPlugin);
         //增加redis插件
-        if(getPropertyToBoolean("redis.status")) {
-            me.add(new RedisPlugin(
-                    getProperty("redis.cachename"),
-                    getProperty("redis.host"),
-                    getPropertyToInt("redis.port"),
-                    getPropertyToInt("redis.timeout")
+        me.add(new RedisPlugin(
+                getProperty("redis.cachename"),
+                getProperty("redis.host"),
+                getPropertyToInt("redis.port"),
+                getPropertyToInt("redis.timeout")
 //                getProperty("redis.password"),
 //                getPropertyToInt("redis.database")
-            ));
-        }
+        ));
 
         me.add(new Cron4jPlugin().config("cronjob.properties"));
 

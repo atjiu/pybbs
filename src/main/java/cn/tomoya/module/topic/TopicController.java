@@ -126,7 +126,7 @@ public class TopicController extends BaseController {
                     solrUtil.indexTopic(topic);
                 }
                 //给用户加分
-                user.set("score", user.getInt("score") + 5).update();
+//                user.set("score", user.getInt("score") + 5).update();
                 //清理用户缓存
                 clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
                 clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
@@ -262,10 +262,10 @@ public class TopicController extends BaseController {
             Reply.me.deleteByTid(id);
             Topic topic = Topic.me.findById(id);
             //删除用户积分
-            User user = User.me.findByNickname(topic.getStr("author"));
-            Integer score = user.getInt("score");
-            score = score > 7 ? score - 7 : 0;
-            user.set("score", score).update();
+//            User user = User.me.findByNickname(topic.getStr("author"));
+//            Integer score = user.getInt("score");
+//            score = score > 7 ? score - 7 : 0;
+//            user.set("score", score).update();
             //删除话题（非物理删除）
             Topic.me.deleteById(id);
             //删除索引
@@ -274,8 +274,8 @@ public class TopicController extends BaseController {
                 solrUtil.indexDelete(String.valueOf(id));
             }
             //清理缓存
-            clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
-            clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
+//            clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
+//            clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
             redirect("/");
         }
     }

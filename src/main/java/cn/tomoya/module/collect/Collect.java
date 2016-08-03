@@ -2,6 +2,7 @@ package cn.tomoya.module.collect;
 
 import cn.tomoya.common.BaseModel;
 import cn.tomoya.common.Constants.CacheEnum;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
@@ -50,6 +51,23 @@ public class Collect extends BaseModel<Collect> {
             cache.set(CacheEnum.collectcount.name() + tid, count);
         }
         return count;
+    }
+
+    /**
+     * 收藏话题列表
+     * @param pageNumber
+     * @param pageSize
+     * @param uid
+     * @return
+     */
+    public Page<Collect> findByUid(Integer pageNumber, Integer pageSize, Integer uid) {
+        Cache cache = Redis.use();
+        Page<Collect> page = cache.get(CacheEnum.collects.name() + uid);
+        if(page == null) {
+            page = super.paginate(pageNumber, pageSize, "select * ", " from pybbs_collect where uid = ?", uid);
+            cache.set(CacheEnum.collects.name() + uid, page);
+        }
+        return page;
     }
 
 }

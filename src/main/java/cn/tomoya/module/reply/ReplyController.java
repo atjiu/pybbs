@@ -58,7 +58,7 @@ public class ReplyController extends BaseController {
                         .set("last_reply_time", now)
                         .set("last_reply_author", user.getStr("nickname"))
                         .update();
-                user.set("score", user.getInt("score") + 5).update();
+//                user.set("score", user.getInt("score") + 5).update();
                 //发送通知
                 //回复者与话题作者不是一个人的时候发送通知
                 if(!user.getStr("nickname").equals(topic.getStr("author"))) {
@@ -136,13 +136,13 @@ public class ReplyController extends BaseController {
         Reply.me.deleteById(id);
         clearCache(CacheEnum.topic.name() + topic.getInt("id"));
         //用户积分计算
-        User user = User.me.findByNickname(reply.getStr("author"));
-        Integer score = user.getInt("score");
-        score = score > 7 ? score - 7 : 0;
-        user.set("score", score).update();
+//        User user = User.me.findByNickname(reply.getStr("author"));
+//        Integer score = user.getInt("score");
+//        score = score > 7 ? score - 7 : 0;
+//        user.set("score", score).update();
         //清理缓存
-        clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
-        clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
+//        clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
+//        clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
         redirect("/t/" + topic.getInt("id"));
     }
 

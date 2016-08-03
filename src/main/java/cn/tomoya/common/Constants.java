@@ -22,6 +22,7 @@ public class Constants {
         useraccesstoken,
         userpermissions,
         collect,
+        collects,
         collectcount
     }
 

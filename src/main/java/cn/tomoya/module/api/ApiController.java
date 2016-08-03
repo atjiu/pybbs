@@ -2,20 +2,30 @@ package cn.tomoya.module.api;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants;
+import cn.tomoya.interceptor.ApiInterceptor;
 import cn.tomoya.module.collect.Collect;
+import cn.tomoya.module.notification.Notification;
+import cn.tomoya.module.notification.NotificationEnum;
 import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.section.Section;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.module.topic.TopicAppend;
 import cn.tomoya.module.user.User;
+import cn.tomoya.utils.SolrUtil;
 import cn.tomoya.utils.StrUtil;
 import cn.tomoya.utils.ext.route.ControllerBind;
+import com.jfinal.aop.Before;
+import com.jfinal.core.ActionKey;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +65,7 @@ public class ApiController extends BaseController {
      * 话题详情
      * @throws UnsupportedEncodingException
      */
-    public void t() throws UnsupportedEncodingException {
+    public void topic() throws UnsupportedEncodingException {
         Integer tid = getParaToInt(0);
         Boolean mdrender = getParaToBoolean("mdrender", true);
         Topic topic = Topic.me.findById(tid);
@@ -135,4 +145,220 @@ public class ApiController extends BaseController {
             success(map);
         }
     }
+
+    /**
+     * 发布话题
+     * @throws UnsupportedEncodingException
+     */
+    @Before(ApiInterceptor.class)
+    @ActionKey("/api/topic/create")
+    public void create() throws UnsupportedEncodingException {
+        Date now = new Date();
+        String title = getPara("title");
+        String content = getPara("content");
+        String tab = getPara("tab");
+        if (StrUtil.isBlank(Jsoup.clean(title, Whitelist.basic()))) {
+            error(Constants.OP_ERROR_MESSAGE);
+        } else if(StrUtil.isBlank(tab)) {
+            error("请选择板块");
+        } else {
+            User user = getUserByToken();
+            Topic topic = new Topic();
+            topic.set("title", Jsoup.clean(title, Whitelist.basic()))
+                    .set("content", content)
+                    .set("tab", tab)
+                    .set("in_time", now)
+                    .set("last_reply_time", now)
+                    .set("view", 0)
+                    .set("author", user.get("nickname"))
+                    .set("top", false)
+                    .set("good", false)
+                    .set("show_status", true)
+                    .set("reply_count", 0)
+                    .set("isdelete", false)
+                    .save();
+            //索引话题
+            if (PropKit.getBoolean("solr.status")) {
+                SolrUtil solrUtil = new SolrUtil();
+                solrUtil.indexTopic(topic);
+            }
+            success();
+        }
+    }
+
+    /**
+     * 收藏话题
+     */
+    @Before(ApiInterceptor.class)
+    @ActionKey("/api/topic/collect")
+    public void collect() {
+        Integer tid = getParaToInt("tid");
+        if(tid == null) {
+            error("话题ID不能为空");
+        } else {
+            Topic topic = Topic.me.findById(tid);
+            if(topic == null) {
+                error("收藏的话题不存在");
+            } else {
+                Date now = new Date();
+                User user = getUserByToken();
+                Collect collect = Collect.me.findByTidAndUid(tid, user.getInt("id"));
+                if(collect == null) {
+                    collect = new Collect();
+                    collect.set("tid", tid)
+                            .set("uid", user.getInt("id"))
+                            .set("in_time", now)
+                            .save();
+                    //创建通知
+                    Notification.me.sendNotification(
+                            user.getStr("nickname"),
+                            topic.getStr("author"),
+                            NotificationEnum.COLLECT.name(),
+                            tid,
+                            ""
+                    );
+                    //清理缓存
+                    clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
+                    clearCache(Constants.CacheEnum.collectcount.name() + tid);
+                    clearCache(Constants.CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
+                    success();
+                } else {
+                    error("你已经收藏了此话题");
+                }
+            }
+        }
+    }
+
+    /**
+     * 取消收藏
+     */
+    @Before(ApiInterceptor.class)
+    @ActionKey("/api/topic/del_collect")
+    public void del_collect() {
+        Integer tid = getParaToInt("tid");
+        User user = getUserByToken();
+        Collect collect = Collect.me.findByTidAndUid(tid, user.getInt("id"));
+        if(collect == null) {
+            error("请先收藏");
+        } else {
+            collect.delete();
+            clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
+            clearCache(Constants.CacheEnum.collectcount.name() + tid);
+            clearCache(Constants.CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
+            success();
+        }
+    }
+
+    /**
+     * 收藏话题
+     */
+    public void collects() throws UnsupportedEncodingException {
+        String nickname = getPara(0);
+        if(StrUtil.isBlank(nickname)) {
+            error("用户昵称不能为空");
+        } else {
+            User user = User.me.findByNickname(nickname);
+            if(user == null) {
+                error("无效用户");
+            } else {
+                Page<Collect> page = Collect.me.findByUid(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getInt("id"));
+                success(page);
+            }
+        }
+    }
+
+    /**
+     * 创建评论
+     */
+    @Before(ApiInterceptor.class)
+    @ActionKey("/api/reply/create")
+    public void createReply() throws UnsupportedEncodingException {
+        Integer tid = getParaToInt("tid");
+        String content = getPara("content");
+        if(tid == null || StrUtil.isBlank(content)) {
+            error("话题ID和回复内容都不能为空");
+        } else {
+            Topic topic = Topic.me.findById(tid);
+            if(topic == null) {
+                error("话题不存在");
+            } else {
+                Date now = new Date();
+                User user = getUserByToken();
+                Reply reply = new Reply();
+                reply.set("tid", tid)
+                        .set("content", content)
+                        .set("in_time", now)
+                        .set("author", user.getStr("nickname"))
+                        .set("isdelete", false)
+                        .save();
+                //topic reply_count++
+                topic.set("reply_count", topic.getInt("reply_count") + 1)
+                        .set("last_reply_time", now)
+                        .set("last_reply_author", user.getStr("nickname"))
+                        .update();
+//                user.set("score", user.getInt("score") + 5).update();
+                //发送通知
+                //回复者与话题作者不是一个人的时候发送通知
+                if(!user.getStr("nickname").equals(topic.getStr("author"))) {
+                    Notification.me.sendNotification(
+                            user.getStr("nickname"),
+                            topic.getStr("author"),
+                            NotificationEnum.REPLY.name(),
+                            tid,
+                            content
+                    );
+                }
+                //检查回复内容里有没有at用户,有就发通知
+                List<String> atUsers = StrUtil.fetchUsers(content);
+                for(String u: atUsers) {
+                    if(!u.equals(topic.getStr("author"))) {
+                        User _user = User.me.findByNickname(u);
+                        if (_user != null) {
+                            Notification.me.sendNotification(
+                                    user.getStr("nickname"),
+                                    _user.getStr("nickname"),
+                                    NotificationEnum.AT.name(),
+                                    tid,
+                                    content
+                            );
+                        }
+                    }
+                }
+                //清理缓存，保持数据最新
+                clearCache(Constants.CacheEnum.topic.name() + tid);
+                clearCache(Constants.CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
+                clearCache(Constants.CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
+                success();
+            }
+        }
+    }
+
+    /**
+     * 未读通知数
+     */
+    @ActionKey("/api/notification/count")
+    public void msgCount() {
+        User user = getUserByToken();
+        int count = Notification.me.findNotReadCount(user.getStr("nickname"));
+        success(count);
+    }
+
+    /**
+     * 通知列表
+     */
+    @ActionKey("/api/notifications")
+    public void notifications() {
+        Boolean mdrender = getParaToBoolean("mdrender", true);
+        User user = getUserByToken();
+        Page<Notification> page = Notification.me.pageByAuthor(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getStr("nickname"));
+        if(mdrender) {
+            for (Notification notification : page.getList()) {
+                notification.set("content", notification.marked(notification.get("content")));
+            }
+        }
+        //将通知都设置成已读的
+        Notification.me.makeUnreadToRead(user.getStr("nickname"));
+        success(page);
+    }
+
 }
