@@ -64,10 +64,34 @@ public class Collect extends BaseModel<Collect> {
         Cache cache = Redis.use();
         Page<Collect> page = cache.get(CacheEnum.collects.name() + uid);
         if(page == null) {
-            page = super.paginate(pageNumber, pageSize, "select * ", " from pybbs_collect where uid = ?", uid);
+            page = super.paginate(
+                    pageNumber,
+                    pageSize,
+                    "select c.*, t.* ",
+                    " from pybbs_collect c left join pybbs_topic t on c.tid = t.id where t.isdelete = ? and c.uid = ?",
+                    false,
+                    uid);
             cache.set(CacheEnum.collects.name() + uid, page);
         }
         return page;
+    }
+
+    /**
+     * 查询用户收藏的数量
+     * @param uid
+     * @return
+     */
+    public Long countByUid(Integer uid) {
+        Cache cache = Redis.use();
+        Long count = cache.get(CacheEnum.usercollectcount.name() + uid);
+        if(count == null) {
+            count = super.findFirst(
+                    "select count(1) as count from pybbs_collect where uid = ?",
+                    uid
+            ).getLong("count");
+            cache.set(CacheEnum.usercollectcount.name() + uid, count);
+        }
+        return count;
     }
 
 }

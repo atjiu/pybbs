@@ -23,7 +23,8 @@ public class Constants {
         userpermissions,
         collect,
         collects,
-        collectcount
+        collectcount,
+        usercollectcount
     }
 
     //第三方登录渠道

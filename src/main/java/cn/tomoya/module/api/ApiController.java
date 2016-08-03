@@ -2,6 +2,7 @@ package cn.tomoya.module.api;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.Constants;
+import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.ApiInterceptor;
 import cn.tomoya.module.collect.Collect;
 import cn.tomoya.module.notification.Notification;
@@ -78,10 +79,10 @@ public class ApiController extends BaseController {
             topic.set("view", topic.getInt("view") + 1).update();
             //更新redis里的topic数据
             Cache cache = Redis.use();
-            Topic _topic = cache.get(Constants.CacheEnum.topic.name() + tid);
+            Topic _topic = cache.get(CacheEnum.topic.name() + tid);
             if (_topic != null) {
                 _topic.set("view", _topic.getInt("view") + 1);
-                cache.set(Constants.CacheEnum.topic.name() + tid, _topic);
+                cache.set(CacheEnum.topic.name() + tid, _topic);
             }
             //查询话题作者信息
             User authorinfo = User.me.findByNickname(topic.getStr("author"));
@@ -218,9 +219,10 @@ public class ApiController extends BaseController {
                             ""
                     );
                     //清理缓存
-                    clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
-                    clearCache(Constants.CacheEnum.collectcount.name() + tid);
-                    clearCache(Constants.CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
+                    clearCache(CacheEnum.usercollectcount.name() + user.getInt("id"));
+                    clearCache(CacheEnum.collects.name() + user.getInt("id"));
+                    clearCache(CacheEnum.collectcount.name() + tid);
+                    clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
                     success();
                 } else {
                     error("你已经收藏了此话题");
@@ -242,9 +244,10 @@ public class ApiController extends BaseController {
             error("请先收藏");
         } else {
             collect.delete();
-            clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
-            clearCache(Constants.CacheEnum.collectcount.name() + tid);
-            clearCache(Constants.CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
+            clearCache(CacheEnum.usercollectcount.name() + user.getInt("id"));
+            clearCache(CacheEnum.collects.name() + user.getInt("id"));
+            clearCache(CacheEnum.collectcount.name() + tid);
+            clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
             success();
         }
     }
@@ -254,6 +257,7 @@ public class ApiController extends BaseController {
      */
     public void collects() throws UnsupportedEncodingException {
         String nickname = getPara(0);
+        Boolean mdrender = getParaToBoolean("mdrender", true);
         if(StrUtil.isBlank(nickname)) {
             error("用户昵称不能为空");
         } else {
@@ -262,6 +266,11 @@ public class ApiController extends BaseController {
                 error("无效用户");
             } else {
                 Page<Collect> page = Collect.me.findByUid(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getInt("id"));
+                if(mdrender) {
+                    for(Collect collect: page.getList()) {
+                        collect.put("content", collect.marked(collect.get("content")));
+                    }
+                }
                 success(page);
             }
         }
@@ -325,9 +334,9 @@ public class ApiController extends BaseController {
                     }
                 }
                 //清理缓存，保持数据最新
-                clearCache(Constants.CacheEnum.topic.name() + tid);
-                clearCache(Constants.CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
-                clearCache(Constants.CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
+                clearCache(CacheEnum.topic.name() + tid);
+                clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
+                clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
                 success();
             }
         }

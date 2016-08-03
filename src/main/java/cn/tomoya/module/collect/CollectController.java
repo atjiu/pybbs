@@ -44,7 +44,8 @@ public class CollectController extends BaseController {
                 ""
         );
         //清理缓存
-        clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
+        clearCache(CacheEnum.usercollectcount.name() + user.getInt("id"));
+        clearCache(CacheEnum.collects.name() + user.getInt("id"));
         clearCache(CacheEnum.collectcount.name() + tid);
         clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
         redirect("/t/" + tid);
@@ -62,7 +63,8 @@ public class CollectController extends BaseController {
             renderText("请先收藏");
         } else {
             collect.delete();
-            clearCache(Constants.CacheEnum.collects.name() + user.getInt("id"));
+            clearCache(CacheEnum.usercollectcount.name() + user.getInt("id"));
+            clearCache(CacheEnum.collects.name() + user.getInt("id"));
             clearCache(CacheEnum.collectcount.name() + tid);
             clearCache(CacheEnum.collect.name() + tid + "_" + user.getInt("id"));
             redirect("/t/" + tid);

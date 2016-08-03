@@ -14,6 +14,7 @@
                                 <#if currentUser.signature??>
                                     <p><i class="gray">${currentUser.signature!}</i></p>
                                 </#if>
+                                <div>收藏话题: <a href="/user/collects/${currentUser.nickname!}">${currentUser.collectCount!0}</a></div>
                                 <div>积分: ${currentUser.score!0}</div>
                                 <div>主页: <a href="${currentUser.url!}" target="_blank">${currentUser.url!}</a></div>
                                 <div>入驻时间: ${currentUser.in_time!}</div>

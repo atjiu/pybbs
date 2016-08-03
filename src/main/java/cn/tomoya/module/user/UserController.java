@@ -5,6 +5,7 @@ import cn.tomoya.common.Constants;
 import cn.tomoya.common.Constants.CacheEnum;
 import cn.tomoya.interceptor.UserInterceptor;
 import cn.tomoya.interceptor.UserStatusInterceptor;
+import cn.tomoya.module.collect.Collect;
 import cn.tomoya.module.reply.Reply;
 import cn.tomoya.module.topic.Topic;
 import cn.tomoya.utils.StrUtil;
@@ -35,8 +36,10 @@ public class UserController extends BaseController {
             renderText(Constants.OP_ERROR_MESSAGE);
         } else {
             User currentUser = User.me.findByNickname(nickname);
-            setAttr("currentUser", currentUser);
             if(currentUser != null) {
+                Long collectCount = Collect.me.countByUid(currentUser.getInt("id"));
+                currentUser.put("collectCount", collectCount);
+
                 Page<Topic> topicPage = Topic.me.pageByAuthor(1, 7, nickname);
                 Page<Reply> replyPage = Reply.me.pageByAuthor(1, 7, nickname);
                 setAttr("topicPage", topicPage);
@@ -45,6 +48,7 @@ public class UserController extends BaseController {
             } else {
                 setAttr("pageTitle", "用户未找到");
             }
+            setAttr("currentUser", currentUser);
             render("user/info.ftl");
         }
     }
@@ -78,6 +82,22 @@ public class UserController extends BaseController {
             Page<Reply> page = Reply.me.pageByAuthor(getParaToInt("p", 1), PropKit.getInt("pageSize"), nickname);
             setAttr("page", page);
             render("user/replies.ftl");
+        }
+    }
+
+    /**
+     * 用户的话题列表
+     */
+    public void collects() throws UnsupportedEncodingException {
+        String nickname = getPara(0);
+        User user = User.me.findByNickname(nickname);
+        if (user == null) {
+            renderText(Constants.OP_ERROR_MESSAGE);
+        } else {
+            setAttr("currentUser", user);
+            Page<Collect> page = Collect.me.findByUid(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getInt("id"));
+            setAttr("page", page);
+            render("user/collects.ftl");
         }
     }
 
