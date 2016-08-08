@@ -23,7 +23,7 @@
                     <li>id <code>Integer</code> 话题ID</li>
                     <li>mdrender <code>Boolean</code> 当为 false 时，不渲染。默认为 true，将内容渲染成 html 格式文本</li>
                 </ul>
-                <p>示例: <a href="/api/t/34">/api/t/34</a></p>
+                <p>示例: <a href="/api/topic/34">/api/topic/34</a></p>
                 <hr>
                 <h3 id="toc_6">用户首页</h3>
                 <h4 id="toc_7">GET: /api/user/:nickname</h4>

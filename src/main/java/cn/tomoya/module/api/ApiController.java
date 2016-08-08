@@ -49,7 +49,7 @@ public class ApiController extends BaseController {
     /**
      * 话题列表
      */
-    public void topics() {
+    public void topics() throws UnsupportedEncodingException {
         String tab = getPara("tab");
         if (StrUtil.isBlank(tab)) {
             tab = "all";
@@ -57,6 +57,8 @@ public class ApiController extends BaseController {
         Page<Topic> page = Topic.me.page(getParaToInt("p", 1), PropKit.getInt("pageSize", 20), tab);
         //处理数据
         for(Topic topic: page.getList()) {
+            User user = User.me.findByNickname(topic.getStr("author"));
+            topic.put("avatar", user.getStr("avatar"));
             topic.remove("content", "isdelete", "show_status");
         }
         success(page);
