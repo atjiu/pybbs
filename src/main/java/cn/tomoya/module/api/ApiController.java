@@ -347,6 +347,7 @@ public class ApiController extends BaseController {
     /**
      * 未读通知数
      */
+    @Before(ApiInterceptor.class)
     @ActionKey("/api/notification/count")
     public void msgCount() {
         User user = getUserByToken();
@@ -357,6 +358,7 @@ public class ApiController extends BaseController {
     /**
      * 通知列表
      */
+    @Before(ApiInterceptor.class)
     @ActionKey("/api/notifications")
     public void notifications() {
         Boolean mdrender = getParaToBoolean("mdrender", true);
