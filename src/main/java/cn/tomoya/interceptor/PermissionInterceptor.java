@@ -27,8 +27,9 @@ public class PermissionInterceptor implements Interceptor {
 
         //处理权限部分
         Map<String, String> permissions = Permission.me.findPermissions(user.getInt("id"));
-        String path = request.getRequestURI();
-        if(permissions.containsValue(path)) {
+        //String path = request.getRequestURI();
+        String path = request.getServletPath();
+        if (permissions.containsValue(path)) {
             inv.invoke();
         } else {
             //没有权限
