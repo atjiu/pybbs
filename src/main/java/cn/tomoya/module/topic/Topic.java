@@ -149,6 +149,15 @@ public class Topic extends BaseModel<Topic> {
     }
 
     /**
+     * 查询用户发布的所有话题
+     * @param author
+     * @return
+     */
+    public List<Topic> findByAuthor(String author) {
+        return find("select * from pybbs_topic where isdelete = ? and author = ? order by in_time desc", false, author);
+    }
+
+    /**
      * 查询所有话题
      * @return
      */

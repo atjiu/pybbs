@@ -41,6 +41,8 @@
             <#include "./components/welcome.ftl">
             <@welcome/>
         </#if>
+        <#include "./components/qrcode.ftl"/>
+        <@qrcode/>
         <#--<#include "./components/scores.ftl"/>-->
         <#--<@userscores limit=10 />-->
     </div>

@@ -56,7 +56,7 @@ public class ApiController extends BaseController {
         }
         Page<Topic> page = Topic.me.page(getParaToInt("p", 1), PropKit.getInt("pageSize", 20), tab);
         //处理数据
-        for(Topic topic: page.getList()) {
+        for (Topic topic : page.getList()) {
             User user = User.me.findByNickname(topic.getStr("author"));
             topic.put("avatar", user.getStr("avatar"));
             topic.remove("content", "isdelete", "show_status");
@@ -66,10 +66,12 @@ public class ApiController extends BaseController {
 
     /**
      * 话题详情
+     *
      * @throws UnsupportedEncodingException
      */
     public void topic() throws UnsupportedEncodingException {
         Integer tid = getParaToInt(0);
+        String token = getPara("token");
         Boolean mdrender = getParaToBoolean("mdrender", true);
         Topic topic = Topic.me.findById(tid);
         if (topic == null) {
@@ -90,18 +92,27 @@ public class ApiController extends BaseController {
             User authorinfo = User.me.findByNickname(topic.getStr("author"));
             authorinfo.remove("receive_msg", "isblock", "third_access_token", "third_id", "channel", "expire_time",
                     "access_token");
+            topic.put("avatar", authorinfo.getStr("avatar"));
             //查询回复
             List<Reply> replies = Reply.me.findByTopicId(tid);
             //查询收藏数量
             long collectCount = Collect.me.countByTid(tid);
+            //如果有token,查询该话题是否被收藏
+            boolean isCollect = false;
+            User currentUser = getUserByToken();
+            if(currentUser != null) {
+                Collect collect = Collect.me.findByTidAndUid(tid, currentUser.getInt("id"));
+                isCollect = collect != null;
+            }
 
             //渲染markdown
-            if(mdrender) {
+            if (mdrender) {
                 topic.set("content", topic.marked(topic.getStr("content")));
-                for(TopicAppend ta: topicAppends) {
+                for (TopicAppend ta : topicAppends) {
                     ta.set("content", ta.marked(ta.getStr("content")));
                 }
-                for(Reply reply: replies) {
+                for (Reply reply : replies) {
+                    reply.put("avatar", User.me.findByNickname(reply.get("author")).get("avatar"));
                     reply.set("content", reply.marked(reply.getStr("content")));
                 }
             }
@@ -112,12 +123,14 @@ public class ApiController extends BaseController {
             map.put("authorinfo", authorinfo);
             map.put("replies", replies);
             map.put("collectCount", collectCount);
+            map.put("isCollect", isCollect);
             success(map);
         }
     }
 
     /**
      * 用户主页
+     *
      * @throws UnsupportedEncodingException
      */
     public void user() throws UnsupportedEncodingException {
@@ -131,26 +144,41 @@ public class ApiController extends BaseController {
             map.put("currentUser", currentUser);
             currentUser.remove("receive_msg", "isblock", "third_access_token", "third_id", "channel", "expire_time",
                     "access_token");
-            Page<Topic> topicPage = Topic.me.pageByAuthor(1, 7, nickname);
-            Page<Reply> replyPage = Reply.me.pageByAuthor(1, 7, nickname);
+            List<Topic> topics = Topic.me.findByAuthor(nickname);
+            List<Reply> replies = Reply.me.findByAuthor(nickname);
             //处理数据
-            for(Topic topic: topicPage.getList()) {
+            for (Topic topic : topics) {
+                topic.put("avatar", currentUser.get("avatar"));
                 topic.remove("content", "isdelete", "show_status");
             }
             //渲染markdown
-            if(mdrender) {
-                for(Reply reply: replyPage.getList()) {
-                    reply.set("content", reply.marked(reply.getStr("content")));
+            for (Reply reply : replies) {
+                reply.put("avatar", User.me.findByNickname(reply.get("author")).get("avatar"));
+                if (mdrender) {
+                    reply.put("replyContent", reply.marked(reply.getStr("replyContent")));
                 }
+                reply.remove("content", "isdelete", "show_status");
             }
-            map.put("topics", topicPage.getList());
-            map.put("replies", replyPage.getList());
+            map.put("topics", topics);
+            map.put("replies", replies);
             success(map);
         }
     }
 
     /**
+     * 验证token正确性
+     */
+    @Before(ApiInterceptor.class)
+    public void accesstoken() {
+        User user = getUserByToken();
+        user.remove("receive_msg", "isblock", "third_access_token", "third_id", "channel", "expire_time",
+                "access_token");
+        success(user);
+    }
+
+    /**
      * 发布话题
+     *
      * @throws UnsupportedEncodingException
      */
     @Before(ApiInterceptor.class)
@@ -162,7 +190,7 @@ public class ApiController extends BaseController {
         String tab = getPara("tab");
         if (StrUtil.isBlank(Jsoup.clean(title, Whitelist.basic()))) {
             error(Constants.OP_ERROR_MESSAGE);
-        } else if(StrUtil.isBlank(tab)) {
+        } else if (StrUtil.isBlank(tab)) {
             error("请选择板块");
         } else {
             User user = getUserByToken();
@@ -185,7 +213,7 @@ public class ApiController extends BaseController {
                 SolrUtil solrUtil = new SolrUtil();
                 solrUtil.indexTopic(topic);
             }
-            success();
+            success(topic);
         }
     }
 
@@ -196,17 +224,17 @@ public class ApiController extends BaseController {
     @ActionKey("/api/topic/collect")
     public void collect() {
         Integer tid = getParaToInt("tid");
-        if(tid == null) {
+        if (tid == null) {
             error("话题ID不能为空");
         } else {
             Topic topic = Topic.me.findById(tid);
-            if(topic == null) {
+            if (topic == null) {
                 error("收藏的话题不存在");
             } else {
                 Date now = new Date();
                 User user = getUserByToken();
                 Collect collect = Collect.me.findByTidAndUid(tid, user.getInt("id"));
-                if(collect == null) {
+                if (collect == null) {
                     collect = new Collect();
                     collect.set("tid", tid)
                             .set("uid", user.getInt("id"))
@@ -242,7 +270,7 @@ public class ApiController extends BaseController {
         Integer tid = getParaToInt("tid");
         User user = getUserByToken();
         Collect collect = Collect.me.findByTidAndUid(tid, user.getInt("id"));
-        if(collect == null) {
+        if (collect == null) {
             error("请先收藏");
         } else {
             collect.delete();
@@ -260,20 +288,21 @@ public class ApiController extends BaseController {
     public void collects() throws UnsupportedEncodingException {
         String nickname = getPara(0);
         Boolean mdrender = getParaToBoolean("mdrender", true);
-        if(StrUtil.isBlank(nickname)) {
+        if (StrUtil.isBlank(nickname)) {
             error("用户昵称不能为空");
         } else {
             User user = User.me.findByNickname(nickname);
-            if(user == null) {
+            if (user == null) {
                 error("无效用户");
             } else {
-                Page<Collect> page = Collect.me.findByUid(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getInt("id"));
-                if(mdrender) {
-                    for(Collect collect: page.getList()) {
+                List<Collect> collects = Collect.me.findByUid(user.getInt("id"));
+                for (Collect collect : collects) {
+                    collect.put("avatar", User.me.findByNickname(collect.get("author")).get("avatar"));
+                    if (mdrender) {
                         collect.put("content", collect.marked(collect.get("content")));
                     }
                 }
-                success(page);
+                success(collects);
             }
         }
     }
@@ -286,11 +315,11 @@ public class ApiController extends BaseController {
     public void createReply() throws UnsupportedEncodingException {
         Integer tid = getParaToInt("tid");
         String content = getPara("content");
-        if(tid == null || StrUtil.isBlank(content)) {
+        if (tid == null || StrUtil.isBlank(content)) {
             error("话题ID和回复内容都不能为空");
         } else {
             Topic topic = Topic.me.findById(tid);
-            if(topic == null) {
+            if (topic == null) {
                 error("话题不存在");
             } else {
                 Date now = new Date();
@@ -310,7 +339,7 @@ public class ApiController extends BaseController {
 //                user.set("score", user.getInt("score") + 5).update();
                 //发送通知
                 //回复者与话题作者不是一个人的时候发送通知
-                if(!user.getStr("nickname").equals(topic.getStr("author"))) {
+                if (!user.getStr("nickname").equals(topic.getStr("author"))) {
                     Notification.me.sendNotification(
                             user.getStr("nickname"),
                             topic.getStr("author"),
@@ -321,8 +350,8 @@ public class ApiController extends BaseController {
                 }
                 //检查回复内容里有没有at用户,有就发通知
                 List<String> atUsers = StrUtil.fetchUsers(content);
-                for(String u: atUsers) {
-                    if(!u.equals(topic.getStr("author"))) {
+                for (String u : atUsers) {
+                    if (!u.equals(topic.getStr("author"))) {
                         User _user = User.me.findByNickname(u);
                         if (_user != null) {
                             Notification.me.sendNotification(
@@ -339,7 +368,7 @@ public class ApiController extends BaseController {
                 clearCache(CacheEnum.topic.name() + tid);
                 clearCache(CacheEnum.usernickname.name() + URLEncoder.encode(user.getStr("nickname"), "utf-8"));
                 clearCache(CacheEnum.useraccesstoken.name() + user.getStr("access_token"));
-                success();
+                success(reply);
             }
         }
     }
@@ -360,12 +389,13 @@ public class ApiController extends BaseController {
      */
     @Before(ApiInterceptor.class)
     @ActionKey("/api/notifications")
-    public void notifications() {
+    public void notifications() throws UnsupportedEncodingException {
         Boolean mdrender = getParaToBoolean("mdrender", true);
         User user = getUserByToken();
         Page<Notification> page = Notification.me.pageByAuthor(getParaToInt("p", 1), PropKit.getInt("pageSize"), user.getStr("nickname"));
-        if(mdrender) {
-            for (Notification notification : page.getList()) {
+        for (Notification notification : page.getList()) {
+            notification.put("avatar", User.me.findByNickname(notification.get("author")).get("avatar"));
+            if (mdrender) {
                 notification.set("content", notification.marked(notification.get("content")));
             }
         }

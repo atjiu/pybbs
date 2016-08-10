@@ -6,6 +6,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
+import java.util.List;
+
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -74,6 +76,15 @@ public class Collect extends BaseModel<Collect> {
             cache.set(CacheEnum.collects.name() + uid, page);
         }
         return page;
+    }
+
+    /**
+     * 查询用户收藏的话题列表
+     * @param uid
+     * @return
+     */
+    public List<Collect> findByUid(int uid) {
+        return find("select t.* from pybbs_collect c left join pybbs_topic t on c.tid = t.id where t.isdelete = ? and c.uid = ? order by c.in_time desc", false, uid);
     }
 
     /**

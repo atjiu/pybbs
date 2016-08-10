@@ -88,6 +88,17 @@ public class Reply extends BaseModel<Reply> {
     }
 
     /**
+     * 查询用户回复的话题列表
+     * @param author
+     * @return
+     */
+    public List<Reply> findByAuthor(String author) {
+        return find("select t.*, r.content as replyContent, r.author as replyAuthor " +
+                " from pybbs_topic t, pybbs_reply r " +
+                "where t.isdelete = ? and r.isdelete = ? and t.id = r.tid and r.author = ? order by r.in_time desc", false, false, author);
+    }
+
+    /**
      * 删除话题回复内容
      * @param tid
      */
