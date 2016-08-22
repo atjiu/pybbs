@@ -1,5 +1,5 @@
 <#include "./common/layout.ftl">
-<@html page_title="首页 - 朋也社区">
+<@html page_title="首页 - ${siteTitle!}">
 <div class="row">
     <div class="col-md-9">
         <div class="panel panel-default">
