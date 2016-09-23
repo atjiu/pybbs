@@ -132,9 +132,10 @@
 
 ## 碰到问题怎么办?
 
-1. 到 [http://bbs.tomoya.cn](http://bbs.tomoya.cn) 上提问答
+1. 到 [https://bbs.tomoya.cn](https://bbs.tomoya.cn) 上提问答
 2. 在Github上提 [Issues](https://github.com/tomoya92/pybbs/issues)
 3. 提问题的时候请将问题重现步骤描述清楚
+4. 加QQ群：419343003
 
 ## 贡献
 
