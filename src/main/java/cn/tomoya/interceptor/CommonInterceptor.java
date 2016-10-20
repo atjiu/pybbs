@@ -1,15 +1,20 @@
 package cn.tomoya.interceptor;
 
-import cn.tomoya.common.Constants;
-import cn.tomoya.module.notification.Notification;
-import cn.tomoya.module.user.User;
-import cn.tomoya.utils.StrUtil;
-import com.jfinal.aop.Interceptor;
-import com.jfinal.aop.Invocation;
-import com.jfinal.core.Controller;
-import com.jfinal.kit.PropKit;
+import cn.tomoya.common.config.SiteConfig;
+import com.github.javautils.net.IpUtil;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -17,44 +22,62 @@ import java.util.Map;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-public class CommonInterceptor implements Interceptor {
+@Component
+@Log4j
+public class CommonInterceptor implements HandlerInterceptor {
 
-    public void intercept(Invocation inv) {
-        Controller controller = inv.getController();
-        PropKit.use("config.properties");
+    @Autowired
+    private SiteConfig siteConfig;
 
-        String user_cookie = controller.getCookie(Constants.USER_ACCESS_TOKEN);
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        long start = System.currentTimeMillis();
+        request.setAttribute("_start", start);
+        return true;
+    }
 
-        if(StrUtil.notBlank(user_cookie)) {
-            String user_access_token = StrUtil.getDecryptToken(user_cookie);
-            User user = User.me.findByAccessToken(user_access_token);
-            if(user == null) {
-                controller.removeCookie(Constants.USER_ACCESS_TOKEN, "/", PropKit.get("cookie.domain"));
-            } else {
-                int count = Notification.me.findNotReadCount(user.getStr("nickname"));
-                controller.setAttr("notifications", count == 0 ? null : count);
-                controller.setAttr("userinfo", user);
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (modelAndView != null) {
+            ModelMap modelMap = modelAndView.getModelMap();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAuthenticated = false;
+            if (authentication != null) {
+                Object o = authentication.getPrincipal();
+                if (o instanceof UserDetails) {
+                    isAuthenticated = true;
+                    modelMap.addAttribute("_principal", ((UserDetails) o).getUsername());
+                    modelMap.addAttribute("_roles", ((UserDetails) o).getAuthorities());
+                }
             }
+            modelMap.addAttribute("_isAuthenticated", isAuthenticated);
+            modelMap.addAttribute("baseUrl", siteConfig.getBaseUrl());
+            modelMap.addAttribute("siteTitle", siteConfig.getName());
+            modelMap.addAttribute("sections", siteConfig.getSections());
         }
+    }
 
-        //如果是微博登录的话,要在页面头部添加meta标签
-        String loginChannel = PropKit.get("login.channel");
-        Map<String, String> loginChannelMap = new HashMap<String, String>();
-        if(loginChannel.equals(Constants.LoginEnum.Weibo.name())) {
-            loginChannelMap.put("loginChannelName", Constants.LoginEnum.Weibo.name());
-            loginChannelMap.put("loginChannelUrl", "/oauth/weibologin");
-            controller.setAttr("login_channel", loginChannelMap);
-            controller.setAttr("weibometa", PropKit.get("weibo.meta"));
-        } else if(StrUtil.isBlank(loginChannel) || loginChannel.equals(Constants.LoginEnum.Github.name())) {
-            loginChannelMap.put("loginChannelName", Constants.LoginEnum.Github.name());
-            loginChannelMap.put("loginChannelUrl", "/oauth/githublogin");
-            controller.setAttr("login_channel", loginChannelMap);
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        long start = (long) request.getAttribute("_start");
+
+        String actionName = request.getRequestURI();
+        String clientIp = IpUtil.getIpAddr(request);
+        StringBuffer logstring = new StringBuffer();
+        logstring.append(clientIp).append("|").append(actionName).append("|");
+        Map<String, String[]> parmas = request.getParameterMap();
+        Iterator<Map.Entry<String, String[]>> iter = parmas.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, String[]> entry = iter.next();
+            logstring.append(entry.getKey());
+            logstring.append("=");
+            for (String paramString : entry.getValue()) {
+                logstring.append(paramString);
+            }
+            logstring.append("|");
         }
-        controller.setAttr("solrStatus", PropKit.getBoolean("solr.status")?"true":"false");
-        controller.setAttr("shareDomain", PropKit.get("share.domain"));
-        controller.setAttr("siteTitle", PropKit.get("siteTitle"));
-        controller.setAttr("beianName", PropKit.get("beianName"));
-        controller.setAttr("tongjiJs", PropKit.get("tongjiJs"));
-        inv.invoke();
+        long executionTime = System.currentTimeMillis() - start;
+        logstring.append("excutetime=").append(executionTime).append("ms");
+        log.info(logstring.toString());
     }
 }

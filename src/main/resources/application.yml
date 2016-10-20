@@ -1,0 +1,16 @@
+spring:
+  freemarker:
+    cache: false
+  datasource:
+    url: jdbc:mysql://localhost/pybbs-springboot?useSSL=false
+    username: root
+    password:
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  mvc:
+    static-path-pattern: /static/**
+banner:
+  location: banner.txt

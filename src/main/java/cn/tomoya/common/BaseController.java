@@ -1,65 +1,99 @@
 package cn.tomoya.common;
 
-import cn.tomoya.module.user.User;
-import cn.tomoya.utils.Result;
-import cn.tomoya.utils.StrUtil;
-import com.jfinal.core.Controller;
-import com.jfinal.kit.PropKit;
-import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
+import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-public class BaseController extends Controller {
+@Log4j
+public class BaseController {
 
-    // 接口返回状态码
-    private static final String CODE_SUCCESS = "200";
-    private static final String CODE_FAILURE = "201";
-    private static final String DESC_SUCCESS = "success";
+    @Autowired
+    private SiteConfig siteConfig;
+    @Autowired
+    private UserService userService;
 
-    static {
-        PropKit.use("config.properties");
-    }
-
-    public void success() {
-        success(null);
-    }
-
-    public void success(Object object) {
-        renderJson(new Result(CODE_SUCCESS, DESC_SUCCESS, object));
-    }
-
-    public void error(String message) {
-        renderJson(new Result(CODE_FAILURE, message, null));
+    /**
+     * 带参重定向
+     *
+     * @param path
+     * @return
+     */
+    protected String redirect(String path) {
+        return "redirect:" + path;
     }
 
     /**
-     * 删除redis里的缓存
-     * @param key
+     * 不带参重定向
+     *
+     * @param response
+     * @param path
+     * @return
      */
-    protected void clearCache(String key) {
-        Cache cache = Redis.use();
-        cache.del(key);
-    }
-
-    public User getUser() {
-        String user_cookie = getCookie(Constants.USER_ACCESS_TOKEN);
-
-        if(StrUtil.notBlank(user_cookie)) {
-            return User.me.findByAccessToken(StrUtil.getDecryptToken(user_cookie));
+    protected String redirect(HttpServletResponse response, String path) {
+        try {
+            response.sendRedirect(path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public User getUserByToken() {
-        String token = getPara("token");
-        if(StrUtil.notBlank(token)) {
-            return User.me.findByAccessToken(token);
+    /**
+     * 渲染页面
+     *
+     * @param path 前面必须要加上 /
+     * @return
+     */
+    protected String render(String path) {
+        return siteConfig.getTheme() + path;
+    }
+
+    protected void renderText(HttpServletResponse response, String msg) {
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取Security用户
+     *
+     * @return
+     */
+    protected UserDetails getSecurityUser() {
+        Object o =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean b = o instanceof UserDetails;
+        if(b) {
+            log.info(o.toString());
+            return (UserDetails) o;
         }
         return null;
     }
 
+    /**
+     * 获取用户信息
+     * @return
+     */
+    protected User getUser() {
+        UserDetails userDetails = getSecurityUser();
+        if(userDetails != null) {
+            return userService.findByUsername(userDetails.getUsername());
+        }
+        return null;
+    }
 }

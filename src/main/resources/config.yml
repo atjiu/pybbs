@@ -1,0 +1,20 @@
+site:
+  name: 朋也社区
+  baseUrl: http://localhost:8080/
+  sessionName: _user
+  adminSessionName: _admin_user
+  cookieName: _token
+  adminCookieName: _admin_token
+  cookieDomain: localhost
+  cookieExpireTime: 30 # 单位天
+  pageSize: 20
+  avatarPath: /Users/tomoya/git/coding/pybbs-springboot/src/main/resources/static/images/avatar/
+  uploadPath: /Users/tomoya/git/coding/pybbs-springboot/src/main/resources/static/images/upload/
+  sections:
+    - 分享
+    - 问答
+    - 新闻
+    - 博客
+    - 招聘
+  theme: bootstrap
+  beforeUrl: beforeUrl
