@@ -27,6 +27,7 @@
 ## 如何开始
 
 - `git clone https://github.com/tomoya92/pybbs.git`
+- `git clone https://github.com/tomoya92/java-utils.git` 并按照readme的说明安装到本地 
 - 修改配置文件 `src/main/resources/application.yml` `src/main/resources/config.yml` 里的配置项
 - 创建数据库 `pybbs-springboot`
 - 运行`PybbsApplication.java`里的`main`方法
