@@ -35,6 +35,18 @@
 - 浏览器 `http://localhost:8080/`
 - 默认帐户 `tomoya` `123123`
 
+## 打jar包运行
+
+- `git clone https://github.com/tomoya92/pybbs.git`
+- `git clone https://github.com/tomoya92/java-utils.git` 并按照readme的说明安装到本地 
+- 修改配置文件 `src/main/resources/application.yml` `src/main/resources/config.yml` 里的配置项
+- 创建数据库 `pybbs-springboot`
+- 运行 `mvn package` 命令，生成jar包，位置在 `target/pybbs.jar`
+- 运行 `java -jar pybbs.jar` 即可启动服务
+- 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
+- 浏览器 `http://localhost:8080/`
+- 默认帐户 `tomoya` `123123`
+
 ## 待完成
 
 - [ ] 加入缓存（redis, ehcache）
