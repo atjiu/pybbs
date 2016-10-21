@@ -30,5 +30,6 @@ public class SiteConfig {
     private List<String> sections;
     private String theme;
     private String beforeUrl;
+    private boolean elastic;
 
 }

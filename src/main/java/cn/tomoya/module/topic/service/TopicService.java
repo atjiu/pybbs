@@ -1,7 +1,10 @@
 package cn.tomoya.module.topic.service;
 
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
+import cn.tomoya.module.topic.elastic.ElasticTopic;
+import cn.tomoya.module.topic.elastic.ElasticTopicService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
@@ -26,12 +29,25 @@ import java.util.List;
 public class TopicService {
 
     @Autowired
+    private SiteConfig siteConfig;
+    @Autowired
     private TopicDao topicDao;
     @Autowired
     private ReplyService replyService;
+    @Autowired
+    private ElasticTopicService elasticTopicService;
 
     public void save(Topic topic) {
         topicDao.save(topic);
+        if(siteConfig.isElastic()) {
+            new Thread(() -> {
+                ElasticTopic elasticTopic = new ElasticTopic();
+                elasticTopic.setTopicId(topic.getId());
+                elasticTopic.setTitle(topic.getTitle());
+                elasticTopic.setContent(topic.getContent());
+                elasticTopicService.save(elasticTopic);
+            }).start();
+        }
     }
 
     public Topic findById(int id) {
@@ -44,6 +60,12 @@ public class TopicService {
      * @param id
      */
     public void deleteById(int id) {
+        if(siteConfig.isElastic()) {
+            new Thread(() -> {
+                ElasticTopic elasticTopic = elasticTopicService.findByTopicId(id);
+                elasticTopicService.delete(elasticTopic);
+            }).start();
+        }
         //删除话题下面的回复
         replyService.deleteByTopic(id);
         //删除话题

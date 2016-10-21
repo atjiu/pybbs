@@ -2,6 +2,7 @@ package cn.tomoya.module.index.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.topic.elastic.ElasticTopicService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
@@ -52,6 +53,8 @@ public class IndexController extends BaseController {
     private SiteConfig siteConfig;
     @Autowired
     private Identicon identicon;
+    @Autowired
+    private ElasticTopicService elasticTopicService;
 
     /**
      * 首页
@@ -154,6 +157,20 @@ public class IndexController extends BaseController {
             }
         }
         return JsonUtil.error("上传失败");
+    }
+
+    /**
+     * 搜索
+     * @param p
+     * @param q
+     * @param model
+     * @return
+     */
+    @RequestMapping("/search")
+    public String search(Integer p, String q, Model model) {
+        model.addAttribute("q", q);
+        model.addAttribute("page", elasticTopicService.pageByKeyword(p == null ? 1 : p, siteConfig.getPageSize(), q));
+        return render("/search");
     }
 
 }

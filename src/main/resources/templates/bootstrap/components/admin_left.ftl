@@ -15,5 +15,8 @@
   <#if _roles?seq_contains("permission:list")>
     <a href="/admin/permission/list" class="list-group-item <#if page_tab == "permission">active</#if>">权限管理</a>
   </#if>
+  <#if _roles?seq_contains("index:all") || _roles?seq_contains("index:deleteAll")>
+    <a href="/admin/indexed" class="list-group-item <#if page_tab == "indexed">active</#if>">索引管理</a>
+  </#if>
 </div>
 </#macro>

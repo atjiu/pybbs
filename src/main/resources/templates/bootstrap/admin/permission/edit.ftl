@@ -1,6 +1,10 @@
 <#include "../../common/layout.ftl"/>
 <@html page_title="编辑权限" page_tab="setting">
 <div class="row">
+  <div class="col-md-3 hidden-sm hidden-xs">
+    <#include "../../components/admin_left.ftl">
+    <@admin_left page_tab="permission"/>
+  </div>
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -15,10 +19,7 @@
               <label for="pid">父节点</label>
               <select name="pid" id="pid" class="form-control">
                 <#list permissions as permission>
-                  <option value="${permission.id!}"
-                          <#if permission.pid == permission.id>selected</#if>>
-                  ${permission.description!}
-                  </option>
+                  <option value="${permission.id!}">${permission.description!}</option>
                 </#list>
               </select>
             </div>
@@ -45,6 +46,8 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
+<script>
+  $("#pid").val('${permission.pid}');
+</script>
 </@html>
