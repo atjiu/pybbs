@@ -53,6 +53,7 @@
 - golang版：[https://github.com/tomoya92/pybbs-go](https://github.com/tomoya92/pybbs-go)
 - springboot版：[https://github.com/tomoya92/pybbs](https://github.com/tomoya92/pybbs)
 - jfinal版：[https://github.com/tomoya92/pybbs/tree/v2.3](https://github.com/tomoya92/pybbs/tree/v2.3)
+- ssm版：[https://github.com/ehuacui/ehuacui-bbs](https://github.com/ehuacui/ehuacui-bbs)
 
 ## 贡献
 
