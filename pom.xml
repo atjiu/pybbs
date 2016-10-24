@@ -114,6 +114,13 @@
 
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>maven-repo</id>
+            <url>https://raw.githubusercontent.com/tomoya92/java-utils/master/repo</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
