@@ -3,12 +3,9 @@ package cn.tomoya.module.topic.service;
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
-import cn.tomoya.module.topic.elastic.ElasticTopic;
-import cn.tomoya.module.topic.elastic.ElasticTopicService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
-import com.github.javautils.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Created by tomoya.
@@ -34,20 +29,9 @@ public class TopicService {
     private TopicDao topicDao;
     @Autowired
     private ReplyService replyService;
-    @Autowired
-    private ElasticTopicService elasticTopicService;
 
     public void save(Topic topic) {
         topicDao.save(topic);
-        if(siteConfig.isElastic()) {
-            new Thread(() -> {
-                ElasticTopic elasticTopic = new ElasticTopic();
-                elasticTopic.setTopicId(topic.getId());
-                elasticTopic.setTitle(topic.getTitle());
-                elasticTopic.setContent(topic.getContent());
-                elasticTopicService.save(elasticTopic);
-            }).start();
-        }
     }
 
     public Topic findById(int id) {
@@ -60,12 +44,6 @@ public class TopicService {
      * @param id
      */
     public void deleteById(int id) {
-        if(siteConfig.isElastic()) {
-            new Thread(() -> {
-                ElasticTopic elasticTopic = elasticTopicService.findByTopicId(id);
-                elasticTopicService.delete(elasticTopic);
-            }).start();
-        }
         //删除话题下面的回复
         replyService.deleteByTopic(id);
         //删除话题

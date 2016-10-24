@@ -12,13 +12,5 @@ spring:
       ddl-auto: update
   mvc:
     static-path-pattern: /static/**
-  data:
-    elasticsearch:
-      properties:
-        path:
-          name: target/elastic
-        transport:
-          tcp:
-            connect_timeout: 120s
 banner:
   location: banner.txt

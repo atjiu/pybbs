@@ -2,22 +2,16 @@ package cn.tomoya.module.index.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.module.topic.elastic.ElasticTopicService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.JsonUtil;
 import cn.tomoya.util.identicon.Identicon;
-import com.github.javautils.Constants;
-import com.github.javautils.encrypt.EncryptionUtil;
 import com.github.javautils.string.StringUtil;
-import com.github.javautils.web.CookieUtils;
 import lombok.extern.log4j.Log4j;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * Created by tomoya.
@@ -53,8 +45,6 @@ public class IndexController extends BaseController {
     private SiteConfig siteConfig;
     @Autowired
     private Identicon identicon;
-    @Autowired
-    private ElasticTopicService elasticTopicService;
 
     /**
      * 首页
@@ -157,20 +147,6 @@ public class IndexController extends BaseController {
             }
         }
         return JsonUtil.error("上传失败");
-    }
-
-    /**
-     * 搜索
-     * @param p
-     * @param q
-     * @param model
-     * @return
-     */
-    @RequestMapping("/search")
-    public String search(Integer p, String q, Model model) {
-        model.addAttribute("q", q);
-        model.addAttribute("page", elasticTopicService.pageByKeyword(p == null ? 1 : p, siteConfig.getPageSize(), q));
-        return render("/search");
     }
 
 }
