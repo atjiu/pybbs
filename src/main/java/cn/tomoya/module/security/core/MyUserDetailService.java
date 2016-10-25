@@ -4,7 +4,7 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.service.PermissionService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Log4j
 public class MyUserDetailService implements UserDetailsService {
+
+    Logger log = Logger.getLogger(MyUserDetailService.class);
 
     @Autowired
     private UserService userService;

@@ -2,8 +2,6 @@ package cn.tomoya.module.topic.entity;
 
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.user.entity.User;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,8 +13,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "pybbs_topic")
-@Getter
-@Setter
 public class Topic extends BaseEntity {
 
     @Id
@@ -68,4 +64,109 @@ public class Topic extends BaseEntity {
     @Column(columnDefinition = "text")
     //点赞用户id，逗号隔开(英文逗号)
     private String upIds;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTab() {
+        return tab;
+    }
+
+    public void setTab(String tab) {
+        this.tab = tab;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
+    }
+
+    public Date getModityTime() {
+        return modityTime;
+    }
+
+    public void setModityTime(Date modityTime) {
+        this.modityTime = modityTime;
+    }
+
+    public boolean isTop() {
+        return top;
+    }
+
+    public void setTop(boolean top) {
+        this.top = top;
+    }
+
+    public boolean isGood() {
+        return good;
+    }
+
+    public void setGood(boolean good) {
+        this.good = good;
+    }
+
+    public int getUp() {
+        return up;
+    }
+
+    public void setUp(int up) {
+        this.up = up;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
+    }
+
+    public String getUpIds() {
+        return upIds;
+    }
+
+    public void setUpIds(String upIds) {
+        this.upIds = upIds;
+    }
+
 }

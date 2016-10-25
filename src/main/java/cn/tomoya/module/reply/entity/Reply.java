@@ -3,8 +3,6 @@ package cn.tomoya.module.reply.entity;
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +14,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "pybbs_reply")
-@Getter
-@Setter
 public class Reply extends BaseEntity {
 
     @Id
@@ -48,4 +44,59 @@ public class Reply extends BaseEntity {
     @Column(columnDefinition = "text")
     private String upIds;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
+    }
+
+    public int getUp() {
+        return up;
+    }
+
+    public void setUp(int up) {
+        this.up = up;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getUpIds() {
+        return upIds;
+    }
+
+    public void setUpIds(String upIds) {
+        this.upIds = upIds;
+    }
 }

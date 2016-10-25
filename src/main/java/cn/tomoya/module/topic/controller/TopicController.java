@@ -7,10 +7,10 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
-import com.github.javautils.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,9 +56,9 @@ public class TopicController extends BaseController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(String tab, String title, String content, Model model, HttpServletResponse response) {
         String errors = "";
-        if (StringUtil.isBlank(title)) {
+        if (StringUtils.isEmpty(title)) {
             errors = "标题不能为空";
-        } else if (StringUtil.isBlank(tab)) {
+        } else if (StringUtils.isEmpty(tab)) {
             errors = "版块不能为空";
         } else {
             User user = getUser();

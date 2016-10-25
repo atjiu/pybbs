@@ -1,6 +1,6 @@
 package cn.tomoya;
 
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,8 +13,9 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-@Log4j
 public class TestDemo {
+
+    Logger log = Logger.getLogger(TestDemo.class);
 
     @Test
     public void test1() {

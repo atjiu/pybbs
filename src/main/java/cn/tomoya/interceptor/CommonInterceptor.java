@@ -1,8 +1,8 @@
 package cn.tomoya.interceptor;
 
 import cn.tomoya.common.config.SiteConfig;
-import com.github.javautils.net.IpUtil;
-import lombok.extern.log4j.Log4j;
+import cn.tomoya.util.IpUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,8 +23,9 @@ import java.util.Map;
  * http://tomoya.cn
  */
 @Component
-@Log4j
 public class CommonInterceptor implements HandlerInterceptor {
+
+    Logger log = Logger.getLogger(CommonInterceptor.class);
 
     @Autowired
     private SiteConfig siteConfig;

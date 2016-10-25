@@ -3,7 +3,7 @@ package cn.tomoya.common;
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +16,9 @@ import java.io.IOException;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-@Log4j
 public class BaseController {
+
+    Logger log = Logger.getLogger(BaseController.class);
 
     @Autowired
     private SiteConfig siteConfig;

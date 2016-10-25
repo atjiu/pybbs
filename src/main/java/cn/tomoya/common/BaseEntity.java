@@ -2,23 +2,24 @@ package cn.tomoya.common;
 
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.util.MarkdownUtil;
-import com.github.javautils.string.StringUtil;
-import lombok.extern.log4j.Log4j;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-@Log4j
 public class BaseEntity {
 
     @Autowired
@@ -46,14 +47,31 @@ public class BaseEntity {
      * @return
      */
     public String marked(String content) {
-        if (StringUtil.isBlank(content)) return "";
+        if (StringUtils.isEmpty(content)) return "";
         //处理@
-        List<String> users = StringUtil.fetchUsers(content);
+        List<String> users = fetchUsers(content);
         for (String user : users) {
             content = content.replace("@" + user, "[@" + user + "](" + siteConfig.getCookieDomain() + "/user/" + user + ")");
         }
         //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
+    }
+
+    /**
+     * 查找一段文本里以 @ 开头的字符串
+     *
+     * @param str
+     * @return
+     */
+    public static List<String> fetchUsers(String str) {
+        List<String> ats = new ArrayList<>();
+        String pattern = "@";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher regexMatcher = regex.matcher(str);
+        while (regexMatcher.find()) {
+            ats.add(regexMatcher.group(1));
+        }
+        return ats;
     }
 
     /**
@@ -63,7 +81,7 @@ public class BaseEntity {
      * @return
      */
     public String markedNotAt(String content) {
-        if (StringUtil.isBlank(content)) return "";
+        if (StringUtils.isEmpty(content)) return "";
         //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
     }

@@ -1,9 +1,9 @@
 package cn.tomoya.util.identicon.generator.impl;
 
 import cn.tomoya.util.identicon.generator.IBaseGenartor;
-import com.github.javautils.string.StringUtil;
 import com.google.common.base.Preconditions;
 import com.google.common.math.DoubleMath;
+import org.springframework.util.StringUtils;
 
 import java.awt.*;
 import java.math.RoundingMode;
@@ -21,7 +21,7 @@ public class DefaultGenerator implements IBaseGenartor {
 
     @Override
     public boolean[][] getBooleanValueArray(String hash) {
-        Preconditions.checkArgument(StringUtil.notBlank(hash) && hash.length() >= 16,
+        Preconditions.checkArgument(!StringUtils.isEmpty(hash) && hash.length() >= 16,
                 "illegal argument hash:not null and size >= 16");
 
         this.hash = hash;

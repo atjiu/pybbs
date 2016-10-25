@@ -1,7 +1,7 @@
 package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.module.notification.entity.Notification;
+import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.entity.Reply;
@@ -10,7 +10,6 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import com.github.javautils.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +70,7 @@ public class ReplyController extends BaseController {
                     notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
                 }
                 //给At用户发送通知
-                List<String> atUsers = StringUtil.fetchUsers(content);
+                List<String> atUsers = BaseEntity.fetchUsers(content);
                 for (String u : atUsers) {
                     if(!u.equals(topic.getUser().getUsername())) {
                         User _user = userService.findByUsername(u);

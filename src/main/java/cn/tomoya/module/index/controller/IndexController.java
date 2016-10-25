@@ -8,13 +8,12 @@ import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.JsonUtil;
 import cn.tomoya.util.identicon.Identicon;
-import com.github.javautils.string.StringUtil;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -34,7 +34,6 @@ import java.util.Date;
  * http://tomoya.cn
  */
 @Controller
-@Log4j
 public class IndexController extends BaseController {
 
     @Autowired
@@ -54,7 +53,7 @@ public class IndexController extends BaseController {
     @RequestMapping("/")
     public String index(String tab, Integer p, Model model) {
         String sectionName = tab;
-        if(StringUtil.isBlank(tab)) tab = "全部";
+        if(StringUtils.isEmpty(tab)) tab = "全部";
         if(tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
             sectionName = "版块";
         }
@@ -105,12 +104,12 @@ public class IndexController extends BaseController {
         User user = userService.findByUsername(username);
         if (user != null) {
             model.addAttribute("errors", "用户名已经被注册");
-        } else if (StringUtil.isBlank(username)) {
+        } else if (StringUtils.isEmpty(username)) {
             model.addAttribute("errors", "用户名不能为空");
-        } else if (StringUtil.isBlank(password)) {
+        } else if (StringUtils.isEmpty(password)) {
             model.addAttribute("errors", "密码不能为空");
         } else {
-            String avatarName = StringUtil.getUUID();
+            String avatarName = UUID.randomUUID().toString();
             identicon.generator(avatarName);
             user = new User();
             user.setUsername(username);
@@ -135,7 +134,7 @@ public class IndexController extends BaseController {
             try {
                 String type = file.getContentType();
                 String suffix = "." + type.split("/")[1];
-                String fileName = StringUtil.getUUID() + suffix;
+                String fileName = UUID.randomUUID().toString() + suffix;
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream = new BufferedOutputStream(
                         new FileOutputStream(new File(siteConfig.getUploadPath() + fileName)));

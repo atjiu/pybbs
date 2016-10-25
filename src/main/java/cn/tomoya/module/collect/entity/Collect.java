@@ -3,8 +3,6 @@ package cn.tomoya.module.collect.entity;
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +14,6 @@ import java.util.Date;
  */
 @Table(name = "pybbs_collect")
 @Entity
-@Getter
-@Setter
 public class Collect extends BaseEntity {
 
     @Id
@@ -37,4 +33,35 @@ public class Collect extends BaseEntity {
     @Column(name = "in_time")
     private Date inTime;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
+    }
 }

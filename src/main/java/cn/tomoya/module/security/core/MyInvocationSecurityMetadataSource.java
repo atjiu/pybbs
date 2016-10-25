@@ -2,7 +2,7 @@ package cn.tomoya.module.security.core;
 
 import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.service.PermissionService;
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
-@Log4j
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+
+    Logger log = Logger.getLogger(MyInvocationSecurityMetadataSource.class);
 
     @Autowired
     private PermissionService permissionService;
