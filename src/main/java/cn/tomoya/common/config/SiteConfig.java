@@ -9,7 +9,7 @@ import java.util.List;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-@ConfigurationProperties(locations = "classpath:config.yml", prefix = "site")
+@ConfigurationProperties(prefix = "site")
 public class SiteConfig {
 
     private String name;
