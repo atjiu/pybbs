@@ -6,6 +6,8 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.FileUploadEnum;
+import cn.tomoya.util.FileUtil;
 import cn.tomoya.util.JsonUtil;
 import cn.tomoya.util.identicon.Identicon;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
@@ -44,6 +43,8 @@ public class IndexController extends BaseController {
     private SiteConfig siteConfig;
     @Autowired
     private Identicon identicon;
+    @Autowired
+    private FileUtil fileUtil;
 
     /**
      * 首页
@@ -53,8 +54,8 @@ public class IndexController extends BaseController {
     @RequestMapping("/")
     public String index(String tab, Integer p, Model model) {
         String sectionName = tab;
-        if(StringUtils.isEmpty(tab)) tab = "全部";
-        if(tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
+        if (StringUtils.isEmpty(tab)) tab = "全部";
+        if (tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
             sectionName = "版块";
         }
         Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
@@ -124,23 +125,17 @@ public class IndexController extends BaseController {
 
     /**
      * 上传
+     *
      * @param file
      * @return
      */
     @RequestMapping("/upload")
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
-        if(!file.isEmpty()) {
+        if (!file.isEmpty()) {
             try {
-                String type = file.getContentType();
-                String suffix = "." + type.split("/")[1];
-                String fileName = UUID.randomUUID().toString() + suffix;
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(new File(siteConfig.getUploadPath() + fileName)));
-                stream.write(bytes);
-                stream.close();
-                return JsonUtil.success(siteConfig.getBaseUrl() + "static/images/upload/" + fileName);
+                String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE);
+                return JsonUtil.success(requestUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }

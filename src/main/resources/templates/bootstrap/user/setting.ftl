@@ -7,7 +7,7 @@
         <a href="/">主页</a> / 个人设置
       </div>
       <div class="panel-body">
-        <form action="/user/setting" method="post" id="userProfileForm">
+        <form action="/user/setting" method="post" id="userProfileForm" enctype="multipart/form-data">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="nickname">昵称</label>
@@ -24,6 +24,12 @@
           <div class="form-group">
             <label for="signature">个性签名</label>
             <textarea class="form-control" name="signature" id="signature">${user.signature!}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="avatar">头像</label>
+            <input type="file" class="form-control" name="avatar" id="avatar"/>
+            <br>
+            <img src="${user.avatar!}" width="150">
           </div>
           <button type="button" id="userProfileUpdateBtn" onclick="updateUserProfile()"
                   class="btn btn-default">保存设置

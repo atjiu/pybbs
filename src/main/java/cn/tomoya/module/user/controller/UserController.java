@@ -7,14 +7,20 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.FileUploadEnum;
+import cn.tomoya.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by tomoya.
@@ -35,6 +41,8 @@ public class UserController extends BaseController {
     private UserService userService;
     @Autowired
     private CollectService collectService;
+    @Autowired
+    private FileUtil fileUtil;
 
     /**
      * 个人资料
@@ -133,11 +141,15 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/setting", method = RequestMethod.POST)
-    public String updateUserInfo(String email, String url, String signature, HttpServletResponse response) {
+    public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar, HttpServletResponse response) throws IOException {
         User user = getUser();
         user.setEmail(email);
         user.setSignature(signature);
         user.setUrl(url);
+        String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR);
+        if(!StringUtils.isEmpty(requestUrl)) {
+            user.setAvatar(requestUrl);
+        }
         userService.updateUser(user);
         return redirect(response, "/user/" + user.getUsername());
     }

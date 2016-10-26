@@ -26,7 +26,6 @@ public class SiteConfig {
     private List<String> sections;
     private String theme;
     private String beforeUrl;
-    private boolean elastic;
 
     public String getName() {
         return name;
@@ -140,11 +139,4 @@ public class SiteConfig {
         this.beforeUrl = beforeUrl;
     }
 
-    public boolean isElastic() {
-        return elastic;
-    }
-
-    public void setElastic(boolean elastic) {
-        this.elastic = elastic;
-    }
 }
