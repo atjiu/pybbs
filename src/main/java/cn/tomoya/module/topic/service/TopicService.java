@@ -1,12 +1,13 @@
 package cn.tomoya.module.topic.service;
 
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TopicService {
 
     @Autowired
-    private SiteConfig siteConfig;
-    @Autowired
     private TopicDao topicDao;
     @Autowired
     private ReplyService replyService;
@@ -34,6 +33,7 @@ public class TopicService {
         topicDao.save(topic);
     }
 
+    @Cacheable(value = "topicCache", key = "'topicId_'+#id")
     public Topic findById(int id) {
         return topicDao.findOne(id);
     }
@@ -43,6 +43,7 @@ public class TopicService {
      *
      * @param id
      */
+    @CacheEvict(value = "topicCache", key = "'topicId_'+#id")
     public void deleteById(int id) {
         //删除话题下面的回复
         replyService.deleteByTopic(id);
@@ -52,6 +53,7 @@ public class TopicService {
 
     /**
      * 删除用户发的所有话题
+     *
      * @param user
      */
     public void deleteByUser(User user) {
@@ -70,9 +72,9 @@ public class TopicService {
         Pageable pageable = new PageRequest(p - 1, size, sort);
         if (tab.equals("全部")) {
             return topicDao.findAll(pageable);
-        } else if(tab.equals("精华")) {
+        } else if (tab.equals("精华")) {
             return topicDao.findByGood(true, pageable);
-        } else if(tab.equals("等待回复")) {
+        } else if (tab.equals("等待回复")) {
             return topicDao.findByReplyCount(0, pageable);
         } else {
             return topicDao.findByTab(tab, pageable);
@@ -113,6 +115,7 @@ public class TopicService {
 
     /**
      * 查询用户的话题
+     *
      * @param p
      * @param size
      * @param user
