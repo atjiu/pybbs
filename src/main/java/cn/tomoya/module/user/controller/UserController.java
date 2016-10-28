@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +48,7 @@ public class UserController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/{username}")
+    @GetMapping("/{username}")
     public String profile(@PathVariable String username, Model model) {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
@@ -72,7 +69,7 @@ public class UserController extends BaseController {
      * @param username
      * @return
      */
-    @RequestMapping("/{username}/topics")
+    @GetMapping("/{username}/topics")
     public String topics(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
@@ -90,7 +87,7 @@ public class UserController extends BaseController {
      * @param username
      * @return
      */
-    @RequestMapping("/{username}/replies")
+    @GetMapping("/{username}/replies")
     public String replies(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
@@ -108,7 +105,7 @@ public class UserController extends BaseController {
      * @param username
      * @return
      */
-    @RequestMapping("/{username}/collects")
+    @GetMapping("/{username}/collects")
     public String collects(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
@@ -126,7 +123,7 @@ public class UserController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/setting", method = RequestMethod.GET)
+    @GetMapping("/setting")
     public String setting(Model model) {
         model.addAttribute("user", getUser());
         return render("/user/setting");
@@ -140,7 +137,7 @@ public class UserController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/setting", method = RequestMethod.POST)
+    @PostMapping("/setting")
     public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar, HttpServletResponse response) throws IOException {
         User user = getUser();
         user.setEmail(email);

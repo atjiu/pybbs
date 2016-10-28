@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -30,7 +31,7 @@ public class ReplyAdminController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String list(Integer p, Model model) {
         Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
         model.addAttribute("page", page);

@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
@@ -43,7 +40,7 @@ public class UserAdminController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String list(Integer p, Model model) {
         model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
         return render("/admin/user/list");
@@ -54,7 +51,7 @@ public class UserAdminController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/{id}/delete")
+    @GetMapping(value = "/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         userService.deleteById(id);
         return redirect(response, "/admin/user/list");
@@ -65,7 +62,7 @@ public class UserAdminController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/{id}/role")
+    @GetMapping("/{id}/role")
     public String role(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("roles", roleService.findAll());
@@ -77,7 +74,7 @@ public class UserAdminController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/{id}/role", method = RequestMethod.POST)
+    @PostMapping("/{id}/role")
     public String saveRole(@PathVariable Integer id, Integer[] roleIds, HttpServletResponse response) {
         User user = userService.findById(id);
         Set<Role> roles = new HashSet<>();

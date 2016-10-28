@@ -3,14 +3,13 @@ package cn.tomoya.module.collect.controller;
 import cn.tomoya.common.BaseController;
 import cn.tomoya.module.collect.entity.Collect;
 import cn.tomoya.module.collect.service.CollectService;
-import cn.tomoya.module.notification.entity.Notification;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,7 +32,7 @@ public class CollectController extends BaseController {
     @Autowired
     private NotificationService notificationService;
 
-    @RequestMapping("/{topicId}/add")
+    @GetMapping("/{topicId}/add")
     public String add(@PathVariable Integer topicId, HttpServletResponse response) {
         Topic topic = topicService.findById(topicId);
         if(topic == null) {
@@ -58,7 +57,7 @@ public class CollectController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping("/{topicId}/delete")
+    @GetMapping("/{topicId}/delete")
     public String delete(@PathVariable Integer topicId, HttpServletResponse response) {
         Topic topic = topicService.findById(topicId);
         Collect collect = collectService.findByUserAndTopic(getUser(), topic);

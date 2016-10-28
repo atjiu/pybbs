@@ -2,20 +2,16 @@ package cn.tomoya.module.security.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.module.security.entity.Permission;
-import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.PermissionService;
-import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Created by tomoya.
@@ -36,7 +32,7 @@ public class PermissionController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String list(Integer pid, Model model) {
         if(pid == null || pid == 0) {
             model.addAttribute("childPermissions", permissionService.findAllChildPermission());
@@ -53,7 +49,7 @@ public class PermissionController extends BaseController {
      * 跳转添加页面
      * @return
      */
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @GetMapping("/add")
     public String add(Integer pid, Model model) {
         model.addAttribute("pid", pid);
         model.addAttribute("permissions", permissionService.findByPid(0));
@@ -68,7 +64,7 @@ public class PermissionController extends BaseController {
      * @param url
      * @return
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping("/add")
     public String save(Integer pid, String name, String description, String url) {
         Permission permission = new Permission();
         permission.setName(name);
@@ -85,7 +81,7 @@ public class PermissionController extends BaseController {
      * @Param model
      * @return
      */
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("permission", permissionService.findById(id));
         model.addAttribute("permissions", permissionService.findByPid(0));
@@ -101,7 +97,7 @@ public class PermissionController extends BaseController {
      * @param url
      * @return
      */
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    @PostMapping("/{id}/edit")
     public String update(@PathVariable Integer id, Integer pid, String name, String description, String url) {
         Permission permission = permissionService.findById(id);
         permission.setName(name);
@@ -118,7 +114,7 @@ public class PermissionController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         permissionService.deleteById(id);
         return redirect(response, "/admin/permission/list");

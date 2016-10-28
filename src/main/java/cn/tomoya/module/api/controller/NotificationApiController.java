@@ -7,6 +7,7 @@ import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,7 +27,7 @@ public class NotificationApiController extends BaseController {
      * 查询当前用户未读的消息数量
      * @return
      */
-    @RequestMapping(value = "/notRead", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/notRead", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String notRead() {
         User user = getUser();

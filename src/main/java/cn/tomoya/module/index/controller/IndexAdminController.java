@@ -3,6 +3,7 @@ package cn.tomoya.module.index.controller;
 import cn.tomoya.common.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class IndexAdminController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/index")
+    @GetMapping("/index")
     public String index() {
         return render("/admin/index");
     }
@@ -30,7 +31,7 @@ public class IndexAdminController extends BaseController {
      * 索引首页
      * @return
      */
-    @RequestMapping("/indexed")
+    @GetMapping("/indexed")
     public String indexed(String s, Model model) {
         model.addAttribute("s", s);
         return render("/admin/indexed/index");
@@ -41,7 +42,7 @@ public class IndexAdminController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping("/indexed/indexAll")
+    @GetMapping("/indexed/indexAll")
     public String indexedAll(HttpServletResponse response) {
         //TODO
         return redirect(response, "/admin/indexed?s=add");
@@ -52,7 +53,7 @@ public class IndexAdminController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping("/indexed/deleteAll")
+    @GetMapping("/indexed/deleteAll")
     public String deleteAllIndexed(HttpServletResponse response) {
         //TODO
         return redirect(response, "/admin/indexed?s=del");

@@ -13,9 +13,10 @@ import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class ReplyController extends BaseController {
      * @param content
      * @return
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping("/save")
     public String save(Integer topicId, String content, HttpServletResponse response) {
         if (topicId != null) {
             Topic topic = topicService.findById(topicId);
@@ -91,7 +92,7 @@ public class ReplyController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id, Model model) {
         Reply reply = replyService.findById(id);
         model.addAttribute("reply", reply);
@@ -106,7 +107,7 @@ public class ReplyController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping("/update")
+    @GetMapping("/update")
     public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
         Reply reply = replyService.findById(id);
         if(reply == null) {
@@ -125,7 +126,7 @@ public class ReplyController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         if (id != null) {
             User user = getUser();

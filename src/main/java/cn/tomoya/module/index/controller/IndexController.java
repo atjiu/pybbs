@@ -16,10 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +48,7 @@ public class IndexController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(String tab, Integer p, Model model) {
         String sectionName = tab;
         if (StringUtils.isEmpty(tab)) tab = "全部";
@@ -71,7 +68,7 @@ public class IndexController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String toLogin(String s, Model model, HttpServletResponse response) {
         if (getUser() != null) {
             return redirect(response, "/");
@@ -85,7 +82,7 @@ public class IndexController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @GetMapping("/register")
     public String toRegister(HttpServletResponse response) {
         if (getUser() != null) {
             return redirect(response, "/");
@@ -100,7 +97,7 @@ public class IndexController extends BaseController {
      * @param password
      * @return
      */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping("/register")
     public String register(String username, String password, HttpServletResponse response, Model model) {
         User user = userService.findByUsername(username);
         if (user != null) {
@@ -129,7 +126,7 @@ public class IndexController extends BaseController {
      * @param file
      * @return
      */
-    @RequestMapping("/upload")
+    @GetMapping("/upload")
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {

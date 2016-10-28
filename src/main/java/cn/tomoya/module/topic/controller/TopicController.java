@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -40,7 +38,7 @@ public class TopicController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/create")
+    @GetMapping("/create")
     public String create() {
         return render("/topic/create");
     }
@@ -53,9 +51,9 @@ public class TopicController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping("/save")
     public String save(String tab, String title, String content, Model model, HttpServletResponse response) {
-        String errors = "";
+        String errors;
         if (StringUtils.isEmpty(title)) {
             errors = "标题不能为空";
         } else if (StringUtils.isEmpty(tab)) {
@@ -79,6 +77,13 @@ public class TopicController extends BaseController {
         return render("/topic/create");
     }
 
+    /**
+     * 编辑话题
+     * @param id
+     * @param response
+     * @param model
+     * @return
+     */
     @RequestMapping("/{id}/edit")
     public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
         Topic topic = topicService.findById(id);
@@ -97,7 +102,7 @@ public class TopicController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    @PostMapping("/{id}/edit")
     public String update(@PathVariable Integer id, String tab, String title, String content, Model model, HttpServletResponse response) {
         Topic topic = topicService.findById(id);
         User user = getUser();
@@ -120,7 +125,7 @@ public class TopicController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public String detail(@PathVariable Integer id, HttpServletResponse response, Model model) {
         if (id != null) {
             Topic topic = topicService.findById(id);
@@ -145,7 +150,7 @@ public class TopicController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         if (id != null) {
             topicService.deleteById(id);

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -36,7 +37,7 @@ public class TopicAdminController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String list(Integer p, Model model) {
         Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), null);
         model.addAttribute("page", page);
@@ -48,7 +49,7 @@ public class TopicAdminController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String delete(Integer id) {
         try {

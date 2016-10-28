@@ -7,6 +7,7 @@ import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,7 +29,7 @@ public class TopicApiController extends BaseController {
      * @param topicId
      * @return
      */
-    @RequestMapping(value = "/up", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/up", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String up(Integer topicId) {
         if (topicId != null) {
@@ -45,7 +46,7 @@ public class TopicApiController extends BaseController {
      * @param topicId
      * @return
      */
-    @RequestMapping(value = "/unup", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/unup", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String unup(Integer topicId) {
         if (topicId != null) {
