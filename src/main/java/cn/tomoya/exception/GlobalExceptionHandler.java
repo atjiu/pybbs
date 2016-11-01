@@ -1,7 +1,6 @@
 package cn.tomoya.exception;
 
 import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

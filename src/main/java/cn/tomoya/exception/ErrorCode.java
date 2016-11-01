@@ -5,7 +5,7 @@ package cn.tomoya.exception;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-public class ApiErrorCode {
+public class ErrorCode {
 
     //错误
     public final static int error = 201;

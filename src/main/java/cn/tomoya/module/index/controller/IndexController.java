@@ -2,13 +2,13 @@ package cn.tomoya.module.index.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
-import cn.tomoya.util.JsonUtil;
 import cn.tomoya.util.identicon.Identicon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -131,16 +131,17 @@ public class IndexController extends BaseController {
      */
     @GetMapping("/upload")
     @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file) {
+    public Result upload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE);
-                return JsonUtil.success(requestUrl);
+                return Result.success(requestUrl);
             } catch (IOException e) {
                 e.printStackTrace();
+                return Result.error("上传失败");
             }
         }
-        return JsonUtil.error("上传失败");
+        return Result.error("文件不存在");
     }
 
 }

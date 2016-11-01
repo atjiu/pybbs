@@ -1,11 +1,12 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.exception.ApiException;
+import cn.tomoya.exception.ErrorCode;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +29,11 @@ public class NotificationApiController extends BaseController {
      *
      * @return
      */
-    @GetMapping(value = "/notRead", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/notRead")
     @ResponseBody
-    public String notRead() {
+    public Result notRead() throws ApiException {
         User user = getUser();
-        if (user == null) {
-            return JsonUtil.error("用户未登录");
-        } else {
-            return JsonUtil.success(notificationService.countByTargetUserAndIsRead(user, false));
-        }
+        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
+        else return Result.success(notificationService.countByTargetUserAndIsRead(getUser(), false));
     }
 }

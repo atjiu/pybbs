@@ -2,12 +2,11 @@ package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
-import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,15 +47,15 @@ public class TopicAdminController extends BaseController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/delete")
     @ResponseBody
-    public String delete(Integer id) {
+    public Result delete(Integer id) {
         try {
             topicService.deleteById(id);
-            return JsonUtil.success();
+            return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return JsonUtil.error(e.getMessage());
+            return Result.error(e.getMessage());
         }
     }
 

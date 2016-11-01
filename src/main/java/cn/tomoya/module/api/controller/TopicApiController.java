@@ -1,11 +1,10 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,15 +28,15 @@ public class TopicApiController extends BaseController {
      * @param topicId
      * @return
      */
-    @GetMapping(value = "/up", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/up")
     @ResponseBody
-    public String up(Integer topicId) {
+    public Result up(Integer topicId) {
         if (topicId != null) {
             User user = getUser();
             topicService.addOneUp(user.getId(), topicId);
-            return JsonUtil.success();
+            return Result.success();
         }
-        return JsonUtil.error("点赞失败");
+        return Result.error("点赞失败");
     }
 
     /**
@@ -46,15 +45,15 @@ public class TopicApiController extends BaseController {
      * @param topicId
      * @return
      */
-    @GetMapping(value = "/unup", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/unup")
     @ResponseBody
-    public String unup(Integer topicId) {
+    public Result unup(Integer topicId) {
         if (topicId != null) {
             User user = getUser();
             topicService.reduceOneUp(user.getId(), topicId);
-            return JsonUtil.success();
+            return Result.success();
         }
-        return JsonUtil.error("取消点赞失败");
+        return Result.error("取消点赞失败");
     }
 
 }
