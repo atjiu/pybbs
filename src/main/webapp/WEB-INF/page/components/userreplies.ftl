@@ -9,7 +9,7 @@
                 创建的话题 › <a href="/t/${reply.tid!}">${reply.title!}</a>
             </td>
         </tr>
-        <tr>
+        <tr class="user_replies">
             <td>${reply.marked(reply.content!)}</td>
         </tr>
     </#list>
