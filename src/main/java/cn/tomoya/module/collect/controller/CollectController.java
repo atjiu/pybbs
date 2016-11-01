@@ -35,7 +35,7 @@ public class CollectController extends BaseController {
     @GetMapping("/{topicId}/add")
     public String add(@PathVariable Integer topicId, HttpServletResponse response) {
         Topic topic = topicService.findById(topicId);
-        if(topic == null) {
+        if (topic == null) {
             renderText(response, "话题不存在");
             return null;
         } else {
@@ -53,6 +53,7 @@ public class CollectController extends BaseController {
 
     /**
      * 删除收藏
+     *
      * @param topicId
      * @param response
      * @return
@@ -61,7 +62,7 @@ public class CollectController extends BaseController {
     public String delete(@PathVariable Integer topicId, HttpServletResponse response) {
         Topic topic = topicService.findById(topicId);
         Collect collect = collectService.findByUserAndTopic(getUser(), topic);
-        if(collect == null) {
+        if (collect == null) {
             renderText(response, "你还没收藏这个话题");
             return null;
         } else {

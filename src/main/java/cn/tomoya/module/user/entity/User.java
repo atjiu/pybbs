@@ -49,9 +49,9 @@ public class User extends BaseEntity {
     //用户与角色的关联关系
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name="pybbs_user_role",
-            joinColumns={@JoinColumn(name="user_id")},
-            inverseJoinColumns={@JoinColumn(name="role_id")}
+            name = "pybbs_user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<Role> roles = new HashSet<>();
 

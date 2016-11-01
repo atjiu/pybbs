@@ -34,7 +34,7 @@ public class PermissionController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer pid, Model model) {
-        if(pid == null || pid == 0) {
+        if (pid == null || pid == 0) {
             model.addAttribute("childPermissions", permissionService.findAllChildPermission());
             model.addAttribute("permissions", permissionService.findByPid(0));
         } else {
@@ -47,6 +47,7 @@ public class PermissionController extends BaseController {
 
     /**
      * 跳转添加页面
+     *
      * @return
      */
     @GetMapping("/add")
@@ -58,6 +59,7 @@ public class PermissionController extends BaseController {
 
     /**
      * 保存添加的权限
+     *
      * @param pid
      * @param name
      * @param description
@@ -77,9 +79,10 @@ public class PermissionController extends BaseController {
 
     /**
      * 跳转编辑页面
+     *
+     * @return
      * @Param id
      * @Param model
-     * @return
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id, Model model) {
@@ -90,6 +93,7 @@ public class PermissionController extends BaseController {
 
     /**
      * 更新权限
+     *
      * @param id
      * @param pid
      * @param name

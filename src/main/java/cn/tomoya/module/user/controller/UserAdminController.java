@@ -6,16 +6,16 @@ import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.RoleService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,6 +36,7 @@ public class UserAdminController extends BaseController {
 
     /**
      * 用户列表
+     *
      * @param p
      * @param model
      * @return
@@ -48,6 +49,7 @@ public class UserAdminController extends BaseController {
 
     /**
      * 删除用户
+     *
      * @param id
      * @return
      */
@@ -59,6 +61,7 @@ public class UserAdminController extends BaseController {
 
     /**
      * 配置用户的角色
+     *
      * @param id
      * @return
      */
@@ -71,6 +74,7 @@ public class UserAdminController extends BaseController {
 
     /**
      * 保存配置用户的角色
+     *
      * @param id
      * @return
      */
@@ -78,7 +82,7 @@ public class UserAdminController extends BaseController {
     public String saveRole(@PathVariable Integer id, Integer[] roleIds, HttpServletResponse response) {
         User user = userService.findById(id);
         Set<Role> roles = new HashSet<>();
-        for(int i : roleIds) {
+        for (int i : roleIds) {
             Role role = roleService.findById(i);
             roles.add(role);
         }

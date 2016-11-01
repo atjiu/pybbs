@@ -77,9 +77,9 @@ public class BaseController {
      * @return
      */
     protected UserDetails getSecurityUser() {
-        Object o =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean b = o instanceof UserDetails;
-        if(b) {
+        if (b) {
             log.info(o.toString());
             return (UserDetails) o;
         }
@@ -88,11 +88,12 @@ public class BaseController {
 
     /**
      * 获取用户信息
+     *
      * @return
      */
     protected User getUser() {
         UserDetails userDetails = getSecurityUser();
-        if(userDetails != null) {
+        if (userDetails != null) {
             return userService.findByUsername(userDetails.getUsername());
         }
         return null;

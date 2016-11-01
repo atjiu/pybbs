@@ -29,6 +29,7 @@ public class NotificationService {
 
     /**
      * 保存通知
+     *
      * @param notification
      */
     public void save(Notification notification) {
@@ -37,6 +38,7 @@ public class NotificationService {
 
     /**
      * 发送通知
+     *
      * @param user
      * @param targetUser
      * @param action
@@ -59,6 +61,7 @@ public class NotificationService {
 
     /**
      * 根据用户查询通知
+     *
      * @param p
      * @param size
      * @param targetUser
@@ -68,7 +71,7 @@ public class NotificationService {
     public Page<Notification> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
         Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
         Pageable pageable = new PageRequest(p - 1, size, sort);
-        if(isRead == null) {
+        if (isRead == null) {
             return notificationDao.findByTargetUser(targetUser, pageable);
         }
         return notificationDao.findByTargetUserAndIsRead(targetUser, isRead, pageable);
@@ -76,6 +79,7 @@ public class NotificationService {
 
     /**
      * 根据用户查询已读/未读的通知
+     *
      * @param targetUser
      * @param isRead
      * @return
@@ -86,6 +90,7 @@ public class NotificationService {
 
     /**
      * 根据阅读状态查询通知
+     *
      * @param targetUser
      * @param isRead
      * @return
@@ -96,6 +101,7 @@ public class NotificationService {
 
     /**
      * 批量更新通知的状态
+     *
      * @param targetUser
      */
     public void updateByIsRead(User targetUser) {

@@ -25,7 +25,6 @@ public class SiteConfig {
     private String uploadPath;
     private List<String> sections;
     private String theme;
-    private String beforeUrl;
 
     public String getName() {
         return name;
@@ -129,14 +128,6 @@ public class SiteConfig {
 
     public void setTheme(String theme) {
         this.theme = theme;
-    }
-
-    public String getBeforeUrl() {
-        return beforeUrl;
-    }
-
-    public void setBeforeUrl(String beforeUrl) {
-        this.beforeUrl = beforeUrl;
     }
 
 }

@@ -67,15 +67,15 @@ public class ReplyController extends BaseController {
                 topicService.save(topic);
 
                 //给话题作者发送通知
-                if(user.getId() != topic.getUser().getId()) {
+                if (user.getId() != topic.getUser().getId()) {
                     notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
                 }
                 //给At用户发送通知
                 List<String> atUsers = BaseEntity.fetchUsers(content);
                 for (String u : atUsers) {
-                    if(!u.equals(topic.getUser().getUsername())) {
+                    if (!u.equals(topic.getUser().getUsername())) {
                         User _user = userService.findByUsername(u);
-                        if(_user != null) {
+                        if (_user != null) {
                             notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
                         }
                     }
@@ -88,6 +88,7 @@ public class ReplyController extends BaseController {
 
     /**
      * 编辑回复
+     *
      * @param id
      * @param model
      * @return
@@ -101,6 +102,7 @@ public class ReplyController extends BaseController {
 
     /**
      * 更新回复内容
+     *
      * @param id
      * @param topicId
      * @param content
@@ -110,7 +112,7 @@ public class ReplyController extends BaseController {
     @GetMapping("/update")
     public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
         Reply reply = replyService.findById(id);
-        if(reply == null) {
+        if (reply == null) {
             renderText(response, "回复不存在");
             return null;
         } else {

@@ -33,6 +33,7 @@ public class RoleController extends BaseController {
 
     /**
      * 角色列表
+     *
      * @param model
      * @return
      */
@@ -44,6 +45,7 @@ public class RoleController extends BaseController {
 
     /**
      * 添加角色
+     *
      * @param model
      * @return
      */
@@ -55,6 +57,7 @@ public class RoleController extends BaseController {
 
     /**
      * 保存配置的权限
+     *
      * @param permissionIds
      * @param response
      * @return
@@ -65,7 +68,7 @@ public class RoleController extends BaseController {
         role.setName(name);
         role.setDescription(description);
         Set<Permission> permissions = new HashSet<>();
-        for(int i : permissionIds) {
+        for (int i : permissionIds) {
             Permission permission = permissionService.findById(i);
             permissions.add(permission);
         }
@@ -76,6 +79,7 @@ public class RoleController extends BaseController {
 
     /**
      * 编辑角色
+     *
      * @param model
      * @return
      */
@@ -88,6 +92,7 @@ public class RoleController extends BaseController {
 
     /**
      * 更新配置的权限
+     *
      * @param permissionIds
      * @param response
      * @return
@@ -98,7 +103,7 @@ public class RoleController extends BaseController {
         role.setName(name);
         role.setDescription(description);
         Set<Permission> permissions = new HashSet<>();
-        for(int i : permissionIds) {
+        for (int i : permissionIds) {
             Permission permission = permissionService.findById(i);
             permissions.add(permission);
         }
@@ -109,6 +114,7 @@ public class RoleController extends BaseController {
 
     /**
      * 删除角色
+     *
      * @param id
      * @return
      */

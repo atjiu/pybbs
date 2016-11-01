@@ -25,6 +25,7 @@ public class NotificationController extends BaseController {
 
     /**
      * 通知列表
+     *
      * @param p
      * @param model
      * @return

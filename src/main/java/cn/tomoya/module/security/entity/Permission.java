@@ -12,7 +12,7 @@ import java.util.Set;
  * http://tomoya.cn
  */
 @Entity
-@Table(name="pybbs_permission")
+@Table(name = "pybbs_permission")
 public class Permission extends BaseEntity {
 
     @Id

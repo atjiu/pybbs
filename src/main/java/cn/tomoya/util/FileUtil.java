@@ -24,26 +24,27 @@ public class FileUtil {
 
     /**
      * 上传文件
+     *
      * @param file
      * @param fileUploadEnum
      * @return
      * @throws IOException
      */
     public String uploadFile(MultipartFile file, FileUploadEnum fileUploadEnum) throws IOException {
-        if(!file.isEmpty()) {
+        if (!file.isEmpty()) {
             String type = file.getContentType();
             String suffix = "." + type.split("/")[1];
             String fileName = UUID.randomUUID().toString() + suffix;
             BufferedOutputStream stream = null;
             String requestPath = null;
-            if(fileUploadEnum == FileUploadEnum.FILE) {
+            if (fileUploadEnum == FileUploadEnum.FILE) {
                 stream = new BufferedOutputStream(new FileOutputStream(new File(siteConfig.getUploadPath() + fileName)));
                 requestPath = siteConfig.getBaseUrl() + "static/images/upload/";
-            } else if(fileUploadEnum == FileUploadEnum.AVATAR) {
+            } else if (fileUploadEnum == FileUploadEnum.AVATAR) {
                 stream = new BufferedOutputStream(new FileOutputStream(new File(siteConfig.getAvatarPath() + fileName)));
                 requestPath = siteConfig.getBaseUrl() + "static/images/avatar/";
             }
-            if(stream != null) {
+            if (stream != null) {
                 stream.write(file.getBytes());
                 stream.close();
                 return requestPath + fileName;

@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -79,6 +82,7 @@ public class TopicController extends BaseController {
 
     /**
      * 编辑话题
+     *
      * @param id
      * @param response
      * @param model
@@ -87,14 +91,16 @@ public class TopicController extends BaseController {
     @RequestMapping("/{id}/edit")
     public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
         Topic topic = topicService.findById(id);
-        if(topic == null) {
+        if (topic == null) {
             renderText(response, "话题不存在");
             return null;
         } else {
             model.addAttribute("topic", topic);
             return render("/topic/edit");
         }
-    }/**
+    }
+
+    /**
      * 更新话题
      *
      * @param title
@@ -106,7 +112,7 @@ public class TopicController extends BaseController {
     public String update(@PathVariable Integer id, String tab, String title, String content, Model model, HttpServletResponse response) {
         Topic topic = topicService.findById(id);
         User user = getUser();
-        if(topic.getUser().getId() == user.getId()) {
+        if (topic.getUser().getId() == user.getId()) {
             topic.setTab(tab);
             topic.setTitle(title);
             topic.setContent(content);

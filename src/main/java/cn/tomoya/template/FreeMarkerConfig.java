@@ -1,7 +1,6 @@
 package cn.tomoya.template;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
@@ -18,7 +17,7 @@ public class FreeMarkerConfig {
     private CustomTags customTags;
 
     @PostConstruct
-    public void setSharedVariable(){
-        configuration.setSharedVariable("custom",customTags);
+    public void setSharedVariable() {
+        configuration.setSharedVariable("custom", customTags);
     }
 }

@@ -26,6 +26,7 @@ public class CollectService {
 
     /**
      * 查询用户收藏的话题
+     *
      * @param p
      * @param size
      * @param user
@@ -39,6 +40,7 @@ public class CollectService {
 
     /**
      * 查询用户共收藏了多少篇话题
+     *
      * @param user
      * @return
      */
@@ -48,6 +50,7 @@ public class CollectService {
 
     /**
      * 查询话题共被多少用户收藏
+     *
      * @param topic
      * @return
      */
@@ -57,6 +60,7 @@ public class CollectService {
 
     /**
      * 根据用户和话题查询收藏记录
+     *
      * @param user
      * @param topic
      * @return
@@ -67,6 +71,7 @@ public class CollectService {
 
     /**
      * 收藏话题
+     *
      * @param collect
      */
     public void save(Collect collect) {
@@ -75,6 +80,7 @@ public class CollectService {
 
     /**
      * 删除收藏
+     *
      * @param id
      */
     public void deleteById(int id) {

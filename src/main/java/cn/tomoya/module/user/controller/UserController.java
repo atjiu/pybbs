@@ -66,6 +66,7 @@ public class UserController extends BaseController {
 
     /**
      * 用户发布的所有话题
+     *
      * @param username
      * @return
      */
@@ -84,6 +85,7 @@ public class UserController extends BaseController {
 
     /**
      * 用户发布的所有回复
+     *
      * @param username
      * @return
      */
@@ -102,6 +104,7 @@ public class UserController extends BaseController {
 
     /**
      * 用户收藏的所有话题
+     *
      * @param username
      * @return
      */
@@ -120,6 +123,7 @@ public class UserController extends BaseController {
 
     /**
      * 进入用户个人设置页面
+     *
      * @param model
      * @return
      */
@@ -131,6 +135,7 @@ public class UserController extends BaseController {
 
     /**
      * 更新用户的个人设置
+     *
      * @param email
      * @param url
      * @param signature
@@ -144,7 +149,7 @@ public class UserController extends BaseController {
         user.setSignature(signature);
         user.setUrl(url);
         String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR);
-        if(!StringUtils.isEmpty(requestUrl)) {
+        if (!StringUtils.isEmpty(requestUrl)) {
             user.setAvatar(requestUrl);
         }
         userService.updateUser(user);

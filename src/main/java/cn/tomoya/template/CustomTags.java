@@ -1,7 +1,5 @@
 package cn.tomoya.template;
 
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.SimpleHash;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomTags extends SimpleHash {
 
-    public CustomTags(){
-        put("testList",new TestDirective());
+    public CustomTags() {
+        put("testList", new TestDirective());
     }
 }

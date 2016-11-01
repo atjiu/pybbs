@@ -1,16 +1,12 @@
 package cn.tomoya.module.security.service;
 
 import cn.tomoya.module.security.dao.RoleDao;
-import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -44,6 +40,7 @@ public class RoleService {
 
     /**
      * 根据id查找角色
+     *
      * @param id
      * @return
      */

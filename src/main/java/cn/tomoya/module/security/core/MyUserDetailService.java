@@ -28,7 +28,7 @@ public class MyUserDetailService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) {
         User user = userService.findByUsername(username);
-        if(user != null) {
+        if (user != null) {
             List<Permission> permissions = permissionService.findByAdminUserId(user.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             for (Permission permission : permissions) {

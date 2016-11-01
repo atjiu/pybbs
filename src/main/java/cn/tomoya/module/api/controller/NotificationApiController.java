@@ -25,13 +25,14 @@ public class NotificationApiController extends BaseController {
 
     /**
      * 查询当前用户未读的消息数量
+     *
      * @return
      */
     @GetMapping(value = "/notRead", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String notRead() {
         User user = getUser();
-        if(user == null) {
+        if (user == null) {
             return JsonUtil.error("用户未登录");
         } else {
             return JsonUtil.success(notificationService.countByTargetUserAndIsRead(user, false));

@@ -39,6 +39,7 @@ public class PermissionService {
 
     /**
      * 根据pid查询权限
+     *
      * @param pid
      * @return
      */
@@ -48,13 +49,14 @@ public class PermissionService {
 
     /**
      * 查询权限列表
+     *
      * @return
      */
     public List findAll() {
         List list = new ArrayList();
         Map map;
         List<Permission> permissions = permissionDao.findByPid(0);
-        for(Permission permission: permissions) {
+        for (Permission permission : permissions) {
             map = new HashMap();
             map.put("permission", permission);
             map.put("childPermissions", permissionDao.findByPid(permission.getId()));
@@ -65,6 +67,7 @@ public class PermissionService {
 
     /**
      * 根据用户的id查询用户的所有权限
+     *
      * @param adminUserId
      * @return
      */
@@ -86,11 +89,12 @@ public class PermissionService {
     /**
      * 删除权限
      * 判断权限的pid是不是0，是的话，就删除其下所有的权限
+     *
      * @param id
      */
     public void deleteById(Integer id) {
         Permission permission = findById(id);
-        if(permission.getPid() == 0) {
+        if (permission.getPid() == 0) {
             permissionDao.deleteByPid(permission.getId());
         }
         permissionDao.delete(permission);

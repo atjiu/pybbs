@@ -29,6 +29,7 @@ public class IndexAdminController extends BaseController {
 
     /**
      * 索引首页
+     *
      * @return
      */
     @GetMapping("/indexed")
@@ -39,6 +40,7 @@ public class IndexAdminController extends BaseController {
 
     /**
      * 索引全部话题
+     *
      * @param response
      * @return
      */
@@ -50,6 +52,7 @@ public class IndexAdminController extends BaseController {
 
     /**
      * 删除全部索引
+     *
      * @param response
      * @return
      */

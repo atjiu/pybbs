@@ -20,11 +20,11 @@ public class TestDirective implements TemplateDirectiveModel {
                         TemplateDirectiveBody templateDirectiveBody)
             throws TemplateException, IOException {
         List list = new ArrayList();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             list.add("hello " + i);
         }
         environment.setVariable("testList", new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25).build().wrap(list));
-        if(templateDirectiveBody != null) {
+        if (templateDirectiveBody != null) {
             templateDirectiveBody.render(environment.getOut());
         }
     }

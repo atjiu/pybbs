@@ -56,8 +56,8 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
         HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
         AntPathRequestMatcher matcher;
         String resUrl;
-        for (Iterator<String> iter = map.keySet().iterator(); iter.hasNext(); ) {
-            resUrl = iter.next();
+        for (String s : map.keySet()) {
+            resUrl = s;
             matcher = new AntPathRequestMatcher(resUrl);
             if (matcher.matches(request)) {
                 return map.get(resUrl);
