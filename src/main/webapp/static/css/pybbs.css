@@ -58,6 +58,10 @@ body {
     margin-bottom: 5px;
 }
 
+.payload img, .user_replies img {
+    max-width: 100%;
+}
+
 .mar-top-5 {
     margin-top: 5px;
 }
