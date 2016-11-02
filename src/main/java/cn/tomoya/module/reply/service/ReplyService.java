@@ -92,15 +92,12 @@ public class ReplyService {
     }
 
     /**
-     * 根据话题id查询回复列表
+     * 根据话题查询回复列表
      *
-     * @param topicId
+     * @param topic
      * @return
      */
-    public List<Reply> findByTopicId(int topicId) {
-        Topic topic = new Topic();
-        topic.setId(topicId);
-
+    public List<Reply> findByTopic(Topic topic) {
         return replyDao.findByTopicOrderByInTimeDesc(topic);
     }
 

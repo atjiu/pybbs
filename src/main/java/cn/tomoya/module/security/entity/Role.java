@@ -4,6 +4,7 @@ import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +15,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "pybbs_role")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = -8293845253380001671L;
 
     @Id
     @GeneratedValue

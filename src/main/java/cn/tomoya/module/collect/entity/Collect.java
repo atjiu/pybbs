@@ -5,6 +5,7 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,19 +15,21 @@ import java.util.Date;
  */
 @Table(name = "pybbs_collect")
 @Entity
-public class Collect extends BaseEntity {
+public class Collect extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 643806797869767441L;
 
     @Id
     @GeneratedValue
     private int id;
 
     //与话题的关联关系
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "topic_id")
     private Topic topic;
 
     //与用户的关联关系
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

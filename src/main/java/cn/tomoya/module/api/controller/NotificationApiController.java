@@ -7,17 +7,16 @@ import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
-@Controller
+@RestController
 @RequestMapping("/api/notification")
 public class NotificationApiController extends BaseController {
 
@@ -30,10 +29,9 @@ public class NotificationApiController extends BaseController {
      * @return
      */
     @GetMapping("/notRead")
-    @ResponseBody
     public Result notRead() throws ApiException {
         User user = getUser();
         if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
-        else return Result.success(notificationService.countByTargetUserAndIsRead(getUser(), false));
+        return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
     }
 }

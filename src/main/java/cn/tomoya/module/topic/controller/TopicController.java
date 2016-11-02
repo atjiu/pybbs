@@ -135,7 +135,9 @@ public class TopicController extends BaseController {
     public String detail(@PathVariable Integer id, HttpServletResponse response, Model model) {
         if (id != null) {
             Topic topic = topicService.findById(id);
-            List<Reply> replies = replyService.findByTopicId(id);
+            System.out.println(1);
+            List<Reply> replies = replyService.findByTopic(topic);
+            System.out.println(2);
             model.addAttribute("topic", topic);
             model.addAttribute("replies", replies);
             model.addAttribute("user", getUser());

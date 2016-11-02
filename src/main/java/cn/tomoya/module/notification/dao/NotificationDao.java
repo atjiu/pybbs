@@ -2,6 +2,8 @@ package cn.tomoya.module.notification.dao;
 
 import cn.tomoya.module.notification.entity.Notification;
 import cn.tomoya.module.user.entity.User;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,14 +19,19 @@ import java.util.List;
  * http://tomoya.cn
  */
 @Repository
+@CacheConfig(cacheNames = "notifications")
 public interface NotificationDao extends JpaRepository<Notification, Integer> {
 
+    @Cacheable
     Page<Notification> findByTargetUser(User targetUser, Pageable pageable);
 
+    @Cacheable
     Page<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead, Pageable pageable);
 
+    @Cacheable
     List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead);
 
+    @Cacheable
     long countByTargetUserAndIsRead(User targetUser, boolean isRead);
 
     @Modifying

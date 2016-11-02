@@ -6,8 +6,6 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +31,6 @@ public class TopicService {
         topicDao.save(topic);
     }
 
-    @Cacheable(value = "topicCache", key = "'topicId_'+#id")
     public Topic findById(int id) {
         return topicDao.findOne(id);
     }
@@ -43,7 +40,6 @@ public class TopicService {
      *
      * @param id
      */
-    @CacheEvict(value = "topicCache", key = "'topicId_'+#id")
     public void deleteById(int id) {
         //删除话题下面的回复
         replyService.deleteByTopic(id);

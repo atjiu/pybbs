@@ -3,6 +3,7 @@ package cn.tomoya.module.security.entity;
 import cn.tomoya.common.BaseEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "pybbs_permission")
-public class Permission extends BaseEntity {
+public class Permission extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 8168491333970695934L;
 
     @Id
     @GeneratedValue

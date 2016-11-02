@@ -5,6 +5,7 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +15,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "pybbs_notification")
-public class Notification extends BaseEntity {
+public class Notification extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = -619423593415705785L;
 
     @Id
     @GeneratedValue
@@ -25,12 +28,12 @@ public class Notification extends BaseEntity {
     private boolean isRead;
 
     //发起通知用户
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     //要通知用户
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "target_user_id")
     private User targetUser;
 
@@ -41,7 +44,7 @@ public class Notification extends BaseEntity {
     private String action;
 
     //关联的话题
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "topic_id")
     private Topic topic;
 
