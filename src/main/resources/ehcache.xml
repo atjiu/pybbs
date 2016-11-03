@@ -59,6 +59,18 @@
            memoryStoreEvictionPolicy="LRU"
            />
 
+    <cache name="notifications"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="30"
+           overflowToDisk="true"
+           maxElementsOnDisk="10000000"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU"
+           />
+
     <cache name="collects"
            maxElementsInMemory="10000"
            eternal="false"
