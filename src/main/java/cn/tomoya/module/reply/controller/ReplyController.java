@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -131,12 +132,9 @@ public class ReplyController extends BaseController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         if (id != null) {
-            User user = getUser();
-            Reply reply = replyService.findById(id);
-            if (reply != null && user.getId() == reply.getUser().getId()) {
-                replyService.deleteById(id);
-                return redirect(response, "/topic/" + reply.getTopic().getId());
-            }
+            Map map = replyService.delete(id, getUser());
+            return redirect(response, "/topic/" + map.get("topicId"));
+
         }
         return redirect(response, "/");
     }

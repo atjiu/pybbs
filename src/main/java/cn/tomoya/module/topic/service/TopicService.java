@@ -110,6 +110,32 @@ public class TopicService {
     }
 
     /**
+     * 增加回复数
+     *
+     * @param topicId
+     */
+    public void addOneReplyCount(int topicId) {
+        Topic topic = findById(topicId);
+        if (topic != null) {
+            topic.setReplyCount(topic.getReplyCount() + 1);
+            save(topic);
+        }
+    }
+
+    /**
+     * 减少回复数
+     *
+     * @param topicId
+     */
+    public void reduceOneReplyCount(int topicId) {
+        Topic topic = findById(topicId);
+        if (topic != null) {
+            topic.setReplyCount(topic.getReplyCount() - 1);
+            save(topic);
+        }
+    }
+
+    /**
      * 查询用户的话题
      *
      * @param p

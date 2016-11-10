@@ -3,6 +3,7 @@ package cn.tomoya.module.reply.service;
 import cn.tomoya.module.reply.dao.ReplyDao;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -26,6 +29,8 @@ public class ReplyService {
 
     @Autowired
     private ReplyDao replyDao;
+    @Autowired
+    private TopicService topicService;
 
     public Reply findById(int id) {
         return replyDao.findOne(id);
@@ -35,8 +40,15 @@ public class ReplyService {
         replyDao.save(reply);
     }
 
-    public void deleteById(int id) {
-        replyDao.delete(id);
+    public Map delete(int id, User user) {
+        Map map = new HashMap();
+        Reply reply = findById(id);
+        if (reply != null && user.getId() == reply.getUser().getId()) {
+            map.put("topicId", reply.getTopic().getId());
+            topicService.reduceOneReplyCount(reply.getTopic().getId());
+            replyDao.delete(id);
+        }
+        return map;
     }
 
     /**

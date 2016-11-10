@@ -23,7 +23,6 @@ public interface PermissionDao extends JpaRepository<Permission, Integer> {
     @Cacheable
     List<Permission> findByPidGreaterThan(int pid);
 
-    @Cacheable
     List<Permission> findByPid(int pid);
 
     void deleteByPid(int pid);

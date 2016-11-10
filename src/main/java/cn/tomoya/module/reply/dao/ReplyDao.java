@@ -21,7 +21,6 @@ import java.util.List;
 @CacheConfig(cacheNames = "replies")
 public interface ReplyDao extends JpaRepository<Reply, Integer> {
 
-    @Cacheable
     List<Reply> findByTopicOrderByInTimeDesc(Topic topic);
 
     void deleteByTopicId(int topicId);

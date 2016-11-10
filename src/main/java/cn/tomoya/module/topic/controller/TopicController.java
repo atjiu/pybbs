@@ -135,9 +135,10 @@ public class TopicController extends BaseController {
     public String detail(@PathVariable Integer id, HttpServletResponse response, Model model) {
         if (id != null) {
             Topic topic = topicService.findById(id);
-            System.out.println(1);
+            //浏览量+1
+            topic.setView(topic.getView() + 1);
+            topicService.save(topic);//更新话题数据
             List<Reply> replies = replyService.findByTopic(topic);
-            System.out.println(2);
             model.addAttribute("topic", topic);
             model.addAttribute("replies", replies);
             model.addAttribute("user", getUser());
@@ -160,9 +161,35 @@ public class TopicController extends BaseController {
      */
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
-        if (id != null) {
-            topicService.deleteById(id);
-        }
+        topicService.deleteById(id);
         return redirect(response, "/");
+    }
+
+    /**
+     * 加/减精华
+     * @param id
+     * @param response
+     * @return
+     */
+    @GetMapping("/{id}/good")
+    public String good(@PathVariable Integer id, HttpServletResponse response) {
+        Topic topic = topicService.findById(id);
+        topic.setGood(!topic.isGood());
+        topicService.save(topic);
+        return redirect(response, "/topic/" + id);
+    }
+
+    /**
+     * 置/不置顶
+     * @param id
+     * @param response
+     * @return
+     */
+    @GetMapping("/{id}/top")
+    public String top(@PathVariable Integer id, HttpServletResponse response) {
+        Topic topic = topicService.findById(id);
+        topic.setTop(!topic.isTop());
+        topicService.save(topic);
+        return redirect(response, "/topic/" + id);
     }
 }

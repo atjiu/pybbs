@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -67,14 +68,14 @@ public class PermissionController extends BaseController {
      * @return
      */
     @PostMapping("/add")
-    public String save(Integer pid, String name, String description, String url) {
+    public String save(Integer pid, String name, String description, String url, HttpServletResponse response) {
         Permission permission = new Permission();
         permission.setName(name);
         permission.setDescription(description);
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
-        return redirect("/admin/permission/list");
+        return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
     /**
@@ -102,14 +103,14 @@ public class PermissionController extends BaseController {
      * @return
      */
     @PostMapping("/{id}/edit")
-    public String update(@PathVariable Integer id, Integer pid, String name, String description, String url) {
+    public String update(@PathVariable Integer id, Integer pid, String name, String description, String url, HttpServletResponse response) {
         Permission permission = permissionService.findById(id);
         permission.setName(name);
         permission.setDescription(description);
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
-        return redirect("/admin/permission/list");
+        return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
     /**

@@ -25,6 +25,11 @@
             </thead>
             <tbody>
             <tr>
+              <td>Neo</td>
+              <td>￥20</td>
+              <td>2016-11-03</td>
+            </tr>
+            <tr>
               <td>TakWolf</td>
               <td>￥66</td>
               <td>2016-10-26</td>
