@@ -101,7 +101,52 @@
             <version>2.10.3</version>
         </dependency>
     </dependencies>
-
+	<profiles>
+		<profile>
+			<id>product</id>
+			<properties>
+				<runtime.env>product</runtime.env>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/product</directory>
+						<filtering>false</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<targetPath>spring</targetPath>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>local</id>
+			<properties>
+				<runtime.env>local</runtime.env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/local</directory>
+						<filtering>false</filtering>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+						<targetPath>spring</targetPath>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
     <build>
         <plugins>
             <plugin>

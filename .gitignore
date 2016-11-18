@@ -16,3 +16,6 @@ pybbs.log
 target/
 out/
 dev.config.properties
+/.classpath
+/.project
+/.settings/
