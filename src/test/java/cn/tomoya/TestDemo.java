@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -43,6 +44,7 @@ public class TestDemo {
 
     @Test
     public void test3() {
+        log.info(UUID.randomUUID().toString());
         log.info(new BCryptPasswordEncoder().encode("123123"));
     }
 }

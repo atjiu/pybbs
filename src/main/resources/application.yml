@@ -12,17 +12,6 @@ spring:
       ddl-auto: update
   mvc:
     static-path-pattern: /static/**
-#security:
-#  oauth2:
-#    client:
-#      clientId: 58ae19385bdad1ded0fc
-#      clientSecret: 539e8ff931140b39674f283258f62d463b4a3f7b
-#      accessTokenUri: https://github.com/login/oauth/access_token
-#      userAuthorizationUri: https://github.com/login/oauth/authorize
-#      clientAuthenticationScheme: form
-#    resource:
-#      userInfoUri: https://api.github.com/user
-#      preferTokenInfo: false
 banner:
   location: banner.txt
 site:

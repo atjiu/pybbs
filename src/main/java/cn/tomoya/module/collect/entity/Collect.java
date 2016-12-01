@@ -3,6 +3,8 @@ package cn.tomoya.module.collect.entity;
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.util.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +36,7 @@ public class Collect extends BaseEntity implements Serializable {
     private User user;
 
     @Column(name = "in_time")
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
     public int getId() {

@@ -2,6 +2,9 @@ package cn.tomoya.module.user.entity;
 
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.security.entity.Role;
+import cn.tomoya.util.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,6 +33,7 @@ public class User extends BaseEntity implements Serializable {
 
     //密码
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     //头像
@@ -47,6 +51,7 @@ public class User extends BaseEntity implements Serializable {
 
     //注册时间
     @Column(nullable = false)
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
     //用户与角色的关联关系
@@ -56,6 +61,7 @@ public class User extends BaseEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     public int getId() {

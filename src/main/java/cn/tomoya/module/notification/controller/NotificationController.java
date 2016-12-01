@@ -2,7 +2,11 @@ package cn.tomoya.module.notification.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.exception.ApiException;
+import cn.tomoya.exception.ErrorCode;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
+import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,5 +40,17 @@ public class NotificationController extends BaseController {
         //将未读消息置为已读
         notificationService.updateByIsRead(getUser());
         return render("/notification/list");
+    }
+
+    /**
+     * 查询当前用户未读的消息数量
+     *
+     * @return
+     */
+    @GetMapping("/notRead")
+    public Result notRead() throws ApiException {
+        User user = getUser();
+        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
+        return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
     }
 }

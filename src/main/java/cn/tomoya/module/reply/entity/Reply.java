@@ -3,6 +3,8 @@ package cn.tomoya.module.reply.entity;
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.util.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +30,7 @@ public class Reply extends BaseEntity implements Serializable {
     private String content;
 
     //回复时间
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
     //点赞数量

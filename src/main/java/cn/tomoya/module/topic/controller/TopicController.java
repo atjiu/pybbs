@@ -1,6 +1,7 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
@@ -35,6 +36,8 @@ public class TopicController extends BaseController {
     private ReplyService replyService;
     @Autowired
     private CollectService collectService;
+    @Autowired
+    private SiteConfig siteConfig;
 
     /**
      * 创建话题
@@ -59,8 +62,8 @@ public class TopicController extends BaseController {
         String errors;
         if (StringUtils.isEmpty(title)) {
             errors = "标题不能为空";
-        } else if (StringUtils.isEmpty(tab)) {
-            errors = "版块不能为空";
+        }  else if (!siteConfig.getSections().contains(tab)) {
+            errors = "版块不存在";
         } else {
             User user = getUser();
             Topic topic = new Topic();
@@ -105,14 +108,14 @@ public class TopicController extends BaseController {
      *
      * @param title
      * @param content
-     * @param model
      * @return
      */
     @PostMapping("/{id}/edit")
-    public String update(@PathVariable Integer id, String tab, String title, String content, Model model, HttpServletResponse response) {
+    public String update(@PathVariable Integer id, String tab, String title, String content, HttpServletResponse response) {
         Topic topic = topicService.findById(id);
         User user = getUser();
         if (topic.getUser().getId() == user.getId()) {
+            if(!siteConfig.getSections().contains(tab)) throw new IllegalArgumentException("版块不存在");
             topic.setTab(tab);
             topic.setTitle(title);
             topic.setContent(content);

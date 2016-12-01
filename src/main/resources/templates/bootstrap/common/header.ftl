@@ -38,7 +38,7 @@
             <script>
               setInterval(function () {
                 $.ajax({
-                  url: "/api/notification/notRead",
+                  url: "/notification/notRead",
                   async: true,
                   cache: false,
                   type: "get",

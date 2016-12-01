@@ -1,6 +1,9 @@
 package cn.tomoya.util;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -39,5 +42,22 @@ public class StrUtil {
             sb.append(digits[random.nextInt(digits.length)]);
         }
         return sb.toString();
+    }
+
+    /**
+     * 检测是否是用户accessToken
+     */
+    public static boolean isUUID(String accessToken) {
+        if (StringUtils.isEmpty(accessToken)) {
+            return false;
+        } else {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                UUID.fromString(accessToken);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
     }
 }

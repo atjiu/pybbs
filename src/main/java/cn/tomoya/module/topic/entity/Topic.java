@@ -2,6 +2,9 @@ package cn.tomoya.module.topic.entity;
 
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.util.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,10 +39,12 @@ public class Topic extends BaseEntity implements Serializable {
 
     //发布时间
     @Column(nullable = false)
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
     //修改时间
-    private Date modityTime;
+    @JsonFormat(pattern = Constants.DATETIME_FORMAT)
+    private Date modifyTime;
 
     //是否置顶
     private boolean top;
@@ -108,12 +113,12 @@ public class Topic extends BaseEntity implements Serializable {
         this.inTime = inTime;
     }
 
-    public Date getModityTime() {
-        return modityTime;
+    public Date getModifyTime() {
+        return modifyTime;
     }
 
-    public void setModityTime(Date modityTime) {
-        this.modityTime = modityTime;
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
     public boolean isTop() {

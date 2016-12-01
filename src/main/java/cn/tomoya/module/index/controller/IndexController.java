@@ -110,12 +110,13 @@ public class IndexController extends BaseController {
         } else if (StringUtils.isEmpty(password)) {
             model.addAttribute("errors", "密码不能为空");
         } else {
+            Date now = new Date();
             String avatarName = UUID.randomUUID().toString();
             identicon.generator(avatarName);
             user = new User();
             user.setUsername(username);
             user.setPassword(new BCryptPasswordEncoder().encode(password));
-            user.setInTime(new Date());
+            user.setInTime(now);
             user.setAvatar(siteConfig.getBaseUrl() + "static/images/avatar/" + avatarName + ".png");
             userService.save(user);
             return redirect(response, "/login?s=reg");
