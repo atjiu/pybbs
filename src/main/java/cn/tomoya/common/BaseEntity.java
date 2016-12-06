@@ -51,10 +51,13 @@ public class BaseEntity {
         //处理@
         List<String> users = fetchUsers(content);
         for (String user : users) {
-            content = content.replace("@" + user, "[@" + user + "](" + siteConfig.getCookieDomain() + "/user/" + user + ")");
+            content = content.replace(user, "[" + user + "](/user/" + user.replace("@","") + ")");
         }
         //markdown 转 html 并返回
-        return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
+        return Jsoup.clean(MarkdownUtil.pegDown(content),
+                "http://127.0.0.1/",  //配置相对地址
+                Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type")
+                        .preserveRelativeLinks(true));  //preserveRelativeLinks 使用相对地址
     }
 
     /**
