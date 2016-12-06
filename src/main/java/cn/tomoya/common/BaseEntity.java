@@ -65,11 +65,11 @@ public class BaseEntity {
      */
     public static List<String> fetchUsers(String str) {
         List<String> ats = new ArrayList<>();
-        String pattern = "@";
+        String pattern = "@[^\\s]+\\s?";
         Pattern regex = Pattern.compile(pattern);
         Matcher regexMatcher = regex.matcher(str);
         while (regexMatcher.find()) {
-            ats.add(regexMatcher.group(1));
+            ats.add(regexMatcher.group());
         }
         return ats;
     }
