@@ -47,13 +47,54 @@
     </div>
   </div>
 </div>
-<link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
-<script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
-<script type="text/javascript">
-  var editor = new Editor({element: $("#content")[0], status: []});
-  editor.render();
-</script>
+<#if _editor == 'markdown'>
+  <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
+  <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
+  <script type="text/javascript">
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+  </script>
+<#elseif _editor == 'wangeditor'>
+  <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+  <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+  <script>
+    var editor = new wangEditor('content');
+    // 普通的自定义菜单
+    editor.config.menus = [
+      'source',
+      '|',
+      'bold',
+      'underline',
+      'italic',
+      'strikethrough',
+      'forecolor',
+      'bgcolor',
+      '|',
+      'quote',
+      'fontfamily',
+      'fontsize',
+      'head',
+      'unorderlist',
+      'orderlist',
+      '|',
+      'link',
+      'unlink',
+      'table',
+      '|',
+      'img',
+      'insertcode'
+    ];
+    // 上传图片（举例）
+    editor.config.uploadImgUrl = '/wangEditorUpload';
+    // 配置自定义参数（举例）
+    editor.config.uploadParams = {
+      '${_csrf.parameterName}': '${_csrf.token}'
+    };
+    editor.config.uploadImgFileName = 'file';
+    editor.create();
+  </script>
+</#if>
 </@html>

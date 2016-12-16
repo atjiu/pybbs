@@ -1,5 +1,6 @@
 package cn.tomoya;
 
+import cn.tomoya.common.BaseEntity;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -22,7 +23,7 @@ public class TestDemo {
     public void test1() {
         String dh = ",";
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < 10000000; i++) {
             sb.append(i).append(dh);
         }
         String str = sb.toString();
@@ -47,4 +48,14 @@ public class TestDemo {
         log.info(UUID.randomUUID().toString());
         log.info(new BCryptPasswordEncoder().encode("123123"));
     }
+
+    @Test
+    public void test4() {
+        String test = "@dd 1 @bb 2";
+        List<String> list = BaseEntity.fetchUsers(null, test);
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+
 }

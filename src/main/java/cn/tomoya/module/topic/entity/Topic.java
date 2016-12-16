@@ -73,6 +73,8 @@ public class Topic extends BaseEntity implements Serializable {
     //点赞用户id，逗号隔开(英文逗号)
     private String upIds;
 
+    private String editor;
+
     public int getId() {
         return id;
     }
@@ -177,4 +179,11 @@ public class Topic extends BaseEntity implements Serializable {
         this.upIds = upIds;
     }
 
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
 }

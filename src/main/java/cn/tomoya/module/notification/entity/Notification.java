@@ -55,6 +55,8 @@ public class Notification extends BaseEntity implements Serializable {
     @Column(columnDefinition = "text")
     private String content;
 
+    private String editor;
+
     public int getId() {
         return id;
     }
@@ -117,5 +119,13 @@ public class Notification extends BaseEntity implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
     }
 }

@@ -14,17 +14,12 @@ public class SiteConfig {
 
     private String name;
     private String baseUrl;
-    private String cookieName;
-    private String adminCookieName;
-    private String cookieDomain;
-    private String sessionName;
-    private String adminSessionName;
-    private int cookieExpireTime;
     private int pageSize;
     private String avatarPath;
     private String uploadPath;
     private List<String> sections;
     private String theme;
+    private String editor;
 
     public String getName() {
         return name;
@@ -40,54 +35,6 @@ public class SiteConfig {
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-    }
-
-    public String getCookieName() {
-        return cookieName;
-    }
-
-    public void setCookieName(String cookieName) {
-        this.cookieName = cookieName;
-    }
-
-    public String getAdminCookieName() {
-        return adminCookieName;
-    }
-
-    public void setAdminCookieName(String adminCookieName) {
-        this.adminCookieName = adminCookieName;
-    }
-
-    public String getCookieDomain() {
-        return cookieDomain;
-    }
-
-    public void setCookieDomain(String cookieDomain) {
-        this.cookieDomain = cookieDomain;
-    }
-
-    public String getSessionName() {
-        return sessionName;
-    }
-
-    public void setSessionName(String sessionName) {
-        this.sessionName = sessionName;
-    }
-
-    public String getAdminSessionName() {
-        return adminSessionName;
-    }
-
-    public void setAdminSessionName(String adminSessionName) {
-        this.adminSessionName = adminSessionName;
-    }
-
-    public int getCookieExpireTime() {
-        return cookieExpireTime;
-    }
-
-    public void setCookieExpireTime(int cookieExpireTime) {
-        this.cookieExpireTime = cookieExpireTime;
     }
 
     public int getPageSize() {
@@ -130,4 +77,11 @@ public class SiteConfig {
         this.theme = theme;
     }
 
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
 }

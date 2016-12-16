@@ -76,6 +76,7 @@ public class TopicController extends BaseController {
             topic.setUser(user);
             topic.setGood(false);
             topic.setTop(false);
+            topic.setEditor(siteConfig.getEditor());
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
         }
@@ -91,7 +92,7 @@ public class TopicController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
         Topic topic = topicService.findById(id);
         if (topic == null) {

@@ -33,7 +33,11 @@
               </div>
               <#if notification.content?? && notification.content != "">
                 <div class="payload">
-                ${notification.marked(notification.content)}
+                  <#if notification.editor?? && notification.editor  == 'markdown'>
+                    ${notification.marked(notification.content)}
+                  <#elseif notification.editor?? && notification.editor == 'wangeditor'>
+                  ${notification.content!}
+                  </#if>
                 </div>
               </#if>
             </div>

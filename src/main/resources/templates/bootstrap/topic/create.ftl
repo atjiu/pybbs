@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <label for="title">内容</label>
-            <textarea name="content" id="content" rows="15" class="form-control" placeholder="支持Markdown语法哦~"></textarea>
+            <textarea name="content" id="content" rows="15" class="form-control" placeholder="请输入内容~"></textarea>
           </div>
           <div class="form-group">
             <label for="title">版块</label>
@@ -37,28 +37,61 @@
         <b>话题发布指南</b>
       </div>
       <div class="panel-body">
-        <p>• 话题内容支持 Markdown 文本标记语法</p>
-        <p>• 发布话题奖励 5 积分，但是被管理员删除话题将会扣除作者 7 积分</p>
-        <p>• 发布话题之前,可以点击预览查看</p>
-        <p>• ctrl+b 粗体</p>
-        <p>• ctrl+i 斜体</p>
-        <p>• ctrl+k 插入链接</p>
-        <p>• ctrl+alt+i 插入图片</p>
-        <p>• ctrl+' 插入引用</p>
-        <p>• ctrl+alt+l 有序列表</p>
-        <p>• ctrl+l 无序列表</p>
-        <p>• 截图在编辑器里直接粘贴即可上传(IE10+)</p>
+        <p>• 请在标题中描述内容要点。如果一件事情在标题的长度内就已经可以说清楚，那就没有必要写正文了。</p>
+        <p>• 在最后，请为你的主题选择一个节点。恰当的归类会让你发布的信息更加有用。</p>
+        <p>• 保持对陌生人的友善。用知识去帮助别人。</p>
       </div>
     </div>
   </div>
 </div>
-<link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
-<script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
-<script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
-<script type="text/javascript">
-  var editor = new Editor({element: $("#content")[0], status: []});
-  editor.render();
-</script>
+<#if _editor == 'markdown'>
+  <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
+  <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
+  <script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
+  <script type="text/javascript">
+    var editor = new Editor({element: $("#content")[0], status: []});
+    editor.render();
+  </script>
+<#elseif _editor == 'wangeditor'>
+  <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+  <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+  <script>
+    var editor = new wangEditor('content');
+    // 普通的自定义菜单
+    editor.config.menus = [
+      'source',
+      '|',
+      'bold',
+      'underline',
+      'italic',
+      'strikethrough',
+      'forecolor',
+      'bgcolor',
+      '|',
+      'quote',
+      'fontfamily',
+      'fontsize',
+      'head',
+      'unorderlist',
+      'orderlist',
+      '|',
+      'link',
+      'unlink',
+      'table',
+      '|',
+      'img',
+      'insertcode'
+    ];
+    // 上传图片（举例）
+    editor.config.uploadImgUrl = '/wangEditorUpload';
+    // 配置自定义参数（举例）
+    editor.config.uploadParams = {
+      '${_csrf.parameterName}': '${_csrf.token}'
+    };
+    editor.config.uploadImgFileName = 'file';
+    editor.create();
+  </script>
+</#if>
 </@html>

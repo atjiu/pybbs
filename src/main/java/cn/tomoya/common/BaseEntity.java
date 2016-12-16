@@ -49,7 +49,7 @@ public class BaseEntity {
     public String marked(String content) {
         if (StringUtils.isEmpty(content)) return "";
         //处理@
-        List<String> users = fetchUsers(content);
+        List<String> users = fetchUsers(null, content);
         for (String user : users) {
             content = content.replace(user, "[" + user + "](/user/" + user + ")");
         }
@@ -63,9 +63,9 @@ public class BaseEntity {
      * @param str
      * @return
      */
-    public static List<String> fetchUsers(String str) {
+    public static List<String> fetchUsers(String pattern, String str) {
         List<String> ats = new ArrayList<>();
-        String pattern = "@[^\\s]+\\s?";
+        if (StringUtils.isEmpty(pattern)) pattern = "@[^\\s]+\\s?";
         Pattern regex = Pattern.compile(pattern);
         Matcher regexMatcher = regex.matcher(str);
         while (regexMatcher.find()) {

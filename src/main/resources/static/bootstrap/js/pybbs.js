@@ -39,46 +39,6 @@ function publishTopic() {
         form.submit();
     }
 }
-function previewContent() {
-    var content = $("#content").val();
-    if(content.length > 0) {
-        $("#preview").html("<hr>" + marked(content));
-    }
-}
-function replySubmit() {
-    var errors = 0;
-    var em = $("#error_message");
-    var content = editor.value();
-    if(content.length == 0) {
-        errors++;
-        em.html("回复内容不能为空");
-    }
-    if(errors == 0) {
-        var form = $("#replyForm");
-        form.submit();
-    }
-}
-function replythis(author) {
-    var content = $(editor.codemirror.display.input);
-    var oldContent = editor.value();
-    var prefix = "@" + author + " ";
-    var newContent = '';
-    console.log(oldContent, prefix);
-    if(oldContent.length > 0){
-        console.log(oldContent == prefix);
-        if (oldContent != prefix) {
-            console.log(1);
-            newContent = oldContent + '\n' + prefix;
-        }
-    } else {
-        console.log(2);
-        newContent = prefix
-    }
-    editor.value(newContent);
-    CodeMirror.commands.goDocEnd(editor.codemirror);
-    content.focus();
-    moveEnd(content);
-}
 function updateUserProfile() {
     var errors = 0;
     var em = $("#error_message");

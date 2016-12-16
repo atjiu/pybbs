@@ -22,6 +22,7 @@
   </div>
   <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
+<#if _editor == 'markdown'>
 <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
 <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
 <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
@@ -42,5 +43,72 @@
       }
     }
   });
+  function replySubmit() {
+    var errors = 0;
+    var em = $("#error_message");
+    var content = editor.value();
+    if(content.length == 0) {
+      errors++;
+      em.html("回复内容不能为空");
+    }
+    if(errors == 0) {
+      var form = $("#replyForm");
+      form.submit();
+    }
+  }
 </script>
+<#elseif _editor == 'wangeditor'>
+<script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
+<link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+<script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+<script>
+  var editor = new wangEditor('content');
+  // 普通的自定义菜单
+  editor.config.menus = [
+    'source',
+    '|',
+    'bold',
+    'underline',
+    'italic',
+    'strikethrough',
+    'forecolor',
+    'bgcolor',
+    '|',
+    'quote',
+    'fontfamily',
+    'fontsize',
+    'head',
+    'unorderlist',
+    'orderlist',
+    '|',
+    'link',
+    'unlink',
+    'table',
+    '|',
+    'img',
+    'insertcode'
+  ];
+  // 上传图片（举例）
+  editor.config.uploadImgUrl = '/wangEditorUpload';
+  // 配置自定义参数（举例）
+  editor.config.uploadParams = {
+    '${_csrf.parameterName}': '${_csrf.token}'
+  };
+  editor.config.uploadImgFileName = 'file';
+  editor.create();
+  function replySubmit() {
+    var errors = 0;
+    var em = $("#error_message");
+    var content = editor.$txt.text();
+    if(content.length == 0) {
+      errors++;
+      em.html("回复内容不能为空");
+    }
+    if(errors == 0) {
+      var form = $("#replyForm");
+      form.submit();
+    }
+  }
+</script>
+</#if>
 </@html>

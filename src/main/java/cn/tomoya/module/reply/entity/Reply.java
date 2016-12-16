@@ -50,6 +50,8 @@ public class Reply extends BaseEntity implements Serializable {
     @Column(columnDefinition = "text")
     private String upIds;
 
+    private String editor;
+
     public int getId() {
         return id;
     }
@@ -104,5 +106,13 @@ public class Reply extends BaseEntity implements Serializable {
 
     public void setUpIds(String upIds) {
         this.upIds = upIds;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
     }
 }

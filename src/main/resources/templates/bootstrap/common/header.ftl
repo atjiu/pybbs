@@ -36,7 +36,7 @@
           <li <#if page_tab == 'notification'> class="active" </#if>>
             <a href="/notification/list">通知 <span class="badge" id="badge"></span></a>
             <script>
-              setInterval(function () {
+              function notificationCount() {
                 $.ajax({
                   url: "/notification/notRead",
                   async: true,
@@ -48,8 +48,12 @@
                       $("#badge").text(data.detail);
                     }
                   }
-                })
-              }, 120000)
+                });
+              }
+              notificationCount();
+              setInterval(function () {
+                notificationCount();
+              }, 120000);
             </script>
           </li>
           <li <#if page_tab == 'user'> class="active" </#if>>

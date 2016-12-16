@@ -2,6 +2,7 @@ package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.BaseEntity;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.entity.Reply;
@@ -40,6 +41,8 @@ public class ReplyController extends BaseController {
     private NotificationService notificationService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SiteConfig siteConfig;
 
     /**
      * 保存回复
@@ -60,6 +63,7 @@ public class ReplyController extends BaseController {
                 reply.setInTime(new Date());
                 reply.setUp(0);
                 reply.setContent(content);
+                reply.setEditor(siteConfig.getEditor());
 
                 replyService.save(reply);
 
@@ -69,15 +73,22 @@ public class ReplyController extends BaseController {
 
                 //给话题作者发送通知
                 if (user.getId() != topic.getUser().getId()) {
-                    notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
+                    notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content, reply.getEditor());
                 }
                 //给At用户发送通知
-                List<String> atUsers = BaseEntity.fetchUsers(content);
+                String pattern = null;
+                if(siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+                List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
                 for (String u : atUsers) {
-                    if (!u.equals(topic.getUser().getUsername())) {
+                    if(siteConfig.getEditor().equals("markdown")) {
+                        u = u.replace("@", "").trim();
+                    } else if(siteConfig.getEditor().equals("wangeditor")) {
+                        u = u.replace("\">@", "").replace("</a>", "").trim();
+                    }
+                    if (!u.equals(user.getUsername())) {
                         User _user = userService.findByUsername(u);
                         if (_user != null) {
-                            notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
+                            notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content, reply.getEditor());
                         }
                     }
                 }
@@ -110,7 +121,7 @@ public class ReplyController extends BaseController {
      * @param response
      * @return
      */
-    @GetMapping("/update")
+    @PostMapping("/update")
     public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
         Reply reply = replyService.findById(id);
         if (reply == null) {

@@ -45,7 +45,7 @@ public class NotificationService {
      * @param topic
      * @param content
      */
-    public void sendNotification(User user, User targetUser, String action, Topic topic, String content) {
+    public void sendNotification(User user, User targetUser, String action, Topic topic, String content, String editor) {
         new Thread(() -> {
             Notification notification = new Notification();
             notification.setUser(user);
@@ -55,6 +55,7 @@ public class NotificationService {
             notification.setAction(action);
             notification.setContent(content);
             notification.setRead(false);
+            notification.setEditor(editor);
             save(notification);
         }).start();
     }

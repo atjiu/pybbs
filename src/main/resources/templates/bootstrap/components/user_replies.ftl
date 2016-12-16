@@ -10,7 +10,13 @@
       </td>
     </tr>
     <tr class="user_replies">
-      <td>${reply.marked(reply.content!)}</td>
+      <td>
+        <#if reply.editor?? && reply.editor  == 'markdown'>
+          ${reply.marked(reply.content!)}
+        <#elseif reply.editor?? && reply.editor  == 'wangeditor'>
+          ${reply.content!}
+        </#if>
+      </td>
     </tr>
   </#list>
 </table>

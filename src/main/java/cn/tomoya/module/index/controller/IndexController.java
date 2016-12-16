@@ -130,7 +130,7 @@ public class IndexController extends BaseController {
      * @param file
      * @return
      */
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     @ResponseBody
     public Result upload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
@@ -143,6 +143,26 @@ public class IndexController extends BaseController {
             }
         }
         return Result.error("文件不存在");
+    }
+
+    /**
+     * wangEditor上传
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("/wangEditorUpload")
+    @ResponseBody
+    public String wangEditorUpload(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                return fileUtil.uploadFile(file, FileUploadEnum.FILE);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "error|服务器端错误";
+            }
+        }
+        return "error|文件不存在";
     }
 
 }
