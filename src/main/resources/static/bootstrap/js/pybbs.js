@@ -49,7 +49,6 @@ function updateUserProfile() {
     }
     if(errors == 0) {
         var form = $("#userProfileForm");
-        $("#userProfileUpdateBtn").button("保存中...");
         form.submit();
     }
 }
@@ -74,7 +73,6 @@ function permissionSubmit() {
     }
     if(errors == 0) {
         var form = $("#permissionForm");
-        $("#permissionBtn").button("保存中...");
         form.submit();
     }
 }
@@ -93,7 +91,6 @@ function roleSubmit() {
     }
     if(errors == 0) {
         var form = $("#roleForm");
-        $("#roleBtn").button("保存中...");
         form.submit();
     }
 }
@@ -112,7 +109,6 @@ function saveSection() {
     }
     if(errors == 0) {
         var form = $("sectionForm");
-        $("#savesectionbtn").button("保存中...");
         form.submit();
     }
 }

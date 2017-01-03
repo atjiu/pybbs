@@ -21,6 +21,7 @@ public class SiteConfig {
     private List<String> sections;
     private String theme;
     private String editor;
+    private boolean donate;
 
     public String getName() {
         return name;
@@ -92,5 +93,13 @@ public class SiteConfig {
 
     public void setEditor(String editor) {
         this.editor = editor;
+    }
+
+    public boolean isDonate() {
+        return donate;
+    }
+
+    public void setDonate(boolean donate) {
+        this.donate = donate;
     }
 }
