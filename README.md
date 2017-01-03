@@ -39,7 +39,7 @@
 - `git clone https://github.com/tomoya92/pybbs.git`
 - 修改配置文件 `src/main/resources/application.yml` 里的配置项
 - 创建数据库 `pybbs-springboot`
-- 运行 `mvn package` 命令，生成jar包，位置在 `target/pybbs.jar`
+- 运行 `mvn clean package -Dmaven.test.skip=true` 命令，生成jar包，位置在 `target/pybbs.jar`
 - 运行 `java -jar pybbs.jar` 即可启动服务
 - 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
 - 浏览器 `http://localhost:8080/`
