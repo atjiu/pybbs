@@ -38,6 +38,26 @@
         </form>
       </div>
     </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        修改密码
+      </div>
+      <div class="panel-body">
+        <form action="/user/changePassword" method="post">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <div class="form-group">
+            <label for="oldPassword">旧密码</label>
+            <input type="password" class="form-control" id="oldPassword" name="oldPassword"/>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">新密码</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword"/>
+          </div>
+          <button type="submit" class="btn btn-default">修改密码</button>
+          <span class="text-danger">${changePasswordErrorMsg!}</span>
+        </form>
+      </div>
+    </div>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
 

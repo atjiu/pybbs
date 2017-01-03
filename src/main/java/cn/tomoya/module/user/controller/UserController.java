@@ -10,6 +10,7 @@ import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -154,6 +155,27 @@ public class UserController extends BaseController {
         }
         userService.updateUser(user);
         return redirect(response, "/user/" + user.getUsername());
+    }
+
+    /**
+     * 修改密码
+     * @param oldPassword
+     * @param newPassword
+     * @param model
+     * @return
+     */
+    @PostMapping("/changePassword")
+    public String changePassword(String oldPassword, String newPassword, Model model) {
+        User user = getUser();
+        if(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+            userService.updateUser(user);
+            model.addAttribute("changePasswordErrorMsg", "修改成功，请重新登录");
+        } else {
+            model.addAttribute("changePasswordErrorMsg", "旧密码不正确");
+        }
+        model.addAttribute("user", getUser());
+        return render("/user/setting");
     }
 
 }

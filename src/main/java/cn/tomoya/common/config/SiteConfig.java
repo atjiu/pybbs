@@ -13,6 +13,7 @@ import java.util.List;
 public class SiteConfig {
 
     private String name;
+    private String intro;
     private String baseUrl;
     private int pageSize;
     private String avatarPath;
@@ -27,6 +28,14 @@ public class SiteConfig {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public String getBaseUrl() {
