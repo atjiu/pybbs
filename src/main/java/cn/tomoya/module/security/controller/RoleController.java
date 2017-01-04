@@ -103,9 +103,11 @@ public class RoleController extends BaseController {
         role.setName(name);
         role.setDescription(description);
         Set<Permission> permissions = new HashSet<>();
-        for (int i : permissionIds) {
-            Permission permission = permissionService.findById(i);
-            permissions.add(permission);
+        if(permissionIds != null) {
+            for (int i : permissionIds) {
+                Permission permission = permissionService.findById(i);
+                permissions.add(permission);
+            }
         }
         role.setPermissions(permissions);
         roleService.save(role);

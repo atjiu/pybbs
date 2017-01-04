@@ -10,10 +10,10 @@
       ${reply.formatDate(reply.inTime)}
         <#if user??>
           <span class="pull-right">
-            <#if _roles?seq_contains("reply:edit")>
+            <#if _roles?seq_contains("reply:edit") || user.id == reply.user.id>
               <a href="/reply/${reply.id}/edit">编辑</a>
             </#if>
-            <#if _roles?seq_contains("reply:delete")>
+            <#if _roles?seq_contains("reply:delete") || user.id == reply.user.id>
               <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'">删除</a>
             </#if>
             <a href="javascript:replythis('${reply.user.username}');">回复</a>

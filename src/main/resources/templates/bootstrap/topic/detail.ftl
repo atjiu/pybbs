@@ -23,11 +23,11 @@
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
               <#if user??>
-                <#if _roles?seq_contains("topic:edit")>
+                <#if _roles?seq_contains("topic:edit") || user.id == topic.user.id>
                   <span>•</span>
                   <span><a href="/topic/${topic.id}/edit">编辑</a></span>
                 </#if>
-                <#if _roles?seq_contains("topic:delete")>
+                <#if _roles?seq_contains("topic:delete")  || user.id == topic.user.id>
                   <span>•</span>
                   <span><a
                     href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/${topic.id}/delete'">删除</a></span>
