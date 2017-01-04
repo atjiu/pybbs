@@ -29,3 +29,5 @@ site:
     - 招聘
   theme: bootstrap
   editor: markdown # 支持两种，1. markdown 2. wangeditor
+  donate: false
+  search: true

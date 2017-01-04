@@ -36,4 +36,6 @@ public interface TopicDao extends JpaRepository<Topic, Integer> {
 
     @Cacheable
     Page<Topic> findByReplyCount(int i, Pageable pageable);
+
+    Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 }

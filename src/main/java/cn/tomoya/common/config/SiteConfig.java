@@ -22,6 +22,7 @@ public class SiteConfig {
     private String theme;
     private String editor;
     private boolean donate;
+    private boolean search;
 
     public String getName() {
         return name;
@@ -101,5 +102,13 @@ public class SiteConfig {
 
     public void setDonate(boolean donate) {
         this.donate = donate;
+    }
+
+    public boolean isSearch() {
+        return search;
+    }
+
+    public void setSearch(boolean search) {
+        this.search = search;
     }
 }

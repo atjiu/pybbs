@@ -58,6 +58,7 @@ public class CommonInterceptor implements HandlerInterceptor {
             modelMap.addAttribute("sections", siteConfig.getSections());
             modelMap.addAttribute("_editor", siteConfig.getEditor());
             modelMap.addAttribute("_donate", siteConfig.isDonate());
+            modelMap.addAttribute("_search", siteConfig.isSearch());
         }
     }
 

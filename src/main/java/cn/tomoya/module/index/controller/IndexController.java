@@ -67,6 +67,21 @@ public class IndexController extends BaseController {
     }
 
     /**
+     * 搜索
+     * @param p
+     * @param q
+     * @param model
+     * @return
+     */
+    @GetMapping("/search")
+    public String search(Integer p, String q, Model model) {
+        Page<Topic> page = topicService.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
+        model.addAttribute("page", page);
+        model.addAttribute("q", q);
+        return render("/search");
+    }
+
+    /**
      * 进入登录页
      *
      * @return

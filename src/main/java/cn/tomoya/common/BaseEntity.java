@@ -1,11 +1,9 @@
 package cn.tomoya.common;
 
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.util.MarkdownUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.ocpsoft.prettytime.PrettyTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -21,9 +19,6 @@ import java.util.regex.Pattern;
  * http://tomoya.cn
  */
 public class BaseEntity {
-
-    @Autowired
-    private SiteConfig siteConfig;
 
     /**
      * 格式化日期
@@ -84,5 +79,38 @@ public class BaseEntity {
         if (StringUtils.isEmpty(content)) return "";
         //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
+    }
+
+    /**
+     * 高亮title里的搜索关键字
+     * @param q
+     * @param title
+     * @return
+     */
+    public String lightTitle(String q, String title) {
+        return title.replace(q, "<b style='color: red;'>"+ q +"</b>");
+    }
+
+    /**
+     * 搜索结果内容截取
+     * @param _editor
+     * @param q
+     * @param content
+     * @return
+     */
+    public String subContent(String _editor, String q, String content) {
+        int index = content.indexOf(q);
+        if(_editor.equals("markdown")) content = marked(content);
+        content = Jsoup.parse(content).text();
+        if(index < 0) {
+            if(content.length() >= 150) content = content.substring(0, 150);
+        } else {
+            if(index < 20) {
+                if(content.length() >= 150) content = content.substring(0, 150);
+            } else {
+                if(content.length() >= 150) content = content.substring(0, 150);
+            }
+        }
+        return content.replace(q, "<b style='color: red;'>"+ q +"</b>") + "...";
     }
 }

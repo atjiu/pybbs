@@ -12,13 +12,13 @@
       <a class="navbar-brand" style="color:#fff;" href="/">${siteTitle!}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
-      <#--<#if _search == true>
+      <#if _search?? && _search == true>
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
           <div class="form-group">
             <input type="text" class="form-control" name="q" value="${q!}" placeholder="回车搜索">
           </div>
         </form>
-      </#if>-->
+      </#if>-
       <ul class="nav navbar-nav navbar-right">
         <#if _donate?? && _donate == true>
           <li <#if page_tab == 'donate'> class="active" </#if>>

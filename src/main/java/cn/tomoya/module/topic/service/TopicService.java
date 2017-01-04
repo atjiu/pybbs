@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by tomoya.
@@ -77,6 +78,21 @@ public class TopicService {
         } else {
             return topicDao.findByTab(tab, pageable);
         }
+    }
+
+    /**
+     * 搜索
+     * @param p
+     * @param size
+     * @param q
+     * @return
+     */
+    public Page<Topic> search(int p, int size, String q) {
+        if(StringUtils.isEmpty(q)) return null;
+        Sort sort = new Sort(
+                new Sort.Order(Sort.Direction.DESC, "inTime"));
+        Pageable pageable = new PageRequest(p - 1, size, sort);
+        return topicDao.findByTitleContainingOrContentContaining(q, q, pageable);
     }
 
     /**
@@ -150,5 +166,4 @@ public class TopicService {
         Pageable pageable = new PageRequest(p - 1, size, sort);
         return topicDao.findByUser(user, pageable);
     }
-
 }
