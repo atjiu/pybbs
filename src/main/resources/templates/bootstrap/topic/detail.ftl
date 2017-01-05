@@ -128,7 +128,7 @@
     </#list>
   data = _.unique(data);
 </script>
-<#if _editor == 'markdown'>
+<#if user?? && _editor == 'markdown'>
   <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
   <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.markdown.min.js"></script>
   <style>
@@ -212,7 +212,7 @@
       moveEnd(content);
     }
   </script>
-<#elseif _editor == 'wangeditor'>
+<#elseif user?? && _editor == 'wangeditor'>
   <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
   <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
   <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>

@@ -7,10 +7,10 @@
       <div class="panel-body">
         <div class="row text-center">
           <div class="col-md-6">
-            <img src="/static/bootstrap/imgs/jz_alipay.jpg">
+            <img src="/static/imgs/jz_alipay.jpg">
           </div>
           <div class="col-md-6">
-            <img src="/static/bootstrap/imgs/jz_weixin.jpg">
+            <img src="/static/imgs/jz_weixin.jpg">
           </div>
         </div>
         <br>
@@ -24,6 +24,21 @@
             </tr>
             </thead>
             <tbody>
+            <tr>
+              <td>flying</td>
+              <td>￥20</td>
+              <td>2017-01-04</td>
+            </tr>
+            <tr>
+              <td>佚名(微信)</td>
+              <td>￥20</td>
+              <td>2016-12-22</td>
+            </tr>
+            <tr>
+              <td>佚名(微信)</td>
+              <td>￥10</td>
+              <td>2016-12-17</td>
+            </tr>
             <tr>
               <td>Neo</td>
               <td>￥20</td>
