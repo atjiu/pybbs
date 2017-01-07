@@ -1,7 +1,6 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 RUN apt-get update
 RUN apt-get -y install python-software-properties
-RUN apt-get install software-properties-common
 RUN add-apt-repository ppa:webupd8team/Java
 RUN apt-get update
 RUN apt-get install Oracle-java8-installer
