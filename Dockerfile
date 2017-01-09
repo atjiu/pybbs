@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 RUN apt-get update
 RUN mkdir /home/jdk && cd /home/jdk
-RUN apt-get install -y wget
+RUN apt-get install -y wget && apt-get install -y source
 RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111-linux-x64.tar.gz
 RUN tar -zxvf jdk-8u111-linux-x64.tar.gz
 RUN echo 'export JAVA_HOME=/home/jdk/jdk1.8.0_111' >> /etc/profile && echo 'export PATH=$PATH:$JAVA_HOME/bin' >> /etc/profile && source /etc/profile
