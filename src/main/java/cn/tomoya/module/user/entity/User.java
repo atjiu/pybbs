@@ -54,6 +54,9 @@ public class User extends BaseEntity implements Serializable {
     @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
+    //用户是否被禁用
+    private boolean block;
+
     //用户与角色的关联关系
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -126,6 +129,14 @@ public class User extends BaseEntity implements Serializable {
 
     public void setInTime(Date inTime) {
         this.inTime = inTime;
+    }
+
+    public boolean isBlock() {
+        return block;
+    }
+
+    public void setBlock(boolean block) {
+        this.block = block;
     }
 
     public Set<Role> getRoles() {

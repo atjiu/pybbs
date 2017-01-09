@@ -45,7 +45,10 @@ public class TopicController extends BaseController {
      * @return
      */
     @GetMapping("/create")
-    public String create() {
+    public String create(HttpServletResponse response) {
+        if(getUser().isBlock()) {
+            return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
+        }
         return render("/topic/create");
     }
 
@@ -59,6 +62,9 @@ public class TopicController extends BaseController {
      */
     @PostMapping("/save")
     public String save(String tab, String title, String content, Model model, HttpServletResponse response) {
+        if(getUser().isBlock()) {
+            return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
+        }
         String errors;
         if (StringUtils.isEmpty(title)) {
             errors = "标题不能为空";
@@ -96,8 +102,7 @@ public class TopicController extends BaseController {
     public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
         Topic topic = topicService.findById(id);
         if (topic == null) {
-            renderText(response, "话题不存在");
-            return null;
+            return renderText(response, "话题不存在");
         } else {
             model.addAttribute("topic", topic);
             return render("/topic/edit");
@@ -123,8 +128,7 @@ public class TopicController extends BaseController {
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
         } else {
-            renderText(response, "非法操作");
-            return null;
+            return renderText(response, "非法操作");
         }
     }
 
@@ -152,8 +156,7 @@ public class TopicController extends BaseController {
             model.addAttribute("collectCount", collectService.countByTopic(topic));
             return render("/topic/detail");
         } else {
-            renderText(response, "话题不存在");
-            return null;
+            return renderText(response, "话题不存在");
         }
     }
 

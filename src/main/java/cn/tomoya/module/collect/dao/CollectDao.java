@@ -31,4 +31,5 @@ public interface CollectDao extends JpaRepository<Collect, Integer> {
     @Cacheable
     Collect findByUserAndTopic(User user, Topic topic);
 
+    void deleteByUser(User user);
 }

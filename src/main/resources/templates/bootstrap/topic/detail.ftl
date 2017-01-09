@@ -22,7 +22,7 @@
               <span>${topic.view!1}次点击</span>
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
-              <#if user??>
+              <#if user?? && user.block == false>
                 <#if _roles?seq_contains("topic:edit") || user.id == topic.user.id>
                   <span>•</span>
                   <span><a href="/topic/${topic.id}/edit">编辑</a></span>
@@ -92,13 +92,13 @@
         </div>
       </div>
     </#if>
-    <#if user??>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          添加一条新回复
-          <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
-        </div>
-        <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        添加一条新回复
+        <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
+      </div>
+      <div class="panel-body">
+        <#if user?? && user.block == false>
           <form action="/reply/save" method="post" id="replyForm">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" value="${topic.id}" name="topicId"/>
@@ -108,9 +108,11 @@
             <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
             <span id="error_message"></span>
           </form>
-        </div>
+        <#else>
+          <div class="text-center">你的帐户被禁用了，不能回复</div>
+        </#if>
       </div>
-    </#if>
+    </div>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/author_info.ftl"/>
@@ -119,158 +121,160 @@
         <@othertopics/>
   </div>
 </div>
-<link rel="stylesheet" href="/static/bootstrap/css/jquery.atwho.min.css"/>
-<script type="text/javascript" src="/static/bootstrap/js/lodash.min.js"></script>
-<script>
-  var data = [];
-    <#list replies as reply>
-    data.push('${reply.user.username}');
-    </#list>
-  data = _.unique(data);
-</script>
-<#if user?? && _editor == 'markdown'>
-  <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
-  <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.markdown.min.js"></script>
-  <style>
-    .CodeMirror {
-      height: 150px;
-    }
-  </style>
-  <script type="text/javascript" src="/static/bootstrap/js/highlight.min.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
-  <script type="text/javascript">
-
-    $('pre code').each(function (i, block) {
-      hljs.highlightBlock(block);
-    });
-
-    var editor = new Editor({element: $("#content")[0], status: []});
-    editor.render();
-
-    var $input = $(editor.codemirror.display.input);
-    $input.keydown(function (event) {
-      if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault();
-        if (editor.codemirror.getValue().length == 0) {
-          $("#error_message").html("回复内容不能为空");
-        } else {
-          $("#replyForm").submit();
-        }
-      }
-    });
-
-    // at.js 配置
-    var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
-    var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
-    var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
-
-    $input.atwho({
-      at: "@",
-      data: data
-    }).on('shown.atwho', function () {
-      CodeMirror.commands.goLineUp = _.noop;
-      CodeMirror.commands.goLineDown = _.noop;
-      CodeMirror.commands.newlineAndIndent = _.noop;
-    })
-      .on('hidden.atwho', function () {
-        CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
-        CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
-        CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
-      });
-    // END at.js 配置
-    function replySubmit() {
-      var errors = 0;
-      var em = $("#error_message");
-      var content = editor.value();
-      if(content.length == 0) {
-        errors++;
-        em.html("回复内容不能为空");
-      }
-      if(errors == 0) {
-        var form = $("#replyForm");
-        form.submit();
-      }
-    }
-    function replythis(author) {
-      var content = $(editor.codemirror.display.input);
-      var oldContent = editor.value();
-      var prefix = "@" + author + " ";
-      var newContent = '';
-      if(oldContent.length > 0){
-        if (oldContent != prefix) {
-          newContent = oldContent + '\n' + prefix;
-        }
-      } else {
-        newContent = prefix
-      }
-      editor.value(newContent);
-      CodeMirror.commands.goDocEnd(editor.codemirror);
-      content.focus();
-      moveEnd(content);
-    }
-  </script>
-<#elseif user?? && _editor == 'wangeditor'>
-  <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
-  <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
-  <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+<#if user?? && user.block == false>
+  <link rel="stylesheet" href="/static/bootstrap/css/jquery.atwho.min.css"/>
+  <script type="text/javascript" src="/static/bootstrap/js/lodash.min.js"></script>
   <script>
-    var editor = new wangEditor('content');
-    // 普通的自定义菜单
-    editor.config.menus = [
-      'source',
-      '|',
-      'bold',
-      'underline',
-      'italic',
-      'strikethrough',
-      'forecolor',
-      'bgcolor',
-      '|',
-      'quote',
-      'fontfamily',
-      'fontsize',
-      'head',
-      'unorderlist',
-      'orderlist',
-      '|',
-      'link',
-      'unlink',
-      'table',
-      '|',
-      'img',
-      'insertcode'
-    ];
-    // 上传图片（举例）
-    editor.config.uploadImgUrl = '/wangEditorUpload';
-    // 配置自定义参数（举例）
-    editor.config.uploadParams = {
-      '${_csrf.parameterName}': '${_csrf.token}'
-    };
-    editor.config.uploadImgFileName = 'file';
-    editor.create();
-    editor.$txt.atwho({
-      at: "@",
-      data: data
-    });
-    function replySubmit() {
-      var errors = 0;
-      var em = $("#error_message");
-      var content = editor.$txt.text();
-      if(content.length == 0) {
-        errors++;
-        em.html("回复内容不能为空");
-      }
-      if(errors == 0) {
-        var form = $("#replyForm");
-        form.submit();
-      }
-    }
-    function replythis(author) {
-      editor.$txt.append("@" + author + " ");
-    }
+    var data = [];
+      <#list replies as reply>
+      data.push('${reply.user.username}');
+      </#list>
+    data = _.unique(data);
   </script>
+  <#if _editor == 'markdown'>
+    <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
+    <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.markdown.min.js"></script>
+    <style>
+      .CodeMirror {
+        height: 150px;
+      }
+    </style>
+    <script type="text/javascript" src="/static/bootstrap/js/highlight.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
+    <script type="text/javascript">
+
+      $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+      });
+
+      var editor = new Editor({element: $("#content")[0], status: []});
+      editor.render();
+
+      var $input = $(editor.codemirror.display.input);
+      $input.keydown(function (event) {
+        if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+          event.preventDefault();
+          if (editor.codemirror.getValue().length == 0) {
+            $("#error_message").html("回复内容不能为空");
+          } else {
+            $("#replyForm").submit();
+          }
+        }
+      });
+
+      // at.js 配置
+      var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
+      var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
+      var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
+
+      $input.atwho({
+        at: "@",
+        data: data
+      }).on('shown.atwho', function () {
+        CodeMirror.commands.goLineUp = _.noop;
+        CodeMirror.commands.goLineDown = _.noop;
+        CodeMirror.commands.newlineAndIndent = _.noop;
+      })
+        .on('hidden.atwho', function () {
+          CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
+          CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
+          CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
+        });
+      // END at.js 配置
+      function replySubmit() {
+        var errors = 0;
+        var em = $("#error_message");
+        var content = editor.value();
+        if(content.length == 0) {
+          errors++;
+          em.html("回复内容不能为空");
+        }
+        if(errors == 0) {
+          var form = $("#replyForm");
+          form.submit();
+        }
+      }
+      function replythis(author) {
+        var content = $(editor.codemirror.display.input);
+        var oldContent = editor.value();
+        var prefix = "@" + author + " ";
+        var newContent = '';
+        if(oldContent.length > 0){
+          if (oldContent != prefix) {
+            newContent = oldContent + '\n' + prefix;
+          }
+        } else {
+          newContent = prefix
+        }
+        editor.value(newContent);
+        CodeMirror.commands.goDocEnd(editor.codemirror);
+        content.focus();
+        moveEnd(content);
+      }
+    </script>
+  <#elseif _editor == 'wangeditor'>
+    <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+    <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+    <script>
+      var editor = new wangEditor('content');
+      // 普通的自定义菜单
+      editor.config.menus = [
+        'source',
+        '|',
+        'bold',
+        'underline',
+        'italic',
+        'strikethrough',
+        'forecolor',
+        'bgcolor',
+        '|',
+        'quote',
+        'fontfamily',
+        'fontsize',
+        'head',
+        'unorderlist',
+        'orderlist',
+        '|',
+        'link',
+        'unlink',
+        'table',
+        '|',
+        'img',
+        'insertcode'
+      ];
+      // 上传图片（举例）
+      editor.config.uploadImgUrl = '/wangEditorUpload';
+      // 配置自定义参数（举例）
+      editor.config.uploadParams = {
+        '${_csrf.parameterName}': '${_csrf.token}'
+      };
+      editor.config.uploadImgFileName = 'file';
+      editor.create();
+      editor.$txt.atwho({
+        at: "@",
+        data: data
+      });
+      function replySubmit() {
+        var errors = 0;
+        var em = $("#error_message");
+        var content = editor.$txt.text();
+        if(content.length == 0) {
+          errors++;
+          em.html("回复内容不能为空");
+        }
+        if(errors == 0) {
+          var form = $("#replyForm");
+          form.submit();
+        }
+      }
+      function replythis(author) {
+        editor.$txt.append("@" + author + " ");
+      }
+    </script>
+  </#if>
 </#if>
 </@html>

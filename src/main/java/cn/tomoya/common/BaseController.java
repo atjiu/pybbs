@@ -61,7 +61,7 @@ public class BaseController {
         return siteConfig.getTheme() + path;
     }
 
-    protected void renderText(HttpServletResponse response, String msg) {
+    protected String renderText(HttpServletResponse response, String msg) {
         try {
             response.setContentType("text/html;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -69,6 +69,7 @@ public class BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**

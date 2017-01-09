@@ -109,4 +109,19 @@ public class NotificationService {
         notificationDao.updateByIsRead(targetUser);
     }
 
+    /**
+     * 删除用户的通知
+     * @param user
+     */
+    public void deleteByUser(User user) {
+        notificationDao.deleteByUser(user);
+    }
+
+    /**
+     * 删除目标用户的通知
+     * @param user
+     */
+    public void deleteByTargetUser(User user) {
+        notificationDao.deleteByTargetUser(user);
+    }
 }

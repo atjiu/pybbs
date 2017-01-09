@@ -38,4 +38,7 @@ public interface NotificationDao extends JpaRepository<Notification, Integer> {
     @Query("update Notification n set n.isRead = true where n.targetUser = ?1")
     void updateByIsRead(User targetUser);
 
+    void deleteByTargetUser(User user);
+
+    void deleteByUser(User user);
 }

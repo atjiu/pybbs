@@ -1,5 +1,7 @@
 package cn.tomoya.module.user.service;
 
+import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.dao.UserDao;
@@ -27,6 +29,10 @@ public class UserService {
     private TopicService topicService;
     @Autowired
     private ReplyService replyService;
+    @Autowired
+    private NotificationService notificationService;
+    @Autowired
+    private CollectService collectService;
 
     public User findById(int id) {
         return userDao.findOne(id);
@@ -63,13 +69,44 @@ public class UserService {
         return userDao.findAll(pageable);
     }
 
-    public void deleteById(int id) {
+    /**
+     * 禁用用户
+     * @param id
+     */
+    public void blockUser(Integer id) {
         User user = findById(id);
-        //删除该用户的所有话题
-        topicService.deleteByUser(user);
-        //删除用户发的所有回复
-        replyService.deleteByUser(user);
-        //删除用户
-        userDao.delete(user);
+        user.setBlock(true);
+        updateUser(user);
     }
+
+    /**
+     * 用户解禁
+     * @param id
+     */
+    public void unBlockUser(Integer id) {
+        User user = findById(id);
+        user.setBlock(false);
+        updateUser(user);
+    }
+
+    /**
+     * 删除用户
+     * 注：这会删除用户的所有记录，慎重操作
+     * @param id
+     */
+    //TODO 关联太多，不提供删除用户操作
+//    public void deleteById(int id) {
+//        User user = findById(id);
+//        //删除用户的收藏
+//        collectService.deleteByUser(user);
+//        //删除用户发的所有回复
+//        replyService.deleteByUser(user);
+//        //删除用户的通知
+//        notificationService.deleteByUser(user);
+//        notificationService.deleteByTargetUser(user);
+//        //删除该用户的所有话题
+//        topicService.deleteByUser(user);
+//        //删除用户
+//        userDao.delete(user);
+//    }
 }

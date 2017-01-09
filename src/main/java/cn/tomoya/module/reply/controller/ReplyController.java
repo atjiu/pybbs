@@ -53,6 +53,7 @@ public class ReplyController extends BaseController {
      */
     @PostMapping("/save")
     public String save(Integer topicId, String content, HttpServletResponse response) {
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         if (topicId != null) {
             Topic topic = topicService.findById(topicId);
             if (topic != null) {
@@ -106,7 +107,8 @@ public class ReplyController extends BaseController {
      * @return
      */
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) {
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         Reply reply = replyService.findById(id);
         model.addAttribute("reply", reply);
         return render("/reply/edit");
@@ -123,10 +125,10 @@ public class ReplyController extends BaseController {
      */
     @PostMapping("/update")
     public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         Reply reply = replyService.findById(id);
         if (reply == null) {
-            renderText(response, "回复不存在");
-            return null;
+            return renderText(response, "回复不存在");
         } else {
             reply.setContent(content);
             replyService.save(reply);
@@ -145,7 +147,6 @@ public class ReplyController extends BaseController {
         if (id != null) {
             Map map = replyService.delete(id, getUser());
             return redirect(response, "/topic/" + map.get("topicId"));
-
         }
         return redirect(response, "/");
     }

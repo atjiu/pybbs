@@ -53,9 +53,33 @@ public class UserAdminController extends BaseController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/{id}/delete")
-    public String delete(@PathVariable Integer id, HttpServletResponse response) {
-        userService.deleteById(id);
+//    @GetMapping(value = "/{id}/delete")
+//    public String delete(@PathVariable Integer id, HttpServletResponse response) {
+//        userService.deleteById(id);
+//        return redirect(response, "/admin/user/list");
+//    }
+
+    /**
+     * 禁用用户
+     * @param id
+     * @param response
+     * @return
+     */
+    @GetMapping("/{id}/block")
+    public String block(@PathVariable Integer id, HttpServletResponse response) {
+        userService.blockUser(id);
+        return redirect(response, "/admin/user/list");
+    }
+
+    /**
+     * 解禁用户
+     * @param id
+     * @param response
+     * @return
+     */
+    @GetMapping("/{id}/unblock")
+    public String unblock(@PathVariable Integer id, HttpServletResponse response) {
+        userService.unBlockUser(id);
         return redirect(response, "/admin/user/list");
     }
 

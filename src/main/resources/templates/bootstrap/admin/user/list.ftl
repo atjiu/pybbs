@@ -21,12 +21,26 @@
               <td><a href="mailto:${user.email!}" target="_blank">${user.email!}</a></td>
               <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
               <td>
+                <#if user.block == true>
+                  <span class="text-danger">禁用</span>
+                <#else>
+                  <span class="text-success">正常</span>
+                </#if>
+              </td>
+              <td>
                 <#if _roles?seq_contains("user:role")>
                   <a href="/admin/user/${user.id}/role" class="btn btn-xs btn-warning">配置角色</a>
                 </#if>
-                <#if _roles?seq_contains("user:delete")>
-                  <a href="javascript:if(confirm('确认删除吗?')) location.href='/admin/user/${user.id}/delete'"
-                     class="btn btn-xs btn-danger">删除</a>
+                <#if user.block == true>
+                  <#if _roles?seq_contains("user:unblock")>
+                    <a href="javascript:if(confirm('确认解禁吗?')) location.href='/admin/user/${user.id}/unblock'"
+                       class="btn btn-xs btn-danger">解禁</a>
+                  </#if>
+                <#else>
+                  <#if _roles?seq_contains("user:block")>
+                    <a href="javascript:if(confirm('确认禁用吗?')) location.href='/admin/user/${user.id}/block'"
+                       class="btn btn-xs btn-danger">禁用</a>
+                  </#if>
                 </#if>
               </td>
             </tr>

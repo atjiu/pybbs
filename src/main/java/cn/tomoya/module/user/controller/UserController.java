@@ -79,8 +79,7 @@ public class UserController extends BaseController {
             model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/topics");
         } else {
-            renderText(response, "用户不存在");
-            return null;
+            return renderText(response, "用户不存在");
         }
     }
 
@@ -98,8 +97,7 @@ public class UserController extends BaseController {
             model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/replies");
         } else {
-            renderText(response, "用户不存在");
-            return null;
+            return renderText(response, "用户不存在");
         }
     }
 
@@ -117,8 +115,7 @@ public class UserController extends BaseController {
             model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/collects");
         } else {
-            renderText(response, "用户不存在");
-            return null;
+            return renderText(response, "用户不存在");
         }
     }
 
@@ -146,6 +143,7 @@ public class UserController extends BaseController {
     @PostMapping("/setting")
     public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar, HttpServletResponse response) throws IOException {
         User user = getUser();
+        if(user.isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         user.setEmail(email);
         user.setSignature(signature);
         user.setUrl(url);
@@ -165,8 +163,9 @@ public class UserController extends BaseController {
      * @return
      */
     @PostMapping("/changePassword")
-    public String changePassword(String oldPassword, String newPassword, Model model) {
+    public String changePassword(String oldPassword, String newPassword, Model model, HttpServletResponse response) {
         User user = getUser();
+        if(user.isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         if(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userService.updateUser(user);

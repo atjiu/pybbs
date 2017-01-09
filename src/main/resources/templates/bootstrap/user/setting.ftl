@@ -10,7 +10,7 @@
         <form action="/user/setting" method="post" id="userProfileForm" enctype="multipart/form-data">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
-            <label for="nickname">昵称</label>
+            <label for="username">昵称</label>
             <input type="text" disabled class="form-control" id="username" value="${user.username}"/>
           </div>
           <div class="form-group">
@@ -31,9 +31,13 @@
             <br>
             <img src="${user.avatar!}" width="150">
           </div>
-          <button type="button" id="userProfileUpdateBtn" onclick="updateUserProfile()"
-                  class="btn btn-default">保存设置
-          </button>
+          <#if user.block == true>
+            <button type="button" disabled="disabled" class="btn btn-default">保存设置</button>
+          <#else>
+            <button type="button" id="userProfileUpdateBtn" onclick="updateUserProfile()"
+                    class="btn btn-default">保存设置
+            </button>
+          </#if>
           <span id="error_message"></span>
         </form>
       </div>
@@ -53,7 +57,11 @@
             <label for="newPassword">新密码</label>
             <input type="password" class="form-control" id="newPassword" name="newPassword"/>
           </div>
-          <button type="submit" class="btn btn-default">修改密码</button>
+          <#if user.block == true>
+            <button type="button" class="btn btn-default" disabled="disabled">修改密码</button>
+          <#else>
+            <button type="submit" class="btn btn-default">修改密码</button>
+          </#if>
           <span class="text-danger">${changePasswordErrorMsg!}</span>
         </form>
       </div>

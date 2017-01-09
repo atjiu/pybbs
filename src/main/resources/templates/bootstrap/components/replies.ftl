@@ -8,7 +8,7 @@
       <div class="media-heading gray">
         <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
       ${reply.formatDate(reply.inTime)}
-        <#if user??>
+        <#if user?? && user.block == false>
           <span class="pull-right">
             <#if _roles?seq_contains("reply:edit") || user.id == reply.user.id>
               <a href="/reply/${reply.id}/edit">编辑</a>

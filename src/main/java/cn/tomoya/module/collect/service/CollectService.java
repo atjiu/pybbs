@@ -86,4 +86,12 @@ public class CollectService {
     public void deleteById(int id) {
         collectDao.delete(id);
     }
+
+    /**
+     * 删除用户的收藏
+     * @param user
+     */
+    public void deleteByUser(User user) {
+        collectDao.deleteByUser(user);
+    }
 }
