@@ -110,7 +110,7 @@ public class ReplyService {
      * @return
      */
     public List<Reply> findByTopic(Topic topic) {
-        return replyDao.findByTopicOrderByInTimeDesc(topic);
+        return replyDao.findByTopicOrderByInTimeAsc(topic);
     }
 
     /**

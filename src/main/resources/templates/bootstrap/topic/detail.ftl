@@ -262,7 +262,7 @@
         var errors = 0;
         var em = $("#error_message");
         var content = editor.$txt.text();
-        if(content.length == 0) {
+        if(content.length == 0 && editor.$txt.html().indexOf('<img') == -1) {
           errors++;
           em.html("回复内容不能为空");
         }
