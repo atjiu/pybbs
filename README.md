@@ -22,7 +22,7 @@
 - 权限使用springsecurity，基于url做的权限方便配置管理
 - 使用的springdata操作数据存储
 - 使用 [editor](https://github.com/lepture/editor) 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
-- 页面与 https://bbs.tomoya.cn 一样 
+- 页面与 http://bbs.tomoya.cn 一样
 
 ## 如何开始
 
@@ -53,7 +53,7 @@
 
 ## 碰到问题怎么办?
 
-- 到 [https://bbs.tomoya.cn](https://bbs.tomoya.cn) 上提问答
+- 到 [http://bbs.tomoya.cn](http://bbs.tomoya.cn) 上提问答
 - 在Github上提 [Issues](https://github.com/tomoya92/pybbs/issues)
 - 提问题的时候请将问题重现步骤描述清楚
 - 加QQ群：`419343003`
