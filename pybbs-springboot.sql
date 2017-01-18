@@ -66,9 +66,9 @@ VALUES
 	(1, 27),
 	(1, 28);
 
-INSERT INTO `pybbs_user` (`id`, `email`, `in_time`, `password`, `signature`, `url`, `username`, `avatar`)
+INSERT INTO `pybbs_user` (`id`, `email`, `in_time`, `password`, `signature`, `url`, `username`, `avatar`, `block`)
 VALUES
-	(1,'liygheart@qq.com','2016-09-09 09:50:14','$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC','这家伙很懒，什么都没留下','http://tomoya.cn','tomoya','http://localhost:8080/static/images/avatar/default.png');
+	(1,'liygheart@qq.com','2016-09-09 09:50:14','$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC','这家伙很懒，什么都没留下','http://tomoya.cn','tomoya','http://localhost:8080/static/images/avatar/default.png', 0);
 
 INSERT INTO `pybbs_user_role` (`user_id`, `role_id`)
 VALUES
