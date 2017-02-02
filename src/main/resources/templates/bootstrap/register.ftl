@@ -20,7 +20,7 @@
             <label for="password">密码</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="密码">
           </div>
-          <button type="submit" class="btn btn-default">登录</button>
+          <button type="submit" class="btn btn-default">注册</button>
         </form>
       </div>
     </div>
