@@ -94,37 +94,39 @@
     <#elseif topic.lock == false>
       <div class="panel panel-default">
         <div class="panel-heading">${topic.replyCount!0} 条回复</div>
-        <div class="panel-body paginate-bot">
+        <div class="panel-body paginate-bot panel-body-reply">
           <#include "../components/replies.ftl"/>
           <@reply replies=replies/>
         </div>
       </div>
     </#if>
-    <div class="panel panel-default">
-      <#if topic.lock == true>
-        <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
-      <#else>
-        <div class="panel-heading">
-          添加一条新回复
-          <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
-        </div>
-        <div class="panel-body">
-          <#if user?? && user.block == false>
-            <form action="/reply/save" method="post" id="replyForm">
-              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-              <input type="hidden" value="${topic.id}" name="topicId"/>
-              <div class="form-group">
-                <textarea name="content" id="content" rows="5" class="form-control" style="height: 150px;"></textarea>
-              </div>
-              <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
-              <span id="error_message"></span>
-            </form>
-          <#else>
-            <div class="text-center">你的帐户被禁用了，不能回复</div>
-          </#if>
-        </div>
-      </#if>
-    </div>
+    <#if user??>
+      <div class="panel panel-default">
+        <#if topic.lock == true>
+          <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
+        <#else>
+          <div class="panel-heading">
+            添加一条新回复
+            <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
+          </div>
+          <div class="panel-body">
+            <#if user.block == false>
+              <form action="/reply/save" method="post" id="replyForm">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input type="hidden" value="${topic.id}" name="topicId"/>
+                <div class="form-group">
+                  <textarea name="content" id="content" rows="5" class="form-control" style="height: 150px;"></textarea>
+                </div>
+                <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
+                <span id="error_message"></span>
+              </form>
+            <#else>
+              <div class="text-center">你的帐户被禁用了，不能回复</div>
+            </#if>
+          </div>
+        </#if>
+      </div>
+    </#if>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/author_info.ftl"/>

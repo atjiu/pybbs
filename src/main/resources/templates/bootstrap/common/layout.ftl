@@ -13,9 +13,9 @@ ${weibometa!}
 <#--<script src="//cdn.bootcss.com/less.js/2.7.1/less.min.js"></script>-->
   <link rel="stylesheet" href="/static/bootstrap/css/github.css">
   <link rel="stylesheet" href="/static/bootstrap/css/pybbs.css">
-  <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="//cdn.bootcss.com/layer/2.4/layer.min.js"></script>
+  <script src="/static/bootstrap/js/jquery.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/bootstrap/libs/layer/layer.js"></script>
 </head>
 <body>
 <div class="wrapper">

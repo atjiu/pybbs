@@ -4,7 +4,6 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,38 +92,6 @@ public class TopicService {
                 new Sort.Order(Sort.Direction.DESC, "inTime"));
         Pageable pageable = new PageRequest(p - 1, size, sort);
         return topicDao.findByTitleContainingOrContentContaining(q, q, pageable);
-    }
-
-    /**
-     * 点赞
-     *
-     * @param userId
-     * @param topicId
-     */
-    public void addOneUp(int userId, int topicId) {
-        Topic topic = findById(topicId);
-        if (topic != null) {
-            topic.setUp(topic.getUp() + 1);
-            topic.setUpIds(topic.getUpIds() + userId + Constants.COMMA);
-            save(topic);
-        }
-    }
-
-    /**
-     * 取消点赞
-     *
-     * @param userId
-     * @param topicId
-     */
-    public void reduceOneUp(int userId, int topicId) {
-        Topic topic = findById(topicId);
-        if (topic != null) {
-            String upIds = topic.getUpIds();
-            upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-            topic.setUpIds(upIds);
-            topic.setUp(topic.getUp() - 1);
-            save(topic);
-        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package cn.tomoya.common;
 
+import cn.tomoya.util.Constants;
 import cn.tomoya.util.MarkdownUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -112,5 +113,13 @@ public class BaseEntity {
             }
         }
         return content.replace(q, "<b style='color: red;'>"+ q +"</b>") + "...";
+    }
+
+    public boolean isUp(int userId, String upIds) {
+        return upIds != null && upIds.contains(Constants.COMMA + userId + Constants.COMMA);
+    }
+
+    public boolean isDown(int userId, String downIds) {
+        return downIds != null && downIds.contains(Constants.COMMA + userId + Constants.COMMA);
     }
 }

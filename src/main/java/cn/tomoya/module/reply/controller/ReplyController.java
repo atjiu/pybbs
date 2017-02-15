@@ -3,6 +3,8 @@ package cn.tomoya.module.reply.controller;
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.BaseEntity;
 import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.exception.ApiException;
+import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.entity.Reply;
@@ -14,10 +16,7 @@ import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -149,5 +148,65 @@ public class ReplyController extends BaseController {
             return redirect(response, "/topic/" + map.get("topicId"));
         }
         return redirect(response, "/");
+    }
+
+    /**
+     * 点赞
+     * @param id
+     * @return
+     * @throws ApiException
+     */
+    @GetMapping("/{id}/up")
+    @ResponseBody
+    public Result up(@PathVariable Integer id) throws ApiException {
+        User user = getUser();
+        Reply reply = replyService.up(user.getId(), id);
+        if(reply == null) throw new ApiException("回复不存在");
+        return Result.success(reply.getUpDown());
+    }
+
+    /**
+     * 取消点赞
+     * @param id
+     * @return
+     * @throws ApiException
+     */
+    @GetMapping("/{id}/cancelUp")
+    @ResponseBody
+    public Result cancelUp(@PathVariable Integer id) throws ApiException {
+        User user = getUser();
+        Reply reply = replyService.cancelUp(user.getId(), id);
+        if(reply == null) throw new ApiException("回复不存在");
+        return Result.success(reply.getUpDown());
+    }
+
+    /**
+     * 踩
+     * @param id
+     * @return
+     * @throws ApiException
+     */
+    @GetMapping("/{id}/down")
+    @ResponseBody
+    public Result down(@PathVariable Integer id) throws ApiException {
+        User user = getUser();
+        Reply reply = replyService.down(user.getId(), id);
+        if(reply == null) throw new ApiException("回复不存在");
+        return Result.success(reply.getUpDown());
+    }
+
+    /**
+     * 取消踩
+     * @param id
+     * @return
+     * @throws ApiException
+     */
+    @GetMapping("/{id}/cancelDown")
+    @ResponseBody
+    public Result cancelDown(@PathVariable Integer id) throws ApiException {
+        User user = getUser();
+        Reply reply = replyService.cancelDown(user.getId(), id);
+        if(reply == null) throw new ApiException("回复不存在");
+        return Result.success(reply.getUpDown());
     }
 }

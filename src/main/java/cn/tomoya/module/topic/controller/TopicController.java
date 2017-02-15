@@ -77,7 +77,6 @@ public class TopicController extends BaseController {
             topic.setTitle(title);
             topic.setContent(content);
             topic.setInTime(new Date());
-            topic.setUp(0);
             topic.setView(0);
             topic.setUser(user);
             topic.setGood(false);

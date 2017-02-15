@@ -33,8 +33,16 @@ public class Reply extends BaseEntity implements Serializable {
     @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
-    //点赞数量
+    //点赞个数
+    @Column(nullable = false)
     private int up;
+
+    //踩的个数
+    @Column(nullable = false)
+    private int down;
+
+    @Column(nullable = false, name = "up_down")
+    private int upDown;
 
     //与话题的关联关系
     @ManyToOne
@@ -49,6 +57,10 @@ public class Reply extends BaseEntity implements Serializable {
     //对回复点赞的用户id，逗号隔开(英文逗号)
     @Column(columnDefinition = "text")
     private String upIds;
+
+    //对回复点踩的用户id，逗号隔开(英文逗号)
+    @Column(columnDefinition = "text")
+    private String downIds;
 
     private String editor;
 
@@ -84,6 +96,22 @@ public class Reply extends BaseEntity implements Serializable {
         this.up = up;
     }
 
+    public int getDown() {
+        return down;
+    }
+
+    public void setDown(int down) {
+        this.down = down;
+    }
+
+    public int getUpDown() {
+        return upDown;
+    }
+
+    public void setUpDown(int upDown) {
+        this.upDown = upDown;
+    }
+
     public Topic getTopic() {
         return topic;
     }
@@ -106,6 +134,14 @@ public class Reply extends BaseEntity implements Serializable {
 
     public void setUpIds(String upIds) {
         this.upIds = upIds;
+    }
+
+    public String getDownIds() {
+        return downIds;
+    }
+
+    public void setDownIds(String downIds) {
+        this.downIds = downIds;
     }
 
     public String getEditor() {

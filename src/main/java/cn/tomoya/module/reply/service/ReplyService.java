@@ -70,37 +70,111 @@ public class ReplyService {
     }
 
     /**
-     * 对回复点赞
+     * 赞
      *
      * @param userId
      * @param replyId
      */
-    public void addOneUp(int userId, int replyId) {
+    public Reply up(int userId, int replyId) {
         Reply reply = findById(replyId);
         if (reply != null) {
-            reply.setUp(reply.getUp() + 1);
             String upIds = reply.getUpIds();
-            reply.setUpIds((upIds == null ? Constants.COMMA : upIds) + userId + Constants.COMMA);
-            save(reply);
+            if(upIds == null) upIds = Constants.COMMA;
+            if(!upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                reply.setUp(reply.getUp() + 1);
+                reply.setUpIds(upIds + userId + Constants.COMMA);
+
+                String downIds = reply.getDownIds();
+                if(downIds == null) downIds = Constants.COMMA;
+                if(downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                    reply.setDown(reply.getDown() - 1);
+                    downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
+                    reply.setDownIds(downIds);
+                }
+                int count = reply.getUp() - reply.getDown();
+                reply.setUpDown(count > 0 ? count : 0);
+                save(reply);
+            }
         }
+        return reply;
     }
 
     /**
-     * 对回复取消点赞
+     * 取消赞
      *
      * @param userId
      * @param replyId
      */
-    public void reduceOneUp(int userId, int replyId) {
+    public Reply cancelUp(int userId, int replyId) {
         Reply reply = findById(replyId);
-        if (reply != null && reply.getUpIds().contains(Constants.COMMA + userId + Constants.COMMA)) {
-            reply.setUp(reply.getUp() - 1);
+        if (reply != null) {
             String upIds = reply.getUpIds();
-            upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-            reply.setUpIds(upIds);
-            reply.setUpIds(reply.getUpIds() + userId + Constants.COMMA);
-            save(reply);
+            if(upIds == null) upIds = Constants.COMMA;
+            if(upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                reply.setUp(reply.getUp() - 1);
+                upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
+                reply.setUpIds(upIds);
+
+                int count = reply.getUp() - reply.getDown();
+                reply.setUpDown(count > 0 ? count : 0);
+                save(reply);
+            }
         }
+        return reply;
+    }
+
+    /**
+     * 踩
+     *
+     * @param userId
+     * @param replyId
+     */
+    public Reply down(int userId, int replyId) {
+        Reply reply = findById(replyId);
+        if (reply != null) {
+            String downIds = reply.getDownIds();
+            if(downIds == null) downIds = Constants.COMMA;
+            if(!downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                reply.setDown(reply.getDown() + 1);
+                reply.setDownIds(downIds + userId + Constants.COMMA);
+
+                String upIds = reply.getUpIds();
+                if(upIds == null) upIds = Constants.COMMA;
+                if(upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                    reply.setUp(reply.getUp() - 1);
+                    upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
+                    reply.setUpIds(upIds);
+                }
+                int count = reply.getUp() - reply.getDown();
+                reply.setUpDown(count > 0 ? count : 0);
+                save(reply);
+            }
+        }
+        return reply;
+    }
+
+    /**
+     * 取消踩
+     *
+     * @param userId
+     * @param replyId
+     */
+    public Reply cancelDown(int userId, int replyId) {
+        Reply reply = findById(replyId);
+        if (reply != null) {
+            String downIds = reply.getDownIds();
+            if(downIds == null) downIds = Constants.COMMA;
+            if(downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+                reply.setDown(reply.getDown() - 1);
+                downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
+                reply.setDownIds(downIds);
+
+                int count = reply.getUp() - reply.getDown();
+                reply.setUpDown(count > 0 ? count : 0);
+                save(reply);
+            }
+        }
+        return reply;
     }
 
     /**
@@ -110,7 +184,7 @@ public class ReplyService {
      * @return
      */
     public List<Reply> findByTopic(Topic topic) {
-        return replyDao.findByTopicOrderByInTimeAsc(topic);
+        return replyDao.findByTopicOrderByUpDownDescDownAscInTimeAsc(topic);
     }
 
     /**

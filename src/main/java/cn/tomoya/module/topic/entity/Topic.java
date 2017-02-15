@@ -4,7 +4,6 @@ import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -51,10 +50,6 @@ public class Topic extends BaseEntity implements Serializable {
 
     //是否精华
     private boolean good;
-
-    //点赞个数
-    @Column(nullable = false)
-    private int up;
 
     //浏览数
     @Column(nullable = false)
@@ -141,14 +136,6 @@ public class Topic extends BaseEntity implements Serializable {
 
     public void setGood(boolean good) {
         this.good = good;
-    }
-
-    public int getUp() {
-        return up;
-    }
-
-    public void setUp(int up) {
-        this.up = up;
     }
 
     public int getView() {
