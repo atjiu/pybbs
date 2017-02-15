@@ -75,6 +75,10 @@ public class Topic extends BaseEntity implements Serializable {
 
     private String editor;
 
+    //问题是否被锁定
+    @Column(name = "topic_lock")
+    private boolean lock;
+
     public int getId() {
         return id;
     }
@@ -185,5 +189,13 @@ public class Topic extends BaseEntity implements Serializable {
 
     public void setEditor(String editor) {
         this.editor = editor;
+    }
+
+    public boolean isLock() {
+        return lock;
+    }
+
+    public void setLock(boolean lock) {
+        this.lock = lock;
     }
 }

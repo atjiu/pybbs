@@ -83,6 +83,7 @@ public class TopicController extends BaseController {
             topic.setGood(false);
             topic.setTop(false);
             topic.setEditor(siteConfig.getEditor());
+            topic.setLock(false);
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
         }
@@ -196,6 +197,20 @@ public class TopicController extends BaseController {
     public String top(@PathVariable Integer id, HttpServletResponse response) {
         Topic topic = topicService.findById(id);
         topic.setTop(!topic.isTop());
+        topicService.save(topic);
+        return redirect(response, "/topic/" + id);
+    }
+
+    /**
+     * 锁定/不锁定
+     * @param id
+     * @param response
+     * @return
+     */
+    @GetMapping("/{id}/lock")
+    public String lock(@PathVariable Integer id, HttpServletResponse response) {
+        Topic topic = topicService.findById(id);
+        topic.setLock(!topic.isLock());
         topicService.save(topic);
         return redirect(response, "/topic/" + id);
     }
