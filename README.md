@@ -48,8 +48,9 @@
 ## 待完成
 
 - [x] 加入缓存（ehcache）
-- [ ] 集成第三方登录（QQ，微博）
+- [ ] 集成第三方登录（Github, QQ, 微博）
 - [ ] 检索
+- [ ] 国际化
 
 ## 碰到问题怎么办?
 
@@ -68,6 +69,10 @@
 ## 贡献
 
 欢迎大家提pr
+
+## 主题
+
+[https://github.com/tomoya92/pybbs-theme](https://github.com/tomoya92/pybbs-theme)
 
 ## 捐赠
 
