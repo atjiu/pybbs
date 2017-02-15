@@ -91,7 +91,7 @@
       <div class="panel panel-default">
         <div class="panel-body text-center">目前暂无回复</div>
       </div>
-    <#elseif topic.lock == false>
+    <#else>
       <div class="panel panel-default">
         <div class="panel-heading">${topic.replyCount!0} 条回复</div>
         <div class="panel-body paginate-bot panel-body-reply">
