@@ -25,16 +25,16 @@ public class Notification extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
-    //通知是否已读
+    //Whether the notification has been read
     @Column(name = "is_read")
     private boolean isRead;
 
-    //发起通知用户
+    //Initiate notification user
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    //要通知用户
+    //Be notified to the user
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "target_user_id")
     private User targetUser;
@@ -43,18 +43,18 @@ public class Notification extends BaseEntity implements Serializable {
     @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
-    //通知动作
+    //notification action
     private String action;
 
-    //关联的话题
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "topic_id")
     private Topic topic;
 
-    //通知内容（冗余字段）
+    //notification content（Redundant field）
     @Column(columnDefinition = "text")
     private String content;
 
+    //editor name
     private String editor;
 
     public int getId() {

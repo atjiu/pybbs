@@ -27,17 +27,12 @@ public class NotificationService {
     @Autowired
     private NotificationDao notificationDao;
 
-    /**
-     * 保存通知
-     *
-     * @param notification
-     */
     public void save(Notification notification) {
         notificationDao.save(notification);
     }
 
     /**
-     * 发送通知
+     * send notification
      *
      * @param user
      * @param targetUser
@@ -61,7 +56,7 @@ public class NotificationService {
     }
 
     /**
-     * 根据用户查询通知
+     * query notifications by user
      *
      * @param p
      * @param size
@@ -79,7 +74,7 @@ public class NotificationService {
     }
 
     /**
-     * 根据用户查询已读/未读的通知
+     * query the total of notification by user and the notification read status
      *
      * @param targetUser
      * @param isRead
@@ -90,7 +85,7 @@ public class NotificationService {
     }
 
     /**
-     * 根据阅读状态查询通知
+     * query notification by user and notification read status
      *
      * @param targetUser
      * @param isRead
@@ -101,7 +96,7 @@ public class NotificationService {
     }
 
     /**
-     * 批量更新通知的状态
+     * the status of the bulk update notification
      *
      * @param targetUser
      */
@@ -110,7 +105,7 @@ public class NotificationService {
     }
 
     /**
-     * 删除用户的通知
+     * delete user notification
      * @param user
      */
     public void deleteByUser(User user) {
@@ -118,7 +113,7 @@ public class NotificationService {
     }
 
     /**
-     * 删除目标用户的通知
+     * delete target user nofitication
      * @param user
      */
     public void deleteByTargetUser(User user) {

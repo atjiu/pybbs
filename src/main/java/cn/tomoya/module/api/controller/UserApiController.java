@@ -9,6 +9,7 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +39,11 @@ public class UserApiController extends BaseController {
     private CollectService collectService;
     @Autowired
     private SiteConfig siteConfig;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 用户首页接口
+     * user profile interface
      * @param username
      * @return
      * @throws ApiException
@@ -48,7 +51,7 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}")
     public Result profile(@PathVariable String username) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException("用户名不存在");
+        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
         map.put("collectCount", collectService.countByUser(user));
@@ -58,7 +61,7 @@ public class UserApiController extends BaseController {
     }
 
     /**
-     * 用户发布的所有话题
+     * user topics interface
      *
      * @param username
      * @return
@@ -66,13 +69,13 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/topics")
     public Result topics(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException("用户名不存在");
+        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
         Page page = topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }
 
     /**
-     * 用户发布的所有回复
+     * user comment interface
      *
      * @param username
      * @return
@@ -80,13 +83,13 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/replies")
     public Result replies(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException("用户名不存在");
+        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
         Page page = replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }
 
     /**
-     * 用户收藏的所有话题
+     * user collection interface
      *
      * @param username
      * @return
@@ -94,7 +97,7 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/collects")
     public Result collects(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException("用户名不存在");
+        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
         Page page = collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }

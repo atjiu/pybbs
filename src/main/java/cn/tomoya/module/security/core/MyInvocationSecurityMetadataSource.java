@@ -28,7 +28,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
     private HashMap<String, Collection<ConfigAttribute>> map = null;
 
     /**
-     * 加载资源，初始化资源变量
+     * Load the resource, initialize the resource variable
      */
     public void loadResourceDefine() {
         map = new HashMap<>();
@@ -46,7 +46,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 
 
     /**
-     * 根据路径获取访问权限的集合接口
+     * A collection interface that gets access based on the path
      *
      * @param object
      * @return
@@ -69,9 +69,6 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
         return null;
     }
 
-    /**
-     * @return
-     */
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         return null;

@@ -1,10 +1,10 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="${reply.topic.title} 回复编辑">
+<@html>
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / <a href="/topic/${reply.topic.id}">${reply.topic.title}</a> / 编辑回复
+        <a href="/"><@spring.message "site.panel.header.home"/></a> / <a href="/topic/${reply.topic.id}">${reply.topic.title}</a> / <@spring.message "site.panel.header.editComment"/>
       </div>
       <div class="panel-body">
         <form action="/reply/update" method="post" id="replyForm">
@@ -14,7 +14,7 @@
           <div class="form-group">
             <textarea name="content" id="content" rows="15" class="form-control">${reply.content?html!}</textarea>
           </div>
-          <button type="button" onclick="replySubmit()" class="btn btn-default">保存</button>
+          <button type="button" onclick="replySubmit()" class="btn btn-default"><@spring.message "site.button.save"/></button>
           <span id="error_message"></span>
         </form>
       </div>
@@ -37,7 +37,7 @@
     if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
       event.preventDefault();
       if (editor.codemirror.getValue().length == 0) {
-        $("#error_message").html("回复内容不能为空");
+        $("#error_message").html(<@spring.message "site.prompt.text.commentContentCantEmpty"/>);
       } else {
         $("#replyForm").submit();
       }
@@ -49,7 +49,7 @@
     var content = editor.value();
     if(content.length == 0) {
       errors++;
-      em.html("回复内容不能为空");
+      em.html(<@spring.message "site.prompt.text.commentContentCantEmpty"/>);
     }
     if(errors == 0) {
       var form = $("#replyForm");
@@ -59,11 +59,11 @@
 </script>
 <#elseif _editor == 'wangeditor'>
 <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
-<link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
-<script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+<link rel="stylesheet" href="/static/bootstrap/libs/wangeditor/css/wangEditor.min.css">
+<script src="/static/bootstrap/libs/wangeditor/js/wangEditor.min.js"></script>
 <script>
   var editor = new wangEditor('content');
-  // 普通的自定义菜单
+  editor.config.lang = wangEditor.langs['${_lang}'];
   editor.config.menus = [
     'source',
     '|',
@@ -88,9 +88,7 @@
     'img',
     'insertcode'
   ];
-  // 上传图片（举例）
   editor.config.uploadImgUrl = '/wangEditorUpload';
-  // 配置自定义参数（举例）
   editor.config.uploadParams = {
     '${_csrf.parameterName}': '${_csrf.token}'
   };
@@ -102,7 +100,7 @@
     var content = editor.$txt.text();
     if(content.length == 0) {
       errors++;
-      em.html("回复内容不能为空");
+      em.html(<@spring.message "site.prompt.text.commentContentCantEmpty"/>);
     }
     if(errors == 0) {
       var form = $("#replyForm");

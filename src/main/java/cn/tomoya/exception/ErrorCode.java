@@ -7,11 +7,11 @@ package cn.tomoya.exception;
  */
 public class ErrorCode {
 
-    //错误
+    //error
     public final static int error = 201;
-    //没有登录
+    //no sign in
     public final static int notLogin = 901;
-    //没有权限
+    //no right
     public final static int noRight = 902;
 
 }

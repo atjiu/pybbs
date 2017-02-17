@@ -1,22 +1,22 @@
 <#macro admin_left page_tab>
 <div class="list-group">
   <#if _roles?seq_contains("admin:index")>
-    <a href="/admin/index" class="list-group-item <#if page_tab == "index">active</#if>">仪表盘</a>
+    <a href="/admin/index" class="list-group-item <#if page_tab == "index">active</#if>"><@spring.message "site.menu.admin.dashboard"/></a>
   </#if>
   <#if _roles?seq_contains("reply:list")>
-    <a href="/admin/reply/list" class="list-group-item <#if page_tab == "reply">active</#if>">回复管理</a>
+    <a href="/admin/reply/list" class="list-group-item <#if page_tab == "reply">active</#if>"><@spring.message "site.menu.admin.comments"/></a>
   </#if>
   <#if _roles?seq_contains("user:list")>
-    <a href="/admin/user/list" class="list-group-item <#if page_tab == "user">active</#if>">用户管理</a>
+    <a href="/admin/user/list" class="list-group-item <#if page_tab == "user">active</#if>"><@spring.message "site.menu.admin.users"/></a>
   </#if>
   <#if _roles?seq_contains("role:list")>
-    <a href="/admin/role/list" class="list-group-item <#if page_tab == "role">active</#if>">角色管理</a>
+    <a href="/admin/role/list" class="list-group-item <#if page_tab == "role">active</#if>"><@spring.message "site.menu.admin.roles"/></a>
   </#if>
   <#if _roles?seq_contains("permission:list")>
-    <a href="/admin/permission/list" class="list-group-item <#if page_tab == "permission">active</#if>">权限管理</a>
+    <a href="/admin/permission/list" class="list-group-item <#if page_tab == "permission">active</#if>"><@spring.message "site.menu.admin.permissions"/></a>
   </#if>
   <#if _roles?seq_contains("index:all") || _roles?seq_contains("index:deleteAll")>
-    <a href="/admin/indexed" class="list-group-item <#if page_tab == "indexed">active</#if>">索引管理</a>
+    <a href="/admin/indexed" class="list-group-item <#if page_tab == "indexed">active</#if>"><@spring.message "site.menu.admin.indexed"/></a>
   </#if>
 </div>
 </#macro>

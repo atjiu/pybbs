@@ -37,8 +37,8 @@ public class MyUserDetailService implements UserDetailsService {
             }
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
         } else {
-            log.info("用户" + username + " 不存在");
-            throw new UsernameNotFoundException("用户名或密码不正确");
+            log.info("user " + username + " does not exist");
+            throw new UsernameNotFoundException("username or password is incorrect");
         }
     }
 

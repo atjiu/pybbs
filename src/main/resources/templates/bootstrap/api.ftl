@@ -1,5 +1,5 @@
 <#include "common/layout.ftl"/>
-<@html page_tab="api" page_title="API - ${siteTitle!}">
+<@html page_tab="api" page_title="API">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">

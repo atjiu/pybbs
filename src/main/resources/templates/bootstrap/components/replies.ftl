@@ -31,12 +31,12 @@
             </#if>
 
             <#if _roles?seq_contains("reply:edit") || user.id == reply.user.id>
-              <a href="/reply/${reply.id}/edit">编辑</a>
+              <a href="/reply/${reply.id}/edit"><@spring.message "site.button.edit"/></a>
             </#if>
             <#if _roles?seq_contains("reply:delete") || user.id == reply.user.id>
-              <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'">删除</a>
+              <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.delete"/>'))location.href='/reply/${reply.id!}/delete'"><@spring.message "site.button.delete"/></a>
             </#if>
-            <a href="javascript:replythis('${reply.user.username}');">回复</a>
+            <a href="javascript:replythis('${reply.user.username}');"><@spring.message "site.button.comment"/></a>
           </span>
         </#if>
       </div>

@@ -39,7 +39,7 @@ public class UserService {
     }
 
     /**
-     * 根据用户名判断是否存在
+     * according to the user name to determine whether where is
      *
      * @param username
      * @return
@@ -57,7 +57,7 @@ public class UserService {
     }
 
     /**
-     * 分页查询用户列表
+     * paging query user list
      *
      * @param p
      * @param size
@@ -70,7 +70,7 @@ public class UserService {
     }
 
     /**
-     * 禁用用户
+     * disable the user
      * @param id
      */
     public void blockUser(Integer id) {
@@ -80,7 +80,7 @@ public class UserService {
     }
 
     /**
-     * 用户解禁
+     * remove the disabled of user
      * @param id
      */
     public void unBlockUser(Integer id) {
@@ -90,23 +90,23 @@ public class UserService {
     }
 
     /**
-     * 删除用户
-     * 注：这会删除用户的所有记录，慎重操作
+     * delete user
+     * notice: this operation will delete all data of user, careful operation
      * @param id
      */
-    //TODO 关联太多，不提供删除用户操作
+    //TODO too many association, do not provide delete user actions
 //    public void deleteById(int id) {
 //        User user = findById(id);
-//        //删除用户的收藏
+//        // delete user collection
 //        collectService.deleteByUser(user);
-//        //删除用户发的所有回复
+//        // delete all comments of user
 //        replyService.deleteByUser(user);
-//        //删除用户的通知
+//        // delete user notification
 //        notificationService.deleteByUser(user);
 //        notificationService.deleteByTargetUser(user);
-//        //删除该用户的所有话题
+//        // delete all topics of user
 //        topicService.deleteByUser(user);
-//        //删除用户
+//        // delete user
 //        userDao.delete(user);
 //    }
 }

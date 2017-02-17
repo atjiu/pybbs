@@ -5,9 +5,9 @@
       <td>
         <a href="/user/${reply.user.username}">${reply.user.username}</a>
         ${reply.formatDate(reply.inTime)}
-        回复了
+        <@spring.message "site.button.comment"/>
         <a href="/user/${reply.topic.user.username}">${reply.topic.user.username}</a>
-        创建的话题 › <a href="/topic/${reply.topic.id}">${reply.topic.title}</a>
+        <@spring.message "site.panel.body.topic"/> › <a href="/topic/${reply.topic.id}">${reply.topic.title}</a>
       </td>
     </tr>
     <tr>

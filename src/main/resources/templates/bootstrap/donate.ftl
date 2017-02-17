@@ -1,16 +1,16 @@
 <#include "common/layout.ftl"/>
-<@html page_tab="donate" page_title="捐赠 - ${siteTitle!}">
+<@html page_tab="donate">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
-      <div class="panel-heading"><a href="/">主页</a> / 捐赠</div>
+      <div class="panel-heading"><a href="/"><@spring.message "site.panel.header.home"/></a> / <@spring.message "site.panel.header.donate"/></div>
       <div class="panel-body">
         <div class="row text-center">
           <div class="col-md-6">
-            <img src="/static/imgs/jz_alipay.jpg">
+            <img src="https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png">
           </div>
           <div class="col-md-6">
-            <img src="/static/imgs/jz_weixin.jpg">
+            <img src="https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png">
           </div>
         </div>
         <br>
@@ -18,9 +18,9 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>捐赠者</th>
-              <th>金额</th>
-              <th>时间</th>
+              <th>Donater</th>
+              <th>Price</th>
+              <th>Time</th>
             </tr>
             </thead>
             <tbody>

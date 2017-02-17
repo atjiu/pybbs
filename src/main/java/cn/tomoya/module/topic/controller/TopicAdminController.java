@@ -28,7 +28,7 @@ public class TopicAdminController extends BaseController {
     private TopicService topicService;
 
     /**
-     * 话题列表
+     * topic list
      *
      * @param p
      * @param model
@@ -42,7 +42,7 @@ public class TopicAdminController extends BaseController {
     }
 
     /**
-     * 删除话题
+     * delete topic
      *
      * @param id
      * @return

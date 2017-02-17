@@ -7,6 +7,7 @@ import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +32,20 @@ public class CollectController extends BaseController {
     private TopicService topicService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
+    /**
+     * collect topic
+     * @param topicId
+     * @param response
+     * @return
+     */
     @GetMapping("/{topicId}/add")
     public String add(@PathVariable Integer topicId, HttpServletResponse response) {
         Topic topic = topicService.findById(topicId);
         if (topic == null) {
-            return renderText(response, "话题不存在");
+            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.topicNotExist"));
         } else {
             Collect collect = new Collect();
             collect.setInTime(new Date());
@@ -51,7 +60,7 @@ public class CollectController extends BaseController {
     }
 
     /**
-     * 删除收藏
+     * delete collect
      *
      * @param topicId
      * @param response
@@ -62,7 +71,7 @@ public class CollectController extends BaseController {
         Topic topic = topicService.findById(topicId);
         Collect collect = collectService.findByUserAndTopic(getUser(), topic);
         if (collect == null) {
-            return renderText(response, "你还没收藏这个话题");
+            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.notCollectTopic"));
         } else {
             collectService.deleteById(collect.getId());
             return redirect(response, "/topic/" + topic.getId());

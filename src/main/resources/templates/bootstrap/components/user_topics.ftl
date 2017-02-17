@@ -10,9 +10,9 @@
         <span>•</span>
         <span><a href="/user/${topic.user.username}">${topic.user.username}</a></span>
         <span class="hidden-sm hidden-xs">•</span>
-        <span class="hidden-sm hidden-xs">${topic.replyCount!0}个回复</span>
+        <span class="hidden-sm hidden-xs">${topic.replyCount!0} <@spring.message "site.panel.body.comments"/></span>
         <span class="hidden-sm hidden-xs">•</span>
-        <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
+        <span class="hidden-sm hidden-xs">${topic.view!0} <@spring.message "site.panel.body.views"/></span>
         <span>•</span>
         <span>${topic.formatDate(topic.inTime)}</span>
       </p>

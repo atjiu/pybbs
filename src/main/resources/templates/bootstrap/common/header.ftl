@@ -9,34 +9,34 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" style="color:#fff;" href="/">${siteTitle!}</a>
+      <a class="navbar-brand" style="color:#fff;" href="/"><@spring.message "site.name"/></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
       <#if _search?? && _search == true>
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
           <div class="form-group">
-            <input type="text" class="form-control" name="q" value="${q!}" placeholder="回车搜索">
+            <input type="text" class="form-control" name="q" value="${q!}" placeholder="<@spring.message "site.menu.search"/>">
           </div>
         </form>
       </#if>-
       <ul class="nav navbar-nav navbar-right">
         <#if _donate?? && _donate == true>
           <li <#if page_tab == 'donate'> class="active" </#if>>
-            <a href="/donate">捐赠</a>
+            <a href="/donate"><@spring.message "site.menu.donate"/></a>
           </li>
         </#if>
         <#--<li <#if page_tab == 'api'> class="active" </#if>>-->
-          <#--<a href="/apidoc">API</a>-->
+          <#--<a href="/apidoc"><@spring.message "site.menu.api"/></a>-->
         <#--</li>-->
         <li <#if page_tab == 'about'> class="active" </#if>>
-          <a href="/about">关于</a>
+          <a href="/about"><@spring.message "site.menu.about"/></a>
         </li>
         <#if _isAuthenticated?? && _isAuthenticated == true>
           <li class="hidden-md hidden-lg">
-            <a href="/topic/create">发布话题</a>
+            <a href="/topic/create"><@spring.message "site.menu.create"/></a>
           </li>
           <li <#if page_tab == 'notification'> class="active" </#if>>
-            <a href="/notification/list">通知 <span class="badge" id="badge"></span></a>
+            <a href="/notification/list"><@spring.message "site.menu.notifications"/> <span class="badge" id="badge"></span></a>
             <script>
               function notificationCount() {
                 $.ajax({
@@ -67,21 +67,21 @@
           <li <#if page_tab == 'setting'> class="active" </#if>>
             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
                data-hover="dropdown">
-              设置
+              <@spring.message "site.menu.settings"/>
               <span class="caret"></span>
             </a>
             <span class="dropdown-arrow"></span>
             <ul class="dropdown-menu">
-              <li><a href="/user/setting">个人资料</a></li>
+              <li><a href="/user/setting"><@spring.message "site.menu.user.profile"/></a></li>
               <#if _roles?seq_contains("admin:index")>
-                <li><a href="/admin/index">进入后台</a></li>
+                <li><a href="/admin/index"><@spring.message "site.menu.admin"/></a></li>
               </#if>
-              <li><a href="/logout">退出</a></li>
+              <li><a href="/logout"><@spring.message "site.menu.logout"/></a></li>
             </ul>
           </li>
         <#else>
-          <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
-          <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
+          <li <#if page_tab == "login">class="active"</#if>><a href="/login"><@spring.message "site.menu.login"/></a></li>
+          <li <#if page_tab == "register">class="active"</#if>><a href="/register"><@spring.message "site.menu.register"/></a></li>
         </#if>
       </ul>
     </div>

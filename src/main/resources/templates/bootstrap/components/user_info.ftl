@@ -1,7 +1,7 @@
 <#macro info>
 <div class="panel panel-default">
   <div class="panel-heading">
-    个人信息
+    <@spring.message "site.panel.body.profile"/>
   </div>
   <div class="panel-body">
     <div class="media">

@@ -6,6 +6,7 @@ import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.RoleService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,11 @@ public class UserAdminController extends BaseController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 用户列表
+     * user list
      *
      * @param p
      * @param model
@@ -44,11 +47,12 @@ public class UserAdminController extends BaseController {
     @GetMapping("/list")
     public String list(Integer p, Model model) {
         model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.user.list"));
         return render("/admin/user/list");
     }
 
     /**
-     * 删除用户
+     * delete user
      *
      * @param id
      * @return
@@ -60,7 +64,7 @@ public class UserAdminController extends BaseController {
 //    }
 
     /**
-     * 禁用用户
+     * disable the user
      * @param id
      * @param response
      * @return
@@ -72,7 +76,7 @@ public class UserAdminController extends BaseController {
     }
 
     /**
-     * 解禁用户
+     * unblock users
      * @param id
      * @param response
      * @return
@@ -84,7 +88,7 @@ public class UserAdminController extends BaseController {
     }
 
     /**
-     * 配置用户的角色
+     * edit user and associated roles
      *
      * @param id
      * @return
@@ -93,11 +97,12 @@ public class UserAdminController extends BaseController {
     public String role(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.user.edit"));
         return render("/admin/user/role");
     }
 
     /**
-     * 保存配置用户的角色
+     * save user and associated roles
      *
      * @param id
      * @return

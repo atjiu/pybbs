@@ -1,10 +1,10 @@
 <#include "./common/layout.ftl">
-<@html page_title="注册" page_tab="register">
+<@html page_tab="register">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 注册
+        <a href="/"><@spring.message "site.panel.header.home"/></a> / <@spring.message "site.panel.header.register"/>
       </div>
       <div class="panel-body">
         <#if errors??>
@@ -13,14 +13,14 @@
         <form role="form" action="/register" method="post" id="form">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
-            <label for="username">用户名</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+            <label for="username"><@spring.message "site.form.user.name"/></label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="<@spring.message "site.form.user.name"/>">
           </div>
           <div class="form-group">
-            <label for="password">密码</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+            <label for="password"><@spring.message "site.form.user.password"/></label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="<@spring.message "site.form.user.password"/>">
           </div>
-          <button type="submit" class="btn btn-default">注册</button>
+          <button type="submit" class="btn btn-default"><@spring.message "site.button.register"/></button>
         </form>
       </div>
     </div>
@@ -32,11 +32,11 @@
       var username = $("#username").val();
       var password = $("#password").val();
       if(username.length == 0) {
-        layui.msg("用户名不能为空", {icon: 2});
+        layui.msg("<@spring.message "site.prompt.text.usernameNotEmpty"/>", {icon: 2});
         return false;
       }
       if(password.length == 0) {
-        layui.msg("密码不能为空", {icon: 2});
+        layui.msg("<@spring.message "site.prompt.text.passwordNotEmpty"/>", {icon: 2});
         return false;
       }
     })

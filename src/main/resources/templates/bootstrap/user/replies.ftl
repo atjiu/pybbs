@@ -1,11 +1,9 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="${currentUser.username}回复的话题" page_tab="user">
+<@html page_tab="user">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
-      <div class="panel-heading">
-      ${currentUser.username}回复的话题
-      </div>
+      <div class="panel-heading">${pageTitle!}</div>
       <#include "../components/user_replies.ftl"/>
       <@user_replies replies=page.getContent()/>
       <div class="panel-body" style="padding: 0 15px;">

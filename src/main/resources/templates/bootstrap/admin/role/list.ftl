@@ -1,5 +1,5 @@
 <#include "../../common/layout.ftl"/>
-<@html page_title="角色管理" page_tab="setting">
+<@html page_tab="setting">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../../components/admin_left.ftl">
@@ -8,9 +8,9 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        角色管理
+        <@spring.message "site.panel.header.admin.role.list"/>
         <#if _roles?seq_contains("role:add")>
-          <a href="/admin/role/add" class="pull-right">添加角色</a>
+          <a href="/admin/role/add" class="pull-right"><@spring.message "site.panel.header.admin.role.add"/></a>
         </#if>
       </div>
       <div class="table-responsive">
@@ -23,11 +23,11 @@
               <td>${role.description!}</td>
               <td>
                 <#if _roles?seq_contains("role:edit")>
-                  <a href="/admin/role/${role.id}/edit" class="btn btn-xs btn-warning">配置权限</a>
+                  <a href="/admin/role/${role.id}/edit" class="btn btn-xs btn-warning"><@spring.message "site.button.edit"/></>
                 </#if>
                 <#if _roles?seq_contains("role:delete")>
-                  <a href="javascript:if(confirm('确认删除吗?')) location.href='/admin/role/${role.id}/delete'"
-                     class="btn btn-xs btn-danger">删除</a>
+                  <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.delete"/>')) location.href='/admin/role/${role.id}/delete'"
+                     class="btn btn-xs btn-danger"><@spring.message "site.button.delete"/></a>
                 </#if>
               </td>
             </tr>

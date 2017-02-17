@@ -10,18 +10,18 @@
       </div>
       <p class="gray">
         <#if topic.top == true>
-          <span class="label label-primary">置顶</span>
+          <span class="label label-primary"><@spring.message "site.panel.body.top"/></span>
         <#elseif topic.good == true>
-          <span class="label label-success">精华</span>
+          <span class="label label-success"><@spring.message "site.panel.body.good"/></span>
         <#else>
           <a href="/?tab=${topic.tab!}">${topic.tab!}</a>
         </#if>
         <span>•</span>
         <span><a href="/user/${topic.user.username!}">${topic.user.username!}</a></span>
         <span class="hidden-sm hidden-xs">•</span>
-        <span class="hidden-sm hidden-xs">${topic.replyCount!0}个回复</span>
+        <span class="hidden-sm hidden-xs">${topic.replyCount!0} <@spring.message "site.panel.body.comments"/></span>
         <span class="hidden-sm hidden-xs">•</span>
-        <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
+        <span class="hidden-sm hidden-xs">${topic.view!0} <@spring.message "site.panel.body.views"/></span>
         <span>•</span>
         <span>${topic.formatDate(topic.inTime)}</span>
       </p>

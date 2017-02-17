@@ -29,7 +29,7 @@ public class PermissionService {
     private UserService userService;
 
     /**
-     * 查询所有的权限
+     * query all permissions
      *
      * @return
      */
@@ -38,7 +38,7 @@ public class PermissionService {
     }
 
     /**
-     * 根据pid查询权限
+     * query permissions by parent node id
      *
      * @param pid
      * @return
@@ -48,7 +48,7 @@ public class PermissionService {
     }
 
     /**
-     * 查询权限列表
+     * query permission list include children permission list
      *
      * @return
      */
@@ -66,7 +66,7 @@ public class PermissionService {
     }
 
     /**
-     * 根据用户的id查询用户的所有权限
+     * query permissions by user id
      *
      * @param adminUserId
      * @return
@@ -87,8 +87,8 @@ public class PermissionService {
     }
 
     /**
-     * 删除权限
-     * 判断权限的pid是不是0，是的话，就删除其下所有的权限
+     * delete permission
+     * if parent node id not equals 0, delete all children of the parent node id
      *
      * @param id
      */

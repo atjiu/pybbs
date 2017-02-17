@@ -4,6 +4,7 @@ import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -24,9 +25,11 @@ public class ReplyAdminController extends BaseController {
     private SiteConfig siteConfig;
     @Autowired
     private ReplyService replyService;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 回复列表
+     * comment list
      *
      * @param p
      * @param model
@@ -36,6 +39,7 @@ public class ReplyAdminController extends BaseController {
     public String list(Integer p, Model model) {
         Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
         model.addAttribute("page", page);
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.reply.list"));
         return render("/admin/reply/list");
     }
 

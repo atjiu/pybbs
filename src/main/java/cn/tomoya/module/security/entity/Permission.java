@@ -22,16 +22,13 @@ public class Permission extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
-    //权限名称
     private String name;
 
-    //权限描述
     private String description;
 
-    //授权链接
     private String url;
 
-    //父节点id
+    //parent node id
     private int pid;
 
     /**

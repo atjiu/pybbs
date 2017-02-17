@@ -25,12 +25,10 @@ public class Collect extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
-    //与话题的关联关系
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "topic_id")
     private Topic topic;
 
-    //与用户的关联关系
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;

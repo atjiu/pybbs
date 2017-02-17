@@ -1,11 +1,11 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="通知" page_tab="notification">
+<@html page_tab="notification">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        通知
-        <span class="pull-right">总共收到通知 ${page.getTotalElements()!}</span>
+        <@spring.message "site.panel.header.notifications"/>
+        <span class="pull-right"><@spring.message "site.panel.header.totalNotice"/> ${page.getTotalElements()!}</span>
       </div>
       <div class="panel-body">
         <#list page.getContent() as notification>
@@ -17,17 +17,17 @@
               <div class="gray" <#if notification.read == false>style="font-weight:700;"</#if>>
                 <a href="/user/${notification.user.username}">${notification.user.username}</a>
                 <#if notification.action == "COLLECT">
-                  收藏了你发布的话题
+                  <@spring.message "site.panel.body.collectTopic"/>
                 <#elseif notification.action == "REPLY">
-                  在
+                  <@spring.message "site.panel.body.at"/>
                 <#elseif notification.action == "AT">
-                  在回复
+                  <@spring.message "site.panel.body.comment"/>
                 </#if>
                 <a href="/topic/${notification.topic.id}">${notification.topic.title}</a>
                 <#if notification.action == "REPLY">
-                  里回复了你
+                  <@spring.message "site.panel.body.reply"/>
                 <#elseif notification.action == "AT">
-                  时提到了你
+                  <@spring.message "site.panel.body.mentioned"/>
                 </#if>
                 <span>${notification.formatDate(notification.inTime)}</span>
               </div>

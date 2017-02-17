@@ -6,6 +6,7 @@ import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
@@ -26,9 +27,11 @@ public class IndexApiController extends BaseController {
     private TopicService topicService;
     @Autowired
     private SiteConfig siteConfig;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 话题列表接口
+     * topic list interface
      * @param tab
      * @param p
      * @return
@@ -36,8 +39,8 @@ public class IndexApiController extends BaseController {
      */
     @GetMapping("/index")
     public Result index(String tab, Integer p) throws ApiException {
-        if(!StringUtils.isEmpty(tab) && !siteConfig.getSections().contains(tab)) throw new ApiException("版块不存在");
-        if (StringUtils.isEmpty(tab)) tab = "全部";
+        if(!StringUtils.isEmpty(tab) && !siteConfig.getSections().contains(tab)) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
+        if (StringUtils.isEmpty(tab)) tab = localeMessageSourceUtil.getMessage("site.tab.all");
         Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
         return Result.success(page);
     }

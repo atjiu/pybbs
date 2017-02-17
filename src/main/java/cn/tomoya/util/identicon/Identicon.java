@@ -44,10 +44,10 @@ public class Identicon {
         BufferedImage identicon = new BufferedImage(ratio * 6, ratio * 6, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = identicon.getGraphics();
 
-        graphics.setColor(genartor.getBackgroundColor()); // 背景色
+        graphics.setColor(genartor.getBackgroundColor()); // background color
         graphics.fillRect(0, 0, identicon.getWidth(), identicon.getHeight());
 
-        graphics.setColor(genartor.getForegroundColor()); // 图案前景色
+        graphics.setColor(genartor.getForegroundColor()); // foreground color
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (array[i][j]) {

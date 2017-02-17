@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,9 +20,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 /**
  * Created by tomoya.
@@ -43,20 +48,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     private SiteConfig siteConfig;
 
     /**
-     * 添加viewController
-     *
-     * @param registry
-     */
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/donate").setViewName(siteConfig.getTheme() + "/donate");
-        registry.addViewController("/about").setViewName(siteConfig.getTheme() + "/about");
-        registry.addViewController("/apidoc").setViewName(siteConfig.getTheme() + "/api");
-    }
-
-    /**
-     * 添加拦截器
+     * add interceptors
      *
      * @param registry
      */
@@ -69,7 +61,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * 配置权限
+     * configuration security
      */
     @Configuration
     @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -117,6 +109,20 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(myUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
         }
+    }
+
+    // set defaut locale en_US
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        if(siteConfig.getI18n().equals("en")) {
+            slr.setDefaultLocale(Locale.US);
+        } else if(siteConfig.getI18n().equals("zh")) {
+            slr.setDefaultLocale(Locale.CHINA);
+        } else {
+            slr.setDefaultLocale(Locale.US);
+        }
+        return slr;
     }
 
     public static void main(String[] args) {

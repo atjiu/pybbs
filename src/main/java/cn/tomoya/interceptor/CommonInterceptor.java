@@ -53,12 +53,11 @@ public class CommonInterceptor implements HandlerInterceptor {
             }
             modelMap.addAttribute("_isAuthenticated", isAuthenticated);
             modelMap.addAttribute("baseUrl", siteConfig.getBaseUrl());
-            modelMap.addAttribute("_intro", siteConfig.getIntro());
-            modelMap.addAttribute("siteTitle", siteConfig.getName());
             modelMap.addAttribute("sections", siteConfig.getSections());
             modelMap.addAttribute("_editor", siteConfig.getEditor());
             modelMap.addAttribute("_donate", siteConfig.isDonate());
             modelMap.addAttribute("_search", siteConfig.isSearch());
+            modelMap.addAttribute("_lang", siteConfig.getI18n());
         }
     }
 

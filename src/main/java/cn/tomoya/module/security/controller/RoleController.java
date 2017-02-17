@@ -5,6 +5,7 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.PermissionService;
 import cn.tomoya.module.security.service.RoleService;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +31,11 @@ public class RoleController extends BaseController {
     private RoleService roleService;
     @Autowired
     private PermissionService permissionService;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 角色列表
+     * role list
      *
      * @param model
      * @return
@@ -40,11 +43,12 @@ public class RoleController extends BaseController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.list"));
         return render("/admin/role/list");
     }
 
     /**
-     * 添加角色
+     * add role
      *
      * @param model
      * @return
@@ -52,11 +56,12 @@ public class RoleController extends BaseController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("list", permissionService.findAll());
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.add"));
         return render("/admin/role/add");
     }
 
     /**
-     * 保存配置的权限
+     * save role and associated permissions
      *
      * @param permissionIds
      * @param response
@@ -78,7 +83,7 @@ public class RoleController extends BaseController {
     }
 
     /**
-     * 编辑角色
+     * edit role page
      *
      * @param model
      * @return
@@ -87,11 +92,12 @@ public class RoleController extends BaseController {
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("role", roleService.findById(id));
         model.addAttribute("list", permissionService.findAll());
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.edit"));
         return render("/admin/role/edit");
     }
 
     /**
-     * 更新配置的权限
+     * update role and associated permissions
      *
      * @param permissionIds
      * @param response
@@ -115,7 +121,7 @@ public class RoleController extends BaseController {
     }
 
     /**
-     * 删除角色
+     * delete role
      *
      * @param id
      * @return

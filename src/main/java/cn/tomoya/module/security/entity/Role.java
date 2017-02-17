@@ -23,16 +23,13 @@ public class Role extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
-    //权限标识
     private String name;
 
-    //权限描述
     private String description;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
-    //角色与权限的关联关系
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "pybbs_role_permission",

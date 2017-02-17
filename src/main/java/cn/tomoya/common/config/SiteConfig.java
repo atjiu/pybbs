@@ -12,8 +12,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "site")
 public class SiteConfig {
 
-    private String name;
-    private String intro;
+    private String i18n;
     private String baseUrl;
     private int pageSize;
     private String avatarPath;
@@ -24,20 +23,12 @@ public class SiteConfig {
     private boolean donate;
     private boolean search;
 
-    public String getName() {
-        return name;
+    public String getI18n() {
+        return i18n;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
+    public void setI18n(String i18n) {
+        this.i18n = i18n;
     }
 
     public String getBaseUrl() {

@@ -52,7 +52,7 @@ public class ReplyService {
     }
 
     /**
-     * 删除用户发布的所有回复
+     * delete all comment by the user
      *
      * @param user
      */
@@ -61,7 +61,7 @@ public class ReplyService {
     }
 
     /**
-     * 根据话题删除回复
+     * delete comment by the topic
      *
      * @param topicId
      */
@@ -70,7 +70,7 @@ public class ReplyService {
     }
 
     /**
-     * 赞
+     * up vote
      *
      * @param userId
      * @param replyId
@@ -100,7 +100,7 @@ public class ReplyService {
     }
 
     /**
-     * 取消赞
+     * cancel up vote
      *
      * @param userId
      * @param replyId
@@ -124,7 +124,7 @@ public class ReplyService {
     }
 
     /**
-     * 踩
+     * down vote
      *
      * @param userId
      * @param replyId
@@ -154,7 +154,7 @@ public class ReplyService {
     }
 
     /**
-     * 取消踩
+     * cancel down vote
      *
      * @param userId
      * @param replyId
@@ -178,7 +178,7 @@ public class ReplyService {
     }
 
     /**
-     * 根据话题查询回复列表
+     * query comment list by the topic
      *
      * @param topic
      * @return
@@ -188,7 +188,7 @@ public class ReplyService {
     }
 
     /**
-     * 分页查询回复列表
+     * paging query comment list
      *
      * @param p
      * @param size
@@ -201,7 +201,7 @@ public class ReplyService {
     }
 
     /**
-     * 查询用户的回复列表
+     * query comment list by the user
      *
      * @param p
      * @param size

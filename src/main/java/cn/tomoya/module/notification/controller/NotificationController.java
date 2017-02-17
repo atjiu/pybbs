@@ -7,6 +7,7 @@ import cn.tomoya.exception.ErrorCode;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +28,11 @@ public class NotificationController extends BaseController {
     private SiteConfig siteConfig;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 通知列表
+     * notification list
      *
      * @param p
      * @param model
@@ -38,13 +41,14 @@ public class NotificationController extends BaseController {
     @GetMapping("/list")
     public String list(Integer p, Model model) {
         model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
-        //将未读消息置为已读
+        //set unread notification to read
         notificationService.updateByIsRead(getUser());
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.notification.list"));
         return render("/notification/list");
     }
 
     /**
-     * 查询当前用户未读的消息数量
+     * query the number of notification that the current user has not read
      *
      * @return
      */
@@ -52,7 +56,7 @@ public class NotificationController extends BaseController {
     @ResponseBody
     public Result notRead() throws ApiException {
         User user = getUser();
-        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
+        if (user == null) throw new ApiException(ErrorCode.notLogin, localeMessageSourceUtil.getMessage("site.prompt.text.notLogin"));
         return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
     }
 }

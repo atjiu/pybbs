@@ -9,6 +9,7 @@ import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
+import cn.tomoya.util.LocaleMessageSourceUtil;
 import cn.tomoya.util.identicon.Identicon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -45,31 +49,45 @@ public class IndexController extends BaseController {
     private Identicon identicon;
     @Autowired
     private FileUtil fileUtil;
+    @Autowired
+    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * 首页
+     * Home
      *
+     * @param tab
+     * @param p   page number
      * @return
      */
     @GetMapping("/")
     public String index(String tab, Integer p, Model model) {
+        String tab_all = localeMessageSourceUtil.getMessage("site.tab.all");
+        String tab_good = localeMessageSourceUtil.getMessage("site.tab.good");
+        String tab_unanswered = localeMessageSourceUtil.getMessage("site.tab.unanswered");
+        String sections = localeMessageSourceUtil.getMessage("site.tab.sections");
+        String pageTitle = localeMessageSourceUtil.getMessage("site.page.home");
         String sectionName = tab;
-        if (StringUtils.isEmpty(tab)) tab = "全部";
-        if (tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
-            sectionName = "版块";
+        if (StringUtils.isEmpty(tab)) tab = localeMessageSourceUtil.getMessage("site.tab.all");
+        if (tab.equals(tab_all) || tab.equals(tab_good) || tab.equals(tab_unanswered)) {
+            sectionName = sections;
         }
         Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
         model.addAttribute("page", page);
         model.addAttribute("tab", tab);
+        model.addAttribute("tab_all", tab_all);
+        model.addAttribute("tab_good", tab_good);
+        model.addAttribute("tab_unanswered", tab_unanswered);
+        model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("sectionName", sectionName);
         model.addAttribute("user", getUser());
         return render("/index");
     }
 
     /**
-     * 搜索
-     * @param p
-     * @param q
+     * Search
+     *
+     * @param p     page number
+     * @param q     query word
      * @param model
      * @return
      */
@@ -78,11 +96,12 @@ public class IndexController extends BaseController {
         Page<Topic> page = topicService.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
         model.addAttribute("page", page);
         model.addAttribute("q", q);
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.search"));
         return render("/search");
     }
 
     /**
-     * 进入登录页
+     * sign in page
      *
      * @return
      */
@@ -92,24 +111,26 @@ public class IndexController extends BaseController {
             return redirect(response, "/");
         }
         model.addAttribute("s", s);
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.login"));
         return render("/login");
     }
 
     /**
-     * 进入注册页面
+     * sign up page
      *
      * @return
      */
     @GetMapping("/register")
-    public String toRegister(HttpServletResponse response) {
+    public String toRegister(HttpServletResponse response, Model model) {
         if (getUser() != null) {
             return redirect(response, "/");
         }
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.register"));
         return render("/register");
     }
 
     /**
-     * 注册验证
+     * sign up
      *
      * @param username
      * @param password
@@ -119,11 +140,11 @@ public class IndexController extends BaseController {
     public String register(String username, String password, HttpServletResponse response, Model model) {
         User user = userService.findByUsername(username);
         if (user != null) {
-            model.addAttribute("errors", "用户名已经被注册");
+            model.addAttribute("errors", localeMessageSourceUtil.getMessage("site.prompt.text.usernameExists"));
         } else if (StringUtils.isEmpty(username)) {
-            model.addAttribute("errors", "用户名不能为空");
+            model.addAttribute("errors", localeMessageSourceUtil.getMessage("site.prompt.text.usernameNotEmpty"));
         } else if (StringUtils.isEmpty(password)) {
-            model.addAttribute("errors", "密码不能为空");
+            model.addAttribute("errors", localeMessageSourceUtil.getMessage("site.prompt.text.passwordNotEmpty"));
         } else {
             Date now = new Date();
             String avatarName = UUID.randomUUID().toString();
@@ -137,11 +158,12 @@ public class IndexController extends BaseController {
             userService.save(user);
             return redirect(response, "/login?s=reg");
         }
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.register"));
         return render("/register");
     }
 
     /**
-     * 上传
+     * upload
      *
      * @param file
      * @return
@@ -155,14 +177,14 @@ public class IndexController extends BaseController {
                 return Result.success(requestUrl);
             } catch (IOException e) {
                 e.printStackTrace();
-                return Result.error("上传失败");
+                return Result.error(localeMessageSourceUtil.getMessage("site.prompt.text.uploadFailed"));
             }
         }
-        return Result.error("文件不存在");
+        return Result.error(localeMessageSourceUtil.getMessage("site.prompt.text.fileNotExist"));
     }
 
     /**
-     * wangEditor上传
+     * wangEditor upload
      *
      * @param file
      * @return
@@ -175,10 +197,48 @@ public class IndexController extends BaseController {
                 return fileUtil.uploadFile(file, FileUploadEnum.FILE);
             } catch (IOException e) {
                 e.printStackTrace();
-                return "error|服务器端错误";
+                return "error|" + localeMessageSourceUtil.getMessage("site.prompt.text.uploadFailed");
             }
         }
-        return "error|文件不存在";
+        return "error|" + localeMessageSourceUtil.getMessage("site.prompt.text.fileNotExist");
+    }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        String pageTitle = localeMessageSourceUtil.getMessage("site.page.about");
+        model.addAttribute("pageTitle", pageTitle);
+        return render("/about");
+    }
+
+    @GetMapping("/donate")
+    public String donate(Model model) {
+        String pageTitle = localeMessageSourceUtil.getMessage("site.page.donate");
+        model.addAttribute("pageTitle", pageTitle);
+        return render("/donate");
+    }
+
+    @GetMapping("/apidoc")
+    public String apidoc(Model model) {
+        String pageTitle = localeMessageSourceUtil.getMessage("site.page.api");
+        model.addAttribute("pageTitle", pageTitle);
+        return render("/api");
+    }
+
+    //    @GetMapping("ranking")
+    public String ranking(Model model) {
+        // TODO
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.integralRanking"));
+        return render("/ranking");
+    }
+
+    @GetMapping("changeLanguage")
+    public String changeLanguage(String lang, HttpSession session, HttpServletResponse response) {
+        if ("zh".equals(lang)) {
+            session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale("zh", "CN"));
+        } else if ("en".equals(lang)) {
+            session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale("en", "US"));
+        }
+        return redirect(response, "/");
     }
 
 }

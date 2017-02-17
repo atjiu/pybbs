@@ -28,7 +28,7 @@ public class DefaultGenerator implements IBaseGenartor {
 
         boolean[][] array = new boolean[6][5];
 
-        //初始化字符串
+        //init string
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 array[i][j] = false;
@@ -36,7 +36,7 @@ public class DefaultGenerator implements IBaseGenartor {
         }
 
         for (int i = 0; i < hash.length(); i += 2) {
-            int s = i / 2; //只取hash字符串偶数编号（从0开始）的字符
+            int s = i / 2; //Only take the hash string even number (from 0) characters
 
             boolean v = DoubleMath.roundToInt(Integer.parseInt(hash.charAt(i) + "", 16) / 10.0, RoundingMode.HALF_UP) > 0 ? true : false;
             if (s % 3 == 0) {

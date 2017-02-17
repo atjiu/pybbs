@@ -23,7 +23,7 @@ public class FileUtil {
     private SiteConfig siteConfig;
 
     /**
-     * 上传文件
+     * save upload file
      *
      * @param file
      * @param fileUploadEnum

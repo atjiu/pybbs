@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public interface IBaseGenartor {
     /**
-     * 将hash字符串转换为bool二维6*5数组
+     * Converts a hash string to a bool 2D 6 * 5 array
      *
      * @param hash
      * @return
@@ -18,7 +18,7 @@ public interface IBaseGenartor {
 
 
     /**
-     * 获取图片背景色
+     * Get the picture background color
      *
      * @return
      */
@@ -26,7 +26,7 @@ public interface IBaseGenartor {
 
 
     /**
-     * 获取图案前景色
+     * Get the picture foreground color
      *
      * @return
      */

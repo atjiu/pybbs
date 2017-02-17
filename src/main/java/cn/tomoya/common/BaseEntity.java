@@ -30,10 +30,10 @@ public class BaseEntity {
     public String formatDate(Date date) {
         String dateStr = "";
         if (date != null) {
-            PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
+            PrettyTime prettyTime = new PrettyTime(Locale.US);
             dateStr = prettyTime.format(date);
         }
-        return dateStr.replace(" ", "");
+        return dateStr;
     }
 
     /**

@@ -1,7 +1,7 @@
 <#macro userscores limit hidden="true">
 <div class="panel panel-default">
   <div class="panel-heading">
-    积分榜
+    <@spring.message "site.panel.header.integralRanking"/>
     <#if hidden="true">
       <span class="pull-right"><a href="/top100">TOP100 &gt;&gt; </a></span>
     </#if>
