@@ -3,6 +3,7 @@ package cn.tomoya.module.setting.service;
 import cn.tomoya.module.setting.entity.Setting;
 import cn.tomoya.module.setting.dao.SettingDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,5 +63,10 @@ public class SettingService {
 
     public String getUploadPath() {
         return findByName("upload_path").getValue();
+    }
+
+    @CacheEvict("setting")
+    public void clearCache() {
+
     }
 }

@@ -73,6 +73,8 @@ public class SettingController extends BaseController {
         searchSetting.setValue(search);
         settingService.save(searchSetting);
 
+        settingService.clearCache();
+
         return redirect(response, "/admin/setting/detail");
     }
 }
