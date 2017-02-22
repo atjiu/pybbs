@@ -1,5 +1,7 @@
 > Instructions：Please keep the powered by Pybbs at the bottom of the page
 
+**Notice: backup database before upgrading**
+
 [English](https://github.com/tomoya92/pybbs) | [中文](https://github.com/tomoya92/pybbs/blob/master/README_zh_CN.md)
 
 ## Technology stack
@@ -33,7 +35,6 @@
 - Modify configuration item in configuration file `src/main/resources/application.yml`
 - Create database `pybbs-springboot`
 - Run main method of `PybbsApplication.java`
-- After the project starts, the table is created automatically, and then `pybbs-springboot.sql` is imported into the database
 - Browser `http://localhost:8080/`
 - Default account `tomoya` `123123`
 
@@ -44,7 +45,6 @@
 - Create database `pybbs-springboot`
 - Run `mvn clean -Dmaven.test.skip=true` command to generate jar package, located in `target/pybbs.jar` package
 - Run `java -jar pybbs.jar` to start the service
-- After the project starts, the table is created automatically, and then `pybbs-springboot.sql` is imported into the database
 - Browser `http://localhost:8080/`
 - Default account `tomoya` `123123`
 

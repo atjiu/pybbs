@@ -1,6 +1,6 @@
 package cn.tomoya.common;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import org.apache.log4j.Logger;
@@ -21,12 +21,12 @@ public class BaseController {
     Logger log = Logger.getLogger(BaseController.class);
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private UserService userService;
 
     /**
-     * 带参重定向
+     * redirect with params
      *
      * @param path
      * @return
@@ -36,7 +36,7 @@ public class BaseController {
     }
 
     /**
-     * 不带参重定向
+     * redirect with no params
      *
      * @param response
      * @param path
@@ -52,13 +52,13 @@ public class BaseController {
     }
 
     /**
-     * 渲染页面
+     * render page
      *
-     * @param path 前面必须要加上 /
+     * @param path
      * @return
      */
     protected String render(String path) {
-        return siteConfig.getTheme() + path;
+        return settingService.getTheme() + path;
     }
 
     protected String renderText(HttpServletResponse response, String msg) {
@@ -73,7 +73,7 @@ public class BaseController {
     }
 
     /**
-     * 获取Security用户
+     * get security user
      *
      * @return
      */
@@ -88,7 +88,7 @@ public class BaseController {
     }
 
     /**
-     * 获取用户信息
+     * get user info
      *
      * @return
      */

@@ -1,6 +1,6 @@
 package cn.tomoya.util;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.setting.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class FileUtil {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
 
     /**
      * save upload file
@@ -38,11 +38,11 @@ public class FileUtil {
             BufferedOutputStream stream = null;
             String requestPath = null;
             if (fileUploadEnum == FileUploadEnum.FILE) {
-                stream = new BufferedOutputStream(new FileOutputStream(new File(siteConfig.getUploadPath() + fileName)));
-                requestPath = siteConfig.getBaseUrl() + "static/images/upload/";
+                stream = new BufferedOutputStream(new FileOutputStream(new File(settingService.getUploadPath() + fileName)));
+                requestPath = settingService.getBaseUrl() + "static/images/upload/";
             } else if (fileUploadEnum == FileUploadEnum.AVATAR) {
-                stream = new BufferedOutputStream(new FileOutputStream(new File(siteConfig.getAvatarPath() + fileName)));
-                requestPath = siteConfig.getBaseUrl() + "static/images/avatar/";
+                stream = new BufferedOutputStream(new FileOutputStream(new File(settingService.getAvatarPath() + fileName)));
+                requestPath = settingService.getBaseUrl() + "static/images/avatar/";
             }
             if (stream != null) {
                 stream.write(file.getBytes());

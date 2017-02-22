@@ -21,7 +21,7 @@
             <label for="title"><@spring.message "site.form.topic.section"/></label>
             <select name="tab" id="tab" class="form-control">
               <#list sections as section>
-                <option value="${section}">${section}</option>
+                <option value="${section.name}">${section.name}</option>
               </#list>
             </select>
           </div>
@@ -50,7 +50,6 @@
   <script src="/static/bootstrap/libs/wangeditor/js/wangEditor.min.js"></script>
   <script>
     var editor = new wangEditor('content');
-    editor.config.lang = wangEditor.langs['${_lang}'];
     editor.config.menus = [
       'source',
       '|',

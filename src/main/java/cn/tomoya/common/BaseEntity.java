@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class BaseEntity {
 
     /**
-     * 格式化日期
+     * format datetime
      *
      * @param date
      * @return
@@ -37,7 +37,7 @@ public class BaseEntity {
     }
 
     /**
-     * 解析markdown文章
+     * parse markdown
      *
      * @param content
      * @return
@@ -54,8 +54,7 @@ public class BaseEntity {
     }
 
     /**
-     * 查找一段文本里以 @ 开头的字符串
-     *
+     * find prefix @ string
      * @param str
      * @return
      */
@@ -71,19 +70,18 @@ public class BaseEntity {
     }
 
     /**
-     * 解析markdown文章(不解析@)
+     * parse markdown(not parse @)
      *
      * @param content
      * @return
      */
     public String markedNotAt(String content) {
         if (StringUtils.isEmpty(content)) return "";
-        //markdown 转 html 并返回
         return Jsoup.clean(MarkdownUtil.pegDown(content), Whitelist.relaxed().addTags("input").addAttributes("input", "checked", "type"));
     }
 
     /**
-     * 高亮title里的搜索关键字
+     * highlight keyword of search
      * @param q
      * @param title
      * @return
@@ -93,7 +91,7 @@ public class BaseEntity {
     }
 
     /**
-     * 搜索结果内容截取
+     * sub text of search
      * @param _editor
      * @param q
      * @param content

@@ -5,6 +5,7 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,4 +104,7 @@ public class PermissionService {
     public Permission findById(int id) {
         return permissionDao.findOne(id);
     }
+
+    @CacheEvict("permissions")
+    public void clearCache() {}
 }

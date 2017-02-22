@@ -3,6 +3,9 @@
   <#if _roles?seq_contains("admin:index")>
     <a href="/admin/index" class="list-group-item <#if page_tab == "index">active</#if>"><@spring.message "site.menu.admin.dashboard"/></a>
   </#if>
+  <#if _roles?seq_contains("section:list")>
+    <a href="/admin/section/list" class="list-group-item <#if page_tab == "section">active</#if>"><@spring.message "site.menu.admin.sections"/></a>
+  </#if>
   <#if _roles?seq_contains("reply:list")>
     <a href="/admin/reply/list" class="list-group-item <#if page_tab == "reply">active</#if>"><@spring.message "site.menu.admin.comments"/></a>
   </#if>
@@ -17,6 +20,9 @@
   </#if>
   <#if _roles?seq_contains("index:all") || _roles?seq_contains("index:deleteAll")>
     <a href="/admin/indexed" class="list-group-item <#if page_tab == "indexed">active</#if>"><@spring.message "site.menu.admin.indexed"/></a>
+  </#if>
+  <#if _roles?seq_contains("setting:detail")>
+    <a href="/admin/setting/detail" class="list-group-item <#if page_tab == "setting">active</#if>"><@spring.message "site.menu.admin.setting"/></a>
   </#if>
 </div>
 </#macro>

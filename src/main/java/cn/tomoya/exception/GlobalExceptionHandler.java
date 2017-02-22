@@ -1,6 +1,6 @@
 package cn.tomoya.exception;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         mav.addObject("exception", e);
         mav.addObject("errorCode", getStatus(request));
         mav.addObject("pageTitle", localeMessageSourceUtil.getMessage("site.page.error"));
-        mav.setViewName(siteConfig.getTheme() + "/error");
+        mav.setViewName(settingService.getTheme() + "/error");
         return mav;
     }
 

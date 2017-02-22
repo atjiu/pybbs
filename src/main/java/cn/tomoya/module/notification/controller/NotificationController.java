@@ -1,11 +1,11 @@
 package cn.tomoya.module.notification.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.ErrorCode;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class NotificationController extends BaseController {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private NotificationService notificationService;
     @Autowired
@@ -40,7 +40,7 @@ public class NotificationController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
+        model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, settingService.getPageSize(), getUser(), null));
         //set unread notification to read
         notificationService.updateByIsRead(getUser());
         model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.notification.list"));

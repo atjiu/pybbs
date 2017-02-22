@@ -3,6 +3,8 @@ package cn.tomoya.module.security.controller;
 import cn.tomoya.common.BaseController;
 import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.service.PermissionService;
+import cn.tomoya.module.security.service.RoleService;
+import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,10 @@ public class PermissionController extends BaseController {
 
     @Autowired
     private PermissionService permissionService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -79,6 +85,9 @@ public class PermissionController extends BaseController {
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
+        roleService.clearCache();
+        userService.clearCache();
+        permissionService.clearCache();
         return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
@@ -115,6 +124,9 @@ public class PermissionController extends BaseController {
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
+        roleService.clearCache();
+        userService.clearCache();
+        permissionService.clearCache();
         return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
@@ -127,6 +139,9 @@ public class PermissionController extends BaseController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         permissionService.deleteById(id);
+        roleService.clearCache();
+        userService.clearCache();
+        permissionService.clearCache();
         return redirect(response, "/admin/permission/list");
     }
 }

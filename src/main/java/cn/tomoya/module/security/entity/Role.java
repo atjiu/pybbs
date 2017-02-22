@@ -30,7 +30,7 @@ public class Role extends BaseEntity implements Serializable {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pybbs_role_permission",
             joinColumns = {@JoinColumn(name = "role_id")},

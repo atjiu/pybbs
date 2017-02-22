@@ -1,9 +1,9 @@
 package cn.tomoya.module.user.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.RoleService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
@@ -29,7 +29,7 @@ import java.util.Set;
 public class UserAdminController extends BaseController {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -46,7 +46,7 @@ public class UserAdminController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
+        model.addAttribute("page", userService.pageUser(p == null ? 1 : p, settingService.getPageSize()));
         model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.user.list"));
         return render("/admin/user/list");
     }
@@ -72,6 +72,7 @@ public class UserAdminController extends BaseController {
     @GetMapping("/{id}/block")
     public String block(@PathVariable Integer id, HttpServletResponse response) {
         userService.blockUser(id);
+        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 
@@ -84,6 +85,7 @@ public class UserAdminController extends BaseController {
     @GetMapping("/{id}/unblock")
     public String unblock(@PathVariable Integer id, HttpServletResponse response) {
         userService.unBlockUser(id);
+        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 
@@ -117,6 +119,7 @@ public class UserAdminController extends BaseController {
         }
         user.setRoles(roles);
         userService.save(user);
+        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 

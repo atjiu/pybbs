@@ -1,6 +1,7 @@
 package cn.tomoya.interceptor;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.util.IpUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class CommonInterceptor implements HandlerInterceptor {
     Logger log = Logger.getLogger(CommonInterceptor.class);
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
+    @Autowired
+    private SectionService sectionService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -52,12 +55,10 @@ public class CommonInterceptor implements HandlerInterceptor {
                 }
             }
             modelMap.addAttribute("_isAuthenticated", isAuthenticated);
-            modelMap.addAttribute("baseUrl", siteConfig.getBaseUrl());
-            modelMap.addAttribute("sections", siteConfig.getSections());
-            modelMap.addAttribute("_editor", siteConfig.getEditor());
-            modelMap.addAttribute("_donate", siteConfig.isDonate());
-            modelMap.addAttribute("_search", siteConfig.isSearch());
-            modelMap.addAttribute("_lang", siteConfig.getI18n());
+            modelMap.addAttribute("baseUrl", settingService.getBaseUrl());
+            modelMap.addAttribute("sections", sectionService.findAll());
+            modelMap.addAttribute("_editor", settingService.getEditor());
+            modelMap.addAttribute("_search", settingService.getSearch());
         }
     }
 

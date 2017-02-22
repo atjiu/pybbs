@@ -17,7 +17,7 @@
             <ul class="dropdown-menu">
               <#list sections as section>
                 <li>
-                  <a href="/?tab=${section!}">${section!}</a>
+                  <a href="/?tab=${section.name!}">${section.name!}</a>
                 </li>
               </#list>
             </ul>

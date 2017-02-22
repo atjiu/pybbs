@@ -1,5 +1,7 @@
 > 使用说明：请保留页面底部的 powered by 朋也社区
 
+**注意: 升级之前请先备份数据库**
+
 [English](https://github.com/tomoya92/pybbs) | [中文](https://github.com/tomoya92/pybbs/blob/master/README_zh_CN.md)
 
 ## 技术栈
@@ -33,7 +35,6 @@
 - 修改配置文件 `src/main/resources/application.yml` 里的配置项
 - 创建数据库 `pybbs-springboot`
 - 运行`PybbsApplication.java`里的`main`方法
-- 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
 - 浏览器 `http://localhost:8080/`
 - 默认帐户 `tomoya` `123123`
 
@@ -44,7 +45,6 @@
 - 创建数据库 `pybbs-springboot`
 - 运行 `mvn clean package -Dmaven.test.skip=true` 命令，生成jar包，位置在 `target/pybbs.jar`
 - 运行 `java -jar pybbs.jar` 即可启动服务
-- 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
 - 浏览器 `http://localhost:8080/`
 - 默认帐户 `tomoya` `123123`
 

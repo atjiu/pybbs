@@ -1,6 +1,6 @@
 package cn.tomoya.util.identicon;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.util.HashUtil;
 import cn.tomoya.util.StrUtil;
 import cn.tomoya.util.identicon.generator.IBaseGenartor;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class Identicon {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
 
     private IBaseGenartor genartor;
 
@@ -67,7 +67,7 @@ public class Identicon {
         BufferedImage image = identicon.create(md5, 420);
 
         try {
-            File file = new File(siteConfig.getAvatarPath() + fileName + ".png");
+            File file = new File(settingService.getAvatarPath() + fileName + ".png");
             if (!file.exists()) file.createNewFile();
             ImageIO.write(image, "PNG", file);
         } catch (IOException e) {

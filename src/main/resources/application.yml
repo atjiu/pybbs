@@ -16,19 +16,3 @@ spring:
     static-path-pattern: /static/**
   messages:
     basename: i18n/messages
-site:
-  i18n: en # en: english, zh: chinese
-  baseUrl: http://localhost:8080/
-  pageSize: 20
-  avatarPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/avatar/
-  uploadPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/upload/
-  sections:
-    - 分享
-    - 问答
-    - 新闻
-    - 博客
-    - 招聘
-  theme: bootstrap
-  editor: markdown # 支持两种，1. markdown 2. wangeditor
-  donate: false
-  search: true

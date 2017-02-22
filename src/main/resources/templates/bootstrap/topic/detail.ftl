@@ -243,7 +243,6 @@
     <script src="/static/bootstrap/libs/wangeditor/js/wangEditor.min.js"></script>
     <script>
       var editor = new wangEditor('content');
-      editor.config.lang = wangEditor.langs['${_lang}'];
       editor.config.menus = [
         'source',
         '|',

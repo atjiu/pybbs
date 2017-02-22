@@ -1,9 +1,9 @@
 package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReplyAdminController extends BaseController {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private ReplyService replyService;
     @Autowired
@@ -37,7 +37,7 @@ public class ReplyAdminController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
+        Page<Reply> page = replyService.page(p == null ? 1 : p, settingService.getPageSize());
         model.addAttribute("page", page);
         model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.reply.list"));
         return render("/admin/reply/list");

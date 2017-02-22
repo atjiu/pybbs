@@ -22,7 +22,4 @@ public interface UserDao extends JpaRepository<User, Integer> {
     @Cacheable
     User findByUsername(String username);
 
-    @CacheEvict
-    void delete(int id);
-
 }

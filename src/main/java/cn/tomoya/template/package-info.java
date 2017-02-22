@@ -6,5 +6,5 @@
 package cn.tomoya.template;
 
 /**
- This package is done freemarker custom label, not used in the system, the first to retain
+ This package is done freemarker custom label, not used in the setting, the first to retain
  */

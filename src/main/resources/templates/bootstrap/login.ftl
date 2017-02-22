@@ -23,6 +23,11 @@
             <label for="password"><@spring.message "site.form.user.password"/></label>
             <input type="password" class="form-control" id="password" name="password" placeholder="<@spring.message "site.form.user.password"/>">
           </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="remember-me"> <@spring.message "site.form.user.rememberMe"/>
+            </label>
+          </div>
           <button type="submit" class="btn btn-default"><@spring.message "site.button.login"/></button>
         </form>
       </div>

@@ -1,9 +1,9 @@
 package cn.tomoya.module.user.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
@@ -31,7 +31,7 @@ import java.io.IOException;
 public class UserController extends BaseController {
 
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private TopicService topicService;
     @Autowired
@@ -79,7 +79,7 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+            model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
             model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.topic"));
             return render("/user/topics");
         } else {
@@ -98,7 +98,7 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+            model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
             model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.comment"));
             return render("/user/replies");
         } else {
@@ -117,7 +117,7 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+            model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
             model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.collection"));
             return render("/user/collects");
         } else {
@@ -159,6 +159,7 @@ public class UserController extends BaseController {
             user.setAvatar(requestUrl);
         }
         userService.updateUser(user);
+        userService.clearCache();
         return redirect(response, "/user/" + user.getUsername());
     }
 

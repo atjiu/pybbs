@@ -2,13 +2,13 @@ package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.BaseEntity;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
@@ -42,7 +42,7 @@ public class ReplyController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -66,7 +66,7 @@ public class ReplyController extends BaseController {
                 reply.setInTime(new Date());
                 reply.setUp(0);
                 reply.setContent(content);
-                reply.setEditor(siteConfig.getEditor());
+                reply.setEditor(settingService.getEditor());
 
                 replyService.save(reply);
 
@@ -80,12 +80,12 @@ public class ReplyController extends BaseController {
                 }
                 //给At用户发送通知
                 String pattern = null;
-                if(siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+                if(settingService.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
                 List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
                 for (String u : atUsers) {
-                    if(siteConfig.getEditor().equals("markdown")) {
+                    if(settingService.getEditor().equals("markdown")) {
                         u = u.replace("@", "").trim();
-                    } else if(siteConfig.getEditor().equals("wangeditor")) {
+                    } else if(settingService.getEditor().equals("wangeditor")) {
                         u = u.replace("\">@", "").replace("</a>", "").trim();
                     }
                     if (!u.equals(user.getUsername())) {

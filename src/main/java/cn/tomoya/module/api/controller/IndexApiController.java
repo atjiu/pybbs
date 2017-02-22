@@ -1,9 +1,10 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
@@ -26,7 +27,9 @@ public class IndexApiController extends BaseController {
     @Autowired
     private TopicService topicService;
     @Autowired
-    private SiteConfig siteConfig;
+    private SectionService sectionService;
+    @Autowired
+    private SettingService settingService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -39,9 +42,9 @@ public class IndexApiController extends BaseController {
      */
     @GetMapping("/index")
     public Result index(String tab, Integer p) throws ApiException {
-        if(!StringUtils.isEmpty(tab) && !siteConfig.getSections().contains(tab)) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
+        if(!StringUtils.isEmpty(tab) && sectionService.findByName(tab) != null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
         if (StringUtils.isEmpty(tab)) tab = localeMessageSourceUtil.getMessage("site.tab.all");
-        Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
+        Page<Topic> page = topicService.page(p == null ? 1 : p, settingService.getPageSize(), tab);
         return Result.success(page);
     }
 }

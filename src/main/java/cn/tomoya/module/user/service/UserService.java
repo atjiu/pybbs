@@ -7,6 +7,7 @@ import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.dao.UserDao;
 import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -109,4 +110,7 @@ public class UserService {
 //        // delete user
 //        userDao.delete(user);
 //    }
+
+    @CacheEvict("users")
+    public void clearCache() {}
 }

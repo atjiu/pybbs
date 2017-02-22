@@ -22,6 +22,7 @@ public class Permission extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
+    @Column(unique = true)
     private String name;
 
     private String description;
@@ -31,10 +32,6 @@ public class Permission extends BaseEntity implements Serializable {
     //parent node id
     private int pid;
 
-    /**
-     * 角色与权限的关联关系
-     * mappedBy: 就是 Role.class 里的 Set<Permission> 的对象名
-     */
     @ManyToMany(mappedBy = "permissions")
     private Set<Role> roles = new HashSet<>();
 

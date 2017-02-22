@@ -47,7 +47,7 @@
             <#list permissions as permission>
               <li class="list-group-item permission-item <#if pid?? && pid == permission.id>active</#if>">
                 <#if _roles?seq_contains("permission:delete")>
-                  <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.delete"/>'))location.href='/admin/permission/${permission.id}/delete'"><@spring.message "site.button.delete"/></a>
+                  <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.delete"/>'))location.href='/admin/permission/${permission.id}/delete'"><span class="glyphicon glyphicon-remove text-danger"></span></a>
                 </#if>
                 <a href="/admin/permission/list?pid=${permission.id!}">
                   ${permission.description!}

@@ -1,11 +1,11 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
@@ -38,7 +38,7 @@ public class UserApiController extends BaseController {
     @Autowired
     private CollectService collectService;
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -70,7 +70,7 @@ public class UserApiController extends BaseController {
     public Result topics(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
         if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
+        Page page = topicService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
         return Result.success(page);
     }
 
@@ -84,7 +84,7 @@ public class UserApiController extends BaseController {
     public Result replies(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
         if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
+        Page page = replyService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
         return Result.success(page);
     }
 
@@ -98,7 +98,7 @@ public class UserApiController extends BaseController {
     public Result collects(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
         if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
+        Page page = collectService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
         return Result.success(page);
     }
 

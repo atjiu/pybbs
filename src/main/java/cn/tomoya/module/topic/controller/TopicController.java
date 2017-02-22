@@ -1,10 +1,11 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
@@ -38,7 +39,9 @@ public class TopicController extends BaseController {
     @Autowired
     private CollectService collectService;
     @Autowired
-    private SiteConfig siteConfig;
+    private SectionService sectionService;
+    @Autowired
+    private SettingService settingService;
     @Autowired
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
@@ -72,7 +75,7 @@ public class TopicController extends BaseController {
         String errors;
         if (StringUtils.isEmpty(title)) {
             errors = localeMessageSourceUtil.getMessage("site.prompt.text.topicTitleCantEmpty");
-        }  else if (!siteConfig.getSections().contains(tab)) {
+        }  else if (sectionService.findByName(tab) != null) {
             errors = localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist");;
         } else {
             User user = getUser();
@@ -85,7 +88,7 @@ public class TopicController extends BaseController {
             topic.setUser(user);
             topic.setGood(false);
             topic.setTop(false);
-            topic.setEditor(siteConfig.getEditor());
+            topic.setEditor(settingService.getEditor());
             topic.setLock(false);
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
@@ -126,7 +129,7 @@ public class TopicController extends BaseController {
         Topic topic = topicService.findById(id);
         User user = getUser();
         if (topic.getUser().getId() == user.getId()) {
-            if(!siteConfig.getSections().contains(tab)) throw new IllegalArgumentException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
+            if(sectionService.findByName(tab) != null) throw new IllegalArgumentException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
             topic.setTab(tab);
             topic.setTitle(title);
             topic.setContent(content);

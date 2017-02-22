@@ -1,6 +1,6 @@
 package cn.tomoya;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.common.InitDB;
 import cn.tomoya.interceptor.CommonInterceptor;
 import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
 import cn.tomoya.module.security.core.MyUserDetailService;
@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -23,7 +24,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
@@ -35,7 +35,6 @@ import java.util.Locale;
  */
 @EnableCaching
 @SpringBootApplication
-@EnableConfigurationProperties(SiteConfig.class)
 public class PybbsApplication extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -45,7 +44,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
     @Autowired
-    private SiteConfig siteConfig;
+    private InitDB initDB;
 
     /**
      * add interceptors
@@ -100,8 +99,10 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                     .permitAll();
             http
                     .logout()
+                    .deleteCookies("remember-me")
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/");
+            http.rememberMe();
             http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
         }
 
@@ -115,14 +116,16 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        if(siteConfig.getI18n().equals("en")) {
-            slr.setDefaultLocale(Locale.US);
-        } else if(siteConfig.getI18n().equals("zh")) {
-            slr.setDefaultLocale(Locale.CHINA);
-        } else {
-            slr.setDefaultLocale(Locale.US);
-        }
+        slr.setDefaultLocale(Locale.getDefault()); // set setting default locale
         return slr;
+    }
+
+    @Configuration
+    class BeforeStartup implements ApplicationListener<ContextRefreshedEvent> {
+        @Override
+        public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+            initDB.init();
+        }
     }
 
     public static void main(String[] args) {

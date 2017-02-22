@@ -5,7 +5,7 @@
 
     <groupId>cn.tomoya</groupId>
     <artifactId>pybbs</artifactId>
-    <version>2.4</version>
+    <version>2.4.2</version>
     <packaging>jar</packaging>
 
     <name>pybbs</name>

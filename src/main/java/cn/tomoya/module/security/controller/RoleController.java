@@ -5,6 +5,7 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.PermissionService;
 import cn.tomoya.module.security.service.RoleService;
+import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ public class RoleController extends BaseController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private PermissionService permissionService;
     @Autowired
@@ -79,6 +82,8 @@ public class RoleController extends BaseController {
         }
         role.setPermissions(permissions);
         roleService.save(role);
+        userService.clearCache();
+        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 
@@ -117,6 +122,8 @@ public class RoleController extends BaseController {
         }
         role.setPermissions(permissions);
         roleService.save(role);
+        userService.clearCache();
+        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 
@@ -129,6 +136,8 @@ public class RoleController extends BaseController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         roleService.deleteById(id);
+        userService.clearCache();
+        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 }

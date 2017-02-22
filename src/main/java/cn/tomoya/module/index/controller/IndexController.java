@@ -1,8 +1,8 @@
 package cn.tomoya.module.index.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.Result;
+import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class IndexController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private SiteConfig siteConfig;
+    private SettingService settingService;
     @Autowired
     private Identicon identicon;
     @Autowired
@@ -71,7 +72,7 @@ public class IndexController extends BaseController {
         if (tab.equals(tab_all) || tab.equals(tab_good) || tab.equals(tab_unanswered)) {
             sectionName = sections;
         }
-        Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
+        Page<Topic> page = topicService.page(p == null ? 1 : p, settingService.getPageSize(), tab);
         model.addAttribute("page", page);
         model.addAttribute("tab", tab);
         model.addAttribute("tab_all", tab_all);
@@ -93,7 +94,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping("/search")
     public String search(Integer p, String q, Model model) {
-        Page<Topic> page = topicService.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
+        Page<Topic> page = topicService.search(p == null ? 1 : p, settingService.getPageSize(), q);
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.search"));
@@ -154,7 +155,7 @@ public class IndexController extends BaseController {
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.setInTime(now);
             user.setBlock(false);
-            user.setAvatar(siteConfig.getBaseUrl() + "static/images/avatar/" + avatarName + ".png");
+            user.setAvatar(settingService.getBaseUrl() + "static/images/avatar/" + avatarName + ".png");
             userService.save(user);
             return redirect(response, "/login?s=reg");
         }
@@ -232,13 +233,14 @@ public class IndexController extends BaseController {
     }
 
     @GetMapping("changeLanguage")
-    public String changeLanguage(String lang, HttpSession session, HttpServletResponse response) {
+    public String changeLanguage(String lang, HttpSession session, HttpServletResponse response, HttpServletRequest request) {
+        String referer = request.getHeader("referer");
         if ("zh".equals(lang)) {
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale("zh", "CN"));
         } else if ("en".equals(lang)) {
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, new Locale("en", "US"));
         }
-        return redirect(response, "/");
+        return redirect(response, referer);
     }
 
 }

@@ -12,7 +12,7 @@
       <a class="navbar-brand" style="color:#fff;" href="/"><@spring.message "site.name"/></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
-      <#if _search?? && _search == true>
+      <#if _search?? && _search == "true">
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
           <div class="form-group">
             <input type="text" class="form-control" name="q" value="${q!}" placeholder="<@spring.message "site.menu.search"/>">
@@ -20,11 +20,6 @@
         </form>
       </#if>-
       <ul class="nav navbar-nav navbar-right">
-        <#if _donate?? && _donate == true>
-          <li <#if page_tab == 'donate'> class="active" </#if>>
-            <a href="/donate"><@spring.message "site.menu.donate"/></a>
-          </li>
-        </#if>
         <#--<li <#if page_tab == 'api'> class="active" </#if>>-->
           <#--<a href="/apidoc"><@spring.message "site.menu.api"/></a>-->
         <#--</li>-->
