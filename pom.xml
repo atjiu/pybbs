@@ -65,7 +65,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--json格式化类库-->
+        <!--json format lib-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -76,25 +76,25 @@
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
-        <!--格式化时间类库-->
+        <!--datetime format lib-->
         <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>
             <artifactId>prettytime</artifactId>
             <version>4.0.1.Final</version>
         </dependency>
-        <!--markdown转换lib-->
+        <!--markdown format lib-->
         <dependency>
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>1.6.0</version>
         </dependency>
-        <!--过滤html标签类库-->
+        <!--filter html lib-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.9.2</version>
         </dependency>
-        <!--ehcache缓存-->
+        <!--ehcache lib-->
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>

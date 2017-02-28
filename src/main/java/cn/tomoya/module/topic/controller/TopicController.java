@@ -75,8 +75,8 @@ public class TopicController extends BaseController {
         String errors;
         if (StringUtils.isEmpty(title)) {
             errors = localeMessageSourceUtil.getMessage("site.prompt.text.topicTitleCantEmpty");
-        }  else if (sectionService.findByName(tab) != null) {
-            errors = localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist");;
+        }  else if (sectionService.findByName(tab) == null) {
+            errors = localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist");
         } else {
             User user = getUser();
             Topic topic = new Topic();
@@ -94,6 +94,7 @@ public class TopicController extends BaseController {
             return redirect(response, "/topic/" + topic.getId());
         }
         model.addAttribute("errors", errors);
+        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.topic.create"));
         return render("/topic/create");
     }
 
@@ -129,7 +130,7 @@ public class TopicController extends BaseController {
         Topic topic = topicService.findById(id);
         User user = getUser();
         if (topic.getUser().getId() == user.getId()) {
-            if(sectionService.findByName(tab) != null) throw new IllegalArgumentException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
+            if(sectionService.findByName(tab) == null) throw new IllegalArgumentException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
             topic.setTab(tab);
             topic.setTitle(title);
             topic.setContent(content);
