@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl">
-<@html page_title="话题编辑">
+<@html>
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
