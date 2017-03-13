@@ -133,7 +133,7 @@ public class IndexController extends BaseController {
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.setInTime(now);
             user.setBlock(false);
-            user.setAvatar(siteConfig.getBaseUrl() + "static/images/avatar/" + avatarName + ".png");
+            user.setAvatar(siteConfig.getStaticUrl() + "static/images/avatar/" + avatarName + ".png");
             userService.save(user);
             return redirect(response, "/login?s=reg");
         }

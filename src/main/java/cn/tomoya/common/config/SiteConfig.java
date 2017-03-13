@@ -15,8 +15,8 @@ public class SiteConfig {
     private String name;
     private String intro;
     private String baseUrl;
+    private String staticUrl;
     private int pageSize;
-    private String avatarPath;
     private String uploadPath;
     private List<String> sections;
     private String theme;
@@ -48,20 +48,20 @@ public class SiteConfig {
         this.baseUrl = baseUrl;
     }
 
+    public String getStaticUrl() {
+        return staticUrl;
+    }
+
+    public void setStaticUrl(String staticUrl) {
+        this.staticUrl = staticUrl;
+    }
+
     public int getPageSize() {
         return pageSize;
     }
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public String getAvatarPath() {
-        return avatarPath;
-    }
-
-    public void setAvatarPath(String avatarPath) {
-        this.avatarPath = avatarPath;
     }
 
     public String getUploadPath() {
