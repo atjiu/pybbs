@@ -1,5 +1,5 @@
 <#include "./common/layout.ftl"/>
-<@html page_tab="">
+<@html page_tab="" page_title="搜索结果">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">

@@ -23,4 +23,5 @@ public interface RoleDao extends JpaRepository<Role, Integer> {
     @Cacheable
     List<Role> findAll();
 
+    void delete(int id);
 }

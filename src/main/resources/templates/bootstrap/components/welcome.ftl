@@ -1,7 +1,7 @@
 <#macro welcome>
 <div class="panel panel-default">
   <div class="panel-body">
-    <@spring.message "site.intro"/>
+    ${_intro!}
   </div>
 </div>
 </#macro>

@@ -27,28 +27,37 @@ public class User extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
+    //用户名
     @Column(unique = true, nullable = false)
     private String username;
 
+    //密码
     @Column(nullable = false)
     @JsonIgnore
     private String password;
 
+    //头像
     @Column(nullable = false)
     private String avatar;
 
+    //用户邮箱
     private String email;
 
+    //个人签名
     private String signature;
 
+    //个人主页
     private String url;
 
+    //注册时间
     @Column(nullable = false)
     @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
+    //用户是否被禁用
     private boolean block;
 
+    //用户与角色的关联关系
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pybbs_user_role",

@@ -17,7 +17,7 @@ public class StrUtil {
     static final Random random = new Random();
 
     /**
-     * Randomly specify the length of the string
+     * 随机指定长度的字符串
      *
      * @param length
      * @return
@@ -31,7 +31,7 @@ public class StrUtil {
     }
 
     /**
-     * Randomly specify the length of the number
+     * 随机指定长度的数字
      *
      * @param length
      * @return
@@ -45,7 +45,7 @@ public class StrUtil {
     }
 
     /**
-     * Check whether the user accessToken
+     * 检测是否是用户accessToken
      */
     public static boolean isUUID(String accessToken) {
         if (StringUtils.isEmpty(accessToken)) {

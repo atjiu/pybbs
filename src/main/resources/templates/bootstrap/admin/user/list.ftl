@@ -1,5 +1,5 @@
 <#include "../../common/layout.ftl"/>
-<@html>
+<@html page_title="用户管理">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../../components/admin_left.ftl">
@@ -8,8 +8,8 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <@spring.message "site.panel.header.admin.user.list"/>
-        <span class="pull-right">${page.getTotalElements()} <@spring.message "site.panel.header.admin.user.list"/></span>
+        用户管理
+        <span class="pull-right">${page.getTotalElements()}个用户</span>
       </div>
       <div class="table-responsive">
         <table class="table table-striped">
@@ -22,24 +22,24 @@
               <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
               <td>
                 <#if user.block == true>
-                  <span class="text-danger"><@spring.message "site.panel.body.disable"/></span>
+                  <span class="text-danger">禁用</span>
                 <#else>
-                  <span class="text-success"><@spring.message "site.panel.body.normal"/></span>
+                  <span class="text-success">正常</span>
                 </#if>
               </td>
               <td>
                 <#if _roles?seq_contains("user:role")>
-                  <a href="/admin/user/${user.id}/role" class="btn btn-xs btn-warning"><@spring.message "site.button.edit"/></a>
+                  <a href="/admin/user/${user.id}/role" class="btn btn-xs btn-warning">配置角色</a>
                 </#if>
                 <#if user.block == true>
                   <#if _roles?seq_contains("user:unblock")>
-                    <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.cancel"/>')) location.href='/admin/user/${user.id}/unblock'"
-                       class="btn btn-xs btn-danger"><@spring.message "site.button.enable"/></a>
+                    <a href="javascript:if(confirm('确认解禁吗?')) location.href='/admin/user/${user.id}/unblock'"
+                       class="btn btn-xs btn-danger">解禁</a>
                   </#if>
                 <#else>
                   <#if _roles?seq_contains("user:block")>
-                    <a href="javascript:if(confirm('<@spring.message "site.prompt.confirm.disable"/>')) location.href='/admin/user/${user.id}/block'"
-                       class="btn btn-xs btn-danger"><@spring.message "site.button.disable"/></a>
+                    <a href="javascript:if(confirm('确认禁用吗?')) location.href='/admin/user/${user.id}/block'"
+                       class="btn btn-xs btn-danger">禁用</a>
                   </#if>
                 </#if>
               </td>

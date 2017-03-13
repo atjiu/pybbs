@@ -1,5 +1,5 @@
 <#include "../../common/layout.ftl"/>
-<@html>
+<@html page_title="回复列表">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../../components/admin_left.ftl">
@@ -8,7 +8,7 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/"><@spring.message "site.panel.header.home"/></a> / <@spring.message "site.panel.header.admin.reply.list"/>
+        <a href="/">主页</a> / 回复列表
       </div>
       <div class="table-responsive">
         <#include "../../components/reply_list.ftl"/>

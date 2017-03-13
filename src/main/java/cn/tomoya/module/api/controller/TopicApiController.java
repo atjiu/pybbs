@@ -35,7 +35,7 @@ public class TopicApiController extends BaseController {
     private CollectService collectService;
 
     /**
-     * topic detail interface
+     * 话题详情
      *
      * @param id
      * @return

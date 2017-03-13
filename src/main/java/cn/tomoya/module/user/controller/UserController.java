@@ -1,15 +1,14 @@
 package cn.tomoya.module.user.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ import java.io.IOException;
 public class UserController extends BaseController {
 
     @Autowired
-    private SettingService settingService;
+    private SiteConfig siteConfig;
     @Autowired
     private TopicService topicService;
     @Autowired
@@ -42,11 +41,9 @@ public class UserController extends BaseController {
     private CollectService collectService;
     @Autowired
     private FileUtil fileUtil;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * user profile
+     * 个人资料
      *
      * @param username
      * @param model
@@ -61,15 +58,15 @@ public class UserController extends BaseController {
             model.addAttribute("collectCount", collectService.countByUser(currentUser));
             model.addAttribute("topicPage", topicService.findByUser(1, 7, currentUser));
             model.addAttribute("replyPage", replyService.findByUser(1, 7, currentUser));
-            model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.info"));
+            model.addAttribute("pageTitle", currentUser.getUsername() + " 个人主页");
         } else {
-            model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.user.notExist"));
+            model.addAttribute("pageTitle", "用户未找到");
         }
         return render("/user/info");
     }
 
     /**
-     * user topics
+     * 用户发布的所有话题
      *
      * @param username
      * @return
@@ -79,16 +76,15 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
-            model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.topic"));
+            model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/topics");
         } else {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.page.user.notExist"));
+            return renderText(response, "用户不存在");
         }
     }
 
     /**
-     * user comments
+     * 用户发布的所有回复
      *
      * @param username
      * @return
@@ -98,16 +94,15 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
-            model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.comment"));
+            model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/replies");
         } else {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.page.user.notExist"));
+            return renderText(response, "用户不存在");
         }
     }
 
     /**
-     * user collection topics
+     * 用户收藏的所有话题
      *
      * @param username
      * @return
@@ -117,16 +112,15 @@ public class UserController extends BaseController {
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, settingService.getPageSize(), currentUser));
-            model.addAttribute("pageTitle", currentUser.getUsername() + " " + localeMessageSourceUtil.getMessage("site.page.user.collection"));
+            model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
             return render("/user/collects");
         } else {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.page.user.notExist"));
+            return renderText(response, "用户不存在");
         }
     }
 
     /**
-     * modify user profile
+     * 进入用户个人设置页面
      *
      * @param model
      * @return
@@ -134,12 +128,11 @@ public class UserController extends BaseController {
     @GetMapping("/setting")
     public String setting(Model model) {
         model.addAttribute("user", getUser());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.user.setting"));
         return render("/user/setting");
     }
 
     /**
-     * update user profile
+     * 更新用户的个人设置
      *
      * @param email
      * @param url
@@ -150,7 +143,7 @@ public class UserController extends BaseController {
     @PostMapping("/setting")
     public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar, HttpServletResponse response) throws IOException {
         User user = getUser();
-        if(user.isBlock()) return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+        if(user.isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         user.setEmail(email);
         user.setSignature(signature);
         user.setUrl(url);
@@ -159,12 +152,11 @@ public class UserController extends BaseController {
             user.setAvatar(requestUrl);
         }
         userService.updateUser(user);
-        userService.clearCache();
         return redirect(response, "/user/" + user.getUsername());
     }
 
     /**
-     * change password
+     * 修改密码
      * @param oldPassword
      * @param newPassword
      * @param model
@@ -173,13 +165,13 @@ public class UserController extends BaseController {
     @PostMapping("/changePassword")
     public String changePassword(String oldPassword, String newPassword, Model model, HttpServletResponse response) {
         User user = getUser();
-        if(user.isBlock()) return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+        if(user.isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         if(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userService.updateUser(user);
-            model.addAttribute("changePasswordErrorMsg", localeMessageSourceUtil.getMessage("site.prompt.text.user.updateSuccess"));
+            model.addAttribute("changePasswordErrorMsg", "修改成功，请重新登录");
         } else {
-            model.addAttribute("changePasswordErrorMsg", localeMessageSourceUtil.getMessage("site.prompt.text.user.oldPasswordIncorrect"));
+            model.addAttribute("changePasswordErrorMsg", "旧密码不正确");
         }
         model.addAttribute("user", getUser());
         return render("/user/setting");

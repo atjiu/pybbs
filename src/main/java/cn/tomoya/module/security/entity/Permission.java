@@ -22,16 +22,22 @@ public class Permission extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
-    @Column(unique = true)
+    //权限名称
     private String name;
 
+    //权限描述
     private String description;
 
+    //授权链接
     private String url;
 
-    //parent node id
+    //父节点id
     private int pid;
 
+    /**
+     * 角色与权限的关联关系
+     * mappedBy: 就是 Role.class 里的 Set<Permission> 的对象名
+     */
     @ManyToMany(mappedBy = "permissions")
     private Set<Role> roles = new HashSet<>();
 

@@ -5,7 +5,6 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public class PermissionService {
     private UserService userService;
 
     /**
-     * query all permissions
+     * 查询所有的权限
      *
      * @return
      */
@@ -39,7 +38,7 @@ public class PermissionService {
     }
 
     /**
-     * query permissions by parent node id
+     * 根据pid查询权限
      *
      * @param pid
      * @return
@@ -49,7 +48,7 @@ public class PermissionService {
     }
 
     /**
-     * query permission list include children permission list
+     * 查询权限列表
      *
      * @return
      */
@@ -67,7 +66,7 @@ public class PermissionService {
     }
 
     /**
-     * query permissions by user id
+     * 根据用户的id查询用户的所有权限
      *
      * @param adminUserId
      * @return
@@ -88,8 +87,8 @@ public class PermissionService {
     }
 
     /**
-     * delete permission
-     * if parent node id not equals 0, delete all children of the parent node id
+     * 删除权限
+     * 判断权限的pid是不是0，是的话，就删除其下所有的权限
      *
      * @param id
      */
@@ -104,7 +103,4 @@ public class PermissionService {
     public Permission findById(int id) {
         return permissionDao.findOne(id);
     }
-
-    @CacheEvict("permissions")
-    public void clearCache() {}
 }

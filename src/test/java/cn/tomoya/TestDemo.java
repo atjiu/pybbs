@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -45,25 +47,6 @@ public class TestDemo {
     public void test3() {
         log.info(UUID.randomUUID().toString());
         log.info(new BCryptPasswordEncoder().encode("123123"));
-        List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> share_map = new HashMap<>();
-        share_map.put("id", 1);
-        share_map.put("name", "share");
-
-        Map<String, Object> ask_map = new HashMap<>();
-        ask_map.put("id", 2);
-        ask_map.put("name", "ask");
-
-        Map<String, Object> job_map = new HashMap<>();
-        job_map.put("id", 3);
-        job_map.put("name", "job");
-
-        list.add(share_map);
-        list.add(ask_map);
-        list.add(job_map);
-
-        System.out.println(list.contains("ask"));
-
     }
 
     @Test

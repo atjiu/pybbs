@@ -1,13 +1,11 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
-import cn.tomoya.module.section.service.SectionService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
@@ -27,14 +25,10 @@ public class IndexApiController extends BaseController {
     @Autowired
     private TopicService topicService;
     @Autowired
-    private SectionService sectionService;
-    @Autowired
-    private SettingService settingService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
+    private SiteConfig siteConfig;
 
     /**
-     * topic list interface
+     * 话题列表接口
      * @param tab
      * @param p
      * @return
@@ -42,9 +36,9 @@ public class IndexApiController extends BaseController {
      */
     @GetMapping("/index")
     public Result index(String tab, Integer p) throws ApiException {
-        if(!StringUtils.isEmpty(tab) && sectionService.findByName(tab) != null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
-        if (StringUtils.isEmpty(tab)) tab = localeMessageSourceUtil.getMessage("site.tab.all");
-        Page<Topic> page = topicService.page(p == null ? 1 : p, settingService.getPageSize(), tab);
+        if(!StringUtils.isEmpty(tab) && !siteConfig.getSections().contains(tab)) throw new ApiException("版块不存在");
+        if (StringUtils.isEmpty(tab)) tab = "全部";
+        Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
         return Result.success(page);
     }
 }

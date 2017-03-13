@@ -2,18 +2,17 @@ package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.BaseEntity;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.entity.NotificationEnum;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,12 +41,10 @@ public class ReplyController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private SettingService settingService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
+    private SiteConfig siteConfig;
 
     /**
-     * save comment
+     * 保存回复
      *
      * @param topicId
      * @param content
@@ -55,7 +52,7 @@ public class ReplyController extends BaseController {
      */
     @PostMapping("/save")
     public String save(Integer topicId, String content, HttpServletResponse response) {
-        if(getUser().isBlock()) return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         if (topicId != null) {
             Topic topic = topicService.findById(topicId);
             if (topic != null) {
@@ -66,7 +63,7 @@ public class ReplyController extends BaseController {
                 reply.setInTime(new Date());
                 reply.setUp(0);
                 reply.setContent(content);
-                reply.setEditor(settingService.getEditor());
+                reply.setEditor(siteConfig.getEditor());
 
                 replyService.save(reply);
 
@@ -80,12 +77,12 @@ public class ReplyController extends BaseController {
                 }
                 //给At用户发送通知
                 String pattern = null;
-                if(settingService.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+                if(siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
                 List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
                 for (String u : atUsers) {
-                    if(settingService.getEditor().equals("markdown")) {
+                    if(siteConfig.getEditor().equals("markdown")) {
                         u = u.replace("@", "").trim();
-                    } else if(settingService.getEditor().equals("wangeditor")) {
+                    } else if(siteConfig.getEditor().equals("wangeditor")) {
                         u = u.replace("\">@", "").replace("</a>", "").trim();
                     }
                     if (!u.equals(user.getUsername())) {
@@ -102,7 +99,7 @@ public class ReplyController extends BaseController {
     }
 
     /**
-     * edit comment
+     * 编辑回复
      *
      * @param id
      * @param model
@@ -110,15 +107,14 @@ public class ReplyController extends BaseController {
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) {
-        if(getUser().isBlock()) return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         Reply reply = replyService.findById(id);
         model.addAttribute("reply", reply);
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.reply.edit"));
         return render("/reply/edit");
     }
 
     /**
-     * update comment
+     * 更新回复内容
      *
      * @param id
      * @param topicId
@@ -128,10 +124,10 @@ public class ReplyController extends BaseController {
      */
     @PostMapping("/update")
     public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
-        if(getUser().isBlock()) return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+        if(getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
         Reply reply = replyService.findById(id);
         if (reply == null) {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.commentNotExist"));
+            return renderText(response, "回复不存在");
         } else {
             reply.setContent(content);
             replyService.save(reply);
@@ -140,7 +136,7 @@ public class ReplyController extends BaseController {
     }
 
     /**
-     * delete comment
+     * 删除回复
      *
      * @param id
      * @return
@@ -155,7 +151,7 @@ public class ReplyController extends BaseController {
     }
 
     /**
-     * up vote
+     * 点赞
      * @param id
      * @return
      * @throws ApiException
@@ -165,12 +161,12 @@ public class ReplyController extends BaseController {
     public Result up(@PathVariable Integer id) throws ApiException {
         User user = getUser();
         Reply reply = replyService.up(user.getId(), id);
-        if(reply == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.commentNotExist"));
+        if(reply == null) throw new ApiException("回复不存在");
         return Result.success(reply.getUpDown());
     }
 
     /**
-     * cancel up vote
+     * 取消点赞
      * @param id
      * @return
      * @throws ApiException
@@ -180,12 +176,12 @@ public class ReplyController extends BaseController {
     public Result cancelUp(@PathVariable Integer id) throws ApiException {
         User user = getUser();
         Reply reply = replyService.cancelUp(user.getId(), id);
-        if(reply == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.commentNotExist"));
+        if(reply == null) throw new ApiException("回复不存在");
         return Result.success(reply.getUpDown());
     }
 
     /**
-     * down vote
+     * 踩
      * @param id
      * @return
      * @throws ApiException
@@ -195,12 +191,12 @@ public class ReplyController extends BaseController {
     public Result down(@PathVariable Integer id) throws ApiException {
         User user = getUser();
         Reply reply = replyService.down(user.getId(), id);
-        if(reply == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.commentNotExist"));
+        if(reply == null) throw new ApiException("回复不存在");
         return Result.success(reply.getUpDown());
     }
 
     /**
-     * cancel down vote
+     * 取消踩
      * @param id
      * @return
      * @throws ApiException
@@ -210,7 +206,7 @@ public class ReplyController extends BaseController {
     public Result cancelDown(@PathVariable Integer id) throws ApiException {
         User user = getUser();
         Reply reply = replyService.cancelDown(user.getId(), id);
-        if(reply == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.prompt.text.commentNotExist"));
+        if(reply == null) throw new ApiException("回复不存在");
         return Result.success(reply.getUpDown());
     }
 }

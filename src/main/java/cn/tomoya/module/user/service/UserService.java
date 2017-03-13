@@ -7,7 +7,6 @@ import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.dao.UserDao;
 import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +39,7 @@ public class UserService {
     }
 
     /**
-     * according to the user name to determine whether where is
+     * 根据用户名判断是否存在
      *
      * @param username
      * @return
@@ -58,7 +57,7 @@ public class UserService {
     }
 
     /**
-     * paging query user list
+     * 分页查询用户列表
      *
      * @param p
      * @param size
@@ -71,7 +70,7 @@ public class UserService {
     }
 
     /**
-     * disable the user
+     * 禁用用户
      * @param id
      */
     public void blockUser(Integer id) {
@@ -81,7 +80,7 @@ public class UserService {
     }
 
     /**
-     * remove the disabled of user
+     * 用户解禁
      * @param id
      */
     public void unBlockUser(Integer id) {
@@ -91,26 +90,23 @@ public class UserService {
     }
 
     /**
-     * delete user
-     * notice: this operation will delete all data of user, careful operation
+     * 删除用户
+     * 注：这会删除用户的所有记录，慎重操作
      * @param id
      */
-    //TODO too many association, do not provide delete user actions
+    //TODO 关联太多，不提供删除用户操作
 //    public void deleteById(int id) {
 //        User user = findById(id);
-//        // delete user collection
+//        //删除用户的收藏
 //        collectService.deleteByUser(user);
-//        // delete all comments of user
+//        //删除用户发的所有回复
 //        replyService.deleteByUser(user);
-//        // delete user notification
+//        //删除用户的通知
 //        notificationService.deleteByUser(user);
 //        notificationService.deleteByTargetUser(user);
-//        // delete all topics of user
+//        //删除该用户的所有话题
 //        topicService.deleteByUser(user);
-//        // delete user
+//        //删除用户
 //        userDao.delete(user);
 //    }
-
-    @CacheEvict("users")
-    public void clearCache() {}
 }

@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_tab="user">
+<@html page_title="${pageTitle!}" page_tab="user">
 <div class="row">
   <div class="col-md-9">
     <#if currentUser??>
@@ -14,20 +14,20 @@
               <#if currentUser.signature??>
                 <p><i class="gray">${currentUser.signature!}</i></p>
               </#if>
-              <div><@spring.message "site.panel.body.collection"/>: <a href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
+              <div>收藏话题: <a href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
               <#if currentUser.url??>
-                <div><@spring.message "site.panel.header.home"/>: <a href="${currentUser.url!}" target="_blank">${currentUser.url!}</a></div>
+                <div>主页: <a href="${currentUser.url!}" target="_blank">${currentUser.url!}</a></div>
               </#if>
-              <div><@spring.message "site.panel.body.signUpTime"/>: ${currentUser.formatDate(currentUser.inTime)}</div>
+              <div>入驻时间: ${currentUser.formatDate(currentUser.inTime)}</div>
             </div>
           </div>
         </div>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading">${currentUser.username} <@spring.message "site.page.user.topic"/></div>
+        <div class="panel-heading">${currentUser.username}创建的话题</div>
         <#if topicPage.getTotalElements() == 0>
           <div class="panel-body">
-            <@spring.message "site.panel.body.noTopic"/>
+            暂无话题
           </div>
         <#else>
           <div class="panel-body">
@@ -35,40 +35,40 @@
             <@user_topics topics=topicPage.getContent()/>
           </div>
           <div class="panel-footer">
-            <a href="/user/${currentUser.username}/topics"><@spring.message "site.panel.body.more"/> &gt;&gt;</a>
+            <a href="/user/${currentUser.username}/topics">${currentUser.username}更多话题&gt;&gt;</a>
           </div>
         </#if>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading">${currentUser.username} <@spring.message "site.page.user.comment"/></div>
+        <div class="panel-heading">${currentUser.username}回复的话题</div>
         <#if replyPage.getTotalElements() == 0>
           <div class="panel-body">
-            <@spring.message "site.panel.body.noComment"/>
+            暂无回复
           </div>
         <#else>
           <#include "../components/user_replies.ftl"/>
           <@user_replies replies=replyPage.getContent()/>
           <div class="panel-footer">
-            <a href="/user/${currentUser.username}/replies"><@spring.message "site.panel.body.more"/> &gt;&gt;</a>
+            <a href="/user/${currentUser.username}/replies">${currentUser.username}更多回复&gt;&gt;</a>
           </div>
         </#if>
       </div>
     <#else>
       <div class="panel panel-default">
         <div class="panel-body">
-          <p><@spring.message "site.page.user.notExist"/></p>
-          <a href="/"><@spring.message "site.panel.body.backHome"/></a>
+          <p>用户未找到</p>
+          <a href="/">返回首页</a>
         </div>
       </div>
     </#if>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
     <#if userinfo??>
-      <#include "../components/user_info.ftl">
-      <@info/>
-      <#include "../components/create_topic.ftl">
-      <@create_topic/>
-    </#if>
+                <#include "../components/user_info.ftl">
+                <@info/>
+                <#include "../components/create_topic.ftl">
+                <@create_topic/>
+            </#if>
   </div>
 </div>
 </@html>

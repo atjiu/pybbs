@@ -1,8 +1,6 @@
 package cn.tomoya.module.index.controller;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.util.LocaleMessageSourceUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,34 +17,29 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/admin")
 public class IndexAdminController extends BaseController {
 
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
-
     /**
-     * administrator home
+     * 首页
      *
      * @return
      */
     @GetMapping("/index")
-    public String index(Model model) {
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.index"));
+    public String index() {
         return render("/admin/index");
     }
 
     /**
-     * indexed page
+     * 索引首页
      *
      * @return
      */
     @GetMapping("/indexed")
     public String indexed(String s, Model model) {
         model.addAttribute("s", s);
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.indexed.index"));
         return render("/admin/indexed/index");
     }
 
     /**
-     * indexed topics
+     * 索引全部话题
      *
      * @param response
      * @return
@@ -58,7 +51,7 @@ public class IndexAdminController extends BaseController {
     }
 
     /**
-     * delete indexed
+     * 删除全部索引
      *
      * @param response
      * @return

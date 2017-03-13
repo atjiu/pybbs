@@ -4,7 +4,6 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +26,6 @@ public class TopicService {
     private TopicDao topicDao;
     @Autowired
     private ReplyService replyService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     public void save(Topic topic) {
         topicDao.save(topic);
@@ -39,19 +36,19 @@ public class TopicService {
     }
 
     /**
-     * delete topic
+     * 删除话题
      *
      * @param id
      */
     public void deleteById(int id) {
-        //delete all comment of the topic
+        //删除话题下面的回复
         replyService.deleteByTopic(id);
-        //delete topic
+        //删除话题
         topicDao.delete(id);
     }
 
     /**
-     * delete all topics of the user
+     * 删除用户发的所有话题
      *
      * @param user
      */
@@ -60,25 +57,22 @@ public class TopicService {
     }
 
     /**
-     * paging query topics
+     * 分页查询话题列表
      *
      * @param p
      * @param size
      * @return
      */
     public Page<Topic> page(int p, int size, String tab) {
-        String tab_all = localeMessageSourceUtil.getMessage("site.tab.all");
-        String tab_good = localeMessageSourceUtil.getMessage("site.tab.good");
-        String tab_unanswered = localeMessageSourceUtil.getMessage("site.tab.unanswered");
         Sort sort = new Sort(
                 new Sort.Order(Sort.Direction.DESC, "top"),
                 new Sort.Order(Sort.Direction.DESC, "inTime"));
         Pageable pageable = new PageRequest(p - 1, size, sort);
-        if (tab.equals(tab_all)) {
+        if (tab.equals("全部")) {
             return topicDao.findAll(pageable);
-        } else if (tab.equals(tab_good)) {
+        } else if (tab.equals("精华")) {
             return topicDao.findByGood(true, pageable);
-        } else if (tab.equals(tab_unanswered)) {
+        } else if (tab.equals("等待回复")) {
             return topicDao.findByReplyCount(0, pageable);
         } else {
             return topicDao.findByTab(tab, pageable);
@@ -86,7 +80,7 @@ public class TopicService {
     }
 
     /**
-     * search by keyword
+     * 搜索
      * @param p
      * @param size
      * @param q
@@ -101,7 +95,20 @@ public class TopicService {
     }
 
     /**
-     * topic comment number - 1
+     * 增加回复数
+     *
+     * @param topicId
+     */
+    public void addOneReplyCount(int topicId) {
+        Topic topic = findById(topicId);
+        if (topic != null) {
+            topic.setReplyCount(topic.getReplyCount() + 1);
+            save(topic);
+        }
+    }
+
+    /**
+     * 减少回复数
      *
      * @param topicId
      */
@@ -114,7 +121,7 @@ public class TopicService {
     }
 
     /**
-     * query user topics
+     * 查询用户的话题
      *
      * @param p
      * @param size

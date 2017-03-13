@@ -1,8 +1,8 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.Result;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TopicAdminController extends BaseController {
 
     @Autowired
-    private SettingService settingService;
+    private SiteConfig siteConfig;
     @Autowired
     private TopicService topicService;
 
     /**
-     * topic list
+     * 话题列表
      *
      * @param p
      * @param model
@@ -36,13 +36,13 @@ public class TopicAdminController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        Page<Topic> page = topicService.page(p == null ? 1 : p, settingService.getPageSize(), null);
+        Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), null);
         model.addAttribute("page", page);
         return render("/admin/topic/list");
     }
 
     /**
-     * delete topic
+     * 删除话题
      *
      * @param id
      * @return

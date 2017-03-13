@@ -1,15 +1,11 @@
 <#macro footer>
 <div class="container">
   <br>
-  <span>
-    &copy;2016 Powered by <a href="//bbs.tomoya.cn" target="_blank"><@spring.message "site.name"/></a>
+  <div class="text-center">
+    &copy;2016 Powered by <a href="//bbs.tomoya.cn" target="_blank">朋也社区</a>
     <a href="http://www.miitbeian.gov.cn/">${beianName!}</a>
   ${tongjiJs!}
-  </span>
-  <span class="pull-right">
-    <span class="glyphicon glyphicon-globe"></span> <a href="/changeLanguage?lang=zh">中文</a> / <a href="/changeLanguage?lang=en">English</a>
-  </span>
-  <div style="clear: both;"></div>
+  </div>
   <br>
 </div>
 </#macro>

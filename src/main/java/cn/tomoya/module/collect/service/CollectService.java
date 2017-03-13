@@ -25,7 +25,7 @@ public class CollectService {
     private CollectDao collectDao;
 
     /**
-     * query user collection topics
+     * 查询用户收藏的话题
      *
      * @param p
      * @param size
@@ -39,7 +39,7 @@ public class CollectService {
     }
 
     /**
-     * query the user a total of how many topic collection
+     * 查询用户共收藏了多少篇话题
      *
      * @param user
      * @return
@@ -49,7 +49,7 @@ public class CollectService {
     }
 
     /**
-     * how many users are collected
+     * 查询话题共被多少用户收藏
      *
      * @param topic
      * @return
@@ -59,7 +59,7 @@ public class CollectService {
     }
 
     /**
-     * query collections by user and topic
+     * 根据用户和话题查询收藏记录
      *
      * @param user
      * @param topic
@@ -70,7 +70,7 @@ public class CollectService {
     }
 
     /**
-     * collection topic
+     * 收藏话题
      *
      * @param collect
      */
@@ -79,7 +79,7 @@ public class CollectService {
     }
 
     /**
-     * delete collection
+     * 删除收藏
      *
      * @param id
      */
@@ -88,8 +88,7 @@ public class CollectService {
     }
 
     /**
-     * delete user's collection
-     *
+     * 删除用户的收藏
      * @param user
      */
     public void deleteByUser(User user) {

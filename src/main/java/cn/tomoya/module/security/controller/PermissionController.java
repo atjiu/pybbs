@@ -3,9 +3,6 @@ package cn.tomoya.module.security.controller;
 import cn.tomoya.common.BaseController;
 import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.service.PermissionService;
-import cn.tomoya.module.security.service.RoleService;
-import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,15 +24,9 @@ public class PermissionController extends BaseController {
 
     @Autowired
     private PermissionService permissionService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * permissions page
+     * 角色列表
      *
      * @param pid
      * @param model
@@ -51,12 +42,11 @@ public class PermissionController extends BaseController {
             model.addAttribute("permissions", permissionService.findByPid(0));
         }
         model.addAttribute("pid", pid);
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.permission.list"));
         return render("/admin/permission/list");
     }
 
     /**
-     * add permission page
+     * 跳转添加页面
      *
      * @return
      */
@@ -64,12 +54,11 @@ public class PermissionController extends BaseController {
     public String add(Integer pid, Model model) {
         model.addAttribute("pid", pid);
         model.addAttribute("permissions", permissionService.findByPid(0));
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.permission.add"));
         return render("/admin/permission/add");
     }
 
     /**
-     * save permission
+     * 保存添加的权限
      *
      * @param pid
      * @param name
@@ -85,14 +74,11 @@ public class PermissionController extends BaseController {
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
-        roleService.clearCache();
-        userService.clearCache();
-        permissionService.clearCache();
         return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
     /**
-     * edit permission page
+     * 跳转编辑页面
      *
      * @return
      * @Param id
@@ -102,12 +88,11 @@ public class PermissionController extends BaseController {
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("permission", permissionService.findById(id));
         model.addAttribute("permissions", permissionService.findByPid(0));
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.permission.edit"));
         return render("/admin/permission/edit");
     }
 
     /**
-     * update permission
+     * 更新权限
      *
      * @param id
      * @param pid
@@ -124,14 +109,11 @@ public class PermissionController extends BaseController {
         permission.setUrl(url);
         permission.setPid(pid == null ? 0 : pid);
         permissionService.save(permission);
-        roleService.clearCache();
-        userService.clearCache();
-        permissionService.clearCache();
         return redirect(response, "/admin/permission/list?pid=" + pid);
     }
 
     /**
-     * delete permission
+     * 删除权限
      *
      * @param id
      * @return
@@ -139,9 +121,6 @@ public class PermissionController extends BaseController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         permissionService.deleteById(id);
-        roleService.clearCache();
-        userService.clearCache();
-        permissionService.clearCache();
         return redirect(response, "/admin/permission/list");
     }
 }

@@ -1,7 +1,7 @@
 <#macro info>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <@spring.message "site.panel.header.author"/>
+    作者
   </div>
   <div class="panel-body">
     <div class="media">

@@ -1,9 +1,11 @@
 <#include "../common/layout.ftl"/>
-<@html page_tab="user">
+<@html page_title="${currentUser.username}创建的话题" page_tab="user">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
-      <div class="panel-heading">${pageTitle!}</div>
+      <div class="panel-heading">
+      ${currentUser.username}创建的话题
+      </div>
       <div class="panel-body">
         <#include "../components/user_topics.ftl"/>
         <@user_topics topics=page.getContent()/>

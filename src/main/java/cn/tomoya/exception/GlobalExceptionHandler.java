@@ -1,7 +1,6 @@
 package cn.tomoya.exception;
 
-import cn.tomoya.module.setting.service.SettingService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
+import cn.tomoya.common.config.SiteConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @Autowired
-    private SettingService settingService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
+    private SiteConfig siteConfig;
 
     private HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -33,7 +30,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * error page unified processing
+     * 错误页面统一处理
      * @param e
      * @return
      * @throws Exception
@@ -41,15 +38,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("siteTitle", siteConfig.getName());
         mav.addObject("exception", e);
         mav.addObject("errorCode", getStatus(request));
-        mav.addObject("pageTitle", localeMessageSourceUtil.getMessage("site.page.error"));
-        mav.setViewName(settingService.getTheme() + "/error");
+        mav.setViewName(siteConfig.getTheme() + "/error");
         return mav;
     }
 
     /**
-     * interface error unified processing
+     * 接口错误统一处理
      * @param e
      * @return
      * @throws Exception

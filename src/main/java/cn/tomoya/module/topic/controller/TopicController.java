@@ -1,15 +1,13 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.section.service.SectionService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,28 +37,23 @@ public class TopicController extends BaseController {
     @Autowired
     private CollectService collectService;
     @Autowired
-    private SectionService sectionService;
-    @Autowired
-    private SettingService settingService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
+    private SiteConfig siteConfig;
 
     /**
-     * create topic
+     * 创建话题
      *
      * @return
      */
     @GetMapping("/create")
-    public String create(HttpServletResponse response, Model model) {
+    public String create(HttpServletResponse response) {
         if(getUser().isBlock()) {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+            return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
         }
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.topic.create"));
         return render("/topic/create");
     }
 
     /**
-     * save topic
+     * 保存话题
      *
      * @param title
      * @param content
@@ -70,13 +63,13 @@ public class TopicController extends BaseController {
     @PostMapping("/save")
     public String save(String tab, String title, String content, Model model, HttpServletResponse response) {
         if(getUser().isBlock()) {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.accountDisabled"));
+            return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
         }
         String errors;
         if (StringUtils.isEmpty(title)) {
-            errors = localeMessageSourceUtil.getMessage("site.prompt.text.topicTitleCantEmpty");
-        }  else if (sectionService.findByName(tab) == null) {
-            errors = localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist");
+            errors = "标题不能为空";
+        }  else if (!siteConfig.getSections().contains(tab)) {
+            errors = "版块不存在";
         } else {
             User user = getUser();
             Topic topic = new Topic();
@@ -88,18 +81,17 @@ public class TopicController extends BaseController {
             topic.setUser(user);
             topic.setGood(false);
             topic.setTop(false);
-            topic.setEditor(settingService.getEditor());
+            topic.setEditor(siteConfig.getEditor());
             topic.setLock(false);
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
         }
         model.addAttribute("errors", errors);
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.topic.create"));
         return render("/topic/create");
     }
 
     /**
-     * edit topic
+     * 编辑话题
      *
      * @param id
      * @param response
@@ -110,16 +102,15 @@ public class TopicController extends BaseController {
     public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
         Topic topic = topicService.findById(id);
         if (topic == null) {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.topicNotExist"));
+            return renderText(response, "话题不存在");
         } else {
             model.addAttribute("topic", topic);
-            model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.topic.edit"));
             return render("/topic/edit");
         }
     }
 
     /**
-     * update topic
+     * 更新话题
      *
      * @param title
      * @param content
@@ -130,19 +121,19 @@ public class TopicController extends BaseController {
         Topic topic = topicService.findById(id);
         User user = getUser();
         if (topic.getUser().getId() == user.getId()) {
-            if(sectionService.findByName(tab) == null) throw new IllegalArgumentException(localeMessageSourceUtil.getMessage("site.prompt.text.tabNotExist"));
+            if(!siteConfig.getSections().contains(tab)) throw new IllegalArgumentException("版块不存在");
             topic.setTab(tab);
             topic.setTitle(title);
             topic.setContent(content);
             topicService.save(topic);
             return redirect(response, "/topic/" + topic.getId());
         } else {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.illegalOperation"));
+            return renderText(response, "非法操作");
         }
     }
 
     /**
-     * topic detail
+     * 话题详情
      *
      * @param id
      * @param model
@@ -152,9 +143,9 @@ public class TopicController extends BaseController {
     public String detail(@PathVariable Integer id, HttpServletResponse response, Model model) {
         if (id != null) {
             Topic topic = topicService.findById(id);
-            //view+1
+            //浏览量+1
             topic.setView(topic.getView() + 1);
-            topicService.save(topic);
+            topicService.save(topic);//更新话题数据
             List<Reply> replies = replyService.findByTopic(topic);
             model.addAttribute("topic", topic);
             model.addAttribute("replies", replies);
@@ -163,15 +154,14 @@ public class TopicController extends BaseController {
             model.addAttribute("otherTopics", topicService.findByUser(1, 7, topic.getUser()));
             model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
             model.addAttribute("collectCount", collectService.countByTopic(topic));
-            model.addAttribute("pageTitle", topic.getTitle());
             return render("/topic/detail");
         } else {
-            return renderText(response, localeMessageSourceUtil.getMessage("site.prompt.text.topicNotExist"));
+            return renderText(response, "话题不存在");
         }
     }
 
     /**
-     * delete topic
+     * 删除话题
      *
      * @param id
      * @return
@@ -183,7 +173,7 @@ public class TopicController extends BaseController {
     }
 
     /**
-     * set good or cancel good
+     * 加/减精华
      * @param id
      * @param response
      * @return
@@ -197,7 +187,7 @@ public class TopicController extends BaseController {
     }
 
     /**
-     * set top or cancel top
+     * 置/不置顶
      * @param id
      * @param response
      * @return
@@ -211,7 +201,7 @@ public class TopicController extends BaseController {
     }
 
     /**
-     * set lock or cancel lock
+     * 锁定/不锁定
      * @param id
      * @param response
      * @return

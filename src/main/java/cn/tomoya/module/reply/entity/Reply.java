@@ -25,37 +25,40 @@ public class Reply extends BaseEntity implements Serializable {
     @GeneratedValue
     private int id;
 
+    //回复的内容
     @Column(columnDefinition = "text", nullable = false)
     private String content;
 
+    //回复时间
     @JsonFormat(pattern = Constants.DATETIME_FORMAT)
     private Date inTime;
 
-    //number of up vote
+    //点赞个数
     @Column(nullable = false)
     private int up;
 
-    //number of down vote
+    //踩的个数
     @Column(nullable = false)
     private int down;
 
-    //the difference of up vote and down vote
     @Column(nullable = false, name = "up_down")
     private int upDown;
 
+    //与话题的关联关系
     @ManyToOne
     @JoinColumn(nullable = false, name = "topic_id")
     private Topic topic;
 
+    //与用户的关联关系
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    //up vote to the user's id, comma separated
+    //对回复点赞的用户id，逗号隔开(英文逗号)
     @Column(columnDefinition = "text")
     private String upIds;
 
-    //down vote to the user's id, comma separated
+    //对回复点踩的用户id，逗号隔开(英文逗号)
     @Column(columnDefinition = "text")
     private String downIds;
 

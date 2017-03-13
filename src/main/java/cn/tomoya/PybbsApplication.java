@@ -1,6 +1,6 @@
 package cn.tomoya;
 
-import cn.tomoya.common.InitDB;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.interceptor.CommonInterceptor;
 import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
 import cn.tomoya.module.security.core.MyUserDetailService;
@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,12 +19,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
 
 /**
  * Created by tomoya.
@@ -35,6 +30,7 @@ import java.util.Locale;
  */
 @EnableCaching
 @SpringBootApplication
+@EnableConfigurationProperties(SiteConfig.class)
 public class PybbsApplication extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -44,10 +40,23 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
     @Autowired
-    private InitDB initDB;
+    private SiteConfig siteConfig;
 
     /**
-     * add interceptors
+     * 添加viewController
+     *
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        super.addViewControllers(registry);
+        registry.addViewController("/donate").setViewName(siteConfig.getTheme() + "/donate");
+        registry.addViewController("/about").setViewName(siteConfig.getTheme() + "/about");
+        registry.addViewController("/apidoc").setViewName(siteConfig.getTheme() + "/api");
+    }
+
+    /**
+     * 添加拦截器
      *
      * @param registry
      */
@@ -60,7 +69,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * configuration security
+     * 配置权限
      */
     @Configuration
     @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -99,32 +108,14 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                     .permitAll();
             http
                     .logout()
-                    .deleteCookies("remember-me")
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/");
-            http.rememberMe();
             http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
         }
 
         @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(myUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
-        }
-    }
-
-    // set defaut locale en_US
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.getDefault()); // set setting default locale
-        return slr;
-    }
-
-    @Configuration
-    class BeforeStartup implements ApplicationListener<ContextRefreshedEvent> {
-        @Override
-        public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-            initDB.init();
         }
     }
 

@@ -5,8 +5,6 @@ import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.PermissionService;
 import cn.tomoya.module.security.service.RoleService;
-import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,14 +29,10 @@ public class RoleController extends BaseController {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private UserService userService;
-    @Autowired
     private PermissionService permissionService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * role list
+     * 角色列表
      *
      * @param model
      * @return
@@ -46,12 +40,11 @@ public class RoleController extends BaseController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.list"));
         return render("/admin/role/list");
     }
 
     /**
-     * add role
+     * 添加角色
      *
      * @param model
      * @return
@@ -59,12 +52,11 @@ public class RoleController extends BaseController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("list", permissionService.findAll());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.add"));
         return render("/admin/role/add");
     }
 
     /**
-     * save role and associated permissions
+     * 保存配置的权限
      *
      * @param permissionIds
      * @param response
@@ -82,13 +74,11 @@ public class RoleController extends BaseController {
         }
         role.setPermissions(permissions);
         roleService.save(role);
-        userService.clearCache();
-        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 
     /**
-     * edit role page
+     * 编辑角色
      *
      * @param model
      * @return
@@ -97,12 +87,11 @@ public class RoleController extends BaseController {
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("role", roleService.findById(id));
         model.addAttribute("list", permissionService.findAll());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.role.edit"));
         return render("/admin/role/edit");
     }
 
     /**
-     * update role and associated permissions
+     * 更新配置的权限
      *
      * @param permissionIds
      * @param response
@@ -122,13 +111,11 @@ public class RoleController extends BaseController {
         }
         role.setPermissions(permissions);
         roleService.save(role);
-        userService.clearCache();
-        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 
     /**
-     * delete role
+     * 删除角色
      *
      * @param id
      * @return
@@ -136,8 +123,6 @@ public class RoleController extends BaseController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, HttpServletResponse response) {
         roleService.deleteById(id);
-        userService.clearCache();
-        roleService.clearCache();
         return redirect(response, "/admin/role/list");
     }
 }

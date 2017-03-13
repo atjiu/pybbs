@@ -1,8 +1,6 @@
 spring:
   freemarker:
     cache: false
-    settings:
-      auto_import: /spring.ftl as spring
   datasource:
     url: jdbc:mysql://localhost/pybbs-springboot?useSSL=false&characterEncoding=utf8
     username: root
@@ -14,5 +12,20 @@ spring:
       ddl-auto: update
   mvc:
     static-path-pattern: /static/**
-  messages:
-    basename: i18n/messages
+site:
+  name: 朋也社区
+  intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
+  baseUrl: http://localhost:8080/
+  pageSize: 20
+  avatarPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/avatar/
+  uploadPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/upload/
+  sections:
+    - 分享
+    - 问答
+    - 新闻
+    - 博客
+    - 招聘
+  theme: bootstrap
+  editor: markdown # 支持两种，1. markdown 2. wangeditor
+  donate: false
+  search: true

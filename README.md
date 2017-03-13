@@ -1,10 +1,6 @@
-> Instructions：Please keep the powered by Pybbs at the bottom of the page
+> 使用说明：请保留页面底部的 powered by 朋也社区
 
-**Notice: backup database before upgrading**
-
-[English](https://github.com/tomoya92/pybbs) | [中文](https://github.com/tomoya92/pybbs/blob/master/README_zh_CN.md)
-
-## Technology stack
+## 技术栈
 
 - jdk8
 - tomcat8
@@ -15,70 +11,73 @@
 - mysql
 - bootstrap
 
-**Well, that's the spring family bucket**
+**呃，就是spring全家桶**
 
-## Features
+## 特性
 
-- I18N international support
-- ehcache support
-- Compatibility(IE9+)
-- Responsive layout
-- Local sign in/ sign up
-- Use spring-boot development
-- Permission to use spring-security, based on the permissions to do URL easy configuration management
-- Spring-data operation data storage
-- Use [editor](https://github.com/lepture/editor) as markdown editor, More convenient to write, but also supports screenshots paste upload
+- 社区兼容性（IE9+）
+- 页面自适应布局
+- 本地登录，注册
+- 使用springboot开发
+- 权限使用springsecurity，基于url做的权限方便配置管理
+- 使用的springdata操作数据存储
+- 使用 [editor](https://github.com/lepture/editor) 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
+- 页面与 http://bbs.tomoya.cn 一样
 
-## Getting Started
-
-- `git clone https://github.com/tomoya92/pybbs.git`
-- Modify configuration item in configuration file `src/main/resources/application.yml`
-- Create database `pybbs-springboot`
-- Run main method of `PybbsApplication.java`
-- Browser `http://localhost:8080/`
-- Default account `tomoya` `123123`
-
-## Jar package run
+## 如何开始
 
 - `git clone https://github.com/tomoya92/pybbs.git`
-- Modify configuration item in configuration file `src/main/resources/application.yml`
-- Create database `pybbs-springboot`
-- Run `mvn clean -Dmaven.test.skip=true` command to generate jar package, located in `target/pybbs.jar` package
-- Run `java -jar pybbs.jar` to start the service
-- Browser `http://localhost:8080/`
-- Default account `tomoya` `123123`
+- 修改配置文件 `src/main/resources/application.yml` 里的配置项
+- 创建数据库 `pybbs-springboot`
+- 运行`PybbsApplication.java`里的`main`方法
+- 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
+- 浏览器 `http://localhost:8080/`
+- 默认帐户 `tomoya` `123123`
 
-## Pending completion
+## 打jar包运行
 
-- [x] Add cache（ehcache）
-- [x] I18N
-- [ ] Indexed
-- [ ] Integrated third party login（Github, QQ, Weibo）
+- `git clone https://github.com/tomoya92/pybbs.git`
+- 修改配置文件 `src/main/resources/application.yml` 里的配置项
+- 创建数据库 `pybbs-springboot`
+- 运行 `mvn clean package -Dmaven.test.skip=true` 命令，生成jar包，位置在 `target/pybbs.jar`
+- 运行 `java -jar pybbs.jar` 即可启动服务
+- 启动项目后表是自动创建的，然后将 `pybbs-springboot.sql` 导入数据库
+- 浏览器 `http://localhost:8080/`
+- 默认帐户 `tomoya` `123123`
 
-## How to do a problem?
+## 待完成
 
-[Issues](https://github.com/tomoya92/pybbs/issues) on Github
+- [x] 加入缓存（ehcache）
+- [ ] 集成第三方登录（Github, QQ, 微博）
+- [ ] 检索
+- [ ] 国际化
 
-## Other versions
+## 碰到问题怎么办?
 
-- Golang: [https://github.com/tomoya92/pybbs-go](https://github.com/tomoya92/pybbs-go)
-- spring-boot: [https://github.com/tomoya92/pybbs](https://github.com/tomoya92/pybbs)
-- jfinal: [https://github.com/tomoya92/pybbs/tree/v2.3](https://github.com/tomoya92/pybbs/tree/v2.3)
-- ssm: [https://github.com/ehuacui/ehuacui-bbs](https://github.com/ehuacui/ehuacui-bbs)
+- 到 [http://bbs.tomoya.cn](http://bbs.tomoya.cn) 上提问答
+- 在Github上提 [Issues](https://github.com/tomoya92/pybbs/issues)
+- 提问题的时候请将问题重现步骤描述清楚
+- 加QQ群：`419343003`
 
-## Contribution
+## 其它版本
 
-Welcome to send pull request
+- golang版：[https://github.com/tomoya92/pybbs-go](https://github.com/tomoya92/pybbs-go)
+- springboot版：[https://github.com/tomoya92/pybbs](https://github.com/tomoya92/pybbs)
+- jfinal版：[https://github.com/tomoya92/pybbs/tree/v2.3](https://github.com/tomoya92/pybbs/tree/v2.3)
+- ssm版：[https://github.com/ehuacui/ehuacui-bbs](https://github.com/ehuacui/ehuacui-bbs)
 
-## Theme
+## 贡献
+
+欢迎大家提pr
+
+## 主题
 
 [https://github.com/tomoya92/pybbs-theme](https://github.com/tomoya92/pybbs-theme)
 
-## Donate
+## 捐赠
 
-| ![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png) | ![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png) |
-| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
-|                                                     Alipay                                                     |                                                     Wechat                                                     |
+![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png)
+![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png)
 
 ## License
 

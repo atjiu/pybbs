@@ -1,15 +1,14 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,12 +37,10 @@ public class UserApiController extends BaseController {
     @Autowired
     private CollectService collectService;
     @Autowired
-    private SettingService settingService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
+    private SiteConfig siteConfig;
 
     /**
-     * user profile interface
+     * 用户首页接口
      * @param username
      * @return
      * @throws ApiException
@@ -51,7 +48,7 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}")
     public Result profile(@PathVariable String username) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
+        if (user == null) throw new ApiException("用户名不存在");
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
         map.put("collectCount", collectService.countByUser(user));
@@ -61,7 +58,7 @@ public class UserApiController extends BaseController {
     }
 
     /**
-     * user topics interface
+     * 用户发布的所有话题
      *
      * @param username
      * @return
@@ -69,13 +66,13 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/topics")
     public Result topics(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = topicService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
+        if (user == null) throw new ApiException("用户名不存在");
+        Page page = topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }
 
     /**
-     * user comment interface
+     * 用户发布的所有回复
      *
      * @param username
      * @return
@@ -83,13 +80,13 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/replies")
     public Result replies(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = replyService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
+        if (user == null) throw new ApiException("用户名不存在");
+        Page page = replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }
 
     /**
-     * user collection interface
+     * 用户收藏的所有话题
      *
      * @param username
      * @return
@@ -97,8 +94,8 @@ public class UserApiController extends BaseController {
     @GetMapping("/{username}/collects")
     public Result collects(@PathVariable String username, Integer p) throws ApiException {
         User user = userService.findByUsername(username);
-        if (user == null) throw new ApiException(localeMessageSourceUtil.getMessage("site.page.user.notExist"));
-        Page page = collectService.findByUser(p == null ? 1 : p, settingService.getPageSize(), user);
+        if (user == null) throw new ApiException("用户名不存在");
+        Page page = collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), user);
         return Result.success(page);
     }
 

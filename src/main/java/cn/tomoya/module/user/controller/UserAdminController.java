@@ -1,12 +1,11 @@
 package cn.tomoya.module.user.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.RoleService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,16 +28,14 @@ import java.util.Set;
 public class UserAdminController extends BaseController {
 
     @Autowired
-    private SettingService settingService;
+    private SiteConfig siteConfig;
     @Autowired
     private UserService userService;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * user list
+     * 用户列表
      *
      * @param p
      * @param model
@@ -46,13 +43,12 @@ public class UserAdminController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        model.addAttribute("page", userService.pageUser(p == null ? 1 : p, settingService.getPageSize()));
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.user.list"));
+        model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
         return render("/admin/user/list");
     }
 
     /**
-     * delete user
+     * 删除用户
      *
      * @param id
      * @return
@@ -64,7 +60,7 @@ public class UserAdminController extends BaseController {
 //    }
 
     /**
-     * disable the user
+     * 禁用用户
      * @param id
      * @param response
      * @return
@@ -72,12 +68,11 @@ public class UserAdminController extends BaseController {
     @GetMapping("/{id}/block")
     public String block(@PathVariable Integer id, HttpServletResponse response) {
         userService.blockUser(id);
-        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 
     /**
-     * unblock users
+     * 解禁用户
      * @param id
      * @param response
      * @return
@@ -85,12 +80,11 @@ public class UserAdminController extends BaseController {
     @GetMapping("/{id}/unblock")
     public String unblock(@PathVariable Integer id, HttpServletResponse response) {
         userService.unBlockUser(id);
-        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 
     /**
-     * edit user and associated roles
+     * 配置用户的角色
      *
      * @param id
      * @return
@@ -99,12 +93,11 @@ public class UserAdminController extends BaseController {
     public String role(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.admin.user.edit"));
         return render("/admin/user/role");
     }
 
     /**
-     * save user and associated roles
+     * 保存配置用户的角色
      *
      * @param id
      * @return
@@ -119,7 +112,6 @@ public class UserAdminController extends BaseController {
         }
         user.setRoles(roles);
         userService.save(user);
-        userService.clearCache();
         return redirect(response, "/admin/user/list");
     }
 

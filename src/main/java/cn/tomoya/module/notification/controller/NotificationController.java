@@ -1,13 +1,12 @@
 package cn.tomoya.module.notification.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.ErrorCode;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
-import cn.tomoya.module.setting.service.SettingService;
 import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.LocaleMessageSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class NotificationController extends BaseController {
 
     @Autowired
-    private SettingService settingService;
+    private SiteConfig siteConfig;
     @Autowired
     private NotificationService notificationService;
-    @Autowired
-    private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     /**
-     * notification list
+     * 通知列表
      *
      * @param p
      * @param model
@@ -40,15 +37,14 @@ public class NotificationController extends BaseController {
      */
     @GetMapping("/list")
     public String list(Integer p, Model model) {
-        model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, settingService.getPageSize(), getUser(), null));
-        //set unread notification to read
+        model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
+        //将未读消息置为已读
         notificationService.updateByIsRead(getUser());
-        model.addAttribute("pageTitle", localeMessageSourceUtil.getMessage("site.page.notification.list"));
         return render("/notification/list");
     }
 
     /**
-     * query the number of notification that the current user has not read
+     * 查询当前用户未读的消息数量
      *
      * @return
      */
@@ -56,7 +52,7 @@ public class NotificationController extends BaseController {
     @ResponseBody
     public Result notRead() throws ApiException {
         User user = getUser();
-        if (user == null) throw new ApiException(ErrorCode.notLogin, localeMessageSourceUtil.getMessage("site.prompt.text.notLogin"));
+        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
         return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
     }
 }

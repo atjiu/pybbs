@@ -1,6 +1,6 @@
 <#macro othertopics>
 <div class="panel panel-default">
-  <div class="panel-heading"><@spring.message "site.panel.header.authorOtherTopic"/></div>
+  <div class="panel-heading">作者其他话题</div>
   <div class="panel-body">
     <#list otherTopics.getContent() as topic>
       <p><a href="/topic/${topic.id!}">${topic.title!}</a></p>
