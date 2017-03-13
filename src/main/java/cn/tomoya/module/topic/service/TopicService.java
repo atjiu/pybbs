@@ -1,5 +1,7 @@
 package cn.tomoya.module.topic.service;
 
+import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
 import cn.tomoya.module.topic.entity.Topic;
@@ -26,6 +28,10 @@ public class TopicService {
     private TopicDao topicDao;
     @Autowired
     private ReplyService replyService;
+    @Autowired
+    private CollectService collectService;
+    @Autowired
+    private NotificationService notificationService;
 
     public void save(Topic topic) {
         topicDao.save(topic);
@@ -41,10 +47,15 @@ public class TopicService {
      * @param id
      */
     public void deleteById(int id) {
+        Topic topic = findById(id);
+        //删除收藏这个话题的记录
+        collectService.deleteByTopic(topic);
+        //删除通知里提到的话题
+        notificationService.deleteByTopic(topic);
         //删除话题下面的回复
-        replyService.deleteByTopic(id);
+        replyService.deleteByTopic(topic);
         //删除话题
-        topicDao.delete(id);
+        topicDao.delete(topic);
     }
 
     /**

@@ -124,4 +124,8 @@ public class NotificationService {
     public void deleteByTargetUser(User user) {
         notificationDao.deleteByTargetUser(user);
     }
+
+    public void deleteByTopic(Topic topic) {
+        notificationDao.deleteByTopic(topic);
+    }
 }

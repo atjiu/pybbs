@@ -23,7 +23,7 @@ public interface ReplyDao extends JpaRepository<Reply, Integer> {
 
     List<Reply> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
 
-    void deleteByTopicId(int topicId);
+    void deleteByTopic(Topic topic);
 
     void deleteByUser(User user);
 

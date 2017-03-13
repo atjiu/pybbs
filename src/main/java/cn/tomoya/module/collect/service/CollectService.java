@@ -94,4 +94,8 @@ public class CollectService {
     public void deleteByUser(User user) {
         collectDao.deleteByUser(user);
     }
+
+    public void deleteByTopic(Topic topic) {
+        collectDao.deleteByTopic(topic);
+    }
 }

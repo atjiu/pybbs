@@ -1,6 +1,7 @@
 package cn.tomoya.module.notification.dao;
 
 import cn.tomoya.module.notification.entity.Notification;
+import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,4 +42,6 @@ public interface NotificationDao extends JpaRepository<Notification, Integer> {
     void deleteByTargetUser(User user);
 
     void deleteByUser(User user);
+
+    void deleteByTopic(Topic topic);
 }

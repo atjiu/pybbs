@@ -32,4 +32,6 @@ public interface CollectDao extends JpaRepository<Collect, Integer> {
     Collect findByUserAndTopic(User user, Topic topic);
 
     void deleteByUser(User user);
+
+    void deleteByTopic(Topic topic);
 }

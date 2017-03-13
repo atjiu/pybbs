@@ -63,10 +63,10 @@ public class ReplyService {
     /**
      * 根据话题删除回复
      *
-     * @param topicId
+     * @param topic
      */
-    public void deleteByTopic(int topicId) {
-        replyDao.deleteByTopicId(topicId);
+    public void deleteByTopic(Topic topic) {
+        replyDao.deleteByTopic(topic);
     }
 
     /**
