@@ -90,6 +90,15 @@ public class UserService {
     }
 
     /**
+     * 根据令牌查询用户
+     * @param token
+     * @return
+     */
+    public User findByToken(String token) {
+        return userDao.findByToken(token);
+    }
+
+    /**
      * 删除用户
      * 注：这会删除用户的所有记录，慎重操作
      * @param id

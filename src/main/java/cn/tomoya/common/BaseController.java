@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -98,6 +99,19 @@ public class BaseController {
             return userService.findByUsername(userDetails.getUsername());
         }
         return null;
+    }
+
+    /**
+     * 获取用户信息
+     * @param token
+     * @return
+     */
+    protected User getUser(String token) {
+        if(StringUtils.isEmpty(token)) {
+            return null;
+        } else {
+            return userService.findByToken(token);
+        }
     }
 
 }

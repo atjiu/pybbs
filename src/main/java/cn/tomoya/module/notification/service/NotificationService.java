@@ -1,9 +1,14 @@
 package cn.tomoya.module.notification.service;
 
+import cn.tomoya.common.BaseEntity;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.notification.dao.NotificationDao;
 import cn.tomoya.module.notification.entity.Notification;
+import cn.tomoya.module.notification.entity.NotificationEnum;
+import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +31,10 @@ public class NotificationService {
 
     @Autowired
     private NotificationDao notificationDao;
+    @Autowired
+    private SiteConfig siteConfig;
+    @Autowired
+    private UserService userService;
 
     /**
      * 保存通知
@@ -34,6 +43,30 @@ public class NotificationService {
      */
     public void save(Notification notification) {
         notificationDao.save(notification);
+    }
+
+    public void sendNotification(User user, Topic topic, String content, Reply reply) {
+        //给话题作者发送通知
+        if (user.getId() != topic.getUser().getId()) {
+            this.sendNotification(user, topic.getUser(), NotificationEnum.REPLY.name(), topic, content, reply.getEditor());
+        }
+        //给At用户发送通知
+        String pattern = null;
+        if(siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+        List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
+        for (String u : atUsers) {
+            if(siteConfig.getEditor().equals("markdown")) {
+                u = u.replace("@", "").trim();
+            } else if(siteConfig.getEditor().equals("wangeditor")) {
+                u = u.replace("\">@", "").replace("</a>", "").trim();
+            }
+            if (!u.equals(user.getUsername())) {
+                User _user = userService.findByUsername(u);
+                if (_user != null) {
+                    this.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content, reply.getEditor());
+                }
+            }
+        }
     }
 
     /**
@@ -128,4 +161,5 @@ public class NotificationService {
     public void deleteByTopic(Topic topic) {
         notificationDao.deleteByTopic(topic);
     }
+
 }

@@ -1,6 +1,7 @@
 package cn.tomoya.module.api.controller;
 
 import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
@@ -8,12 +9,12 @@ import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
+import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class TopicApiController extends BaseController {
     private ReplyService replyService;
     @Autowired
     private CollectService collectService;
+    @Autowired
+    private SiteConfig siteConfig;
 
     /**
      * 话题详情
@@ -54,5 +57,42 @@ public class TopicApiController extends BaseController {
         map.put("author", topic.getUser());
         map.put("collectCount", collectService.countByTopic(topic));
         return Result.success(map);
+    }
+
+    /**
+     * 保存话题
+     * @param title
+     * @param content
+     * @param tab
+     * @param token
+     * @return
+     * @throws ApiException
+     */
+    @PostMapping("/save")
+    public Result save(String title, String content, String tab, String token, String editor) throws ApiException {
+        User user = getUser(token);
+        if(user == null) throw new ApiException("用户不存在");
+        if(user.isBlock()) throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
+
+        if(StringUtils.isEmpty(title)) throw new ApiException("标题不能为空");
+        if(title.length() > 120) throw new ApiException("标题不能超过120个字");
+        if(!siteConfig.getSections().contains(tab)) throw new ApiException("版块不存在");
+        if(StringUtils.isEmpty(editor)) editor = "markdown";
+        if(!editor.equals("markdown") || !editor.equals("wangeditor")) editor = "markdown";
+
+        Topic topic = new Topic();
+        topic.setTab(tab);
+        topic.setTitle(title);
+        topic.setContent(content);
+        topic.setInTime(new Date());
+        topic.setView(0);
+        topic.setUser(user);
+        topic.setGood(false);
+        topic.setTop(false);
+        topic.setEditor(editor);
+        topic.setLock(false);
+        topicService.save(topic);
+
+        return Result.success(topic);
     }
 }

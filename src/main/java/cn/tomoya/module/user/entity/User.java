@@ -57,6 +57,9 @@ public class User extends BaseEntity implements Serializable {
     //用户是否被禁用
     private boolean block;
 
+    //用户令牌
+    private String token;
+
     //用户与角色的关联关系
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -137,6 +140,14 @@ public class User extends BaseEntity implements Serializable {
 
     public void setBlock(boolean block) {
         this.block = block;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Set<Role> getRoles() {

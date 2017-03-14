@@ -4,6 +4,7 @@ import cn.tomoya.common.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -58,6 +59,7 @@ public class Topic extends BaseEntity implements Serializable {
     //与用户的关联关系
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
+    @JsonIgnore
     private User user;
 
     //回复数

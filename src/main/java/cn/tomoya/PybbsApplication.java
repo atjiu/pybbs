@@ -111,6 +111,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/");
             http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+            http.csrf().ignoringAntMatchers("/api/**");
         }
 
         @Autowired
