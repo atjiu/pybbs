@@ -21,8 +21,8 @@
 - 使用 `spring-boot` 开发
 - 权限使用 `spring-security` ，基于url做的权限方便配置管理
 - 使用的 `spring-jpa` 操作数据存储
-- 使用 link:https://github.com/lepture/editor[editor, window="_blank"] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
-- 还增加了 link:https://github.com/wangfupeng1988/wangEditor[wangEditor, window="_blank"] 作为富文本编辑器
+- 使用 link:https://github.com/lepture/editor[editor] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
+- 还增加了 link:https://github.com/wangfupeng1988/wangEditor[wangEditor] 作为富文本编辑器
 
 == 如何开始
 
@@ -53,10 +53,10 @@
 
 == 其它版本
 
-- golang版：link:https://github.com/tomoya92/pybbs-go[https://github.com/tomoya92/pybbs-go, window="_blank"]
+- golang版：link:https://github.com/tomoya92/pybbs-go[https://github.com/tomoya92/pybbs-go]
 - springboot版：link:https://github.com/tomoya92/pybbs[https://github.com/tomoya92/pybbs]
-- jfinal版：link:https://github.com/tomoya92/pybbs/tree/v2.3[https://github.com/tomoya92/pybbs/tree/v2.3, window="_blank"]
-- ssm版：link:https://github.com/ehuacui/ehuacui-bbs[https://github.com/ehuacui/ehuacui-bbs, window="_blank"]
+- jfinal版：link:https://github.com/tomoya92/pybbs/tree/v2.3[https://github.com/tomoya92/pybbs/tree/v2.3]
+- ssm版：link:https://github.com/ehuacui/ehuacui-bbs[https://github.com/ehuacui/ehuacui-bbs]
 
 == 贡献
 
@@ -64,7 +64,7 @@
 
 == 主题
 
-link:https://github.com/tomoya92/pybbs-theme[https://github.com/tomoya92/pybbs-theme, window="_blank"]
+link:https://github.com/tomoya92/pybbs-theme[https://github.com/tomoya92/pybbs-theme]
 
 == 捐赠
 
