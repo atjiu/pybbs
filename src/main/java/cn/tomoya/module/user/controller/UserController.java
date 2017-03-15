@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -175,6 +176,19 @@ public class UserController extends BaseController {
         }
         model.addAttribute("user", getUser());
         return render("/user/setting");
+    }
+
+    /**
+     * 刷新token
+     * @param response
+     * @return
+     */
+    @GetMapping("/refreshToken")
+    public String refreshToken(HttpServletResponse response) {
+        User user = getUser();
+        user.setToken(UUID.randomUUID().toString());
+        userService.save(user);
+        return redirect(response, "/user/setting");
     }
 
 }

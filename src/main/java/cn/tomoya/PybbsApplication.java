@@ -95,7 +95,8 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                             "/collect/**",
                             "/notification/**",
                             "/user/setting",
-                            "/user/changePassword"
+                            "/user/changePassword",
+                            "/user/refreshToken"
                     ).authenticated();
             http
                     .formLogin()
