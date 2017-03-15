@@ -40,7 +40,7 @@
             <script>
               function notificationCount() {
                 $.ajax({
-                  url: "/notification/notRead",
+                  url: "/api/notification/notRead",
                   async: true,
                   cache: false,
                   type: "get",

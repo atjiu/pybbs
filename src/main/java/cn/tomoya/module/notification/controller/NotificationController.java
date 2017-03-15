@@ -42,17 +42,4 @@ public class NotificationController extends BaseController {
         notificationService.updateByIsRead(getUser());
         return render("/notification/list");
     }
-
-    /**
-     * 查询当前用户未读的消息数量
-     *
-     * @return
-     */
-    @GetMapping("/notRead")
-    @ResponseBody
-    public Result notRead() throws ApiException {
-        User user = getUser();
-        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
-        return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
-    }
 }

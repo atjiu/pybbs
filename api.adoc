@@ -1,0 +1,98 @@
+== 接口文档
+*注意:测试接口请先自己装本项目启动起来,否则下面示例链接点了会报错*
+
+=== GET /api/index 话题列表
+
+- tab: 版块
+- p: 分页
+
+示例: http://localhost:8080/api/index[/api/index]
+
+=== GET /api/topic/:id 话题详情
+
+- token 可选, 用户令牌
+
+示例: http://localhost:8080/api/topic/1[/api/topic/1]
+
+=== POST /api/topic/save 发布话题
+
+- token 必填, 用户令牌
+- title 话题标题
+- content 话题内容
+- tab 版块
+- editor 可选, 使用的编辑器, markdown wangeditor, 默认markdown
+
+示例返回值
+[source,json,indent=0]
+----
+{
+  "code": 200,
+  "description": "success",
+  "detail":{
+    "id": 4,
+    "tab": "问答",
+    "title": "hello world",
+    "content": null,
+    "inTime": "2017-03-15 09:17:33",
+    "modifyTime": null,
+    "top": false,
+    "good": false,
+    "view": 0,
+    "replyCount": 0,
+    "upIds": null,
+    "editor": "markdown",
+    "lock": false
+  }
+}
+----
+
+=== POST /api/reply/save 新增回复
+
+- token 必填, 用户令牌
+- content 回复内容
+- topicId 回复话题的ID
+- editor 可选, 使用的编辑器, markdown wangeditor, 默认markdown
+
+示例返回值
+[source,json,indent=0]
+----
+{
+  "code": 200,
+  "description": "success",
+  "detail": null
+}
+----
+
+=== GET /api/notification/notRead 未读通知
+
+- token 必填, 用户令牌
+
+示例返回值
+[source,json,indent=0]
+{
+  "code": 200,
+  "description": "success",
+  "detail": 0
+}
+
+=== GET /api/user/:username 用户主页
+
+示例: http://localhost:8080/api/user/tomoya[/api/user/tomoya]
+
+=== GET /api/user/:username/topics 用户发布的话题
+
+- p: 分页
+
+示例: http://localhost:8080/api/user/tomoya/topics[/api/user/tomoya/topics]
+
+=== GET /api/user/:username/replies 用户发布的回复
+
+- p: 分页
+
+示例: http://localhost:8080/api/user/tomoya/replies[/api/user/tomoya/replies]
+
+=== GET /api/user/:username/collects 用户收藏的话题
+
+- p: 分页
+
+示例: http://localhost:8080/api/user/tomoya/collects[/api/user/tomoya/collects]
