@@ -2,17 +2,12 @@ package cn.tomoya.module.notification.controller;
 
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.exception.ApiException;
-import cn.tomoya.exception.ErrorCode;
-import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.service.NotificationService;
-import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by tomoya.

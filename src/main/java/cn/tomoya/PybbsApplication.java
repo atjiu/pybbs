@@ -50,9 +50,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addViewController("/donate").setViewName(siteConfig.getTheme() + "/donate");
         registry.addViewController("/about").setViewName(siteConfig.getTheme() + "/about");
-        registry.addViewController("/apidoc").setViewName(siteConfig.getTheme() + "/api");
     }
 
     /**

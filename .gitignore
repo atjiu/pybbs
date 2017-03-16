@@ -15,4 +15,4 @@ pybbs.iml
 pybbs.log
 target/
 out/
-dev.config.properties
+.DS_Store

@@ -21,7 +21,6 @@ public class SiteConfig {
     private List<String> sections;
     private String theme;
     private String editor;
-    private boolean donate;
     private boolean search;
 
     public String getName() {
@@ -94,14 +93,6 @@ public class SiteConfig {
 
     public void setEditor(String editor) {
         this.editor = editor;
-    }
-
-    public boolean isDonate() {
-        return donate;
-    }
-
-    public void setDonate(boolean donate) {
-        this.donate = donate;
     }
 
     public boolean isSearch() {
