@@ -120,6 +120,32 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     }
 
     public static void main(String[] args) {
+        for(String s : args) {
+            String[] _ss = s.split("=");
+            if(_ss[0].equals("port")) {
+                System.setProperty("server.port", _ss[1]);
+            } else if(_ss[0].equals("cache")) {
+                System.setProperty("spring.freemarker.cache", _ss[1]);
+            } else if(_ss[0].equals("password")) {
+                System.setProperty("spring.datasource.password", _ss[1]);
+            } else if(_ss[0].equals("showSql")) {
+                System.setProperty("spring.jpa.show-sql", _ss[1]);
+            } else if(_ss[0].equals("name")) {
+                System.setProperty("site.name", _ss[1]);
+            } else if(_ss[0].equals("intro")) {
+                System.setProperty("site.intro", _ss[1]);
+            } else if(_ss[0].equals("baseUrl")) {
+                System.setProperty("site.baseUrl", _ss[1]);
+            } else if(_ss[0].equals("staticUrl")) {
+                System.setProperty("site.staticUrl", _ss[1]);
+            } else if(_ss[0].equals("pageSize")) {
+                System.setProperty("site.pageSize", _ss[1]);
+            } else if(_ss[0].equals("uploadPath")) {
+                System.setProperty("site.uploadPath", _ss[1]);
+            } else if(_ss[0].equals("editor")) {
+                System.setProperty("site.editor", _ss[1]);
+            }
+        }
         SpringApplication.run(PybbsApplication.class, args);
     }
 }
