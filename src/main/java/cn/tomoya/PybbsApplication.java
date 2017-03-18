@@ -126,6 +126,10 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                 System.setProperty("server.port", _ss[1]);
             } else if(_ss[0].equals("cache")) {
                 System.setProperty("spring.freemarker.cache", _ss[1]);
+            } else if(_ss[0].equals("url")) {
+                System.setProperty("spring.datasource.url", _ss[1]);
+            } else if(_ss[0].equals("username")) {
+                System.setProperty("spring.datasource.username", _ss[1]);
             } else if(_ss[0].equals("password")) {
                 System.setProperty("spring.datasource.password", _ss[1]);
             } else if(_ss[0].equals("showSql")) {
