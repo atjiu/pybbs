@@ -182,4 +182,15 @@ public class IndexController extends BaseController {
         return "error|文件不存在";
     }
 
+    /**
+     * 关于
+     * @param model
+     * @return
+     */
+    @GetMapping("/about")
+    public String about(Model model) {
+        model.addAttribute("page_tab", "about");
+        return render("/about");
+    }
+
 }

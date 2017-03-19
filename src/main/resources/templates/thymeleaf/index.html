@@ -1,0 +1,53 @@
+<!doctype html>
+<html layout:decorator="thymeleaf/layout/layout">
+<head>
+    <title>index page</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-pills">
+                        <li th:class="${tab eq '全部'} ? active"><a href="/?tab=全部">全部</a></li>
+                        <li th:class="${tab eq '精华'} ? active"><a href="/?tab=精华">精华</a></li>
+                        <li th:class="${tab eq '等待回复'} ? active"><a href="/?tab=等待回复">等待回复</a></li>
+                        <li class="dropdown" th:class="${tab ne '全部' and tab ne '精华' and tab ne '等待回复'} ? active"
+                            style="margin-right: 8px;">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-target="#">
+                                <span th:text="${sectionName}"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li th:each="section : ${sections}">
+                                    <a th:href="@{/(tab=${section})}" th:text="${section}"></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body paginate-bot">
+                    <div th:include="thymeleaf/components/topics :: topics(page=${page})"></div>
+                    <!--<#include "./components/topics.ftl"/>
+                    <@topics/>
+                    <#include "./components/paginate.ftl"/>
+                    <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/"
+                    urlParas="&tab=${tab!}"/>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 hidden-sm hidden-xs">
+            <span sec:authorize="isAuthenticated()">
+                <div th:include="thymeleaf/components/user_info"></div>
+                <div th:include="thymeleaf/components/create_topic"></div>
+            </span>
+            <span sec:authorize="!isAuthenticated()">
+                <div th:include="thymeleaf/components/welcome"></div>
+            </span>
+            <div th:include="thymeleaf/components/qrcode"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

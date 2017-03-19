@@ -1,0 +1,26 @@
+<div th:fragment="topics(page)">
+<div class="media" th:each="topic : ${page.getContent()}">
+    <div class="media-left">
+        <a th:href="@{/user/(${topic.user.username})}"><img th:src="${topic.user.avatar}" class="avatar"/></a>
+    </div>
+    <div class="media-body">
+        <div class="title">
+            <a th:href="@{/topic/(${topic.id})}" th:text="${topic.title}"></a>
+        </div>
+        <p class="gray">
+            <span class="label label-primary" th:if="${topic.top}">置顶</span>
+            <span class="label label-success" th:if="${topic.good}">精华</span>
+            <a th:href="@{/(tab=${topic.tab})}" th:text="${topic.tab}"></a>
+            <span>•</span>
+            <span><a th:href="@{/user/(${topic.user.username})}" th:text="${topic.user.username}"></a></span>
+            <span class="hidden-sm hidden-xs">•</span>
+            <span class="hidden-sm hidden-xs"><span th:text="${topic.replyCount}"></span>个回复</span>
+            <span class="hidden-sm hidden-xs">•</span>
+            <span class="hidden-sm hidden-xs"><span th:text="${topic.view}"></span>次浏览</span>
+            <span>•</span>
+            <span th:text="${topic.inTime}"></span>
+        </p>
+    </div>
+</div>
+<div class="divide mar-top-5"></div>
+</div>

@@ -43,17 +43,6 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
     private SiteConfig siteConfig;
 
     /**
-     * 添加viewController
-     *
-     * @param registry
-     */
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/about").setViewName(siteConfig.getTheme() + "/about");
-    }
-
-    /**
      * 添加拦截器
      *
      * @param registry
