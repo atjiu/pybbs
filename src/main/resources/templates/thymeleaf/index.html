@@ -28,12 +28,8 @@
                     </ul>
                 </div>
                 <div class="panel-body paginate-bot">
-                    <div th:include="thymeleaf/components/topics :: topics(page=${page})"></div>
-                    <!--<#include "./components/topics.ftl"/>
-                    <@topics/>
-                    <#include "./components/paginate.ftl"/>
-                    <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/"
-                    urlParas="&tab=${tab!}"/>-->
+                    <div th:include="thymeleaf/components/topics :: topics(page=${page.page})"></div>
+                    <div th:include="thymeleaf/components/pagination :: pagination(page=${page})"></div>
                 </div>
             </div>
         </div>

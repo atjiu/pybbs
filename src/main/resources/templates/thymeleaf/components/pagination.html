@@ -1,0 +1,25 @@
+<!-- Pagination Bar -->
+<div th:fragment='pagination(page)'>
+  <ul class='pagination pagination-sm'>
+    <li th:class="${page.firstPage}? 'disabled' : ''">
+      <span th:if="${page.firstPage}">&lt;&lt;</span>
+      <a th:if="${not page.firstPage}" th:href="@{/(p=1)}">&lt;&lt;</a>
+    </li>
+    <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+      <span th:if="${not page.hasPreviousPage}">&lt;</span>
+      <a th:if="${page.hasPreviousPage}" th:href="@{/(p=${page.number-1})}" title="Go to previous page">&lt;</a>
+    </li>
+    <li th:each="item : ${page.items}" th:class="${item.current}? 'active' : ''">
+      <span th:if="${item.current}" th:text="${item.number}">1</span>
+      <a th:if="${not item.current}" th:href="@{/(p=${item.number})}"><span th:text="${item.number}">1</span></a>
+    </li>
+    <li th:class="${page.hasNextPage}? '' : 'disabled'">
+      <span th:if='${not page.hasNextPage}'>&gt;</span>
+      <a th:if='${page.hasNextPage}' th:href="@{/(p=${page.number+1})}" title="Go to next page">&gt;</a>
+    </li>
+    <li th:class="${page.lastPage}? 'disabled' : ''">
+      <span th:if="${page.lastPage}">&gt;&gt;</span>
+      <a th:if="${not page.lastPage}" th:href="@{/(p=${page.totalPages})}">&gt;&gt;</a>
+    </li>
+  </ul>
+</div>

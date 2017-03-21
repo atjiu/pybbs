@@ -1,0 +1,34 @@
+<html layout:decorator="thymeleaf/layout/layout">
+<head>
+    <title>登录</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="/">主页</a> / 登录
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" th:if="${SPRING_SECURITY_LAST_EXCEPTION}">用户名或密码错误</div>
+                    <div class="alert alert-success" th:if="${s eq 'reg'}">注册成功，快快登录吧！</div>
+                    <form role="form" th:action="@{/login}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <div class="form-group">
+                            <label th:for="username" th:text="用户名">用户名</label>
+                            <input type="text" class="form-control" th:id="username" th:name="username" placeholder="用户名"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="password" th:text="密码">密码</label>
+                            <input type="password" class="form-control" th:id="password" th:name="password" placeholder="密码"/>
+                        </div>
+                        <button type="submit" class="btn btn-default" th:text="登录">登录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
+import cn.tomoya.util.PageWrapper;
 import cn.tomoya.util.identicon.Identicon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,7 +59,7 @@ public class IndexController extends BaseController {
         if (tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
             sectionName = "版块";
         }
-        Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
+        PageWrapper<Topic> page = new PageWrapper<>(topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab), "/");
         model.addAttribute("page", page);
         model.addAttribute("tab", tab);
         model.addAttribute("sectionName", sectionName);
