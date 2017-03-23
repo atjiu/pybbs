@@ -5,13 +5,13 @@
     <div class="panel-body">
         <div class="media">
             <div class="media-left">
-                <a href="/user/${user.username!}">
-                    <img src="${user.avatar!}" title="${user.nickname!}" class="avatar"/>
+                <a th:href="@{/user/__${user.username}__}">
+                    <img th:src="${user.avatar}" class="avatar"/>
                 </a>
             </div>
             <div class="media-body">
                 <div class="media-heading">
-                    <a href="/user/${user.username!}">${user.username!}</a>
+                    <a th:href="@{/user/__${user.username}__}" th:text="${user.username}"></a>
                 </div>
             </div>
             <span th:if="${user.signature}">

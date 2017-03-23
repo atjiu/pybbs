@@ -1,6 +1,6 @@
 spring:
 #  freemarker:
-#    cache: false
+#    cache: true
   thymeleaf:
     cache: false
   datasource:

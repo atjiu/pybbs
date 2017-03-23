@@ -1,9 +1,5 @@
 package cn.tomoya;
 
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.interceptor.CommonInterceptor;
-import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
-import cn.tomoya.module.security.core.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,8 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.interceptor.CommonInterceptor;
+import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
+import cn.tomoya.module.security.core.MyUserDetailService;
 
 /**
  * Created by tomoya.
@@ -91,7 +91,7 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
                     .loginProcessingUrl("/login")
                     .usernameParameter("username")
                     .passwordParameter("password")
-                    .failureUrl("/login?error")
+                    .failureUrl("/login?error=true")
                     .defaultSuccessUrl("/")
                     .permitAll();
             http

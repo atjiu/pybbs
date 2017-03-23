@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" xmlns:th="http://www.thymeleaf.org">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -48,8 +48,8 @@
                     </script>
                 </li>
                 <li th:class="${page_tab eq 'user'} ? active">
-                    <a href="/user/${_principal}">
-                        <span sec:authentication="principal.authorities"></span>
+                    <a th:href="@{/user/__${_principal}__}">
+                        <span sec:authentication="name"></span>
                     </a>
                 </li>
                 <li th:class="${page_tab eq 'setting'} ? active">
@@ -60,9 +60,9 @@
                     </a>
                     <span class="dropdown-arrow"></span>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/setting">个人资料</a></li>
-                        <li sec:authorize="hasPermission('admin:index')"><a href="/admin/index">进入后台</a></li>
-                        <li><a href="/logout">退出</a></li>
+                        <li><a th:href="@{/user/setting}">个人资料</a></li>
+                        <li sec:authorize="hasRole('admin')"><a th:href="@{/admin/index}">进入后台</a></li>
+                        <li><a th:href="@{/logout}">退出</a></li>
                     </ul>
                 </li>
             </ul>

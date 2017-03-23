@@ -16,3 +16,8 @@ pybbs.log
 target/
 out/
 .DS_Store
+.apt_generated/
+.project
+.factorypath
+.settings
+
