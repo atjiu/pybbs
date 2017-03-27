@@ -45,6 +45,7 @@
                   cache: false,
                   type: "get",
                   dataType: "json",
+                  data: {token: '${user.token}'},
                   success: function (data) {
                     if(data.code == 200 && data.detail > 0) {
                       $("#badge").text(data.detail);

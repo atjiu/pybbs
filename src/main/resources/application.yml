@@ -1,8 +1,8 @@
 spring:
-#  freemarker:
-#    cache: true
-  thymeleaf:
-    cache: false
+  freemarker:
+    cache: true
+#  thymeleaf:
+#    cache: false
   datasource:
     url: jdbc:mysql://localhost/pybbs-springboot?useSSL=false&characterEncoding=utf8
     username: root
@@ -27,6 +27,6 @@ site:
     - 新闻
     - 博客
     - 招聘
-  theme: thymeleaf
+  theme: bootstrap
   editor: markdown # 支持两种，1. markdown 2. wangeditor
   search: true
