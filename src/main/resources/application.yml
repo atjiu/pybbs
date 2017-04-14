@@ -1,10 +1,8 @@
 spring:
   freemarker:
     cache: true
-#  thymeleaf:
-#    cache: false
   datasource:
-    url: jdbc:mysql://localhost/pybbs-springboot?useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
     username: root
     password: 123123
   jpa:
