@@ -9,6 +9,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">索引</div>
       <div class="panel-body">
+        <div class="alert alert-danger">索引功能都还没写，想用solr来实现的，可以参照pybbs2.3里用的检索！</div>
         <#if s?? && s == "add">
           <div class="alert alert-success">索引全部话题成功</div>
         </#if>
