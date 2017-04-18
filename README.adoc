@@ -76,6 +76,8 @@ spring-boot项目启动貌似都是写入内存里的，所以上传文件之后
 1. 重启一下服务
 2. 用`http-server`或者`nginx`做一下本地文件映射就好了，具体方法可参考 https://github.com/tomoya92/pybbs/wiki/jar%E5%8C%85%E8%BF%90%E8%A1%8C&%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE
 
+=== 其它提问方式
+
 - 在Github上提 link:https://github.com/tomoya92/pybbs/issues[Issues]
 - 提问题的时候请将问题重现步骤描述清楚
 - 加QQ群：`419343003`
