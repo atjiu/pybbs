@@ -69,6 +69,13 @@ init_connect='SET NAMES utf8mb4'
 
 == 碰到问题怎么办?
 
+=== 上传图片不显示原因
+
+spring-boot项目启动貌似都是写入内存里的，所以上传文件之后文件是在本地上，编辑器里当然就是显示图片了，解决办法一般有两种
+
+1. 重启一下服务
+2. 用`http-server`或者`nginx`做一下本地文件映射就好了，具体方法可参考 https://github.com/tomoya92/pybbs/wiki/jar%E5%8C%85%E8%BF%90%E8%A1%8C&%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE
+
 - 在Github上提 link:https://github.com/tomoya92/pybbs/issues[Issues]
 - 提问题的时候请将问题重现步骤描述清楚
 - 加QQ群：`419343003`
