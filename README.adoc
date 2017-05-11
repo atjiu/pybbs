@@ -3,6 +3,10 @@ ____
 使用说明：请保留页面底部的 *powered by 朋也社区*
 ____
 
+== 文档
+
+https://github.com/tomoya92/pybbs/wiki
+
 == 技术栈
 
 - JDK8
@@ -24,8 +28,8 @@ ____
 - 使用 `Spring-Boot` 开发
 - 权限使用 `Spring-Security` ，基于url做的权限方便配置管理
 - 使用的 `Spring-JPA` 操作数据存储
-- 使用 link:https://github.com/lepture/editor[editor] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
-- 还增加了 link:https://github.com/wangfupeng1988/wangEditor[wangEditor] 作为富文本编辑器
+- 使用 https://github.com/lepture/editor[editor] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
+- 还增加了 https://github.com/wangfupeng1988/wangEditor[wangEditor] 作为富文本编辑器
 
 == 如何开始
 
@@ -78,16 +82,16 @@ spring-boot项目启动貌似都是写入内存里的，所以上传文件之后
 
 === 其它提问方式
 
-- 在Github上提 link:https://github.com/tomoya92/pybbs/issues[Issues]
+- 在Github上提 https://github.com/tomoya92/pybbs/issues[Issues]
 - 提问题的时候请将问题重现步骤描述清楚
 - 加QQ群：`419343003`
 
 == 其它版本
 
-- golang版：link:https://github.com/tomoya92/pybbs-go[https://github.com/tomoya92/pybbs-go]
-- springboot版：link:https://github.com/tomoya92/pybbs[https://github.com/tomoya92/pybbs]
-- jfinal版：link:https://github.com/tomoya92/pybbs/tree/v2.3[https://github.com/tomoya92/pybbs/tree/v2.3]
-- ssm版：link:https://github.com/ehuacui/ehuacui-bbs[https://github.com/ehuacui/ehuacui-bbs]
+- golang版：https://github.com/tomoya92/pybbs-go
+- springboot版：https://github.com/tomoya92/pybbs
+- jfinal版：https://github.com/tomoya92/pybbs/tree/v2.3
+- ssm版：https://github.com/ehuacui/ehuacui-bbs
 
 == 贡献
 
@@ -95,12 +99,26 @@ spring-boot项目启动貌似都是写入内存里的，所以上传文件之后
 
 == 主题
 
-link:https://github.com/tomoya92/pybbs-theme[https://github.com/tomoya92/pybbs-theme]
+https://github.com/tomoya92/pybbs-theme
+
+== 使用者
+
+可以给我发邮件告知你的网站
+
+|===
+| 网站 | 版本
+
+| http://bbs.narutogis.com/
+| 2.3
+
+|===
 
 == 捐赠
 
 image:https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png[alipay]
 image:https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png[wechat]
+
+https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0[捐赠名单]
 
 == License
 
