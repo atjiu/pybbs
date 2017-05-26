@@ -20,6 +20,10 @@ https://github.com/tomoya92/pybbs/wiki
 
 *呃，就是spring全家桶*
 
+== 先睹为快
+
+[传送门](https://github.com/tomoya92/pybbs/wiki/%E6%88%AA%E5%9B%BE%E6%AC%A3%E8%B5%8F)
+
 == 特性
 
 - 社区兼容性（IE9+）
