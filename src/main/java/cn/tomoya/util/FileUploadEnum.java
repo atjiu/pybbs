@@ -7,7 +7,6 @@ package cn.tomoya.util;
  */
 public enum FileUploadEnum {
 
-    AVATAR,
-    FILE
+  AVATAR, FILE
 
 }

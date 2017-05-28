@@ -32,82 +32,55 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableConfigurationProperties(SiteConfig.class)
 public class PybbsApplication extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private CommonInterceptor commonInterceptor;
-    @Autowired
-    private MyUserDetailService myUserDetailService;
-    @Autowired
-    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
-    @Autowired
-    private SiteConfig siteConfig;
+  @Autowired
+  private CommonInterceptor commonInterceptor;
+  @Autowired
+  private MyUserDetailService myUserDetailService;
+  @Autowired
+  private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+  @Autowired
+  private SiteConfig siteConfig;
 
-    /**
-     * 添加拦截器
-     *
-     * @param registry
-     */
+  /**
+   * 添加拦截器
+   * @param registry
+   */
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    super.addInterceptors(registry);
+    registry.addInterceptor(commonInterceptor).addPathPatterns("/**").excludePathPatterns("/api/**");
+  }
+
+  /**
+   * 配置权限
+   */
+  @Configuration
+  @EnableGlobalMethodSecurity(prePostEnabled = true)
+  @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+  class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        super.addInterceptors(registry);
-        registry.addInterceptor(commonInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/api/**");
+    protected void configure(HttpSecurity http) throws Exception {
+      http.authorizeRequests().antMatchers("/static/**").permitAll()
+          .antMatchers("/admin/**", "/topic/create", "/topic/*/delete", "/topic/*/edit", "/reply/save",
+              "/reply/*/delete", "/reply/*/edit", "/reply/*/up", "/reply/*/cancelUp", "/reply/*/down",
+              "/reply/*/cancelDown", "/collect/**", "/notification/**", "/user/setting", "/user/changePassword",
+              "/user/refreshToken")
+          .authenticated();
+      http.formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
+          .passwordParameter("password").failureUrl("/login?error=true").defaultSuccessUrl("/").permitAll();
+      http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+      http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+      http.csrf().ignoringAntMatchers("/api/**");
     }
 
-    /**
-     * 配置权限
-     */
-    @Configuration
-    @EnableGlobalMethodSecurity(prePostEnabled = true)
-    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-    class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
-                    .antMatchers("/static/**").permitAll()
-                    .antMatchers(
-                            "/admin/**",
-                            "/topic/create",
-                            "/topic/*/delete",
-                            "/topic/*/edit",
-                            "/reply/save",
-                            "/reply/*/delete",
-                            "/reply/*/edit",
-                            "/reply/*/up",
-                            "/reply/*/cancelUp",
-                            "/reply/*/down",
-                            "/reply/*/cancelDown",
-                            "/collect/**",
-                            "/notification/**",
-                            "/user/setting",
-                            "/user/changePassword",
-                            "/user/refreshToken"
-                    ).authenticated();
-            http
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .failureUrl("/login?error=true")
-                    .defaultSuccessUrl("/")
-                    .permitAll();
-            http
-                    .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/");
-            http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-            http.csrf().ignoringAntMatchers("/api/**");
-        }
-
-        @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(myUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
-        }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+      auth.userDetailsService(myUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
     }
+  }
 
-    public static void main(String[] args) {
-        SpringApplication.run(PybbsApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(PybbsApplication.class, args);
+  }
 }

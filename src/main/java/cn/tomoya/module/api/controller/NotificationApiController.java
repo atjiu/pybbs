@@ -20,19 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/notification")
 public class NotificationApiController extends BaseController {
 
-    @Autowired
-    private NotificationService notificationService;
+  @Autowired
+  private NotificationService notificationService;
 
-    /**
-     * 查询当前用户未读的消息数量
-     *
-     * @return
-     */
-    @GetMapping("/notRead")
-    public Result notRead(String token) throws ApiException {
-        User user = getUser(token);
-        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
-        return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
-    }
+  /**
+   * 查询当前用户未读的消息数量
+   *
+   * @return
+   */
+  @GetMapping("/notRead")
+  public Result notRead(String token) throws ApiException {
+    User user = getUser(token);
+    if (user == null)
+      throw new ApiException(ErrorCode.notLogin, "请先登录");
+    return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
+  }
 
 }

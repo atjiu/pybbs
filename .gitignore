@@ -20,4 +20,4 @@ out/
 .project
 .factorypath
 .settings
-
+.classpath

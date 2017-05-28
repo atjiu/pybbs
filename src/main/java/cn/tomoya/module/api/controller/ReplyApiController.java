@@ -26,44 +26,51 @@ import java.util.Date;
 @RequestMapping("/api/reply")
 public class ReplyApiController extends BaseController {
 
-    @Autowired
-    private TopicService topicService;
-    @Autowired
-    private ReplyService replyService;
-    @Autowired
-    private NotificationService notificationService;
+  @Autowired
+  private TopicService topicService;
+  @Autowired
+  private ReplyService replyService;
+  @Autowired
+  private NotificationService notificationService;
 
-    @PostMapping("/save")
-    public Result save(Integer topicId, String content, String token, String editor) throws ApiException {
-        User user = getUser(token);
-        if(user == null) throw new ApiException("用户不存在");
-        if(user.isBlock()) throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
+  @PostMapping("/save")
+  public Result save(Integer topicId, String content, String token, String editor) throws ApiException {
+    User user = getUser(token);
+    if (user == null)
+      throw new ApiException("用户不存在");
+    if (user.isBlock())
+      throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
 
-        if(topicId == null) throw new ApiException("话题ID不能为空");
+    if (topicId == null)
+      throw new ApiException("话题ID不能为空");
 
-        Topic topic = topicService.findById(topicId);
-        if(topic == null) throw new ApiException("话题不存在");
+    Topic topic = topicService.findById(topicId);
+    if (topic == null)
+      throw new ApiException("话题不存在");
 
-        if(StringUtils.isEmpty(content)) throw new ApiException("回复内容不能为空");
-        if(StringUtils.isEmpty(editor)) editor = "markdown";
-        if(!editor.equals("markdown") || !editor.equals("wangeditor")) editor = "markdown";
+    if (StringUtils.isEmpty(content))
+      throw new ApiException("回复内容不能为空");
+    if (StringUtils.isEmpty(editor))
+      editor = "markdown";
+    if (!editor.equals("markdown") || !editor.equals("wangeditor"))
+      editor = "markdown";
 
-        Reply reply = new Reply();
-        reply.setUser(user);
-        reply.setTopic(topic);
-        reply.setInTime(new Date());
-        reply.setUp(0);
-        reply.setContent(content);
-        reply.setEditor(editor);
+    Reply reply = new Reply();
+    reply.setUser(user);
+    reply.setTopic(topic);
+    reply.setInTime(new Date());
+    reply.setUp(0);
+    reply.setContent(content);
+    reply.setEditor(editor);
 
-        replyService.save(reply);
+    replyService.save(reply);
 
-        //回复+1
-        topic.setReplyCount(topic.getReplyCount() + 1);
-        topicService.save(topic);
+    // 回复+1
+    topic.setReplyCount(topic.getReplyCount() + 1);
+    topicService.save(topic);
 
-        notificationService.sendNotification(user, topic, content, reply);
+    notificationService.sendNotification(user, topic, content, reply);
 
-        return Result.success();
-    }
+    return Result.success();
+  }
 }
