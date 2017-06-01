@@ -1,5 +1,18 @@
 package cn.tomoya.module.api.controller;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
@@ -7,17 +20,10 @@ import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
+import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -36,6 +42,8 @@ public class TopicApiController extends BaseController {
   private CollectService collectService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private SectionService sectionService;
 
   /**
    * 话题详情
@@ -81,7 +89,7 @@ public class TopicApiController extends BaseController {
       throw new ApiException("标题不能为空");
     if (title.length() > 120)
       throw new ApiException("标题不能超过120个字");
-    if (!siteConfig.getSections().contains(tab))
+    if (sectionService.findByName(tab) == null)
       throw new ApiException("版块不存在");
     if (StringUtils.isEmpty(editor))
       editor = "markdown";
