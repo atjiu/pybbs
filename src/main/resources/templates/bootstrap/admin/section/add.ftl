@@ -1,40 +1,36 @@
-<#include "../../common/layout.ftl"/>
-<@html page_tab="setting">
+<#include "../common/layout.ftl"/>
+<@html page_tab="system" page_title="添加板块">
 <div class="row">
-  <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../../components/admin_left.ftl">
-    <@admin_left page_tab="section"/>
-  </div>
   <div class="col-md-9">
     <div class="panel panel-default">
-      <div class="panel-heading"><@spring.message "site.panel.header.admin.section.add"/></div>
+      <div class="panel-heading">
+        <a href="/">主页</a> / 添加板块
+      </div>
       <div class="panel-body">
-        <form action="/admin/section/add" method="post" id="sectionForm">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <form action="/section/add" method="post" id="sectionForm">
           <div class="form-group">
-            <label for="name"><@spring.message "site.form.admin.section.name"/></label>
-            <input type="text" id="name" name="name" class="form-control"/>
+            <label for="name">名称</label>
+            <input type="text" name="name" id="name" placeholder="名称" class="form-control">
           </div>
-          <button type="button" id="sectionBtn" onclick="sectionSubmit()" class="btn btn-sm btn-default"><@spring.message "site.button.save"/></button>
+          <div class="form-group">
+            <label for="tab">tab(不能与已经存在的tab重复)</label>
+            <input type="text" name="tab" id="tab" placeholder="tab" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>是否显示</label>
+            <div>
+              <input type="radio" name="showStatus" id="showStatus_1" value="1" checked="checked">
+              <label for="showStatus_1">是&nbsp;</label>
+              <input type="radio" name="showStatus" id="showStatus_0" value="0">
+              <label for="showStatus_0">否</label>
+            </div>
+          </div>
+          <button onclick="saveSection()" id="saveSectionBtn" class="btn btn-sm btn-default">保存</button>
           <span id="error_message"></span>
         </form>
       </div>
     </div>
   </div>
+  <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
-<script type="text/javascript">
-  function sectionSubmit() {
-    var errors = 0;
-    var em = $("#error_message");
-    var name = $("#name").val();
-    if (name.length == 0) {
-      errors++;
-      em.html("<@spring.message "site.prompt.text.nameNotEmpty"/>");
-    }
-    if (errors == 0) {
-      var form = $("#sectionForm");
-      form.submit();
-    }
-  }
-</script>
 </@html>

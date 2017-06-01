@@ -1,9 +1,5 @@
 package cn.tomoya;
 
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.interceptor.CommonInterceptor;
-import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
-import cn.tomoya.module.security.core.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +17,11 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.interceptor.CommonInterceptor;
+import cn.tomoya.module.security.core.MyFilterSecurityInterceptor;
+import cn.tomoya.module.security.core.MyUserDetailService;
 
 /**
  * Created by tomoya.
@@ -61,14 +62,22 @@ public class PybbsApplication extends WebMvcConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.authorizeRequests().antMatchers("/static/**").permitAll()
+      http.authorizeRequests()
+          .antMatchers("/static/**")
+          .permitAll()
           .antMatchers("/admin/**", "/topic/create", "/topic/*/delete", "/topic/*/edit", "/reply/save",
               "/reply/*/delete", "/reply/*/edit", "/reply/*/up", "/reply/*/cancelUp", "/reply/*/down",
               "/reply/*/cancelDown", "/collect/**", "/notification/**", "/user/setting", "/user/changePassword",
               "/user/refreshToken")
           .authenticated();
-      http.formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
-          .passwordParameter("password").failureUrl("/login?error=true").defaultSuccessUrl("/").permitAll();
+      http.formLogin()
+          .loginPage("/login")
+          .loginProcessingUrl("/login")
+          .usernameParameter("username")
+          .passwordParameter("password")
+          .failureUrl("/login?error=true")
+          .defaultSuccessUrl("/")
+          .permitAll();
       http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
       http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
       http.csrf().ignoringAntMatchers("/api/**");

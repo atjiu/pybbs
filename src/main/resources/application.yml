@@ -19,12 +19,6 @@ site:
   staticUrl: http://localhost:8080/
   pageSize: 20
   uploadPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/upload/
-  sections:
-    - 分享
-    - 问答
-    - 新闻
-    - 博客
-    - 招聘
   theme: bootstrap
   editor: markdown # 支持两种，1. markdown 2. wangeditor
   search: true

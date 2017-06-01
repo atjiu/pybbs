@@ -1,7 +1,11 @@
 package cn.tomoya.interceptor;
 
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.util.IpUtil;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,10 +16,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
-import java.util.Map;
+import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.util.IpUtil;
 
 /**
  * Created by tomoya.
@@ -29,6 +32,8 @@ public class CommonInterceptor implements HandlerInterceptor {
 
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private SectionService sectionService;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -56,7 +61,7 @@ public class CommonInterceptor implements HandlerInterceptor {
       modelMap.addAttribute("baseUrl", siteConfig.getBaseUrl());
       modelMap.addAttribute("_intro", siteConfig.getIntro());
       modelMap.addAttribute("siteTitle", siteConfig.getName());
-      modelMap.addAttribute("sections", siteConfig.getSections());
+      modelMap.addAttribute("sections", sectionService.findAll());
       modelMap.addAttribute("_editor", siteConfig.getEditor());
       modelMap.addAttribute("_search", siteConfig.isSearch());
     }
