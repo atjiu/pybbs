@@ -1,5 +1,11 @@
 spring:
+  resources:
+    static-locations:
+    - file:./static/
   freemarker:
+    template-loader-path:
+    - classpath:/templates/
+    - file:./templates/
     cache: true
   datasource:
     url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
@@ -16,9 +22,9 @@ site:
   name: 朋也社区
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
   baseUrl: http://localhost:8080/
-  staticUrl: http://localhost:8080/
+  staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20
-  uploadPath: /Users/tomoya/git/github/pybbs/target/classes/static/images/upload/
+  uploadPath: ./static/images/upload/
   theme: bootstrap
-  editor: markdown # 支持两种，1. markdown 2. wangeditor
+  editor: markdown
   search: true

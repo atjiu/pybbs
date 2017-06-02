@@ -1,17 +1,19 @@
 package cn.tomoya.module.api.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.exception.ApiException;
-import cn.tomoya.exception.Result;
-import cn.tomoya.module.topic.entity.Topic;
-import cn.tomoya.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import cn.tomoya.common.BaseController;
+import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.exception.ApiException;
+import cn.tomoya.exception.Result;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.topic.service.TopicService;
 
 /**
  * Created by tomoya.
@@ -26,6 +28,8 @@ public class IndexApiController extends BaseController {
   private TopicService topicService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private SectionService sectionService;
 
   /**
    * 话题列表接口
@@ -36,7 +40,7 @@ public class IndexApiController extends BaseController {
    */
   @GetMapping("/index")
   public Result index(String tab, Integer p) throws ApiException {
-    if (!StringUtils.isEmpty(tab) && !siteConfig.getSections().contains(tab))
+    if (!StringUtils.isEmpty(tab) && sectionService.findByName(tab) == null)
       throw new ApiException("版块不存在");
     if (StringUtils.isEmpty(tab))
       tab = "全部";
