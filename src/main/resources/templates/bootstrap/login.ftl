@@ -8,7 +8,7 @@
       </div>
       <div class="panel-body">
         <#if SPRING_SECURITY_LAST_EXCEPTION??>
-          <div class="alert alert-danger">用户名或密码错误</div>
+          <div class="alert alert-danger">${(SPRING_SECURITY_LAST_EXCEPTION.message)!}</div>
         </#if>
         <#if s?? && s == "reg">
           <div class="alert alert-success">注册成功，快快登录吧！</div>

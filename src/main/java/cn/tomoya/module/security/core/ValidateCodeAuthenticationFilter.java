@@ -3,6 +3,7 @@ package cn.tomoya.module.security.core;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -31,9 +33,16 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
   @Autowired
   private UserService userService;
 
+  @PostConstruct
+  public void init() {
+//    String failureUrl = "/login?error";
+//    setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
+  }
+
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
       throws AuthenticationException {
+    AuthenticationManager authenticationManager = super.getAuthenticationManager();
     // 只接受POST方式传递的数据
     if (!"POST".equals(request.getMethod()))
       throw new AuthenticationServiceException("不支持非POST方式的请求!");
