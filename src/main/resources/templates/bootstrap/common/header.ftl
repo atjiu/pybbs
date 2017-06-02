@@ -9,10 +9,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" style="color:#fff;" href="/">${siteTitle!}</a>
+      <a class="navbar-brand" style="color:#fff;" href="/">${site.name!}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
-      <#if _search?? && _search == true>
+      <#if site.search?? && site.search == true>
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
           <div class="form-group">
             <input type="text" class="form-control" name="q" value="${q!}" placeholder="回车搜索">
@@ -31,7 +31,7 @@
         <li <#if page_tab == 'about'> class="active" </#if>>
           <a href="/about">关于</a>
         </li>
-        <#if _isAuthenticated?? && _isAuthenticated == true>
+        <#if sec.isAuthenticated()>
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>
           </li>
@@ -59,8 +59,8 @@
             </script>
           </li>
           <li <#if page_tab == 'user'> class="active" </#if>>
-            <a href="/user/${_principal}">
-            ${_principal}
+            <a href="/user/${sec.getPrincipal()!}">
+            ${sec.getPrincipal()!}
               <span class="badge" id="badge"></span>
             </a>
           </li>
@@ -73,7 +73,7 @@
             <span class="dropdown-arrow"></span>
             <ul class="dropdown-menu">
               <li><a href="/user/setting">个人资料</a></li>
-              <#if _roles?seq_contains("admin:index")>
+              <#if sec.allGranted("admin:index")>
                 <li><a href="/admin/index">进入后台</a></li>
               </#if>
               <li><a href="/logout">退出</a></li>

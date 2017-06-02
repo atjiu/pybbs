@@ -1,5 +1,5 @@
 <#include "common/layout.ftl"/>
-<@html page_title="积分前100 - ${siteTitle!}">
+<@html page_title="积分前100 - ${site.name!}">
 <div class="row">
   <div class="col-md-9">
     <#include "./components/scores.ftl"/>

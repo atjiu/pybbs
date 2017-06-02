@@ -47,7 +47,7 @@
     </div>
   </div>
 </div>
-<#if _editor == 'markdown'>
+<#if site.editor == 'markdown'>
   <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
   <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
   <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
@@ -57,7 +57,7 @@
     var editor = new Editor({element: $("#content")[0], status: []});
     editor.render();
   </script>
-<#elseif _editor == 'wangeditor'>
+<#elseif site.editor == 'wangeditor'>
   <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
   <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
   <script>

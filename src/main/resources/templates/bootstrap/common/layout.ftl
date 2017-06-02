@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 ${weibometa!}
-  <title>${page_title!siteTitle}</title>
+  <title>${page_title!site.name}</title>
   <link rel="icon" href="//tomoya.cn/favicon.ico">
 
   <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>

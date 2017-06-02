@@ -7,17 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.util.IpUtil;
 
 /**
@@ -30,11 +23,6 @@ public class CommonInterceptor implements HandlerInterceptor {
 
   private Logger log = Logger.getLogger(CommonInterceptor.class);
 
-  @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
-  private SectionService sectionService;
-
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     long start = System.currentTimeMillis();
@@ -45,26 +33,6 @@ public class CommonInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
       ModelAndView modelAndView) throws Exception {
-    if (modelAndView != null) {
-      ModelMap modelMap = modelAndView.getModelMap();
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      boolean isAuthenticated = false;
-      if (authentication != null) {
-        Object o = authentication.getPrincipal();
-        if (o instanceof UserDetails) {
-          isAuthenticated = true;
-          modelMap.addAttribute("_principal", ((UserDetails) o).getUsername());
-          modelMap.addAttribute("_roles", ((UserDetails) o).getAuthorities());
-        }
-      }
-      modelMap.addAttribute("_isAuthenticated", isAuthenticated);
-      modelMap.addAttribute("baseUrl", siteConfig.getBaseUrl());
-      modelMap.addAttribute("_intro", siteConfig.getIntro());
-      modelMap.addAttribute("siteTitle", siteConfig.getName());
-      modelMap.addAttribute("sections", sectionService.findAll());
-      modelMap.addAttribute("_editor", siteConfig.getEditor());
-      modelMap.addAttribute("_search", siteConfig.isSearch());
-    }
   }
 
   @Override

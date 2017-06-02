@@ -11,7 +11,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             权限管理
-            <#if _roles?seq_contains("permission:add")>
+            <#if sec.allGranted("permission:add")>
               <a class="pull-right" href="/admin/permission/add?pid=${pid!}">添加权限</a>
             </#if>
           </div>
@@ -25,10 +25,10 @@
                   <td>${permission.url!}</td>
                   <td>${permission.description!}</td>
                   <td>
-                    <#if _roles?seq_contains("permission:edit")>
+                    <#if sec.allGranted("permission:edit")>
                       <a href="/admin/permission/${permission.id}/edit" class="btn btn-xs btn-warning">编辑</a>
                     </#if>
-                    <#if _roles?seq_contains("permission:delete")>
+                    <#if sec.allGranted("permission:delete")>
                       <a href="javascript:if(confirm('确认删除吗?')) location.href='/admin/permission/${permission.id!}/delete'"
                         class="btn btn-xs btn-danger">删除</a>
                     </#if>
@@ -46,7 +46,7 @@
           <div class="list-group">
             <#list permissions as permission>
               <li class="list-group-item permission-item <#if pid?? && pid == permission.id>active</#if>">
-                <#if _roles?seq_contains("permission:delete")>
+                <#if sec.allGranted("permission:delete")>
                   <a href="javascript:if(confirm('确认删除吗?'))location.href='/admin/permission/${permission.id}/delete'">删除</a>
                 </#if>
                 <a href="/admin/permission/list?pid=${permission.id!}">

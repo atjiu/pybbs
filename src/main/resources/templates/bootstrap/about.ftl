@@ -1,5 +1,5 @@
 <#include "common/layout.ftl"/>
-<@html page_tab="about" page_title="关于 - ${siteTitle!}">
+<@html page_tab="about" page_title="关于 - ${site.name!}">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
@@ -20,8 +20,8 @@
                        target="_blank">http://github.com/tomoya92/pybbs</a>
           </li>
           <li>
-            Gitosc: <a href="http://git.oschina.net/20110516/pybbs"
-                       target="_blank">http://git.oschina.net/20110516/pybbs</a>
+            Gitosc: <a href="http://git.oschina.net/tomoya/pybbs"
+                       target="_blank">http://git.oschina.net/tomoya/pybbs</a>
           </li>
         </ul>
         <p>使用到的技术:

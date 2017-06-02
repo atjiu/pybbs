@@ -23,16 +23,16 @@
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
               <#if user?? && user.block == false>
-                <#if _roles?seq_contains("topic:edit") || user.id == topic.user.id>
+                <#if sec.allGranted("topic:edit") || user.id == topic.user.id>
                   <span>•</span>
                   <span><a href="/topic/${topic.id}/edit">编辑</a></span>
                 </#if>
-                <#if _roles?seq_contains("topic:delete")  || user.id == topic.user.id>
+                <#if sec.allGranted("topic:delete")  || user.id == topic.user.id>
                   <span>•</span>
                   <span><a
                     href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/${topic.id}/delete'">删除</a></span>
                 </#if>
-                <#if _roles?seq_contains("topic:top")>
+                <#if sec.allGranted("topic:top")>
                   <span>•</span>
                   <#if topic.top == true>
                     <span><a href="javascript:if(confirm('确定要取消置顶吗？'))location.href='/topic/${topic.id}/top'">取消置顶</a></span>
@@ -40,7 +40,7 @@
                     <span><a href="javascript:if(confirm('确定要置顶吗？'))location.href='/topic/${topic.id}/top'">置顶</a></span>
                   </#if>
                 </#if>
-                <#if _roles?seq_contains("topic:good")>
+                <#if sec.allGranted("topic:good")>
                   <span>•</span>
                   <#if topic.good == true>
                     <span><a href="javascript:if(confirm('确定要取消加精吗？'))location.href='/topic/${topic.id}/good'">取消加精</a></span>
@@ -77,7 +77,7 @@
       <#if user??>
         <div class="panel-footer">
           <a
-            href="javascript:window.open('http://service.weibo.com/share/share.php?url=${baseUrl!}/topic/${topic.id!}?r=${user.username!}&title=${topic.title!}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
+            href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${user.username!}&title=${topic.title!}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
           <#if collect??>
             <a href="/collect/${topic.id!}/delete">取消收藏</a>
           <#else>
@@ -145,7 +145,7 @@
       </#list>
     data = _.unique(data);
   </script>
-  <#if _editor == 'markdown'>
+  <#if site.editor == 'markdown'>
     <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
     <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.markdown.min.js"></script>
     <style>
@@ -229,7 +229,7 @@
         moveEnd(content);
       }
     </script>
-  <#elseif _editor == 'wangeditor'>
+  <#elseif site.editor == 'wangeditor'>
     <script type="text/javascript" src="/static/bootstrap/js/jquery.atwho.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
     <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>

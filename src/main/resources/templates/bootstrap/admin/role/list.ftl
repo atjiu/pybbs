@@ -9,7 +9,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         角色管理
-        <#if _roles?seq_contains("role:add")>
+        <#if sec.allGranted("role:add")>
           <a href="/admin/role/add" class="pull-right">添加角色</a>
         </#if>
       </div>
@@ -22,10 +22,10 @@
               <td>${role.name!}</td>
               <td>${role.description!}</td>
               <td>
-                <#if _roles?seq_contains("role:edit")>
+                <#if sec.allGranted("role:edit")>
                   <a href="/admin/role/${role.id}/edit" class="btn btn-xs btn-warning">配置权限</a>
                 </#if>
-                <#if _roles?seq_contains("role:delete")>
+                <#if sec.allGranted("role:delete")>
                   <a href="javascript:if(confirm('确认删除吗?')) location.href='/admin/role/${role.id}/delete'"
                      class="btn btn-xs btn-danger">删除</a>
                 </#if>

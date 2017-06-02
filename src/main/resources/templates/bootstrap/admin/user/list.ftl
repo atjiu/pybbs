@@ -28,16 +28,16 @@
                 </#if>
               </td>
               <td>
-                <#if _roles?seq_contains("user:role")>
+                <#if sec.allGranted("user:role")>
                   <a href="/admin/user/${user.id}/role" class="btn btn-xs btn-warning">配置角色</a>
                 </#if>
                 <#if user.block == true>
-                  <#if _roles?seq_contains("user:unblock")>
+                  <#if sec.allGranted("user:unblock")>
                     <a href="javascript:if(confirm('确认解禁吗?')) location.href='/admin/user/${user.id}/unblock'"
                        class="btn btn-xs btn-danger">解禁</a>
                   </#if>
                 <#else>
-                  <#if _roles?seq_contains("user:block")>
+                  <#if sec.allGranted("user:block")>
                     <a href="javascript:if(confirm('确认禁用吗?')) location.href='/admin/user/${user.id}/block'"
                        class="btn btn-xs btn-danger">禁用</a>
                   </#if>

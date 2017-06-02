@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td>
-      ${topic.subContent(_editor, q, topic.content)!}
+      ${topic.subContent(site.editor, q, topic.content)!}
       </td>
     </tr>
   </#list>

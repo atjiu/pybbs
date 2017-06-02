@@ -1,5 +1,5 @@
 <#include "../../common/layout.ftl">
-<@html page_title="索引 - ${siteTitle!}">
+<@html page_title="索引 - ${site.name!}">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../../components/admin_left.ftl">
