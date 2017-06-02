@@ -1,4 +1,4 @@
-package cn.tomoya.common.config;
+package cn.tomoya.common.config.freemarker;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -43,7 +43,6 @@ public class GlobalExceptionHandler {
   public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
     log.error(e.getMessage());
     ModelAndView mav = new ModelAndView();
-    mav.addObject("siteTitle", siteConfig.getName());
     mav.addObject("exception", e);
     mav.addObject("errorCode", getStatus(request));
     mav.setViewName(siteConfig.getTheme() + "/error");
@@ -58,8 +57,8 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(value = ApiException.class)
   @ResponseBody
-  public Result jsonErrorHandler(ApiException e) throws Exception {
-    Result result = new Result<>();
+  public Result<?> jsonErrorHandler(ApiException e) throws Exception {
+    Result<?> result = new Result<>();
     result.setCode(e.getCode());
     result.setDescription(e.getMessage());
     return result;

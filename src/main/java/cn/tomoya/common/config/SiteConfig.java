@@ -19,6 +19,8 @@ public class SiteConfig {
   private String theme;
   private String editor;
   private boolean search;
+  private int attempts;
+  private long attemptsWaitTime;
 
   public String getName() {
     return name;
@@ -91,4 +93,21 @@ public class SiteConfig {
   public void setSearch(boolean search) {
     this.search = search;
   }
+
+  public int getAttempts() {
+    return attempts;
+  }
+
+  public void setAttempts(int attempts) {
+    this.attempts = attempts;
+  }
+
+  public long getAttemptsWaitTime() {
+    return attemptsWaitTime;
+  }
+
+  public void setAttemptsWaitTime(long attemptsWaitTime) {
+    this.attemptsWaitTime = attemptsWaitTime;
+  }
+
 }

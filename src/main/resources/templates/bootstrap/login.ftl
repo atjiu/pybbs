@@ -23,10 +23,34 @@
             <label for="password">密码</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="密码">
           </div>
+          <div class="form-group has-feedback">
+            <label for="code">验证码</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
+              </div>
+              <div class="col-md-6">
+                <img src="/code" id="changeCode" />
+              </div>
+            </div>
+          </div>
+          <div class="checkbox">
+            <label for="rememberme"> <input type="checkbox"
+              name="remember-me" id="rememberme"> 记住我
+            </label>
+          </div>
           <button type="submit" class="btn btn-default">登录</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $(function(){
+    $("#changeCode").click(function(){
+      var date = new Date();
+      $(this).attr("src", "/code?ver=" + date.getTime());
+    })
+  })
+</script>
 </@html>

@@ -1,4 +1,4 @@
-package cn.tomoya.common.config;
+package cn.tomoya.common.config.freemarker;
 
 import javax.annotation.PostConstruct;
 
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.module.section.service.SectionService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;

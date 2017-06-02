@@ -26,5 +26,7 @@ site:
   pageSize: 20
   uploadPath: ./static/images/upload/
   theme: bootstrap
-  editor: markdown
+  editor: wangeditor
   search: true
+  attempts: 5
+  attemptsWaitTime: 15

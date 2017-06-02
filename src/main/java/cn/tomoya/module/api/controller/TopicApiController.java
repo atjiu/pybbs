@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
@@ -40,8 +39,6 @@ public class TopicApiController extends BaseController {
   private ReplyService replyService;
   @Autowired
   private CollectService collectService;
-  @Autowired
-  private SiteConfig siteConfig;
   @Autowired
   private SectionService sectionService;
 

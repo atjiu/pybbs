@@ -146,26 +146,26 @@ public class TopicController extends BaseController {
    * @param id
    * @param model
    * @return
+   * @throws Exception 
    */
   @GetMapping("/{id}")
-  public String detail(@PathVariable Integer id, HttpServletResponse response, Model model) {
-    if (id != null) {
-      Topic topic = topicService.findById(id);
-      // 浏览量+1
-      topic.setView(topic.getView() + 1);
-      topicService.save(topic);// 更新话题数据
-      List<Reply> replies = replyService.findByTopic(topic);
-      model.addAttribute("topic", topic);
-      model.addAttribute("replies", replies);
-      model.addAttribute("user", getUser());
-      model.addAttribute("author", topic.getUser());
-      model.addAttribute("otherTopics", topicService.findByUser(1, 7, topic.getUser()));
-      model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
-      model.addAttribute("collectCount", collectService.countByTopic(topic));
-      return render("/topic/detail");
-    } else {
-      return renderText(response, "话题不存在");
-    }
+  public String detail(@PathVariable(required = true) Integer id, HttpServletResponse response, Model model)
+      throws Exception {
+    Topic topic = topicService.findById(id);
+    if (topic == null)
+      throw new Exception("话题不存在");
+    // 浏览量+1
+    topic.setView(topic.getView() + 1);
+    topicService.save(topic);// 更新话题数据
+    List<Reply> replies = replyService.findByTopic(topic);
+    model.addAttribute("topic", topic);
+    model.addAttribute("replies", replies);
+    model.addAttribute("user", getUser());
+    model.addAttribute("author", topic.getUser());
+    model.addAttribute("otherTopics", topicService.findByUser(1, 7, topic.getUser()));
+    model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
+    model.addAttribute("collectCount", collectService.countByTopic(topic));
+    return render("/topic/detail");
   }
 
   /**
