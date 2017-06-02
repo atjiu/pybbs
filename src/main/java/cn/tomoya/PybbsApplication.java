@@ -20,7 +20,7 @@ import cn.tomoya.common.config.SiteConfig;
 @SpringBootApplication
 @EnableConfigurationProperties(SiteConfig.class)
 // @EnableAutoConfiguration注解加上，有异常不会找默认error页面了，而是直接输出字符串
-@EnableAutoConfiguration(exclude = { ErrorMvcAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class PybbsApplication {
 
   public static void main(String[] args) {

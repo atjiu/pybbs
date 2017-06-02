@@ -35,8 +35,8 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
 
   @PostConstruct
   public void init() {
-//    String failureUrl = "/login?error";
-//    setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
+    String failureUrl = "/login?error";
+    setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
   }
 
   @Override

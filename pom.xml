@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cn.tomoya</groupId>
@@ -17,7 +17,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.2.RELEASE</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <properties>
@@ -108,11 +108,6 @@
     <!-- 验证码 -->
     <dependency>
       <groupId>com.octo.captcha</groupId>
-      <artifactId>jcaptcha-api</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.octo.captcha</groupId>
       <artifactId>jcaptcha</artifactId>
       <version>1.0</version>
     </dependency>
@@ -126,6 +121,19 @@
         <configuration>
           <mainClass>cn.tomoya.PybbsApplication</mainClass>
           <fork>true</fork>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <compilerArguments>
+            <verbose/>
+            <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+          </compilerArguments>
         </configuration>
       </plugin>
     </plugins>
