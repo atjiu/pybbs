@@ -1,6 +1,7 @@
 title: 朋也社区
-brief-intro: Better use of the Java community (Forum)
+brief-intro: 更好用的Java语言社区(论坛)
 url: "https://tomoya92.github.io/pybbs/"
+
 permalink: /:title/
 
 markdown: kramdown

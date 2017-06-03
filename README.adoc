@@ -5,7 +5,7 @@ ____
 
 == 文档
 
-https://github.com/tomoya92/pybbs/wiki
+https://tomoya92.github.io/pybbs/
 
 == 技术栈
 
@@ -29,66 +29,21 @@ https://github.com/tomoya92/pybbs/wiki/%E6%88%AA%E5%9B%BE%E6%AC%A3%E8%B5%8F[传�
 - 社区兼容性（IE9+）
 - 页面自适应布局
 - 本地登录，注册
+- 登录时有验证码，尝试登录次数的限制
 - 使用 `Spring-Boot` 开发
 - 权限使用 `Spring-Security` ，基于url做的权限方便配置管理
 - 使用的 `Spring-JPA` 操作数据存储
 - 使用 https://github.com/lepture/editor[editor] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
 - 还增加了 https://github.com/wangfupeng1988/wangEditor[wangEditor] 作为富文本编辑器
 
-== 如何开始
-
-- `git clone https://github.com/tomoya92/pybbs.git`
-- 修改配置文件 `src/main/resources/application.yml` 里的配置项
-- 创建数据库 `pybbs`
-- 运行 `PybbsApplication.java` 里的 `main` 方法
-- 启动项目后表是自动创建的，然后将 `pybbs.sql` 导入数据库
-- 浏览器 http://localhost:8080/
-- 默认帐户 `tomoya` `123123`
-
-== 打jar包运行
-
-- `git clone https://github.com/tomoya92/pybbs.git`
-- 修改配置文件 `src/main/resources/application.yml` 里的配置项
-- 创建数据库 `pybbs`
-- 运行 `mvn clean package -Dmaven.test.skip=true` 命令，生成jar包，位置在 `target/pybbs.jar`
-- 运行 `java -jar pybbs.jar` 即可启动服务
-- 启动项目后表是自动创建的，然后将 `pybbs.sql` 导入数据库
-- 浏览器 http://localhost:8080/
-- 默认帐户 `tomoya` `123123`
-
-== 插入Emoji字符问题
-
-想插入emoji到数据库里 *必须* 要更改mysql的配置文件my.cnf，这个文件的位置在哪，自行百度
-
-打开找到 [mysqld] 在下面加上
-
-[code]
-----
-[mysqld]
-character-set-client-handshake = FALSE
-character-set-server = utf8mb4
-collation-server = utf8mb4_unicode_ci
-init_connect='SET NAMES utf8mb4'
-----
-
-文章详见 http://blog.csdn.net/z69183787/article/details/48465723
-
-*注意是必须，网上找了很多教程，设置useUnicode=true, initSQL= set names utf8mb4 等等都没用*
-
 == 碰到问题怎么办?
 
-=== 上传图片不显示原因
+1. https://tomoya92.github.io/pybbs/[文档]
+2. https://github.com/tomoya92/pybbs/issues[issues]
 
-spring-boot项目启动貌似都是写入内存里的，所以上传文件之后文件是在本地上，编辑器里当然就是显示图片了，解决办法一般有两种
+*提问题的时候请将问题重现步骤描述清楚*
 
-1. 重启一下服务
-2. 用`http-server`或者`nginx`做一下本地文件映射就好了，具体方法可参考 https://github.com/tomoya92/pybbs/wiki/jar%E5%8C%85%E8%BF%90%E8%A1%8C&%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE
-
-=== 其它提问方式
-
-- 在Github上提 https://github.com/tomoya92/pybbs/issues[Issues]
-- 提问题的时候请将问题重现步骤描述清楚
-- 加QQ群：`419343003`
+QQ群：`419343003`
 
 == 其它版本
 
@@ -100,10 +55,6 @@ spring-boot项目启动貌似都是写入内存里的，所以上传文件之后
 == 贡献
 
 欢迎大家提pr
-
-== 主题
-
-https://github.com/tomoya92/pybbs-theme
 
 == 使用者
 
