@@ -1,3 +1,10 @@
-theme: jekyll-theme-leap-day
-
 title: 朋也社区
+brief-intro: Better use of the Java community (Forum)
+url: "https://tomoya92.github.io/pybbs/"
+permalink: /:title/
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

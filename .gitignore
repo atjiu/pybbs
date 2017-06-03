@@ -21,3 +21,4 @@ out/
 .factorypath
 .settings
 .classpath
+docs/_site
