@@ -1,6 +1,6 @@
 ## 如何开始
 
-### 开发环境部署
+### [开发环境部署](#dev)
 
 1. `git clone https://github.com/tomoya92/pybbs`
 2. 使用`idea` or `eclipse`打开项目
@@ -8,7 +8,7 @@
 4. 运行 `PybbsApplication.java` 类
 5. 访问 `http://localhost:8080`
 
-### 生产环境部署
+### [生产环境部署](#prod)
 
 1. 新建文件夹 `pybbs`
 2. [下载最新jar包](https://github.com/tomoya92/pybbs/releases) 并放到 `pybbs` 文件夹下
@@ -18,7 +18,7 @@
 6. 运行 `java -jar pybbs.jar` 
 7. 访问 `http://localhost:8080`
 
-## 配置文件说明
+## [配置文件说明](#yml)
 
 freemarker页面缓存开启关闭
 
@@ -72,7 +72,7 @@ site:
 | attempts | 用户登录失败可尝试的次数，超过了，帐号会被锁定 `attemptsWaitTime` 时间， 默认5次 |
 | attemptsWaitTime | 用户登录失败 `attempts` 次以后，帐号被锁定的时间，默认15, 单位分钟|
 
-## 问题列表
+## [问题列表](#question)
 
 ### 上传图片显示问题
 
