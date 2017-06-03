@@ -48,11 +48,11 @@
   </div>
 </div>
 <#if site.editor == 'markdown'>
-  <link rel="stylesheet" href="/static/bootstrap/libs/editor/editor.css"/>
-  <script type="text/javascript" src="/static/bootstrap/libs/webuploader/webuploader.withoutimage.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/markdownit.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/editor/editor.js"></script>
-  <script type="text/javascript" src="/static/bootstrap/libs/editor/ext.js"></script>
+  <link rel="stylesheet" href="/static/default/libs/editor/editor.css"/>
+  <script type="text/javascript" src="/static/default/libs/webuploader/webuploader.withoutimage.js"></script>
+  <script type="text/javascript" src="/static/default/libs/markdownit.js"></script>
+  <script type="text/javascript" src="/static/default/libs/editor/editor.js"></script>
+  <script type="text/javascript" src="/static/default/libs/editor/ext.js"></script>
   <script type="text/javascript">
     var editor = new Editor({element: $("#content")[0], status: []});
     editor.render();

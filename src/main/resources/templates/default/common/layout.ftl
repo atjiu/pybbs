@@ -8,14 +8,14 @@ ${weibometa!}
   <title>${page_title!site.name}</title>
   <link rel="icon" href="//tomoya.cn/favicon.ico">
 
-  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
-<#--<link rel="stylesheet/less" href="/static/bootstrap/css/less/bootstrap.less">-->
+  <link rel="stylesheet" href="/static/default/css/bootstrap.css"/>
+<#--<link rel="stylesheet/less" href="/static/default/css/less/bootstrap.less">-->
 <#--<script src="//cdn.bootcss.com/less.js/2.7.1/less.min.js"></script>-->
-  <link rel="stylesheet" href="/static/bootstrap/css/github.css">
-  <link rel="stylesheet" href="/static/bootstrap/css/pybbs.css">
-  <script src="/static/bootstrap/js/jquery.min.js"></script>
-  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/static/bootstrap/libs/layer/layer.js"></script>
+  <link rel="stylesheet" href="/static/default/css/github.css">
+  <link rel="stylesheet" href="/static/default/css/pybbs.css">
+  <script src="/static/default/js/jquery.min.js"></script>
+  <script src="/static/default/js/bootstrap.min.js"></script>
+  <script src="/static/default/libs/layer/layer.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -27,7 +27,7 @@ ${weibometa!}
 </div>
   <#include "./footer.ftl">
   <@footer/>
-<script src="/static/bootstrap/js/pybbs.js"></script>
+<script src="/static/default/js/pybbs.js"></script>
 </body>
 </html>
 </#macro>

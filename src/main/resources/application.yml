@@ -25,7 +25,7 @@ site:
   staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20
   uploadPath: ./static/images/upload/
-  theme: bootstrap
+  theme: default
   editor: wangeditor
   search: true
   attempts: 5
