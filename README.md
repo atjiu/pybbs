@@ -58,7 +58,7 @@
 ## Docker run
 
 ```
-docker run --name pybbs -p 10090:8080 -v /var/pybbs/application.yml:/app/application.yml -d stiangao/pybbs
+docker run --name pybbs -p 10090:8080 -v /var/pybbs/application.yml:/app/application.yml -d stiangao/pybbs:v2.4
 ```
 
 ## License
