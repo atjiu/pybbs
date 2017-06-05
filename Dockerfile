@@ -1,7 +1,7 @@
 
 FROM java:8-alpine
 
-CPOY . /app/pybbs
+COPY . /app/pybbs
 
 WORKDIR  /app/pybbs
 
