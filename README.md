@@ -80,6 +80,13 @@ Welcome to send pull request
 | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
 |                                                     Alipay                                                     |                                                     Wechat                                                     |
 
+## Docker run
+> create application.yml 
+
+```
+docker run --name pybbs -p 9080:8080 -v /app/pybbs/application.yml:/app/application.yml -d stiangao/pybbs:v2.4
+```
+
 ## License
 
 MIT
