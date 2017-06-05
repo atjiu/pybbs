@@ -11,4 +11,4 @@ RUN mvn -Dmaven.test.skip=true package && \
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "/app/pybbs-2.4.jar"]
+CMD ["java", "-jar", "/app/pybbs-2.4.2.jar"]
