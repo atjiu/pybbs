@@ -55,34 +55,33 @@
 - [ ] Indexed
 - [ ] Integrated third party login（Github, QQ, Weibo）
 
--## How to do a problem?
- 
--[Issues](https://github.com/tomoya92/pybbs/issues) on Github
--
--## Other versions
--
--- Golang: [https://github.com/tomoya92/pybbs-go](https://github.com/tomoya92/pybbs-go)
--- spring-boot: [https://github.com/tomoya92/pybbs](https://github.com/tomoya92/pybbs)
--- jfinal: [https://github.com/tomoya92/pybbs/tree/v2.3](https://github.com/tomoya92/pybbs/tree/v2.3)
--- ssm: [https://github.com/ehuacui/ehuacui-bbs](https://github.com/ehuacui/ehuacui-bbs)
--
--## Contribution
--
--Welcome to send pull request
--
--## Theme
--
--[https://github.com/tomoya92/pybbs-theme](https://github.com/tomoya92/pybbs-theme)
--
--## Donate
--
--| ![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png) | ![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png) |
--| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
--|                                                     Alipay                                                     |                                                     Wechat                                                     |
+## How to do a problem?
+
+[Issues](https://github.com/tomoya92/pybbs/issues) on Github
+
+## Other versions
+
+- Golang: [https://github.com/tomoya92/pybbs-go](https://github.com/tomoya92/pybbs-go)
+- spring-boot: [https://github.com/tomoya92/pybbs](https://github.com/tomoya92/pybbs)
+- jfinal: [https://github.com/tomoya92/pybbs/tree/v2.3](https://github.com/tomoya92/pybbs/tree/v2.3)
+- ssm: [https://github.com/ehuacui/ehuacui-bbs](https://github.com/ehuacui/ehuacui-bbs)
+
+## Contribution
+
+Welcome to send pull request
+
+## Theme
+
+[https://github.com/tomoya92/pybbs-theme](https://github.com/tomoya92/pybbs-theme)
+
+## Donate
+
+| ![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png) | ![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png) |
+| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+|                                                     Alipay                                                     |                                                     Wechat                                                     |
 
 ## Docker run
 > create application.yml 
-
 
 ```
 docker run --name pybbs -p 9080:8080 -v /app/pybbs/application.yml:/app/application.yml -d stiangao/pybbs:v2.4
