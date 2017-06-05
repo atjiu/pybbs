@@ -7,8 +7,7 @@ WORKDIR  /app/pybbs
 
 RUN mvn -Dmaven.test.skip=true package && \
   mv target/pybbs-2.4.2.jar /app/ && \
-  rm -fr /app/pybbs && \
-  rm -fr ~/.m2
+  rm -fr /app/pybbs
 
 EXPOSE 8080
 
