@@ -54,8 +54,8 @@
 - [x] I18N
 - [ ] Indexed
 - [ ] Integrated third party login（Github, QQ, Weibo）
+
 -## How to do a problem?
-+## Docker run
  
 -[Issues](https://github.com/tomoya92/pybbs/issues) on Github
 -
