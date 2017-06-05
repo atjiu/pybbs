@@ -150,6 +150,7 @@ public class IndexController extends BaseController {
       user.setBlock(false);
       user.setToken(UUID.randomUUID().toString());
       user.setAvatar(siteConfig.getStaticUrl() + "avatar/" + avatarName + ".png");
+      user.setAttempts(siteConfig.getAttempts());
       userService.save(user);
       return redirect(response, "/login?s=reg");
     }

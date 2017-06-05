@@ -32,7 +32,7 @@ INSERT INTO `pybbs_section` VALUES (1, '分享'), (4, '博客'), (5, '招聘'), 
 INSERT INTO `pybbs_user` VALUES
   (1, 'http://localhost:8080/static/images/upload/avatar/default.png', '\0', 'liygheart@qq.com', '2016-09-09 09:50:14',
    '$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC', 'hello world',
-   'd20b9a5c-8693-41a6-8943-ddb2cb78eebd', 'https://tomoya92.github.io', 'tomoya');
+   'd20b9a5c-8693-41a6-8943-ddb2cb78eebd', 'https://tomoya92.github.io', 'tomoya', '5', null);
 
 INSERT INTO `pybbs_user_role` VALUES (1, 1);
 
