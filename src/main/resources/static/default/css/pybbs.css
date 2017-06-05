@@ -1,0 +1,124 @@
+body {
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+
+.wrapper {
+  width: 100%;
+  background-color: #e2e2e2;
+}
+
+.title a:visited {
+  color: #888;
+}
+
+.avatar {
+  border-radius: 4px;
+  max-width: 48px;
+}
+
+.avatar-sm {
+  border-radius: 4px;
+  max-width: 24px;
+}
+
+.avatar-lg {
+  border-radius: 4px;
+  max-width: 64px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.topic-detail-header {
+  padding-bottom: 0;
+}
+
+.topic-detail-title {
+  margin-top: 0;
+  font-weight: 500;
+}
+
+.topic-append-content {
+  background-color: #fffff9;
+}
+
+.gray {
+  color: #999;
+}
+
+.payload {
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 5px 10px 5px 10px;
+  word-break: break-all;
+  word-wrap: break-word;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.payload img, .user_replies img {
+  max-width: 100%;
+}
+
+.mar-top-5 {
+  margin-top: 5px;
+}
+
+.pad-bot-10 {
+  padding-bottom: 10px;
+}
+
+.divide {
+  border-top: 1px solid #f5f5f5;
+}
+
+.header-navbar li a {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.paginate-bot {
+  padding-bottom: 0;
+}
+
+.permission-item.active a {
+  color: white;
+}
+
+.reply-content img {
+  max-width: 100%;
+}
+
+.panel td {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+.panel th {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+#error_message {
+  color: red;
+}
+
+.panel-body-reply {
+  padding: 0;
+}
+
+.media-reply {
+  padding: 15px;
+  margin-top: 0;
+}
+
+.reply-highlight {
+  background-color: #f4fcf0;
+}
