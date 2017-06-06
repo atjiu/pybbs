@@ -1,33 +1,5 @@
 package cn.tomoya.module.index.controller;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import cn.tomoya.common.BaseController;
 import cn.tomoya.common.config.SiteConfig;
 import cn.tomoya.exception.Result;
@@ -39,6 +11,26 @@ import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
 import cn.tomoya.util.PageWrapper;
 import cn.tomoya.util.identicon.Identicon;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -150,7 +142,7 @@ public class IndexController extends BaseController {
       user.setBlock(false);
       user.setToken(UUID.randomUUID().toString());
       user.setAvatar(siteConfig.getStaticUrl() + "avatar/" + avatarName + ".png");
-      user.setAttempts(siteConfig.getAttempts());
+      user.setAttempts(0);
       userService.save(user);
       return redirect(response, "/login?s=reg");
     }

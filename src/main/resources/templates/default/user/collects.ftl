@@ -6,12 +6,8 @@
       <div class="panel-heading">
       ${currentUser.username}收藏的话题
       </div>
-      <div class="panel-body">
-        <#include "../components/user_collects.ftl"/>
-        <@user_collect collects=page.getContent()/>
-        <#include "../components/paginate.ftl"/>
-        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/collects/${currentUser.nickname!}" urlParas=""/>
-      </div>
+      <#include "../components/user_collects.ftl"/>
+      <@user_collect username=currentUser.username p=p isPaginate=true/>
     </div>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs"></div>

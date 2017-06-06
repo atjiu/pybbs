@@ -6,12 +6,8 @@
       <div class="panel-heading">
       ${currentUser.username}创建的话题
       </div>
-      <div class="panel-body">
-        <#include "../components/user_topics.ftl"/>
-        <@user_topics topics=page.getContent()/>
-        <#include "../components/paginate.ftl"/>
-        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${currentUser.username}/topics" urlParas=""/>
-      </div>
+      <#include "../components/user_topics.ftl"/>
+      <@user_topics username=currentUser.username p=p isPaginate=true/>
     </div>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs"></div>

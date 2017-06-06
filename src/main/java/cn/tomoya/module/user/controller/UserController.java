@@ -1,31 +1,22 @@
 package cn.tomoya.module.user.controller;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletResponse;
-
+import cn.tomoya.common.BaseController;
+import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.FileUploadEnum;
+import cn.tomoya.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
-import cn.tomoya.module.collect.service.CollectService;
-import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.topic.service.TopicService;
-import cn.tomoya.module.user.entity.User;
-import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.FileUploadEnum;
-import cn.tomoya.util.FileUtil;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -36,12 +27,6 @@ import cn.tomoya.util.FileUtil;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-  @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
-  private TopicService topicService;
-  @Autowired
-  private ReplyService replyService;
   @Autowired
   private UserService userService;
   @Autowired
@@ -63,8 +48,6 @@ public class UserController extends BaseController {
       model.addAttribute("user", getUser());
       model.addAttribute("currentUser", currentUser);
       model.addAttribute("collectCount", collectService.countByUser(currentUser));
-      model.addAttribute("topicPage", topicService.findByUser(1, 7, currentUser));
-      model.addAttribute("replyPage", replyService.findByUser(1, 7, currentUser));
       model.addAttribute("pageTitle", currentUser.getUsername() + " 个人主页");
     } else {
       model.addAttribute("pageTitle", "用户未找到");
@@ -83,7 +66,7 @@ public class UserController extends BaseController {
     User currentUser = userService.findByUsername(username);
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
-      model.addAttribute("page", topicService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+      model.addAttribute("p", p);
       return render("/user/topics");
     } else {
       return renderText(response, "用户不存在");
@@ -100,7 +83,7 @@ public class UserController extends BaseController {
     User currentUser = userService.findByUsername(username);
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
-      model.addAttribute("page", replyService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+      model.addAttribute("p", p);
       return render("/user/replies");
     } else {
       return renderText(response, "用户不存在");
@@ -118,7 +101,7 @@ public class UserController extends BaseController {
     User currentUser = userService.findByUsername(username);
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
-      model.addAttribute("page", collectService.findByUser(p == null ? 1 : p, siteConfig.getPageSize(), currentUser));
+      model.addAttribute("p", p);
       return render("/user/collects");
     } else {
       return renderText(response, "用户不存在");

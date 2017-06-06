@@ -2,6 +2,7 @@ package cn.tomoya.common.config.freemarker;
 
 import javax.annotation.PostConstruct;
 
+import cn.tomoya.common.config.security.SpringSecurityTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class FreemarkerConfig {
   private SpringSecurityTag springSecurityTag;
   @Autowired
   private SectionService sectionService;
+  @Autowired
+  private UserTopicDirective userTopicDirective;
+  @Autowired
+  private UserReplyDirective userReplyDirective;
+  @Autowired
+  private UserCollectDirective userCollectDirective;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
@@ -33,6 +40,11 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("site", siteConfig);
     // 将版块注入到全局freemarker变量里
     configuration.setSharedVariable("sections", sectionService.findAll());
+
+    configuration.setSharedVariable("user_topics_tag", userTopicDirective);
+    configuration.setSharedVariable("user_replies_tag", userReplyDirective);
+    configuration.setSharedVariable("user_collects_tag", userCollectDirective);
+
     log.info("init freemarker sharedVariables {site} success...");
   }
 

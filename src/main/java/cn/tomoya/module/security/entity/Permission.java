@@ -21,8 +21,6 @@ import cn.tomoya.common.BaseEntity;
 @Table(name = "pybbs_permission")
 public class Permission extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
-
   @Id
   @GeneratedValue
   private int id;

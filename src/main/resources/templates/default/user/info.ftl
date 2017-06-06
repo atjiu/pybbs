@@ -25,33 +25,19 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">${currentUser.username}创建的话题</div>
-        <#if topicPage.getTotalElements() == 0>
-          <div class="panel-body">
-            暂无话题
-          </div>
-        <#else>
-          <div class="panel-body">
-            <#include "../components/user_topics.ftl"/>
-            <@user_topics topics=topicPage.getContent()/>
-          </div>
+          <#include "../components/user_topics.ftl"/>
+          <@user_topics username=currentUser.username p=1 limit=7/>
           <div class="panel-footer">
             <a href="/user/${currentUser.username}/topics">${currentUser.username}更多话题&gt;&gt;</a>
           </div>
-        </#if>
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">${currentUser.username}回复的话题</div>
-        <#if replyPage.getTotalElements() == 0>
-          <div class="panel-body">
-            暂无回复
-          </div>
-        <#else>
-          <#include "../components/user_replies.ftl"/>
-          <@user_replies replies=replyPage.getContent()/>
-          <div class="panel-footer">
-            <a href="/user/${currentUser.username}/replies">${currentUser.username}更多回复&gt;&gt;</a>
-          </div>
-        </#if>
+        <#include "../components/user_replies.ftl"/>
+        <@user_replies username=currentUser.username p=1 limit=7/>
+        <div class="panel-footer">
+          <a href="/user/${currentUser.username}/replies">${currentUser.username}更多回复&gt;&gt;</a>
+        </div>
       </div>
     <#else>
       <div class="panel panel-default">
