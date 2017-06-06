@@ -16,16 +16,18 @@ import org.springframework.stereotype.Repository;
 @CacheConfig(cacheNames = "users")
 public interface UserDao extends JpaRepository<User, Integer> {
 
-    @Cacheable
-    User findOne(int id);
+  @Cacheable
+  User findOne(int id);
 
-    @Cacheable
-    User findByUsername(String username);
+  @Cacheable
+  User findByUsername(String username);
 
-    @CacheEvict
-    void delete(int id);
+  @CacheEvict
+  void delete(int id);
 
-    @Cacheable
-    User findByToken(String token);
+  @Cacheable
+  User findByToken(String token);
 
+  @Cacheable
+  User findByEmail(String email);
 }

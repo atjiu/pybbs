@@ -48,7 +48,6 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
       throw new AuthenticationServiceException("不支持非POST方式的请求!");
     // 验证码验证
     String requestCaptcha = request.getParameter("code");
-    log.info(requestCaptcha);
     String genCaptcha = (String) request.getSession().getAttribute("index_code");
     log.info(genCaptcha);
     if (StringUtils.isEmpty(requestCaptcha))

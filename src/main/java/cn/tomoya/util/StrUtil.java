@@ -4,6 +4,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by tomoya.
@@ -16,6 +18,17 @@ public class StrUtil {
       'e', 'f' };
   static final char[] digits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
   static final Random random = new Random();
+  static final String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+
+  public static boolean isEmail(String email) {
+    if (StringUtils.isEmpty(email)) {
+      return false;
+    } else {
+      Pattern pattern = Pattern.compile(check);
+      Matcher matcher = pattern.matcher(email);
+      return matcher.matches();
+    }
+  }
 
   /**
    * 随机指定长度的字符串

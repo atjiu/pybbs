@@ -18,6 +18,10 @@ spring:
       ddl-auto: update
   mvc:
     static-path-pattern: /static/**
+  mail:
+    host: smtp.qq.com
+    username: xxoo@qq.com
+    password: # 如果是qq邮箱的话，这里要配置成授权码
 site:
   name: 朋也社区
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>

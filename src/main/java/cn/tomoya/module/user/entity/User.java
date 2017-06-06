@@ -51,6 +51,7 @@ public class User extends BaseEntity implements Serializable {
   private String avatar;
 
   // 用户邮箱
+  @Column(nullable = false, unique = true)
   private String email;
 
   // 个人签名

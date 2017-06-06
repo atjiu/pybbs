@@ -23,15 +23,13 @@
             <label for="password">密码</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="密码">
           </div>
-          <div class="form-group has-feedback">
-            <label for="code">验证码</label>
-            <div class="row">
-              <div class="col-md-6">
-                <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
-              </div>
-              <div class="col-md-6">
+          <div class="form-group">
+            <label for="email">验证码</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
+              <span class="input-group-btn">
                 <img src="/code" id="changeCode" />
-              </div>
+              </span>
             </div>
           </div>
           <div class="checkbox">
