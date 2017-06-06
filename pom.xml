@@ -20,6 +20,14 @@
     <relativePath/>
   </parent>
 
+  <repositories>
+    <repository>
+      <id>atlassian</id>
+      <name>atlassian</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -110,6 +118,12 @@
       <groupId>com.octo.captcha</groupId>
       <artifactId>jcaptcha</artifactId>
       <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jhlabs</groupId>
+          <artifactId>imaging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
