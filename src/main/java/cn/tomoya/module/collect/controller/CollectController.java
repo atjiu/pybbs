@@ -1,6 +1,6 @@
 package cn.tomoya.module.collect.controller;
 
-import cn.tomoya.common.BaseController;
+import cn.tomoya.config.base.BaseController;
 import cn.tomoya.module.collect.entity.Collect;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.notification.entity.NotificationEnum;

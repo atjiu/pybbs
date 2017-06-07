@@ -13,7 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import cn.tomoya.common.BaseEntity;
+import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 
 /**

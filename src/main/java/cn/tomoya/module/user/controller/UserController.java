@@ -1,6 +1,6 @@
 package cn.tomoya.module.user.controller;
 
-import cn.tomoya.common.BaseController;
+import cn.tomoya.config.base.BaseController;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;

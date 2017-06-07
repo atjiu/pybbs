@@ -1,6 +1,6 @@
 package cn.tomoya.module.api.controller;
 
-import cn.tomoya.common.BaseController;
+import cn.tomoya.config.base.BaseController;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.ErrorCode;
 import cn.tomoya.exception.Result;

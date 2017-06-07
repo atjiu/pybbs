@@ -1,8 +1,8 @@
 package cn.tomoya.module.reply.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.BaseEntity;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.base.BaseEntity;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.entity.NotificationEnum;

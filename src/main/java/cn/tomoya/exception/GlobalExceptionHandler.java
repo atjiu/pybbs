@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.yml.SiteConfig;
 
 /**
  * Created by tomoya.

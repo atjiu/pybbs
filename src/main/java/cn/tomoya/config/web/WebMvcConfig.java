@@ -1,4 +1,4 @@
-package cn.tomoya.common.config;
+package cn.tomoya.config.web;
 
 import cn.tomoya.interceptor.CommonInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

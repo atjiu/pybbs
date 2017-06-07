@@ -1,7 +1,7 @@
 package cn.tomoya.module.user.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.module.security.service.RoleService;
 import cn.tomoya.module.user.entity.User;

@@ -1,7 +1,7 @@
 package cn.tomoya.module.api.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;

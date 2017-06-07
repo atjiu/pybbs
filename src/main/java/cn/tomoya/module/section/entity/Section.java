@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import cn.tomoya.common.BaseEntity;
+import cn.tomoya.config.base.BaseEntity;
 
 /** 
  * Created by tomoya. 

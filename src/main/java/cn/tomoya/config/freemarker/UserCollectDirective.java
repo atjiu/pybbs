@@ -1,4 +1,4 @@
-package cn.tomoya.common.config.freemarker;
+package cn.tomoya.config.freemarker;
 
 import cn.tomoya.module.collect.entity.Collect;
 import cn.tomoya.module.collect.service.CollectService;

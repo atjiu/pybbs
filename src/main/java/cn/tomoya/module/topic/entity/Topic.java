@@ -1,6 +1,6 @@
 package cn.tomoya.module.topic.entity;
 
-import cn.tomoya.common.BaseEntity;
+import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;

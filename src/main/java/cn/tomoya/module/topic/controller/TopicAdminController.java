@@ -1,7 +1,7 @@
 package cn.tomoya.module.topic.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;

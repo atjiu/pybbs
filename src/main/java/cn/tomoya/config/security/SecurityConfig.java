@@ -1,4 +1,4 @@
-package cn.tomoya.common.config.security;
+package cn.tomoya.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;

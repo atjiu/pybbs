@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.yml.SiteConfig;
 
 /**
  * Created by tomoya.

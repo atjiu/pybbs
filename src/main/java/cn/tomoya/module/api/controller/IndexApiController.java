@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.section.service.SectionService;

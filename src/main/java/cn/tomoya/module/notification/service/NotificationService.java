@@ -1,7 +1,7 @@
 package cn.tomoya.module.notification.service;
 
-import cn.tomoya.common.BaseEntity;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseEntity;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.notification.dao.NotificationDao;
 import cn.tomoya.module.notification.entity.Notification;
 import cn.tomoya.module.notification.entity.NotificationEnum;

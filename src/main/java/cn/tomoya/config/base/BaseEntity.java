@@ -1,4 +1,4 @@
-package cn.tomoya.common;
+package cn.tomoya.config.base;
 
 import cn.tomoya.util.Constants;
 import cn.tomoya.util.MarkdownUtil;

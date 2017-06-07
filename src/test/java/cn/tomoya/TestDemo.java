@@ -1,6 +1,6 @@
 package cn.tomoya;
 
-import cn.tomoya.common.BaseEntity;
+import cn.tomoya.config.base.BaseEntity;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;

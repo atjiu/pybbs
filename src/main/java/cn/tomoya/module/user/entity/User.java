@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import cn.tomoya.common.BaseEntity;
+import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.security.entity.Role;
 import cn.tomoya.util.Constants;
 

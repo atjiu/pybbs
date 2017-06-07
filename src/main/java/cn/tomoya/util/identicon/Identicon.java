@@ -1,6 +1,6 @@
 package cn.tomoya.util.identicon;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.util.HashUtil;
 import cn.tomoya.util.StrUtil;
 import cn.tomoya.util.identicon.generator.IBaseGenartor;
@@ -8,7 +8,6 @@ import cn.tomoya.util.identicon.generator.impl.MyGenerator;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import javax.imageio.ImageIO;

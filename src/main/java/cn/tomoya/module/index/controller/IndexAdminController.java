@@ -1,6 +1,6 @@
 package cn.tomoya.module.index.controller;
 
-import cn.tomoya.common.BaseController;
+import cn.tomoya.config.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

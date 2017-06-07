@@ -1,6 +1,6 @@
 package cn.tomoya.util;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.yml.SiteConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,6 +1,6 @@
 package cn.tomoya.module.security.controller;
 
-import cn.tomoya.common.BaseController;
+import cn.tomoya.config.base.BaseController;
 import cn.tomoya.module.security.entity.Permission;
 import cn.tomoya.module.security.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;

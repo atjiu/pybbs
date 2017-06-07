@@ -1,10 +1,9 @@
 package cn.tomoya.module.index.controller;
 
-import cn.tomoya.common.BaseController;
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
-import cn.tomoya.module.code.entity.Code;
 import cn.tomoya.module.code.entity.CodeEnum;
 import cn.tomoya.module.code.service.CodeService;
 import cn.tomoya.module.topic.entity.Topic;

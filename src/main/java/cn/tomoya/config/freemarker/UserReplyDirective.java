@@ -1,7 +1,7 @@
-package cn.tomoya.common.config.freemarker;
+package cn.tomoya.config.freemarker;
 
-import cn.tomoya.module.topic.entity.Topic;
-import cn.tomoya.module.topic.service.TopicService;
+import cn.tomoya.module.reply.entity.Reply;
+import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import freemarker.core.Environment;
@@ -19,17 +19,17 @@ import java.util.Map;
  * Created by tomoya on 17-6-6.
  */
 @Component
-public class UserTopicDirective implements TemplateDirectiveModel {
+public class UserReplyDirective implements TemplateDirectiveModel {
 
   @Autowired
   private UserService userService;
   @Autowired
-  private TopicService topicService;
+  private ReplyService replyService;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
-    Page<Topic> page = new PageImpl<>(new ArrayList<>());
+    Page<Reply> page = new PageImpl<>(new ArrayList<>());
     if (map.containsKey("username") && map.get("username") != null) {
       String username = map.get("username").toString();
       if (map.containsKey("p")) {
@@ -37,7 +37,7 @@ public class UserTopicDirective implements TemplateDirectiveModel {
         int limit = Integer.parseInt(map.get("limit").toString());
         User currentUser = userService.findByUsername(username);
         if (currentUser != null) {
-          page = topicService.findByUser(p, limit, currentUser);
+          page = replyService.findByUser(p, limit, currentUser);
         }
       }
     }

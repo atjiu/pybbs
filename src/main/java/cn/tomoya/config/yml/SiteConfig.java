@@ -1,4 +1,4 @@
-package cn.tomoya.common.config;
+package cn.tomoya.config.yml;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

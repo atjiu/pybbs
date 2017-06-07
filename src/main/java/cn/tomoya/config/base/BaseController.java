@@ -1,6 +1,6 @@
-package cn.tomoya.common;
+package cn.tomoya.config.base;
 
-import cn.tomoya.common.config.SiteConfig;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import org.apache.log4j.Logger;
