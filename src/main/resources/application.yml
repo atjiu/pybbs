@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   resources:
     static-locations:
