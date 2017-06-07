@@ -337,7 +337,7 @@ public class IndexController extends BaseController {
       SimpleMailMessage message = new SimpleMailMessage();
       System.out.println(env.getProperty("spring.mail.username"));
       message.setFrom(env.getProperty("spring.mail.username"));
-      message.setTo("1956587218@qq.com");
+      message.setTo(email);
       message.setSubject("注册验证码 - " + siteConfig.getName());
       message.setText("你的验证码为： " + genCode + " , 请在10分钟内使用！");
       javaMailSender.send(message);
