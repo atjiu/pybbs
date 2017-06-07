@@ -1,12 +1,10 @@
 package cn.tomoya.common.config;
 
+import cn.tomoya.interceptor.CommonInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import cn.tomoya.interceptor.CommonInterceptor;
 
 /**
  * Created by tomoya.
@@ -14,7 +12,6 @@ import cn.tomoya.interceptor.CommonInterceptor;
  * http://tomoya.cn
  */
 @Configuration
-@ImportResource("classpath:spring-captcha.xml")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
   @Autowired

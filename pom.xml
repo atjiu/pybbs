@@ -109,18 +109,6 @@
       <artifactId>jsoup</artifactId>
       <version>1.9.2</version>
     </dependency>
-    <!-- 验证码 -->
-    <dependency>
-      <groupId>com.octo.captcha</groupId>
-      <artifactId>jcaptcha</artifactId>
-      <version>1.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.jhlabs</groupId>
-          <artifactId>imaging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
   </dependencies>
 
   <build>

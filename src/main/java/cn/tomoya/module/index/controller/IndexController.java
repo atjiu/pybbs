@@ -183,6 +183,7 @@ public class IndexController extends BaseController {
     String avatarName = UUID.randomUUID().toString();
     identicon.generator(avatarName);
     user = new User();
+    user.setEmail(email);
     user.setUsername(username);
     user.setPassword(new BCryptPasswordEncoder().encode(password));
     user.setInTime(now);

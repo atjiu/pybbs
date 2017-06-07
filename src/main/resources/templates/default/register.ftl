@@ -30,6 +30,10 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="emailCode">邮箱验证码</label>
+            <input type="text" class="form-control" id="emailCode" name="emailCode" placeholder="邮箱验证码">
+          </div>
+          <div class="form-group">
             <label for="email">验证码</label>
             <div class="input-group">
               <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
@@ -50,6 +54,9 @@
     $("#form").submit(function () {
       var username = $("#username").val();
       var password = $("#password").val();
+      var email = $("#email").val();
+      var emailCode = $("#emailCode").val();
+      var code = $("#code").val();
       if(username.length === 0) {
         $("#error_message").text("用户名不能为空");
         return false;
@@ -57,6 +64,15 @@
       if(password.length === 0) {
         $("#error_message").text("密码不能为空");
         return false;
+      }
+      if(email.length === 0) {
+        $("#error_message").text("邮箱不能为空")
+      }
+      if(emailCode.length === 0) {
+        $("#error_message").text("邮箱验证码不能为空")
+      }
+      if(code.length === 0) {
+        $("#error_message").text("验证码不能为空")
       }
     });
     $("#changeCode").click(function(){
