@@ -11,11 +11,11 @@
         <a href="/">主页</a> / 回复列表
       </div>
       <div class="table-responsive">
-        <#include "../../components/reply_list.ftl"/>
+        <#include "../components/reply_list.ftl"/>
         <@user_replies replies=page.getContent()/>
       </div>
       <div class="panel-body" style="padding: 0 15px;">
-        <#include "../../components/paginate.ftl"/>
+        <#include "../components/paginate.ftl"/>
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/reply/list" urlParas="" showdivide="no"/>
       </div>
     </div>

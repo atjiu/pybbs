@@ -49,7 +49,7 @@
         </table>
       </div>
       <div class="panel-body" style="padding: 0 15px;">
-        <#include "../../components/paginate.ftl"/>
+        <#include "../components/paginate.ftl"/>
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/user/list" urlParas="" showdivide="no"/>
       </div>
     </div>

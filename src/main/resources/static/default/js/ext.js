@@ -131,7 +131,7 @@
     var _csrf = $("input[name='_csrf']").val();
 
     this.uploader = WebUploader.create({
-      swf: '/static/default/libs/webuploader/Uploader.swf',
+      swf: '//cdn.staticfile.org/webuploader/0.1.5/Uploader.swf',
       server: '/upload?_csrf=' + _csrf,
       pick: this.$uploadBtn[0],
       paste: document.body,

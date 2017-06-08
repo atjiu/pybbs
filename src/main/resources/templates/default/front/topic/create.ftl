@@ -44,19 +44,20 @@
     </div>
   </div>
 </div>
-<#if site.editor == 'markdown'>
-  <link rel="stylesheet" href="/static/default/libs/editor/editor.css"/>
-  <script type="text/javascript" src="/static/default/libs/webuploader/webuploader.withoutimage.js"></script>
-  <script type="text/javascript" src="/static/default/libs/markdownit.js"></script>
-  <script type="text/javascript" src="/static/default/libs/editor/editor.js"></script>
-  <script type="text/javascript" src="/static/default/libs/editor/ext.js"></script>
+  <#if site.editor == 'markdown'>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/editor/0.1.0/editor.css">
+  <script src="//cdn.staticfile.org/webuploader/0.1.5/webuploader.withoutimage.min.js"></script>
+  <script src="//cdn.bootcss.com/markdown-it/8.3.1/markdown-it.min.js"></script>
+  <script src="//cdn.jsdelivr.net/editor/0.1.0/editor.js"></script>
+  <script type="text/javascript" src="/static/default/js/ext.js"></script>
   <script type="text/javascript">
     var editor = new Editor({element: $("#content")[0], status: []});
     editor.render();
   </script>
-<#elseif site.editor == 'wangeditor'>
-  <link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+  <#elseif site.editor == 'wangeditor'>
+  <link href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css" rel="stylesheet">
   <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+
   <script>
     var editor = new wangEditor('content');
     // 普通的自定义菜单
@@ -93,5 +94,5 @@
     editor.config.uploadImgFileName = 'file';
     editor.create();
   </script>
-</#if>
+  </#if>
 </@html>

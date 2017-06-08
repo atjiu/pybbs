@@ -23,11 +23,11 @@
   <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
 <#if site.editor == 'markdown'>
-<link rel="stylesheet" href="/static/default/libs/editor/editor.css"/>
-<script type="text/javascript" src="/static/default/libs/webuploader/webuploader.withoutimage.js"></script>
-<script type="text/javascript" src="/static/default/libs/markdownit.js"></script>
-<script type="text/javascript" src="/static/default/libs/editor/editor.js"></script>
-<script type="text/javascript" src="/static/default/libs/editor/ext.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/editor/0.1.0/editor.css">
+<script src="//cdn.bootcss.com/webuploader/0.1.1/webuploader.withoutimage.js"></script>
+<script src="//cdn.bootcss.com/markdown-it/8.3.1/markdown-it.min.js"></script>
+<script src="//cdn.jsdelivr.net/editor/0.1.0/editor.js"></script>
+<script type="text/javascript" src="/static/default/js/ext.js"></script>
 <script type="text/javascript">
   var editor = new Editor({element: $("#content")[0], status: []});
   editor.render();
@@ -58,8 +58,7 @@
   }
 </script>
 <#elseif site.editor == 'wangeditor'>
-<script type="text/javascript" src="/static/default/js/jquery.atwho.min.js"></script>
-<link rel="stylesheet" href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css">
+<link href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css" rel="stylesheet">
 <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
 <script>
   var editor = new wangEditor('content');

@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>${page_title!site.name}</title>
   <link rel="icon" href="//tomoya.cn/favicon.ico">
-
-  <link rel="stylesheet" href="/static/default/css/bootstrap.css"/>
-  <link rel="stylesheet" href="/static/default/css/github.css">
+  <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/default/css/pybbs.css">
-  <script src="/static/default/js/jquery.min.js"></script>
-  <script src="/static/default/js/bootstrap.min.js"></script>
-  <script src="/static/default/libs/layer/layer.js"></script>
+
+  <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/layer/3.0.1/layer.min.js"></script>
 </head>
 <body>
 <div class="wrapper">
