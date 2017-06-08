@@ -34,7 +34,7 @@ public class ReplyApiController extends BaseController {
   private NotificationService notificationService;
 
   @PostMapping("/save")
-  public Result save(Integer topicId, String content, String token, String editor) throws ApiException {
+  public Result save(Integer topicId, String content, String token) throws ApiException {
     User user = getUser(token);
     if (user == null)
       throw new ApiException("用户不存在");
@@ -50,10 +50,6 @@ public class ReplyApiController extends BaseController {
 
     if (StringUtils.isEmpty(content))
       throw new ApiException("回复内容不能为空");
-    if (StringUtils.isEmpty(editor))
-      editor = "markdown";
-    if (!editor.equals("markdown") || !editor.equals("wangeditor"))
-      editor = "markdown";
 
     Reply reply = new Reply();
     reply.setUser(user);
@@ -61,7 +57,6 @@ public class ReplyApiController extends BaseController {
     reply.setInTime(new Date());
     reply.setUp(0);
     reply.setContent(content);
-    reply.setEditor(editor);
 
     replyService.save(reply);
 

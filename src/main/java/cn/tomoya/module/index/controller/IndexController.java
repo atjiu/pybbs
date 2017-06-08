@@ -207,46 +207,25 @@ public class IndexController extends BaseController {
     return redirect(response, "/login?s=reg");
   }
 
-  /**
-   * 上传
-   *
-   * @param file
-   * @return
-   */
-  @PostMapping("/upload")
-  @ResponseBody
-  public Result upload(@RequestParam("file") MultipartFile file) {
-    if (!file.isEmpty()) {
-      try {
-        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE);
-        return Result.success(requestUrl);
-      } catch (IOException e) {
-        e.printStackTrace();
-        return Result.error("上传失败");
-      }
-    }
-    return Result.error("文件不存在");
-  }
-
-  /**
-   * wangEditor上传
-   *
-   * @param file
-   * @return
-   */
-  @PostMapping("/wangEditorUpload")
-  @ResponseBody
-  public String wangEditorUpload(@RequestParam("file") MultipartFile file) {
-    if (!file.isEmpty()) {
-      try {
-        return fileUtil.uploadFile(file, FileUploadEnum.FILE);
-      } catch (IOException e) {
-        e.printStackTrace();
-        return "error|服务器端错误";
-      }
-    }
-    return "error|文件不存在";
-  }
+//  /**
+//   * wangEditor上传
+//   *
+//   * @param file
+//   * @return
+//   */
+//  @PostMapping("/wangEditorUpload")
+//  @ResponseBody
+//  public String wangEditorUpload(@RequestParam("file") MultipartFile file) {
+//    if (!file.isEmpty()) {
+//      try {
+//        return fileUtil.uploadFile(file, FileUploadEnum.FILE);
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//        return "error|服务器端错误";
+//      }
+//    }
+//    return "error|文件不存在";
+//  }
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height

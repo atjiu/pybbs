@@ -32,7 +32,6 @@ site:
   pageSize: 20
   uploadPath: ./static/images/upload/
   theme: default
-  editor: wangeditor
   search: true
   attempts: 5
   attemptsWaitTime: 15

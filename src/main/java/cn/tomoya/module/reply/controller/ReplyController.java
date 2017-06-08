@@ -63,7 +63,6 @@ public class ReplyController extends BaseController {
         reply.setInTime(new Date());
         reply.setUp(0);
         reply.setContent(content);
-        reply.setEditor(siteConfig.getEditor());
 
         replyService.save(reply);
 
@@ -73,22 +72,17 @@ public class ReplyController extends BaseController {
 
         //给话题作者发送通知
         if (user.getId() != topic.getUser().getId()) {
-          notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content, reply.getEditor());
+          notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
         }
         //给At用户发送通知
-        String pattern = null;
-        if (siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+        String pattern = "\"[^\\s]+?";
         List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
         for (String u : atUsers) {
-          if (siteConfig.getEditor().equals("markdown")) {
-            u = u.replace("@", "").trim();
-          } else if (siteConfig.getEditor().equals("wangeditor")) {
-            u = u.replace("\">@", "").replace("</a>", "").trim();
-          }
+          u = u.replace("@", "").trim();
           if (!u.equals(user.getUsername())) {
             User _user = userService.findByUsername(u);
             if (_user != null) {
-              notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content, reply.getEditor());
+              notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
             }
           }
         }

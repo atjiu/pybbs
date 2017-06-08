@@ -14,7 +14,7 @@
             <input type="text" class="form-control" id="title" name="title" placeholder="标题">
           </div>
           <div class="form-group">
-            <label for="title">内容</label>
+            <label for="content">内容</label>
             <textarea name="content" id="content" rows="15" class="form-control" placeholder="请输入内容~"></textarea>
           </div>
           <div class="form-group">
@@ -44,55 +44,4 @@
     </div>
   </div>
 </div>
-  <#if site.editor == 'markdown'>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/editor/0.1.0/editor.css">
-  <script src="//cdn.staticfile.org/webuploader/0.1.5/webuploader.withoutimage.min.js"></script>
-  <script src="//cdn.bootcss.com/markdown-it/8.3.1/markdown-it.min.js"></script>
-  <script src="//cdn.jsdelivr.net/editor/0.1.0/editor.js"></script>
-  <script type="text/javascript" src="/static/default/js/ext.js"></script>
-  <script type="text/javascript">
-    var editor = new Editor({element: $("#content")[0], status: []});
-    editor.render();
-  </script>
-  <#elseif site.editor == 'wangeditor'>
-  <link href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css" rel="stylesheet">
-  <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
-
-  <script>
-    var editor = new wangEditor('content');
-    // 普通的自定义菜单
-    editor.config.menus = [
-      'source',
-      '|',
-      'bold',
-      'underline',
-      'italic',
-      'strikethrough',
-      'forecolor',
-      'bgcolor',
-      '|',
-      'quote',
-      'fontfamily',
-      'fontsize',
-      'head',
-      'unorderlist',
-      'orderlist',
-      '|',
-      'link',
-      'unlink',
-      'table',
-      '|',
-      'img',
-      'insertcode'
-    ];
-    // 上传图片（举例）
-    editor.config.uploadImgUrl = '/wangEditorUpload';
-    // 配置自定义参数（举例）
-    editor.config.uploadParams = {
-      '${_csrf.parameterName}': '${_csrf.token}'
-    };
-    editor.config.uploadImgFileName = 'file';
-    editor.create();
-  </script>
-  </#if>
 </@html>

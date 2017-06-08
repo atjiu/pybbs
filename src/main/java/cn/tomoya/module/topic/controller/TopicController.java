@@ -87,7 +87,6 @@ public class TopicController extends BaseController {
       topic.setUser(user);
       topic.setGood(false);
       topic.setTop(false);
-      topic.setEditor(siteConfig.getEditor());
       topic.setLock(false);
       topicService.save(topic);
       return redirect(response, "/topic/" + topic.getId());

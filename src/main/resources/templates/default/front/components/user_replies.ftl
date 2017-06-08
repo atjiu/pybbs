@@ -17,11 +17,7 @@
         </tr>
         <tr class="user_replies">
           <td>
-            <#if reply.editor?? && reply.editor  == 'markdown'>
-          ${reply.marked(reply.content!)}
-        <#elseif reply.editor?? && reply.editor  == 'wangeditor'>
-            ${reply.content!}
-            </#if>
+            ${reply.marked(reply.content!)}
           </td>
         </tr>
       </#list>

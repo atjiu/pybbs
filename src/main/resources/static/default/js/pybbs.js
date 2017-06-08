@@ -1,16 +1,3 @@
-var moveEnd = function (obj) {
-  obj.focus();
-  obj = obj.get(0);
-  var len = obj.value.length;
-  if (document.selection) {
-    var sel = obj.createTextRange();
-    sel.moveStart('character', len);
-    sel.collapse();
-    sel.select();
-  } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
-    obj.selectionStart = obj.selectionEnd = len;
-  }
-};
 $(function () {
   var n = $("#goTop");
   n.click(function () {

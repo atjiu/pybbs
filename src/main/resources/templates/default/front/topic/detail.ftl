@@ -71,11 +71,7 @@
       <#if topic.content?? && topic.content != "">
         <div class="divide"></div>
         <div class="panel-body topic-detail-content">
-          <#if topic.editor?? && topic.editor == 'markdown'>
-            ${topic.markedNotAt(topic.content)}
-          <#elseif topic.editor?? && topic.editor == 'wangeditor'>
-          ${topic.content!}
-          </#if>
+        ${topic.markedNotAt(topic.content)}
         </div>
       </#if>
       <#if user??>
@@ -142,157 +138,35 @@
   <#if user?? && user.block == false>
   <link href="//cdn.bootcss.com/at.js/1.5.3/css/jquery.atwho.min.css" rel="stylesheet">
   <script src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="//cdn.bootcss.com/Caret.js/0.3.1/jquery.caret.min.js"></script>
+  <script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
   <script>
     var data = [];
       <#list replies as reply>
       data.push('${reply.user.username}');
       </#list>
     data = _.uniq(data);
+    $("#content").atwho({
+      at: "@",
+      data: data
+    });
+    function replySubmit() {
+      var errors = 0;
+      var em = $("#error_message");
+      var content = $("#content").val();
+      if (content.length === 0) {
+        errors++;
+        em.html("回复内容不能为空");
+      }
+      if (errors === 0) {
+        $("#content").val(content);
+        var form = $("#replyForm");
+        form.submit();
+      }
+    }
+    function replythis(author) {
+      $("#content").append("@" + author + " ");
+    }
   </script>
-    <#if site.editor == 'markdown'>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/editor/0.1.0/editor.css">
-    <script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
-    <style>
-      .CodeMirror {
-        height: 150px;
-      }
-    </style>
-    <script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-    <script src="//cdn.bootcss.com/webuploader/0.1.1/webuploader.withoutimage.js"></script>
-    <script src="//cdn.bootcss.com/markdown-it/8.3.1/markdown-it.min.js"></script>
-    <script src="//cdn.jsdelivr.net/editor/0.1.0/editor.js"></script>
-    <script type="text/javascript" src="/static/default/js/ext.js"></script>
-    <script type="text/javascript">
-
-      $('pre code').each(function (i, block) {
-        hljs.highlightBlock(block);
-      });
-
-      var editor = new Editor({element: $("#content")[0], status: []});
-      editor.render();
-
-      var $input = $(editor.codemirror.display.input);
-      $input.keydown(function (event) {
-        if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
-          event.preventDefault();
-          if (editor.codemirror.getValue().length == 0) {
-            $("#error_message").html("回复内容不能为空");
-          } else {
-            $("#replyForm").submit();
-          }
-        }
-      });
-
-      // at.js 配置
-      var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
-      var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
-      var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
-
-      $input.atwho({
-        at: "@",
-        data: data
-      }).on('shown.atwho', function () {
-        CodeMirror.commands.goLineUp = _.noop;
-        CodeMirror.commands.goLineDown = _.noop;
-        CodeMirror.commands.newlineAndIndent = _.noop;
-      })
-          .on('hidden.atwho', function () {
-            CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
-            CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
-            CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
-          });
-      // END at.js 配置
-      function replySubmit() {
-        var errors = 0;
-        var em = $("#error_message");
-        var content = editor.value();
-        if (content.length == 0) {
-          errors++;
-          em.html("回复内容不能为空");
-        }
-        if (errors == 0) {
-          var form = $("#replyForm");
-          form.submit();
-        }
-      }
-      function replythis(author) {
-        var content = $(editor.codemirror.display.input);
-        var oldContent = editor.value();
-        var prefix = "@" + author + " ";
-        var newContent = '';
-        if (oldContent.length > 0) {
-          if (oldContent != prefix) {
-            newContent = oldContent + '\n' + prefix;
-          }
-        } else {
-          newContent = prefix
-        }
-        editor.value(newContent);
-        CodeMirror.commands.goDocEnd(editor.codemirror);
-        content.focus();
-        moveEnd(content);
-      }
-    </script>
-    <#elseif site.editor == 'wangeditor'>
-    <script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
-    <link href="//cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css" rel="stylesheet">
-    <script src="//cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
-    <script>
-      var editor = new wangEditor('content');
-      // 普通的自定义菜单
-      editor.config.menus = [
-        'source',
-        '|',
-        'bold',
-        'underline',
-        'italic',
-        'strikethrough',
-        'forecolor',
-        'bgcolor',
-        '|',
-        'quote',
-        'fontfamily',
-        'fontsize',
-        'head',
-        'unorderlist',
-        'orderlist',
-        '|',
-        'link',
-        'unlink',
-        'table',
-        '|',
-        'img',
-        'insertcode'
-      ];
-      // 上传图片（举例）
-      editor.config.uploadImgUrl = '/wangEditorUpload';
-      // 配置自定义参数（举例）
-      editor.config.uploadParams = {
-        '${_csrf.parameterName}': '${_csrf.token}'
-      };
-      editor.config.uploadImgFileName = 'file';
-      editor.create();
-      editor.$txt.atwho({
-        at: "@",
-        data: data
-      });
-      function replySubmit() {
-        var errors = 0;
-        var em = $("#error_message");
-        var content = editor.$txt.text();
-        if (content.length == 0 && editor.$txt.html().indexOf('<img') == -1) {
-          errors++;
-          em.html("回复内容不能为空");
-        }
-        if (errors == 0) {
-          var form = $("#replyForm");
-          form.submit();
-        }
-      }
-      function replythis(author) {
-        editor.$txt.append("@" + author + " ");
-      }
-    </script>
-    </#if>
   </#if>
 </@html>

@@ -17,7 +17,6 @@ public class SiteConfig {
   private int pageSize;
   private String uploadPath;
   private String theme;
-  private String editor;
   private boolean search;
   private int attempts;
   private long attemptsWaitTime;
@@ -76,14 +75,6 @@ public class SiteConfig {
 
   public void setTheme(String theme) {
     this.theme = theme;
-  }
-
-  public String getEditor() {
-    return editor;
-  }
-
-  public void setEditor(String editor) {
-    this.editor = editor;
   }
 
   public boolean isSearch() {

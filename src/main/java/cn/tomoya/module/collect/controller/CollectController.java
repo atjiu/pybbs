@@ -45,7 +45,7 @@ public class CollectController extends BaseController {
       collectService.save(collect);
 
       //发出通知
-      notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "", null);
+      notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "");
       return redirect(response, "/topic/" + topic.getId());
     }
   }

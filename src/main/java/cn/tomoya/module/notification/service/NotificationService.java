@@ -48,22 +48,17 @@ public class NotificationService {
   public void sendNotification(User user, Topic topic, String content, Reply reply) {
     //给话题作者发送通知
     if (user.getId() != topic.getUser().getId()) {
-      this.sendNotification(user, topic.getUser(), NotificationEnum.REPLY.name(), topic, content, reply.getEditor());
+      this.sendNotification(user, topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
     }
     //给At用户发送通知
-    String pattern = null;
-    if (siteConfig.getEditor().equals("wangeditor")) pattern = "\">[^\\s]+</a>?";
+    String pattern = pattern = "\">[^\\s]+</a>?";
     List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
     for (String u : atUsers) {
-      if (siteConfig.getEditor().equals("markdown")) {
-        u = u.replace("@", "").trim();
-      } else if (siteConfig.getEditor().equals("wangeditor")) {
-        u = u.replace("\">@", "").replace("</a>", "").trim();
-      }
+      u = u.replace("\">@", "").replace("</a>", "").trim();
       if (!u.equals(user.getUsername())) {
         User _user = userService.findByUsername(u);
         if (_user != null) {
-          this.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content, reply.getEditor());
+          this.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
         }
       }
     }
@@ -78,7 +73,7 @@ public class NotificationService {
    * @param topic
    * @param content
    */
-  public void sendNotification(User user, User targetUser, String action, Topic topic, String content, String editor) {
+  public void sendNotification(User user, User targetUser, String action, Topic topic, String content) {
     new Thread(() -> {
       Notification notification = new Notification();
       notification.setUser(user);
@@ -88,7 +83,6 @@ public class NotificationService {
       notification.setAction(action);
       notification.setContent(content);
       notification.setRead(false);
-      notification.setEditor(editor);
       save(notification);
     }).start();
   }

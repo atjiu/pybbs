@@ -40,11 +40,7 @@
           </span>
         </#if>
       </div>
-      <#if reply.editor?? && reply.editor == 'markdown'>
-        <p>${reply.marked(reply.content)}</p>
-      <#elseif reply.editor?? && reply.editor  == 'wangeditor'>
-        ${reply.content!}
-      </#if>
+      ${reply.marked(reply.content)}
     </div>
   </div>
     <#if reply_has_next>

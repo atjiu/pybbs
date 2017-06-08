@@ -70,8 +70,6 @@ public class Topic extends BaseEntity implements Serializable {
   //点赞用户id，逗号隔开(英文逗号)
   private String upIds;
 
-  private String editor;
-
   //问题是否被锁定
   @Column(name = "topic_lock")
   private boolean lock;
@@ -170,14 +168,6 @@ public class Topic extends BaseEntity implements Serializable {
 
   public void setUpIds(String upIds) {
     this.upIds = upIds;
-  }
-
-  public String getEditor() {
-    return editor;
-  }
-
-  public void setEditor(String editor) {
-    this.editor = editor;
   }
 
   public boolean isLock() {

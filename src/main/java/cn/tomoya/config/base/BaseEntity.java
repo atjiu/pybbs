@@ -101,15 +101,12 @@ public class BaseEntity {
   /**
    * 搜索结果内容截取
    *
-   * @param _editor
    * @param q
    * @param content
    * @return
    */
-  public String subContent(String _editor, String q, String content) {
+  public String subContent(String q, String content) {
     int index = content.indexOf(q);
-    if (_editor.equals("markdown"))
-      content = marked(content);
     content = Jsoup.parse(content).text();
     if (index < 0) {
       if (content.length() >= 150)

@@ -89,10 +89,6 @@ public class TopicApiController extends BaseController {
       throw new ApiException("标题不能超过120个字");
     if (sectionService.findByName(tab) == null)
       throw new ApiException("版块不存在");
-    if (StringUtils.isEmpty(editor))
-      editor = "markdown";
-    if (!editor.equals("markdown") || !editor.equals("wangeditor"))
-      editor = "markdown";
 
     Topic topic = new Topic();
     topic.setTab(tab);
@@ -103,7 +99,6 @@ public class TopicApiController extends BaseController {
     topic.setUser(user);
     topic.setGood(false);
     topic.setTop(false);
-    topic.setEditor(editor);
     topic.setLock(false);
     topicService.save(topic);
 
