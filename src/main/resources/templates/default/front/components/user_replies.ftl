@@ -28,7 +28,7 @@
     </table>
       <#if isPaginate>
       <div class="panel-body" style="padding: 0 15px;">
-        <#include "./paginate.ftl"/>
+        <#include "paginate.ftl"/>
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/replies" urlParas="" showdivide="no"/>
       </div>
       </#if>

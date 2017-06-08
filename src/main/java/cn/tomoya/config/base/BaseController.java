@@ -103,6 +103,7 @@ public class BaseController {
 
   /**
    * 获取用户信息
+   *
    * @param token
    * @return
    */

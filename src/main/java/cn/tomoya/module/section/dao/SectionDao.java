@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import cn.tomoya.module.section.entity.Section;
 
-/** 
- * Created by tomoya. 
- * Copyright (c) 2016, All Rights Reserved. 
- * http://tomoya.cn 
+/**
+ * Created by tomoya.
+ * Copyright (c) 2016, All Rights Reserved.
+ * http://tomoya.cn
  */
 @Repository
 @CacheConfig(cacheNames = "sections")

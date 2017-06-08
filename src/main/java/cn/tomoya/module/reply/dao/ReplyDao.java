@@ -21,12 +21,12 @@ import java.util.List;
 @CacheConfig(cacheNames = "replies")
 public interface ReplyDao extends JpaRepository<Reply, Integer> {
 
-    List<Reply> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
+  List<Reply> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
 
-    void deleteByTopic(Topic topic);
+  void deleteByTopic(Topic topic);
 
-    void deleteByUser(User user);
+  void deleteByUser(User user);
 
-    @Cacheable
-    Page<Reply> findByUser(User user, Pageable pageable);
+  @Cacheable
+  Page<Reply> findByUser(User user, Pageable pageable);
 }

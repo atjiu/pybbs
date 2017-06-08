@@ -19,6 +19,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
   /**
    * Add intercepter
+   *
    * @param registry
    */
   @Override

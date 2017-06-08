@@ -20,17 +20,6 @@
         </form>
       </#if>-
       <ul class="nav navbar-nav navbar-right">
-        <#if _donate?? && _donate == true>
-          <li <#if page_tab == 'donate'> class="active" </#if>>
-            <a href="/donate">捐赠</a>
-          </li>
-        </#if>
-        <#--<li <#if page_tab == 'api'> class="active" </#if>>-->
-          <#--<a href="/apidoc">API</a>-->
-        <#--</li>-->
-        <li <#if page_tab == 'about'> class="active" </#if>>
-          <a href="/about">关于</a>
-        </li>
         <#if sec.isAuthenticated()>
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>

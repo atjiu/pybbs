@@ -26,103 +26,103 @@ import java.util.Set;
 @RequestMapping("/admin/role")
 public class RoleController extends BaseController {
 
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PermissionService permissionService;
+  @Autowired
+  private RoleService roleService;
+  @Autowired
+  private PermissionService permissionService;
 
-    /**
-     * 角色列表
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("roles", roleService.findAll());
-        return render("/admin/role/list");
-    }
+  /**
+   * 角色列表
+   *
+   * @param model
+   * @return
+   */
+  @GetMapping("/list")
+  public String list(Model model) {
+    model.addAttribute("roles", roleService.findAll());
+    return render("/admin/role/list");
+  }
 
-    /**
-     * 添加角色
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("list", permissionService.findAll());
-        return render("/admin/role/add");
-    }
+  /**
+   * 添加角色
+   *
+   * @param model
+   * @return
+   */
+  @GetMapping("/add")
+  public String add(Model model) {
+    model.addAttribute("list", permissionService.findAll());
+    return render("/admin/role/add");
+  }
 
-    /**
-     * 保存配置的权限
-     *
-     * @param permissionIds
-     * @param response
-     * @return
-     */
-    @PostMapping("/add")
-    public String save(String name, String description, Integer[] permissionIds, HttpServletResponse response) {
-        Role role = new Role();
-        role.setName(name);
-        role.setDescription(description);
-        Set<Permission> permissions = new HashSet<>();
-        for (int i : permissionIds) {
-            Permission permission = permissionService.findById(i);
-            permissions.add(permission);
-        }
-        role.setPermissions(permissions);
-        roleService.save(role);
-        return redirect(response, "/admin/role/list");
+  /**
+   * 保存配置的权限
+   *
+   * @param permissionIds
+   * @param response
+   * @return
+   */
+  @PostMapping("/add")
+  public String save(String name, String description, Integer[] permissionIds, HttpServletResponse response) {
+    Role role = new Role();
+    role.setName(name);
+    role.setDescription(description);
+    Set<Permission> permissions = new HashSet<>();
+    for (int i : permissionIds) {
+      Permission permission = permissionService.findById(i);
+      permissions.add(permission);
     }
+    role.setPermissions(permissions);
+    roleService.save(role);
+    return redirect(response, "/admin/role/list");
+  }
 
-    /**
-     * 编辑角色
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("role", roleService.findById(id));
-        model.addAttribute("list", permissionService.findAll());
-        return render("/admin/role/edit");
-    }
+  /**
+   * 编辑角色
+   *
+   * @param model
+   * @return
+   */
+  @GetMapping("/{id}/edit")
+  public String edit(@PathVariable Integer id, Model model) {
+    model.addAttribute("role", roleService.findById(id));
+    model.addAttribute("list", permissionService.findAll());
+    return render("/admin/role/edit");
+  }
 
-    /**
-     * 更新配置的权限
-     *
-     * @param permissionIds
-     * @param response
-     * @return
-     */
-    @PostMapping("/{id}/edit")
-    public String update(@PathVariable Integer id, String name, String description, Integer[] permissionIds, HttpServletResponse response) {
-        Role role = roleService.findById(id);
-        role.setName(name);
-        role.setDescription(description);
-        Set<Permission> permissions = new HashSet<>();
-        if(permissionIds != null) {
-            for (int i : permissionIds) {
-                Permission permission = permissionService.findById(i);
-                permissions.add(permission);
-            }
-        }
-        role.setPermissions(permissions);
-        roleService.save(role);
-        return redirect(response, "/admin/role/list");
+  /**
+   * 更新配置的权限
+   *
+   * @param permissionIds
+   * @param response
+   * @return
+   */
+  @PostMapping("/{id}/edit")
+  public String update(@PathVariable Integer id, String name, String description, Integer[] permissionIds, HttpServletResponse response) {
+    Role role = roleService.findById(id);
+    role.setName(name);
+    role.setDescription(description);
+    Set<Permission> permissions = new HashSet<>();
+    if (permissionIds != null) {
+      for (int i : permissionIds) {
+        Permission permission = permissionService.findById(i);
+        permissions.add(permission);
+      }
     }
+    role.setPermissions(permissions);
+    roleService.save(role);
+    return redirect(response, "/admin/role/list");
+  }
 
-    /**
-     * 删除角色
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable Integer id, HttpServletResponse response) {
-        roleService.deleteById(id);
-        return redirect(response, "/admin/role/list");
-    }
+  /**
+   * 删除角色
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/{id}/delete")
+  public String delete(@PathVariable Integer id, HttpServletResponse response) {
+    roleService.deleteById(id);
+    return redirect(response, "/admin/role/list");
+  }
 }

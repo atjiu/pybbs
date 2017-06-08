@@ -17,11 +17,11 @@ import java.util.List;
 @CacheConfig(cacheNames = "roles")
 public interface RoleDao extends JpaRepository<Role, Integer> {
 
-    @Cacheable
-    Role findOne(int id);
+  @Cacheable
+  Role findOne(int id);
 
-    @Cacheable
-    List<Role> findAll();
+  @Cacheable
+  List<Role> findAll();
 
-    void delete(int id);
+  void delete(int id);
 }

@@ -19,13 +19,13 @@ ${weibometa!}
 </head>
 <body>
 <div class="wrapper">
-  <#include "./header.ftl">
+  <#include "header.ftl">
   <@header page_tab=page_tab/>
   <div class="container">
     <#nested />
   </div>
 </div>
-  <#include "./footer.ftl">
+  <#include "footer.ftl">
   <@footer/>
 <script src="/static/default/js/pybbs.js"></script>
 </body>

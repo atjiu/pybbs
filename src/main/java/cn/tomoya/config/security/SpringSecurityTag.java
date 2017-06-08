@@ -14,6 +14,7 @@ public class SpringSecurityTag {
 
   /**
    * Get authenticated status
+   *
    * @return
    */
   public static boolean isAuthenticated() {

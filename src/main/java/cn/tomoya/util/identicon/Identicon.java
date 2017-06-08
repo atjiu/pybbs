@@ -65,7 +65,7 @@ public class Identicon {
     BufferedImage image = identicon.create(md5, 420);
     try {
       File file = new File(siteConfig.getUploadPath() + "avatar/");
-      if(!file.exists()) file.mkdirs();
+      if (!file.exists()) file.mkdirs();
       File file1 = new File(siteConfig.getUploadPath() + "avatar/" + fileName + ".png");
       if (!file1.exists()) file1.createNewFile();
       ImageIO.write(image, "PNG", file1);

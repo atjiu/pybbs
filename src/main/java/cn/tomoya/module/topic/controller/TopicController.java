@@ -55,7 +55,7 @@ public class TopicController extends BaseController {
     if (getUser().isBlock()) {
       return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
     }
-    return render("/topic/create");
+    return render("/front/topic/create");
   }
 
   /**
@@ -93,7 +93,7 @@ public class TopicController extends BaseController {
       return redirect(response, "/topic/" + topic.getId());
     }
     model.addAttribute("errors", errors);
-    return render("/topic/create");
+    return render("/front/topic/create");
   }
 
   /**
@@ -111,7 +111,7 @@ public class TopicController extends BaseController {
       return renderText(response, "话题不存在");
     } else {
       model.addAttribute("topic", topic);
-      return render("/topic/edit");
+      return render("/front/topic/edit");
     }
   }
 
@@ -124,7 +124,7 @@ public class TopicController extends BaseController {
    */
   @PostMapping("/{id}/edit")
   public String update(@PathVariable Integer id, String tab, String title, String content,
-      HttpServletResponse response) {
+                       HttpServletResponse response) {
     Topic topic = topicService.findById(id);
     User user = getUser();
     if (topic.getUser().getId() == user.getId()) {
@@ -146,7 +146,7 @@ public class TopicController extends BaseController {
    * @param id
    * @param model
    * @return
-   * @throws Exception 
+   * @throws Exception
    */
   @GetMapping("/{id}")
   public String detail(@PathVariable(required = true) Integer id, HttpServletResponse response, Model model)
@@ -165,7 +165,7 @@ public class TopicController extends BaseController {
     model.addAttribute("otherTopics", topicService.findByUser(1, 7, topic.getUser()));
     model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
     model.addAttribute("collectCount", collectService.countByTopic(topic));
-    return render("/topic/detail");
+    return render("/front/topic/detail");
   }
 
   /**
@@ -182,6 +182,7 @@ public class TopicController extends BaseController {
 
   /**
    * 加/减精华
+   *
    * @param id
    * @param response
    * @return
@@ -196,6 +197,7 @@ public class TopicController extends BaseController {
 
   /**
    * 置/不置顶
+   *
    * @param id
    * @param response
    * @return
@@ -210,6 +212,7 @@ public class TopicController extends BaseController {
 
   /**
    * 锁定/不锁定
+   *
    * @param id
    * @param response
    * @return

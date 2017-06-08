@@ -80,8 +80,8 @@ public class User extends BaseEntity implements Serializable {
 
   // 用户与角色的关联关系
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "pybbs_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-      @JoinColumn(name = "role_id") })
+  @JoinTable(name = "pybbs_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
+      @JoinColumn(name = "role_id")})
   @JsonIgnore
   private Set<Role> roles = new HashSet<>();
 

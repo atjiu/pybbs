@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.tomoya.module.section.dao.SectionDao;
 import cn.tomoya.module.section.entity.Section;
 
-/** 
- * Created by tomoya. 
- * Copyright (c) 2016, All Rights Reserved. 
- * http://tomoya.cn 
+/**
+ * Created by tomoya.
+ * Copyright (c) 2016, All Rights Reserved.
+ * http://tomoya.cn
  */
 @Service
 @Transactional

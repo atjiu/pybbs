@@ -86,7 +86,7 @@ public class IndexController extends BaseController {
     model.addAttribute("tab", tab);
     model.addAttribute("sectionName", sectionName);
     model.addAttribute("user", getUser());
-    return render("/index");
+    return render("/front/index");
   }
 
   /**
@@ -102,7 +102,7 @@ public class IndexController extends BaseController {
     Page<Topic> page = topicService.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
     model.addAttribute("page", page);
     model.addAttribute("q", q);
-    return render("/search");
+    return render("/front/search");
   }
 
   /**
@@ -116,7 +116,7 @@ public class IndexController extends BaseController {
       return redirect(response, "/");
     }
     model.addAttribute("s", s);
-    return render("/login");
+    return render("/front/login");
   }
 
   /**
@@ -129,7 +129,7 @@ public class IndexController extends BaseController {
     if (getUser() != null) {
       return redirect(response, "/");
     }
-    return render("/register");
+    return render("/front/register");
   }
 
   /**
@@ -142,42 +142,55 @@ public class IndexController extends BaseController {
   @PostMapping("/register")
   public String register(String username, String password, String email, String emailCode, String code,
                          HttpSession session, HttpServletResponse response, Model model) {
+    boolean error = false;
     String genCaptcha = (String) session.getAttribute("index_code");
     if (StringUtils.isEmpty(code)) {
       model.addAttribute("errors", "验证码不能为空");
-      return render("/register");
+      error = true;
     }
     if (!genCaptcha.toLowerCase().equals(code.toLowerCase())) {
       model.addAttribute("errors", "验证码错误");
-      return render("/register");
+      error = true;
+    }
+    if (StringUtils.isEmpty(username)) {
+      model.addAttribute("errors", "用户名不能为空");
+      error = true;
+    }
+    if (StringUtils.isEmpty(password)) {
+      model.addAttribute("errors", "密码不能为空");
+      error = true;
     }
     User user = userService.findByUsername(username);
     if (user != null) {
       model.addAttribute("errors", "用户名已经被注册");
-      return render("/register");
-    }
-    if (StringUtils.isEmpty(username)) {
-      model.addAttribute("errors", "用户名不能为空");
-      return render("/register");
-    }
-    if (StringUtils.isEmpty(password)) {
-      model.addAttribute("errors", "密码不能为空");
-      return render("/register");
+      error = true;
     }
     User user_email = userService.findByEmail(email);
     if (user_email != null) {
       model.addAttribute("errors", "邮箱已经被使用");
-      return render("/register");
+      error = true;
     }
     int validateResult = codeService.validateCode(emailCode, CodeEnum.EMAIL);
-    if(validateResult == 1) {
+    if (validateResult == 1) {
       model.addAttribute("errors", "邮箱验证码不正确");
-      return render("/register");
+      error = true;
     }
-    if(validateResult == 2) {
+    if (validateResult == 2) {
       model.addAttribute("errors", "邮箱验证码已过期");
-      return render("/register");
+      error = true;
     }
+    if (validateResult == 3) {
+      model.addAttribute("errors", "验证码已经被使用");
+      error = true;
+    }
+
+    if(error) {
+      model.addAttribute("username", username);
+      model.addAttribute("email", email);
+      model.addAttribute("emailCode", emailCode);
+      return render("/front/register");
+    }
+
     Date now = new Date();
     String avatarName = UUID.randomUUID().toString();
     identicon.generator(avatarName);
@@ -233,18 +246,6 @@ public class IndexController extends BaseController {
       }
     }
     return "error|文件不存在";
-  }
-
-  /**
-   * 关于
-   *
-   * @param model
-   * @return
-   */
-  @GetMapping("/about")
-  public String about(Model model) {
-    model.addAttribute("page_tab", "about");
-    return render("/about");
   }
 
   private int width = 120;// 定义图片的width
@@ -333,7 +334,7 @@ public class IndexController extends BaseController {
   public Result sendEmailCode(String email) throws ApiException {
     if (!StrUtil.isEmail(email)) throw new ApiException("请输入正确的Email");
     try {
-      String genCode = codeService.genEmailCode();
+      String genCode = codeService.genEmailCode(email);
       SimpleMailMessage message = new SimpleMailMessage();
       System.out.println(env.getProperty("spring.mail.username"));
       message.setFrom(env.getProperty("spring.mail.username"));

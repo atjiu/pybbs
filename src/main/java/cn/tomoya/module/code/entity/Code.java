@@ -25,6 +25,8 @@ public class Code {
   @Column(name = "is_used")
   private boolean isUsed;
 
+  private String email;
+
   public int getId() {
     return id;
   }
@@ -63,5 +65,13 @@ public class Code {
 
   public void setUsed(boolean used) {
     isUsed = used;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }

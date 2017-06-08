@@ -89,6 +89,7 @@ public class BaseEntity {
 
   /**
    * 高亮title里的搜索关键字
+   *
    * @param q
    * @param title
    * @return
@@ -99,6 +100,7 @@ public class BaseEntity {
 
   /**
    * 搜索结果内容截取
+   *
    * @param _editor
    * @param q
    * @param content

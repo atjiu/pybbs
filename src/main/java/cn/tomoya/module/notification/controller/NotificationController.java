@@ -23,36 +23,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/notification")
 public class NotificationController extends BaseController {
 
-    @Autowired
-    private SiteConfig siteConfig;
-    @Autowired
-    private NotificationService notificationService;
+  @Autowired
+  private SiteConfig siteConfig;
+  @Autowired
+  private NotificationService notificationService;
 
-    /**
-     * 通知列表
-     *
-     * @param p
-     * @param model
-     * @return
-     */
-    @GetMapping("/list")
-    public String list(Integer p, Model model) {
-        model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
-        //将未读消息置为已读
-        notificationService.updateByIsRead(getUser());
-        return render("/notification/list");
-    }
+  /**
+   * 通知列表
+   *
+   * @param p
+   * @param model
+   * @return
+   */
+  @GetMapping("/list")
+  public String list(Integer p, Model model) {
+    model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
+    //将未读消息置为已读
+    notificationService.updateByIsRead(getUser());
+    return render("/front/notification/list");
+  }
 
-    /**
-     * 查询当前用户未读的消息数量
-     *
-     * @return
-     */
-    @GetMapping("/notRead")
-    @ResponseBody
-    public Result notRead() throws ApiException {
-        User user = getUser();
-        if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
-        return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
-    }
+  /**
+   * 查询当前用户未读的消息数量
+   *
+   * @return
+   */
+  @GetMapping("/notRead")
+  @ResponseBody
+  public Result notRead() throws ApiException {
+    User user = getUser();
+    if (user == null) throw new ApiException(ErrorCode.notLogin, "请先登录");
+    return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
+  }
 }

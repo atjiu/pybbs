@@ -1,8 +1,8 @@
-<#include "../../common/layout.ftl"/>
+<#include "../common/layout.ftl"/>
 <@html page_title="角色管理" page_tab="setting">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../../components/admin_left.ftl">
+    <#include "../components/admin_left.ftl">
     <@admin_left page_tab="role"/>
   </div>
   <div class="col-md-9">

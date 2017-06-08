@@ -42,8 +42,8 @@ public class Role extends BaseEntity implements Serializable {
 
   // 角色与权限的关联关系
   @ManyToMany(cascade = CascadeType.PERSIST)
-  @JoinTable(name = "pybbs_role_permission", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
-      @JoinColumn(name = "permission_id") })
+  @JoinTable(name = "pybbs_role_permission", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {
+      @JoinColumn(name = "permission_id")})
   private Set<Permission> permissions = new HashSet<>();
 
   public int getId() {

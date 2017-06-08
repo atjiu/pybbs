@@ -17,13 +17,13 @@ import java.util.List;
 @CacheConfig(cacheNames = "permissions")
 public interface PermissionDao extends JpaRepository<Permission, Integer> {
 
-    @Cacheable
-    Permission findOne(int id);
+  @Cacheable
+  Permission findOne(int id);
 
-    @Cacheable
-    List<Permission> findByPidGreaterThan(int pid);
+  @Cacheable
+  List<Permission> findByPidGreaterThan(int pid);
 
-    List<Permission> findByPid(int pid);
+  List<Permission> findByPid(int pid);
 
-    void deleteByPid(int pid);
+  void deleteByPid(int pid);
 }

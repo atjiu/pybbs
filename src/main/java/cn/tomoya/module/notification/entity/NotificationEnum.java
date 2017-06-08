@@ -6,7 +6,7 @@ package cn.tomoya.module.notification.entity;
  * http://tomoya.cn
  */
 public enum NotificationEnum {
-    REPLY,
-    COLLECT,
-    AT
+  REPLY,
+  COLLECT,
+  AT
 }

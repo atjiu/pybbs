@@ -19,19 +19,19 @@ import org.springframework.stereotype.Repository;
 @CacheConfig(cacheNames = "collects")
 public interface CollectDao extends JpaRepository<Collect, Integer> {
 
-    @Cacheable
-    Page<Collect> findByUser(User user, Pageable pageable);
+  @Cacheable
+  Page<Collect> findByUser(User user, Pageable pageable);
 
-    @Cacheable
-    long countByUser(User user);
+  @Cacheable
+  long countByUser(User user);
 
-    @Cacheable
-    long countByTopic(Topic topic);
+  @Cacheable
+  long countByTopic(Topic topic);
 
-    @Cacheable
-    Collect findByUserAndTopic(User user, Topic topic);
+  @Cacheable
+  Collect findByUserAndTopic(User user, Topic topic);
 
-    void deleteByUser(User user);
+  void deleteByUser(User user);
 
-    void deleteByTopic(Topic topic);
+  void deleteByTopic(Topic topic);
 }

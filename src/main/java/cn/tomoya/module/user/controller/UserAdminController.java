@@ -27,92 +27,94 @@ import java.util.Set;
 @RequestMapping("/admin/user")
 public class UserAdminController extends BaseController {
 
-    @Autowired
-    private SiteConfig siteConfig;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
+  @Autowired
+  private SiteConfig siteConfig;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private RoleService roleService;
 
-    /**
-     * 用户列表
-     *
-     * @param p
-     * @param model
-     * @return
-     */
-    @GetMapping("/list")
-    public String list(Integer p, Model model) {
-        model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
-        return render("/admin/user/list");
-    }
+  /**
+   * 用户列表
+   *
+   * @param p
+   * @param model
+   * @return
+   */
+  @GetMapping("/list")
+  public String list(Integer p, Model model) {
+    model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
+    return render("/admin/user/list");
+  }
 
-    /**
-     * 删除用户
-     *
-     * @param id
-     * @return
-     */
+  /**
+   * 删除用户
+   *
+   * @param id
+   * @return
+   */
 //    @GetMapping(value = "/{id}/delete")
 //    public String delete(@PathVariable Integer id, HttpServletResponse response) {
 //        userService.deleteById(id);
 //        return redirect(response, "/admin/user/list");
 //    }
 
-    /**
-     * 禁用用户
-     * @param id
-     * @param response
-     * @return
-     */
-    @GetMapping("/{id}/block")
-    public String block(@PathVariable Integer id, HttpServletResponse response) {
-        userService.blockUser(id);
-        return redirect(response, "/admin/user/list");
-    }
+  /**
+   * 禁用用户
+   *
+   * @param id
+   * @param response
+   * @return
+   */
+  @GetMapping("/{id}/block")
+  public String block(@PathVariable Integer id, HttpServletResponse response) {
+    userService.blockUser(id);
+    return redirect(response, "/admin/user/list");
+  }
 
-    /**
-     * 解禁用户
-     * @param id
-     * @param response
-     * @return
-     */
-    @GetMapping("/{id}/unblock")
-    public String unblock(@PathVariable Integer id, HttpServletResponse response) {
-        userService.unBlockUser(id);
-        return redirect(response, "/admin/user/list");
-    }
+  /**
+   * 解禁用户
+   *
+   * @param id
+   * @param response
+   * @return
+   */
+  @GetMapping("/{id}/unblock")
+  public String unblock(@PathVariable Integer id, HttpServletResponse response) {
+    userService.unBlockUser(id);
+    return redirect(response, "/admin/user/list");
+  }
 
-    /**
-     * 配置用户的角色
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}/role")
-    public String role(@PathVariable Integer id, Model model) {
-        model.addAttribute("user", userService.findById(id));
-        model.addAttribute("roles", roleService.findAll());
-        return render("/admin/user/role");
-    }
+  /**
+   * 配置用户的角色
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/{id}/role")
+  public String role(@PathVariable Integer id, Model model) {
+    model.addAttribute("user", userService.findById(id));
+    model.addAttribute("roles", roleService.findAll());
+    return render("/admin/user/role");
+  }
 
-    /**
-     * 保存配置用户的角色
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/{id}/role")
-    public String saveRole(@PathVariable Integer id, Integer[] roleIds, HttpServletResponse response) {
-        User user = userService.findById(id);
-        Set<Role> roles = new HashSet<>();
-        for (int i : roleIds) {
-            Role role = roleService.findById(i);
-            roles.add(role);
-        }
-        user.setRoles(roles);
-        userService.save(user);
-        return redirect(response, "/admin/user/list");
+  /**
+   * 保存配置用户的角色
+   *
+   * @param id
+   * @return
+   */
+  @PostMapping("/{id}/role")
+  public String saveRole(@PathVariable Integer id, Integer[] roleIds, HttpServletResponse response) {
+    User user = userService.findById(id);
+    Set<Role> roles = new HashSet<>();
+    for (int i : roleIds) {
+      Role role = roleService.findById(i);
+      roles.add(role);
     }
+    user.setRoles(roles);
+    userService.save(user);
+    return redirect(response, "/admin/user/list");
+  }
 
 }

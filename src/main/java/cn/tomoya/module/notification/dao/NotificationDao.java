@@ -23,25 +23,25 @@ import java.util.List;
 @CacheConfig(cacheNames = "notifications")
 public interface NotificationDao extends JpaRepository<Notification, Integer> {
 
-    @Cacheable
-    Page<Notification> findByTargetUser(User targetUser, Pageable pageable);
+  @Cacheable
+  Page<Notification> findByTargetUser(User targetUser, Pageable pageable);
 
-    @Cacheable
-    Page<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead, Pageable pageable);
+  @Cacheable
+  Page<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead, Pageable pageable);
 
-    @Cacheable
-    List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead);
+  @Cacheable
+  List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead);
 
-    @Cacheable
-    long countByTargetUserAndIsRead(User targetUser, boolean isRead);
+  @Cacheable
+  long countByTargetUserAndIsRead(User targetUser, boolean isRead);
 
-    @Modifying
-    @Query("update Notification n set n.isRead = true where n.targetUser = ?1")
-    void updateByIsRead(User targetUser);
+  @Modifying
+  @Query("update Notification n set n.isRead = true where n.targetUser = ?1")
+  void updateByIsRead(User targetUser);
 
-    void deleteByTargetUser(User user);
+  void deleteByTargetUser(User user);
 
-    void deleteByUser(User user);
+  void deleteByUser(User user);
 
-    void deleteByTopic(Topic topic);
+  void deleteByTopic(Topic topic);
 }

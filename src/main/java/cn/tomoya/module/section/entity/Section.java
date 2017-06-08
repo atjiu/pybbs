@@ -10,10 +10,10 @@ import javax.persistence.Table;
 
 import cn.tomoya.config.base.BaseEntity;
 
-/** 
- * Created by tomoya. 
- * Copyright (c) 2016, All Rights Reserved. 
- * http://tomoya.cn 
+/**
+ * Created by tomoya.
+ * Copyright (c) 2016, All Rights Reserved.
+ * http://tomoya.cn
  */
 @Entity
 @Table(name = "pybbs_section")

@@ -25,47 +25,47 @@ import java.util.Date;
 @RequestMapping("/collect")
 public class CollectController extends BaseController {
 
-    @Autowired
-    private CollectService collectService;
-    @Autowired
-    private TopicService topicService;
-    @Autowired
-    private NotificationService notificationService;
+  @Autowired
+  private CollectService collectService;
+  @Autowired
+  private TopicService topicService;
+  @Autowired
+  private NotificationService notificationService;
 
-    @GetMapping("/{topicId}/add")
-    public String add(@PathVariable Integer topicId, HttpServletResponse response) {
-        Topic topic = topicService.findById(topicId);
-        if (topic == null) {
-            return renderText(response, "话题不存在");
-        } else {
-            Collect collect = new Collect();
-            collect.setInTime(new Date());
-            collect.setTopic(topic);
-            collect.setUser(getUser());
-            collectService.save(collect);
+  @GetMapping("/{topicId}/add")
+  public String add(@PathVariable Integer topicId, HttpServletResponse response) {
+    Topic topic = topicService.findById(topicId);
+    if (topic == null) {
+      return renderText(response, "话题不存在");
+    } else {
+      Collect collect = new Collect();
+      collect.setInTime(new Date());
+      collect.setTopic(topic);
+      collect.setUser(getUser());
+      collectService.save(collect);
 
-            //发出通知
-            notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "", null);
-            return redirect(response, "/topic/" + topic.getId());
-        }
+      //发出通知
+      notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "", null);
+      return redirect(response, "/topic/" + topic.getId());
     }
+  }
 
-    /**
-     * 删除收藏
-     *
-     * @param topicId
-     * @param response
-     * @return
-     */
-    @GetMapping("/{topicId}/delete")
-    public String delete(@PathVariable Integer topicId, HttpServletResponse response) {
-        Topic topic = topicService.findById(topicId);
-        Collect collect = collectService.findByUserAndTopic(getUser(), topic);
-        if (collect == null) {
-            return renderText(response, "你还没收藏这个话题");
-        } else {
-            collectService.deleteById(collect.getId());
-            return redirect(response, "/topic/" + topic.getId());
-        }
+  /**
+   * 删除收藏
+   *
+   * @param topicId
+   * @param response
+   * @return
+   */
+  @GetMapping("/{topicId}/delete")
+  public String delete(@PathVariable Integer topicId, HttpServletResponse response) {
+    Topic topic = topicService.findById(topicId);
+    Collect collect = collectService.findByUserAndTopic(getUser(), topic);
+    if (collect == null) {
+      return renderText(response, "你还没收藏这个话题");
+    } else {
+      collectService.deleteById(collect.getId());
+      return redirect(response, "/topic/" + topic.getId());
     }
+  }
 }

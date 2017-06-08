@@ -41,6 +41,7 @@ public class UserApiController extends BaseController {
 
   /**
    * 用户首页接口
+   *
    * @param username
    * @return
    * @throws ApiException

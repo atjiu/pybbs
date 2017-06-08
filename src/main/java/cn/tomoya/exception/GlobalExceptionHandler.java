@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
 
   /**
    * 错误页面统一处理
+   *
    * @param e
    * @return
    * @throws Exception
@@ -51,6 +52,7 @@ public class GlobalExceptionHandler {
 
   /**
    * 接口错误统一处理
+   *
    * @param e
    * @return
    * @throws Exception

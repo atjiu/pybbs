@@ -52,7 +52,7 @@ public class UserController extends BaseController {
     } else {
       model.addAttribute("pageTitle", "用户未找到");
     }
-    return render("/user/info");
+    return render("/front/user/info");
   }
 
   /**
@@ -67,7 +67,7 @@ public class UserController extends BaseController {
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
       model.addAttribute("p", p);
-      return render("/user/topics");
+      return render("/front/user/topics");
     } else {
       return renderText(response, "用户不存在");
     }
@@ -75,6 +75,7 @@ public class UserController extends BaseController {
 
   /**
    * 用户发布的所有回复
+   *
    * @param username
    * @return
    */
@@ -84,7 +85,7 @@ public class UserController extends BaseController {
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
       model.addAttribute("p", p);
-      return render("/user/replies");
+      return render("/front/user/replies");
     } else {
       return renderText(response, "用户不存在");
     }
@@ -102,7 +103,7 @@ public class UserController extends BaseController {
     if (currentUser != null) {
       model.addAttribute("currentUser", currentUser);
       model.addAttribute("p", p);
-      return render("/user/collects");
+      return render("/front/user/collects");
     } else {
       return renderText(response, "用户不存在");
     }
@@ -117,7 +118,7 @@ public class UserController extends BaseController {
   @GetMapping("/setting")
   public String setting(Model model) {
     model.addAttribute("user", getUser());
-    return render("/user/setting");
+    return render("/front/user/setting");
   }
 
   /**
@@ -131,7 +132,7 @@ public class UserController extends BaseController {
    */
   @PostMapping("/setting")
   public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar,
-      HttpServletResponse response) throws IOException {
+                               HttpServletResponse response) throws IOException {
     User user = getUser();
     if (user.isBlock())
       return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
@@ -148,6 +149,7 @@ public class UserController extends BaseController {
 
   /**
    * 修改密码
+   *
    * @param oldPassword
    * @param newPassword
    * @param model
@@ -166,11 +168,12 @@ public class UserController extends BaseController {
       model.addAttribute("changePasswordErrorMsg", "旧密码不正确");
     }
     model.addAttribute("user", getUser());
-    return render("/user/setting");
+    return render("/front/user/setting");
   }
 
   /**
    * 刷新token
+   *
    * @param response
    * @return
    */

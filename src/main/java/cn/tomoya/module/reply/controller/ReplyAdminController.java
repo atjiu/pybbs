@@ -20,23 +20,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/reply")
 public class ReplyAdminController extends BaseController {
 
-    @Autowired
-    private SiteConfig siteConfig;
-    @Autowired
-    private ReplyService replyService;
+  @Autowired
+  private SiteConfig siteConfig;
+  @Autowired
+  private ReplyService replyService;
 
-    /**
-     * 回复列表
-     *
-     * @param p
-     * @param model
-     * @return
-     */
-    @GetMapping("/list")
-    public String list(Integer p, Model model) {
-        Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
-        model.addAttribute("page", page);
-        return render("/admin/reply/list");
-    }
+  /**
+   * 回复列表
+   *
+   * @param p
+   * @param model
+   * @return
+   */
+  @GetMapping("/list")
+  public String list(Integer p, Model model) {
+    Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
+    model.addAttribute("page", page);
+    return render("/admin/reply/list");
+  }
 
 }

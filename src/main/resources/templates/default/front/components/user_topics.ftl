@@ -31,7 +31,7 @@
         </#if>
       </#list>
       <#if isPaginate>
-        <#include "./paginate.ftl"/>
+        <#include "paginate.ftl"/>
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/topics" urlParas=""/>
       </#if>
     </#if>
