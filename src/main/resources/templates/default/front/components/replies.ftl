@@ -11,32 +11,31 @@
         <#if user?? && user.block == false>
           <span class="pull-right">
             <#if reply.isUp(user.id, reply.upIds) == true>
-              <button onclick="replyUp('${reply.id}')" type="button" id="reply_up_${reply.id}" class="btn btn-primary btn-xs">
-                <span class="glyphicon glyphicon-thumbs-up"></span> <span>${reply.upDown}</span>
-              </button>
+              <a id="reply_up_${reply.id}" href="javascript:replyUp('${reply.id}')">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+              </a>
             <#else>
-              <button onclick="replyUp('${reply.id}')" type="button" id="reply_up_${reply.id}" class="btn btn-default btn-xs">
-                <span class="glyphicon glyphicon-thumbs-up"></span> <span>${reply.upDown}</span>
-              </button>
+              <a id="reply_up_${reply.id}" href="javascript:replyUp('${reply.id}')">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+              </a>
             </#if>
-
             <#if reply.isDown(user.id, reply.downIds) == true>
-              <button onclick="replyDown('${reply.id}')" type="button" id="reply_down_${reply.id}" class="btn btn-primary btn-xs">
+              <a id="reply_down_${reply.id}" href="javascript:replyDown('${reply.id}')">
                 <span class="glyphicon glyphicon-thumbs-down"></span>
-              </button>
+              </a>
             <#else>
-              <button onclick="replyDown('${reply.id}')" type="button" id="reply_down_${reply.id}" class="btn btn-default btn-xs">
+              <a id="reply_down_${reply.id}" href="javascript:replyDown('${reply.id}')">
                 <span class="glyphicon glyphicon-thumbs-down"></span>
-              </button>
+              </a>
             </#if>
-
+            <span>${reply.upDown}</span>
             <#if sec.allGranted("reply:edit") || user.id == reply.user.id>
-              <a href="/reply/${reply.id}/edit">编辑</a>
+              <a href="/reply/${reply.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
             </#if>
             <#if sec.allGranted("reply:delete") || user.id == reply.user.id>
-              <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'">删除</a>
+              <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'"><span class="glyphicon glyphicon-trash"></span></a>
             </#if>
-            <a href="javascript:replythis('${reply.user.username}');">回复</a>
+            <a href="javascript:replythis('${reply.user.username}');"><span class="glyphicon glyphicon-comment"></span></a>
           </span>
         </#if>
       </div>
@@ -47,4 +46,5 @@
       <div class="divide"></div>
     </#if>
   </#list>
+
 </#macro>
