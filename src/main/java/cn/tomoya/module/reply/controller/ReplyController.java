@@ -75,8 +75,7 @@ public class ReplyController extends BaseController {
           notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
         }
         //给At用户发送通知
-        String pattern = "\"[^\\s]+?";
-        List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
+        List<String> atUsers = BaseEntity.fetchUsers(null, content);
         for (String u : atUsers) {
           u = u.replace("@", "").trim();
           if (!u.equals(user.getUsername())) {

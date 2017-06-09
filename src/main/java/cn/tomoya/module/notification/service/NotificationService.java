@@ -45,16 +45,15 @@ public class NotificationService {
     notificationDao.save(notification);
   }
 
-  public void sendNotification(User user, Topic topic, String content, Reply reply) {
+  public void sendNotification(User user, Topic topic, String content) {
     //给话题作者发送通知
     if (user.getId() != topic.getUser().getId()) {
       this.sendNotification(user, topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
     }
     //给At用户发送通知
-    String pattern = pattern = "\">[^\\s]+</a>?";
-    List<String> atUsers = BaseEntity.fetchUsers(pattern, content);
+    List<String> atUsers = BaseEntity.fetchUsers(null, content);
     for (String u : atUsers) {
-      u = u.replace("\">@", "").replace("</a>", "").trim();
+      u = u.replace("@", "").trim();
       if (!u.equals(user.getUsername())) {
         User _user = userService.findByUsername(u);
         if (_user != null) {

@@ -64,7 +64,7 @@ public class ReplyApiController extends BaseController {
     topic.setReplyCount(topic.getReplyCount() + 1);
     topicService.save(topic);
 
-    notificationService.sendNotification(user, topic, content, reply);
+    notificationService.sendNotification(user, topic, content);
 
     return Result.success();
   }
