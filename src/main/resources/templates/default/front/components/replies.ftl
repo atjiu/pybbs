@@ -9,27 +9,23 @@
         <div class="media-heading gray">
           <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
         ${reply.formatDate(reply.inTime)}
-          <#if user?? && user.block == false>
+          <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">
-            <#if reply.isUp(user.id, reply.upIds) == true>
-              <a id="reply_up_${reply.id}" href="javascript:replyUp('${reply.id}')">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-              </a>
-            <#else>
-              <a id="reply_up_${reply.id}" href="javascript:replyUp('${reply.id}')">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-              </a>
-            </#if>
-              <#if reply.isDown(user.id, reply.downIds) == true>
-                <a id="reply_down_${reply.id}" href="javascript:replyDown('${reply.id}')">
-                <span class="glyphicon glyphicon-thumbs-down"></span>
-              </a>
+              <#if reply.isUp(user.id, reply.upIds) == true>
+                <span class="glyphicon glyphicon-thumbs-up up-down-enable"
+                      onclick="replyUp(this, '${reply.id}')"></span>
               <#else>
-                <a id="reply_down_${reply.id}" href="javascript:replyDown('${reply.id}')">
-                <span class="glyphicon glyphicon-thumbs-down"></span>
-              </a>
+                <span class="glyphicon glyphicon-thumbs-up up-down-disable"
+                      onclick="replyUp(this, '${reply.id}')"></span>
               </#if>
-              <span>${reply.upDown}</span>
+              <#if reply.isDown(user.id, reply.downIds) == true>
+                <span class="glyphicon glyphicon-thumbs-down up-down-enable"
+                      onclick="replyDown(this, '${reply.id}')"></span>
+              <#else>
+                <span class="glyphicon glyphicon-thumbs-down up-down-disable"
+                      onclick="replyDown(this, '${reply.id}')"></span>
+              </#if>
+              <span id="up_down_vote_count_${reply.id}">${reply.upDown}</span>
               <#if sec.allGranted("reply:edit") || user.id == reply.user.id>
                 <a href="/reply/${reply.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
               </#if>
@@ -37,8 +33,9 @@
                 <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'"><span
                     class="glyphicon glyphicon-trash"></span></a>
               </#if>
-            <a href="javascript:replythis('${reply.user.username}');"><span class="glyphicon glyphicon-comment"></span></a>
-          </span>
+              <a href="javascript:replythis('${reply.user.username}');"><span
+                  class="glyphicon glyphicon-comment"></span></a>
+            </span>
           </#if>
         </div>
       ${reply.marked(reply.content)}
@@ -48,5 +45,86 @@
       <div class="divide"></div>
       </#if>
     </#list>
+  <script>
+    function replyUp(dom, id) {
+      var url;
+      if ($(dom).hasClass("up-down-enable")) {
+        url = "/reply/" + id + "/cancelUp"
+      } else if ($(dom).hasClass("up-down-disable")) {
+        url = "/reply/" + id + "/up";
+      }
+      if (url) {
+        $.ajax({
+          url: url,
+          async: true,
+          cache: false,
+          type: "get",
+          dataType: "json",
+          success: function (data) {
+            if (data.code === 200) {
+              $("#up_down_vote_count_" + id).text(data.detail);
+              if ($(dom).hasClass("up-down-enable")) {
+                $(dom).removeClass("up-down-enable");
+                $(dom).addClass("up-down-disable");
+              } else if ($(dom).hasClass("up-down-disable")) {
+                $(dom).removeClass("up-down-disable");
+                $(dom).addClass("up-down-enable");
+
+                $(".glyphicon-thumbs-down").removeClass("up-down-enable");
+                $(".glyphicon-thumbs-down").addClass("up-down-disable");
+              }
+            } else {
+              alert(data.description);
+            }
+          }
+        });
+      }
+    }
+
+    function replyDown(dom, id) {
+      var url;
+      if ($(dom).hasClass("up-down-enable")) {
+        url = "/reply/" + id + "/cancelDown"
+      } else if ($(dom).hasClass("up-down-disable")) {
+        url = "/reply/" + id + "/down";
+      }
+      if (url) {
+        $.ajax({
+          url: url,
+          async: true,
+          cache: false,
+          type: "get",
+          dataType: "json",
+          success: function (data) {
+            if (data.code === 200) {
+              $("#up_down_vote_count_" + id).text(data.detail);
+              if ($(dom).hasClass("up-down-enable")) {
+                $(dom).removeClass("up-down-enable");
+                $(dom).addClass("up-down-disable");
+              } else if ($(dom).hasClass("up-down-disable")) {
+                $(dom).removeClass("up-down-disable");
+                $(dom).addClass("up-down-enable");
+
+                $(".glyphicon-thumbs-up").removeClass("up-down-enable");
+                $(".glyphicon-thumbs-up").addClass("up-down-disable");
+              }
+            } else {
+              alert(data.description);
+            }
+          }
+        });
+      }
+    }
+
+    function replythis(author) {
+      var contentVal = $("#content").val();
+      if(contentVal.length === 0) {
+        contentVal += "@" + author + " ";
+      } else {
+        contentVal += "\n@" + author + " ";
+      }
+      $("#content").val(contentVal);
+    }
+  </script>
   </@replies_tag>
 </#macro>

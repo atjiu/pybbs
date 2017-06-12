@@ -20,6 +20,7 @@ public class SiteConfig {
   private boolean search;
   private int attempts;
   private long attemptsWaitTime;
+  private int maxCreateTopic;
 
   public String getName() {
     return name;
@@ -101,4 +102,11 @@ public class SiteConfig {
     this.attemptsWaitTime = attemptsWaitTime;
   }
 
+  public int getMaxCreateTopic() {
+    return maxCreateTopic;
+  }
+
+  public void setMaxCreateTopic(int maxCreateTopic) {
+    this.maxCreateTopic = maxCreateTopic;
+  }
 }

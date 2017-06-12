@@ -166,8 +166,6 @@ form textarea{resize:vertical}
 .panel-body-reply{padding:0}
 .media-reply{padding:15px;margin-top:0}
 .reply-highlight{background-color:#f4fcf0}
-.nav-pills > li > a {
-  position: relative;
-  display: block;
-  padding: 0 5px;
-}
+.nav-pills > li > a{position: relative;display: block;padding: 0 5px;}
+.up-down-disable{cursor: pointer;}
+.up-down-enable{cursor: pointer;color:#337ab7;}

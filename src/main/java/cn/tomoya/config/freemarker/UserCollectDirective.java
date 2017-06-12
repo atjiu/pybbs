@@ -1,5 +1,6 @@
 package cn.tomoya.config.freemarker;
 
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.collect.entity.Collect;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.user.entity.User;
@@ -25,24 +26,21 @@ public class UserCollectDirective implements TemplateDirectiveModel {
   private UserService userService;
   @Autowired
   private CollectService collectService;
+  @Autowired
+  private SiteConfig siteConfig;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
-    Page<Collect> page = new PageImpl<>(new ArrayList<>());
-    if (map.containsKey("username") && map.get("username") != null) {
-      String username = map.get("username").toString();
-      if (map.containsKey("p")) {
-        int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-        int limit = Integer.parseInt(map.get("limit").toString());
-        User currentUser = userService.findByUsername(username);
-        if (currentUser != null) {
-          page = collectService.findByUser(p, limit, currentUser);
-        }
-      }
-    }
+    String username = map.get("username").toString();
+    int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
+
+    User currentUser = userService.findByUsername(username);
+    Page<Collect> page = collectService.findByUser(p, siteConfig.getPageSize(), currentUser);
+
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
     environment.setVariable("page", builder.build().wrap(page));
+    environment.setVariable("currentUser", builder.build().wrap(currentUser));
     templateDirectiveBody.render(environment.getOut());
   }
 }

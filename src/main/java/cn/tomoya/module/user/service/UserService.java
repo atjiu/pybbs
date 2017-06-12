@@ -56,10 +56,6 @@ public class UserService {
     userDao.save(user);
   }
 
-  public void updateUser(User user) {
-    userDao.save(user);
-  }
-
   /**
    * 分页查询用户列表
    *
@@ -81,7 +77,10 @@ public class UserService {
   public void blockUser(Integer id) {
     User user = findById(id);
     user.setBlock(true);
-    updateUser(user);
+
+    // reset score
+    user.setScore(0);
+    save(user);
   }
 
   /**
@@ -92,7 +91,7 @@ public class UserService {
   public void unBlockUser(Integer id) {
     User user = findById(id);
     user.setBlock(false);
-    updateUser(user);
+    save(user);
   }
 
   /**

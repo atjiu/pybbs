@@ -61,18 +61,7 @@ public class BaseController {
   protected String render(String path) {
     return siteConfig.getTheme() + path;
   }
-
-  protected String renderText(HttpServletResponse response, String msg) {
-    try {
-      response.setContentType("text/html;charset=UTF-8");
-      response.setCharacterEncoding("UTF-8");
-      response.getWriter().write(msg);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
+  
   /**
    * 获取Security用户
    *

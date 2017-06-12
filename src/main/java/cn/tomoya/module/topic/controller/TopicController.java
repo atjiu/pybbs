@@ -1,11 +1,14 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.config.base.BaseController;
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +36,10 @@ public class TopicController extends BaseController {
   private CollectService collectService;
   @Autowired
   private SectionService sectionService;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private SiteConfig siteConfig;
 
   /**
    * 创建话题
@@ -40,10 +47,15 @@ public class TopicController extends BaseController {
    * @return
    */
   @GetMapping("/create")
-  public String create(HttpServletResponse response) {
-    if (getUser().isBlock()) {
-      return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
-    }
+  public String create() throws Exception {
+    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+
+    String now = DateUtil.formatDate(new Date());
+    Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
+    Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
+    if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
+      throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
+
     return render("/front/topic/create");
   }
 
@@ -56,10 +68,8 @@ public class TopicController extends BaseController {
    * @return
    */
   @PostMapping("/save")
-  public String save(String tab, String title, String content, Model model, HttpServletResponse response) {
-    if (getUser().isBlock()) {
-      return renderText(response, "你的帐户已经被禁用了，不能进行此项操作");
-    }
+  public String save(String tab, String title, String content, Model model, HttpServletResponse response) throws Exception {
+    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
     String errors;
     if (StringUtils.isEmpty(title)) {
       errors = "标题不能为空";
@@ -78,6 +88,10 @@ public class TopicController extends BaseController {
       topic.setTop(false);
       topic.setLock(false);
       topicService.save(topic);
+
+      // plus 5 score
+      user.setScore(user.getScore() + 5);
+      userService.save(user);
       return redirect(response, "/topic/" + topic.getId());
     }
     model.addAttribute("errors", errors);
@@ -88,19 +102,16 @@ public class TopicController extends BaseController {
    * 编辑话题
    *
    * @param id
-   * @param response
    * @param model
    * @return
    */
   @GetMapping("/{id}/edit")
-  public String edit(@PathVariable int id, HttpServletResponse response, Model model) {
+  public String edit(@PathVariable int id, Model model) throws Exception {
     Topic topic = topicService.findById(id);
-    if (topic == null) {
-      return renderText(response, "话题不存在");
-    } else {
-      model.addAttribute("topic", topic);
-      return render("/front/topic/edit");
-    }
+    if (topic == null) throw new Exception("话题不存在");
+
+    model.addAttribute("topic", topic);
+    return render("/front/topic/edit");
   }
 
   /**
@@ -112,20 +123,21 @@ public class TopicController extends BaseController {
    */
   @PostMapping("/{id}/edit")
   public String update(@PathVariable Integer id, String tab, String title, String content,
-                       HttpServletResponse response) {
+                       HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
-    if (topic.getUser().getId() == user.getId()) {
-      if (sectionService.findByName(tab) == null)
-        throw new IllegalArgumentException("版块不存在");
-      topic.setTab(tab);
-      topic.setTitle(title);
-      topic.setContent(content);
-      topicService.save(topic);
-      return redirect(response, "/topic/" + topic.getId());
-    } else {
-      return renderText(response, "非法操作");
-    }
+    
+    if (topic.getUser().getId() != user.getId())
+      throw new Exception("非法操作");
+
+    if (sectionService.findByName(tab) == null)
+      throw new Exception("版块不存在");
+
+    topic.setTab(tab);
+    topic.setTitle(title);
+    topic.setContent(content);
+    topicService.save(topic);
+    return redirect(response, "/topic/" + topic.getId());
   }
 
   /**
@@ -162,6 +174,12 @@ public class TopicController extends BaseController {
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Integer id, HttpServletResponse response) {
     topicService.deleteById(id);
+
+    // reduce 5 score
+    User user = getUser();
+    user.setScore(user.getScore() - 5);
+    userService.save(user);
+
     return redirect(response, "/");
   }
 

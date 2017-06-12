@@ -2,7 +2,6 @@ package cn.tomoya.module.reply.controller;
 
 import cn.tomoya.config.base.BaseController;
 import cn.tomoya.config.base.BaseEntity;
-import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.notification.entity.NotificationEnum;
@@ -40,8 +39,6 @@ public class ReplyController extends BaseController {
   private NotificationService notificationService;
   @Autowired
   private UserService userService;
-  @Autowired
-  private SiteConfig siteConfig;
 
   /**
    * 保存回复
@@ -51,8 +48,9 @@ public class ReplyController extends BaseController {
    * @return
    */
   @PostMapping("/save")
-  public String save(Integer topicId, String content, HttpServletResponse response) {
-    if (getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
+  public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
+    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+
     if (topicId != null) {
       Topic topic = topicService.findById(topicId);
       if (topic != null) {
@@ -63,8 +61,11 @@ public class ReplyController extends BaseController {
         reply.setInTime(new Date());
         reply.setUp(0);
         reply.setContent(content);
-
         replyService.save(reply);
+
+        // plus 5 score
+        user.setScore(user.getScore() + 5);
+        userService.save(user);
 
         //回复+1
         topic.setReplyCount(topic.getReplyCount() + 1);
@@ -99,8 +100,9 @@ public class ReplyController extends BaseController {
    * @return
    */
   @GetMapping("/{id}/edit")
-  public String edit(@PathVariable Integer id, Model model, HttpServletResponse response) {
-    if (getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
+  public String edit(@PathVariable Integer id, Model model) throws Exception {
+    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+
     Reply reply = replyService.findById(id);
     model.addAttribute("reply", reply);
     return render("/front/reply/edit");
@@ -116,16 +118,15 @@ public class ReplyController extends BaseController {
    * @return
    */
   @PostMapping("/update")
-  public String update(Integer id, Integer topicId, String content, HttpServletResponse response) {
-    if (getUser().isBlock()) return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
+  public String update(Integer id, Integer topicId, String content, HttpServletResponse response) throws Exception {
+    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+
     Reply reply = replyService.findById(id);
-    if (reply == null) {
-      return renderText(response, "回复不存在");
-    } else {
-      reply.setContent(content);
-      replyService.save(reply);
-      return redirect(response, "/topic/" + topicId);
-    }
+    if (reply == null) throw new Exception("回复不存在");
+
+    reply.setContent(content);
+    replyService.save(reply);
+    return redirect(response, "/topic/" + topicId);
   }
 
   /**
@@ -137,7 +138,13 @@ public class ReplyController extends BaseController {
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Integer id, HttpServletResponse response) {
     if (id != null) {
-      Map map = replyService.delete(id, getUser());
+      User user = getUser();
+      Map map = replyService.delete(id, user);
+
+      // reduce 5 score
+      user.setScore(user.getScore() - 5);
+      userService.save(user);
+
       return redirect(response, "/topic/" + map.get("topicId"));
     }
     return redirect(response, "/");
@@ -154,8 +161,12 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result up(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply reply = replyService.up(user.getId(), id);
-    if (reply == null) throw new ApiException("回复不存在");
+    Reply _reply = replyService.findById(id);
+
+    if (_reply == null) throw new ApiException("回复不存在");
+    if (user.getId() == _reply.getUser().getId()) throw new ApiException("不能给自己的回复点赞");
+
+    Reply reply = replyService.up(user.getId(), _reply);
     return Result.success(reply.getUpDown());
   }
 
@@ -186,8 +197,12 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result down(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply reply = replyService.down(user.getId(), id);
-    if (reply == null) throw new ApiException("回复不存在");
+    Reply _reply = replyService.findById(id);
+
+    if (_reply == null) throw new ApiException("回复不存在");
+    if (user.getId() == _reply.getUser().getId()) throw new ApiException("不能给自己的回复点赞");
+
+    Reply reply = replyService.down(user.getId(), _reply);
     return Result.success(reply.getUpDown());
   }
 

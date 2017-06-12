@@ -35,22 +35,21 @@ public class CollectController extends BaseController {
   @GetMapping("/{topicId}/add")
   public String add(@PathVariable Integer topicId, HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(topicId);
-    if (topic == null) {
-      return renderText(response, "话题不存在");
-    } else {
-      Collect collect = collectService.findByUserAndTopic(getUser(), topic);
-      if(collect != null) throw new Exception("你已经收藏了这个话题");
 
-      collect = new Collect();
-      collect.setInTime(new Date());
-      collect.setTopic(topic);
-      collect.setUser(getUser());
-      collectService.save(collect);
+    if (topic == null) throw new Exception("话题不存在");
 
-      //发出通知
-      notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "");
-      return redirect(response, "/topic/" + topic.getId());
-    }
+    Collect collect = collectService.findByUserAndTopic(getUser(), topic);
+    if (collect != null) throw new Exception("你已经收藏了这个话题");
+
+    collect = new Collect();
+    collect.setInTime(new Date());
+    collect.setTopic(topic);
+    collect.setUser(getUser());
+    collectService.save(collect);
+
+    //发出通知
+    notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COLLECT.name(), topic, "");
+    return redirect(response, "/topic/" + topic.getId());
   }
 
   /**

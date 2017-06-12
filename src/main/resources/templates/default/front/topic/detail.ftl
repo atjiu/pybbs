@@ -166,9 +166,6 @@
         form.submit();
       }
     }
-    function replythis(author) {
-      $("#content").append("@" + author + " ");
-    }
   </script>
   </#if>
 </@html>

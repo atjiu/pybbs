@@ -9,6 +9,7 @@ import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,8 @@ public class ReplyApiController extends BaseController {
   private ReplyService replyService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private UserService userService;
 
   @PostMapping("/save")
   public Result save(Integer topicId, String content, String token) throws ApiException {
@@ -59,6 +62,10 @@ public class ReplyApiController extends BaseController {
     reply.setContent(content);
 
     replyService.save(reply);
+
+    // plus 5 score
+    user.setScore(user.getScore() + 5);
+    userService.save(user);
 
     // 回复+1
     topic.setReplyCount(topic.getReplyCount() + 1);

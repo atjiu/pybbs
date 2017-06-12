@@ -1,9 +1,9 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="${pageTitle!}" page_tab="user">
+<@html page_title="${username}个人主页" page_tab="user">
 <div class="row">
   <div class="col-md-9">
 
-    <#--user info-->
+  <#--user info-->
     <@current_user_tag username=username>
       <div class="panel panel-default">
         <div class="panel-body">
@@ -27,28 +27,18 @@
       </div>
     </@current_user_tag>
 
-    <#--user topics-->
-    <div class="panel panel-default">
-      <div class="panel-heading">${username}创建的话题</div>
-      <#include "../components/user_topics.ftl"/>
-      <@user_topics username=username p=1 limit=7/>
-      <div class="panel-footer">
-        <a href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
-      </div>
-    </div>
+  <#--user topics-->
+    <#include "../components/user_topics.ftl"/>
+    <@user_topics username=username p=1 limit=7 isFooter=true/>
 
-    <#--user replies-->
-    <div class="panel panel-default">
-      <div class="panel-heading">${username}回复的话题</div>
-      <#include "../components/user_replies.ftl"/>
-      <@user_replies username=username p=1 limit=7/>
-      <div class="panel-footer">
-        <a href="/user/${username}/replies">${username}更多回复&gt;&gt;</a>
-      </div>
-    </div>
+  <#--user replies-->
+    <#include "../components/user_replies.ftl"/>
+    <@user_replies username=username p=1 limit=7 isFooter=true/>
 
   </div>
+
   <div class="col-md-3 hidden-sm hidden-xs">
   </div>
+
 </div>
 </@html>

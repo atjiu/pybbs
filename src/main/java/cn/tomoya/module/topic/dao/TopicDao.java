@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -38,4 +40,6 @@ public interface TopicDao extends JpaRepository<Topic, Integer> {
   Page<Topic> findByReplyCount(int i, Pageable pageable);
 
   Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+
+  int countByInTimeBetween(Date date1, Date date2);
 }

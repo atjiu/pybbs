@@ -41,7 +41,6 @@ public class UserController extends BaseController {
   @GetMapping("/{username}")
   public String profile(@PathVariable String username, Model model) {
     model.addAttribute("username", username);
-    model.addAttribute("pageTitle", username + " 个人主页");
     return render("/front/user/info");
   }
 
@@ -52,15 +51,10 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/{username}/topics")
-  public String topics(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
-    User currentUser = userService.findByUsername(username);
-    if (currentUser != null) {
-      model.addAttribute("currentUser", currentUser);
-      model.addAttribute("p", p);
-      return render("/front/user/topics");
-    } else {
-      return renderText(response, "用户不存在");
-    }
+  public String topics(@PathVariable String username, Integer p, Model model) {
+    model.addAttribute("username", username);
+    model.addAttribute("p", p);
+    return render("/front/user/topics");
   }
 
   /**
@@ -70,15 +64,10 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/{username}/replies")
-  public String replies(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
-    User currentUser = userService.findByUsername(username);
-    if (currentUser != null) {
-      model.addAttribute("currentUser", currentUser);
-      model.addAttribute("p", p);
-      return render("/front/user/replies");
-    } else {
-      return renderText(response, "用户不存在");
-    }
+  public String replies(@PathVariable String username, Integer p, Model model) {
+    model.addAttribute("username", username);
+    model.addAttribute("p", p);
+    return render("/front/user/replies");
   }
 
   /**
@@ -88,15 +77,10 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/{username}/collects")
-  public String collects(@PathVariable String username, Integer p, HttpServletResponse response, Model model) {
-    User currentUser = userService.findByUsername(username);
-    if (currentUser != null) {
-      model.addAttribute("currentUser", currentUser);
-      model.addAttribute("p", p);
-      return render("/front/user/collects");
-    } else {
-      return renderText(response, "用户不存在");
-    }
+  public String collects(@PathVariable String username, Integer p, Model model) {
+    model.addAttribute("username", username);
+    model.addAttribute("p", p);
+    return render("/front/user/collects");
   }
 
   /**
@@ -122,10 +106,10 @@ public class UserController extends BaseController {
    */
   @PostMapping("/setting")
   public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar,
-                               HttpServletResponse response) throws IOException {
+                               HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock())
-      return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
+      throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
     user.setSignature(signature);
     user.setUrl(url);
@@ -133,7 +117,7 @@ public class UserController extends BaseController {
     if (!StringUtils.isEmpty(requestUrl)) {
       user.setAvatar(requestUrl);
     }
-    userService.updateUser(user);
+    userService.save(user);
     return redirect(response, "/user/" + user.getUsername());
   }
 
@@ -146,13 +130,13 @@ public class UserController extends BaseController {
    * @return
    */
   @PostMapping("/changePassword")
-  public String changePassword(String oldPassword, String newPassword, Model model, HttpServletResponse response) {
+  public String changePassword(String oldPassword, String newPassword, Model model) throws Exception {
     User user = getUser();
     if (user.isBlock())
-      return renderText(response, "你的帐户已经被禁用，不能进行此项操作");
+      throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     if (new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
       user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-      userService.updateUser(user);
+      userService.save(user);
       model.addAttribute("changePasswordErrorMsg", "修改成功，请重新登录");
     } else {
       model.addAttribute("changePasswordErrorMsg", "旧密码不正确");

@@ -1,9 +1,13 @@
-<#macro user_collect username p=1 limit=site.pageSize isPaginate=false>
-  <@user_collects_tag username=username p=p limit=limit>
-    <#if page.getTotalElements() == 0>
-    <div class="panel-body">
-      暂无收藏
+<#macro user_collect username p=1 limit=site.pageSize>
+  <@user_collects_tag username=username p=p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+    ${currentUser.username}收藏的话题
     </div>
+    <#if page.getTotalElements() == 0>
+      <div class="panel-body">
+        暂无收藏
+      </div>
     <#else>
     <div class="panel-body">
       <#list page.getContent() as collect>
@@ -33,5 +37,6 @@
     </#if>
     <#include "paginate.ftl"/>
     <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/collects" urlParas=""/>
+  </div>
   </@user_collects_tag>
 </#macro>

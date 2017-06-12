@@ -11,7 +11,6 @@
 
   <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
   <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="//cdn.bootcss.com/layer/3.0.1/layer.min.js"></script>
 </head>
 <body>
 <div class="wrapper">

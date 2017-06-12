@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,8 @@ public class TopicApiController extends BaseController {
   private CollectService collectService;
   @Autowired
   private SectionService sectionService;
+  @Autowired
+  private UserService userService;
 
   /**
    * 话题详情
@@ -101,6 +104,10 @@ public class TopicApiController extends BaseController {
     topic.setTop(false);
     topic.setLock(false);
     topicService.save(topic);
+
+    // plus 5 score
+    user.setScore(user.getScore() + 5);
+    userService.save(user);
 
     return Result.success(topic);
   }

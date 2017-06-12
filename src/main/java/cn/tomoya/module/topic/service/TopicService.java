@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
+
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -144,5 +146,15 @@ public class TopicService {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     return topicDao.findByUser(user, pageable);
+  }
+
+  /**
+   * search topic count between date1 and date2
+   * @param date1
+   * @param date2
+   * @return
+   */
+  public int countByInTimeBetween(Date date1, Date date2) {
+    return topicDao.countByInTimeBetween(date1, date2);
   }
 }

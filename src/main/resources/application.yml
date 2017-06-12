@@ -35,3 +35,4 @@ site:
   search: true
   attempts: 5
   attemptsWaitTime: 15
+  maxCreateTopic: 10
