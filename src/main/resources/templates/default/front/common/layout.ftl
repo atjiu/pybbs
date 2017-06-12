@@ -7,6 +7,7 @@
   <title>${page_title!site.name}</title>
   <link rel="icon" href="//tomoya.cn/favicon.ico">
   <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/default/css/pybbs.css">
 
   <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>

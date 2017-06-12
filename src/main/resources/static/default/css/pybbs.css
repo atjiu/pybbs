@@ -169,3 +169,5 @@ form textarea{resize:vertical}
 .nav-pills > li > a{position: relative;display: block;padding: 0 5px;}
 .up-down-disable{cursor: pointer;}
 .up-down-enable{cursor: pointer;color:#337ab7;}
+#menu .fa{border:1px solid #fff;cursor: pointer;border-radius:3px; padding: 4px;}
+#menu .fa:hover{border:1px solid #ccc;}
