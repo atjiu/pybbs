@@ -84,6 +84,15 @@ public class IndexController extends BaseController {
   }
 
   /**
+   * top 100 user score
+   * @return
+   */
+  @GetMapping("/top100")
+  public String top100() {
+    return render("/front/top100");
+  }
+
+  /**
    * 搜索
    *
    * @param p
@@ -134,56 +143,27 @@ public class IndexController extends BaseController {
    * @return
    */
   @PostMapping("/register")
-  public String register(String username, String password, String email, String emailCode, String code,
-                         HttpSession session, HttpServletResponse response, Model model) {
-    boolean error = false;
-    String genCaptcha = (String) session.getAttribute("index_code");
-    if (StringUtils.isEmpty(code)) {
-      model.addAttribute("errors", "验证码不能为空");
-      error = true;
-    }
-    if (!genCaptcha.toLowerCase().equals(code.toLowerCase())) {
-      model.addAttribute("errors", "验证码错误");
-      error = true;
-    }
-    if (StringUtils.isEmpty(username)) {
-      model.addAttribute("errors", "用户名不能为空");
-      error = true;
-    }
-    if (StringUtils.isEmpty(password)) {
-      model.addAttribute("errors", "密码不能为空");
-      error = true;
-    }
-    User user = userService.findByUsername(username);
-    if (user != null) {
-      model.addAttribute("errors", "用户名已经被注册");
-      error = true;
-    }
-    User user_email = userService.findByEmail(email);
-    if (user_email != null) {
-      model.addAttribute("errors", "邮箱已经被使用");
-      error = true;
-    }
-    int validateResult = codeService.validateCode(emailCode, CodeEnum.EMAIL);
-    if (validateResult == 1) {
-      model.addAttribute("errors", "邮箱验证码不正确");
-      error = true;
-    }
-    if (validateResult == 2) {
-      model.addAttribute("errors", "邮箱验证码已过期");
-      error = true;
-    }
-    if (validateResult == 3) {
-      model.addAttribute("errors", "验证码已经被使用");
-      error = true;
-    }
+  @ResponseBody
+  public Result register(String username, String password, String email, String emailCode, String code,
+                         HttpSession session) throws ApiException {
 
-    if(error) {
-      model.addAttribute("username", username);
-      model.addAttribute("email", email);
-      model.addAttribute("emailCode", emailCode);
-      return render("/front/register");
-    }
+    String genCaptcha = (String) session.getAttribute("index_code");
+    if (StringUtils.isEmpty(code)) throw new ApiException("验证码不能为空");
+
+    if (!genCaptcha.toLowerCase().equals(code.toLowerCase())) throw new ApiException("验证码错误");
+    if (StringUtils.isEmpty(username)) throw new ApiException("用户名不能为空");
+    if (StringUtils.isEmpty(password)) throw new ApiException("密码不能为空");
+
+    User user = userService.findByUsername(username);
+    if (user != null) throw new ApiException("用户名已经被注册");
+
+    User user_email = userService.findByEmail(email);
+    if (user_email != null) throw new ApiException("邮箱已经被使用");
+
+    int validateResult = codeService.validateCode(emailCode, CodeEnum.EMAIL);
+    if (validateResult == 1) throw new ApiException("邮箱验证码不正确");
+    if (validateResult == 2) throw new ApiException("邮箱验证码已过期");
+    if (validateResult == 3) throw new ApiException("邮箱验证码已经被使用");
 
     Date now = new Date();
     String avatarName = UUID.randomUUID().toString();
@@ -198,28 +178,8 @@ public class IndexController extends BaseController {
     user.setAvatar(siteConfig.getStaticUrl() + "avatar/" + avatarName + ".png");
     user.setAttempts(0);
     userService.save(user);
-    return redirect(response, "/login?s=reg");
+    return Result.success();
   }
-
-//  /**
-//   * wangEditor上传
-//   *
-//   * @param file
-//   * @return
-//   */
-//  @PostMapping("/wangEditorUpload")
-//  @ResponseBody
-//  public String wangEditorUpload(@RequestParam("file") MultipartFile file) {
-//    if (!file.isEmpty()) {
-//      try {
-//        return fileUtil.uploadFile(file, FileUploadEnum.FILE);
-//      } catch (IOException e) {
-//        e.printStackTrace();
-//        return "error|服务器端错误";
-//      }
-//    }
-//    return "error|文件不存在";
-//  }
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height
@@ -306,6 +266,10 @@ public class IndexController extends BaseController {
   @ResponseBody
   public Result sendEmailCode(String email) throws ApiException {
     if (!StrUtil.isEmail(email)) throw new ApiException("请输入正确的Email");
+
+    User user = userService.findByEmail(email);
+    if(user != null) throw new ApiException("邮箱已经被使用");
+
     try {
       String genCode = codeService.genEmailCode(email);
       SimpleMailMessage message = new SimpleMailMessage();

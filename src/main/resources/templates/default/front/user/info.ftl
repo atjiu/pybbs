@@ -13,6 +13,7 @@
             </div>
             <div class="media-body">
               <h3 style="margin-top: 0">${currentUser.username!}</h3>
+              <p>积分：<a href="/top100">${currentUser.score!0}</a></p>
               <#if currentUser.signature??>
                 <p><i class="gray">${currentUser.signature!}</i></p>
               </#if>

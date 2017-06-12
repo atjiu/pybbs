@@ -1,9 +1,5 @@
 package cn.tomoya.module.user.service;
 
-import cn.tomoya.module.collect.service.CollectService;
-import cn.tomoya.module.notification.service.NotificationService;
-import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.dao.UserDao;
 import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -25,14 +23,19 @@ public class UserService {
 
   @Autowired
   private UserDao userDao;
-  @Autowired
-  private TopicService topicService;
-  @Autowired
-  private ReplyService replyService;
-  @Autowired
-  private NotificationService notificationService;
-  @Autowired
-  private CollectService collectService;
+
+  /**
+   * search user by score desc
+   *
+   * @param p
+   * @param size
+   * @return
+   */
+  public Page<User> findByScore(int p, int size) {
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "score"));
+    Pageable pageable = new PageRequest((p - 1) * size, size, sort);
+    return userDao.findAll(pageable);
+  }
 
   public User findById(int id) {
     return userDao.findOne(id);

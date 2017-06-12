@@ -3,7 +3,6 @@ package cn.tomoya.config.base;
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +17,6 @@ import java.io.IOException;
  * http://tomoya.cn
  */
 public class BaseController {
-
-  Logger log = Logger.getLogger(BaseController.class);
 
   @Autowired
   private SiteConfig siteConfig;
@@ -61,7 +58,7 @@ public class BaseController {
   protected String render(String path) {
     return siteConfig.getTheme() + path;
   }
-  
+
   /**
    * 获取Security用户
    *
@@ -71,7 +68,6 @@ public class BaseController {
     Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     boolean b = o instanceof UserDetails;
     if (b) {
-      log.info(o.toString());
       return (UserDetails) o;
     }
     return null;

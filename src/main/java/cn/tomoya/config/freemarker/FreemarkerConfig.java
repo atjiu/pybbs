@@ -44,6 +44,8 @@ public class FreemarkerConfig {
   private RepliesDirective repliesDirective;
   @Autowired
   private OtherTopicsDirective otherTopicsDirective;
+  @Autowired
+  private ScoreDirective scoreDirective;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
@@ -62,6 +64,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("notifications_tag", notificationsDirective);
     configuration.setSharedVariable("replies_tag", repliesDirective);
     configuration.setSharedVariable("other_topics_tag", otherTopicsDirective);
+    configuration.setSharedVariable("score_tag", scoreDirective);
 
     log.info("init freemarker sharedVariables {site} success...");
   }

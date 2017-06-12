@@ -70,6 +70,13 @@ public class TopicController extends BaseController {
   @PostMapping("/save")
   public String save(String tab, String title, String content, Model model, HttpServletResponse response) throws Exception {
     if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+
+    String now = DateUtil.formatDate(new Date());
+    Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
+    Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
+    if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
+      throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
+
     String errors;
     if (StringUtils.isEmpty(title)) {
       errors = "标题不能为空";

@@ -2,7 +2,7 @@
 <@html page_title="首页 - ${site.name!}">
 <div class="row">
   <div class="col-md-9">
-    <#--tab info-->
+  <#--tab info-->
     <div class="panel panel-default">
       <div class="panel-heading">
         <ul class="nav nav-pills">
@@ -25,7 +25,7 @@
         </ul>
       </div>
 
-      <#--topic list-->
+    <#--topic list-->
       <@topics_tag p=p tab=tab>
         <div class="panel-body paginate-bot">
           <#list page.getContent() as topic>
@@ -70,16 +70,19 @@
     <#if sec.isAuthenticated()>
 
     <#--auth user info-->
-    <#include "./components/user_info.ftl"/>
-    <@user_info/>
+      <#include "./components/user_info.ftl"/>
+      <@user_info/>
 
     <#--create topic btn-->
-      <#include "components/create_topic.ftl">
+      <#include "components/create_topic.ftl"/>
       <@create_topic/>
     <#else>
-      <#include "./components/welcome.ftl">
+      <#include "./components/welcome.ftl"/>
       <@welcome/>
     </#if>
+
+    <#include "./components/score.ftl"/>
+    <@score p=1 limit=10/>
   </div>
 </div>
 </@html>

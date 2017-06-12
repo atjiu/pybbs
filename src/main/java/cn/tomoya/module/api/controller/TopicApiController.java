@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +46,8 @@ public class TopicApiController extends BaseController {
   private SectionService sectionService;
   @Autowired
   private UserService userService;
+  @Autowired
+  private SiteConfig siteConfig;
 
   /**
    * 话题详情
@@ -79,12 +83,18 @@ public class TopicApiController extends BaseController {
    * @throws ApiException
    */
   @PostMapping("/save")
-  public Result save(String title, String content, String tab, String token, String editor) throws ApiException {
+  public Result save(String title, String content, String tab, String token) throws Exception {
     User user = getUser(token);
     if (user == null)
       throw new ApiException("用户不存在");
     if (user.isBlock())
       throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
+
+    String now = DateUtil.formatDate(new Date());
+    Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
+    Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
+    if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
+      throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
 
     if (StringUtils.isEmpty(title))
       throw new ApiException("标题不能为空");

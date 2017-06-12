@@ -14,6 +14,7 @@
         <div class="media-body">
           <div class="media-heading">
             <a href="/user/${user.username!}">${user.username!}</a>
+            <p>积分：<a href="/top100">${user.score!0}</a></p>
           </div>
         </div>
         <#if user.signature?? && user.signature != "">
