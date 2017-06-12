@@ -1,10 +1,11 @@
 package cn.tomoya.module.topic.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.section.service.SectionService;
+import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.topic.service.TopicService;
+import cn.tomoya.module.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.tomoya.config.base.BaseController;
-import cn.tomoya.config.yml.SiteConfig;
-import cn.tomoya.module.collect.service.CollectService;
-import cn.tomoya.module.reply.entity.Reply;
-import cn.tomoya.module.reply.service.ReplyService;
-import cn.tomoya.module.section.service.SectionService;
-import cn.tomoya.module.topic.entity.Topic;
-import cn.tomoya.module.topic.service.TopicService;
-import cn.tomoya.module.user.entity.User;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * Created by tomoya.
@@ -36,12 +30,7 @@ public class TopicController extends BaseController {
   @Autowired
   private TopicService topicService;
   @Autowired
-  private ReplyService replyService;
-  @Autowired
   private CollectService collectService;
-  @Autowired
-  private SiteConfig siteConfig;
-
   @Autowired
   private SectionService sectionService;
 
@@ -148,7 +137,7 @@ public class TopicController extends BaseController {
    * @throws Exception
    */
   @GetMapping("/{id}")
-  public String detail(@PathVariable(required = true) Integer id, HttpServletResponse response, Model model)
+  public String detail(@PathVariable Integer id, Model model)
       throws Exception {
     Topic topic = topicService.findById(id);
     if (topic == null)
@@ -156,13 +145,10 @@ public class TopicController extends BaseController {
     // 浏览量+1
     topic.setView(topic.getView() + 1);
     topicService.save(topic);// 更新话题数据
-    List<Reply> replies = replyService.findByTopic(topic);
     model.addAttribute("topic", topic);
-    model.addAttribute("replies", replies);
-    model.addAttribute("user", getUser());
-    model.addAttribute("author", topic.getUser());
-    model.addAttribute("otherTopics", topicService.findByUser(1, 7, topic.getUser()));
+    // 查询是否收藏过
     model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
+    // 查询这个话题被收藏的个数
     model.addAttribute("collectCount", collectService.countByTopic(topic));
     return render("/front/topic/detail");
   }

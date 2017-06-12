@@ -1,7 +1,6 @@
 package cn.tomoya.module.user.controller;
 
 import cn.tomoya.config.base.BaseController;
-import cn.tomoya.module.collect.service.CollectService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import cn.tomoya.util.FileUploadEnum;
@@ -30,8 +29,6 @@ public class UserController extends BaseController {
   @Autowired
   private UserService userService;
   @Autowired
-  private CollectService collectService;
-  @Autowired
   private FileUtil fileUtil;
 
   /**
@@ -43,15 +40,8 @@ public class UserController extends BaseController {
    */
   @GetMapping("/{username}")
   public String profile(@PathVariable String username, Model model) {
-    User currentUser = userService.findByUsername(username);
-    if (currentUser != null) {
-      model.addAttribute("user", getUser());
-      model.addAttribute("currentUser", currentUser);
-      model.addAttribute("collectCount", collectService.countByUser(currentUser));
-      model.addAttribute("pageTitle", currentUser.getUsername() + " 个人主页");
-    } else {
-      model.addAttribute("pageTitle", "用户未找到");
-    }
+    model.addAttribute("username", username);
+    model.addAttribute("pageTitle", username + " 个人主页");
     return render("/front/user/info");
   }
 

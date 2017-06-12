@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class NotificationController extends BaseController {
 
   @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
   private NotificationService notificationService;
 
   /**
@@ -37,9 +35,7 @@ public class NotificationController extends BaseController {
    */
   @GetMapping("/list")
   public String list(Integer p, Model model) {
-    model.addAttribute("page", notificationService.findByTargetUserAndIsRead(p == null ? 1 : p, siteConfig.getPageSize(), getUser(), null));
-    //将未读消息置为已读
-    notificationService.updateByIsRead(getUser());
+    model.addAttribute("p", p);
     return render("/front/notification/list");
   }
 

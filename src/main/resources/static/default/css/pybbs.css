@@ -157,6 +157,8 @@ body{font-family:"Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino San
 .paginate-bot{padding-bottom:0}
 .permission-item.active a{color:#fff}
 .reply-content img{max-width:100%}
+.panel{box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.1); transition: ease-in-out .2s;}
+.panel:hover{box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.3);}
 .panel td{padding-left:15px!important;padding-right:15px!important}
 .panel th{padding-left:15px!important;padding-right:15px!important}
 form textarea{resize:vertical}

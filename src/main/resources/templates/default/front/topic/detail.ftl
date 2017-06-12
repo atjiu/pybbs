@@ -22,12 +22,12 @@
               <span>${topic.view!1}次点击</span>
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
-              <#if user?? && user.block == false>
-                <#if sec.allGranted("topic:edit") || user.id == topic.user.id>
+              <#if sec.isAuthenticated() && !sec.isLock()>
+                <#if sec.allGranted("topic:edit") || sec.getPrincipal() == topic.user.username>
                   <span>•</span>
                   <span><a href="/topic/${topic.id}/edit">编辑</a></span>
                 </#if>
-                <#if sec.allGranted("topic:delete")  || user.id == topic.user.id>
+                <#if sec.allGranted("topic:delete")  || sec.getPrincipal() == topic.user.username>
                   <span>•</span>
                   <span><a
                       href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/${topic.id}/delete'">删除</a></span>
@@ -74,10 +74,10 @@
         ${topic.markedNotAt(topic.content)}
         </div>
       </#if>
-      <#if user??>
+      <#if sec.isAuthenticated()>
         <div class="panel-footer">
           <a
-              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${user.username!}&title=${topic.title!}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
+              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${sec.getPrincipal()!}&title=${topic.title!}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
           <#if collect??>
             <a href="/collect/${topic.id!}/delete">取消收藏</a>
           <#else>
@@ -96,11 +96,11 @@
         <div class="panel-heading">${topic.replyCount!0} 条回复</div>
         <div class="panel-body paginate-bot panel-body-reply">
           <#include "../components/replies.ftl"/>
-          <@reply replies=replies/>
+          <@reply id=topic.id/>
         </div>
       </div>
     </#if>
-    <#if user??>
+    <#if sec.isAuthenticated()>
       <div class="panel panel-default">
         <#if topic.lock == true>
           <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
@@ -110,7 +110,7 @@
             <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
           </div>
           <div class="panel-body">
-            <#if user.block == false>
+            <#if !sec.isLock()>
               <form action="/reply/save" method="post" id="replyForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" value="${topic.id}" name="topicId"/>
@@ -129,27 +129,29 @@
     </#if>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../components/author_info.ftl"/>
-        <@info/>
-        <#include "../components/other_topics.ftl"/>
-        <@othertopics/>
+
+    <#include "../components/user_info.ftl"/>
+    <@user_info username=topic.user.username text="作者"/>
+
+    <#--author other topics-->
+    <@other_topics_tag userId=topic.user.id>
+      <div class="panel panel-default">
+        <div class="panel-heading">作者其他话题</div>
+        <div class="panel-body">
+          <#list page.getContent() as topic>
+            <p><a href="/topic/${topic.id!}">${topic.title!}</a></p>
+            <#if topic_has_next>
+              <div class="divide pad-bot-10"></div>
+            </#if>
+          </#list>
+        </div>
+      </div>
+    </@other_topics_tag>
+
   </div>
 </div>
-  <#if user?? && user.block == false>
-  <link href="//cdn.bootcss.com/at.js/1.5.3/css/jquery.atwho.min.css" rel="stylesheet">
-  <script src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
-  <script src="//cdn.bootcss.com/Caret.js/0.3.1/jquery.caret.min.js"></script>
-  <script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
+  <#if sec.isAuthenticated() && !sec.isLock()>
   <script>
-    var data = [];
-      <#list replies as reply>
-      data.push('${reply.user.username}');
-      </#list>
-    data = _.uniq(data);
-    $("#content").atwho({
-      at: "@",
-      data: data
-    });
     function replySubmit() {
       var errors = 0;
       var em = $("#error_message");

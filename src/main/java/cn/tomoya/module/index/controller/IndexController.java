@@ -10,9 +10,7 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
-import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
-import cn.tomoya.util.PageWrapper;
 import cn.tomoya.util.StrUtil;
 import cn.tomoya.util.identicon.Identicon;
 import org.apache.log4j.Logger;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -80,12 +77,9 @@ public class IndexController extends BaseController {
     if (tab.equals("全部") || tab.equals("精华") || tab.equals("等待回复")) {
       sectionName = "版块";
     }
-    PageWrapper<Topic> page = new PageWrapper<>(topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab),
-        "/");
-    model.addAttribute("page", page);
+    model.addAttribute("p", p);
     model.addAttribute("tab", tab);
     model.addAttribute("sectionName", sectionName);
-    model.addAttribute("user", getUser());
     return render("/front/index");
   }
 

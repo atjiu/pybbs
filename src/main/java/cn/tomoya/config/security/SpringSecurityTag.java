@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +16,27 @@ import org.springframework.stereotype.Component;
 public class SpringSecurityTag {
 
   /**
+   * Get user lock statuc
+   * @return
+   */
+  public static boolean isLock() {
+    Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (obj instanceof org.springframework.security.core.userdetails.User) {
+      return !((UserDetails) obj).isAccountNonLocked();
+    } else {
+      return true;
+    }
+  }
+
+  /**
    * Get authenticated status
    *
    * @return
    */
   public static boolean isAuthenticated() {
     Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (obj instanceof UserDetails) {
+    if (obj instanceof org.springframework.security.core.userdetails.User) {
       return true;
     }
     return false;
@@ -33,7 +50,7 @@ public class SpringSecurityTag {
   public static String getPrincipal() {
     Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if (obj instanceof UserDetails) {
+    if (obj instanceof org.springframework.security.core.userdetails.User) {
       return ((UserDetails) obj).getUsername();
     } else {
       return "Guest";
@@ -100,7 +117,7 @@ public class SpringSecurityTag {
     try {
       Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
       Set<String> roles = new HashSet<String>();
-      if (obj instanceof UserDetails) {
+      if (obj instanceof org.springframework.security.core.userdetails.User) {
         Collection<GrantedAuthority> gas = (Collection<GrantedAuthority>) ((UserDetails) obj).getAuthorities();
         for (GrantedAuthority ga : gas) {
           roles.add(ga.getAuthority());

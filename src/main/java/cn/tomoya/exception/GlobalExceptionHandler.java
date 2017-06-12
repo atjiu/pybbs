@@ -1,8 +1,6 @@
 package cn.tomoya.exception;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
+import cn.tomoya.config.yml.SiteConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.tomoya.config.yml.SiteConfig;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by tomoya.
@@ -19,8 +17,6 @@ import cn.tomoya.config.yml.SiteConfig;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-  private Logger log = Logger.getLogger(GlobalExceptionHandler.class);
 
   @Autowired
   private SiteConfig siteConfig;
@@ -36,17 +32,17 @@ public class GlobalExceptionHandler {
   /**
    * 错误页面统一处理
    *
+   * @param request
    * @param e
    * @return
    * @throws Exception
    */
   @ExceptionHandler(value = Exception.class)
   public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
-    log.error(e.getMessage());
     ModelAndView mav = new ModelAndView();
     mav.addObject("exception", e);
     mav.addObject("errorCode", getStatus(request));
-    mav.setViewName(siteConfig.getTheme() + "/error");
+    mav.setViewName(siteConfig.getTheme() + "/front/error");
     return mav;
   }
 

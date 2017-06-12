@@ -25,15 +25,15 @@
             </p>
           </div>
         </div>
-      </div>
         <#if topic_has_next>
-        <div class="divide mar-top-5"></div>
+          <div class="divide mar-top-5"></div>
         </#if>
       </#list>
       <#if isPaginate>
         <#include "paginate.ftl"/>
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/topics" urlParas=""/>
       </#if>
+    </div>
     </#if>
   </@user_topics_tag>
 </#macro>

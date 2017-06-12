@@ -37,7 +37,7 @@ public class MyUserDetailService implements UserDetailsService {
         grantedAuthorities.add(grantedAuthority);
       }
       return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-          grantedAuthorities);
+          true, true, true, !user.isBlock(), grantedAuthorities);
     } else {
       log.info("用户" + username + " 不存在");
       throw new UsernameNotFoundException("用户名或密码不正确");

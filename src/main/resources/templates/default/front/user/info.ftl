@@ -2,7 +2,9 @@
 <@html page_title="${pageTitle!}" page_tab="user">
 <div class="row">
   <div class="col-md-9">
-    <#if currentUser??>
+
+    <#--user info-->
+    <@current_user_tag username=username>
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="media">
@@ -23,38 +25,30 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">${currentUser.username}创建的话题</div>
-          <#include "../components/user_topics.ftl"/>
-          <@user_topics username=currentUser.username p=1 limit=7/>
-          <div class="panel-footer">
-            <a href="/user/${currentUser.username}/topics">${currentUser.username}更多话题&gt;&gt;</a>
-          </div>
+    </@current_user_tag>
+
+    <#--user topics-->
+    <div class="panel panel-default">
+      <div class="panel-heading">${username}创建的话题</div>
+      <#include "../components/user_topics.ftl"/>
+      <@user_topics username=username p=1 limit=7/>
+      <div class="panel-footer">
+        <a href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">${currentUser.username}回复的话题</div>
-        <#include "../components/user_replies.ftl"/>
-        <@user_replies username=currentUser.username p=1 limit=7/>
-        <div class="panel-footer">
-          <a href="/user/${currentUser.username}/replies">${currentUser.username}更多回复&gt;&gt;</a>
-        </div>
+    </div>
+
+    <#--user replies-->
+    <div class="panel panel-default">
+      <div class="panel-heading">${username}回复的话题</div>
+      <#include "../components/user_replies.ftl"/>
+      <@user_replies username=username p=1 limit=7/>
+      <div class="panel-footer">
+        <a href="/user/${username}/replies">${username}更多回复&gt;&gt;</a>
       </div>
-    <#else>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p>用户未找到</p>
-          <a href="/">返回首页</a>
-        </div>
-      </div>
-    </#if>
+    </div>
+
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#if userinfo??>
-                <#include "../components/user_info.ftl">
-                <@info/>
-                <#include "../components/create_topic.ftl">
-                <@create_topic/>
-            </#if>
   </div>
 </div>
 </@html>

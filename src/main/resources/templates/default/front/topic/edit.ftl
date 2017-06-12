@@ -15,15 +15,15 @@
           </div>
           <div class="form-group">
             <label for="title">内容</label>
-            <textarea name="content" id="content" rows="15" class="form-control">${topic.content?html!}</textarea>
+            <textarea name="content" id="content" rows="15" class="form-control">${topic.content!}</textarea>
           </div>
           <div class="form-group">
             <label for="title">版块</label>
             <select name="tab" id="tab" class="form-control">
               <#list sections as section>
-                <option value="${section}"
-                        <#if topic.tab == section>selected="selected"</#if>>
-                ${section}
+                <option value="${section.name}"
+                        <#if topic.tab == section.name>selected="selected"</#if>>
+                ${section.name}
                 </option>
               </#list>
             </select>

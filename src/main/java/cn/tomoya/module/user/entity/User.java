@@ -71,6 +71,9 @@ public class User extends BaseEntity implements Serializable {
   // 用户令牌
   private String token;
 
+  // 用户积分
+  private int score;
+
   // 尝试登录次数
   private int attempts;
 
@@ -163,6 +166,14 @@ public class User extends BaseEntity implements Serializable {
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   public int getAttempts() {

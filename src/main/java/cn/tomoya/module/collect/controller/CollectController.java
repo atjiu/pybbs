@@ -33,12 +33,15 @@ public class CollectController extends BaseController {
   private NotificationService notificationService;
 
   @GetMapping("/{topicId}/add")
-  public String add(@PathVariable Integer topicId, HttpServletResponse response) {
+  public String add(@PathVariable Integer topicId, HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(topicId);
     if (topic == null) {
       return renderText(response, "话题不存在");
     } else {
-      Collect collect = new Collect();
+      Collect collect = collectService.findByUserAndTopic(getUser(), topic);
+      if(collect != null) throw new Exception("你已经收藏了这个话题");
+
+      collect = new Collect();
       collect.setInTime(new Date());
       collect.setTopic(topic);
       collect.setUser(getUser());
@@ -58,14 +61,13 @@ public class CollectController extends BaseController {
    * @return
    */
   @GetMapping("/{topicId}/delete")
-  public String delete(@PathVariable Integer topicId, HttpServletResponse response) {
+  public String delete(@PathVariable Integer topicId, HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(topicId);
     Collect collect = collectService.findByUserAndTopic(getUser(), topic);
-    if (collect == null) {
-      return renderText(response, "你还没收藏这个话题");
-    } else {
-      collectService.deleteById(collect.getId());
-      return redirect(response, "/topic/" + topic.getId());
-    }
+
+    if (collect == null) throw new Exception("你还没收藏这个话题");
+
+    collectService.deleteById(collect.getId());
+    return redirect(response, "/topic/" + topic.getId());
   }
 }
