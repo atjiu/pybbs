@@ -10,6 +10,7 @@ import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
 import cn.tomoya.util.StrUtil;
 import cn.tomoya.util.identicon.Identicon;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -106,6 +108,27 @@ public class IndexController extends BaseController {
     model.addAttribute("page", page);
     model.addAttribute("q", q);
     return render("/front/search");
+  }
+
+  /**
+   * 上传
+   *
+   * @param file
+   * @return
+   */
+  @PostMapping("/upload")
+  @ResponseBody
+  public Result upload(@RequestParam("file") MultipartFile file) {
+    if (!file.isEmpty()) {
+      try {
+        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE);
+        return Result.success(requestUrl);
+      } catch (IOException e) {
+        e.printStackTrace();
+        return Result.error("上传失败");
+      }
+    }
+    return Result.error("文件不存在");
   }
 
   /**

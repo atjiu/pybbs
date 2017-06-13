@@ -114,9 +114,8 @@
               <form action="/reply/save" method="post" id="replyForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" value="${topic.id}" name="topicId"/>
-                <div class="form-group">
-                  <textarea name="content" id="content" rows="5" class="form-control" style="height: 150px;"></textarea>
-                </div>
+                <#include "../components/editor.ftl"/>
+                <@editor row=5 type="reply"/>
                 <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
                 <span id="error_message"></span>
               </form>

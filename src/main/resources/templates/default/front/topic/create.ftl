@@ -42,6 +42,4 @@
     </div>
   </div>
 </div>
-<script src="//cdn.bootcss.com/Caret.js/0.3.1/jquery.caret.min.js"></script>
-<script src="/static/default/js/editor.js"></script>
 </@html>

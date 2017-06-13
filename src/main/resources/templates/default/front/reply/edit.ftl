@@ -11,9 +11,10 @@
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <input type="hidden" name="id" value="${reply.id!}"/>
           <input type="hidden" name="topicId" value="${reply.topic.id!}"/>
-          <div class="form-group">
-            <textarea name="content" id="content" rows="15" class="form-control">${reply.content?html!}</textarea>
-          </div>
+
+          <#include "../components/editor.ftl"/>
+          <@editor row=15 type="reply" content=reply.content/>
+
           <button type="button" onclick="replySubmit()" class="btn btn-default">保存</button>
           <span id="error_message"></span>
         </form>

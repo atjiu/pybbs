@@ -157,7 +157,7 @@ body{font-family:"Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino San
 .paginate-bot{padding-bottom:0}
 .permission-item.active a{color:#fff}
 .reply-content img{max-width:100%}
-.panel{box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.1); transition: ease-in-out .2s;}
+.panel{border:0;box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.1); transition: ease-in-out .2s;}
 .panel:hover{box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.3);}
 .panel td{padding-left:15px!important;padding-right:15px!important}
 .panel th{padding-left:15px!important;padding-right:15px!important}
@@ -171,3 +171,10 @@ form textarea{resize:vertical}
 .up-down-enable{cursor: pointer;color:#337ab7;}
 #menu .fa{border:1px solid #fff;cursor: pointer;border-radius:3px; padding: 4px;}
 #menu .fa:hover{border:1px solid #ccc;}
+#pre_div{background-color: #fafafa; border-radius: 4px; padding:10px;}
+#pre_div img{max-width: 100%;}
+.upload-area{border: 4px dashed #ddd; text-align: center;height:100px;line-height: 100px;}
+.upload-area-active {border-color: #7A7A7A}
+.progress{margin-bottom:0; text-align: center;position: relative;}
+.progress .progress-bar{position: absolute;width:0;}
+.progress div{color: #545454; position: absolute; width: 100%;}

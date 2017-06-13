@@ -83,6 +83,8 @@ public class TopicController extends BaseController {
     } else if (sectionService.findByName(tab) == null) {
       errors = "版块不存在";
     } else {
+      if(topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
+
       User user = getUser();
       Topic topic = new Topic();
       topic.setTab(tab);

@@ -157,4 +157,13 @@ public class TopicService {
   public int countByInTimeBetween(Date date1, Date date2) {
     return topicDao.countByInTimeBetween(date1, date2);
   }
+
+  /**
+   * search by title to prevent title repeat
+   * @param title
+   * @return
+   */
+  public Topic findByTitle(String title) {
+    return topicDao.findByTitle(title);
+  }
 }

@@ -42,4 +42,6 @@ public interface TopicDao extends JpaRepository<Topic, Integer> {
   Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 
   int countByInTimeBetween(Date date1, Date date2);
+
+  Topic findByTitle(String title);
 }

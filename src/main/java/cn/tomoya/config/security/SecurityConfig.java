@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http.csrf().ignoringAntMatchers("/api/**");
+    http.csrf().ignoringAntMatchers("/api/**", "/upload");
   }
 
   @Autowired

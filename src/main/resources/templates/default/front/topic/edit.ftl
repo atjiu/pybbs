@@ -13,10 +13,8 @@
             <label for="title">标题</label>
             <input type="text" class="form-control" id="title" name="title" value="${topic.title!}" placeholder="标题">
           </div>
-          <div class="form-group">
-            <label for="title">内容</label>
-            <textarea name="content" id="content" rows="15" class="form-control">${topic.content!}</textarea>
-          </div>
+          <#include "../components/editor.ftl"/>
+          <@editor content=topic.content/>
           <div class="form-group">
             <label for="title">版块</label>
             <select name="tab" id="tab" class="form-control">
