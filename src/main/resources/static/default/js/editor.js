@@ -85,6 +85,53 @@
 
   var contentE = $("#content");
 
+  // use at.js add emoji support
+  contentE.atwho({
+    at: ":",
+    data: [
+      {'name': 'Grinning Face', 'emoji': '😀'},
+      {'name': 'Grinning Face With Smiling Eyes', 'emoji': '😁'},
+      {'name': 'Face With Tears of Joy', 'emoji': '😂'},
+      {'name': 'Rolling on the Floor Laughing', 'emoji': '🤣'},
+      {'name': 'Smiling Face With Open Mouth', 'emoji': '😃'},
+      {'name': 'Smiling Face With Open Mouth & Smiling Eyes', 'emoji': '😄'},
+      {'name': 'Smiling Face With Open Mouth & Cold Sweat', 'emoji': '😅'},
+      {'name': 'Winking Face', 'emoji': '😉'},
+      {'name': 'Smiling Face With Smiling Eyes', 'emoji': '😊'},
+      {'name': 'Face Savouring Delicious Food', 'emoji': '😋'},
+      {'name': 'Smiling Face With Sunglasses', 'emoji': '😎'},
+      {'name': 'Smiling Face With Heart-Eyes', 'emoji': '😍'},
+      {'name': 'Face Blowing a Kiss', 'emoji': '😘'},
+      {'name': 'Kissing Face', 'emoji': '😗'},
+      {'name': 'Kissing Face With Smiling Eyes', 'emoji': '😙'},
+      {'name': 'Kissing Face With Closed Eyes', 'emoji': '😚'},
+      {'name': 'Smiling Face', 'emoji': '☺️'},
+      {'name': 'Slightly Smiling Face', 'emoji': '🙂'},
+      {'name': 'Hugging Face', 'emoji': '🤗'},
+      {'name': 'Thinking Face', 'emoji': '🤔'},
+      {'name': 'Neutral Face', 'emoji': '😐'},
+      {'name': 'Expressionless Face', 'emoji': '😑'},
+      {'name': 'Face Without Mouth', 'emoji': '😶'},
+      {'name': 'Face With Rolling Eyes', 'emoji': '🙄'},
+      {'name': 'Smirking Face', 'emoji': '😏'},
+      {'name': 'Persevering Face', 'emoji': '😣'},
+      {'name': 'Disappointed but Relieved Face', 'emoji': '😥'},
+      {'name': 'Face With Open Mouth', 'emoji': '😮'},
+      {'name': 'Zipper-Mouth Face', 'emoji': '🤐'},
+      {'name': 'Hushed Face', 'emoji': '😯'},
+      {'name': 'Sleepy Face', 'emoji': '😪'},
+      {'name': 'Tired Face', 'emoji': '😫'},
+      {'name': 'Sleeping Face', 'emoji': '😴'},
+      {'name': 'Relieved Face', 'emoji': '😌'},
+    ],
+    displayTpl: function (data) {
+      return '<li>' + data.emoji + ' ' + data.name + "</li>";
+    },
+    insertTpl: function (data) {
+      return data.emoji;
+    }
+  });
+
   $("#menu").find(".fa").click(function () {
     if($(this).hasClass("fa-bold")) {
       var selectVal = contentE.getSelection();
@@ -135,8 +182,6 @@
       contentE.setSelection(currentPosition - 11, currentPosition - 7);
     } else if($(this).hasClass("fa-picture-o")) {
 
-    } else if($(this).hasClass("fa-smile-o")) {
-
     } else if($(this).hasClass("fa-eye")) {
       if($("#pre_div").hasClass("hidden")) {
         $("#pre_div").html(marked(contentE.val()));
@@ -162,11 +207,12 @@
       $('.progress-bar').css('width', '0');
       $('.progress').addClass('hidden');
       $('.percentage').addClass('hidden');
+      $("#error_message").text("");
 
       if(contentE.val().length === 0) {
         contentE.insertAtCousor("![image]("+data.result.detail+")\r\n");
       } else {
-        contentE.insertAtCousor("![image]("+data.result.detail+")");
+        contentE.insertAtCousor("\r\n![image]("+data.result.detail+")");
       }
       var currentPosition = contentE.getSelectionEnd();
       contentE.setSelection(currentPosition);
@@ -174,13 +220,14 @@
   });
 
   $('#selectFileInput').bind('fileuploadprogress', function (e, data) {
+    $("#error_message").text("正在上传...");
     $(".progress").removeClass("hidden");
     var progress = parseInt(data.loaded / data.total * 100, 10);
     $('.progress-bar').css(
       'width',
       progress + '%'
     );
-    $('.percentage').text(progress + '%');
+    $('.percentage').removeClass("hidden").text(progress + '%');
   });
 
   $(".upload-area").bind('dragover', function (e) {

@@ -12,7 +12,6 @@
     <i class="fa fa-code" aria-hidden="true"></i>
     <i class="fa fa-link" aria-hidden="true"></i>
     <i class="fa fa-picture-o" aria-hidden="true" data-toggle="modal" data-target="#myModal"></i>
-    <i class="fa fa-smile-o" aria-hidden="true"></i>
     <i class="fa fa-eye" aria-hidden="true"></i>
   </span>
   <textarea name="content" id="content" rows="${row}" class="form-control" placeholder="请输入内容~">${content!}</textarea>
@@ -48,8 +47,11 @@
     </div>
   </div>
 </div>
+<link href="//cdn.bootcss.com/at.js/1.5.3/css/jquery.atwho.min.css" rel="stylesheet">
 <script src="https://blueimp.github.io/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
 <script src="//blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload.js"></script>
 <script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+<script src="//cdn.bootcss.com/Caret.js/0.3.1/jquery.caret.min.js"></script>
+<script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
 <script src="/static/default/js/editor.js"></script>
 </#macro>
