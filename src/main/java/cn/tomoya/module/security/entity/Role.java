@@ -25,8 +25,6 @@ import cn.tomoya.module.user.entity.User;
 @Table(name = "pybbs_role")
 public class Role extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
-
   @Id
   @GeneratedValue
   private int id;

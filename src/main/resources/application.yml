@@ -40,3 +40,4 @@ site:
   attempts: 5
   attemptsWaitTime: 15
   maxCreateTopic: 10
+  userUploadSpaceSize: 50 # 单位MB

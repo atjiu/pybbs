@@ -4,6 +4,7 @@ import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
@@ -98,6 +99,11 @@ public class BaseController {
     } else {
       return userService.findByToken(token);
     }
+  }
+
+  protected String getUsername() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return ((org.springframework.security.core.userdetails.User)authentication.getPrincipal()).getUsername();
   }
 
 }

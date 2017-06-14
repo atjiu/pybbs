@@ -19,8 +19,6 @@ import java.util.Date;
 @Entity
 public class Collect extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 643806797869767441L;
-
   @Id
   @GeneratedValue
   private int id;

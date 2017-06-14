@@ -19,8 +19,6 @@ import java.util.Date;
 @Table(name = "pybbs_reply")
 public class Reply extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = -4727003589526236354L;
-
   @Id
   @GeneratedValue
   private int id;

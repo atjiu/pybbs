@@ -21,6 +21,7 @@ public class SiteConfig {
   private int attempts;
   private long attemptsWaitTime;
   private int maxCreateTopic;
+  private long userUploadSpaceSize;
 
   public String getName() {
     return name;
@@ -108,5 +109,13 @@ public class SiteConfig {
 
   public void setMaxCreateTopic(int maxCreateTopic) {
     this.maxCreateTopic = maxCreateTopic;
+  }
+
+  public long getUserUploadSpaceSize() {
+    return userUploadSpaceSize;
+  }
+
+  public void setUserUploadSpaceSize(long userUploadSpaceSize) {
+    this.userUploadSpaceSize = userUploadSpaceSize;
   }
 }

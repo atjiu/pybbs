@@ -31,8 +31,6 @@ import cn.tomoya.util.Constants;
 @Table(name = "pybbs_user")
 public class User extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 200796098159096559L;
-
   @Id
   @GeneratedValue
   private int id;

@@ -14,7 +14,8 @@ import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
 import cn.tomoya.util.StrUtil;
 import cn.tomoya.util.identicon.Identicon;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
@@ -47,7 +49,7 @@ import java.util.UUID;
 @Controller
 public class IndexController extends BaseController {
 
-  private Logger log = Logger.getLogger(IndexController.class);
+  private Logger log = LoggerFactory.getLogger(IndexController.class);
 
   @Autowired
   private TopicService topicService;
@@ -87,6 +89,7 @@ public class IndexController extends BaseController {
 
   /**
    * top 100 user score
+   *
    * @return
    */
   @GetMapping("/top100")
@@ -121,7 +124,10 @@ public class IndexController extends BaseController {
   public Result upload(@RequestParam("file") MultipartFile file) {
     if (!file.isEmpty()) {
       try {
-        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE);
+        if (fileUtil.getTotalSizeOfFilesInDir(new File(siteConfig.getUploadPath() + getUsername())) + file.getSize()
+            > siteConfig.getUserUploadSpaceSize() * 1024 * 1024)
+          return Result.error("你的上传空间不够了，请用积分去用户中心兑换");
+        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, getUsername());
         return Result.success(requestUrl);
       } catch (IOException e) {
         e.printStackTrace();
@@ -291,7 +297,7 @@ public class IndexController extends BaseController {
     if (!StrUtil.isEmail(email)) throw new ApiException("请输入正确的Email");
 
     User user = userService.findByEmail(email);
-    if(user != null) throw new ApiException("邮箱已经被使用");
+    if (user != null) throw new ApiException("邮箱已经被使用");
 
     try {
       String genCode = codeService.genEmailCode(email);

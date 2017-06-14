@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/static/**")
         .permitAll()
-        .antMatchers("/admin/**", "/topic/create", "/topic/*/delete", "/topic/*/edit", "/reply/save", "/reply/*/delete",
+        .antMatchers("/upload", "/admin/**", "/topic/create", "/topic/*/delete", "/topic/*/edit", "/reply/save", "/reply/*/delete",
             "/reply/*/edit", "/reply/*/up", "/reply/*/cancelUp", "/reply/*/down", "/reply/*/cancelDown", "/collect/**",
             "/notification/**", "/user/setting", "/user/changePassword", "/user/refreshToken")
         .authenticated();

@@ -133,7 +133,7 @@
   });
 
   $("#menu").find(".fa").click(function () {
-    if($(this).hasClass("fa-bold")) {
+    if ($(this).hasClass("fa-bold")) {
       var selectVal = contentE.getSelection();
       if (selectVal.length > 0) {
         contentE.insertAtCousor("**" + selectVal + "**");
@@ -142,7 +142,7 @@
         contentE.setCursorPosition(contentE.getCursorPosition() - 2);
       }
       contentE.focus();
-    } else if($(this).hasClass("fa-italic")) {
+    } else if ($(this).hasClass("fa-italic")) {
       var selectVal = contentE.getSelection();
       if (selectVal.length > 0) {
         contentE.insertAtCousor("*" + selectVal + "*");
@@ -150,7 +150,7 @@
         contentE.insertAtCousor("**");
         contentE.setCursorPosition(contentE.getCursorPosition() - 1);
       }
-    } else if($(this).hasClass("fa-quote-left")) {
+    } else if ($(this).hasClass("fa-quote-left")) {
       var selectVal = contentE.getSelection();
       if (selectVal.length > 0) {
         contentE.insertAtCousor("> " + selectVal);
@@ -158,32 +158,32 @@
         contentE.insertAtCousor(contentE.val().length === 0 ? "> " : "\r\n> ");
         contentE.setCursorPosition(contentE.getCursorPosition());
       }
-    } else if($(this).hasClass("fa-list")) {
+    } else if ($(this).hasClass("fa-list")) {
       contentE.insertAtCousor(contentE.val().length === 0 ? "- " : "\r\n- ");
       contentE.setCursorPosition(contentE.getCursorPosition());
-    } else if($(this).hasClass("fa-list-ol")) {
+    } else if ($(this).hasClass("fa-list-ol")) {
       contentE.insertAtCousor(contentE.val().length === 0 ? "1. " : "\r\n1. ");
       contentE.setCursorPosition(contentE.getCursorPosition());
-    } else if($(this).hasClass("fa-code")) {
-      if(contentE.val().length === 0) {
+    } else if ($(this).hasClass("fa-code")) {
+      if (contentE.val().length === 0) {
         contentE.insertAtCousor("```\r\n代码内容\r\n```");
       } else {
         contentE.insertAtCousor("\r\n```\r\n代码内容\r\n```");
       }
       var currentPosition = contentE.getCursorPosition();
       contentE.setSelection(currentPosition - 8, currentPosition - 4);
-    } else if($(this).hasClass("fa-link")) {
-      if(contentE.val().length === 0) {
+    } else if ($(this).hasClass("fa-link")) {
+      if (contentE.val().length === 0) {
         contentE.insertAtCousor("[链接标题](链接地址)");
       } else {
         contentE.insertAtCousor("\r\n[链接标题](链接地址)");
       }
       var currentPosition = contentE.getCursorPosition();
       contentE.setSelection(currentPosition - 11, currentPosition - 7);
-    } else if($(this).hasClass("fa-picture-o")) {
+    } else if ($(this).hasClass("fa-picture-o")) {
 
-    } else if($(this).hasClass("fa-eye")) {
-      if($("#pre_div").hasClass("hidden")) {
+    } else if ($(this).hasClass("fa-eye")) {
+      if ($("#pre_div").hasClass("hidden")) {
         $("#pre_div").html(marked(contentE.val()));
         $("#pre_div").removeClass("hidden");
         contentE.addClass("hidden");
@@ -194,11 +194,11 @@
       }
     }
   });
-  
+
   $("#selectPicBtn").click(function () {
     $("#selectFileInput").click();
   });
-  
+
   $("#selectFileInput").fileupload({
     url: '/upload',
     dataType: 'json',
@@ -208,14 +208,18 @@
       $('.progress').addClass('hidden');
       $('.percentage').addClass('hidden');
       $("#error_message").text("");
-
-      if(contentE.val().length === 0) {
-        contentE.insertAtCousor("![image]("+data.result.detail+")\r\n");
+      console.log(data.result);
+      if (data.result.code === 200) {
+        if (contentE.val().length === 0) {
+          contentE.insertAtCousor("![image](" + data.result.detail + ")\r\n");
+        } else {
+          contentE.insertAtCousor("\r\n![image](" + data.result.detail + ")");
+        }
+        var currentPosition = contentE.getSelectionEnd();
+        contentE.setSelection(currentPosition);
       } else {
-        contentE.insertAtCousor("\r\n![image]("+data.result.detail+")");
+        $("#error_message").text(data.result.description);
       }
-      var currentPosition = contentE.getSelectionEnd();
-      contentE.setSelection(currentPosition);
     }
   });
 

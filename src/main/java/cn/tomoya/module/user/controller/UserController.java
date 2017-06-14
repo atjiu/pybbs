@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -113,7 +112,7 @@ public class UserController extends BaseController {
     user.setEmail(email);
     user.setSignature(signature);
     user.setUrl(url);
-    String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR);
+    String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR, getUsername());
     if (!StringUtils.isEmpty(requestUrl)) {
       user.setAvatar(requestUrl);
     }

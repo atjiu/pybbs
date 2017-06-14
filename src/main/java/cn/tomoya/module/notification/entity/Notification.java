@@ -19,8 +19,6 @@ import java.util.Date;
 @Table(name = "pybbs_notification")
 public class Notification extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = -619423593415705785L;
-
   @Id
   @GeneratedValue
   private int id;

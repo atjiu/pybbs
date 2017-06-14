@@ -1,6 +1,7 @@
 package cn.tomoya.module.code.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "pybbs_code")
-public class Code {
+public class Code implements Serializable {
 
   @Id
   @GeneratedValue

@@ -19,8 +19,6 @@ import cn.tomoya.config.base.BaseEntity;
 @Table(name = "pybbs_section")
 public class Section extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
-
   @Id
   @GeneratedValue
   private int id;
