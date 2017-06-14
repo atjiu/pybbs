@@ -35,7 +35,7 @@
                   type: "get",
                   dataType: "json",
                   success: function (data) {
-                    if(data.code == 200 && data.detail > 0) {
+                    if(data.code === 200 && data.detail > 0) {
                       $("#badge").text(data.detail);
                     }
                   }
@@ -53,21 +53,11 @@
               <span class="badge" id="badge"></span>
             </a>
           </li>
-          <li <#if page_tab == 'setting'> class="active" </#if>>
-            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"
-               data-hover="dropdown">
-              设置
-              <span class="caret"></span>
-            </a>
-            <span class="dropdown-arrow"></span>
-            <ul class="dropdown-menu">
-              <li><a href="/user/setting">个人资料</a></li>
-              <#if sec.allGranted("admin:index")>
-                <li><a href="/admin/index">进入后台</a></li>
-              </#if>
-              <li><a href="/logout">退出</a></li>
-            </ul>
-          </li>
+          <li <#if page_tab == 'setting'> class="active" </#if>><a href="/user/profile">设置</a></li>
+          <#if sec.allGranted("admin:index")>
+            <li <#if page_tab == 'admin'> class="active" </#if>><a href="/admin/index">进入后台</a></li>
+          </#if>
+          <li><a href="javascript:if(confirm('确定要退出吗？'))location.href='/logout'">退出</a></li>
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>

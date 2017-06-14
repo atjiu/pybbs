@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="配置角色">
+<@html page_title="配置角色" page_tab="admin">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
@@ -14,6 +14,10 @@
           <div class="form-group">
             <label for="nickname">昵称</label>
             <input type="text" disabled id="username" value="${user.username}" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label for="score">积分</label>
+            <input type="text" id="score" name="score" value="${user.score}" class="form-control"/>
           </div>
           <div class="form-group">
             <label for="roles">角色</label>

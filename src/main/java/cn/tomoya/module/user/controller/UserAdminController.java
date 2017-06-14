@@ -48,18 +48,6 @@ public class UserAdminController extends BaseController {
   }
 
   /**
-   * 删除用户
-   *
-   * @param id
-   * @return
-   */
-//    @GetMapping(value = "/{id}/delete")
-//    public String delete(@PathVariable Integer id, HttpServletResponse response) {
-//        userService.deleteById(id);
-//        return redirect(response, "/admin/user/list");
-//    }
-
-  /**
    * 禁用用户
    *
    * @param id
@@ -105,13 +93,17 @@ public class UserAdminController extends BaseController {
    * @return
    */
   @PostMapping("/{id}/role")
-  public String saveRole(@PathVariable Integer id, Integer[] roleIds, HttpServletResponse response) {
+  public String saveRole(@PathVariable Integer id, int score, Integer[] roleIds, HttpServletResponse response) {
     User user = userService.findById(id);
     Set<Role> roles = new HashSet<>();
-    for (int i : roleIds) {
-      Role role = roleService.findById(i);
-      roles.add(role);
+    if (roleIds != null) {
+      for (int i : roleIds) {
+        Role role = roleService.findById(i);
+        roles.add(role);
+      }
     }
+    //TODO 记录日志
+    user.setScore(score);
     user.setRoles(roles);
     userService.save(user);
     return redirect(response, "/admin/user/list");

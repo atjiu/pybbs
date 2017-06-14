@@ -1,5 +1,5 @@
 <#include "./common/layout.ftl">
-<@html page_title="首页 - ${site.name!}">
+<@html page_title="首页 - ${site.name!}" page_tab="admin">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "./components/admin_left.ftl">

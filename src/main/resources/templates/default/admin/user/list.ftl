@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="用户管理">
+<@html page_title="用户管理" page_tab="admin">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
@@ -13,6 +13,18 @@
       </div>
       <div class="table-responsive">
         <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>邮箱</th>
+            <th>个人主页</th>
+            <th>积分</th>
+            <th>空间</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+          </thead>
           <tbody>
             <#list page.getContent() as user>
             <tr>
@@ -20,6 +32,8 @@
               <td><a href="/user/${user.username}" target="_blank">${user.username}</a></td>
               <td><a href="mailto:${user.email!}" target="_blank">${user.email!}</a></td>
               <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
+              <td>${user.score!0}</td>
+              <td>${user.spaceSize!0}MB</td>
               <td>
                 <#if user.block == true>
                   <span class="text-danger">禁用</span>

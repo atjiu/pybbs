@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="添加角色" page_tab="setting">
+<@html page_title="添加角色" page_tab="admin">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">

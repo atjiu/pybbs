@@ -41,9 +41,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/static/**")
         .permitAll()
-        .antMatchers("/upload", "/admin/**", "/topic/create", "/topic/*/delete", "/topic/*/edit", "/reply/save", "/reply/*/delete",
-            "/reply/*/edit", "/reply/*/up", "/reply/*/cancelUp", "/reply/*/down", "/reply/*/cancelDown", "/collect/**",
-            "/notification/**", "/user/setting", "/user/changePassword", "/user/refreshToken")
+        .antMatchers(
+            "/upload",
+            "/admin/**",
+            "/topic/create",
+            "/topic/*/delete",
+            "/topic/*/edit",
+            "/reply/save",
+            "/reply/*/delete",
+            "/reply/*/edit",
+            "/reply/*/up",
+            "/reply/*/cancelUp",
+            "/reply/*/down",
+            "/reply/*/cancelDown",
+            "/collect/**",
+            "/notification/**",
+            "/user/profile",
+            "/user/changePassword",
+            "/user/accessToken",
+            "/user/refreshToken",
+            "/user/space",
+            "/space/deleteFile"
+        )
         .authenticated();
 
     http.formLogin()
@@ -66,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http.csrf().ignoringAntMatchers("/api/**", "/upload");
+    http.csrf().ignoringAntMatchers("/api/**", "/upload", "/user/space/deleteFile");
   }
 
   @Autowired

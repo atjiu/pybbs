@@ -59,18 +59,22 @@ public class Identicon {
     return identicon;
   }
 
-  public void generator(String fileName) {
+  public String generator(String username) {
+    String fileName = "avatar.png";
+    String userAvatarPath = username + "/";
     Identicon identicon = new Identicon();
     String md5 = HashUtil.md5(StrUtil.randomString(6));
     BufferedImage image = identicon.create(md5, 420);
     try {
-      File file = new File(siteConfig.getUploadPath() + "avatar/");
+      File file = new File(siteConfig.getUploadPath() + userAvatarPath);
       if (!file.exists()) file.mkdirs();
-      File file1 = new File(siteConfig.getUploadPath() + "avatar/" + fileName + ".png");
+      File file1 = new File(siteConfig.getUploadPath() + userAvatarPath + fileName);
       if (!file1.exists()) file1.createNewFile();
       ImageIO.write(image, "PNG", file1);
+      return siteConfig.getStaticUrl() + userAvatarPath + fileName;
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return null;
   }
 }

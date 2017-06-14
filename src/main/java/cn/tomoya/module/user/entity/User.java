@@ -79,6 +79,10 @@ public class User extends BaseEntity implements Serializable {
   @Column(name = "attempts_time")
   private Date attemptsTime;
 
+  // user space size
+  @Column(name = "space_size", nullable = false)
+  private long spaceSize;
+
   // 用户与角色的关联关系
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "pybbs_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
@@ -188,6 +192,14 @@ public class User extends BaseEntity implements Serializable {
 
   public void setAttemptsTime(Date attemptsTime) {
     this.attemptsTime = attemptsTime;
+  }
+
+  public long getSpaceSize() {
+    return spaceSize;
+  }
+
+  public void setSpaceSize(long spaceSize) {
+    this.spaceSize = spaceSize;
   }
 
   public Set<Role> getRoles() {

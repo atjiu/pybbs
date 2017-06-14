@@ -55,7 +55,7 @@ public class Topic extends BaseEntity implements Serializable {
   private int view;
 
   //与用户的关联关系
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   @JsonIgnore
   private User user;

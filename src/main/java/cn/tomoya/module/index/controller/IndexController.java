@@ -125,7 +125,7 @@ public class IndexController extends BaseController {
     if (!file.isEmpty()) {
       try {
         if (fileUtil.getTotalSizeOfFilesInDir(new File(siteConfig.getUploadPath() + getUsername())) + file.getSize()
-            > siteConfig.getUserUploadSpaceSize() * 1024 * 1024)
+            > getUser().getSpaceSize() * 1024 * 1024)
           return Result.error("你的上传空间不够了，请用积分去用户中心兑换");
         String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, getUsername());
         return Result.success(requestUrl);
@@ -195,8 +195,9 @@ public class IndexController extends BaseController {
     if (validateResult == 3) throw new ApiException("邮箱验证码已经被使用");
 
     Date now = new Date();
-    String avatarName = UUID.randomUUID().toString();
-    identicon.generator(avatarName);
+    // generator avatar
+    String avatarUrl = identicon.generator(username);
+
     user = new User();
     user.setEmail(email);
     user.setUsername(username);
@@ -204,8 +205,9 @@ public class IndexController extends BaseController {
     user.setInTime(now);
     user.setBlock(false);
     user.setToken(UUID.randomUUID().toString());
-    user.setAvatar(siteConfig.getStaticUrl() + "avatar/" + avatarName + ".png");
+    user.setAvatar(avatarUrl);
     user.setAttempts(0);
+    user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
     userService.save(user);
     return Result.success();
   }
