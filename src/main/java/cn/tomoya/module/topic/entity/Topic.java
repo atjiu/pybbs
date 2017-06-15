@@ -1,6 +1,5 @@
 package cn.tomoya.module.topic.entity;
 
-import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,6 +8,7 @@ import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Analyzer(impl = SmartChineseAnalyzer.class)
 @Entity
 @Table(name = "pybbs_topic")
-public class Topic extends BaseEntity implements Serializable {
+public class Topic implements Serializable {
 
   @Id
   @GeneratedValue
@@ -34,11 +34,11 @@ public class Topic extends BaseEntity implements Serializable {
   private String tab;
 
   //标题
-  @Field
+  @Field(store = Store.YES)
   @Column(unique = true, nullable = false)
   private String title;
 
-  @Field
+  @Field(store = Store.YES)
   //内容
   @Column(columnDefinition = "text")
   private String content;

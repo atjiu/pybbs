@@ -1,6 +1,8 @@
 package cn.tomoya.module.index.controller;
 
 import cn.tomoya.config.base.BaseController;
+import cn.tomoya.module.topic.service.TopicSearch;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/admin")
 public class IndexAdminController extends BaseController {
+
+  @Autowired
+  private TopicSearch topicSearch;
 
   /**
    * 首页
@@ -46,20 +51,8 @@ public class IndexAdminController extends BaseController {
    */
   @GetMapping("/indexed/indexAll")
   public String indexedAll(HttpServletResponse response) {
-    //TODO
+    topicSearch.indexAll();
     return redirect(response, "/admin/indexed?s=add");
-  }
-
-  /**
-   * 删除全部索引
-   *
-   * @param response
-   * @return
-   */
-  @GetMapping("/indexed/deleteAll")
-  public String deleteAllIndexed(HttpServletResponse response) {
-    //TODO
-    return redirect(response, "/admin/indexed?s=del");
   }
 
 }

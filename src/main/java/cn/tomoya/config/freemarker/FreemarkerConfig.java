@@ -1,17 +1,16 @@
 package cn.tomoya.config.freemarker;
 
-import javax.annotation.PostConstruct;
-
+import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.config.security.SpringSecurityTag;
+import cn.tomoya.config.yml.SiteConfig;
+import cn.tomoya.module.section.service.SectionService;
+import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.tomoya.config.yml.SiteConfig;
-import cn.tomoya.module.section.service.SectionService;
-import freemarker.template.Configuration;
-import freemarker.template.TemplateModelException;
+import javax.annotation.PostConstruct;
 
 @Component
 public class FreemarkerConfig {
@@ -19,7 +18,7 @@ public class FreemarkerConfig {
   Logger log = LoggerFactory.getLogger(FreemarkerConfig.class);
 
   @Autowired
-  private Configuration configuration;
+  private freemarker.template.Configuration configuration;
   @Autowired
   private SiteConfig siteConfig;
   @Autowired
@@ -46,6 +45,8 @@ public class FreemarkerConfig {
   private OtherTopicsDirective otherTopicsDirective;
   @Autowired
   private ScoreDirective scoreDirective;
+  @Autowired
+  private BaseEntity baseEntity;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
@@ -54,6 +55,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("site", siteConfig);
     // 将版块注入到全局freemarker变量里
     configuration.setSharedVariable("sections", sectionService.findAll());
+    configuration.setSharedVariable("model", baseEntity);
 
     configuration.setSharedVariable("user_topics_tag", userTopicDirective);
     configuration.setSharedVariable("user_replies_tag", userReplyDirective);

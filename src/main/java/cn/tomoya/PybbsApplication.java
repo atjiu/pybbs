@@ -1,5 +1,6 @@
 package cn.tomoya;
 
+import cn.tomoya.config.yml.SiteConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,8 +8,6 @@ import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
-
-import cn.tomoya.config.yml.SiteConfig;
 
 /**
  * Created by tomoya.

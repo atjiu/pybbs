@@ -1,16 +1,9 @@
 package cn.tomoya.module.security.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import cn.tomoya.config.base.BaseEntity;
 
 /**
  * Created by tomoya.
@@ -19,7 +12,7 @@ import cn.tomoya.config.base.BaseEntity;
  */
 @Entity
 @Table(name = "pybbs_permission")
-public class Permission extends BaseEntity implements Serializable {
+public class Permission implements Serializable {
 
   @Id
   @GeneratedValue

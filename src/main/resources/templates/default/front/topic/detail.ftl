@@ -17,7 +17,7 @@
               </#if>
               <span><a href="/user/${topic.user.username!}">${topic.user.username!}</a></span>
               <span>•</span>
-              <span>${topic.formatDate(topic.inTime)}</span>
+              <span>${model.formatDate(topic.inTime)}</span>
               <span>•</span>
               <span>${topic.view!1}次点击</span>
               <span>•</span>
@@ -71,7 +71,7 @@
       <#if topic.content?? && topic.content != "">
         <div class="divide"></div>
         <div class="panel-body topic-detail-content">
-        ${topic.markedNotAt(topic.content)}
+        ${model.markedNotAt(topic.content)}
         </div>
       </#if>
       <#if sec.isAuthenticated()>

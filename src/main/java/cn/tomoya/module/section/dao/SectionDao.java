@@ -1,13 +1,12 @@
 package cn.tomoya.module.section.dao;
 
-import java.util.List;
-
+import cn.tomoya.module.section.entity.Section;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import cn.tomoya.module.section.entity.Section;
+import java.util.List;
 
 /**
  * Created by tomoya.

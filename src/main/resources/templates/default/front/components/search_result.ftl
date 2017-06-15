@@ -3,12 +3,12 @@
   <#list topics as topic>
     <tr>
       <td>
-        <a href="/topic/${topic.id!}" target="_blank">${topic.lightTitle(q, topic.title)!}</a>
+        <a href="/topic/${topic.id!}" target="_blank" style="font-size: 16px;">${topic.title!}</a>
       </td>
     </tr>
     <tr>
-      <td>
-      ${topic.subContent(q, topic.content)!}
+      <td class="search-result">
+        ${model.marked(topic.content)}
       </td>
     </tr>
   </#list>

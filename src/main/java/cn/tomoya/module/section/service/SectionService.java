@@ -1,14 +1,13 @@
 package cn.tomoya.module.section.service;
 
-import java.util.List;
-
+import cn.tomoya.module.section.dao.SectionDao;
+import cn.tomoya.module.section.entity.Section;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.tomoya.module.section.dao.SectionDao;
-import cn.tomoya.module.section.entity.Section;
+import java.util.List;
 
 /**
  * Created by tomoya.

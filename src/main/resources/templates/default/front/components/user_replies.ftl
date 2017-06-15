@@ -11,7 +11,7 @@
         <#list page.getContent() as reply>
           <tr>
             <td>
-            ${reply.formatDate(reply.inTime)!}
+            ${model.formatDate(reply.inTime)!}
               回复了
               <a href="/user/${reply.user.username}">${reply.user.username}</a>
               创建的话题 › <a href="/topic/${reply.topic.id}">${reply.topic.title}</a>
@@ -19,7 +19,7 @@
           </tr>
           <tr class="user_replies">
             <td>
-            ${reply.marked(reply.content!)}
+            ${model.marked(reply.content!)}
             </td>
           </tr>
         </#list>

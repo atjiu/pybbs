@@ -25,7 +25,7 @@
               <span class="hidden-sm hidden-xs">•</span>
               <span class="hidden-sm hidden-xs">${collect.topic.view!0}次浏览</span>
               <span>•</span>
-              <span>${collect.formatDate(collect.topic.inTime)}</span>
+              <span>${model.formatDate(collect.topic.inTime)}</span>
             </p>
           </div>
         </div>

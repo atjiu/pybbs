@@ -103,7 +103,7 @@ public class BaseController {
 
   protected String getUsername() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ((org.springframework.security.core.userdetails.User)authentication.getPrincipal()).getUsername();
+    return ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
   }
 
 }

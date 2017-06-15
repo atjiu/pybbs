@@ -52,7 +52,7 @@
                   <span class="hidden-sm hidden-xs">•</span>
                   <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
                   <span>•</span>
-                  <span>${topic.formatDate(topic.inTime)}</span>
+                  <span>${model.formatDate(topic.inTime)}</span>
                 </p>
               </div>
             </div>

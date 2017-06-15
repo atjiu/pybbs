@@ -1,7 +1,8 @@
 package cn.tomoya.module.section.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
+import cn.tomoya.config.base.BaseController;
+import cn.tomoya.module.section.entity.Section;
+import cn.tomoya.module.section.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import cn.tomoya.config.base.BaseController;
-import cn.tomoya.module.section.entity.Section;
-import cn.tomoya.module.section.service.SectionService;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by tomoya.

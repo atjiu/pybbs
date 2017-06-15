@@ -1,14 +1,7 @@
 package cn.tomoya.module.section.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import cn.tomoya.config.base.BaseEntity;
 
 /**
  * Created by tomoya.
@@ -17,7 +10,7 @@ import cn.tomoya.config.base.BaseEntity;
  */
 @Entity
 @Table(name = "pybbs_section")
-public class Section extends BaseEntity implements Serializable {
+public class Section implements Serializable {
 
   @Id
   @GeneratedValue

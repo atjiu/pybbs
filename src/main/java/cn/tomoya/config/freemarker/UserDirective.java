@@ -26,11 +26,11 @@ public class UserDirective implements TemplateDirectiveModel {
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     String username;
-    if(map.containsKey("username") && !StringUtils.isEmpty(map.get("username").toString())) {
+    if (map.containsKey("username") && !StringUtils.isEmpty(map.get("username").toString())) {
       username = map.get("username").toString();
     } else {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      username = ((User)authentication.getPrincipal()).getUsername();
+      username = ((User) authentication.getPrincipal()).getUsername();
     }
 
     cn.tomoya.module.user.entity.User user = userService.findByUsername(username);

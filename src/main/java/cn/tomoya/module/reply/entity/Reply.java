@@ -1,6 +1,5 @@
 package cn.tomoya.module.reply.entity;
 
-import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
@@ -17,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "pybbs_reply")
-public class Reply extends BaseEntity implements Serializable {
+public class Reply implements Serializable {
 
   @Id
   @GeneratedValue

@@ -83,7 +83,7 @@ public class TopicController extends BaseController {
     } else if (sectionService.findByName(tab) == null) {
       errors = "版块不存在";
     } else {
-      if(topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
+      if (topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
 
       User user = getUser();
       Topic topic = new Topic();
@@ -135,7 +135,7 @@ public class TopicController extends BaseController {
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
-    
+
     if (topic.getUser().getId() != user.getId())
       throw new Exception("非法操作");
 

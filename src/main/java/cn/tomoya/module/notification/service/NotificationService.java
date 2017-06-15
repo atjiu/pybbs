@@ -5,7 +5,6 @@ import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.notification.dao.NotificationDao;
 import cn.tomoya.module.notification.entity.Notification;
 import cn.tomoya.module.notification.entity.NotificationEnum;
-import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;

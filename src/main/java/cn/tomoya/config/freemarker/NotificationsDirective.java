@@ -33,7 +33,7 @@ public class NotificationsDirective implements TemplateDirectiveModel {
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String username = ((org.springframework.security.core.userdetails.User)authentication.getPrincipal()).getUsername();
+    String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
     User user = userService.findByUsername(username);
 
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());

@@ -1,8 +1,9 @@
 package cn.tomoya.module.security.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.tomoya.module.security.entity.Permission;
+import cn.tomoya.module.security.service.PermissionService;
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import cn.tomoya.module.security.entity.Permission;
-import cn.tomoya.module.security.service.PermissionService;
-import cn.tomoya.module.user.entity.User;
-import cn.tomoya.module.user.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MyUserDetailService implements UserDetailsService {

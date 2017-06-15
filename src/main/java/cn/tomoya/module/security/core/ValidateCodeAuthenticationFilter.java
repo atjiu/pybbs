@@ -1,12 +1,8 @@
 package cn.tomoya.module.security.core;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.tomoya.config.yml.SiteConfig;
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,9 +15,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import cn.tomoya.config.yml.SiteConfig;
-import cn.tomoya.module.user.entity.User;
-import cn.tomoya.module.user.service.UserService;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
+import java.util.Date;
 
 @Component
 public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

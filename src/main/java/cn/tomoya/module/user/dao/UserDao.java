@@ -7,9 +7,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
-import java.util.List;
-
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.

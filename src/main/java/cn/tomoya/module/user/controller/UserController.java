@@ -182,6 +182,7 @@ public class UserController extends BaseController {
 
   /**
    * user upload file list
+   *
    * @param model
    * @return
    */
@@ -191,7 +192,7 @@ public class UserController extends BaseController {
     String userUploadPath = getUsername() + "/";
     List list = new ArrayList();
     File file = new File(siteConfig.getUploadPath() + userUploadPath);
-    if(file.exists()) {
+    if (file.exists()) {
       for (File f : file.listFiles()) {
         Map map = new HashMap();
         if (f.isDirectory() && f.listFiles().length > 0) {
@@ -211,13 +212,14 @@ public class UserController extends BaseController {
       }
     }
     model.addAttribute("user", getUser());
-    model.addAttribute("count", (double)count/1000000);
+    model.addAttribute("count", (double) count / 1000000);
     model.addAttribute("list", list);
     return render("/front/user/setting/space");
   }
 
   /**
    * delete user upload file
+   *
    * @param dirName
    * @param fileName
    * @return
@@ -227,8 +229,8 @@ public class UserController extends BaseController {
   public Result deleteFile(String dirName, String fileName) {
     String userUploadPath = getUsername() + "/";
     File file = new File(siteConfig.getUploadPath() + userUploadPath + dirName + "/" + fileName);
-    if(file.exists()) {
-      if(file.delete()) return Result.success();
+    if (file.exists()) {
+      if (file.delete()) return Result.success();
       else return Result.error("删除失败");
     } else {
       return Result.error("文件不存在");

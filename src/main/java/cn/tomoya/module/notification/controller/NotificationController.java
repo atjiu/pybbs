@@ -1,7 +1,6 @@
 package cn.tomoya.module.notification.controller;
 
 import cn.tomoya.config.base.BaseController;
-import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.ErrorCode;
 import cn.tomoya.exception.Result;

@@ -21,7 +21,7 @@
               <#if currentUser.url??>
                 <div>主页: <a href="${currentUser.url!}" target="_blank">${currentUser.url!}</a></div>
               </#if>
-              <div>入驻时间: ${currentUser.formatDate(currentUser.inTime)}</div>
+              <div>入驻时间: ${model.formatDate(currentUser.inTime)}</div>
             </div>
           </div>
         </div>

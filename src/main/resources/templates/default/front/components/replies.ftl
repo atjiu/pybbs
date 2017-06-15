@@ -8,17 +8,17 @@
       <div class="media-body reply-content">
         <div class="media-heading gray">
           <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
-        ${reply.formatDate(reply.inTime)}
+        ${model.formatDate(reply.inTime)}
           <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">
-              <#if reply.isUp(user.id, reply.upIds) == true>
+              <#if model.isUp(user.id, reply.upIds) == true>
                 <span class="glyphicon glyphicon-thumbs-up up-down-enable"
                       onclick="replyUp(this, '${reply.id}')"></span>
               <#else>
                 <span class="glyphicon glyphicon-thumbs-up up-down-disable"
                       onclick="replyUp(this, '${reply.id}')"></span>
               </#if>
-              <#if reply.isDown(user.id, reply.downIds) == true>
+              <#if model.isDown(user.id, reply.downIds) == true>
                 <span class="glyphicon glyphicon-thumbs-down up-down-enable"
                       onclick="replyDown(this, '${reply.id}')"></span>
               <#else>
@@ -38,7 +38,7 @@
             </span>
           </#if>
         </div>
-      ${reply.marked(reply.content)}
+      ${model.marked(reply.content)}
       </div>
     </div>
       <#if reply_has_next>

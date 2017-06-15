@@ -1,26 +1,15 @@
 package cn.tomoya.module.user.entity;
 
+import cn.tomoya.module.security.entity.Role;
+import cn.tomoya.util.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import cn.tomoya.config.base.BaseEntity;
-import cn.tomoya.module.security.entity.Role;
-import cn.tomoya.util.Constants;
 
 /**
  * Created by tomoya.
@@ -29,7 +18,7 @@ import cn.tomoya.util.Constants;
  */
 @Entity
 @Table(name = "pybbs_user")
-public class User extends BaseEntity implements Serializable {
+public class User implements Serializable {
 
   @Id
   @GeneratedValue

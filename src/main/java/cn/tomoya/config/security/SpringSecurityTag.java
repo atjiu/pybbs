@@ -1,22 +1,20 @@
 package cn.tomoya.config.security;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import cn.tomoya.module.user.entity.User;
-import cn.tomoya.module.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class SpringSecurityTag {
 
   /**
    * Get user lock statuc
+   *
    * @return
    */
   public static boolean isLock() {

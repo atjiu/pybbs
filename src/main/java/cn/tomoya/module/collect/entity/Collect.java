@@ -1,6 +1,5 @@
 package cn.tomoya.module.collect.entity;
 
-import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
@@ -17,7 +16,7 @@ import java.util.Date;
  */
 @Table(name = "pybbs_collect")
 @Entity
-public class Collect extends BaseEntity implements Serializable {
+public class Collect implements Serializable {
 
   @Id
   @GeneratedValue
