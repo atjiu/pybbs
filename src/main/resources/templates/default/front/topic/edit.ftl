@@ -7,7 +7,7 @@
         <a href="/">主页</a> / 话题编辑
       </div>
       <div class="panel-body">
-        <form method="post" action="/topic/${topic.id}/edit" id="topicForm">
+        <form method="post" action="/topic/${topic.id}/edit" id="editorForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="title">标题</label>

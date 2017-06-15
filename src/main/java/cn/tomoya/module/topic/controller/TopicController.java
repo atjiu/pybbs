@@ -103,6 +103,8 @@ public class TopicController extends BaseController {
       userService.save(user);
       return redirect(response, "/topic/" + topic.getId());
     }
+    model.addAttribute("title", title);
+    model.addAttribute("content", content);
     model.addAttribute("errors", errors);
     return render("/front/topic/create");
   }
@@ -145,6 +147,7 @@ public class TopicController extends BaseController {
     topic.setTab(tab);
     topic.setTitle(title);
     topic.setContent(content);
+    topic.setModifyTime(new Date());
     topicService.save(topic);
     return redirect(response, "/topic/" + topic.getId());
   }

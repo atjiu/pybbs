@@ -242,6 +242,13 @@
   $(".upload-area").bind('dragleave', function (e) {
     e.preventDefault();
     $(".upload-area").removeClass("upload-area-active");
-  })
+  });
+
+  contentE.keyup(function (e) {
+    console.log(e.keyCode);
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) {
+      $("#editorForm").submit();
+    }
+  });
 
 })(jQuery);

@@ -111,13 +111,12 @@
           </div>
           <div class="panel-body">
             <#if !sec.isLock()>
-              <form action="/reply/save" method="post" id="replyForm">
+              <form action="/reply/save" method="post" id="editorForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" value="${topic.id}" name="topicId"/>
                 <#include "../components/editor.ftl"/>
                 <@editor row=5 type="reply"/>
-                <button type="button" onclick="replySubmit()" class="btn btn-default">回复</button>
-                <span id="error_message"></span>
+                <button type="submit" class="btn btn-default">回复</button>
               </form>
             <#else>
               <div class="text-center">你的帐户被禁用了，不能回复</div>
@@ -149,22 +148,4 @@
 
   </div>
 </div>
-  <#if sec.isAuthenticated() && !sec.isLock()>
-  <script>
-    function replySubmit() {
-      var errors = 0;
-      var em = $("#error_message");
-      var content = $("#content").val();
-      if (content.length === 0) {
-        errors++;
-        em.html("回复内容不能为空");
-      }
-      if (errors === 0) {
-        $("#content").val(content);
-        var form = $("#replyForm");
-        form.submit();
-      }
-    }
-  </script>
-  </#if>
 </@html>

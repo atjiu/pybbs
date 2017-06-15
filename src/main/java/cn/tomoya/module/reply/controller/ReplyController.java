@@ -15,6 +15,7 @@ import cn.tomoya.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ public class ReplyController extends BaseController {
   @PostMapping("/save")
   public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
     if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+    if(StringUtils.isEmpty(content)) throw new Exception("回复内容不能为空");
 
     if (topicId != null) {
       Topic topic = topicService.findById(topicId);

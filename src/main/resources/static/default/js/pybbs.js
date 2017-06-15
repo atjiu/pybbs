@@ -6,26 +6,7 @@ $(function () {
     });
   });
 });
-function publishTopic() {
-  var em = $("#error_message");
-  var errors = 0;
-  var title = $("#title").val();
 
-  if (title.length === 0) {
-    errors++;
-    em.html("标题不能为空");
-  }
-
-  if (title.length > 120) {
-    errors++;
-    em.html("标题不能超过120个字符")
-  }
-
-  if (errors === 0) {
-    var form = $("#topicForm");
-    form.submit();
-  }
-}
 function updateUserProfile() {
   var errors = 0;
   var em = $("#error_message");

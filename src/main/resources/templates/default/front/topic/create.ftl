@@ -7,11 +7,11 @@
         <a href="/">主页</a> / 发布话题
       </div>
       <div class="panel-body">
-        <form method="post" action="/topic/save" id="topicForm">
+        <form method="post" action="/topic/save" id="editorForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="title">标题</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="标题">
+            <input type="text" class="form-control" id="title" name="title" value="${title!}" placeholder="标题">
           </div>
           <#include "../components/editor.ftl"/>
           <@editor/>

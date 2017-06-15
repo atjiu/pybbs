@@ -47,12 +47,12 @@ public class ReplyApiController extends BaseController {
     if (topicId == null)
       throw new ApiException("话题ID不能为空");
 
+    if (StringUtils.isEmpty(content))
+      throw new ApiException("回复内容不能为空");
+
     Topic topic = topicService.findById(topicId);
     if (topic == null)
       throw new ApiException("话题不存在");
-
-    if (StringUtils.isEmpty(content))
-      throw new ApiException("回复内容不能为空");
 
     Reply reply = new Reply();
     reply.setUser(user);
