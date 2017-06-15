@@ -44,3 +44,7 @@ site:
   attemptsWaitTime: 15
   maxCreateTopic: 10
   userUploadSpaceSize: 50 # 单位MB
+  cookie:
+    domain: localhost
+    attendanceMaxAge: 86400
+    attendanceName: attendance

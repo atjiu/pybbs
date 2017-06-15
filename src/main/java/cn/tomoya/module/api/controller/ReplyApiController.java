@@ -44,6 +44,8 @@ public class ReplyApiController extends BaseController {
     if (user.isBlock())
       throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
 
+    if(user.getScore() < 5) throw new ApiException("你的积分不足，不能评论");
+
     if (topicId == null)
       throw new ApiException("话题ID不能为空");
 
@@ -63,8 +65,8 @@ public class ReplyApiController extends BaseController {
 
     replyService.save(reply);
 
-    // plus 5 score
-    user.setScore(user.getScore() + 5);
+    // update score
+    user.setScore(user.getScore() - 5);
     userService.save(user);
 
     // 回复+1

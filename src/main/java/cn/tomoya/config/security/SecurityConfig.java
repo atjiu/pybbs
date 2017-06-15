@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers(
             "/upload",
+            "/attendance",
             "/admin/**",
             "/topic/create",
             "/topic/*/delete",

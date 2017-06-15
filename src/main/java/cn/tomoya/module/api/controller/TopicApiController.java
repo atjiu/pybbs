@@ -85,6 +85,8 @@ public class TopicApiController extends BaseController {
     if (user.isBlock())
       throw new ApiException("你的帐户已经被禁用了，不能进行此项操作");
 
+    if(user.getScore() < 10) throw new ApiException("你的积分不足，不能发布话题");
+
     String now = DateUtil.formatDate(new Date());
     Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
     Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
@@ -113,7 +115,7 @@ public class TopicApiController extends BaseController {
     topicService.save(topic);
 
     // plus 5 score
-    user.setScore(user.getScore() + 5);
+    user.setScore(user.getScore() - 10);
     userService.save(user);
 
     return Result.success(topic);

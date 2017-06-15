@@ -73,9 +73,9 @@
       <#include "./components/user_info.ftl"/>
       <@user_info/>
 
-    <#--create topic btn-->
-      <#include "components/create_topic.ftl"/>
-      <@create_topic/>
+    <#--attendance btn-->
+      <#include "components/attendance.ftl"/>
+      <@attendance />
     <#else>
       <#include "./components/welcome.ftl"/>
       <@welcome/>

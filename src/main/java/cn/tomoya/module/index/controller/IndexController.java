@@ -4,13 +4,15 @@ import cn.tomoya.config.base.BaseController;
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
+import cn.tomoya.module.attendance.entity.Attendance;
+import cn.tomoya.module.attendance.service.AttendanceService;
 import cn.tomoya.module.code.entity.CodeEnum;
 import cn.tomoya.module.code.service.CodeService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicSearch;
-import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
+import cn.tomoya.util.DateUtil;
 import cn.tomoya.util.FileUploadEnum;
 import cn.tomoya.util.FileUtil;
 import cn.tomoya.util.StrUtil;
@@ -31,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,8 +56,6 @@ public class IndexController extends BaseController {
   private Logger log = LoggerFactory.getLogger(IndexController.class);
 
   @Autowired
-  private TopicService topicService;
-  @Autowired
   private TopicSearch topicSearch;
   @Autowired
   private UserService userService;
@@ -70,6 +71,8 @@ public class IndexController extends BaseController {
   private CodeService codeService;
   @Autowired
   private Environment env;
+  @Autowired
+  private AttendanceService attendanceService;
 
   /**
    * 首页
@@ -117,8 +120,63 @@ public class IndexController extends BaseController {
   }
 
   /**
-   * 上传
+   * Daily attendance
    *
+   * @param request
+   * @return
+   */
+  @GetMapping("/attendance")
+  @ResponseBody
+  public Result attendance(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+    String attendanceValue = StrUtil.getCookie(request, siteConfig.getCookie().getAttendanceName());
+
+    Random random = new Random();
+    Date now = new Date();
+
+    User user = getUser();
+    Date date1 = DateUtil.string2Date(
+        DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE) + " 00:00:00",
+        DateUtil.FORMAT_DATETIME
+    );
+    Date date2 = DateUtil.string2Date(
+        DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE) + " 23:59:59",
+        DateUtil.FORMAT_DATETIME
+    );
+
+    if (StringUtils.isEmpty(attendanceValue) || !"1".equals(attendanceValue)) {
+      Attendance attendance = attendanceService.findByUserAndInTime(user, date1, date2);
+      if (attendance == null) {
+        int score = random.nextInt(51) + 1; // random score in 1 - 50
+        // save attendance record
+        attendance = new Attendance();
+        attendance.setInTime(now);
+        attendance.setScore(score);
+        attendance.setUser(user);
+        attendanceService.save(attendance);
+
+        // update user score
+        user.setScore(user.getScore() + score);
+        userService.save(user);
+
+        // write remark to cookie
+        int maxAge = (int) ((date2.getTime() - now.getTime()) / 1000); // seconds
+        StrUtil.setCookie(
+            response,
+            siteConfig.getCookie().getAttendanceName(), // name
+            "1", // value
+            maxAge, // maxAge
+            true, // httpOnly
+            siteConfig.getCookie().getDomain(), // domain
+            "/" // path
+        );
+        return Result.success(score);
+      }
+    }
+    throw new ApiException("你今天已经签到过了");
+  }
+
+  /**
+   * upload file
    * @param file
    * @return
    */
@@ -210,6 +268,7 @@ public class IndexController extends BaseController {
     user.setToken(UUID.randomUUID().toString());
     user.setAvatar(avatarUrl);
     user.setAttempts(0);
+    user.setScore(2000);// first register score 2000
     user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
     userService.save(user);
     return Result.success();

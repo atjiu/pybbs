@@ -22,6 +22,7 @@ public class SiteConfig {
   private long attemptsWaitTime;
   private int maxCreateTopic;
   private long userUploadSpaceSize;
+  private CookieConfig cookie;
 
   public String getName() {
     return name;
@@ -117,5 +118,13 @@ public class SiteConfig {
 
   public void setUserUploadSpaceSize(long userUploadSpaceSize) {
     this.userUploadSpaceSize = userUploadSpaceSize;
+  }
+
+  public CookieConfig getCookie() {
+    return cookie;
+  }
+
+  public void setCookie(CookieConfig cookie) {
+    this.cookie = cookie;
   }
 }

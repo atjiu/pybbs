@@ -79,8 +79,6 @@ public class UserService {
     User user = findById(id);
     user.setBlock(true);
 
-    // reset score
-    user.setScore(0);
     save(user);
   }
 

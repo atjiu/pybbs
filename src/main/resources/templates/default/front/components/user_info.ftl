@@ -2,7 +2,7 @@
   <@user_tag username=username>
   <div class="panel panel-default">
     <div class="panel-heading">
-      ${text}
+    ${text}
     </div>
     <div class="panel-body">
       <div class="media">
@@ -21,6 +21,10 @@
           <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
             <i>“ ${user.signature!} ” </i>
           </div>
+        </#if>
+        <#if text=="个人信息">
+          <div class="mar-bot-10"></div>
+          <a href="/topic/create" style="text-decoration: underline"><span class="glyphicon glyphicon-pencil"></span><i>发布话题</i></a>
         </#if>
       </div>
     </div>

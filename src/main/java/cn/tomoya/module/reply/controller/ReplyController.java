@@ -50,13 +50,14 @@ public class ReplyController extends BaseController {
    */
   @PostMapping("/save")
   public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
-    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+    User user = getUser();
+    if (user.isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+    if (user.getScore() < 5) throw new Exception("你的积分不足，不能评论");
     if(StringUtils.isEmpty(content)) throw new Exception("回复内容不能为空");
 
     if (topicId != null) {
       Topic topic = topicService.findById(topicId);
       if (topic != null) {
-        User user = getUser();
         Reply reply = new Reply();
         reply.setUser(user);
         reply.setTopic(topic);
@@ -64,10 +65,6 @@ public class ReplyController extends BaseController {
         reply.setUp(0);
         reply.setContent(content);
         replyService.save(reply);
-
-        // plus 5 score
-        user.setScore(user.getScore() + 5);
-        userService.save(user);
 
         //回复+1
         topic.setReplyCount(topic.getReplyCount() + 1);
@@ -143,10 +140,6 @@ public class ReplyController extends BaseController {
     if (id != null) {
       User user = getUser();
       Map map = replyService.delete(id, user);
-
-      // reduce 5 score
-      user.setScore(user.getScore() - 5);
-      userService.save(user);
 
       return redirect(response, "/topic/" + map.get("topicId"));
     }

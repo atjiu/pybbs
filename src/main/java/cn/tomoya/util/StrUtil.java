@@ -2,6 +2,9 @@ package cn.tomoya.util;
 
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -73,6 +76,39 @@ public class StrUtil {
         return false;
       }
     }
+  }
+
+  /**
+   * Get cookie value from request
+   * @param request
+   * @param name
+   * @return
+   */
+  public static String getCookie(HttpServletRequest request, String name) {
+    Cookie[] cookies = request.getCookies();
+    for(Cookie cookie: cookies) {
+      if(cookie.getName().equals(name)) {
+        return cookie.getValue();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Set cookie
+   * @param response
+   * @param name
+   * @param value
+   * @param params maxAge, httpOnly, domain, path
+   */
+  public static void setCookie(HttpServletResponse response, String name, String value, Object... params) {
+    Cookie cookie = new Cookie(name, value);
+    if(params.length == 1) cookie.setMaxAge((Integer) params[0]); //seconds
+    if(params.length == 2) cookie.setHttpOnly((Boolean) params[1]);
+    if(params.length == 3) cookie.setDomain((String) params[2]);
+    if(params.length == 4) cookie.setPath((String) params[3]);
+    if(params.length == 5) cookie.setSecure((Boolean) params[4]);
+    response.addCookie(cookie);
   }
 
 }

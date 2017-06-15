@@ -48,7 +48,11 @@ public class TopicController extends BaseController {
    */
   @GetMapping("/create")
   public String create() throws Exception {
-    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+    User user = getUser();
+
+    if (user.isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+
+    if (user.getScore() < 10) throw new Exception("你的积分不足，不能发布话题");
 
     String now = DateUtil.formatDate(new Date());
     Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
@@ -69,7 +73,11 @@ public class TopicController extends BaseController {
    */
   @PostMapping("/save")
   public String save(String tab, String title, String content, Model model, HttpServletResponse response) throws Exception {
-    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+    User user = getUser();
+
+    if (user.isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
+
+    if (user.getScore() < 10) throw new Exception("你的积分不足，不能发布话题");
 
     String now = DateUtil.formatDate(new Date());
     Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
@@ -85,7 +93,6 @@ public class TopicController extends BaseController {
     } else {
       if (topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
 
-      User user = getUser();
       Topic topic = new Topic();
       topic.setTab(tab);
       topic.setTitle(title);
@@ -98,9 +105,10 @@ public class TopicController extends BaseController {
       topic.setLock(false);
       topicService.save(topic);
 
-      // plus 5 score
-      user.setScore(user.getScore() + 5);
+      // update score
+      user.setScore(user.getScore() - 10);
       userService.save(user);
+
       return redirect(response, "/topic/" + topic.getId());
     }
     model.addAttribute("title", title);
@@ -186,11 +194,6 @@ public class TopicController extends BaseController {
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Integer id, HttpServletResponse response) {
     topicService.deleteById(id);
-
-    // reduce 5 score
-    User user = getUser();
-    user.setScore(user.getScore() - 5);
-    userService.save(user);
 
     return redirect(response, "/");
   }

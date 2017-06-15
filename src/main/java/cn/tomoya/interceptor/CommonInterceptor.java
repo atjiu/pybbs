@@ -1,8 +1,13 @@
 package cn.tomoya.interceptor;
 
+import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.util.IpUtil;
-import org.apache.log4j.Logger;
+import cn.tomoya.util.StrUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +24,10 @@ import java.util.Map;
 @Component
 public class CommonInterceptor implements HandlerInterceptor {
 
-  private Logger log = Logger.getLogger(CommonInterceptor.class);
+  private Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
+
+  @Autowired
+  private SiteConfig siteConfig;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -31,6 +39,9 @@ public class CommonInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                          ModelAndView modelAndView) throws Exception {
+    String attendanceValue = StrUtil.getCookie(request, siteConfig.getCookie().getAttendanceName());
+    if(StringUtils.isEmpty(attendanceValue)) attendanceValue = "-1";
+    request.setAttribute("_attendance", attendanceValue);// send attendance value to page
   }
 
   @Override
