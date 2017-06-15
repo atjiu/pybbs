@@ -5,6 +5,8 @@ import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -18,6 +20,7 @@ import java.util.Date;
  * http://tomoya.cn
  */
 @Indexed
+@Analyzer(impl = SmartChineseAnalyzer.class)
 @Entity
 @Table(name = "pybbs_topic")
 public class Topic extends BaseEntity implements Serializable {

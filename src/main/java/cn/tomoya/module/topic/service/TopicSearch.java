@@ -3,6 +3,10 @@ package cn.tomoya.module.topic.service;
 import cn.tomoya.module.topic.entity.Topic;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,7 +25,7 @@ public class TopicSearch {
   @PersistenceContext
   private EntityManager entityManager;
 
-  public List search(String text) {
+  public Page search(int p, int size, String text) {
 
     // get the full text entity manager
     FullTextEntityManager fullTextEntityManager =
@@ -46,10 +50,11 @@ public class TopicSearch {
         fullTextEntityManager.createFullTextQuery(query, Topic.class);
 
     // execute search and return results (sorted by relevance as default)
-    @SuppressWarnings("unchecked")
+    jpaQuery.setFirstResult((p - 1) * size);
+    jpaQuery.setMaxResults(size);
+    Pageable pageable = new PageRequest((p - 1) * size, size);
     List results = jpaQuery.getResultList();
-
-    return results;
+    return new PageImpl(results, pageable, jpaQuery.getResultSize());
   }
 
 }

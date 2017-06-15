@@ -7,6 +7,7 @@ import cn.tomoya.exception.Result;
 import cn.tomoya.module.code.entity.CodeEnum;
 import cn.tomoya.module.code.service.CodeService;
 import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.topic.service.TopicSearch;
 import cn.tomoya.module.topic.service.TopicService;
 import cn.tomoya.module.user.entity.User;
 import cn.tomoya.module.user.service.UserService;
@@ -53,6 +54,8 @@ public class IndexController extends BaseController {
 
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private TopicSearch topicSearch;
   @Autowired
   private UserService userService;
   @Autowired
@@ -107,7 +110,7 @@ public class IndexController extends BaseController {
    */
   @GetMapping("/search")
   public String search(Integer p, String q, Model model) {
-    Page<Topic> page = topicService.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
+    Page<Topic> page = topicSearch.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
     model.addAttribute("page", page);
     model.addAttribute("q", q);
     return render("/front/search");
