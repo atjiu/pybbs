@@ -79,6 +79,8 @@ public class TopicService {
   public Page<Topic> page(int p, int size, String tab) {
     Sort sort = new Sort(
         new Sort.Order(Sort.Direction.DESC, "top"),
+        new Sort.Order(Sort.Direction.DESC, "lastReplyTime"),
+        new Sort.Order(Sort.Direction.DESC, "modifyTime"),
         new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     if (tab.equals("全部")) {
@@ -150,6 +152,7 @@ public class TopicService {
 
   /**
    * search topic count between date1 and date2
+   *
    * @param date1
    * @param date2
    * @return
@@ -160,6 +163,7 @@ public class TopicService {
 
   /**
    * search by title to prevent title repeat
+   *
    * @param title
    * @return
    */

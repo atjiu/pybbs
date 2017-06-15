@@ -18,6 +18,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate.search.default.directory_provider: filesystem
+      hibernate.search.default.indexBase: ./indexes
   mvc:
     static-path-pattern: /static/**
   mail:

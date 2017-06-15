@@ -69,6 +69,7 @@ public class ReplyController extends BaseController {
 
         //回复+1
         topic.setReplyCount(topic.getReplyCount() + 1);
+        topic.setLastReplyTime(new Date());
         topicService.save(topic);
 
         //给话题作者发送通知

@@ -109,6 +109,18 @@
       <artifactId>jsoup</artifactId>
       <version>1.9.2</version>
     </dependency>
+
+    <!--hibernate search orm-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-search-orm</artifactId>
+      <version>5.6.0.Final</version>
+    </dependency>
+    <!--hibernate search dependency-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

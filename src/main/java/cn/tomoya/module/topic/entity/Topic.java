@@ -5,6 +5,8 @@ import cn.tomoya.module.user.entity.User;
 import cn.tomoya.util.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.Date;
  * Copyright (c) 2016, All Rights Reserved.
  * http://tomoya.cn
  */
+@Indexed
 @Entity
 @Table(name = "pybbs_topic")
 public class Topic extends BaseEntity implements Serializable {
@@ -28,21 +31,30 @@ public class Topic extends BaseEntity implements Serializable {
   private String tab;
 
   //标题
+  @Field
   @Column(unique = true, nullable = false)
   private String title;
 
+  @Field
   //内容
   @Column(columnDefinition = "text")
   private String content;
 
   //发布时间
+  @Field
   @Column(nullable = false)
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
   private Date inTime;
 
   //修改时间
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
+  @Column(name = "modify_time")
   private Date modifyTime;
+
+  // last reply date
+  @JsonFormat(pattern = Constants.DATETIME_FORMAT)
+  @Column(name = "last_reply_time")
+  private Date lastReplyTime;
 
   //是否置顶
   private boolean top;
@@ -118,6 +130,14 @@ public class Topic extends BaseEntity implements Serializable {
 
   public void setModifyTime(Date modifyTime) {
     this.modifyTime = modifyTime;
+  }
+
+  public Date getLastReplyTime() {
+    return lastReplyTime;
+  }
+
+  public void setLastReplyTime(Date lastReplyTime) {
+    this.lastReplyTime = lastReplyTime;
   }
 
   public boolean isTop() {

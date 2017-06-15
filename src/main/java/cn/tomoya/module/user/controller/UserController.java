@@ -189,23 +189,25 @@ public class UserController extends BaseController {
   public String space(Model model) {
     long count = 0;
     String userUploadPath = getUsername() + "/";
-    File file = new File(siteConfig.getUploadPath() + userUploadPath);
     List list = new ArrayList();
-    for(File f: file.listFiles()) {
-      Map map = new HashMap();
-      if(f.isDirectory() && f.listFiles().length > 0) {
-        String dirName = f.getName();
-        List fileList = new ArrayList();
-        for(File f1 : f.listFiles()) {
-          count += f1.length();
-          Map m = new HashMap();
-          m.put("fileName", f1.getName());
-          m.put("fileUrl", siteConfig.getStaticUrl() + userUploadPath + dirName + "/" + f1.getName());
-          fileList.add(m);
+    File file = new File(siteConfig.getUploadPath() + userUploadPath);
+    if(file.exists()) {
+      for (File f : file.listFiles()) {
+        Map map = new HashMap();
+        if (f.isDirectory() && f.listFiles().length > 0) {
+          String dirName = f.getName();
+          List fileList = new ArrayList();
+          for (File f1 : f.listFiles()) {
+            count += f1.length();
+            Map m = new HashMap();
+            m.put("fileName", f1.getName());
+            m.put("fileUrl", siteConfig.getStaticUrl() + userUploadPath + dirName + "/" + f1.getName());
+            fileList.add(m);
+          }
+          map.put("dirName", dirName);
+          map.put("fileList", fileList);
+          list.add(map);
         }
-        map.put("dirName", dirName);
-        map.put("fileList", fileList);
-        list.add(map);
       }
     }
     model.addAttribute("user", getUser());
