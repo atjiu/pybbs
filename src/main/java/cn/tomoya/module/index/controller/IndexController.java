@@ -159,24 +159,31 @@ public class IndexController extends BaseController {
         userService.save(user);
 
         // write remark to cookie
-        int maxAge = (int) ((date2.getTime() - now.getTime()) / 1000); // seconds
-        StrUtil.setCookie(
-            response,
-            siteConfig.getCookie().getAttendanceName(), // name
-            "1", // value
-            maxAge, // maxAge
-            true, // httpOnly
-            siteConfig.getCookie().getDomain(), // domain
-            "/" // path
-        );
+        writeAttendanceCookie(response, now, date2);
+
         return Result.success(score);
       }
     }
-    throw new ApiException("你今天已经签到过了");
+    writeAttendanceCookie(response, now, date2);
+    return Result.error("你今天已经签到过了");
+  }
+
+  private void writeAttendanceCookie(HttpServletResponse response, Date date1, Date date2) {
+    int maxAge = Math.abs((int) ((date2.getTime() - date1.getTime()) / 1000)); // second
+    StrUtil.setCookie(
+        response,
+        siteConfig.getCookie().getAttendanceName(), // name
+        "1", // value
+        maxAge, // maxAge
+        true, // httpOnly
+        siteConfig.getCookie().getDomain(), // domain
+        "/" // path
+    );
   }
 
   /**
    * upload file
+   *
    * @param file
    * @return
    */

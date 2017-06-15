@@ -99,15 +99,15 @@ public class StrUtil {
    * @param response
    * @param name
    * @param value
-   * @param params maxAge, httpOnly, domain, path
+   * @param params maxAge, httpOnly, domain, path, secure
    */
   public static void setCookie(HttpServletResponse response, String name, String value, Object... params) {
     Cookie cookie = new Cookie(name, value);
-    if(params.length == 1) cookie.setMaxAge((Integer) params[0]); //seconds
-    if(params.length == 2) cookie.setHttpOnly((Boolean) params[1]);
-    if(params.length == 3) cookie.setDomain((String) params[2]);
-    if(params.length == 4) cookie.setPath((String) params[3]);
-    if(params.length == 5) cookie.setSecure((Boolean) params[4]);
+    if(params.length >= 1) cookie.setMaxAge((Integer) params[0]); //second
+    if(params.length >= 2) cookie.setHttpOnly((Boolean) params[1]);
+    if(params.length >= 3) cookie.setDomain((String) params[2]);
+    if(params.length >= 4) cookie.setPath((String) params[3]);
+    if(params.length >= 5) cookie.setSecure((Boolean) params[4]);
     response.addCookie(cookie);
   }
 

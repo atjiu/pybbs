@@ -1,6 +1,7 @@
 package cn.tomoya;
 
 import cn.tomoya.config.base.BaseEntity;
+import cn.tomoya.util.DateUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,17 @@ public class TestDemo {
         count += f.length();
     }
     System.out.println(count + "  " + 50 * 1024 * 1024);
+  }
+
+  @Test
+  public void test7() {
+    Date now = new Date();
+    Date date2 = DateUtil.string2Date(
+        DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE) + " 23:59:59",
+        DateUtil.FORMAT_DATETIME
+    );
+
+    System.out.println((date2.getTime() - now.getTime())/1000);//second
   }
 
 }
