@@ -3,7 +3,7 @@ package cn.tomoya.module.topic.controller;
 import cn.tomoya.config.base.BaseController;
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
-import cn.tomoya.module.node.service.LabelService;
+import cn.tomoya.module.label.service.LabelService;
 import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
@@ -150,7 +150,7 @@ public class TopicController extends BaseController {
    * @return
    */
   @PostMapping("/{id}/edit")
-  public String update(@PathVariable Integer id, String tab, String title, String content,
+  public String update(@PathVariable Integer id, String tab, String oldLabels, String labels, String title, String content,
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
@@ -160,6 +160,10 @@ public class TopicController extends BaseController {
 
     if (sectionService.findByName(tab) == null)
       throw new Exception("版块不存在");
+
+    // deal label
+    labelService.dealEditTopicOldlabels(oldLabels);
+    topic.setLabelId(labelService.dealLabels(labels));
 
     topic.setTab(tab);
     topic.setTitle(title);

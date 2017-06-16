@@ -10,7 +10,15 @@
   <div class="col-md-8">
     <div class="form-group">
       <label for="labels">&nbsp;</label>
-      <div id="labels"></div>
+      <div id="labels">
+        <#if topic.labelId??>
+          <@label_tag id=topic.labelId>
+            <#list list as label>
+              <span class='label label-primary'>${label.name} <span onclick='deleteLabel(this)'>x</span></span>
+            </#list>
+          </@label_tag>
+        </#if>
+      </div>
     </div>
   </div>
 </div>

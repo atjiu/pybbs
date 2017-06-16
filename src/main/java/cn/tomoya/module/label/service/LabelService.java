@@ -1,7 +1,7 @@
-package cn.tomoya.module.node.service;
+package cn.tomoya.module.label.service;
 
-import cn.tomoya.module.node.dao.LabelDao;
-import cn.tomoya.module.node.entity.Label;
+import cn.tomoya.module.label.dao.LabelDao;
+import cn.tomoya.module.label.entity.Label;
 import cn.tomoya.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +24,15 @@ public class LabelService {
 
   @Autowired
   private LabelDao labelDao;
+
+  /**
+   * query label by id
+   * @param id
+   * @return
+   */
+  public Label findById(int id) {
+    return labelDao.findOne(id);
+  }
 
   public void save(Label label) {
     labelDao.save(label);
@@ -90,5 +99,22 @@ public class LabelService {
       return labelId;
     }
     return null;
+  }
+
+  /**
+   * when update topic, first deal label's topicCount, then invoke method #dealLabels()
+   * @param labels
+   */
+  public void dealEditTopicOldlabels(String labels) {
+    if (!StringUtils.isEmpty(labels) && !labels.equals(",")) {
+      String[] labelStr = labels.split(",");
+      for(String s: labelStr) {
+        Label label = this.findById(Integer.parseInt(s));
+        if(label != null) {
+          label.setTopicCount(label.getTopicCount() - 1);
+          save(label);
+        }
+      }
+    }
   }
 }

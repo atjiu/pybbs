@@ -1,4 +1,4 @@
-package cn.tomoya.module.node.controller;
+package cn.tomoya.module.label.controller;
 
 import org.springframework.stereotype.Controller;
 

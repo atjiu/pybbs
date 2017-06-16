@@ -1,4 +1,4 @@
-package cn.tomoya.module.node.entity;
+package cn.tomoya.module.label.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class Label implements Serializable {
   @Column(unique = true)
   private String name;
 
-  // node introduction
+  // label introduction
   private String intro;
 
   @Column(name = "topic_count")

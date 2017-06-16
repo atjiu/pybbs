@@ -1,0 +1,7 @@
+[#ftl]
+[#-- @implicitly included --]
+[#-- @ftlvariable name="model" type="cn.tomoya.config.base.BaseEntity" --]
+[#-- @ftlvariable name="sec" type="cn.tomoya.config.security.SpringSecurityTag" --]
+[#-- @ftlvariable name="topic" type="cn.tomoya.module.topic.entity.Topic" --]
+[#-- @ftlvariable name="user" type="cn.tomoya.module.user.entity.User" --]
+[#-- @ftlvariable name="reply" type="cn.tomoya.module.reply.entity.Reply" --]

@@ -1,9 +1,8 @@
-package cn.tomoya.module.node.controller;
+package cn.tomoya.module.label.controller;
 
 import cn.tomoya.config.base.BaseController;
-import cn.tomoya.exception.Result;
-import cn.tomoya.module.node.entity.Label;
-import cn.tomoya.module.node.service.LabelService;
+import cn.tomoya.module.label.entity.Label;
+import cn.tomoya.module.label.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tomoya on 2017/6/16.
@@ -27,7 +25,7 @@ public class LabelController extends BaseController {
   private LabelService labelService;
 
   /**
-   * all node page
+   * all label page
    *
    * @param p
    * @param model

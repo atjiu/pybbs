@@ -12,6 +12,14 @@
       <a class="navbar-brand" style="color:#fff;" href="/">${site.name!}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
+      <ul class="nav navbar-nav">
+        <li <#if page_tab == "index">class="active"</#if>>
+          <a href="/">首页</a>
+        </li>
+        <li <#if page_tab == "label">class="active"</#if>>
+          <a href="/label/list">标签</a>
+        </li>
+      </ul>
       <#if site.search?? && site.search == true>
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
           <div class="form-group">

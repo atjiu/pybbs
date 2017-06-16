@@ -1,8 +1,6 @@
-package cn.tomoya.module.node.dao;
+package cn.tomoya.module.label.dao;
 
-import cn.tomoya.module.node.entity.Label;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
+import cn.tomoya.module.label.entity.Label;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

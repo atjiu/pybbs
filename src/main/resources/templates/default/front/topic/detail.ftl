@@ -74,6 +74,16 @@
         ${model.markedNotAt(topic.content)}
         </div>
       </#if>
+      <#if topic.labelId??>
+        <@label_tag id=topic.labelId>
+          <p style="padding: 0 15px;">
+            <span class="glyphicon glyphicon-tags"></span>&nbsp;
+            <#list list as label>
+              <span class="label label-success">${label.name}</span>
+            </#list>
+          </p>
+        </@label_tag>
+      </#if>
       <#if sec.isAuthenticated()>
         <div class="panel-footer">
           <a
@@ -131,7 +141,7 @@
     <#include "../components/user_info.ftl"/>
     <@user_info username=topic.user.username text="作者"/>
 
-    <#--author other topics-->
+  <#--author other topics-->
     <@other_topics_tag userId=topic.user.id>
       <div class="panel panel-default">
         <div class="panel-heading">作者其他话题</div>
