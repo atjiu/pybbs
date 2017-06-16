@@ -3,6 +3,7 @@ package cn.tomoya.module.topic.controller;
 import cn.tomoya.config.base.BaseController;
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.node.service.LabelService;
 import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
@@ -40,6 +41,8 @@ public class TopicController extends BaseController {
   private UserService userService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private LabelService labelService;
 
   /**
    * 创建话题
@@ -68,20 +71,22 @@ public class TopicController extends BaseController {
    *
    * @param title
    * @param content
+   * @param labels
    * @param model
    * @return
    */
   @PostMapping("/save")
-  public String save(String tab, String title, String content, Model model, HttpServletResponse response) throws Exception {
+  public String save(String tab, String title, String content, String labels, Model model, HttpServletResponse response) throws Exception {
     User user = getUser();
 
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
 
     if (user.getScore() < 10) throw new Exception("你的积分不足，不能发布话题");
 
-    String now = DateUtil.formatDate(new Date());
-    Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
-    Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
+    Date now = new Date();
+    String currentDateStr = DateUtil.formatDate(now);
+    Date date1 = DateUtil.string2Date(currentDateStr + " 00:00:00", DateUtil.FORMAT_DATETIME);
+    Date date2 = DateUtil.string2Date(currentDateStr + " 23:59:59", DateUtil.FORMAT_DATETIME);
     if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
       throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
 
@@ -94,6 +99,10 @@ public class TopicController extends BaseController {
       if (topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
 
       Topic topic = new Topic();
+
+      // deal label
+      topic.setLabelId(labelService.dealLabels(labels));
+
       topic.setTab(tab);
       topic.setTitle(title);
       topic.setContent(content);

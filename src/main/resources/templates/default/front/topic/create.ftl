@@ -9,21 +9,35 @@
       <div class="panel-body">
         <form method="post" action="/topic/save" id="editorForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-          <div class="form-group">
-            <label for="title">标题</label>
-            <input type="text" class="form-control" id="title" name="title" value="${title!}" placeholder="标题">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="title">标题</label>
+                <input type="text" class="form-control" id="title" name="title" value="${title!}" placeholder="标题">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="title">版块</label>
+                <select name="tab" id="tab" class="form-control">
+                  <#list sections as section>
+                    <option value="${section.name!}">${section.name!}</option>
+                  </#list>
+                </select>
+              </div>
+            </div>
           </div>
+          <#--editor component-->
           <#include "../components/editor.ftl"/>
           <@editor/>
-          <div class="form-group">
-            <label for="title">版块</label>
-            <select name="tab" id="tab" class="form-control">
-              <#list sections as section>
-                <option value="${section.name!}">${section.name!}</option>
-              </#list>
-            </select>
-          </div>
-          <button type="button" onclick="publishTopic();" class="btn btn-default">发布</button>
+
+          <#--label component-->
+          <#include "../components/label.ftl"/>
+          <@label/>
+
+          <button type="button" class="btn btn-default" onclick="$('#editorForm').submit()">
+            <span class="glyphicon glyphicon-send"></span> 发布
+          </button>
           <span id="error_message"></span>
         </form>
       </div>

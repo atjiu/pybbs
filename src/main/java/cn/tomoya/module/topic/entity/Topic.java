@@ -33,6 +33,9 @@ public class Topic implements Serializable {
   @Column(nullable = false)
   private String tab;
 
+  @Column(name = "label_id")
+  private String labelId;
+
   //标题
   @Field(store = Store.YES)
   @Column(unique = true, nullable = false)
@@ -101,6 +104,14 @@ public class Topic implements Serializable {
 
   public void setTab(String tab) {
     this.tab = tab;
+  }
+
+  public String getLabelId() {
+    return labelId;
+  }
+
+  public void setLabelId(String labelId) {
+    this.labelId = labelId;
   }
 
   public String getTitle() {

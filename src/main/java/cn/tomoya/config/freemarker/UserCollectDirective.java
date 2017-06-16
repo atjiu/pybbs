@@ -30,13 +30,14 @@ public class UserCollectDirective implements TemplateDirectiveModel {
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
+
     String username = map.get("username").toString();
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
 
     User currentUser = userService.findByUsername(username);
     Page<Collect> page = collectService.findByUser(p, siteConfig.getPageSize(), currentUser);
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));
     templateDirectiveBody.render(environment.getOut());

@@ -5,6 +5,8 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -111,6 +113,21 @@ public class StrUtil {
     if(params.length >= 4) cookie.setPath((String) params[3]);
     if(params.length >= 5) cookie.setSecure((Boolean) params[4]);
     response.addCookie(cookie);
+  }
+
+  /**
+   * remove duplicate
+   * @param strs
+   * @return
+   */
+  public static List<String> removeDuplicate(String[] strs) {
+    List<String> list = new ArrayList<>();
+    for(String s : strs) {
+      if(!list.contains(s)) {
+        list.add(s);
+      }
+    }
+    return list;
   }
 
 }

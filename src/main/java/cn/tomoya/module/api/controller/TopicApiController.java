@@ -5,6 +5,8 @@ import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.ApiException;
 import cn.tomoya.exception.Result;
 import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.node.entity.Label;
+import cn.tomoya.module.node.service.LabelService;
 import cn.tomoya.module.reply.entity.Reply;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.section.service.SectionService;
@@ -42,6 +44,8 @@ public class TopicApiController extends BaseController {
   @Autowired
   private UserService userService;
   @Autowired
+  private LabelService labelService;
+  @Autowired
   private SiteConfig siteConfig;
 
   /**
@@ -78,7 +82,7 @@ public class TopicApiController extends BaseController {
    * @throws ApiException
    */
   @PostMapping("/save")
-  public Result save(String title, String content, String tab, String token) throws Exception {
+  public Result save(String title, String content, String tab, String labels, String token) throws Exception {
     User user = getUser(token);
     if (user == null)
       throw new ApiException("用户不存在");
@@ -87,9 +91,10 @@ public class TopicApiController extends BaseController {
 
     if(user.getScore() < 10) throw new ApiException("你的积分不足，不能发布话题");
 
-    String now = DateUtil.formatDate(new Date());
-    Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
-    Date date2 = DateUtil.string2Date(now + " 23:59:59", DateUtil.FORMAT_DATETIME);
+    Date now = new Date();
+    String currentDateStr = DateUtil.formatDate(now);
+    Date date1 = DateUtil.string2Date(currentDateStr + " 00:00:00", DateUtil.FORMAT_DATETIME);
+    Date date2 = DateUtil.string2Date(currentDateStr + " 23:59:59", DateUtil.FORMAT_DATETIME);
     if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
       throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
 
@@ -103,6 +108,10 @@ public class TopicApiController extends BaseController {
     if (topicService.findByTitle(title) != null) throw new ApiException("话题标题已经存在");
 
     Topic topic = new Topic();
+
+    // deal label
+    topic.setLabelId(labelService.dealLabels(labels));
+
     topic.setTab(tab);
     topic.setTitle(title);
     topic.setContent(content);

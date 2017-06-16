@@ -46,6 +46,8 @@ public class FreemarkerConfig {
   @Autowired
   private ScoreDirective scoreDirective;
   @Autowired
+  private LabelsDirective labelsDirective;
+  @Autowired
   private BaseEntity baseEntity;
 
   @PostConstruct
@@ -67,6 +69,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("replies_tag", repliesDirective);
     configuration.setSharedVariable("other_topics_tag", otherTopicsDirective);
     configuration.setSharedVariable("score_tag", scoreDirective);
+    configuration.setSharedVariable("labels_tag", labelsDirective);
 
     log.info("init freemarker sharedVariables {site} success...");
   }

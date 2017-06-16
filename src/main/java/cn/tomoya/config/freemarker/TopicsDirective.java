@@ -26,11 +26,12 @@ public class TopicsDirective implements TemplateDirectiveModel {
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
+
     String tab = map.get("tab") == null ? "全部" : map.get("tab").toString();
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
     Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab);
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());
   }

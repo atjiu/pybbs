@@ -183,3 +183,6 @@ form textarea{resize:vertical}
 .file-delete{color: red;position: absolute; right: 0; top: 0; font-size: 16px;cursor: pointer;}
 .table>tbody>tr>td{word-break: break-all;}
 .search-result{max-height: 200px; overflow: hidden;}
+#labels {height: 34px;padding: 6px 12px;}
+#labels .label {font-size: 16px;display: inline-block;margin-bottom: 5px;}
+#labels .label span{cursor: pointer; color: red}

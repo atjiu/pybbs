@@ -25,12 +25,12 @@ public class CurrentUserDirective implements TemplateDirectiveModel {
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
-    String username = map.get("username").toString();
+    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
+    String username = map.get("username").toString();
     User currentUser = userService.findByUsername(username);
     long collectCount = collectService.countByUser(currentUser);
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
     environment.setVariable("currentUser", builder.build().wrap(currentUser));
     environment.setVariable("collectCount", builder.build().wrap(collectCount));
     templateDirectiveBody.render(environment.getOut());

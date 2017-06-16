@@ -27,6 +27,8 @@ public class UserTopicDirective implements TemplateDirectiveModel {
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
+
     String username = map.get("username").toString();
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
     int limit = Integer.parseInt(map.get("limit").toString());
@@ -34,7 +36,6 @@ public class UserTopicDirective implements TemplateDirectiveModel {
     User currentUser = userService.findByUsername(username);
     Page<Topic> page = topicService.findByUser(p, limit, currentUser);
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));
     templateDirectiveBody.render(environment.getOut());

@@ -245,7 +245,6 @@
   });
 
   contentE.keyup(function (e) {
-    console.log(e.keyCode);
     if ((e.ctrlKey || e.metaKey) && e.keyCode === 13) {
       $("#editorForm").submit();
     }
