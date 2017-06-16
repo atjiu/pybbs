@@ -105,7 +105,7 @@ public class LabelService {
    * when update topic, first deal label's topicCount, then invoke method #dealLabels()
    * @param labels
    */
-  public void dealEditTopicOldlabels(String labels) {
+  public void dealEditTopicOldLabels(String labels) {
     if (!StringUtils.isEmpty(labels) && !labels.equals(",")) {
       String[] labelStr = labels.split(",");
       for(String s: labelStr) {

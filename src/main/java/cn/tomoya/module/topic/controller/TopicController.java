@@ -162,7 +162,7 @@ public class TopicController extends BaseController {
       throw new Exception("版块不存在");
 
     // deal label
-    labelService.dealEditTopicOldlabels(oldLabels);
+    labelService.dealEditTopicOldLabels(oldLabels);
     topic.setLabelId(labelService.dealLabels(labels));
 
     topic.setTab(tab);

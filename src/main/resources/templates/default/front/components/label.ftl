@@ -11,7 +11,7 @@
     <div class="form-group">
       <label for="labels">&nbsp;</label>
       <div id="labels">
-        <#if topic.labelId??>
+        <#if topic?? && topic.labelId??>
           <@label_tag id=topic.labelId>
             <#list list as label>
               <span class='label label-primary'>${label.name} <span onclick='deleteLabel(this)'>x</span></span>
