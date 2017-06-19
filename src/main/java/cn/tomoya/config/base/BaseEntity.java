@@ -5,7 +5,6 @@ import cn.tomoya.util.Constants;
 import cn.tomoya.util.MarkdownUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,7 +12,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +26,13 @@ public class BaseEntity {
   @Autowired
   private SiteConfig siteConfig;
 
+  private static final long MINUTE = 60 * 1000;
+  private static final long HOUR = 60 * MINUTE;
+  private static final long DAY = 24 * HOUR;
+  private static final long WEEK = 7 * DAY;
+  private static final long MONTH = 31 * DAY;
+  private static final long YEAR = 12 * MONTH;
+
   /**
    * 格式化日期
    *
@@ -35,12 +40,24 @@ public class BaseEntity {
    * @return
    */
   public String formatDate(Date date) {
-    String dateStr = "";
-    if (date != null) {
-      PrettyTime prettyTime = new PrettyTime(Locale.CHINA);
-      dateStr = prettyTime.format(date);
+    if (date == null) return "";
+
+    long offset = System.currentTimeMillis() - date.getTime();
+    if (offset > YEAR) {
+      return (offset / YEAR) + "年前";
+    } else if (offset > MONTH) {
+      return (offset / MONTH) + "个月前";
+    } else if (offset > WEEK) {
+      return (offset / WEEK) + "周前";
+    } else if (offset > DAY) {
+      return (offset / DAY) + "天前";
+    } else if (offset > HOUR) {
+      return (offset / HOUR) + "小时前";
+    } else if (offset > MINUTE) {
+      return (offset / MINUTE) + "分钟前";
+    } else {
+      return "刚刚";
     }
-    return dateStr.replace(" ", "");
   }
 
   /**

@@ -11,23 +11,24 @@
           <div class="row">
             <#list page.getContent() as label>
               <div class="col-md-6">
-                <div class="media">
-                  <#--<div class="media-left">
+                <div class="media" style="padding: 0 0 10px 0;">
+                  <div class="media-left">
                     <#if label.image??>
                       <img src="${label.image!}" class="avatar">
                     <#else>
-                      <span class="glyphicon glyphicon-tags avatar"></span>
+                      <div class="topic-label">
+                        <span class="glyphicon glyphicon-tags"></span>
+                      </div>
                     </#if>
-                  </div>-->
+                  </div>
                   <div class="media-body">
-                    <h4>${label.name} <small>${label.topicCount!0}个话题</small></h4>
-                    <p class="gray">${label.intro!}</p>
+                    <div class="title">${label.name}
+                      <small>${label.topicCount!0}个话题</small>
+                    </div>
+                    <p class="gray label-intro">${label.intro!}</p>
                   </div>
                 </div>
               </div>
-              <#--<#if label_index % 2 == 0>
-                <div class="divide mar-top-5"></div>
-              </#if>-->
             </#list>
           </div>
           <#include "../components/paginate.ftl"/>

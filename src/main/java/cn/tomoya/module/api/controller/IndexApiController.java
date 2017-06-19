@@ -44,7 +44,7 @@ public class IndexApiController extends BaseController {
       throw new ApiException("版块不存在");
     if (StringUtils.isEmpty(tab))
       tab = "全部";
-    Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab);
+    Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), tab, false);
     return Result.success(page);
   }
 }

@@ -3,15 +3,17 @@ package cn.tomoya.module.topic.controller;
 import cn.tomoya.config.base.BaseController;
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.exception.Result;
-import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by tomoya.
@@ -22,8 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin/topic")
 public class TopicAdminController extends BaseController {
 
-  @Autowired
-  private SiteConfig siteConfig;
   @Autowired
   private TopicService topicService;
 
@@ -36,8 +36,7 @@ public class TopicAdminController extends BaseController {
    */
   @GetMapping("/list")
   public String list(Integer p, Model model) {
-    Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), "全部");
-    model.addAttribute("page", page);
+    model.addAttribute("p", p);
     return render("/admin/topic/list");
   }
 
@@ -47,16 +46,12 @@ public class TopicAdminController extends BaseController {
    * @param id
    * @return
    */
-  @GetMapping("/delete")
-  @ResponseBody
-  public Result delete(Integer id) {
-    try {
-      topicService.deleteById(id);
-      return Result.success();
-    } catch (Exception e) {
-      e.printStackTrace();
-      return Result.error(e.getMessage());
-    }
+  @GetMapping("/{id}/delete")
+  public String delete(HttpServletRequest request, @PathVariable Integer id) {
+    String beforeUrl = request.getHeader("referer");
+    // delete topic
+    topicService.deleteById(id);
+    return redirect(beforeUrl);
   }
 
 }

@@ -8,6 +8,7 @@ import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -28,9 +29,10 @@ public class TopicsDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-    String tab = map.get("tab") == null ? "全部" : map.get("tab").toString();
+    Boolean lastest = map.get("lastest") != null && Boolean.parseBoolean(map.get("lastest").toString());
+    String tab = StringUtils.isEmpty(map.get("tab")) ? "全部" : map.get("tab").toString();
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-    Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab);
+    Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab, lastest);
 
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

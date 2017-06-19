@@ -17,7 +17,7 @@ public class SpringSecurityTag {
    *
    * @return
    */
-  public static boolean isLock() {
+  public boolean isLock() {
     Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     if (obj instanceof org.springframework.security.core.userdetails.User) {
@@ -32,7 +32,7 @@ public class SpringSecurityTag {
    *
    * @return
    */
-  public static boolean isAuthenticated() {
+  public boolean isAuthenticated() {
     Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     if (obj instanceof org.springframework.security.core.userdetails.User) {
       return true;
@@ -45,7 +45,7 @@ public class SpringSecurityTag {
    *
    * @return the user name as string
    */
-  public static String getPrincipal() {
+  public String getPrincipal() {
     Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     if (obj instanceof org.springframework.security.core.userdetails.User) {
@@ -62,7 +62,7 @@ public class SpringSecurityTag {
    * @return true if user has all of the listed authorities/roles, otherwise
    * false
    */
-  public static boolean allGranted(String[] checkForAuths) {
+  public boolean allGranted(String[] checkForAuths) {
     Set<String> userAuths = getUserAuthorities();
     for (String auth : checkForAuths) {
       if (userAuths.contains(auth))
@@ -72,7 +72,7 @@ public class SpringSecurityTag {
     return true;
   }
 
-  public static boolean allGranted(String checkForAuths) {
+  public boolean allGranted(String checkForAuths) {
     Set<String> userAuths = getUserAuthorities();
     if (userAuths.contains(checkForAuths))
       return true;
@@ -86,7 +86,7 @@ public class SpringSecurityTag {
    * @return true if user has any of the listed authorities/roles, otherwise
    * false
    */
-  public static boolean anyGranted(String[] checkForAuths) {
+  public boolean anyGranted(String[] checkForAuths) {
     Set<String> userAuths = getUserAuthorities();
     for (String auth : checkForAuths) {
       if (userAuths.contains(auth))
@@ -101,7 +101,7 @@ public class SpringSecurityTag {
    * @param checkForAuths a string array of roles
    * @return true only if none of listed roles are granted
    */
-  public static boolean noneGranted(String[] checkForAuths) {
+  public boolean noneGranted(String[] checkForAuths) {
     Set<String> userAuths = getUserAuthorities();
     for (String auth : checkForAuths) {
       if (userAuths.contains(auth))
@@ -111,7 +111,7 @@ public class SpringSecurityTag {
   }
 
   @SuppressWarnings("unchecked")
-  private static Set<String> getUserAuthorities() {
+  private Set<String> getUserAuthorities() {
     try {
       Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
       Set<String> roles = new HashSet<String>();

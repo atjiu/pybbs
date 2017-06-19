@@ -1,6 +1,7 @@
 package cn.tomoya.module.topic.service;
 
 import cn.tomoya.module.collect.service.CollectService;
+import cn.tomoya.module.label.service.LabelService;
 import cn.tomoya.module.notification.service.NotificationService;
 import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.topic.dao.TopicDao;
@@ -34,6 +35,8 @@ public class TopicService {
   private CollectService collectService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private LabelService labelService;
 
   public void save(Topic topic) {
     topicDao.save(topic);
@@ -56,6 +59,12 @@ public class TopicService {
     notificationService.deleteByTopic(topic);
     //删除话题下面的回复
     replyService.deleteByTopic(topic);
+
+    // deal label topicCount
+    if(!StringUtils.isEmpty(topic.getLabelId())) {
+      labelService.dealEditTopicOldLabels(topic.getLabelId());
+    }
+
     //删除话题
     topicDao.delete(topic);
   }
@@ -76,12 +85,21 @@ public class TopicService {
    * @param size
    * @return
    */
-  public Page<Topic> page(int p, int size, String tab) {
-    Sort sort = new Sort(
-        new Sort.Order(Sort.Direction.DESC, "top"),
-        new Sort.Order(Sort.Direction.DESC, "lastReplyTime"),
-        new Sort.Order(Sort.Direction.DESC, "modifyTime"),
-        new Sort.Order(Sort.Direction.DESC, "inTime"));
+  public Page<Topic> page(int p, int size, String tab, boolean lastest) {
+    Sort sort;
+    if(lastest) {
+      sort = new Sort(
+          new Sort.Order(Sort.Direction.DESC, "top"),
+          new Sort.Order(Sort.Direction.DESC, "inTime"),
+          new Sort.Order(Sort.Direction.DESC, "modifyTime"),
+          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
+    } else {
+      sort = new Sort(
+          new Sort.Order(Sort.Direction.DESC, "top"),
+          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"),
+          new Sort.Order(Sort.Direction.DESC, "modifyTime"),
+          new Sort.Order(Sort.Direction.DESC, "inTime"));
+    }
     Pageable pageable = new PageRequest(p - 1, size, sort);
     switch (tab) {
       case "全部":

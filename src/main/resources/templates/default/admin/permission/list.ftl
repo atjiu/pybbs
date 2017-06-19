@@ -17,10 +17,18 @@
           </div>
           <div class="table-responsive">
             <table class="table table-striped table-responsive">
+              <thead>
+              <tr>
+                <th>权限标识</th>
+                <th>授权地址</th>
+                <th>权限描述</th>
+                <th>操作</th>
+              </tr>
+              </thead>
               <tbody>
                 <#list childPermissions as permission>
                 <tr>
-                  <td>${permission.id!}</td>
+                  <#--<td>${permission.id!}</td>-->
                   <td>${permission.name!}</td>
                   <td>${permission.url!}</td>
                   <td>${permission.description!}</td>

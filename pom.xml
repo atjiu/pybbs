@@ -91,12 +91,6 @@
       <artifactId>guava</artifactId>
       <version>19.0</version>
     </dependency>
-    <!--格式化时间类库 -->
-    <dependency>
-      <groupId>org.ocpsoft.prettytime</groupId>
-      <artifactId>prettytime</artifactId>
-      <version>4.0.1.Final</version>
-    </dependency>
     <!--markdown转换lib -->
     <dependency>
       <groupId>org.pegdown</groupId>

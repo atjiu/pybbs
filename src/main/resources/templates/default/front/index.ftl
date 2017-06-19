@@ -35,7 +35,16 @@
               </div>
               <div class="media-body">
                 <div class="title">
-                  <a href="/topic/${topic.id!}">${topic.title!}</a>
+                  <a href="/topic/${topic.id!}">${topic.title!}</a>&nbsp;
+                  <small>
+                    <@label_tag id=topic.labelId>
+                      <#list list as label>
+                        <span class="label label-success">
+                          ${label.name!}
+                        </span>&nbsp;
+                      </#list>
+                    </@label_tag>
+                  </small>
                 </div>
                 <p class="gray">
                   <#if topic.top == true>
