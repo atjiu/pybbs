@@ -36,7 +36,7 @@ public class TopicAdminController extends BaseController {
    */
   @GetMapping("/list")
   public String list(Integer p, Model model) {
-    Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), null);
+    Page<Topic> page = topicService.page(p == null ? 1 : p, siteConfig.getPageSize(), "全部");
     model.addAttribute("page", page);
     return render("/admin/topic/list");
   }

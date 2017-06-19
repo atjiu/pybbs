@@ -83,14 +83,15 @@ public class TopicService {
         new Sort.Order(Sort.Direction.DESC, "modifyTime"),
         new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    if (tab.equals("全部")) {
-      return topicDao.findAll(pageable);
-    } else if (tab.equals("精华")) {
-      return topicDao.findByGood(true, pageable);
-    } else if (tab.equals("等待回复")) {
-      return topicDao.findByReplyCount(0, pageable);
-    } else {
-      return topicDao.findByTab(tab, pageable);
+    switch (tab) {
+      case "全部":
+        return topicDao.findAll(pageable);
+      case "精华":
+        return topicDao.findByGood(true, pageable);
+      case "等待回复":
+        return topicDao.findByReplyCount(0, pageable);
+      default:
+        return topicDao.findByTab(tab, pageable);
     }
   }
 
