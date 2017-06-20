@@ -26,16 +26,19 @@ public class LabelDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-    String ids = map.get("id").toString();
     List<Label> list = new ArrayList<>();
-    if(ids.split(",").length > 0) {
-      for(String id : ids.split(",")) {
-        Label label = labelService.findById(Integer.parseInt(id));
+
+    if(map.get("id") != null) {
+      String ids = map.get("id").toString();
+      if (ids.split(",").length > 0) {
+        for (String id : ids.split(",")) {
+          Label label = labelService.findById(Integer.parseInt(id));
+          list.add(label);
+        }
+      } else {
+        Label label = labelService.findById(Integer.parseInt(ids));
         list.add(label);
       }
-    } else {
-      Label label = labelService.findById(Integer.parseInt(ids));
-      list.add(label);
     }
 
     environment.setVariable("list", builder.build().wrap(list));
