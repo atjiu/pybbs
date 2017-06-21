@@ -79,7 +79,7 @@
           <p style="padding: 0 15px;">
             <span class="glyphicon glyphicon-tags"></span>&nbsp;
             <#list list as label>
-              <span class="label label-success">${label.name}</span>
+              <span class="label label-success"><a href="/label/${label.name}/topic">${label.name}</a></span>
             </#list>
           </p>
         </@label_tag>

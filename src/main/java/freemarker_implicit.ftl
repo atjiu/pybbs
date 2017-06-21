@@ -1,5 +1,6 @@
 [#ftl]
 [#-- @implicitly included --]
+[#-- @ftlvariable name="label" type="cn.tomoya.module.label.entity.Label" --]
 [#-- @ftlvariable name="model" type="cn.tomoya.config.base.BaseEntity" --]
 [#-- @ftlvariable name="sec" type="cn.tomoya.config.security.SpringSecurityTag" --]
 [#-- @ftlvariable name="topic" type="cn.tomoya.module.topic.entity.Topic" --]

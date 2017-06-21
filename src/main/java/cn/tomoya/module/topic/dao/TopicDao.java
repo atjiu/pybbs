@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -44,4 +45,9 @@ public interface TopicDao extends JpaRepository<Topic, Integer> {
   int countByInTimeBetween(Date date1, Date date2);
 
   Topic findByTitle(String title);
+
+  List<Topic> findByLabelIdLike(String labelId);
+
+  @Cacheable
+  Page<Topic> findByLabelIdLike(String labelId, Pageable pageable);
 }

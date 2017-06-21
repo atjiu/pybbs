@@ -15,18 +15,24 @@ public class Label implements Serializable {
   @GeneratedValue
   private int id;
 
-  @Column(unique = true)
+  // label name
+  @Column(nullable = false, unique = true)
   private String name;
 
   // label introduction
   private String intro;
 
+  // the count of use this label's topic
   @Column(name = "topic_count")
   private int topicCount;
 
-  @Column(name = "in_time")
+  @Column(name = "in_time", nullable = false)
   private Date inTime;
 
+  @Column(name = "modify_time")
+  private Date modifyTime;
+
+  // label logo
   private String image;
 
   public int getId() {
@@ -67,6 +73,14 @@ public class Label implements Serializable {
 
   public void setInTime(Date inTime) {
     this.inTime = inTime;
+  }
+
+  public Date getModifyTime() {
+    return modifyTime;
+  }
+
+  public void setModifyTime(Date modifyTime) {
+    this.modifyTime = modifyTime;
   }
 
   public String getImage() {

@@ -26,6 +26,14 @@ public class LabelService {
   private LabelDao labelDao;
 
   /**
+   * delete label
+   * @param label
+   */
+  public void delete(Label label) {
+    labelDao.delete(label);
+  }
+
+  /**
    * query label by id
    * @param id
    * @return
@@ -95,7 +103,6 @@ public class LabelService {
         save(label);
         labelId += label.getId() + ",";
       }
-      if(labelId.length() > 0) labelId = labelId.substring(0, labelId.length() - 1);
       return labelId;
     }
     return null;

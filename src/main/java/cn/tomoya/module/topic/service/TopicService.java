@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -38,16 +39,34 @@ public class TopicService {
   @Autowired
   private LabelService labelService;
 
+  /**
+   * fuzzy topic by labelId
+   * @param labelId
+   * @return
+   */
+  public List<Topic> fuzzyTopicByLabel(int labelId) {
+    return topicDao.findByLabelIdLike("%" + labelId + ",%");
+  }
+
+  /**
+   * save topic
+   * @param topic
+   */
   public void save(Topic topic) {
     topicDao.save(topic);
   }
 
+  /**
+   * query topic by id
+   * @param id
+   * @return
+   */
   public Topic findById(int id) {
     return topicDao.findOne(id);
   }
 
   /**
-   * 删除话题
+   * delete topic by id
    *
    * @param id
    */
@@ -70,7 +89,7 @@ public class TopicService {
   }
 
   /**
-   * 删除用户发的所有话题
+   * delete topic by user
    *
    * @param user
    */
@@ -85,7 +104,7 @@ public class TopicService {
    * @param size
    * @return
    */
-  public Page<Topic> page(int p, int size, String tab, boolean lastest) {
+  public Page<Topic> page(int p, int size, String tab, boolean lastest, Integer labelId) {
     Sort sort;
     if(lastest) {
       sort = new Sort(
@@ -101,15 +120,19 @@ public class TopicService {
           new Sort.Order(Sort.Direction.DESC, "inTime"));
     }
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    switch (tab) {
-      case "全部":
-        return topicDao.findAll(pageable);
-      case "精华":
-        return topicDao.findByGood(true, pageable);
-      case "等待回复":
-        return topicDao.findByReplyCount(0, pageable);
-      default:
-        return topicDao.findByTab(tab, pageable);
+    if (labelId == null) {
+      switch (tab) {
+        case "全部":
+          return topicDao.findAll(pageable);
+        case "精华":
+          return topicDao.findByGood(true, pageable);
+        case "等待回复":
+          return topicDao.findByReplyCount(0, pageable);
+        default:
+          return topicDao.findByTab(tab, pageable);
+      }
+    } else {
+      return topicDao.findByLabelIdLike("%" + labelId + ",%", pageable);
     }
   }
 

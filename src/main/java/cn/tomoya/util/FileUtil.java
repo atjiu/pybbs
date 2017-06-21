@@ -24,7 +24,7 @@ public class FileUtil {
   private SiteConfig siteConfig;
 
   /**
-   * 上传文件
+   * upload file
    *
    * @param file
    * @param fileUploadEnum
@@ -39,17 +39,20 @@ public class FileUtil {
       BufferedOutputStream stream = null;
       String requestPath = null;
 
-      String today = DateUtil.formatDate(new Date());
-      String userUploadPath = username + "/" + today + "/";
-      String userAvatarPath = username + "/";
-
+      // upload file
       if (fileUploadEnum == FileUploadEnum.FILE) {
+        String today = DateUtil.formatDate(new Date());
+        String userUploadPath = username + "/" + today + "/";
         fileName = UUID.randomUUID().toString() + suffix;
         File file_dir = new File(siteConfig.getUploadPath() + userUploadPath);
         if (!file_dir.exists()) file_dir.mkdirs();
         stream = new BufferedOutputStream(new FileOutputStream(new File(siteConfig.getUploadPath() + userUploadPath + fileName)));
         requestPath = siteConfig.getStaticUrl() + userUploadPath;
-      } else if (fileUploadEnum == FileUploadEnum.AVATAR) {
+      }
+
+      // upload avatar (image)
+      if (fileUploadEnum == FileUploadEnum.AVATAR) {
+        String userAvatarPath = username + "/";
         fileName = "avatar" + suffix;
         File file_dir = new File(siteConfig.getUploadPath() + userAvatarPath);
         if (!file_dir.exists()) file_dir.mkdirs();
@@ -57,6 +60,18 @@ public class FileUtil {
             new FileOutputStream(new File(siteConfig.getUploadPath() + userAvatarPath + fileName)));
         requestPath = siteConfig.getStaticUrl() + userAvatarPath;
       }
+
+      // upload label logo (image)
+      if(fileUploadEnum == FileUploadEnum.LABEL) {
+        String labelLogoPath = "label/";
+        fileName = username + suffix;// use labelId as file name
+        File file_dir = new File(siteConfig.getUploadPath() + labelLogoPath);
+        if (!file_dir.exists()) file_dir.mkdirs();
+        stream = new BufferedOutputStream(
+            new FileOutputStream(new File(siteConfig.getUploadPath() + labelLogoPath + fileName)));
+        requestPath = siteConfig.getStaticUrl() + labelLogoPath;
+      }
+
       if (stream != null) {
         stream.write(file.getBytes());
         stream.close();

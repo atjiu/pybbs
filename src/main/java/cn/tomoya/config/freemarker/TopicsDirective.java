@@ -30,9 +30,14 @@ public class TopicsDirective implements TemplateDirectiveModel {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
     Boolean lastest = map.get("lastest") != null && Boolean.parseBoolean(map.get("lastest").toString());
+
+    Integer labelId = null;
+    if(map.get("labelId") != null) labelId = Integer.parseInt(map.get("labelId").toString());
+
     String tab = StringUtils.isEmpty(map.get("tab")) ? "全部" : map.get("tab").toString();
+
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-    Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab, lastest);
+    Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab, lastest, labelId);
 
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

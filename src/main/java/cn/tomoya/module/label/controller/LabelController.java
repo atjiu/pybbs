@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -56,6 +57,21 @@ public class LabelController extends BaseController {
       }
     }
     return labels1;
+  }
+
+  /**
+   * query topic by label page
+   * @param name
+   * @param p
+   * @param model
+   * @return
+   */
+  @GetMapping("/{name}/topic")
+  public String labelTopic(@PathVariable String name, Integer p, Model model) {
+    Label label = labelService.findByName(name);
+    model.addAttribute("label", label);
+    model.addAttribute("p", p);
+    return render("/front/label/topic");
   }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by tomoya.
@@ -28,7 +29,7 @@ public class TopicAdminController extends BaseController {
   private TopicService topicService;
 
   /**
-   * 话题列表
+   * topic list
    *
    * @param p
    * @param model
@@ -41,17 +42,17 @@ public class TopicAdminController extends BaseController {
   }
 
   /**
-   * 删除话题
+   * delete topic
    *
    * @param id
    * @return
    */
   @GetMapping("/{id}/delete")
-  public String delete(HttpServletRequest request, @PathVariable Integer id) {
+  public String delete(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
     String beforeUrl = request.getHeader("referer");
     // delete topic
     topicService.deleteById(id);
-    return redirect(beforeUrl);
+    return redirect(response, beforeUrl == null ? "/admin/topic/list" : beforeUrl);
   }
 
 }

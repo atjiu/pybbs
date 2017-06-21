@@ -10,6 +10,9 @@
     <#if sec.allGranted("topic:list")>
       <a href="/admin/topic/list" class="list-group-item <#if page_tab == "topic">active</#if>">话题管理</a>
     </#if>
+    <#if sec.allGranted("label:list")>
+      <a href="/admin/label/list" class="list-group-item <#if page_tab == "label">active</#if>">标签管理</a>
+    </#if>
     <#if sec.allGranted("reply:list")>
       <a href="/admin/reply/list" class="list-group-item <#if page_tab == "reply">active</#if>">回复管理</a>
     </#if>
