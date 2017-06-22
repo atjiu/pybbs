@@ -13,9 +13,10 @@ https://tomoya92.github.io/pybbs/
 - Spring-Boot
 - Spring-Security
 - Spring-JPA
+- Hibernate-Search
 - Freemarker
 - MySQL
-- Bootstrap
+- Bootstrap3
 - Ehcache
 
 *呃，就是spring全家桶*
@@ -33,8 +34,8 @@ https://github.com/tomoya92/pybbs/wiki/%E6%88%AA%E5%9B%BE%E6%AC%A3%E8%B5%8F[传�
 - 使用 `Spring-Boot` 开发
 - 权限使用 `Spring-Security` ，基于url做的权限方便配置管理
 - 使用的 `Spring-JPA` 操作数据存储
-- 使用 https://github.com/lepture/editor[editor] 作为 Markdown编辑器, 书写更方便, 还支持截图粘贴上传
-- 还增加了 https://github.com/wangfupeng1988/wangEditor[wangEditor] 作为富文本编辑器
+- 使用 `Hibernate-Search` 做数据检索，支持中文分词和结果关键字高亮
+- 自己实现了一个Markdown编辑器, 附带菜单，书写方便, 还支持拖拽图片上传
 
 == 碰到问题怎么办?
 
