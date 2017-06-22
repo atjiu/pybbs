@@ -231,7 +231,7 @@ ul { list-style-image: url("../images/bullet.png"); }
 
 strong { font-weight: bold; color: #333; }
 
-.wrapper { width: 650px; margin: 0 auto; position: relative; }
+.wrapper { width: 650px; margin: 0 auto; position: relative; word-wrap: break-word; }
 
 section img { max-width: 100%; }
 
