@@ -138,6 +138,8 @@ public class TopicController extends BaseController {
     Topic topic = topicService.findById(id);
     if (topic == null) throw new Exception("话题不存在");
 
+    if (DateUtil.isExpire(DateUtil.getMinuteAfter(topic.getInTime(), 5))) throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
+
     model.addAttribute("topic", topic);
     return render("/front/topic/edit");
   }
@@ -154,6 +156,8 @@ public class TopicController extends BaseController {
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
+
+    if (DateUtil.isExpire(DateUtil.getMinuteAfter(topic.getInTime(), 5))) throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
 
     if (topic.getUser().getId() != user.getId())
       throw new Exception("非法操作");
@@ -198,61 +202,4 @@ public class TopicController extends BaseController {
     return render("/front/topic/detail");
   }
 
-  /**
-   * 删除话题
-   *
-   * @param id
-   * @return
-   */
-  @GetMapping("/{id}/delete")
-  public String delete(@PathVariable Integer id, HttpServletResponse response) {
-    topicService.deleteById(id);
-
-    return redirect(response, "/");
-  }
-
-  /**
-   * 加/减精华
-   *
-   * @param id
-   * @param response
-   * @return
-   */
-  @GetMapping("/{id}/good")
-  public String good(@PathVariable Integer id, HttpServletResponse response) {
-    Topic topic = topicService.findById(id);
-    topic.setGood(!topic.isGood());
-    topicService.save(topic);
-    return redirect(response, "/topic/" + id);
-  }
-
-  /**
-   * 置/不置顶
-   *
-   * @param id
-   * @param response
-   * @return
-   */
-  @GetMapping("/{id}/top")
-  public String top(@PathVariable Integer id, HttpServletResponse response) {
-    Topic topic = topicService.findById(id);
-    topic.setTop(!topic.isTop());
-    topicService.save(topic);
-    return redirect(response, "/topic/" + id);
-  }
-
-  /**
-   * 锁定/不锁定
-   *
-   * @param id
-   * @param response
-   * @return
-   */
-  @GetMapping("/{id}/lock")
-  public String lock(@PathVariable Integer id, HttpServletResponse response) {
-    Topic topic = topicService.findById(id);
-    topic.setLock(!topic.isLock());
-    topicService.save(topic);
-    return redirect(response, "/topic/" + id);
-  }
 }

@@ -2,6 +2,7 @@ package cn.tomoya.config.base;
 
 import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.util.Constants;
+import cn.tomoya.util.DateUtil;
 import cn.tomoya.util.MarkdownUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -128,5 +129,16 @@ public class BaseEntity {
 
   public boolean isDown(int userId, String downIds) {
     return downIds != null && downIds.contains(Constants.COMMA + userId + Constants.COMMA);
+  }
+
+  /**
+   * Did it take more than 5 minutes?
+   * over: can't edit own topic
+   * not: can edit own topic
+   * @param inTime
+   * @return
+   */
+  public boolean overFiveMinute(Date inTime) {
+    return !DateUtil.isExpire(DateUtil.getMinuteAfter(inTime, 5));
   }
 }

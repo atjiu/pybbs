@@ -23,11 +23,11 @@
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
               <#if sec.isAuthenticated() && !sec.isLock()>
-                <#if sec.allGranted("topic:edit") || sec.getPrincipal() == topic.user.username>
+                <#if sec.allGranted("topic:edit") || (sec.getPrincipal() == topic.user.username && model.overFiveMinute(topic.inTime))>
                   <span>•</span>
                   <span><a href="/topic/${topic.id}/edit">编辑</a></span>
                 </#if>
-                <#if sec.allGranted("topic:delete")  || sec.getPrincipal() == topic.user.username>
+                <#if sec.allGranted("topic:delete")>
                   <span>•</span>
                   <span><a
                       href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/${topic.id}/delete'">删除</a></span>
@@ -52,12 +52,15 @@
                   </#if>
                 </#if>
 
-                <span>•</span>
-                <#if topic.lock == true>
-                  <span><a
-                      href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/topic/${topic.id}/lock'">取消锁定</a></span>
-                <#else>
-                  <span><a href="javascript:if(confirm('确定要锁定吗？'))location.href='/topic/${topic.id}/lock'">锁定</a></span>
+                <#if sec.allGranted("topic:good")>
+                  <span>•</span>
+                  <#if topic.lock == true>
+                    <span><a
+                        href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/topic/${topic.id}/lock'">取消锁定</a></span>
+                  <#else>
+                    <span><a
+                        href="javascript:if(confirm('确定要锁定吗？'))location.href='/topic/${topic.id}/lock'">锁定</a></span>
+                  </#if>
                 </#if>
 
               </#if>
@@ -116,7 +119,8 @@
           <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
         <#else>
           <div class="panel-heading">
-            添加一条新回复 <small class="text-danger">这会扣除你5积分</small>
+            添加一条新回复
+            <small class="text-danger">这会扣除你5积分</small>
             <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
           </div>
           <div class="panel-body">

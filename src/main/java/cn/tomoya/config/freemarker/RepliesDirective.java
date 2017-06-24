@@ -41,7 +41,7 @@ public class RepliesDirective implements TemplateDirectiveModel {
     environment.setVariable("replies", builder.build().wrap(replies));
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication.isAuthenticated()) {
+    if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
       User user = userService.findByUsername(((UserDetails) authentication.getPrincipal()).getUsername());
       environment.setVariable("user", builder.build().wrap(user));
     }

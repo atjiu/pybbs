@@ -26,11 +26,11 @@
                       onclick="replyDown(this, '${reply.id}')"></span>
               </#if>
               <span id="up_down_vote_count_${reply.id}">${reply.upDown}</span>
-              <#if sec.allGranted("reply:edit") || user.id == reply.user.id>
-                <a href="/reply/${reply.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+              <#if sec.allGranted("reply:edit")>
+                <a href="/admin/reply/${reply.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
               </#if>
-              <#if sec.allGranted("reply:delete") || user.id == reply.user.id>
-                <a href="javascript:if(confirm('确定要删除吗？'))location.href='/reply/${reply.id!}/delete'"><span
+              <#if sec.allGranted("reply:delete")>
+                <a href="javascript:if(confirm('确定要删除吗？'))location.href='/admin/reply/${reply.id!}/delete'"><span
                     class="glyphicon glyphicon-trash"></span></a>
               </#if>
               <a href="javascript:replythis('${reply.user.username}');"><span

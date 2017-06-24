@@ -115,7 +115,7 @@ public class UserController extends BaseController {
     if (user.isBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
-    user.setSignature(signature);
+    if (signature != null && signature.trim().length() > 0) user.setSignature(signature);
     user.setUrl(url);
     String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR, getUsername());
     if (!StringUtils.isEmpty(requestUrl)) {
@@ -177,7 +177,7 @@ public class UserController extends BaseController {
     User user = getUser();
     user.setToken(UUID.randomUUID().toString());
     userService.save(user);
-    return redirect(response, "/user/setting");
+    return redirect(response, "/user/accessToken");
   }
 
   /**
