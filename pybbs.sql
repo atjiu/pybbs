@@ -79,7 +79,7 @@ INSERT INTO `pybbs_role_permission` (`role_id`,`permission_id`) VALUES (1,39);
 
 INSERT INTO `pybbs_section` VALUES (1, '分享'), (4, '博客'), (5, '招聘'), (3, '新闻'), (2, '问答');
 
-INSERT INTO `pybbs_user` (`id`,`avatar`,`block`,`email`,`in_time`,`password`,`signature`,`token`,`url`,`username`,`attempts`,`attempts_time`,`score`,`space_size`) VALUES (1,'http://localhost:8080/static/images/upload/avatar/default.png','0','liygheart@qq.com','2016-09-09 09:50:14','$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC','hello world','d20b9a5c-8693-41a6-8943-ddb2cb78eebd','https://tomoya92.github.io','tomoya',0,'2017-06-21 23:11:24',2000,50);
+INSERT INTO `pybbs_user` (`id`,`avatar`,`block`,`email`,`in_time`,`password`,`signature`,`token`,`url`,`username`,`attempts`,`attempts_time`,`score`,`space_size`) VALUES (1,'http://localhost:8080/static/images/upload/avatar/default.png',false,'liygheart@qq.com','2016-09-09 09:50:14','$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC','hello world','d20b9a5c-8693-41a6-8943-ddb2cb78eebd','https://tomoya92.github.io','tomoya',0,'2017-06-21 23:11:24',2000,50);
 
 INSERT INTO `pybbs_user_role` VALUES (1, 1);
 

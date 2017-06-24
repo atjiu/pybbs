@@ -13,7 +13,7 @@
         <a href="/">主页</a> / 个人设置
       </div>
       <div class="panel-body">
-        <form action="/user/setting" method="post" id="userProfileForm" enctype="multipart/form-data">
+        <form action="/user/profile" method="post" id="userProfileForm" enctype="multipart/form-data">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="username">昵称</label>
