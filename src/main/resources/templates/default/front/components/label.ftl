@@ -30,7 +30,6 @@
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
-  var isAutoCompleteEnter = false;
   $("#label").autocomplete({
     source: "/label/search",
     minLength: 2,
@@ -57,7 +56,6 @@
     },10);
 
     setLabelName();
-    isAutoCompleteEnter = false;
   }
 
   function setLabelName() {
@@ -71,5 +69,7 @@
     $(e).parent().remove();
     setLabelName();
   }
+
+  setLabelName();
 </script>
 </#macro>
