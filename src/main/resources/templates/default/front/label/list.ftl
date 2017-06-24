@@ -14,7 +14,7 @@
                 <div class="media" style="padding: 0 0 10px 0;">
                   <div class="media-left">
                     <#if label.image??>
-                      <img src="${label.image!}" class="avatar">
+                      <img src="${label.image!}" class="label-image">
                     <#else>
                       <div class="topic-label">
                         <span class="glyphicon glyphicon-tags"></span>
