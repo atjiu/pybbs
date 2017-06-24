@@ -108,7 +108,7 @@
       $("#send_email_btn").attr("disabled", true);
       $.ajax({
         url: "/sendEmailCode",
-        async: false,
+        async: true,
         cache: false,
         type: 'get',
         dataType: "json",

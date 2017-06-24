@@ -24,9 +24,15 @@ spring:
   mvc:
     static-path-pattern: /static/**
   mail:
-    host: smtp.qq.com
-    username: xxoo@qq.com
-    password: # 如果是qq邮箱的话，这里要配置成授权码
+    host: smtp.exmail.qq.com
+    username: xxoo@example.com
+    password:
+    port:
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
   http:
     multipart:
       max-file-size: 2MB

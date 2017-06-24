@@ -375,7 +375,6 @@ public class IndexController extends BaseController {
     try {
       String genCode = codeService.genEmailCode(email);
       SimpleMailMessage message = new SimpleMailMessage();
-      System.out.println(env.getProperty("spring.mail.username"));
       message.setFrom(env.getProperty("spring.mail.username"));
       message.setTo(email);
       message.setSubject("注册验证码 - " + siteConfig.getName());
