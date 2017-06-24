@@ -4,7 +4,12 @@
     <div class="form-group">
       <label for="label">标签</label>
       <input type="hidden" name="labels"/>
-      <input type="text" id="label" class="form-control" placeholder="给话题加上标签吧 (可选)"/>
+      <div class="input-group">
+        <input type="text" id="label" class="form-control" placeholder="给话题加上标签吧 (可选)"/>
+        <span class="input-group-btn">
+          <button class="btn btn-raised btn-default" type="button" id="addLabelBtn">添加</button>
+        </span>
+      </div>
     </div>
   </div>
   <div class="col-md-8">
@@ -30,25 +35,29 @@
     source: "/label/search",
     minLength: 2,
     select: function (event, ui) {
-      isAutoCompleteEnter = true;
       var label = ui.item.value;
-      setLabel(label);
+      $("#label").val(label);
+      $("#addLabelBtn").click();
     }
   });
-  $("#label").keyup(function (e) {
-    if (e.keyCode === 13 && $(this).val().length > 0 && !isAutoCompleteEnter) {
-      setLabel($(this).val());
+  $("#addLabelBtn").click(function () {
+    if ($("#label").val().length > 0) {
+      setLabel($("#label").val());
     }
   });
   function setLabel(label) {
-    if($("#labels .label").size() >= 5) {
+    if ($("#labels .label").size() >= 5) {
       $("#error_message").text("每个话题最多只能添加5个话题");
       return;
     }
     $("#labels").append("<span class='label label-primary'>" + label + " <span onclick='deleteLabel(this)'>x</span></span> ");
-    $("#label").val("");
+
+    setTimeout(function () {
+      $("#label").val("");
+    },10);
 
     setLabelName();
+    isAutoCompleteEnter = false;
   }
 
   function setLabelName() {
