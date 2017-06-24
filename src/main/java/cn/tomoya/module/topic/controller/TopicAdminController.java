@@ -75,10 +75,6 @@ public class TopicAdminController extends BaseController {
   public String update(@PathVariable Integer id, String tab, String oldLabels, String labels, String title, String content,
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
-    User user = getUser();
-
-    if (topic.getUser().getId() != user.getId())
-      throw new Exception("非法操作");
 
     if (sectionService.findByName(tab) == null)
       throw new Exception("版块不存在");
