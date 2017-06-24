@@ -241,7 +241,7 @@ public class IndexController extends BaseController {
    */
   @PostMapping("/register")
   @ResponseBody
-  public Result register(String username, String password, String emailAddress, String emailCode, String code,
+  public Result register(String username, String password, String email, String emailCode, String code,
                          HttpSession session) throws ApiException {
 
     String genCaptcha = (String) session.getAttribute("index_code");
@@ -250,13 +250,14 @@ public class IndexController extends BaseController {
     if (!genCaptcha.toLowerCase().equals(code.toLowerCase())) throw new ApiException("验证码错误");
     if (StringUtils.isEmpty(username)) throw new ApiException("用户名不能为空");
     if (StringUtils.isEmpty(password)) throw new ApiException("密码不能为空");
+    if (StringUtils.isEmpty(email)) throw new ApiException("邮箱不能为空");
 
     if (!StrUtil.check(username, StrUtil.userNameCheck)) throw new ApiException("用户名不合法");
 
     User user = userService.findByUsername(username);
     if (user != null) throw new ApiException("用户名已经被注册");
 
-    User user_email = userService.findByEmail(emailAddress);
+    User user_email = userService.findByEmail(email);
     if (user_email != null) throw new ApiException("邮箱已经被使用");
 
     int validateResult = codeService.validateCode(emailCode, CodeEnum.EMAIL);
@@ -269,7 +270,7 @@ public class IndexController extends BaseController {
     String avatarUrl = identicon.generator(username);
 
     user = new User();
-    user.setEmail(emailAddress);
+    user.setEmail(email);
     user.setUsername(username);
     user.setPassword(new BCryptPasswordEncoder().encode(password));
     user.setInTime(now);

@@ -11,8 +11,7 @@
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="username">用户名</label>
-            <input type="text" class="form-control" id="username" name="username" value="${username!}"
-                   placeholder="用户名,只能是2-16位的a-z,A-Z,0-9组合">
+            <input type="text" class="form-control" id="username" name="username" placeholder="用户名,只能是2-16位的a-z,A-Z,0-9组合">
           </div>
           <div class="form-group">
             <label for="password">密码</label>
@@ -21,7 +20,7 @@
           <div class="form-group">
             <label for="email">邮箱</label>
             <div class="input-group">
-              <input type="email" class="form-control" id="email" name="emailAddress" value="${email!}" placeholder="邮箱"/>
+              <input type="email" class="form-control" id="email" name="email" placeholder="邮箱"/>
               <span class="input-group-btn">
                 <button class="btn btn-raised btn-default" type="button" id="send_email_btn">发送邮件</button>
               </span>
@@ -29,8 +28,7 @@
           </div>
           <div class="form-group">
             <label for="emailCode">邮箱验证码</label>
-            <input type="text" class="form-control" id="emailCode" name="emailCode" value="${emailCode!}"
-                   placeholder="邮箱验证码">
+            <input type="text" class="form-control" id="emailCode" name="emailCode" placeholder="邮箱验证码">
           </div>
           <div class="form-group">
             <label for="code">验证码</label>
@@ -84,7 +82,14 @@
         cache: false,
         type: "post",
         dataType: "json",
-        data: $("#form").serializeArray(),
+        data: {
+          '${_csrf.parameterName}': '${_csrf.token}',
+          username: $("#username").val(),
+          password: $("#password").val(),
+          email: $("#email").val(),
+          emailCode: $("#emailCode").val(),
+          code: $("#code").val()
+        },
         success: function (data) {
           if (data.code === 200) {
             location.href = "/login?s=reg";
