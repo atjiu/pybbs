@@ -31,7 +31,7 @@
       </@topics_tag>
       <div class="panel-body" style="padding: 0 15px;">
         <#include "../components/paginate.ftl"/>
-      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/amdin/topic/list"/>
+      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/topic/list"/>
       </div>
     </div>
   </div>
