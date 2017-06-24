@@ -76,7 +76,7 @@
       </#if>
       <#if topic.labelId??>
         <@label_tag id=topic.labelId>
-          <p style="padding: 0 15px;">
+          <p style="padding: 0 15px 20px;">
             <span class="glyphicon glyphicon-tags"></span>&nbsp;
             <#list list as label>
               <span class="label label-success"><a href="/label/${label.name}/topic">${label.name}</a></span>
