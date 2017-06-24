@@ -2,6 +2,7 @@ package cn.tomoya;
 
 import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.util.DateUtil;
+import cn.tomoya.util.StrUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,4 +103,9 @@ public class TestDemo {
     System.out.println((date2.getTime() - now.getTime())/1000);//second
   }
 
+  @Test
+  public void test8() {
+    String text = "1234567890123456";
+    System.out.println(StrUtil.check(text, StrUtil.userNameCheck));
+  }
 }

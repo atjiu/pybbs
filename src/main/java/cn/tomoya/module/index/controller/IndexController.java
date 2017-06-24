@@ -251,6 +251,8 @@ public class IndexController extends BaseController {
     if (StringUtils.isEmpty(username)) throw new ApiException("用户名不能为空");
     if (StringUtils.isEmpty(password)) throw new ApiException("密码不能为空");
 
+    if (!StrUtil.check(username, StrUtil.userNameCheck)) throw new ApiException("用户名不合法");
+
     User user = userService.findByUsername(username);
     if (user != null) throw new ApiException("用户名已经被注册");
 
@@ -365,7 +367,7 @@ public class IndexController extends BaseController {
   @GetMapping("/sendEmailCode")
   @ResponseBody
   public Result sendEmailCode(String email) throws ApiException {
-    if (!StrUtil.isEmail(email)) throw new ApiException("请输入正确的Email");
+    if (!StrUtil.check(email, StrUtil.check)) throw new ApiException("请输入正确的Email");
 
     User user = userService.findByEmail(email);
     if (user != null) throw new ApiException("邮箱已经被使用");
