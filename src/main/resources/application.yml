@@ -8,7 +8,7 @@ spring:
     template-loader-path:
     - classpath:/templates/
     - file:./templates/
-    cache: true
+    cache: false
   datasource:
     url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
     username: root

@@ -21,7 +21,7 @@
           <div class="form-group">
             <label for="email">邮箱</label>
             <div class="input-group">
-              <input type="email" class="form-control" id="email" name="email" value="${email!}" placeholder="邮箱"/>
+              <input type="email" class="form-control" id="email" name="emailAddress" value="${email!}" placeholder="邮箱"/>
               <span class="input-group-btn">
                 <button class="btn btn-raised btn-default" type="button" id="send_email_btn">发送邮件</button>
               </span>
@@ -33,7 +33,7 @@
                    placeholder="邮箱验证码">
           </div>
           <div class="form-group">
-            <label for="email">验证码</label>
+            <label for="code">验证码</label>
             <div class="input-group">
               <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
               <span class="input-group-btn">
