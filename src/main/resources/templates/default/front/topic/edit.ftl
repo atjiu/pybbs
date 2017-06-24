@@ -53,16 +53,8 @@
     </div>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <b>话题发布指南</b>
-      </div>
-      <div class="panel-body">
-        <p>• 问题标题: 请用准确的语言描述您发布的问题思想</p>
-        <p>• 添加标签: 添加一个或者多个合适的标签, 让您发布的问题得到更多有相同兴趣的人参与.</p>
-        <p>• 给话题选择合适的板块方便查找浏览</p>
-      </div>
-    </div>
+    <#include "../components/create_topic_guide.ftl"/>
+    <@create_topic_guide/>
   </div>
 </div>
 </@html>

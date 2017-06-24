@@ -25,7 +25,11 @@
               <#if sec.isAuthenticated() && !sec.isLock()>
                 <#if sec.allGranted("topic:edit") || (sec.getPrincipal() == topic.user.username && model.overFiveMinute(topic.inTime))>
                   <span>•</span>
-                  <span><a href="/topic/${topic.id}/edit">编辑</a></span>
+                  <#if sec.allGranted("topic:edit")>
+                    <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
+                  <#else>
+                    <span><a href="/topic/${topic.id}/edit">编辑</a></span>
+                  </#if>
                 </#if>
                 <#if sec.allGranted("topic:delete")>
                   <span>•</span>

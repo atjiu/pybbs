@@ -60,10 +60,8 @@ public class TopicAdminController extends BaseController {
     Topic topic = topicService.findById(id);
     if (topic == null) throw new Exception("话题不存在");
 
-    if (DateUtil.isExpire(DateUtil.getMinuteAfter(topic.getInTime(), 5))) throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
-
     model.addAttribute("topic", topic);
-    return render("/front/topic/edit");
+    return render("/admin/topic/edit");
   }
 
   /**
@@ -78,8 +76,6 @@ public class TopicAdminController extends BaseController {
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
-
-    if (DateUtil.isExpire(DateUtil.getMinuteAfter(topic.getInTime(), 5))) throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
 
     if (topic.getUser().getId() != user.getId())
       throw new Exception("非法操作");
