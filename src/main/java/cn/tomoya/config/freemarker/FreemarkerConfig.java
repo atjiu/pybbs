@@ -51,14 +51,14 @@ public class FreemarkerConfig {
   private LabelDirective labelDirective;
   @Autowired
   private BaseEntity baseEntity;
+  @Autowired
+  private SectionsDirective sectionsDirective;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
     configuration.setSharedVariable("sec", springSecurityTag);
     // 注入全局配置至freemarker
     configuration.setSharedVariable("site", siteConfig);
-    // 将版块注入到全局freemarker变量里
-    configuration.setSharedVariable("sections", sectionService.findAll());
     configuration.setSharedVariable("model", baseEntity);
 
     configuration.setSharedVariable("user_topics_tag", userTopicDirective);
@@ -73,6 +73,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("score_tag", scoreDirective);
     configuration.setSharedVariable("labels_tag", labelsDirective);
     configuration.setSharedVariable("label_tag", labelDirective);
+    configuration.setSharedVariable("sections_tag", sectionsDirective);
 
     log.info("init freemarker sharedVariables {site} success...");
   }

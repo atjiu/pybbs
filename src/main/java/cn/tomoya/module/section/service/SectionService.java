@@ -41,10 +41,6 @@ public class SectionService {
     return sectionDao.findByName(name);
   }
 
-  public Section findTheme() {
-    return findByName("theme");
-  }
-
   @CacheEvict("sections")
   public void clearCache() {
   }

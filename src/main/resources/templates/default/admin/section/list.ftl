@@ -15,19 +15,21 @@
       </div>
       <div class="table-responsive">
         <table class="table table-striped">
-          <#list sections as section>
-            <tr>
-              <td>${section.id!}</td>
-              <td>${section.name!}</td>
-              <td>${section.tab!}</td>
-              <td>${section.in_time!}</td>
-              <td>
-                <a href="/admin/section/${section.id!}/edit" class="btn btn-xs btn-warning">编辑</a>
-                <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/section/${section.id!}/delete'"
-                   class="btn btn-xs btn-danger">删除</a>
-              </td>
-            </tr>
-          </#list>
+          <@sections_tag>
+            <#list sections as section>
+              <tr>
+                <td>${section.id!}</td>
+                <td>${section.name!}</td>
+                <td>${section.tab!}</td>
+                <td>${section.in_time!}</td>
+                <td>
+                  <a href="/admin/section/${section.id!}/edit" class="btn btn-xs btn-warning">编辑</a>
+                  <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/section/${section.id!}/delete'"
+                     class="btn btn-xs btn-danger">删除</a>
+                </td>
+              </tr>
+            </#list>
+          </@sections_tag>
         </table>
       </div>
     </div>

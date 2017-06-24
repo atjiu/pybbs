@@ -76,7 +76,7 @@
       </#if>
       <#if topic.labelId??>
         <@label_tag id=topic.labelId>
-          <p style="padding: 0 15px 20px;">
+          <p style="padding: 0 15px 15px;">
             <span class="glyphicon glyphicon-tags"></span>&nbsp;
             <#list list as label>
               <span class="label label-success"><a href="/label/${label.name}/topic">${label.name}</a></span>
@@ -116,7 +116,7 @@
           <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
         <#else>
           <div class="panel-heading">
-            添加一条新回复
+            添加一条新回复 <small class="text-danger">这会扣除你5积分</small>
             <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
           </div>
           <div class="panel-body">
@@ -158,4 +158,6 @@
 
   </div>
 </div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 </@html>

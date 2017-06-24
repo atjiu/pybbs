@@ -15,29 +15,32 @@
             <div class="col-md-8">
               <div class="form-group">
                 <label for="title">标题</label>
-                <input type="text" class="form-control" id="title" name="title" value="${topic.title!}" placeholder="标题">
+                <input type="text" class="form-control" id="title" name="title" value="${topic.title!}"
+                       placeholder="标题">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label for="title">版块</label>
                 <select name="tab" id="tab" class="form-control">
-                  <#list sections as section>
-                    <option value="${section.name}"
-                            <#if topic.tab == section.name>selected="selected"</#if>>
-                    ${section.name}
-                    </option>
-                  </#list>
+                  <@sections_tag>
+                    <#list sections as section>
+                      <option value="${section.name}"
+                              <#if topic.tab == section.name>selected="selected"</#if>>
+                      ${section.name}
+                      </option>
+                    </#list>
+                  </@sections_tag>
                 </select>
               </div>
             </div>
           </div>
 
-          <#--editor component-->
+        <#--editor component-->
           <#include "../components/editor.ftl"/>
           <@editor content=topic.content/>
 
-          <#--label component-->
+        <#--label component-->
           <#include "../components/label.ftl"/>
           <@label/>
 

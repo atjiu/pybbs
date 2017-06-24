@@ -25,16 +25,18 @@
 <link href="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
 <script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
+  var isAutoCompleteEnter = false;
   $("#label").autocomplete({
     source: "/label/search",
     minLength: 2,
     select: function (event, ui) {
+      isAutoCompleteEnter = true;
       var label = ui.item.value;
       setLabel(label);
     }
   });
   $("#label").keyup(function (e) {
-    if (e.keyCode === 13 && $(this).val().length > 0) {
+    if (e.keyCode === 13 && $(this).val().length > 0 && !isAutoCompleteEnter) {
       setLabel($(this).val());
     }
   });

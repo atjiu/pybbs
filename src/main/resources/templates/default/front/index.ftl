@@ -15,11 +15,13 @@
             ${sectionName!} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <#list sections as section>
-                <li>
-                  <a href="/?tab=${section.name!}">${section.name!}</a>
-                </li>
-              </#list>
+              <@sections_tag>
+                <#list sections as section>
+                  <li>
+                    <a href="/?tab=${section.name!}">${section.name!}</a>
+                  </li>
+                </#list>
+              </@sections_tag>
             </ul>
           </li>
         </ul>
