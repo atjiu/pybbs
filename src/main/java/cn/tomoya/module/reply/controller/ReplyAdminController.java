@@ -58,7 +58,7 @@ public class ReplyAdminController extends BaseController {
 
     Reply reply = replyService.findById(id);
     model.addAttribute("reply", reply);
-    return render("/front/reply/edit");
+    return render("/admin/reply/edit");
   }
 
   /**
