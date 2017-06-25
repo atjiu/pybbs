@@ -91,9 +91,12 @@ public class LabelAdminController extends BaseController {
   public String update(Integer id, String name, String intro, @RequestParam("file") MultipartFile file,
                        HttpServletResponse response) throws Exception {
     Label label = labelService.findById(id);
-    Label _label = labelService.findByName(name);
 
-    if (label.getId() != _label.getId()) throw new Exception("要修改的标签名已经存在");
+    if (!name.equals(label.getName())) {
+      Label _label = labelService.findByName(name);
+
+      if (_label != null) throw new Exception("要修改的标签名已经存在");
+    }
 
     // query topic by labelId
     List<Topic> topics = topicService.fuzzyTopicByLabel(id);
