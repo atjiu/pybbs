@@ -136,6 +136,7 @@
 
 /*pybbs.css*/
 body{font-family:"Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB","Microsoft Yahei",sans-serif}
+pre {padding:0}
 .wrapper{width:100%;background-color:#e2e2e2}
 .title a:visited{color:#888}
 .avatar{border-radius:4px;max-width:48px}
