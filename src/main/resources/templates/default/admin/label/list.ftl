@@ -45,8 +45,10 @@
           </tbody>
         </table>
       </@labels_tag>
-      <#include "../components/paginate.ftl"/>
-      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/amdin/label/list"/>
+      <div class="panel-body" style="padding: 0 15px;">
+        <#include "../components/paginate.ftl"/>
+        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/amdin/label/list" showdivide="no"/>
+      </div>
     </div>
   </div>
 </div>
