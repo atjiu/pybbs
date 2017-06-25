@@ -29,7 +29,7 @@
         </table>
       </@topics_tag>
       <#include "../components/paginate.ftl"/>
-      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/amdin/label/" + label.name/>
+      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/label/" + label.name/>
     </div>
   </div>
 </div>

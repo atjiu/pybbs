@@ -1,6 +1,5 @@
 package cn.tomoya.config.freemarker;
 
-import cn.tomoya.config.yml.SiteConfig;
 import cn.tomoya.module.label.service.LabelService;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -19,8 +18,6 @@ public class LabelsDirective implements TemplateDirectiveModel {
 
   @Autowired
   private LabelService labelService;
-  @Autowired
-  private SiteConfig siteConfig;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
@@ -28,7 +25,8 @@ public class LabelsDirective implements TemplateDirectiveModel {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-    Page page = labelService.findAll(p, siteConfig.getPageSize());
+    int size = map.get("size") == null ? 30 : Integer.parseInt(map.get("size").toString());
+    Page page = labelService.findAll(p, size);
 
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

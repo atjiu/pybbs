@@ -79,7 +79,6 @@ public class LabelAdminController extends BaseController {
   /**
    * update label
    *
-   * @param request
    * @param id
    * @param name
    * @param intro

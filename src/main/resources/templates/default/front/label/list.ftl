@@ -26,7 +26,7 @@
                       <a href="/label/${label.name}/topic">${label.name}</a>
                       <small>${label.topicCount!0}个话题</small>
                     </div>
-                    <p class="gray label-intro">${label.intro!}</p>
+                    <p class="gray label-intro">${label.intro!"&nbsp;"}</p>
                   </div>
                 </div>
               </div>
