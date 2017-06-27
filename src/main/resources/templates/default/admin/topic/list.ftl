@@ -10,7 +10,7 @@
       <div class="panel-heading">
         话题管理
       </div>
-      <@topics_tag p=p>
+      <@topics_tag p=p lastest=true>
         <table class="table table-striped">
           <tbody>
             <#list page.getContent() as topic>

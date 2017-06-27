@@ -18,7 +18,7 @@
             <div class="title">
               ${label.name}
             </div>
-            <p class="gray label-intro">${label.intro!}</p>
+            <p class="gray">${label.intro!}</p>
           </div>
         </div>
       </div>

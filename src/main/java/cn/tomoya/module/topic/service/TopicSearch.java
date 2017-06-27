@@ -35,7 +35,7 @@ public class TopicSearch {
   @PersistenceContext
   private EntityManager entityManager;
 
-  public Page search(int p, int size, String text) {
+  public Page<Topic> search(int p, int size, String text) {
 
     // get the full text entity manager
     FullTextEntityManager fullTextEntityManager =

@@ -108,16 +108,12 @@ public class TopicService {
     Sort sort;
     if(lastest) {
       sort = new Sort(
-          new Sort.Order(Sort.Direction.DESC, "top"),
-          new Sort.Order(Sort.Direction.DESC, "inTime"),
-          new Sort.Order(Sort.Direction.DESC, "modifyTime"),
-          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
+          new Sort.Order(Sort.Direction.DESC, "inTime"));
     } else {
       sort = new Sort(
           new Sort.Order(Sort.Direction.DESC, "top"),
-          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"),
-          new Sort.Order(Sort.Direction.DESC, "modifyTime"),
-          new Sort.Order(Sort.Direction.DESC, "inTime"));
+          new Sort.Order(Sort.Direction.DESC, "inTime"),
+          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
     }
     Pageable pageable = new PageRequest(p - 1, size, sort);
     if (labelId == null) {

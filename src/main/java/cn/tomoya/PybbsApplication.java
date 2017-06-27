@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.cache.annotation.EnableCaching;
  * http://tomoya.cn
  */
 @EnableCaching
-@ServletComponentScan
 @SpringBootApplication
 @EnableConfigurationProperties(SiteConfig.class)
 // @EnableAutoConfiguration注解加上，有异常不会找默认error页面了，而是直接输出字符串
