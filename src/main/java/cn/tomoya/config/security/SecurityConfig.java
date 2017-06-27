@@ -17,7 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.sql.DataSource;
 
 /**
  * Created by tomoya.
@@ -35,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
   @Autowired
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
+  @Autowired
+  private DataSource dataSource;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -67,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authenticated();
 
     http.formLogin()
+        .successHandler(savedRequestAwareAuthenticationSuccessHandler())
         .loginPage("/login")
         .loginProcessingUrl("/login")
         .usernameParameter("username")
@@ -76,12 +83,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll();
 
     // token expired after 30 days
-    http.rememberMe().key("remember-me").alwaysRemember(true).tokenValiditySeconds(2592000);
+    http.rememberMe()
+        .key("remember-me")
+        .alwaysRemember(true)
+        .tokenValiditySeconds(2592000);
 
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl("/")
-        .deleteCookies("remember-me");
+        .deleteCookies("JSESSIONID");
 
     http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

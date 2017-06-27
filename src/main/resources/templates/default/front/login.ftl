@@ -33,8 +33,8 @@
             </div>
           </div>
           <div class="checkbox">
-            <label for="rememberme"> <input type="checkbox"
-              name="remember-me" id="rememberme"> 记住我
+            <label for="rememberme">
+              <input type="checkbox" name="remember-me" id="rememberme" checked> 记住我
             </label>
           </div>
           <button type="submit" class="btn btn-default">登录</button>
