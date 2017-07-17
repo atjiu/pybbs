@@ -40,19 +40,19 @@
                   <span>•</span>
                   <#if topic.top == true>
                     <span><a
-                        href="javascript:if(confirm('确定要取消置顶吗？'))location.href='/topic/${topic.id}/top'">取消置顶</a></span>
+                        href="javascript:if(confirm('确定要取消置顶吗？'))location.href='/admin/topic/${topic.id}/top'">取消置顶</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要置顶吗？'))location.href='/topic/${topic.id}/top'">置顶</a></span>
+                        href="javascript:if(confirm('确定要置顶吗？'))location.href='/admin/topic/${topic.id}/top'">置顶</a></span>
                   </#if>
                 </#if>
                 <#if sec.allGranted("topic:good")>
                   <span>•</span>
                   <#if topic.good == true>
-                    <span><a href="javascript:if(confirm('确定要取消加精吗？'))location.href='/topic/${topic.id}/good'">取消加精</a></span>
+                    <span><a href="javascript:if(confirm('确定要取消加精吗？'))location.href='/admin/topic/${topic.id}/good'">取消加精</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要加精吗？'))location.href='/topic/${topic.id}/good'">加精</a></span>
+                        href="javascript:if(confirm('确定要加精吗？'))location.href='/admin/topic/${topic.id}/good'">加精</a></span>
                   </#if>
                 </#if>
 
@@ -60,10 +60,10 @@
                   <span>•</span>
                   <#if topic.lock == true>
                     <span><a
-                        href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/topic/${topic.id}/lock'">取消锁定</a></span>
+                        href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/admin/topic/${topic.id}/lock'">取消锁定</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要锁定吗？'))location.href='/topic/${topic.id}/lock'">锁定</a></span>
+                        href="javascript:if(confirm('确定要锁定吗？'))location.href='/admin/topic/${topic.id}/lock'">锁定</a></span>
                   </#if>
                 </#if>
 
