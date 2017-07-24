@@ -87,24 +87,6 @@ public class BaseEntity {
   }
 
   /**
-   * 查找一段文本里以 @ 开头的字符串
-   *
-   * @param str
-   * @return
-   */
-  public static List<String> fetchUsers(String pattern, String str) {
-    List<String> ats = new ArrayList<>();
-    if (StringUtils.isEmpty(pattern))
-      pattern = "@[^\\s]+\\s?";
-    Pattern regex = Pattern.compile(pattern);
-    Matcher regexMatcher = regex.matcher(str);
-    while (regexMatcher.find()) {
-      ats.add(regexMatcher.group());
-    }
-    return ats;
-  }
-
-  /**
    * 解析markdown文章(不解析@)
    *
    * @param content
@@ -121,6 +103,24 @@ public class BaseEntity {
             .addAttributes("input", "checked", "type")
             .addAttributes("span", "class")
     );
+  }
+
+  /**
+   * 查找一段文本里以 @ 开头的字符串
+   *
+   * @param str
+   * @return
+   */
+  public static List<String> fetchUsers(String pattern, String str) {
+    List<String> ats = new ArrayList<>();
+    if (StringUtils.isEmpty(pattern))
+      pattern = "@[^\\s]+\\s?";
+    Pattern regex = Pattern.compile(pattern);
+    Matcher regexMatcher = regex.matcher(str);
+    while (regexMatcher.find()) {
+      ats.add(regexMatcher.group());
+    }
+    return ats;
   }
 
   public boolean isUp(int userId, String upIds) {
