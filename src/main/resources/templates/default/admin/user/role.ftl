@@ -17,7 +17,7 @@
           </div>
           <div class="form-group">
             <label for="score">积分</label>
-            <input type="text" id="score" name="score" value="${user.score}" class="form-control"/>
+            <input type="text" id="score" name="score" value="${user.score?c}" class="form-control"/>
           </div>
           <div class="form-group">
             <label for="roles">角色</label>
