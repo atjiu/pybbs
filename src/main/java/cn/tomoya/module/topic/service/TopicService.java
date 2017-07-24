@@ -72,20 +72,22 @@ public class TopicService {
    */
   public void deleteById(int id) {
     Topic topic = findById(id);
-    //删除收藏这个话题的记录
-    collectService.deleteByTopic(topic);
-    //删除通知里提到的话题
-    notificationService.deleteByTopic(topic);
-    //删除话题下面的回复
-    replyService.deleteByTopic(topic);
+    if(topic != null) {
+      //删除收藏这个话题的记录
+      collectService.deleteByTopic(topic);
+      //删除通知里提到的话题
+      notificationService.deleteByTopic(topic);
+      //删除话题下面的回复
+      replyService.deleteByTopic(topic);
 
-    // deal label topicCount
-    if(!StringUtils.isEmpty(topic.getLabelId())) {
-      labelService.dealEditTopicOldLabels(topic.getLabelId());
+      // deal label topicCount
+      if (!StringUtils.isEmpty(topic.getLabelId())) {
+        labelService.dealEditTopicOldLabels(topic.getLabelId());
+      }
+
+      //删除话题
+      topicDao.delete(topic);
     }
-
-    //删除话题
-    topicDao.delete(topic);
   }
 
   /**

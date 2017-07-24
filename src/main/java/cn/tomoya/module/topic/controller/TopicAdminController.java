@@ -13,6 +13,7 @@ import cn.tomoya.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,11 +99,10 @@ public class TopicAdminController extends BaseController {
    * @return
    */
   @GetMapping("/{id}/delete")
-  public String delete(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
-    String beforeUrl = request.getHeader("referer");
+  public String delete(String a, HttpServletResponse response, @PathVariable Integer id) {
     // delete topic
     topicService.deleteById(id);
-    return redirect(response, beforeUrl == null ? "/admin/topic/list" : beforeUrl);
+    return redirect(response, StringUtils.isEmpty(a) ? "/" : "/admin/topic/list");
   }
 
   /**

@@ -40,10 +40,10 @@ public class ReplyService {
     replyDao.save(reply);
   }
 
-  public Map delete(int id, User user) {
+  public Map delete(int id) {
     Map map = new HashMap();
     Reply reply = findById(id);
-    if (reply != null && user.getId() == reply.getUser().getId()) {
+    if (reply != null) {
       map.put("topicId", reply.getTopic().getId());
       topicService.reduceOneReplyCount(reply.getTopic().getId());
       replyDao.delete(id);

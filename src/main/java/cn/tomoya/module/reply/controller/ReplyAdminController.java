@@ -91,9 +91,7 @@ public class ReplyAdminController extends BaseController {
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Integer id, HttpServletResponse response) {
     if (id != null) {
-      User user = getUser();
-      Map map = replyService.delete(id, user);
-
+      Map map = replyService.delete(id);
       return redirect(response, "/topic/" + map.get("topicId"));
     }
     return redirect(response, "/");

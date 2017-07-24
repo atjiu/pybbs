@@ -27,14 +27,13 @@
                   <span>•</span>
                   <#if sec.allGranted("topic:edit")>
                     <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
-                  <#else>
-                    <span><a href="/topic/${topic.id}/edit">编辑</a></span>
                   </#if>
                 </#if>
                 <#if sec.allGranted("topic:delete")>
                   <span>•</span>
-                  <span><a
-                      href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/${topic.id}/delete'">删除</a></span>
+                  <span>
+                    <a href="javascript:if(confirm('确定要删除吗？'))location.href='/admin/topic/${topic.id}/delete'">删除</a>
+                  </span>
                 </#if>
                 <#if sec.allGranted("topic:top")>
                   <span>•</span>

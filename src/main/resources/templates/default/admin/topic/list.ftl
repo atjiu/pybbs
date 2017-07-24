@@ -21,7 +21,7 @@
               <td>${model.formatDate(topic.inTime)}</td>
               <td>
                 <a href="/topic/${topic.id}/edit" class="btn btn-xs btn-warning" target="_blank">编辑</a>
-                <a href="javascript:if(confirm('确定要删除这个话题吗？'))location.href='/admin/topic/${topic.id!}/delete'"
+                <a href="javascript:if(confirm('确定要删除这个话题吗？'))location.href='/admin/topic/${topic.id!}/delete?a=1'"
                    class="btn btn-xs btn-danger">删除</a>
               </td>
             </tr>
