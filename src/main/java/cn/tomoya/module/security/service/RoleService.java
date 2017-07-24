@@ -35,7 +35,8 @@ public class RoleService {
    * @param id
    */
   public void deleteById(Integer id) {
-    roleDao.delete(id);
+    Role role = findById(id);
+    roleDao.delete(role);
   }
 
   /**

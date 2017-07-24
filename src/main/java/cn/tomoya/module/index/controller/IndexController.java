@@ -8,6 +8,8 @@ import cn.tomoya.module.attendance.entity.Attendance;
 import cn.tomoya.module.attendance.service.AttendanceService;
 import cn.tomoya.module.code.entity.CodeEnum;
 import cn.tomoya.module.code.service.CodeService;
+import cn.tomoya.module.security.entity.Role;
+import cn.tomoya.module.security.service.RoleService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicSearch;
 import cn.tomoya.module.user.entity.User;
@@ -40,9 +42,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -72,6 +72,8 @@ public class IndexController extends BaseController {
   private Environment env;
   @Autowired
   private AttendanceService attendanceService;
+  @Autowired
+  private RoleService roleService;
 
   /**
    * 首页
@@ -279,6 +281,13 @@ public class IndexController extends BaseController {
     user.setAttempts(0);
     user.setScore(2000);// first register score 2000
     user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
+
+    // set user's role
+    Role role = roleService.findById(3); // normal user
+    Set roles = new HashSet();
+    roles.add(role);
+    user.setRoles(roles);
+
     userService.save(user);
     return Result.success();
   }

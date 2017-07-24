@@ -139,6 +139,6 @@ public class BaseEntity {
    * @return
    */
   public boolean overFiveMinute(Date inTime) {
-    return !DateUtil.isExpire(DateUtil.getMinuteAfter(inTime, 5));
+    return DateUtil.isExpire(DateUtil.getMinuteAfter(inTime, 5));
   }
 }

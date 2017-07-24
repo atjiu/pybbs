@@ -1,22 +1,20 @@
 package cn.tomoya.module.topic.controller;
 
 import cn.tomoya.config.base.BaseController;
-import cn.tomoya.config.yml.SiteConfig;
-import cn.tomoya.exception.Result;
+import cn.tomoya.config.base.BaseEntity;
 import cn.tomoya.module.label.service.LabelService;
-import cn.tomoya.module.reply.service.ReplyService;
 import cn.tomoya.module.section.service.SectionService;
 import cn.tomoya.module.topic.entity.Topic;
 import cn.tomoya.module.topic.service.TopicService;
-import cn.tomoya.module.user.entity.User;
-import cn.tomoya.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
@@ -35,6 +33,8 @@ public class TopicAdminController extends BaseController {
   private SectionService sectionService;
   @Autowired
   private LabelService labelService;
+  @Autowired
+  private BaseEntity baseEntity;
 
   /**
    * topic list
@@ -60,6 +60,7 @@ public class TopicAdminController extends BaseController {
   public String edit(@PathVariable int id, Model model) throws Exception {
     Topic topic = topicService.findById(id);
     if (topic == null) throw new Exception("话题不存在");
+    if (baseEntity.overFiveMinute(topic.getInTime())) throw new Exception("话题发布时间超过5分钟，不能再编辑了");
 
     model.addAttribute("topic", topic);
     return render("/admin/topic/edit");
@@ -77,8 +78,8 @@ public class TopicAdminController extends BaseController {
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
 
-    if (sectionService.findByName(tab) == null)
-      throw new Exception("版块不存在");
+    if (sectionService.findByName(tab) == null) throw new Exception("版块不存在");
+    if (baseEntity.overFiveMinute(topic.getInTime())) throw new Exception("话题发布时间超过5分钟，不能再编辑了");
 
     // deal label
     labelService.dealEditTopicOldLabels(oldLabels);

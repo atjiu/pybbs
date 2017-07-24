@@ -23,11 +23,9 @@
               <span>•</span>
               <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
               <#if sec.isAuthenticated() && !sec.isLock()>
-                <#if sec.allGranted("topic:edit") || (sec.getPrincipal() == topic.user.username && model.overFiveMinute(topic.inTime))>
+                <#if sec.topicEditable(topic)>
                   <span>•</span>
-                  <#if sec.allGranted("topic:edit")>
-                    <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
-                  </#if>
+                  <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
                 </#if>
                 <#if sec.allGranted("topic:delete")>
                   <span>•</span>

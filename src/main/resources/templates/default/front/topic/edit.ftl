@@ -44,7 +44,7 @@
           <#include "../components/label.ftl"/>
           <@label/>
 
-          <button type="button" onclick="javascript:$('#editorForm').submit()" class="btn btn-default">
+          <button type="submit" class="btn btn-default">
             <span class="glyphicon glyphicon-send"></span> 发布
           </button>
           <span id="error_message"></span>

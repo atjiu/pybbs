@@ -1,16 +1,62 @@
 package cn.tomoya.config.security;
 
+import cn.tomoya.config.base.BaseEntity;
+import cn.tomoya.module.security.entity.Role;
+import cn.tomoya.module.topic.entity.Topic;
+import cn.tomoya.module.user.entity.User;
+import cn.tomoya.module.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class SpringSecurityTag {
+
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private BaseEntity baseEntity;
+
+  /**
+   * Determine whether or not a topic is editable
+   * @param topic
+   * @return
+   */
+  public boolean topicEditable(Topic topic) {
+    if(topic == null) return false;
+    if(isAdmin()) return true;
+    if(allGranted("topic:edit") && !baseEntity.overFiveMinute(topic.getInTime()) && topic.getUser().getUsername().equals(getPrincipal())) return true;
+    return false;
+  }
+
+  /**
+   * Determine whether the user is admin
+   * @return
+   */
+  public boolean isAdmin() {
+    String username = getPrincipal();
+    if (username == null) {
+      return false;
+    } else {
+      User user = userService.findByUsername(username);
+      Set<Role> roles = user.getRoles();
+      if (roles != null  && roles.size() >0) {
+        for(Role role: roles) {
+          if(role.getName().equals("admin")) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 
   /**
    * Get user lock statuc
@@ -51,7 +97,7 @@ public class SpringSecurityTag {
     if (obj instanceof org.springframework.security.core.userdetails.User) {
       return ((UserDetails) obj).getUsername();
     } else {
-      return "Guest";
+      return null;
     }
   }
 

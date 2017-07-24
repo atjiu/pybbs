@@ -17,11 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.sql.DataSource;
 
 /**
  * Created by tomoya.
@@ -39,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
   @Autowired
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
-  @Autowired
-  private DataSource dataSource;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
