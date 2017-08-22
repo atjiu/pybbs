@@ -8,10 +8,11 @@ title: 快速开始
 1. `git clone https://github.com/tomoya92/pybbs`
 2. 使用`idea` or `eclipse`打开项目
 3. 等待maven构建完成
-4. 运行 `PybbsApplication.java` 类
-5. 将 `pybbs.sql` 导入数据库
-6. 访问 `http://localhost:8080`
-7. 登录用户名：tomoya 密码：123123
+4. 配置 `application.yml` 文件里的数据库连接信息
+5. 运行 `PybbsApplication.java` 类
+6. 将 `pybbs.sql` 导入数据库
+7. 访问 `http://localhost:8080`
+8. 登录用户名：tomoya 密码：123123
 
 ## 生产环境部署
 

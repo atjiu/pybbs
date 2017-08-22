@@ -1,11 +1,24 @@
 [quote]
 ____
-使用说明：请保留页面底部的 *powered by 朋也社区*
+使用说明：请保留页面底部的 *powered by 朋也社区* 感谢支持
 ____
 
 == 文档
 
 https://tomoya92.github.io/pybbs/
+
+== 快速开始
+
+*数据库里的表是项目启动时自动创建的，不要再问创建表的脚本在哪了*
+
+- `git clone https://github.com/tomoya92/pybbs`
+- 使用`idea` or `eclipse`打开项目
+- 等待maven构建完成
+- 配置 `application.yml` 文件里的数据库连接信息
+- 运行 `PybbsApplication.java` 类
+- 将 `pybbs.sql` 导入数据库
+- 访问 `http://localhost:8080`
+- 登录用户名：tomoya 密码：123123
 
 == 技术栈
 
