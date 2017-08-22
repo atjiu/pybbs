@@ -57,11 +57,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
@@ -134,14 +134,14 @@
   <build>
     <finalName>pybbs</finalName>
     <plugins>
-      <plugin>
+<!--      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <mainClass>cn.tomoya.PybbsApplication</mainClass>
           <fork>true</fork>
         </configuration>
-      </plugin>
+      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -155,6 +155,57 @@
           </compilerArguments>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>cn.tomoya.PybbsApplication</mainClass>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+            </manifest>
+            <manifestEntries>
+              <Class-Path>./</Class-Path>
+            </manifestEntries>
+          </archive>
+          <excludes>
+            <exclude>bin/*</exclude>
+            <exclude>assembly/*</exclude>
+            <exclude>static/**</exclude>
+            <exclude>templates/**</exclude>
+            <exclude>application.yml</exclude>
+            <exclude>banner.txt</exclude>
+            <exclude>ehcache.xml</exclude>
+            <exclude>ehcache.xsd</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.5.5</version>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/resources/assembly/assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+
     </plugins>
   </build>
 
