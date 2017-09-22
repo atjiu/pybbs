@@ -73,7 +73,7 @@ public class User implements Serializable {
   private long spaceSize;
 
   // 用户与角色的关联关系
-  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   @JoinTable(name = "pybbs_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
       @JoinColumn(name = "role_id")})
   @JsonIgnore
