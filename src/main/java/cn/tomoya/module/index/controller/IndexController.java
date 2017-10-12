@@ -128,7 +128,7 @@ public class IndexController extends BaseController {
    */
   @GetMapping("/attendance")
   @ResponseBody
-  public Result attendance(HttpServletRequest request, HttpServletResponse response) throws ApiException {
+  public Result attendance(HttpServletRequest request, HttpServletResponse response) {
     String attendanceValue = StrUtil.getCookie(request, siteConfig.getCookie().getAttendanceName());
 
     Random random = new Random();
