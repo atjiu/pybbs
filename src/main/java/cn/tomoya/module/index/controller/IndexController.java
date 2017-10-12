@@ -342,7 +342,7 @@ public class IndexController extends BaseController {
 
     // randomCode用于保存随机产生的验证码，以便用户登录后进行验证。
     StringBuffer randomCode = new StringBuffer();
-    int red = 0, green = 0, blue = 0;
+    int red, green, blue;
 
     // 随机产生codeCount数字的验证码。
     for (int i = 0; i < codeCount; i++) {
@@ -370,6 +370,7 @@ public class IndexController extends BaseController {
     // 将图像输出到Servlet输出流中。
     ServletOutputStream sos = resp.getOutputStream();
     ImageIO.write(buffImg, "jpeg", sos);
+    sos.flush();
     sos.close();
   }
 

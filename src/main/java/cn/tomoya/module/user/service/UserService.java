@@ -30,13 +30,13 @@ public class UserService {
    * @return
    */
   public Page<User> findByScore(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "score"));
-    Pageable pageable = new PageRequest((p - 1) * size, size, sort);
+    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "score"));
+    Pageable pageable = PageRequest.of((p - 1) * size, size, sort);
     return userDao.findAll(pageable);
   }
 
   public User findById(int id) {
-    return userDao.findOne(id);
+    return userDao.findById(id);
   }
 
   /**
@@ -65,8 +65,8 @@ public class UserService {
    * @return
    */
   public Page<User> pageUser(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return userDao.findAll(pageable);
   }
 
@@ -121,6 +121,6 @@ public class UserService {
 //        //删除该用户的所有话题
 //        topicService.deleteByUser(user);
 //        //删除用户
-//        userDao.delete(user);
+//        userDao.deleteById(id);
 //    }
 }

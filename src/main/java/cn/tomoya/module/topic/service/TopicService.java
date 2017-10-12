@@ -62,7 +62,7 @@ public class TopicService {
    * @return
    */
   public Topic findById(int id) {
-    return topicDao.findOne(id);
+    return topicDao.findById(id);
   }
 
   /**
@@ -109,15 +109,15 @@ public class TopicService {
   public Page<Topic> page(int p, int size, String tab, boolean lastest, Integer labelId) {
     Sort sort;
     if(lastest) {
-      sort = new Sort(
+      sort = Sort.by(
           new Sort.Order(Sort.Direction.DESC, "inTime"));
     } else {
-      sort = new Sort(
+      sort = Sort.by(
           new Sort.Order(Sort.Direction.DESC, "top"),
           new Sort.Order(Sort.Direction.DESC, "inTime"),
           new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
     }
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     if (labelId == null) {
       switch (tab) {
         case "全部":
@@ -144,9 +144,9 @@ public class TopicService {
    */
   public Page<Topic> search(int p, int size, String q) {
     if (StringUtils.isEmpty(q)) return null;
-    Sort sort = new Sort(
+    Sort sort = Sort.by(
         new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return topicDao.findByTitleContainingOrContentContaining(q, q, pageable);
   }
 
@@ -185,8 +185,8 @@ public class TopicService {
    * @return
    */
   public Page<Topic> findByUser(int p, int size, User user) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return topicDao.findByUser(user, pageable);
   }
 

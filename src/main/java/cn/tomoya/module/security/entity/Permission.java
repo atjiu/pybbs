@@ -14,6 +14,8 @@ import java.util.Set;
 @Table(name = "pybbs_permission")
 public class Permission implements Serializable {
 
+  private static final long serialVersionUID = 8168491333970695934L;
+
   @Id
   @GeneratedValue
   private int id;

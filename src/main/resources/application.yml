@@ -3,11 +3,10 @@ server:
 spring:
   resources:
     static-locations:
-    - file:./static/
+    - file:./static
   freemarker:
     template-loader-path:
-    - classpath:/templates/
-    - file:./templates/
+    - file:./templates
     cache: false
   datasource:
     url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8

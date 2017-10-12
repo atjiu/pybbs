@@ -33,7 +33,7 @@ public class ReplyService {
   private TopicService topicService;
 
   public Reply findById(int id) {
-    return replyDao.findOne(id);
+    return replyDao.findById(id).get();
   }
 
   public void save(Reply reply) {
@@ -46,7 +46,7 @@ public class ReplyService {
     if (reply != null) {
       map.put("topicId", reply.getTopic().getId());
       topicService.reduceOneReplyCount(reply.getTopic().getId());
-      replyDao.delete(id);
+      replyDao.deleteById(id);
     }
     return map;
   }
@@ -189,8 +189,8 @@ public class ReplyService {
    * @return
    */
   public Page<Reply> page(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return replyDao.findAll(pageable);
   }
 
@@ -203,8 +203,8 @@ public class ReplyService {
    * @return
    */
   public Page<Reply> findByUser(int p, int size, User user) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return replyDao.findByUser(user, pageable);
   }
 }

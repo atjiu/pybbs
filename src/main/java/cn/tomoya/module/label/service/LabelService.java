@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by tomoya on 2017/6/16.
@@ -39,7 +40,7 @@ public class LabelService {
    * @return
    */
   public Label findById(int id) {
-    return labelDao.findOne(id);
+    return labelDao.findById(id).get();
   }
 
   public void save(Label label) {
@@ -71,10 +72,10 @@ public class LabelService {
    * @return
    */
   public Page findAll(int p, int size) {
-    Sort sort = new Sort(
+    Sort sort = Sort.by(
         new Sort.Order(Sort.Direction.DESC, "topicCount")
     );
-    Pageable pageable = new PageRequest((p - 1) * size, size, sort);
+    Pageable pageable = PageRequest.of((p - 1) * size, size, sort);
     return labelDao.findAll(pageable);
   }
 

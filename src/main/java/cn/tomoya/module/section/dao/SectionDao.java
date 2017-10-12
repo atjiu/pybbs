@@ -21,7 +21,7 @@ public interface SectionDao extends JpaRepository<Section, Integer> {
   List<Section> findAll();
 
   @Cacheable
-  Section findOne(int id);
+  Section findById(int id);
 
   @Cacheable
   Section findByName(String name);

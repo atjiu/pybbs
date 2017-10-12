@@ -62,7 +62,7 @@ public class TopicSearch {
     // execute search and return results (sorted by relevance as default)
     jpaQuery.setFirstResult((p - 1) * size);
     jpaQuery.setMaxResults(size);
-    Pageable pageable = new PageRequest((p - 1) * size, size);
+    Pageable pageable = PageRequest.of((p - 1) * size, size);
     List results = jpaQuery.getResultList();
 
     results = hightLight(query, results, "title", "content");

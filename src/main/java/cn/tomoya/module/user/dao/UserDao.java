@@ -17,13 +17,13 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends JpaRepository<User, Integer> {
 
   @Cacheable
-  User findOne(int id);
+  User findById(int id);
 
   @Cacheable
   User findByUsername(String username);
 
   @CacheEvict
-  void delete(int id);
+  void deleteById(int id);
 
   @Cacheable
   User findByToken(String token);

@@ -30,11 +30,11 @@ public class SectionService {
   }
 
   public void delete(int id) {
-    sectionDao.delete(findOne(id));
+    sectionDao.delete(findById(id));
   }
 
-  public Section findOne(int id) {
-    return sectionDao.findOne(id);
+  public Section findById(int id) {
+    return sectionDao.findById(id);
   }
 
   public Section findByName(String name) {

@@ -23,9 +23,7 @@ import java.util.List;
 public interface TopicDao extends JpaRepository<Topic, Integer> {
 
   @Cacheable
-  Topic findOne(int id);
-
-  void delete(int id);
+  Topic findById(int id);
 
   @Cacheable
   Page<Topic> findByTab(String tab, Pageable pageable);

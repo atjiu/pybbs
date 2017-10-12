@@ -47,13 +47,13 @@ public class SectionAdminController extends BaseController {
 
   @GetMapping("/{id}/edit")
   public String edit(@PathVariable int id, Model model) {
-    model.addAttribute("section", sectionService.findOne(id));
+    model.addAttribute("section", sectionService.findById(id));
     return render("/admin/section/edit");
   }
 
   @PostMapping("/{id}/edit")
   public String update(@PathVariable int id, Model model, HttpServletResponse response, String name) {
-    Section section = sectionService.findOne(id);
+    Section section = sectionService.findById(id);
     section.setName(name);
     sectionService.save(section);
     sectionService.clearCache();

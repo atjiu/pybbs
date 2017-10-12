@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Created by tomoya.
@@ -13,14 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * http://tomoya.cn
  */
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer {
 
   @Autowired
   private CommonInterceptor commonInterceptor;
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
-    super.configurePathMatch(configurer);
     configurer.setUseSuffixPatternMatch(false);
   }
 
@@ -31,7 +30,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
    */
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    super.addInterceptors(registry);
     registry.addInterceptor(commonInterceptor).addPathPatterns("/**").excludePathPatterns("/api/**");
   }
 

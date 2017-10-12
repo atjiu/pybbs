@@ -19,7 +19,7 @@ import java.util.List;
 public interface RoleDao extends JpaRepository<Role, Integer> {
 
   @Cacheable
-  Role findOne(int id);
+  Role findById(int id);
 
   @Cacheable
   List<Role> findAll();

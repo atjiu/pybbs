@@ -101,6 +101,6 @@ public class PermissionService {
   }
 
   public Permission findById(int id) {
-    return permissionDao.findOne(id);
+    return permissionDao.findById(id);
   }
 }

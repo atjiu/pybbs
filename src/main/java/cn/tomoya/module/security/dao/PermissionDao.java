@@ -19,7 +19,7 @@ import java.util.List;
 public interface PermissionDao extends JpaRepository<Permission, Integer> {
 
   @Cacheable
-  Permission findOne(int id);
+  Permission findById(int id);
 
   @Cacheable
   List<Permission> findByPidGreaterThan(int pid);

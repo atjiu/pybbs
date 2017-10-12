@@ -46,7 +46,7 @@ public class RoleService {
    * @return
    */
   public Role findById(int id) {
-    return roleDao.findOne(id);
+    return roleDao.findById(id);
   }
 
   public void save(Role role) {
