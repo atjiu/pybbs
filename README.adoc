@@ -22,11 +22,11 @@ https://tomoya92.github.io/pybbs/
 
 == 技术栈
 
-- JDK8
-- Spring-Boot
+- JDK9
+- Spring-Boot2.0.0.M5
 - Spring-Security
 - Spring-JPA
-- Hibernate-Search
+- Hibernate-Search5.8.0
 - Freemarker
 - MySQL
 - Bootstrap3
