@@ -6,24 +6,11 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <ul class="nav nav-pills">
-          <li <#if tab == '全部'>class="active"</#if>><a href="/?tab=全部">全部</a></li>
-          <li <#if tab == '精华'>class="active"</#if>><a href="/?tab=精华">精华</a></li>
-          <li <#if tab == '等待回复'>class="active"</#if>><a href="/?tab=等待回复">等待回复</a></li>
-          <li class="dropdown <#if tab != '全部' && tab != '精华' && tab != '等待回复'>active</#if>"
-              style="margin-right: 8px;">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-target="#">
-            ${sectionName!} <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <@sections_tag>
-                <#list sections as section>
-                  <li>
-                    <a href="/?tab=${section.name!}">${section.name!}</a>
-                  </li>
-                </#list>
-              </@sections_tag>
-            </ul>
-          </li>
+          <li <#if !tab?? || tab == ''>class="active"</#if>><a href="/">默认</a></li>
+          <li <#if tab?? && tab == 'good'>class="active"</#if>><a href="/?tab=good">精华</a></li>
+          <li <#if tab?? && tab == 'newest'>class="active"</#if>><a href="/?tab=newest">最新</a></li>
+          <li <#if tab?? && tab == 'noanswer'>class="active"</#if>><a href="/?tab=noanswer">等待回复</a></li>
+          <li><a href="javascript:;">节点</a></li>
         </ul>
       </div>
 
@@ -45,7 +32,7 @@
                   <#elseif topic.good == true>
                     <span class="label label-success">精华</span>
                   <#else>
-                    <a href="/?tab=${topic.tab!}">${topic.tab!}</a>
+                    <a href="/topics/${topic.node.value!}">${topic.node.name!}</a>
                   </#if>
                   <span>•</span>
                   <span><a href="/user/${topic.user.username!}">${topic.user.username!}</a></span>

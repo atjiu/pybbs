@@ -15,16 +15,18 @@
               <td rowspan="3" width="80">
                 <img src="${user.avatar}" class="avatar-lg" alt="">
               </td>
-              <td style="font-size: 20px;">${user_index + 1}. <a href="/user/${user.username}">${user.username}</a></td>
+              <td style="font-size: 20px;">${user_index + 1}. <a href="/user/${user.username}">${user.username}</a>
+              </td>
               <td rowspan="3" style="font-size: 30px; width:70px; text-align: center;">
-                <span class="label label-default" style="background-color: #f5f5f5;color:#666;">${user.score!0}</span>
+                    <span class="label label-default"
+                          style="background-color: #f5f5f5;color:#666;">${user.score!0}</span>
               </td>
             </tr>
             <tr>
               <td>
                 <i>
                   <#if user.signature??>
-                  ${user.signature}
+                    ${user.signature}
                   <#else>
                     "这家伙很懒，什么都没有留下"
                   </#if>

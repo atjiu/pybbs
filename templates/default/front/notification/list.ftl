@@ -34,7 +34,7 @@
                 </div>
                 <#if notification.content?? && notification.content != "">
                   <div class="payload">
-                  ${model.marked(notification.content)}
+                    ${model.marked(notification.content)}
                   </div>
                 </#if>
               </div>
@@ -48,7 +48,7 @@
         </div>
       </div>
     </@notifications_tag>
-    </div>
+  </div>
   <div class="col-md-3 hidden-sm hidden-xs"></div>
 </div>
 </@html>

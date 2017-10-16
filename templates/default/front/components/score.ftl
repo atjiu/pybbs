@@ -5,10 +5,10 @@
       <table class="table">
         <tbody>
         <#list page.getContent() as user>
-          <tr>
-            <td><a href="/user/${user.username}">${user.username}</a></td>
-            <td align="right">${user.score!0}</td>
-          </tr>
+        <tr>
+          <td><a href="/user/${user.username}">${user.username}</a></td>
+          <td align="right">${user.score!0}</td>
+        </tr>
         </#list>
         </tbody>
       </table>

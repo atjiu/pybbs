@@ -34,7 +34,7 @@
     <file>
       <source>${project.build.directory}${file.separator}${build.finalName}.jar</source>
       <outputDirectory>${file.separator}</outputDirectory>
-      <destName>pybbs.jar</destName>
+      <destName>yiiu.jar</destName>
     </file>
   </files>
 

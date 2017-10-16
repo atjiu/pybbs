@@ -1,5 +1,5 @@
 #!/bin/sh
-APP_NAME=pybbs
+APP_NAME=yiiu
 
 tpid=`ps -ef|grep $APP_NAME|grep -v grep|grep -v kill|awk '{print $2}'`
 if [ ${tpid} ]; then

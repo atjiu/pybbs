@@ -15,7 +15,7 @@
                 <a href="/topic/${topic.id!}">${topic.title!}</a>
               </div>
               <p>
-                <a href="/?tab=${topic.tab}">${topic.tab}</a>
+                <a href="/topics/${topic.node.value!}">${topic.node.name!}</a>
                 <span>•</span>
                 <span><a href="/user/${topic.user.username}">${topic.user.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
@@ -36,7 +36,7 @@
           <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/topics" urlParas=""/>
         </#if>
       </div>
-      <#if isFooter>
+      <#if isFooter || page.getTotalElements() &gt;= limit>
         <div class="panel-footer">
           <a href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
         </div>

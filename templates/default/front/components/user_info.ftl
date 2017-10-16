@@ -2,7 +2,7 @@
   <@user_tag username=username>
   <div class="panel panel-default">
     <div class="panel-heading">
-    ${text}
+      ${text}
     </div>
     <div class="panel-body">
       <div class="media">

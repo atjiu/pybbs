@@ -9,7 +9,7 @@ spring:
     - file:./templates
     cache: false
   datasource:
-    url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
     username: root
     password: 123123
   jpa:
@@ -36,7 +36,7 @@ spring:
     multipart:
       max-file-size: 2MB
 site:
-  name: 朋也社区
+  name: YIIU
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
   baseUrl: http://localhost:8080/
   staticUrl: http://localhost:8080/static/images/upload/

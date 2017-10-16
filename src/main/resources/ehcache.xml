@@ -3,7 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="ehcache.xsd">
 
-  <diskStore path="java.io.tmpdir" />
+  <diskStore path="./ehcache" />
 
   <!-- Mandatory Default Cache configuration. These settings will be applied 
     to caches created programmtically using CacheManager.add(String cacheName) -->
@@ -112,7 +112,7 @@
     memoryStoreEvictionPolicy="LRU" />
 
   <cache
-    name="sections"
+    name="nodes"
     maxElementsInMemory="10000"
     eternal="false"
     timeToIdleSeconds="120"

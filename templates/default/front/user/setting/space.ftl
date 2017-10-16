@@ -23,7 +23,8 @@
             <#list m.fileList as n>
               <div class="col-xs-6 col-md-3">
                 <div class="thumbnail">
-                  <span class="file-delete" data-dirName="${m.dirName}" data-fileName="${n.fileName}">&times;</span>
+                        <span class="file-delete" data-dirName="${m.dirName}"
+                              data-fileName="${n.fileName}">&times;</span>
                   <img src="${n.fileUrl}">
                 </div>
               </div>
@@ -40,7 +41,7 @@
 <script>
   $(function () {
     $(".file-delete").click(function () {
-      if(confirm("确定要删除这张图片吗？有可能会导致话题或者回复里图片不能正常展示")) {
+      if (confirm("确定要删除这张图片吗？有可能会导致话题或者回复里图片不能正常展示")) {
         var self = $(this);
         var dirName = $(this).attr('data-dirName');
         var fileName = $(this).attr('data-fileName');
@@ -55,7 +56,7 @@
             fileName: fileName
           },
           success: function (data) {
-            if(data.code === 200) {
+            if (data.code === 200) {
               self.parent().parent().remove();
             } else {
               alert(data.description);

@@ -21,7 +21,7 @@
               <span>•</span>
               <span>${topic.view!1}次点击</span>
               <span>•</span>
-              <span>来自 <a href="/?tab=${topic.tab!}">${topic.tab!}</a></span>
+              <span>来自 <a href="/topics/${topic.node.value!}">${topic.node.name!}</a></span>
               <#if sec.isAuthenticated() && !sec.isLock()>
                 <#if sec.topicEditable(topic)>
                   <span>•</span>
@@ -75,18 +75,8 @@
       <#if topic.content?? && topic.content != "">
         <div class="divide"></div>
         <div class="panel-body topic-detail-content">
-        ${model.markedNotAt(topic.content)}
+          ${model.markedNotAt(topic.content)}
         </div>
-      </#if>
-      <#if topic.labelId??>
-        <@label_tag id=topic.labelId>
-          <p style="padding: 0 15px 15px;">
-            <span class="glyphicon glyphicon-tags"></span>&nbsp;
-            <#list list as label>
-              <span class="label label-success"><a href="/label/${label.name}/topic">${label.name}</a></span>
-            </#list>
-          </p>
-        </@label_tag>
       </#if>
       <#if sec.isAuthenticated()>
         <div class="panel-footer">

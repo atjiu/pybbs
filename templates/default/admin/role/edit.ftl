@@ -17,7 +17,8 @@
           </div>
           <div class="form-group">
             <label for="description">角色描述</label>
-            <input type="text" id="description" name="description" value="${role.description!}" class="form-control"/>
+            <input type="text" id="description" name="description" value="${role.description!}"
+                   class="form-control"/>
           </div>
           <div class="form-group">
             <label for="roles">权限</label>

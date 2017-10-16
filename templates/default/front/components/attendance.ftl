@@ -12,7 +12,7 @@
         type: "get",
         dataType: "json",
         success: function (data) {
-          if(data.code === 200) {
+          if (data.code === 200) {
             $(e).text("你领取了 " + data.detail + " 积分");
           } else {
             $(e).text(data.description);

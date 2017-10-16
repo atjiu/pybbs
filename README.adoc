@@ -1,28 +1,27 @@
 [quote]
 ____
-使用说明：请保留页面底部的 *powered by 朋也社区* 感谢支持
+使用说明：请保留页面底部的 *powered by yiiu.co* 感谢支持
 ____
 
-== 文档
-
-https://tomoya92.github.io/pybbs/
+https://yiiu.co
 
 == 快速开始
 
 *数据库里的表是项目启动时自动创建的，不要再问创建表的脚本在哪了*
 
-- `git clone https://github.com/tomoya92/pybbs`
+- `git clone https://github.com/yiiu-co/yiiu`
 - 使用`idea` or `eclipse`打开项目
 - 等待maven构建完成
 - 配置 `application.yml` 文件里的数据库连接信息
-- 运行 `PybbsApplication.java` 类
-- 将 `pybbs.sql` 导入数据库
+- 创建数据库yiiu
+- 运行 `Application.java` 类 (这一步系统会自动把表创建好)
+- 将 `yiiu.sql` 导入数据库
 - 访问 `http://localhost:8080`
-- 登录用户名：tomoya 密码：123123
+- 登录用户名：tomoya 密码：123123 (权限是超级管理员)
 
 == 技术栈
 
-- JDK9
+- JDK8
 - Spring-Boot2.0.0.M5
 - Spring-Security
 - Spring-JPA
@@ -33,10 +32,6 @@ https://tomoya92.github.io/pybbs/
 - Ehcache
 
 *呃，就是spring全家桶*
-
-== 先睹为快
-
-https://github.com/tomoya92/pybbs/wiki/%E6%88%AA%E5%9B%BE%E6%AC%A3%E8%B5%8F[传送门]
 
 == 特性
 
@@ -52,8 +47,7 @@ https://github.com/tomoya92/pybbs/wiki/%E6%88%AA%E5%9B%BE%E6%AC%A3%E8%B5%8F[传�
 
 == 碰到问题怎么办?
 
-1. https://tomoya92.github.io/pybbs/[文档]
-2. https://github.com/tomoya92/pybbs/issues[issues]
+https://github.com/yiiu-co/yiiu/issues[issues]
 
 *提问题的时候请将问题重现步骤描述清楚*
 
@@ -62,7 +56,7 @@ QQ群：`419343003`
 == 其它版本
 
 - golang版：https://github.com/tomoya92/pybbs-go
-- springboot版：https://github.com/tomoya92/pybbs
+- springboot版：https://github.com/yiiu-co/yiiu
 - jfinal版：https://github.com/tomoya92/pybbs/tree/v2.3
 - ssm版：https://github.com/ehuacui/ehuacui-bbs
 
@@ -83,20 +77,10 @@ QQ群：`419343003`
 | http://www.coder.men/
 | 2.5
 
-| https://springbootbbs.com/
-| master
-
 | http://www.tianyuev5.cn:8080/
 | master
 
 |===
-
-== 捐赠
-
-image:https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png[alipay]
-image:https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png[wechat]
-
-https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0[捐赠名单]
 
 == License
 

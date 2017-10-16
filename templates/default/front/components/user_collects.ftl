@@ -2,7 +2,7 @@
   <@user_collects_tag username=username p=p>
   <div class="panel panel-default">
     <div class="panel-heading">
-    ${currentUser.username}收藏的话题
+      ${currentUser.username}收藏的话题
     </div>
     <#if page.getTotalElements() == 0>
       <div class="panel-body">
@@ -17,7 +17,7 @@
               <a href="/topic/${collect.topic.id!}">${collect.topic.title!}</a>
             </div>
             <p>
-              <a href="/?tab=${collect.topic.tab}">${collect.topic.tab}</a>
+              <a href="/topics/${collect.topic.node.value!}">${collect.topic.node.name!}</a>
               <span>•</span>
               <span><a href="/user/${collect.topic.user.username}">${collect.topic.user.username}</a></span>
               <span class="hidden-sm hidden-xs">•</span>

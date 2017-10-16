@@ -28,7 +28,7 @@
             <div class="input-group">
               <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
               <span class="input-group-btn">
-                <img src="/code" id="changeCode" />
+                <img src="/code" id="changeCode"/>
               </span>
             </div>
           </div>
@@ -44,8 +44,8 @@
   </div>
 </div>
 <script type="text/javascript">
-  $(function(){
-    $("#changeCode").click(function(){
+  $(function () {
+    $("#changeCode").click(function () {
       var date = new Date();
       $(this).attr("src", "/code?ver=" + date.getTime());
     })

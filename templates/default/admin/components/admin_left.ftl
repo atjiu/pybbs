@@ -4,8 +4,8 @@
     <#if sec.allGranted("admin:index")>
       <a href="/admin/index" class="list-group-item <#if page_tab == "index">active</#if>">仪表盘</a>
     </#if>
-    <#if sec.allGranted("section:list")>
-      <a href="/admin/section/list" class="list-group-item <#if page_tab == "section">active</#if>">版块管理</a>
+    <#if sec.allGranted("node:list")>
+      <a href="/admin/node/list" class="list-group-item <#if page_tab == "node">active</#if>">节点管理</a>
     </#if>
     <#if sec.allGranted("topic:list")>
       <a href="/admin/topic/list" class="list-group-item <#if page_tab == "topic">active</#if>">话题管理</a>

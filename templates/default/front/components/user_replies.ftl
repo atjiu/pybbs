@@ -11,7 +11,7 @@
         <#list page.getContent() as reply>
           <tr>
             <td>
-            ${model.formatDate(reply.inTime)!}
+              ${model.formatDate(reply.inTime)!}
               回复了
               <a href="/user/${reply.user.username}">${reply.user.username}</a>
               创建的话题 › <a href="/topic/${reply.topic.id}">${reply.topic.title}</a>
@@ -19,7 +19,7 @@
           </tr>
           <tr class="user_replies">
             <td>
-            ${model.marked(reply.content!)}
+              ${model.marked(reply.content!)}
             </td>
           </tr>
         </#list>
@@ -30,7 +30,7 @@
         <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/replies" urlParas="" showdivide="no"/>
         </div>
       </#if>
-      <#if isFooter>
+      <#if isFooter || page.getTotalElements() &gt;= limit>
         <div class="panel-footer">
           <a href="/user/${currentUser.username}/replies">${currentUser.username}更多回复&gt;&gt;</a>
         </div>

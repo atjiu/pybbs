@@ -28,7 +28,7 @@
               <tbody>
                 <#list childPermissions as permission>
                 <tr>
-                  <#--<td>${permission.id!}</td>-->
+                <#--<td>${permission.id!}</td>-->
                   <td>${permission.name!}</td>
                   <td>${permission.url!}</td>
                   <td>${permission.description!}</td>
@@ -38,7 +38,7 @@
                     </#if>
                     <#if sec.allGranted("permission:delete")>
                       <a href="javascript:if(confirm('确认删除吗?')) location.href='/admin/permission/${permission.id!}/delete'"
-                        class="btn btn-xs btn-danger">删除</a>
+                         class="btn btn-xs btn-danger">删除</a>
                     </#if>
                   </td>
                 </tr>

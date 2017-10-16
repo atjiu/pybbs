@@ -11,8 +11,8 @@
 hs_err_pid*
 
 .idea/
-pybbs.iml
-pybbs.log
+*.iml
+*.log
 target/
 out/
 .DS_Store
@@ -22,4 +22,5 @@ out/
 .settings
 .classpath
 docs/_site
-indexes
+indexes/
+ehcache/

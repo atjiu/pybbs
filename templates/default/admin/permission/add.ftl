@@ -21,24 +21,28 @@
                 <#list permissions as permission>
                   <option value="${permission.id!}"
                           <#if pid?? && pid == permission.id>selected</#if>>
-                  ${permission.description!}
+                    ${permission.description!}
                   </option>
                 </#list>
               </select>
             </div>
             <div class="form-group">
               <label for="name">权限标识</label>
-              <input type="text" id="name" name="name" class="form-control" placeholder="权限标识，如：user:list"/>
+              <input type="text" id="name" name="name" class="form-control"
+                     placeholder="权限标识，如：user:list"/>
             </div>
             <div class="form-group">
               <label for="url">授权地址</label>
-              <input type="text" id="url" name="url" class="form-control" placeholder="授权地址，如：/admin/user/list"/>
+              <input type="text" id="url" name="url" class="form-control"
+                     placeholder="授权地址，如：/admin/user/list"/>
             </div>
             <div class="form-group">
               <label for="description">权限描述</label>
-              <input type="text" id="description" name="description" class="form-control" placeholder="权限描述，如：用户列表"/>
+              <input type="text" id="description" name="description" class="form-control"
+                     placeholder="权限描述，如：用户列表"/>
             </div>
-            <button type="button" id="permissionBtn" onclick="permissionSubmit()" class="btn btn-default btn-sm">保存
+            <button type="button" id="permissionBtn" onclick="permissionSubmit()"
+                    class="btn btn-default btn-sm">保存
             </button>
             <span id="error_message"></span>
           </form>

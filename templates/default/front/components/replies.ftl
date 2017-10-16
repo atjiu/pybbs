@@ -8,7 +8,7 @@
       <div class="media-body reply-content">
         <div class="media-heading gray">
           <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
-        ${model.formatDate(reply.inTime)}
+          ${model.formatDate(reply.inTime)}
           <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">
               <#if model.isUp(user.id, reply.upIds) == true>
@@ -38,7 +38,7 @@
             </span>
           </#if>
         </div>
-      ${model.marked(reply.content)}
+        ${model.marked(reply.content)}
       </div>
     </div>
       <#if reply_has_next>
@@ -118,7 +118,7 @@
 
     function replythis(author) {
       var contentVal = $("#content").val();
-      if(contentVal.length === 0) {
+      if (contentVal.length === 0) {
         contentVal += "@" + author + " ";
       } else {
         contentVal += "\n@" + author + " ";

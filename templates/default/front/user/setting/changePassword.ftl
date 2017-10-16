@@ -25,7 +25,8 @@
           </div>
           <#if sec.isLock()>
             <button type="button" class="btn btn-default" disabled="disabled" data-toggle="tooltip"
-                    data-placement="bottom" title="你的帐户已经被禁用了">修改密码</button>
+                    data-placement="bottom" title="你的帐户已经被禁用了">修改密码
+            </button>
           <#else>
             <button type="submit" class="btn btn-default">修改密码</button>
           </#if>

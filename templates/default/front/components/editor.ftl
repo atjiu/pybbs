@@ -32,7 +32,8 @@
                    data-url="/upload" id="selectFileInput"/>
           </p>
           <div class="progress hidden">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0"
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                 aria-valuenow="0"
                  aria-valuemin="0" aria-valuemax="100"></div>
             <div class="percentage"></div>
           </div>
@@ -41,7 +42,8 @@
           <span class="pull-left" style="line-height: 30px;">
             点击上传按钮选择图片上传，或者拖动图片到这里直接上传
           </span>
-          <button type="button" class="btn btn-primary btn-sm" id="upload-modal-btn" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary btn-sm" id="upload-modal-btn" data-dismiss="modal">取消
+          </button>
         </div>
       </div>
     </div>

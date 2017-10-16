@@ -11,7 +11,8 @@
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="username">用户名</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="用户名,只能是2-16位的a-z,A-Z,0-9组合">
+            <input type="text" class="form-control" id="username" name="username"
+                   placeholder="用户名,只能是2-16位的a-z,A-Z,0-9组合">
           </div>
           <div class="form-group">
             <label for="password">密码</label>

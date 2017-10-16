@@ -30,11 +30,11 @@
 
   <#--user topics-->
     <#include "../components/user_topics.ftl"/>
-    <@user_topics username=username p=1 limit=7 isFooter=true/>
+    <@user_topics username=username p=1 limit=7/>
 
   <#--user replies-->
     <#include "../components/user_replies.ftl"/>
-    <@user_replies username=username p=1 limit=7 isFooter=true/>
+    <@user_replies username=username p=1 limit=7/>
 
   </div>
 

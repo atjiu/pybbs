@@ -38,7 +38,8 @@
               <input type="text" id="description" name="description" value="${permission.description!}"
                      class="form-control" placeholder="权限描述，如：用户列表"/>
             </div>
-            <button type="button" id="permissionBtn" onclick="permissionSubmit()" class="btn btn-default btn-sm">保存
+            <button type="button" id="permissionBtn" onclick="permissionSubmit()"
+                    class="btn btn-default btn-sm">保存
             </button>
             <span id="error_message"></span>
           </form>

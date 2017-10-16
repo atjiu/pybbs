@@ -1,5 +1,5 @@
 <#macro header page_tab="">
-<nav class="navbar navbar-inverse" style="border-radius: 0">
+<nav class="navbar navbar-default" style="border-radius: 0">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -9,26 +9,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" style="color:#fff;" href="/">${site.name!}</a>
+      <a class="navbar-brand" style="font-weight: 700; font-size: 27px;" href="/">${site.name!}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
-      <ul class="nav navbar-nav">
-        <li <#if page_tab == "index">class="active"</#if>>
-          <a href="/">首页</a>
-        </li>
-        <li <#if page_tab == "label">class="active"</#if>>
-          <a href="/label/list">标签</a>
-        </li>
-      </ul>
       <#if site.search?? && site.search == true>
         <form class="navbar-form navbar-left" role="search" action="/search" method="get">
-          <div class="form-group">
-            <input type="text" class="form-control" name="q" value="${q!}" placeholder="回车搜索">
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" name="q" value="${q!}" style="width: 270px;" placeholder="回车搜索">
+            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
           </div>
         </form>
-      </#if>-
+      </#if>
       <ul class="nav navbar-nav navbar-right">
         <#if sec.isAuthenticated()>
+          <li <#if page_tab == "index">class="active"</#if>>
+            <a href="/">首页</a>
+          </li>
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>
           </li>
@@ -43,12 +39,13 @@
                   type: "get",
                   dataType: "json",
                   success: function (data) {
-                    if(data.code === 200 && data.detail > 0) {
+                    if (data.code === 200 && data.detail > 0) {
                       $("#badge").text(data.detail);
                     }
                   }
                 });
               }
+
               notificationCount();
               setInterval(function () {
                 notificationCount();
@@ -57,7 +54,7 @@
           </li>
           <li <#if page_tab == 'user'> class="active" </#if>>
             <a href="/user/${sec.getPrincipal()!}">
-            ${sec.getPrincipal()!}
+              ${sec.getPrincipal()!}
               <span class="badge" id="badge"></span>
             </a>
           </li>
@@ -65,7 +62,7 @@
           <#if sec.allGranted("admin:index")>
             <li <#if page_tab == 'admin'> class="active" </#if>><a href="/admin/index">进入后台</a></li>
           </#if>
-          <li><a href="javascript:if(confirm('确定要退出吗？'))location.href='/logout'">退出</a></li>
+          <li><a href="javascript:if(confirm('确定要登出YIIU吗？'))location.href='/logout'">退出</a></li>
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
