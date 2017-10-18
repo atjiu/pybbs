@@ -55,11 +55,12 @@
       var em = $("#error_message");
       var name = $("#name").val();
       var value = $("#value").val();
+      var pid = $("#pid").val();
       if (name.length === 0) {
         em.html("名称不能为空");
         return false;
       }
-      if(value.length === 0) {
+      if(pid !== '0' && value.length === 0) {
         em.html("值不能为空");
         return false;
       }

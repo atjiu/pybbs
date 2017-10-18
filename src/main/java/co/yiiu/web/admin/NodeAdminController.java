@@ -29,7 +29,7 @@ public class NodeAdminController extends BaseController {
   @GetMapping("/list")
   public String list(Model model, Integer pid) {
     model.addAttribute("pnodes", nodeService.findByPid(0));
-    if(pid == null) {
+    if(pid == null || pid == 0) {
       model.addAttribute("nodes", nodeService.findAllChild());
     } else {
       model.addAttribute("pid", pid);
@@ -39,7 +39,8 @@ public class NodeAdminController extends BaseController {
   }
 
   @GetMapping("/add")
-  public String add(Model model) {
+  public String add(Model model, Integer pid) {
+    model.addAttribute("pid", pid);
     model.addAttribute("pnodes", nodeService.findByPid(0));
     return render("/admin/node/add");
   }
@@ -54,7 +55,7 @@ public class NodeAdminController extends BaseController {
     node.setIntro(intro);
     node.setInTime(new Date());
     nodeService.save(node);
-    return redirect("/admin/node/list");
+    return redirect("/admin/node/list?pid=" + node.getId());
   }
 
   @GetMapping("/{id}/edit")
@@ -65,8 +66,7 @@ public class NodeAdminController extends BaseController {
   }
 
   @PostMapping("/{id}/edit")
-  public String update(@PathVariable int id, String name, Integer pid, String value, String intro, Integer topicCount,
-                       HttpServletResponse response) {
+  public String update(@PathVariable int id, String name, Integer pid, String value, String intro, Integer topicCount) {
     Node node = nodeService.findById(id);
     node.setName(name);
     node.setPid(pid);
@@ -74,12 +74,14 @@ public class NodeAdminController extends BaseController {
     node.setValue(value);
     node.setIntro(intro);
     nodeService.save(node);
-    return redirect(response, "/admin/node/list");
+    return redirect("/admin/node/list?pid=" + pid);
   }
 
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable int id, HttpServletResponse response) {
-    nodeService.delete(id);
-    return redirect(response, "/admin/node/list");
+    Node node = nodeService.findById(id);
+    int pid = node.getPid();
+    nodeService.deleteById(id);
+    return redirect(response, "/admin/node/list?pid=" + pid);
   }
 }

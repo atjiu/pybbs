@@ -18,7 +18,7 @@
             <select name="pid" id="pid" class="form-control">
               <option value="0">父节点</option>
                 <#list pnodes as pnode>
-                  <option value="${pnode.id!}">${pnode.name!}</option>
+                  <option <#if pid?? && pid == pnode.id>selected</#if> value="${pnode.id!}">${pnode.name!}</option>
                 </#list>
             </select>
           </div>
@@ -48,11 +48,12 @@
       var em = $("#error_message");
       var name = $("#name").val();
       var value = $("#value").val();
+      var pid = $("#pid").val();
       if (name.length === 0) {
         em.html("名称不能为空");
         return false;
       }
-      if(value.length === 0) {
+      if(pid !== '0' && value.length === 0) {
         em.html("值不能为空");
         return false;
       }

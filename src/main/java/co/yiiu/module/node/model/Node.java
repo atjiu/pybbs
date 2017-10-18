@@ -24,6 +24,7 @@ public class Node implements Serializable {
   @Column(unique = true)
   private String name;
 
+  @Column(unique = true)
   private String value;
 
   @Column(length = 1000)

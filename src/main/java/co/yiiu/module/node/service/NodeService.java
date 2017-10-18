@@ -62,7 +62,7 @@ public class NodeService {
   }
 
   @CacheEvict(allEntries = true)
-  public void delete(int id) {
+  public void deleteById(int id) {
     nodeRepository.deleteById(id);
   }
 

@@ -11,7 +11,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <a href="/">主页</a> / 节点列表
-            <span class="pull-right"><a href="/admin/node/add">添加节点</a></span>
+            <span class="pull-right"><a href="/admin/node/add?pid=${pid!}">添加节点</a></span>
           </div>
           <div class="table-responsive">
             <table class="table table-striped">
