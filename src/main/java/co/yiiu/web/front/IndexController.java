@@ -84,7 +84,7 @@ public class IndexController extends BaseController {
   public String index(String tab, Integer p, Model model) {
     model.addAttribute("p", p);
     model.addAttribute("tab", tab);
-    return render("/front/index");
+    return "front/index";
   }
 
   /**
@@ -94,7 +94,7 @@ public class IndexController extends BaseController {
    */
   @GetMapping("/top100")
   public String top100() {
-    return render("/front/top100");
+    return "front/top100";
   }
 
   /**
@@ -110,7 +110,7 @@ public class IndexController extends BaseController {
     Page<Topic> page = topicSearch.search(p == null ? 1 : p, siteConfig.getPageSize(), q);
     model.addAttribute("page", page);
     model.addAttribute("q", q);
-    return render("/front/search");
+    return "front/search";
   }
 
   /**
@@ -210,7 +210,7 @@ public class IndexController extends BaseController {
       return redirect(response, "/");
     }
     model.addAttribute("s", s);
-    return render("/front/login");
+    return "front/login";
   }
 
   /**
@@ -223,7 +223,7 @@ public class IndexController extends BaseController {
     if (getUser() != null) {
       return redirect(response, "/");
     }
-    return render("/front/register");
+    return "front/register";
   }
 
   /**

@@ -44,7 +44,7 @@ public class TopicAdminController extends BaseController {
   @GetMapping("/list")
   public String list(Integer p, Model model) {
     model.addAttribute("p", p);
-    return render("/admin/topic/list");
+    return "admin/topic/list";
   }
 
   /**
@@ -61,7 +61,7 @@ public class TopicAdminController extends BaseController {
     if (baseEntity.overFiveMinute(topic.getInTime())) throw new Exception("话题发布时间超过5分钟，不能再编辑了");
 
     model.addAttribute("topic", topic);
-    return render("/admin/topic/edit");
+    return "admin/topic/edit";
   }
 
   /**

@@ -41,7 +41,7 @@ public class ReplyAdminController extends BaseController {
   public String list(Integer p, Model model) {
     Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
     model.addAttribute("page", page);
-    return render("/admin/reply/list");
+    return "admin/reply/list";
   }
 
   /**
@@ -57,7 +57,7 @@ public class ReplyAdminController extends BaseController {
 
     Reply reply = replyService.findById(id);
     model.addAttribute("reply", reply);
-    return render("/admin/reply/edit");
+    return "admin/reply/edit";
   }
 
   /**

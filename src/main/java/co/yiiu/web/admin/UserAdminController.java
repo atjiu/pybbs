@@ -44,7 +44,7 @@ public class UserAdminController extends BaseController {
   @GetMapping("/list")
   public String list(Integer p, Model model) {
     model.addAttribute("page", userService.pageUser(p == null ? 1 : p, siteConfig.getPageSize()));
-    return render("/admin/user/list");
+    return "admin/user/list";
   }
 
   /**
@@ -83,7 +83,7 @@ public class UserAdminController extends BaseController {
   public String role(@PathVariable Integer id, Model model) {
     model.addAttribute("user", userService.findById(id));
     model.addAttribute("roles", roleService.findAll());
-    return render("/admin/user/role");
+    return "admin/user/role";
   }
 
   /**

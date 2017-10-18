@@ -45,7 +45,7 @@ public class UserController extends BaseController {
   @GetMapping("/{username}")
   public String profile(@PathVariable String username, Model model) {
     model.addAttribute("username", username);
-    return render("/front/user/info");
+    return "front/user/info";
   }
 
   /**
@@ -58,7 +58,7 @@ public class UserController extends BaseController {
   public String topics(@PathVariable String username, Integer p, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("p", p);
-    return render("/front/user/topics");
+    return "front/user/topics";
   }
 
   /**
@@ -71,7 +71,7 @@ public class UserController extends BaseController {
   public String replies(@PathVariable String username, Integer p, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("p", p);
-    return render("/front/user/replies");
+    return "front/user/replies";
   }
 
   /**
@@ -84,7 +84,7 @@ public class UserController extends BaseController {
   public String collects(@PathVariable String username, Integer p, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("p", p);
-    return render("/front/user/collects");
+    return "front/user/collects";
   }
 
   /**
@@ -96,7 +96,7 @@ public class UserController extends BaseController {
   @GetMapping("/profile")
   public String setting(Model model) {
     model.addAttribute("user", getUser());
-    return render("/front/user/setting/profile");
+    return "front/user/setting/profile";
   }
 
   /**
@@ -127,7 +127,7 @@ public class UserController extends BaseController {
 
   @GetMapping("/changePassword")
   public String changePassword() {
-    return render("/front/user/setting/changePassword");
+    return "front/user/setting/changePassword";
   }
 
   /**
@@ -151,7 +151,7 @@ public class UserController extends BaseController {
       model.addAttribute("changePasswordErrorMsg", "旧密码不正确");
     }
     model.addAttribute("user", getUser());
-    return render("/front/user/setting/changePassword");
+    return "front/user/setting/changePassword";
   }
 
   /**
@@ -163,7 +163,7 @@ public class UserController extends BaseController {
   @GetMapping("/accessToken")
   public String accessToken(Model model) {
     model.addAttribute("user", getUser());
-    return render("/front/user/setting/accessToken");
+    return "/front/user/setting/accessToken";
   }
 
   /**
@@ -214,7 +214,7 @@ public class UserController extends BaseController {
     model.addAttribute("user", getUser());
     model.addAttribute("count", (double) count / 1000000);
     model.addAttribute("list", list);
-    return render("/front/user/setting/space");
+    return "front/user/setting/space";
   }
 
   /**

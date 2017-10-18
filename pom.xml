@@ -168,6 +168,14 @@
 
   <build>
     <finalName>yiiu</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>views</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -177,57 +185,6 @@
           <fork>true</fork>
         </configuration>
       </plugin>
-
-      <!--打包开始-->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>co.yiiu.Application</mainClass>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-            </manifest>
-            <manifestEntries>
-              <Class-Path>./</Class-Path>
-            </manifestEntries>
-          </archive>
-          <excludes>
-            <exclude>bin/*</exclude>
-            <exclude>assembly/*</exclude>
-            <exclude>static/**</exclude>
-            <exclude>templates/**</exclude>
-            <exclude>application.yml</exclude>
-            <exclude>banner.txt</exclude>
-            <exclude>ehcache.xml</exclude>
-            <exclude>ehcache.xsd</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.5</version>
-        <configuration>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>src/main/resources/assembly/assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!--打包结束-->
     </plugins>
   </build>
 

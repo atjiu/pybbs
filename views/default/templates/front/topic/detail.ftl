@@ -136,6 +136,6 @@
     <@user_info username=topic.user.username text="author"/>
   </div>
 </div>
-<script src="/static/default/js/highlight.min.js"></script>
+<script src="/static/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </@html>

@@ -51,16 +51,6 @@ public class BaseController {
   }
 
   /**
-   * 渲染页面
-   *
-   * @param path 前面必须要加上 /
-   * @return
-   */
-  protected String render(String path) {
-    return siteConfig.getTheme() + path;
-  }
-
-  /**
    * 获取Security用户
    *
    * @return

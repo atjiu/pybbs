@@ -42,7 +42,7 @@ public class PermissionAdminController extends BaseController {
       model.addAttribute("permissions", permissionService.findByPid(0));
     }
     model.addAttribute("pid", pid);
-    return render("/admin/permission/list");
+    return "admin/permission/list";
   }
 
   /**
@@ -54,7 +54,7 @@ public class PermissionAdminController extends BaseController {
   public String add(Integer pid, Model model) {
     model.addAttribute("pid", pid);
     model.addAttribute("permissions", permissionService.findByPid(0));
-    return render("/admin/permission/add");
+    return "admin/permission/add";
   }
 
   /**
@@ -88,7 +88,7 @@ public class PermissionAdminController extends BaseController {
   public String edit(@PathVariable Integer id, Model model) {
     model.addAttribute("permission", permissionService.findById(id));
     model.addAttribute("permissions", permissionService.findByPid(0));
-    return render("/admin/permission/edit");
+    return "admin/permission/edit";
   }
 
   /**

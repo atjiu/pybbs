@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     ModelAndView mav = new ModelAndView();
     mav.addObject("exception", e);
     mav.addObject("errorCode", getStatus(request));
-    mav.setViewName(siteConfig.getTheme() + "/front/error");
+    mav.setViewName("front/error");
     return mav;
   }
 

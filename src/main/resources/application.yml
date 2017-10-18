@@ -3,10 +3,12 @@ server:
 spring:
   resources:
     static-locations:
-    - file:./static
+    - classpath:/${site.theme}/static
+    - file:./views/${site.theme}/static
   freemarker:
     template-loader-path:
-    - file:./templates
+    - classpath:/${site.theme}/templates
+    - file:./views/${site.theme}/templates
     cache: false
   datasource:
     url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8

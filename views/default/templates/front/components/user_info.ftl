@@ -16,8 +16,9 @@
             </div>
           </div>
         </div>
-        <div class="mar-bot-10"></div>
-        <a href="/topic/create" style="text-decoration: underline"><span class="glyphicon glyphicon-pencil"></span><i>发布话题</i></a>
+        <div style="margin-top: 15px;">
+          <a href="/topic/create" style="text-decoration: underline"><span class="glyphicon glyphicon-pencil"></span><i>发布话题</i></a>
+        </div>
       </div>
     </div>
     <div class="panel-footer" style="background-color: white">

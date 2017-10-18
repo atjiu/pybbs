@@ -49,11 +49,11 @@
     </div>
   </div>
 </div>
-<link href="/static/default/css/jquery.atwho.min.css" rel="stylesheet">
-<script src="/static/default/js/jquery.ui.widget.js"></script>
-<script src="/static/default/js/jquery.fileupload.js"></script>
-<script src="/static/default/js/marked.min.js"></script>
-<script src="/static/default/js/jquery.caret.min.js"></script>
-<script src="/static/default/js/jquery.atwho.min.js"></script>
-<script src="/static/default/js/editor.js"></script>
+<link href="/static/css/jquery.atwho.min.css" rel="stylesheet">
+<script src="/static/js/jquery.ui.widget.js"></script>
+<script src="/static/js/jquery.fileupload.js"></script>
+<script src="/static/js/marked.min.js"></script>
+<script src="/static/js/jquery.caret.min.js"></script>
+<script src="/static/js/jquery.atwho.min.js"></script>
+<script src="/static/js/editor.js"></script>
 </#macro>

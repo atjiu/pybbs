@@ -40,7 +40,7 @@ public class RoleAdminController extends BaseController {
   @GetMapping("/list")
   public String list(Model model) {
     model.addAttribute("roles", roleService.findAll());
-    return render("/admin/role/list");
+    return "admin/role/list";
   }
 
   /**
@@ -52,7 +52,7 @@ public class RoleAdminController extends BaseController {
   @GetMapping("/add")
   public String add(Model model) {
     model.addAttribute("list", permissionService.findAll());
-    return render("/admin/role/add");
+    return "admin/role/add";
   }
 
   /**
@@ -87,7 +87,7 @@ public class RoleAdminController extends BaseController {
   public String edit(@PathVariable Integer id, Model model) {
     model.addAttribute("role", roleService.findById(id));
     model.addAttribute("list", permissionService.findAll());
-    return render("/admin/role/edit");
+    return "/admin/role/edit";
   }
 
   /**

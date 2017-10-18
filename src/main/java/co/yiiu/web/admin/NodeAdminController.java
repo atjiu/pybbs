@@ -35,14 +35,14 @@ public class NodeAdminController extends BaseController {
       model.addAttribute("pid", pid);
       model.addAttribute("nodes", nodeService.findByPid(pid));
     }
-    return render("/admin/node/list");
+    return "admin/node/list";
   }
 
   @GetMapping("/add")
   public String add(Model model, Integer pid) {
     model.addAttribute("pid", pid);
     model.addAttribute("pnodes", nodeService.findByPid(0));
-    return render("/admin/node/add");
+    return "admin/node/add";
   }
 
   @PostMapping("/add")
@@ -55,14 +55,15 @@ public class NodeAdminController extends BaseController {
     node.setIntro(intro);
     node.setInTime(new Date());
     nodeService.save(node);
-    return redirect("/admin/node/list?pid=" + node.getId());
+    if(pid == 0) pid = node.getId();
+    return redirect("/admin/node/list?pid=" + pid);
   }
 
   @GetMapping("/{id}/edit")
   public String edit(@PathVariable int id, Model model) {
     model.addAttribute("pnodes", nodeService.findByPid(0));
     model.addAttribute("node", nodeService.findById(id));
-    return render("/admin/node/edit");
+    return "admin/node/edit";
   }
 
   @PostMapping("/{id}/edit")

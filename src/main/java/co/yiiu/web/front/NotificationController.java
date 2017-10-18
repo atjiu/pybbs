@@ -35,7 +35,7 @@ public class NotificationController extends BaseController {
   @GetMapping("/list")
   public String list(Integer p, Model model) {
     model.addAttribute("p", p);
-    return render("/front/notification/list");
+    return "/front/notification/list";
   }
 
   /**

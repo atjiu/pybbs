@@ -29,7 +29,7 @@ public class IndexAdminController extends BaseController {
    */
   @GetMapping("/index")
   public String index() {
-    return render("/admin/index");
+    return "admin/index";
   }
 
   /**
@@ -40,7 +40,7 @@ public class IndexAdminController extends BaseController {
   @GetMapping("/indexed")
   public String indexed(String s, Model model) {
     model.addAttribute("s", s);
-    return render("/admin/indexed/index");
+    return "admin/indexed/index";
   }
 
   /**

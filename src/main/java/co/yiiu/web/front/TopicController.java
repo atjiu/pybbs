@@ -66,7 +66,7 @@ public class TopicController extends BaseController {
     model.addAttribute("collect", collectService.findByUserAndTopic(getUser(), topic));
     // 查询这个话题被收藏的个数
     model.addAttribute("collectCount", collectService.countByTopic(topic));
-    return render("/front/topic/detail");
+    return "/front/topic/detail";
   }
 
   /**
@@ -88,7 +88,7 @@ public class TopicController extends BaseController {
     if (siteConfig.getMaxCreateTopic() < topicService.countByInTimeBetween(date1, date2))
       throw new Exception("你今天发布的话题超过系统设置的最大值，请明天再发");
 
-    return render("/front/topic/create");
+    return "front/topic/create";
   }
 
   /**
@@ -166,7 +166,7 @@ public class TopicController extends BaseController {
       throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
 
     model.addAttribute("topic", topic);
-    return render("/front/topic/edit");
+    return "/front/topic/edit";
   }
 
   /**
