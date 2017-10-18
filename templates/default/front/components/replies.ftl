@@ -1,4 +1,4 @@
-<#macro reply id=id>
+<#macro reply topic_user=null id=id>
   <@replies_tag id=id>
     <#list replies as reply>
     <div class="media media-reply <#if reply.upDown &gt;= 3> reply-highlight</#if>" id="reply${reply.id}">
@@ -8,6 +8,9 @@
       <div class="media-body reply-content">
         <div class="media-heading gray">
           <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
+          <#if topic_user?? && topic_user.username == reply.user.username>
+            <span class="text-success">[楼主]</span>
+          </#if>
           ${model.formatDate(reply.inTime)}
           <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">

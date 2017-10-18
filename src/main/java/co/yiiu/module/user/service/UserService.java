@@ -3,6 +3,9 @@ package co.yiiu.module.user.service;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
+@CacheConfig(cacheNames = "users")
 public class UserService {
 
   @Autowired
@@ -29,12 +33,14 @@ public class UserService {
    * @param size
    * @return
    */
+  @Cacheable
   public Page<User> findByScore(int p, int size) {
     Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "score"));
     Pageable pageable = PageRequest.of((p - 1) * size, size, sort);
     return userRepository.findAll(pageable);
   }
 
+  @Cacheable
   public User findById(int id) {
     return userRepository.findById(id);
   }
@@ -45,14 +51,17 @@ public class UserService {
    * @param username
    * @return
    */
+  @Cacheable
   public User findByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 
+  @Cacheable
   public User findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
+  @CacheEvict(allEntries = true)
   public void save(User user) {
     userRepository.save(user);
   }
@@ -64,6 +73,7 @@ public class UserService {
    * @param size
    * @return
    */
+  @Cacheable
   public Page<User> pageUser(int p, int size) {
     Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = PageRequest.of(p - 1, size, sort);
@@ -78,7 +88,6 @@ public class UserService {
   public void blockUser(Integer id) {
     User user = findById(id);
     user.setBlock(true);
-
     save(user);
   }
 
@@ -99,6 +108,7 @@ public class UserService {
    * @param token
    * @return
    */
+  @Cacheable
   public User findByToken(String token) {
     return userRepository.findByToken(token);
   }
@@ -109,6 +119,7 @@ public class UserService {
    * @param id
    */
   //TODO 关联太多，不提供删除用户操作
+  //@CacheEvict(allEntries = true)
 //    public void deleteById(int id) {
 //        User user = findById(id);
 //        //删除用户的收藏

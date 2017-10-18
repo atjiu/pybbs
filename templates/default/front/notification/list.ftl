@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="通知" page_tab="notification">
+<@html page_title="通知">
 <div class="row">
   <div class="col-md-9">
     <@notifications_tag p=p>

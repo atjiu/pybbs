@@ -15,9 +15,9 @@
           <a href="/user/${author.username!}">${author.username!}</a>
         </div>
       </div>
-      <#if author.signature?? && author.signature != "">
+      <#if author.bio?? && author.bio != "">
         <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
-          <i>“ ${author.signature!} ” </i>
+          <i>“ ${author.bio!} ” </i>
         </div>
       </#if>
     </div>

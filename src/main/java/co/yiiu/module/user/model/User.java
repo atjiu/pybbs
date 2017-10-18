@@ -42,7 +42,8 @@ public class User implements Serializable {
   private String email;
 
   // 个人签名
-  private String signature;
+  @Column(length = 64)
+  private String bio;
 
   // 个人主页
   private String url;
@@ -74,8 +75,15 @@ public class User implements Serializable {
 
   // 用户与角色的关联关系
   @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-  @JoinTable(name = "yiiu_user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
-      @JoinColumn(name = "role_id")})
+  @JoinTable(
+      name = "yiiu_user_role",
+      joinColumns = {
+          @JoinColumn(name = "user_id")
+      },
+      inverseJoinColumns = {
+          @JoinColumn(name = "role_id")
+      }
+  )
   @JsonIgnore
   private Set<Role> roles = new HashSet<>();
 
@@ -119,12 +127,12 @@ public class User implements Serializable {
     this.email = email;
   }
 
-  public String getSignature() {
-    return signature;
+  public String getBio() {
+    return bio;
   }
 
-  public void setSignature(String signature) {
-    this.signature = signature;
+  public void setBio(String bio) {
+    this.bio = bio;
   }
 
   public String getUrl() {

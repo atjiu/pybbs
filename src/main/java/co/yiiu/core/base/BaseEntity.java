@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.Constants;
 import co.yiiu.core.util.DateUtil;
 import co.yiiu.core.util.MarkdownUtil;
-import co.yiiu.module.node.model.Node;
 import co.yiiu.module.node.service.NodeService;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -146,4 +145,5 @@ public class BaseEntity {
   public boolean overFiveMinute(Date inTime) {
     return DateUtil.isExpire(DateUtil.getMinuteAfter(inTime, 5));
   }
+
 }

@@ -104,18 +104,18 @@ public class UserController extends BaseController {
    *
    * @param email
    * @param url
-   * @param signature
+   * @param bio
    * @param response
    * @return
    */
   @PostMapping("/profile")
-  public String updateUserInfo(String email, String url, String signature, @RequestParam("avatar") MultipartFile avatar,
+  public String updateUserInfo(String email, String url, String bio, @RequestParam("avatar") MultipartFile avatar,
                                HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
-    if (signature != null && signature.trim().length() > 0) user.setSignature(signature);
+    if (bio != null && bio.trim().length() > 0) user.setBio(bio);
     user.setUrl(url);
     String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR, getUsername());
     if (!StringUtils.isEmpty(requestUrl)) {

@@ -15,15 +15,11 @@ import java.util.List;
  * https://yiiu.co
  */
 @Repository
-@CacheConfig(cacheNames = "roles")
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-  @Cacheable
   Role findById(int id);
 
-  @Cacheable
   List<Role> findAll();
 
-  @CacheEvict
   void delete(Role role);
 }

@@ -1,8 +1,8 @@
 package co.yiiu.config;
 
+import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import co.yiiu.web.secrity.YiiuFilterSecurityInterceptor;
 import co.yiiu.web.secrity.YiiuUserDetailService;
-import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -94,8 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/**/favicon.ico");
+  public void configure(WebSecurity web) {
+    web.ignoring().antMatchers("/static/**");
   }
 
   @Override

@@ -23,12 +23,12 @@ public class Collect implements Serializable {
   private int id;
 
   //与话题的关联关系
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "topic_id")
   private Topic topic;
 
   //与用户的关联关系
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   private User user;
 

@@ -13,22 +13,16 @@ import org.springframework.stereotype.Repository;
  * https://yiiu.co
  */
 @Repository
-@CacheConfig(cacheNames = "users")
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-  @Cacheable
   User findById(int id);
 
-  @Cacheable
   User findByUsername(String username);
 
-  @CacheEvict
   void deleteById(int id);
 
-  @Cacheable
   User findByToken(String token);
 
-  @Cacheable
   User findByEmail(String email);
 
 }

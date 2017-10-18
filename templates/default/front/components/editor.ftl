@@ -49,11 +49,11 @@
     </div>
   </div>
 </div>
-<link href="//cdn.bootcss.com/at.js/1.5.3/css/jquery.atwho.min.css" rel="stylesheet">
+<link href="/static/default/css/jquery.atwho.min.css" rel="stylesheet">
 <script src="/static/default/js/jquery.ui.widget.js"></script>
 <script src="/static/default/js/jquery.fileupload.js"></script>
-<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
-<script src="//cdn.bootcss.com/Caret.js/0.3.1/jquery.caret.min.js"></script>
-<script src="//cdn.bootcss.com/at.js/1.5.3/js/jquery.atwho.min.js"></script>
+<script src="/static/default/js/marked.min.js"></script>
+<script src="/static/default/js/jquery.caret.min.js"></script>
+<script src="/static/default/js/jquery.atwho.min.js"></script>
 <script src="/static/default/js/editor.js"></script>
 </#macro>

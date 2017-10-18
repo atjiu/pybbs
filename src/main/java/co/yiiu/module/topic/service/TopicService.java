@@ -7,6 +7,9 @@ import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by tomoya.
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @Service
 @Transactional
+@CacheConfig(cacheNames = "topics")
 public class TopicService {
 
   @Autowired
@@ -41,6 +44,7 @@ public class TopicService {
    *
    * @param topic
    */
+  @CacheEvict(allEntries = true)
   public void save(Topic topic) {
     topicRepository.save(topic);
   }
@@ -51,6 +55,7 @@ public class TopicService {
    * @param id
    * @return
    */
+  @Cacheable
   public Topic findById(int id) {
     return topicRepository.findById(id);
   }
@@ -60,6 +65,7 @@ public class TopicService {
    *
    * @param id
    */
+  @CacheEvict(allEntries = true)
   public void deleteById(int id) {
     Topic topic = findById(id);
     if (topic != null) {
@@ -80,6 +86,7 @@ public class TopicService {
    *
    * @param user
    */
+  @CacheEvict(allEntries = true)
   public void deleteByUser(User user) {
     topicRepository.deleteByUser(user);
   }
@@ -91,6 +98,7 @@ public class TopicService {
    * @param size
    * @return
    */
+  @Cacheable
   public Page<Topic> page(int p, int size, String tab) {
     Sort sort = Sort.by(
           new Sort.Order(Sort.Direction.DESC, "top"),
@@ -121,38 +129,13 @@ public class TopicService {
    * @param q
    * @return
    */
+  @Cacheable
   public Page<Topic> search(int p, int size, String q) {
     if (StringUtils.isEmpty(q)) return null;
     Sort sort = Sort.by(
         new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = PageRequest.of(p - 1, size, sort);
     return topicRepository.findByTitleContainingOrContentContaining(q, q, pageable);
-  }
-
-  /**
-   * 增加回复数
-   *
-   * @param topicId
-   */
-  public void addOneReplyCount(int topicId) {
-    Topic topic = findById(topicId);
-    if (topic != null) {
-      topic.setReplyCount(topic.getReplyCount() + 1);
-      save(topic);
-    }
-  }
-
-  /**
-   * 减少回复数
-   *
-   * @param topicId
-   */
-  public void reduceOneReplyCount(int topicId) {
-    Topic topic = findById(topicId);
-    if (topic != null) {
-      topic.setReplyCount(topic.getReplyCount() - 1);
-      save(topic);
-    }
   }
 
   /**
@@ -163,6 +146,7 @@ public class TopicService {
    * @param user
    * @return
    */
+  @Cacheable
   public Page<Topic> findByUser(int p, int size, User user) {
     Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = PageRequest.of(p - 1, size, sort);
@@ -170,22 +154,24 @@ public class TopicService {
   }
 
   /**
-   * search topic count between date1 and date2
+   * 查询在date1与date2之前发帖总数
    *
    * @param date1
    * @param date2
    * @return
    */
+  @Cacheable
   public int countByInTimeBetween(Date date1, Date date2) {
     return topicRepository.countByInTimeBetween(date1, date2);
   }
 
   /**
-   * search by title to prevent title repeat
+   * 根据标题查询话题（防止发布重复话题）
    *
    * @param title
    * @return
    */
+  @Cacheable
   public Topic findByTitle(String title) {
     return topicRepository.findByTitle(title);
   }

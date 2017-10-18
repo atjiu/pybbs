@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by tomoya.
@@ -19,21 +18,16 @@ import java.util.List;
  * https://yiiu.co
  */
 @Repository
-@CacheConfig(cacheNames = "topics")
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
-  @Cacheable
   Topic findById(int id);
 
-  @Cacheable
   Page<Topic> findByUser(User user, Pageable pageable);
 
   void deleteByUser(User user);
 
-  @Cacheable
   Page<Topic> findByGood(boolean b, Pageable pageable);
 
-  @Cacheable
   Page<Topic> findByReplyCount(int i, Pageable pageable);
 
   Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
@@ -42,6 +36,5 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
   Topic findByTitle(String title);
 
-  @CacheEvict
   void delete(Topic topic);
 }

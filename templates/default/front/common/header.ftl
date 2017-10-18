@@ -1,5 +1,5 @@
 <#macro header page_tab="">
-<nav class="navbar navbar-default" style="border-radius: 0">
+<nav class="navbar navbar-default" style="border-radius: 0; margin-bottom: 10px;">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -13,7 +13,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
       <#if site.search?? && site.search == true>
-        <form class="navbar-form navbar-left" role="search" action="/search" method="get">
+        <form class="navbar-form navbar-left hidden-xs hidden-sm" role="search" action="/search" method="get">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="q" value="${q!}" style="width: 270px;" placeholder="回车搜索">
             <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
@@ -21,36 +21,12 @@
         </form>
       </#if>
       <ul class="nav navbar-nav navbar-right">
+        <li class="hidden-xs <#if page_tab == "index">active</#if>">
+          <a href="/">首页</a>
+        </li>
         <#if sec.isAuthenticated()>
-          <li <#if page_tab == "index">class="active"</#if>>
-            <a href="/">首页</a>
-          </li>
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>
-          </li>
-          <li <#if page_tab == 'notification'> class="active" </#if>>
-            <a href="/notification/list">通知 <span class="badge" id="badge"></span></a>
-            <script>
-              function notificationCount() {
-                $.ajax({
-                  url: "/notification/notRead",
-                  async: true,
-                  cache: false,
-                  type: "get",
-                  dataType: "json",
-                  success: function (data) {
-                    if (data.code === 200 && data.detail > 0) {
-                      $("#badge").text(data.detail);
-                    }
-                  }
-                });
-              }
-
-              notificationCount();
-              setInterval(function () {
-                notificationCount();
-              }, 120000);
-            </script>
           </li>
           <li <#if page_tab == 'user'> class="active" </#if>>
             <a href="/user/${sec.getPrincipal()!}">

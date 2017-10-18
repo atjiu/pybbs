@@ -31,7 +31,7 @@ VALUES (1, 7), (2, 7), (1, 8), (2, 8), (1, 9), (2, 9), (1, 10), (2, 10), (1, 11)
 
 INSERT INTO `yiiu_node` VALUES (1, '分享'), (4, '博客'), (5, '招聘'), (3, '新闻'), (2, '问答');
 
-INSERT INTO `yiiu_user` (`id`, `avatar`, `block`, `email`, `in_time`, `password`, `signature`, `token`, `url`, `username`, `attempts`, `attempts_time`, `score`, `space_size`)
+INSERT INTO `yiiu_user` (`id`, `avatar`, `block`, `email`, `in_time`, `password`, `bio`, `token`, `url`, `username`, `attempts`, `attempts_time`, `score`, `space_size`)
 VALUES
   (1, 'http://localhost:8080/static/images/upload/avatar/default.png', FALSE, 'liygheart@qq.com', '2016-09-09 09:50:14',
       '$2a$10$KkUG107R3ASTHfAHei.bweXWXgCa4cE1KhK.F0odzfE0r97aeeTXC', 'hello world',

@@ -5,6 +5,10 @@ import co.yiiu.module.security.repository.PermissionRepository;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@CacheConfig(cacheNames = "permissions")
 public class PermissionService {
 
   @Autowired
@@ -33,6 +38,7 @@ public class PermissionService {
    *
    * @return
    */
+  @Cacheable
   public List<Permission> findAllChildPermission() {
     return permissionRepository.findByPidGreaterThan(0);
   }
@@ -43,6 +49,7 @@ public class PermissionService {
    * @param pid
    * @return
    */
+  @Cacheable
   public List<Permission> findByPid(int pid) {
     return permissionRepository.findByPid(pid);
   }
@@ -52,6 +59,7 @@ public class PermissionService {
    *
    * @return
    */
+  @Cacheable
   public List findAll() {
     List list = new ArrayList();
     Map map;
@@ -71,6 +79,7 @@ public class PermissionService {
    * @param adminUserId
    * @return
    */
+  @Cacheable
   public List<Permission> findByAdminUserId(int adminUserId) {
     User user = userService.findById(adminUserId);
     List<Permission> permissions = new ArrayList<>();
@@ -82,6 +91,7 @@ public class PermissionService {
     return permissions;
   }
 
+  @CacheEvict(allEntries = true)
   public void save(Permission permission) {
     permissionRepository.save(permission);
   }
@@ -92,6 +102,7 @@ public class PermissionService {
    *
    * @param id
    */
+  @CacheEvict(allEntries = true)
   public void deleteById(Integer id) {
     Permission permission = findById(id);
     if (permission.getPid() == 0) {
@@ -100,6 +111,7 @@ public class PermissionService {
     permissionRepository.delete(permission);
   }
 
+  @Cacheable
   public Permission findById(int id) {
     return permissionRepository.findById(id);
   }

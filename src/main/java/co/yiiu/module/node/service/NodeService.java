@@ -5,6 +5,7 @@ import co.yiiu.module.node.repository.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,12 +56,12 @@ public class NodeService {
     return nodeRepository.findByPid(pid);
   }
 
-  @CacheEvict(value = "nodes")
+  @CacheEvict(allEntries = true)
   public void save(Node node) {
     nodeRepository.save(node);
   }
 
-  @CacheEvict(value = "nodes")
+  @CacheEvict(allEntries = true)
   public void delete(int id) {
     nodeRepository.deleteById(id);
   }

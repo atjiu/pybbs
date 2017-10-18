@@ -27,12 +27,12 @@ public class Notification implements Serializable {
   private boolean isRead;
 
   //发起通知用户
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "user_id")
   private User user;
 
   //要通知用户
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "target_user_id")
   private User targetUser;
 
@@ -44,7 +44,7 @@ public class Notification implements Serializable {
   private String action;
 
   //关联的话题
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(nullable = false, name = "topic_id")
   private Topic topic;
 

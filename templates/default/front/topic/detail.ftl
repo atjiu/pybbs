@@ -100,7 +100,7 @@
         <div class="panel-heading">${topic.replyCount!0} 条回复</div>
         <div class="panel-body paginate-bot panel-body-reply">
           <#include "../components/replies.ftl"/>
-          <@reply id=topic.id/>
+          <@reply id=topic.id topic_user=topic.user/>
         </div>
       </div>
     </#if>
@@ -132,27 +132,10 @@
     </#if>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
-
     <#include "../components/user_info.ftl"/>
-    <@user_info username=topic.user.username text="作者"/>
-
-  <#--author other topics-->
-    <@other_topics_tag userId=topic.user.id>
-      <div class="panel panel-default">
-        <div class="panel-heading">作者其他话题</div>
-        <div class="panel-body">
-          <#list page.getContent() as topic>
-            <p><a href="/topic/${topic.id!}">${topic.title!}</a></p>
-            <#if topic_has_next>
-              <div class="divide pad-bot-10"></div>
-            </#if>
-          </#list>
-        </div>
-      </div>
-    </@other_topics_tag>
-
+    <@user_info username=topic.user.username text="author"/>
   </div>
 </div>
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="/static/default/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </@html>

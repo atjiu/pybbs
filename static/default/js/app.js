@@ -10,8 +10,8 @@ $(function () {
 function updateUserProfile() {
   var errors = 0;
   var em = $("#error_message");
-  var signature = $("#signature").val();
-  if (signature.length > 1000) {
+  var bio = $("#bio").val();
+  if (bio.length > 1000) {
     errors++;
     em.html("个性签名不能超过1000个字");
   }

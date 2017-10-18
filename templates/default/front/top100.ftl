@@ -25,8 +25,8 @@
             <tr>
               <td>
                 <i>
-                  <#if user.signature??>
-                    ${user.signature}
+                  <#if user.bio??>
+                    ${user.bio}
                   <#else>
                     "这家伙很懒，什么都没有留下"
                   </#if>

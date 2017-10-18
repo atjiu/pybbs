@@ -18,6 +18,7 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
+      hibernate.format_sql: true
       hibernate.search.default.directory_provider: filesystem
       hibernate.search.default.indexBase: ./indexes
   mvc:

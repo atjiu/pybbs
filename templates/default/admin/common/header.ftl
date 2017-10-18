@@ -28,30 +28,6 @@
           <li class="hidden-md hidden-lg">
             <a href="/topic/create">发布话题</a>
           </li>
-          <li <#if page_tab == 'notification'> class="active" </#if>>
-            <a href="/notification/list">通知 <span class="badge" id="badge"></span></a>
-            <script>
-              function notificationCount() {
-                $.ajax({
-                  url: "/notification/notRead",
-                  async: true,
-                  cache: false,
-                  type: "get",
-                  dataType: "json",
-                  success: function (data) {
-                    if (data.code === 200 && data.detail > 0) {
-                      $("#badge").text(data.detail);
-                    }
-                  }
-                });
-              }
-
-              notificationCount();
-              setInterval(function () {
-                notificationCount();
-              }, 120000);
-            </script>
-          </li>
           <li <#if page_tab == 'user'> class="active" </#if>>
             <a href="/user/${sec.getPrincipal()!}">
               ${sec.getPrincipal()!}

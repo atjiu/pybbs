@@ -10,6 +10,8 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +33,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class TopicSearch {
+
+  private Logger log = LoggerFactory.getLogger(TopicSearch.class);
 
   @PersistenceContext
   private EntityManager entityManager;
@@ -119,7 +123,7 @@ public class TopicSearch {
           Search.getFullTextEntityManager(entityManager);
       fullTextEntityManager.createIndexer().startAndWait();
     } catch (InterruptedException e) {
-      System.out.println(
+      log.error(
           "An error occurred trying to build the serach index: " +
               e.toString());
     }

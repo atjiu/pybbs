@@ -3,7 +3,6 @@ package co.yiiu.web.secrity;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;

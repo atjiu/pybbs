@@ -1,6 +1,5 @@
 package co.yiiu.module.notification.service;
 
-import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseEntity;
 import co.yiiu.module.notification.model.Notification;
 import co.yiiu.module.notification.model.NotificationEnum;
@@ -9,6 +8,9 @@ import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,12 +28,11 @@ import java.util.List;
  */
 @Service
 @Transactional
+@CacheConfig(cacheNames = "notifications")
 public class NotificationService {
 
   @Autowired
   private NotificationRepository notificationRepository;
-  @Autowired
-  private SiteConfig siteConfig;
   @Autowired
   private UserService userService;
 
@@ -40,6 +41,7 @@ public class NotificationService {
    *
    * @param notification
    */
+  @CacheEvict(allEntries = true)
   public void save(Notification notification) {
     notificationRepository.save(notification);
   }
@@ -94,6 +96,7 @@ public class NotificationService {
    * @param isRead
    * @return
    */
+  @Cacheable
   public Page<Notification> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
     Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = PageRequest.of(p - 1, size, sort);
@@ -110,6 +113,7 @@ public class NotificationService {
    * @param isRead
    * @return
    */
+  @Cacheable
   public long countByTargetUserAndIsRead(User targetUser, boolean isRead) {
     return notificationRepository.countByTargetUserAndIsRead(targetUser, isRead);
   }
@@ -121,6 +125,7 @@ public class NotificationService {
    * @param isRead
    * @return
    */
+  @Cacheable
   public List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead) {
     return notificationRepository.findByTargetUserAndIsRead(targetUser, isRead);
   }
@@ -130,6 +135,7 @@ public class NotificationService {
    *
    * @param targetUser
    */
+  @CacheEvict(allEntries = true)
   public void updateByIsRead(User targetUser) {
     notificationRepository.updateByIsRead(targetUser);
   }
@@ -139,6 +145,7 @@ public class NotificationService {
    *
    * @param user
    */
+  @CacheEvict(allEntries = true)
   public void deleteByUser(User user) {
     notificationRepository.deleteByUser(user);
   }
@@ -148,10 +155,16 @@ public class NotificationService {
    *
    * @param user
    */
+  @CacheEvict(allEntries = true)
   public void deleteByTargetUser(User user) {
     notificationRepository.deleteByTargetUser(user);
   }
 
+  /**
+   * 话题被删除了，删除由话题引起的通知信息
+   * @param topic
+   */
+  @CacheEvict(allEntries = true)
   public void deleteByTopic(Topic topic) {
     notificationRepository.deleteByTopic(topic);
   }

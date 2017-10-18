@@ -28,8 +28,8 @@
             <input type="text" class="form-control" id="url" name="url" value="${user.url!}"/>
           </div>
           <div class="form-group">
-            <label for="signature">个性签名</label>
-            <textarea class="form-control" name="signature" id="signature">${user.signature!}</textarea>
+            <label for="bio">个性签名</label>
+            <textarea class="form-control" name="bio" id="bio">${user.bio!}</textarea>
           </div>
           <div class="form-group">
             <label for="avatar">头像</label>
