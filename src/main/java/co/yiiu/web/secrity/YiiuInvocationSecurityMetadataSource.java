@@ -34,7 +34,7 @@ public class YiiuInvocationSecurityMetadataSource implements FilterInvocationSec
     map = new HashMap<>();
     Collection<ConfigAttribute> array;
     ConfigAttribute cfg;
-    List<Permission> permissions = permissionService.findAllChildPermission();
+    List<Permission> permissions = permissionService.findAll(true);
     for (Permission permission : permissions) {
       array = new ArrayList<>();
       cfg = new SecurityConfig(permission.getName());

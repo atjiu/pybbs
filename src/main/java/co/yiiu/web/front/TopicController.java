@@ -141,6 +141,10 @@ public class TopicController extends BaseController {
       user.setScore(user.getScore() - 10);
       userService.save(user);
 
+      //节点的话题数加一
+      node.setTopicCount(node.getTopicCount() + 1);
+      nodeService.save(node);
+
       return redirect(response, "/topic/" + topic.getId());
     }
     redirectAttributes.addFlashAttribute("node", node);
@@ -182,6 +186,8 @@ public class TopicController extends BaseController {
     Topic topic = topicService.findById(id);
     User user = getUser();
 
+    Node oldNode = topic.getNode();
+
     if (DateUtil.isExpire(DateUtil.getMinuteAfter(topic.getInTime(), 5)))
       throw new Exception("话题发布到现在已经超过5分钟，你不能再编辑了");
 
@@ -197,6 +203,9 @@ public class TopicController extends BaseController {
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
+
+    //更新node的话题数
+    nodeService.dealNodeTopicCount(oldNode, node);
     return redirect(response, "/topic/" + topic.getId());
   }
 

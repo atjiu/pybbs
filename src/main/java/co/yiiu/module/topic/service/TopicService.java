@@ -1,6 +1,7 @@
 package co.yiiu.module.topic.service;
 
 import co.yiiu.module.collect.service.CollectService;
+import co.yiiu.module.node.model.Node;
 import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.reply.service.ReplyService;
 import co.yiiu.module.topic.model.Topic;
@@ -174,5 +175,14 @@ public class TopicService {
   @Cacheable
   public Topic findByTitle(String title) {
     return topicRepository.findByTitle(title);
+  }
+
+  @Cacheable
+  public Page<Topic> findByNode(Node node, int p, int size) {
+    Sort sort = Sort.by(
+        new Sort.Order(Sort.Direction.DESC, "top"),
+        new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    return topicRepository.findByNode(node, pageable);
   }
 }

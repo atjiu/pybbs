@@ -1,7 +1,6 @@
 package co.yiiu.config;
 
 import co.yiiu.core.base.BaseEntity;
-import co.yiiu.module.node.service.NodeService;
 import co.yiiu.web.tag.*;
 import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
@@ -22,8 +21,6 @@ public class FreemarkerConfig {
   private SiteConfig siteConfig;
   @Autowired
   private SpringSecurityTag springSecurityTag;
-  @Autowired
-  private NodeService nodeService;
   @Autowired
   private UserTopicDirective userTopicDirective;
   @Autowired
@@ -46,6 +43,8 @@ public class FreemarkerConfig {
   private BaseEntity baseEntity;
   @Autowired
   private NodesDirective nodesDirective;
+  @Autowired
+  private NodeTopicsDirective nodeTopicsDirective;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
@@ -64,6 +63,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("replies_tag", repliesDirective);
     configuration.setSharedVariable("score_tag", scoreDirective);
     configuration.setSharedVariable("nodes_tag", nodesDirective);
+    configuration.setSharedVariable("node_topics_tag", nodeTopicsDirective);
 
     log.info("init freemarker sharedVariables {site} success...");
   }

@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by tomoya on 17-6-12.
+ * Created by tomoya.
+ * Copyright (c) 2016, All Rights Reserved.
+ * https://yiiu.co
  */
 @Component
 public class RepliesDirective implements TemplateDirectiveModel {

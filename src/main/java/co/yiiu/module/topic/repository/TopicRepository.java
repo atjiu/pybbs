@@ -1,5 +1,6 @@
 package co.yiiu.module.topic.repository;
 
+import co.yiiu.module.node.model.Node;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import org.springframework.cache.annotation.CacheConfig;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -37,4 +39,6 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
   Topic findByTitle(String title);
 
   void delete(Topic topic);
+
+  Page<Topic> findByNode(Node node, Pageable pageable);
 }

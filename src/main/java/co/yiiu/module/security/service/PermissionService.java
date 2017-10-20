@@ -34,16 +34,6 @@ public class PermissionService {
   private UserService userService;
 
   /**
-   * 查询所有的权限
-   *
-   * @return
-   */
-  @Cacheable
-  public List<Permission> findAllChildPermission() {
-    return permissionRepository.findByPidGreaterThan(0);
-  }
-
-  /**
    * 根据pid查询权限
    *
    * @param pid
@@ -60,17 +50,20 @@ public class PermissionService {
    * @return
    */
   @Cacheable
-  public List findAll() {
-    List list = new ArrayList();
-    Map map;
-    List<Permission> permissions = permissionRepository.findByPid(0);
-    for (Permission permission : permissions) {
-      map = new HashMap();
-      map.put("permission", permission);
-      map.put("childPermissions", permissionRepository.findByPid(permission.getId()));
-      list.add(map);
+  public List findAll(boolean child) {
+    if (child) {
+      return permissionRepository.findByPidGreaterThan(0);
+    } else {
+      List list = new ArrayList();
+      List<Permission> permissions = this.findByPid(0);
+      for (Permission permission : permissions) {
+        Map map = new HashMap();
+        map.put("permission", permission);
+        map.put("childPermissions", this.findByPid(permission.getId()));
+        list.add(map);
+      }
+      return list;
     }
-    return list;
   }
 
   /**
@@ -84,9 +77,18 @@ public class PermissionService {
     User user = userService.findById(adminUserId);
     List<Permission> permissions = new ArrayList<>();
     if (user.getRoles().size() > 0) {
-      user.getRoles().stream().filter(role -> role.getPermissions().size() > 0).forEach(role -> {
-        permissions.addAll(role.getPermissions().stream().filter(permission -> permission.getPid() > 0).collect(Collectors.toList()));
-      });
+      user.getRoles()
+          .stream()
+          .filter(role -> role.getPermissions().size() > 0)
+          .forEach(role -> {
+                permissions.addAll(
+                    role.getPermissions()
+                        .stream()
+                        .filter(permission -> permission.getPid() > 0)
+                        .collect(Collectors.toList())
+                );
+              }
+          );
     }
     return permissions;
   }

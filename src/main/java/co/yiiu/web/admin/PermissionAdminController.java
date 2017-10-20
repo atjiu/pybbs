@@ -35,7 +35,7 @@ public class PermissionAdminController extends BaseController {
   @GetMapping("/list")
   public String list(Integer pid, Model model) {
     if (pid == null || pid == 0) {
-      model.addAttribute("childPermissions", permissionService.findAllChildPermission());
+      model.addAttribute("childPermissions", permissionService.findAll(true));
       model.addAttribute("permissions", permissionService.findByPid(0));
     } else {
       model.addAttribute("childPermissions", permissionService.findByPid(pid));

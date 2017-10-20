@@ -15,7 +15,7 @@
                 <a href="/topic/${topic.id!}">${topic.title!}</a>
               </div>
               <p>
-                <a href="/topics/${topic.node.value!}">${topic.node.name!}</a>
+                <a href="/go/${topic.node.value!}">${topic.node.name!}</a>
                 <span>•</span>
                 <span><a href="/user/${topic.user.username}">${topic.user.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>

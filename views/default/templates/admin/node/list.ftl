@@ -1,11 +1,11 @@
 <#include "../common/layout.ftl"/>
 <@html page_tab="admin" page_title="节点管理">
 <div class="row">
-  <div class="col-md-3 hidden-sm hidden-xs">
+  <div class="col-md-2 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
     <@admin_left page_tab="node"/>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
     <div class="row">
       <div class="col-md-9">
         <div class="panel panel-default">
@@ -46,7 +46,9 @@
             <#list pnodes as node>
               <li class="list-group-item permission-item <#if pid?? && pid == node.id>active</#if>">
                 <#if sec.allGranted("node:delete")>
-                  <a href="javascript:if(confirm('确认删除吗?'))location.href='/admin/node/${node.id}/delete'">删除</a>
+                  <a href="javascript:if(confirm('确认删除吗?'))location.href='/admin/node/${node.id}/delete'">
+                    <span class="text-danger glyphicon glyphicon-trash"></span>
+                  </a>&nbsp;
                 </#if>
                 <a href="/admin/node/list?pid=${node.id!}">
                   ${node.name!}

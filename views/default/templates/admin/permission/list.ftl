@@ -1,11 +1,11 @@
 <#include "../common/layout.ftl"/>
 <@html page_title="角色管理" page_tab="admin">
 <div class="row">
-  <div class="col-md-3 hidden-sm hidden-xs">
+  <div class="col-md-2 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
     <@admin_left page_tab="permission"/>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
     <div class="row">
       <div class="col-md-10">
         <div class="panel panel-default">
@@ -55,7 +55,9 @@
             <#list permissions as permission>
               <li class="list-group-item permission-item <#if pid?? && pid == permission.id>active</#if>">
                 <#if sec.allGranted("permission:delete")>
-                  <a href="javascript:if(confirm('确认删除吗?'))location.href='/admin/permission/${permission.id}/delete'">删除</a>
+                  <a href="javascript:if(confirm('确认删除吗?'))location.href='/admin/permission/${permission.id}/delete'">
+                    <span class="text-danger glyphicon glyphicon-trash"></span>
+                  </a>&nbsp;
                 </#if>
                 <a href="/admin/permission/list?pid=${permission.id!}">
                   ${permission.description!}

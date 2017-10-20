@@ -51,7 +51,7 @@ public class RoleAdminController extends BaseController {
    */
   @GetMapping("/add")
   public String add(Model model) {
-    model.addAttribute("list", permissionService.findAll());
+    model.addAttribute("list", permissionService.findAll(false));
     return "admin/role/add";
   }
 
@@ -86,7 +86,7 @@ public class RoleAdminController extends BaseController {
   @GetMapping("/{id}/edit")
   public String edit(@PathVariable Integer id, Model model) {
     model.addAttribute("role", roleService.findById(id));
-    model.addAttribute("list", permissionService.findAll());
+    model.addAttribute("list", permissionService.findAll(false));
     return "/admin/role/edit";
   }
 

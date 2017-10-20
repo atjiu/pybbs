@@ -21,11 +21,15 @@
               <span>•</span>
               <span>${topic.view!1}次点击</span>
               <span>•</span>
-              <span>来自 <a href="/topics/${topic.node.value!}">${topic.node.name!}</a></span>
+              <span>来自 <a href="/go/${topic.node.value!}">${topic.node.name!}</a></span>
               <#if sec.isAuthenticated() && !sec.isLock()>
                 <#if sec.topicEditable(topic)>
                   <span>•</span>
-                  <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
+                  <#if sec.allGranted("topic:edit")>
+                    <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
+                  <#else>
+                    <span><a href="/topic/${topic.id}/edit">编辑</a></span>
+                  </#if>
                 </#if>
                 <#if sec.allGranted("topic:delete")>
                   <span>•</span>

@@ -1,10 +1,10 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
-import co.yiiu.module.collect.model.Collect;
-import co.yiiu.module.collect.service.CollectService;
-import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
+import co.yiiu.module.node.model.Node;
+import co.yiiu.module.node.service.NodeService;
+import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.service.TopicService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Component
-public class UserCollectDirective implements TemplateDirectiveModel {
+public class NodeTopicsDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private UserService userService;
+  private TopicService topicService;
   @Autowired
-  private CollectService collectService;
+  private NodeService nodeService;
   @Autowired
   private SiteConfig siteConfig;
 
@@ -34,14 +34,13 @@ public class UserCollectDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-    String username = map.get("username").toString();
-    int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
+    String value = map.get("value").toString();
 
-    User currentUser = userService.findByUsername(username);
-    Page<Collect> page = collectService.findByUser(p, siteConfig.getPageSize(), currentUser);
+    int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
+    Node node = nodeService.findByValue(value);
+    Page<Topic> page = topicService.findByNode(node, p, siteConfig.getPageSize());
 
     environment.setVariable("page", builder.build().wrap(page));
-    environment.setVariable("currentUser", builder.build().wrap(currentUser));
     templateDirectiveBody.render(environment.getOut());
   }
 }

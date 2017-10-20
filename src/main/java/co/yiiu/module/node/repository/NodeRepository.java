@@ -32,4 +32,5 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
 
   void deleteById(int id);
 
+  Node findByValue(String value);
 }

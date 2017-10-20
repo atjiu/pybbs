@@ -15,6 +15,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Created by tomoya.
+ * Copyright (c) 2016, All Rights Reserved.
+ * https://yiiu.co
+ */
 @Component
 public class SpringSecurityTag {
 
@@ -31,9 +36,15 @@ public class SpringSecurityTag {
    */
   public boolean topicEditable(Topic topic) {
     if (topic == null) return false;
-    if (isAdmin()) return true;
-    if (allGranted("topic:edit") && !baseEntity.overFiveMinute(topic.getInTime()) && topic.getUser().getUsername().equals(getPrincipal()))
+
+    //有权限可以直接编辑
+    if (allGranted("topic:edit")) return true;
+
+    //自己的话题且发布时间没有超过5分钟的可以编辑
+    if (!baseEntity.overFiveMinute(topic.getInTime())
+        && topic.getUser().getUsername().equals(getPrincipal()))
       return true;
+
     return false;
   }
 
@@ -162,7 +173,7 @@ public class SpringSecurityTag {
   private Set<String> getUserAuthorities() {
     try {
       Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      Set<String> roles = new HashSet<String>();
+      Set<String> roles = new HashSet<>();
       if (obj instanceof org.springframework.security.core.userdetails.User) {
         Collection<GrantedAuthority> gas = (Collection<GrantedAuthority>) ((UserDetails) obj).getAuthorities();
         for (GrantedAuthority ga : gas) {
@@ -171,7 +182,7 @@ public class SpringSecurityTag {
       }
       return roles;
     } catch (Exception e) {
-      return new HashSet<String>();
+      return new HashSet<>();
     }
   }
 

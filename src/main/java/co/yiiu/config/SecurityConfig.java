@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http.csrf().ignoringAntMatchers("/api/**", "/upload", "/user/space/deleteFile");
+    http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile");
   }
 
   @Override

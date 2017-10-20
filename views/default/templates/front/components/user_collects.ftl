@@ -17,7 +17,7 @@
               <a href="/topic/${collect.topic.id!}">${collect.topic.title!}</a>
             </div>
             <p>
-              <a href="/topics/${collect.topic.node.value!}">${collect.topic.node.name!}</a>
+              <a href="/go/${collect.topic.node.value!}">${collect.topic.node.name!}</a>
               <span>•</span>
               <span><a href="/user/${collect.topic.user.username}">${collect.topic.user.username}</a></span>
               <span class="hidden-sm hidden-xs">•</span>

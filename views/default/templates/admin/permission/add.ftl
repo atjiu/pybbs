@@ -1,11 +1,11 @@
 <#include "../common/layout.ftl"/>
 <@html page_title="添加权限" page_tab="admin">
 <div class="row">
-  <div class="col-md-3 hidden-sm hidden-xs">
+  <div class="col-md-2 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
     <@admin_left page_tab="permission"/>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
     <div class="panel panel-default">
       <div class="panel-heading">
         添加权限

@@ -7,7 +7,12 @@
         <a href="/">主页</a> / 话题编辑
       </div>
       <div class="panel-body">
-        <form method="post" action="/topic/${topic.id}/edit" id="editForm">
+        <form method="post"
+              <#if from?? && from == "end">
+                action="/admin/topic/${topic.id}/edit"
+              <#else>
+                action="/topic/${topic.id}/edit"
+              </#if> id="editForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
           <input type="hidden" name="nodeId" id="nodeId" value="${topic.node.id!}"/>
@@ -15,7 +20,8 @@
             <label for="title">标题</label>
             <div class="input-group">
               <span class="input-group-btn">
-                <a id="choiceNode" class="btn btn-default" onclick="javascript:;" data-toggle="modal" data-target="#choiceModal">选择节点</a>
+                <a id="choiceNode" class="btn btn-default" onclick="javascript:;" data-toggle="modal"
+                   data-target="#choiceModal">选择节点</a>
               </span>
               <input type="text" class="form-control" id="title" name="title" value="${topic.title!}" placeholder="标题">
             </div>
@@ -42,7 +48,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button id="closeChoiceModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button id="closeChoiceModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">选择节点</h4>
       </div>
       <div class="modal-body">
@@ -76,11 +83,11 @@
       var error = $("#error_message");
       var title = $("#title").val();
       var nodeId = $("#nodeId").val();
-      if(nodeId.length === 0) {
+      if (nodeId.length === 0) {
         error.html("请选择节点");
         return false;
       }
-      if(title.length === 0) {
+      if (title.length === 0) {
         error.html("请输入标题");
         return false;
       }

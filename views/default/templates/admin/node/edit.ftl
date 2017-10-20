@@ -1,11 +1,11 @@
 <#include "../common/layout.ftl"/>
 <@html page_tab="admin" page_title="编辑节点">
 <div class="row">
-  <div class="col-md-3 hidden-sm hidden-xs">
+  <div class="col-md-2 hidden-sm hidden-xs">
     <#include "../components/admin_left.ftl">
     <@admin_left page_tab="node"/>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-10">
     <div class="panel panel-default">
       <div class="panel-heading">
         <a href="/">主页</a> / 编辑节点

@@ -1,7 +1,6 @@
 package co.yiiu.web.admin;
 
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.base.BaseEntity;
 import co.yiiu.module.node.model.Node;
 import co.yiiu.module.node.service.NodeService;
 import co.yiiu.module.topic.model.Topic;
@@ -31,8 +30,6 @@ public class TopicAdminController extends BaseController {
   private TopicService topicService;
   @Autowired
   private NodeService nodeService;
-  @Autowired
-  private BaseEntity baseEntity;
 
   /**
    * topic list
@@ -58,10 +55,10 @@ public class TopicAdminController extends BaseController {
   public String edit(@PathVariable int id, Model model) throws Exception {
     Topic topic = topicService.findById(id);
     if (topic == null) throw new Exception("话题不存在");
-    if (baseEntity.overFiveMinute(topic.getInTime())) throw new Exception("话题发布时间超过5分钟，不能再编辑了");
 
     model.addAttribute("topic", topic);
-    return "admin/topic/edit";
+    model.addAttribute("from", "end");
+    return "front/topic/edit";
   }
 
   /**
@@ -75,16 +72,19 @@ public class TopicAdminController extends BaseController {
   public String update(@PathVariable Integer id, Integer nodeId, String title, String content,
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
-    Node node = nodeService.findById(nodeId);
+    Node oldNode = topic.getNode();
 
+    Node node = nodeService.findById(nodeId);
     if (node == null) throw new Exception("版块不存在");
-    if (baseEntity.overFiveMinute(topic.getInTime())) throw new Exception("话题发布时间超过5分钟，不能再编辑了");
 
     topic.setNode(node);
     topic.setTitle(title);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
+
+    //更新node的话题数
+    nodeService.dealNodeTopicCount(oldNode, node);
     return redirect(response, "/topic/" + topic.getId());
   }
 
