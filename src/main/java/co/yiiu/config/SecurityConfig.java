@@ -13,11 +13,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by tomoya.
@@ -30,11 +36,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
+  private SiteConfig siteConfig;
+  @Autowired
   private YiiuUserDetailService yiiuUserDetailService;
   @Autowired
   private YiiuFilterSecurityInterceptor yiiuFilterSecurityInterceptor;
   @Autowired
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
+
+  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -68,12 +78,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.formLogin()
         .successHandler(savedRequestAwareAuthenticationSuccessHandler())
-        .loginPage("/login")
-        .loginProcessingUrl("/login")
+        .loginPage(siteConfig.getBaseUrl() + "/login")
+        .loginProcessingUrl(siteConfig.getBaseUrl() + "/login")
         .usernameParameter("username")
         .passwordParameter("password")
-        .failureUrl("/login?error")
-        .defaultSuccessUrl("/")
+        .failureUrl(siteConfig.getBaseUrl() + "/login?error")
+        .defaultSuccessUrl(siteConfig.getBaseUrl() + "/")
         .permitAll();
 
     // token expired after 30 days
@@ -84,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/")
+        .logoutSuccessUrl(siteConfig.getBaseUrl() + "/")
         .deleteCookies("JSESSIONID");
 
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);

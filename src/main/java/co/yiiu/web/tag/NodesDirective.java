@@ -26,7 +26,7 @@ public class NodesDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-    List<Map<String, Object>> nodes = nodeService.findAll();
+    List<Map<String, Object>> nodes = nodeService.findAll(false);
 
     environment.setVariable("nodes", builder.build().wrap(nodes));
     templateDirectiveBody.render(environment.getOut());

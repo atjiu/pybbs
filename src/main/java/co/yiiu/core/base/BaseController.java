@@ -31,7 +31,7 @@ public class BaseController {
    * @return
    */
   protected String redirect(String path) {
-    return "redirect:" + path;
+    return "redirect:" + siteConfig.getBaseUrl() + path;
   }
 
   /**
@@ -43,7 +43,7 @@ public class BaseController {
    */
   protected String redirect(HttpServletResponse response, String path) {
     try {
-      response.sendRedirect(path);
+      response.sendRedirect(siteConfig.getBaseUrl() + path);
     } catch (IOException e) {
       e.printStackTrace();
     }

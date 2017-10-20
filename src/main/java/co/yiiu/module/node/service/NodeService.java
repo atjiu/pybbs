@@ -28,26 +28,21 @@ public class NodeService {
   private NodeRepository nodeRepository;
 
   @Cacheable
-  public List<Map<String, Object>> findAll() {
-    List<Map<String, Object>> nodes = new ArrayList<>();
-    List<Node> pNodes = this.findByPid(0);
-    for(Node pn: pNodes) {
-      Map<String, Object> map = new HashMap<>();
-      List<Node> cNodes = this.findByPid(pn.getId());
-      map.put("name", pn.getName());
-      map.put("list", cNodes);
-      nodes.add(map);
+  public List findAll(boolean child) {
+    if (child) {
+      return nodeRepository.findByPidNot(0);
+    } else {
+      List<Map<String, Object>> nodes = new ArrayList<>();
+      List<Node> pNodes = this.findByPid(0);
+      for (Node pn : pNodes) {
+        Map<String, Object> map = new HashMap<>();
+        List<Node> cNodes = this.findByPid(pn.getId());
+        map.put("name", pn.getName());
+        map.put("list", cNodes);
+        nodes.add(map);
+      }
+      return nodes;
     }
-    return nodes;
-  }
-
-  /**
-   * 查询所有子节点
-   * @return
-   */
-  @Cacheable
-  public List<Node> findAllChild() {
-    return nodeRepository.findByPidNot(0);
   }
 
   @Cacheable

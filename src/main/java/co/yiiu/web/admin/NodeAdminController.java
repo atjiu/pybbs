@@ -30,7 +30,7 @@ public class NodeAdminController extends BaseController {
   public String list(Model model, Integer pid) {
     model.addAttribute("pnodes", nodeService.findByPid(0));
     if(pid == null || pid == 0) {
-      model.addAttribute("nodes", nodeService.findAllChild());
+      model.addAttribute("nodes", nodeService.findAll(true));
     } else {
       model.addAttribute("pid", pid);
       model.addAttribute("nodes", nodeService.findByPid(pid));
