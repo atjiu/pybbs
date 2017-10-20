@@ -4,11 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <#if site.googleZZ??>
+    <meta name="google-site-verification" content="${site.googleZZ}" />
+  </#if>
+  <#if site.baiduZZ??>
+    <meta name="baidu-site-verification" content="${site.baiduZZ}" />
+  </#if>
   <title>${page_title!site.name}</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/static/css/app.css">
+
+  <#if site.GA??>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${site.GA}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '${site.GA}');
+    </script>
+  </#if>
+
+  <#if site.baiduTJ??>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?${site.baiduTJ}";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </#if>
 
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/bootstrap/js/bootstrap.min.js"></script>

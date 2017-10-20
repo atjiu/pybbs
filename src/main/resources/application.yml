@@ -51,6 +51,10 @@ site:
   attemptsWaitTime: 15
   maxCreateTopic: 10
   userUploadSpaceSize: 50 # 单位MB
+  GA: #Google Analytics ID
+  googleZZ: # google站长meta标签content值
+  baiduTJ: # 百度统计ID
+  baiduZZ: # 百度站长meta标签content值
   cookie:
     domain: localhost
     attendanceMaxAge: 86400

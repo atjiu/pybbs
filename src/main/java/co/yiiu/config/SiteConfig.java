@@ -22,7 +22,43 @@ public class SiteConfig {
   private long attemptsWaitTime;
   private int maxCreateTopic;
   private long userUploadSpaceSize;
+  private String GA;
+  private String googleZZ;
+  private String baiduTJ;
+  private String baiduZZ;
   private CookieConfig cookie;
+
+  public String getGoogleZZ() {
+    return googleZZ;
+  }
+
+  public void setGoogleZZ(String googleZZ) {
+    this.googleZZ = googleZZ;
+  }
+
+  public String getBaiduTJ() {
+    return baiduTJ;
+  }
+
+  public void setBaiduTJ(String baiduTJ) {
+    this.baiduTJ = baiduTJ;
+  }
+
+  public String getBaiduZZ() {
+    return baiduZZ;
+  }
+
+  public void setBaiduZZ(String baiduZZ) {
+    this.baiduZZ = baiduZZ;
+  }
+
+  public String getGA() {
+    return GA;
+  }
+
+  public void setGA(String GA) {
+    this.GA = GA;
+  }
 
   public String getName() {
     return name;
