@@ -1,3 +1,5 @@
+# 本项目已经转移到 https://github.com/yiiu-co/yiiu 下开发了
+
 [quote]
 ____
 使用说明：请保留页面底部的 *powered by 朋也社区* 感谢支持
