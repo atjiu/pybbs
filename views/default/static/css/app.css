@@ -158,7 +158,7 @@ pre {padding:0;color:#fff;}
 .paginate-bot{padding-bottom:0}
 .permission-item.active a{color:#fff}
 .reply-content img{max-width:100%}
-.panel{border:0;box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.1); transition: ease-in-out .2s;}
+.panel {border:0;box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.1); transition: ease-in-out .2s;margin-bottom: 10px;}
 .panel:hover{box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.3);}
 .panel td{padding-left:15px!important;padding-right:15px!important}
 .panel th{padding-left:15px!important;padding-right:15px!important}
@@ -183,3 +183,4 @@ form textarea{resize:vertical}
 .table>tbody>tr>td{word-break: break-all;}
 .search-result{max-height: 200px; overflow: hidden;}
 .nodes>a {width: 80px; margin-right: 20px;}
+.col-md-3, .col-md-9, .col-md-2, .col-md-10 {padding: 0 5px;}
