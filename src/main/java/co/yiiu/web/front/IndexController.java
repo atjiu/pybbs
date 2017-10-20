@@ -26,6 +26,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -377,12 +379,17 @@ public class IndexController extends BaseController {
 
     try {
       String genCode = codeService.genEmailCode(email);
-      SimpleMailMessage message = new SimpleMailMessage();
-      message.setFrom(env.getProperty("spring.mail.username"));
-      message.setTo(email);
-      message.setSubject("注册验证码 - " + siteConfig.getName());
-      message.setText("你的验证码为： " + genCode + " , 请在10分钟内使用！");
-      javaMailSender.send(message);
+      MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+      helper.setFrom(env.getProperty("spring.mail.username"));
+      helper.setTo(email);
+      helper.setSubject("注册验证码 - " + siteConfig.getName());
+      String htmlContent =
+          "<p>您好</p>" +
+          "<p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>" + genCode + "</span> , 请在10分钟内使用！</p><br>" +
+          "<small>本邮件为系统发出，请不要回复</small>";
+      helper.setText(htmlContent, true);
+      javaMailSender.send(mimeMessage);
       return Result.success();
     } catch (Exception e) {
       log.error(e.getMessage());

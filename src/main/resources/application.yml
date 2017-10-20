@@ -26,10 +26,10 @@ spring:
   mvc:
     static-path-pattern: /static/**
   mail:
-    host: smtp.exmail.qq.com
-    username: xxoo@example.com
-    password:
-    port:
+    host: smtp.qq.com
+    username: xxoo@qq.com
+    password: # 这里的密码是QQ邮箱的授权码
+    port: 465
     properties:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
