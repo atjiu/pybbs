@@ -86,12 +86,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl(siteConfig.getBaseUrl() + "/")
         .permitAll();
 
-    // token expired after 30 days
-    http.rememberMe()
-        .key("remember-me")
-        .alwaysRemember(true)
-        .tokenValiditySeconds(2592000);
-
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl(siteConfig.getBaseUrl() + "/")

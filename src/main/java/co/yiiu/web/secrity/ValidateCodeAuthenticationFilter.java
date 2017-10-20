@@ -38,8 +38,9 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
     setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
 
     //添加记住登录
-    TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("remember-me",yiiuUserDetailService);
+    TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("remember-me", yiiuUserDetailService);
     tokenBasedRememberMeServices.setAlwaysRemember(true);
+    tokenBasedRememberMeServices.setTokenValiditySeconds(2592000);//30天
     setRememberMeServices(tokenBasedRememberMeServices);
   }
 
