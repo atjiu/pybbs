@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -30,18 +31,13 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
   private UserService userService;
 
   @Autowired
-  private YiiuUserDetailService yiiuUserDetailService;
+  private PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
   @PostConstruct
   public void init() {
     String failureUrl = siteConfig.getBaseUrl() + "/login?error";
     setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
-
-    //添加记住登录
-    TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("remember-me", yiiuUserDetailService);
-    tokenBasedRememberMeServices.setAlwaysRemember(true);
-    tokenBasedRememberMeServices.setTokenValiditySeconds(2592000);//30天
-    setRememberMeServices(tokenBasedRememberMeServices);
+    setRememberMeServices(persistentTokenBasedRememberMeServices);
   }
 
   @Override

@@ -1,11 +1,13 @@
 package co.yiiu.config;
 
+import co.yiiu.module.user.service.PersistentTokenService;
 import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import co.yiiu.web.secrity.YiiuFilterSecurityInterceptor;
 import co.yiiu.web.secrity.YiiuUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,10 +22,14 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * Created by tomoya.
@@ -45,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+  @Autowired
+  private PersistentTokenService persistentTokenService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -86,6 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .defaultSuccessUrl(siteConfig.getBaseUrl() + "/")
         .permitAll();
 
+    http.rememberMe().key("remember-me").rememberMeServices(persistentTokenBasedRememberMeServices());
+
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl(siteConfig.getBaseUrl() + "/")
@@ -118,5 +129,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
     auth.setTargetUrlParameter("targetUrl");
     return auth;
+  }
+
+  @Bean
+  public PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices() {
+    PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices("remember-me"
+            ,userDetailsService(),persistentTokenService);
+    services.setAlwaysRemember(true);
+    return services;
   }
 }
