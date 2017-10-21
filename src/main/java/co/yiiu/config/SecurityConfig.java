@@ -1,5 +1,6 @@
 package co.yiiu.config;
 
+import co.yiiu.module.user.service.PersistentTokenService;
 import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import co.yiiu.web.secrity.YiiuFilterSecurityInterceptor;
 import co.yiiu.web.secrity.YiiuUserDetailService;
@@ -50,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+  @Autowired
+  private PersistentTokenService persistentTokenService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -127,23 +131,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return auth;
   }
 
-
   @Bean
   public PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices() {
-    JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-    jdbcTokenRepository.setJdbcTemplate(jdbcTemplate());
     PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices("remember-me"
-            ,userDetailsService(),jdbcTokenRepository);
+            ,userDetailsService(),persistentTokenService);
     services.setAlwaysRemember(true);
     return services;
-  }
-
-  @Autowired
-  private DataSource dataSource;
-
-
-  public JdbcTemplate jdbcTemplate() {
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    return jdbcTemplate;
   }
 }

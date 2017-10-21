@@ -31,20 +31,12 @@ public class ValidateCodeAuthenticationFilter extends UsernamePasswordAuthentica
   private UserService userService;
 
   @Autowired
-  private YiiuUserDetailService yiiuUserDetailService;
-
-  @Autowired
   private PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
   @PostConstruct
   public void init() {
     String failureUrl = siteConfig.getBaseUrl() + "/login?error";
     setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler(failureUrl));
-
-    //添加记住登录
-//    TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("remember-me", yiiuUserDetailService);
-//    tokenBasedRememberMeServices.setAlwaysRemember(true);
-//    tokenBasedRememberMeServices.setTokenValiditySeconds(2592000);//30天
     setRememberMeServices(persistentTokenBasedRememberMeServices);
   }
 
