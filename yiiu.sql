@@ -53,4 +53,3 @@ VALUES
    50);
 
 INSERT INTO `yiiu_user_role` VALUES (1, 1);
-

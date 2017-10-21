@@ -41,7 +41,7 @@ spring:
 site:
   name: YIIU
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
-  baseUrl: http://localhost:8080/
+  baseUrl: http://localhost:8080
   staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20
   uploadPath: ./static/images/upload/
@@ -51,6 +51,7 @@ site:
   attemptsWaitTime: 15
   maxCreateTopic: 10
   userUploadSpaceSize: 50 # 单位MB
+  loginPoints: 2 # 登录点，最多2个位置登录，第三个登录点会覆盖第一个
   GA: #Google Analytics ID
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
@@ -59,3 +60,4 @@ site:
     domain: localhost
     attendanceMaxAge: 86400
     attendanceName: attendance
+    rememberMeExpireDay: 30 # 记住我30天

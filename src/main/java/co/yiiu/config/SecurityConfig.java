@@ -49,9 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private YiiuFilterSecurityInterceptor yiiuFilterSecurityInterceptor;
   @Autowired
   private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
-
-  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
   @Autowired
   private PersistentTokenService persistentTokenService;
 
@@ -100,10 +97,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl(siteConfig.getBaseUrl() + "/")
-        .deleteCookies("JSESSIONID");
+        .deleteCookies("JSESSIONID", "remember-me");
 
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-    http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//    http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile");
   }
@@ -134,7 +131,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices() {
     PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices("remember-me"
-            ,userDetailsService(),persistentTokenService);
+        , userDetailsService(), persistentTokenService);
     services.setAlwaysRemember(true);
     return services;
   }

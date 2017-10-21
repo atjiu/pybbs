@@ -9,6 +9,15 @@ public class CookieConfig {
   private int attendanceMaxAge;
   // attendance name
   private String attendanceName;
+  private int rememberMeExpireDay;
+
+  public int getRememberMeExpireDay() {
+    return rememberMeExpireDay;
+  }
+
+  public void setRememberMeExpireDay(int rememberMeExpireDay) {
+    this.rememberMeExpireDay = rememberMeExpireDay;
+  }
 
   public String getDomain() {
     return domain;

@@ -10,10 +10,10 @@ import java.util.List;
  * Copyright (c) 2017/10/21, All Rights Reserved.
  * https://beldon.me/
  */
-public interface RememberMeTokenRepository extends JpaRepository<RememberMeToken,Integer> {
-    RememberMeToken getBySeries(String series);
+public interface RememberMeTokenRepository extends JpaRepository<RememberMeToken, Integer> {
+  RememberMeToken getBySeries(String series);
 
-    void deleteByUsername(String username);
+  void deleteByUsername(String username);
 
-    List<RememberMeToken> getAllByUsernameOrderByDate(String username);
+  List<RememberMeToken> getAllByUsernameOrderByDate(String username);
 }

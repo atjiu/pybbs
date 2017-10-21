@@ -22,11 +22,20 @@ public class SiteConfig {
   private long attemptsWaitTime;
   private int maxCreateTopic;
   private long userUploadSpaceSize;
+  private int loginPoints;
   private String GA;
   private String googleZZ;
   private String baiduTJ;
   private String baiduZZ;
   private CookieConfig cookie;
+
+  public int getLoginPoints() {
+    return loginPoints;
+  }
+
+  public void setLoginPoints(int loginPoints) {
+    this.loginPoints = loginPoints;
+  }
 
   public String getGoogleZZ() {
     return googleZZ;
