@@ -88,6 +88,7 @@ public class BaseEntity {
             .addAttributes("span", "class")
             .addAttributes("code", "class")
             .addAttributes("table", "class")
+            .addAttributes("a", "target")
     );
   }
 
@@ -109,6 +110,7 @@ public class BaseEntity {
             .addAttributes("span", "class")
             .addAttributes("code", "class")
             .addAttributes("table", "class")
+            .addAttributes("a", "target")
     );
   }
 

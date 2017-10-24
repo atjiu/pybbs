@@ -50,7 +50,7 @@
       <div class="modal-header">
         <button id="closeChoiceModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">选择节点</h4>
+        <h4 class="modal-title" id="myModalLabel">选择节点 <small> 没有找到相应的节点，那就选None吧，管理员看到了会处理的 :-)</small></h4>
       </div>
       <div class="modal-body">
         <@nodes_tag>
@@ -61,7 +61,8 @@
             </div>
             <div class="col-md-10 nodes">
                 <#list pnode.list as node>
-                  <a data-id="${node.id!}" href="javascript:;">${node.name!}</a>
+                  <a data-id="${node.id!}" href="javascript:;"
+                     <#if node.name == 'None'>class="text-danger"</#if>>${node.name!}</a>
                 </#list>
             </div>
           </div>
