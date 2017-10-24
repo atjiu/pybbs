@@ -85,10 +85,30 @@
       <version>19.0</version>
     </dependency>
     <!--markdown转换lib -->
-    <dependency>
+    <!--<dependency>
       <groupId>org.pegdown</groupId>
       <artifactId>pegdown</artifactId>
       <version>1.6.0</version>
+    </dependency>-->
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-autolink</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-gfm-strikethrough</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-gfm-tables</artifactId>
+      <version>${commonmark.version}</version>
     </dependency>
     <!--过滤html标签类库 -->
     <dependency>
@@ -126,6 +146,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
+    <commonmark.version>0.10.0</commonmark.version>
   </properties>
 
   <build>

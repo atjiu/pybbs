@@ -81,12 +81,13 @@ public class BaseEntity {
     }
     // markdown 转 html 并返回
     return Jsoup.clean(
-        MarkdownUtil.pegDown(content),
+        MarkdownUtil.render(content),
         Whitelist
             .relaxed()
             .addAttributes("input", "checked", "type")
             .addAttributes("span", "class")
             .addAttributes("code", "class")
+            .addAttributes("table", "class")
     );
   }
 
@@ -101,12 +102,13 @@ public class BaseEntity {
       return "";
     // markdown 转 html 并返回
     return Jsoup.clean(
-        MarkdownUtil.pegDown(content),
+        MarkdownUtil.render(content),
         Whitelist
             .relaxed()
             .addAttributes("input", "checked", "type")
             .addAttributes("span", "class")
             .addAttributes("code", "class")
+            .addAttributes("table", "class")
     );
   }
 

@@ -141,5 +141,11 @@
   </div>
 </div>
 <script src="/static/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script>
+  try {
+    hljs.initHighlightingOnLoad();
+  } catch (e) {
+    console.error(e.message);
+  }
+</script>
 </@html>
