@@ -39,4 +39,24 @@
     </div>
   </div>
 </div>
+<script>
+  function roleSubmit() {
+    var errors = 0;
+    var em = $("#error_message");
+    var name = $("#name").val();
+    var description = $("#description").val();
+    if (name.length === 0) {
+      errors++;
+      em.html("角色标识不能为空");
+    }
+    if (description.length === 0) {
+      errors++;
+      em.html("角色描述不能为空");
+    }
+    if (errors === 0) {
+      var form = $("#roleForm");
+      form.submit();
+    }
+  }
+</script>
 </@html>

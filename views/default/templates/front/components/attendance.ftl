@@ -1,7 +1,7 @@
 <#macro attendance >
   <#if sec.isAuthenticated() && _attendance != "1">
   <div class="panel panel-default">
-    <button class="btn btn-default btn-block" onclick="attendance(this)">签到</button>
+    <button style="border: 0" class="btn btn-default btn-block" onclick="attendance(this)">签到</button>
   </div>
   <script>
     function attendance(e) {

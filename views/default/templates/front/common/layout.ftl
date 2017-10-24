@@ -42,6 +42,16 @@
 
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    $(function () {
+      var n = $("#goTop");
+      n.click(function () {
+        return $("html,body").animate({
+          scrollTop: 0
+        });
+      });
+    });
+  </script>
 </head>
 <body>
 <div class="wrapper">
@@ -59,7 +69,6 @@
 </div>
   <#include "./footer.ftl">
   <@footer/>
-<script src="/static/js/app.js"></script>
 </body>
 </html>
 </#macro>

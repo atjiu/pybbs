@@ -50,5 +50,30 @@
 </div>
 <script>
   $("#pid").val('${permission.pid}');
+
+  function permissionSubmit() {
+    var errors = 0;
+    var em = $("#error_message");
+    var pid = $("#pid").val();
+    var name = $("#name").val();
+    var url = $("#url").val();
+    var description = $("#description").val();
+    if (name.length === 0) {
+      errors++;
+      em.html("权限标识不能为空");
+    }
+    if (pid > 0 && url.length === 0) {
+      errors++;
+      em.html("授权路径不能为空");
+    }
+    if (description.length === 0) {
+      errors++;
+      em.html("权限描述不能为空");
+    }
+    if (errors === 0) {
+      var form = $("#permissionForm");
+      form.submit();
+    }
+  }
 </script>
 </@html>
