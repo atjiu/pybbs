@@ -101,7 +101,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-search-orm</artifactId>
-      <version>5.8.0.Final</version>
+      <version>5.6.3.Final</version>
     </dependency>
     <!--hibernate search dependency-->
     <dependency>

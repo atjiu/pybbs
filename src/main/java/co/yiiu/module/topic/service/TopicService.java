@@ -46,8 +46,8 @@ public class TopicService {
    * @param topic
    */
   @CacheEvict(allEntries = true)
-  public void save(Topic topic) {
-    topicRepository.save(topic);
+  public Topic save(Topic topic) {
+    return topicRepository.save(topic);
   }
 
   /**
