@@ -86,6 +86,7 @@ public class BaseEntity {
             .relaxed()
             .addAttributes("input", "checked", "type")
             .addAttributes("span", "class")
+            .addAttributes("code", "class")
     );
   }
 
@@ -105,6 +106,7 @@ public class BaseEntity {
             .relaxed()
             .addAttributes("input", "checked", "type")
             .addAttributes("span", "class")
+            .addAttributes("code", "class")
     );
   }
 
