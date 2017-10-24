@@ -7,7 +7,7 @@
 ## 技术栈
 
 - JDK8
-- Spring-Boot2.0.0.M5
+- Spring-Boot1.5.8
 - Spring-Security
 - Spring-JPA
 - Hibernate-Search5.8.0

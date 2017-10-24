@@ -35,8 +35,8 @@ public class UserService {
    */
   @Cacheable
   public Page<User> findByScore(int p, int size) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "score"));
-    Pageable pageable = PageRequest.of((p - 1) * size, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "score"));
+    Pageable pageable = new PageRequest((p - 1) * size, size, sort);
     return userRepository.findAll(pageable);
   }
 
@@ -75,8 +75,8 @@ public class UserService {
    */
   @Cacheable
   public Page<User> pageUser(int p, int size) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return userRepository.findAll(pageable);
   }
 

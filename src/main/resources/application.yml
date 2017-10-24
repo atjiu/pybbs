@@ -3,12 +3,12 @@ server:
 spring:
   resources:
     static-locations:
-    - classpath:/${site.theme}/static
-    - file:./views/${site.theme}/static
+    - classpath:/${site.theme}/static/
+    - file:./views/${site.theme}/static/
   freemarker:
     template-loader-path:
-    - classpath:/${site.theme}/templates
-    - file:./views/${site.theme}/templates
+    - classpath:/${site.theme}/templates/
+    - file:./views/${site.theme}/templates/
     cache: false
   datasource:
     url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
@@ -44,7 +44,7 @@ site:
   baseUrl: http://localhost:8080
   staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20
-  uploadPath: ./static/images/upload/
+  uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
   search: true
   attempts: 5

@@ -43,7 +43,7 @@ public class ReplyService {
    */
   @Cacheable
   public Reply findById(int id) {
-    return replyRepository.findById(id).get();
+    return replyRepository.findOne(id);
   }
 
   /**
@@ -69,7 +69,7 @@ public class ReplyService {
       Topic topic = reply.getTopic();
       topic.setReplyCount(topic.getReplyCount() - 1);
       topicService.save(topic);
-      replyRepository.deleteById(id);
+      replyRepository.delete(id);
     }
     return map;
   }
@@ -220,8 +220,8 @@ public class ReplyService {
    */
   @Cacheable
   public Page<Reply> page(int p, int size) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return replyRepository.findAll(pageable);
   }
 
@@ -235,8 +235,8 @@ public class ReplyService {
    */
   @Cacheable
   public Page<Reply> findByUser(int p, int size, User user) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return replyRepository.findByUser(user, pageable);
   }
 }

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="/static/css/app.css">
 
-  <#if site.GA??>
+  <#if site.GA?? && site.GA != "">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=${site.GA}"></script>
     <script>
@@ -28,7 +28,7 @@
     </script>
   </#if>
 
-  <#if site.baiduTJ??>
+  <#if site.baiduTJ?? && site.baiduTJ != "">
     <script>
       var _hmt = _hmt || [];
       (function() {

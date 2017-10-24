@@ -98,8 +98,8 @@ public class NotificationService {
    */
   @Cacheable
   public Page<Notification> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     if (isRead == null) {
       return notificationRepository.findByTargetUser(targetUser, pageable);
     }

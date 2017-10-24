@@ -1,13 +1,11 @@
 package co.yiiu.config;
 
 import co.yiiu.module.user.service.PersistentTokenService;
-import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import co.yiiu.web.secrity.YiiuFilterSecurityInterceptor;
 import co.yiiu.web.secrity.YiiuUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,21 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 /**
  * Created by tomoya.
@@ -47,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private YiiuUserDetailService yiiuUserDetailService;
   @Autowired
   private YiiuFilterSecurityInterceptor yiiuFilterSecurityInterceptor;
-  @Autowired
-  private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
   @Autowired
   private PersistentTokenService persistentTokenService;
 

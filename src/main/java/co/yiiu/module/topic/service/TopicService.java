@@ -101,19 +101,19 @@ public class TopicService {
    */
   @Cacheable
   public Page<Topic> page(int p, int size, String tab) {
-    Sort sort = Sort.by(
+    Sort sort = new Sort(
           new Sort.Order(Sort.Direction.DESC, "top"),
           new Sort.Order(Sort.Direction.DESC, "inTime"),
           new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     switch (tab) {
       case "default":
         return topicRepository.findAll(pageable);
       case "good":
         return topicRepository.findByGood(true, pageable);
       case "newest":
-        sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-        pageable = PageRequest.of(p - 1, size, sort);
+        sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+        pageable = new PageRequest(p - 1, size, sort);
         return topicRepository.findAll(pageable);
       case "noanswer":
         return topicRepository.findByReplyCount(0, pageable);
@@ -133,9 +133,9 @@ public class TopicService {
   @Cacheable
   public Page<Topic> search(int p, int size, String q) {
     if (StringUtils.isEmpty(q)) return null;
-    Sort sort = Sort.by(
+    Sort sort = new Sort(
         new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return topicRepository.findByTitleContainingOrContentContaining(q, q, pageable);
   }
 
@@ -149,8 +149,8 @@ public class TopicService {
    */
   @Cacheable
   public Page<Topic> findByUser(int p, int size, User user) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return topicRepository.findByUser(user, pageable);
   }
 
@@ -179,10 +179,10 @@ public class TopicService {
 
   @Cacheable
   public Page<Topic> findByNode(Node node, int p, int size) {
-    Sort sort = Sort.by(
+    Sort sort = new Sort(
         new Sort.Order(Sort.Direction.DESC, "top"),
         new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return topicRepository.findByNode(node, pageable);
   }
 }

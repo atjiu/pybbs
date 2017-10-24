@@ -38,8 +38,8 @@ public class CollectService {
    */
   @Cacheable
   public Page<Collect> findByUser(int p, int size, User user) {
-    Sort sort = Sort.by(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = new PageRequest(p - 1, size, sort);
     return collectRepository.findByUser(user, pageable);
   }
 
@@ -94,7 +94,7 @@ public class CollectService {
    */
   @CacheEvict(allEntries = true)
   public void deleteById(int id) {
-    collectRepository.deleteById(id);
+    collectRepository.delete(id);
   }
 
   /**

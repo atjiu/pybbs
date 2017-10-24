@@ -21,10 +21,10 @@ public class Node implements Serializable {
   @Column(nullable = false, columnDefinition = "int default 0")
   private int pid;
 
-  @Column(unique = true)
+  @Column
   private String name;
 
-  @Column(unique = true)
+  @Column
   private String value;
 
   @Column(length = 1000)
