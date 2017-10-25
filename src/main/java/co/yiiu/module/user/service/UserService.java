@@ -37,7 +37,7 @@ public class UserService {
   public Page<User> findByScore(int p, int size) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "score"));
     Pageable pageable = new PageRequest((p - 1) * size, size, sort);
-    return userRepository.findAll(pageable);
+    return userRepository.findByBlock(false, pageable);
   }
 
   @Cacheable
