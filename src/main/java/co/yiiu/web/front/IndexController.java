@@ -263,7 +263,7 @@ public class IndexController extends BaseController {
 
     Date now = new Date();
     // generator avatar
-    String avatar = identicon.generator();
+    String avatar = identicon.generator(username);
 
     user = new User();
     user.setEmail(email);

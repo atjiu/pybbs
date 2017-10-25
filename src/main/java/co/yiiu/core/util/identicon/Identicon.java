@@ -1,10 +1,13 @@
 package co.yiiu.core.util.identicon;
 
+import co.yiiu.config.SiteConfig;
+import co.yiiu.core.util.HashUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.generator.IBaseGenartor;
 import co.yiiu.core.util.identicon.generator.impl.MyGenerator;
 import co.yiiu.core.util.security.MD5Helper;
 import com.google.common.base.Preconditions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +16,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Base64;
@@ -26,6 +30,8 @@ import java.util.Base64;
 public class Identicon {
 
   private IBaseGenartor genartor;
+  @Autowired
+  private SiteConfig siteConfig;
 
   public Identicon() {
     this.genartor = new MyGenerator();
@@ -72,6 +78,29 @@ public class Identicon {
     String md5 = MD5Helper.getMD5String(StrUtil.randomString(6));
     BufferedImage image = identicon.create(md5, 300);
     return "data:image/png;base64," + imgToBase64String(image, "png");
+  }
+
+  public String generator(String username) {
+    Identicon identicon = new Identicon();
+    String md5 = HashUtil.md5(StrUtil.randomString(6));
+    BufferedImage image = identicon.create(md5, 420);
+    return saveFile(username, image);
+  }
+
+  public String saveFile(String username, BufferedImage image) {
+    String fileName = "avatar.png";
+    String userAvatarPath = username + "/";
+    try {
+      File file = new File(siteConfig.getUploadPath() + userAvatarPath);
+      if (!file.exists()) file.mkdirs();
+      File file1 = new File(siteConfig.getUploadPath() + userAvatarPath + fileName);
+      if (!file1.exists()) file1.createNewFile();
+      ImageIO.write(image, "PNG", file1);
+      return siteConfig.getStaticUrl() + userAvatarPath + fileName;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 
   public static void main(String[] args) {

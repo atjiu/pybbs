@@ -85,14 +85,13 @@
             });
           }
         });
-        newAvatarImg.cropper('setCropBoxData', {width: 200, height: 200})
       }, 200);
     });
     $("#confirmAvatarBtn").click(function() {
       if(!$("#newAvatarFile").val()) {
         alert("请先选择图片");
       } else {
-        var avatarBase64 = newAvatarImg.cropper('getCroppedCanvas', {width: 200, height: 200}).toDataURL();
+        var avatarBase64 = newAvatarImg.cropper('getCroppedCanvas', {width: 100, height: 100}).toDataURL();
         $.ajax({
           url: '/user/changeAvatar',
           async: false,

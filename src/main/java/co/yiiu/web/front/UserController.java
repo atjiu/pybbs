@@ -6,6 +6,7 @@ import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.FileUploadEnum;
 import co.yiiu.core.util.FileUtil;
+import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -17,8 +18,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -33,7 +39,7 @@ public class UserController extends BaseController {
   @Autowired
   private UserService userService;
   @Autowired
-  private FileUtil fileUtil;
+  private Identicon identicon;
   @Autowired
   private SiteConfig siteConfig;
 
@@ -143,13 +149,23 @@ public class UserController extends BaseController {
    */
   @PostMapping("changeAvatar")
   @ResponseBody
-  public Result changeAvatar(String avatar) throws ApiException {
+  public Result changeAvatar(String avatar) throws ApiException, IOException {
     if (StringUtils.isEmpty(avatar)) throw new ApiException("头像不能为空");
     String _avatar = avatar.substring(avatar.indexOf(",") + 1, avatar.length());
-    if (!Base64Helper.isBase64(_avatar)) throw new ApiException("头像格式不正确");
     User user = getUser();
-    user.setAvatar(avatar);
+    byte[] bytes;
+    try {
+      bytes = Base64Helper.decode(_avatar);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new ApiException("头像格式不正确");
+    }
+    ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+    BufferedImage bufferedImage = ImageIO.read(bais);
+    String __avatar = identicon.saveFile(user.getUsername(), bufferedImage);
+    user.setAvatar(__avatar);
     userService.save(user);
+    bais.close();
     return Result.success();
   }
 
