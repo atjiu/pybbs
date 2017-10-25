@@ -3,8 +3,10 @@ package co.yiiu.web.front;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
+import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.FileUploadEnum;
 import co.yiiu.core.util.FileUtil;
+import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,20 +111,46 @@ public class UserController extends BaseController {
    * @return
    */
   @PostMapping("/profile")
-  public String updateUserInfo(String email, String url, String bio, @RequestParam("avatar") MultipartFile avatar,
-                               HttpServletResponse response) throws Exception {
+  public String updateUserInfo(String email, String url, String bio, HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
     if (bio != null && bio.trim().length() > 0) user.setBio(bio);
     user.setUrl(url);
-    String requestUrl = fileUtil.uploadFile(avatar, FileUploadEnum.AVATAR, getUsername());
-    if (!StringUtils.isEmpty(requestUrl)) {
-      user.setAvatar(requestUrl);
-    }
     userService.save(user);
     return redirect(response, "/user/" + user.getUsername());
+  }
+
+  /**
+   * 修改头像
+   *
+   * @param model
+   * @return
+   */
+  @GetMapping("/changeAvatar")
+  public String changeAvatar(Model model) {
+    model.addAttribute("user", getUser());
+    return "front/user/setting/changeAvatar";
+  }
+
+  /**
+   * 保存头像
+   *
+   * @param avatar
+   * @return
+   * @throws ApiException
+   */
+  @PostMapping("changeAvatar")
+  @ResponseBody
+  public Result changeAvatar(String avatar) throws ApiException {
+    if (StringUtils.isEmpty(avatar)) throw new ApiException("头像不能为空");
+    String _avatar = avatar.substring(avatar.indexOf(",") + 1, avatar.length());
+    if (!Base64Helper.isBase64(_avatar)) throw new ApiException("头像格式不正确");
+    User user = getUser();
+    user.setAvatar(avatar);
+    userService.save(user);
+    return Result.success();
   }
 
   @GetMapping("/changePassword")

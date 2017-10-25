@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/collect/**",
             "/notification/**",
             "/user/profile",
+            "/user/changeAvatar",
             "/user/changePassword",
             "/user/accessToken",
             "/user/refreshToken",

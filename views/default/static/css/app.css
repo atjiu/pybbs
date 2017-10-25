@@ -175,3 +175,4 @@ form textarea{resize:vertical}
 .search-result{max-height:200px;overflow:hidden}
 .nodes>a{width:80px;margin-right:20px}
 .col-md-3,.col-md-9,.col-md-2,.col-md-10{padding:0 5px}
+.origin-avatar {max-width: 100%;}

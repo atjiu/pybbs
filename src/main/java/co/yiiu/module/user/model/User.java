@@ -34,7 +34,7 @@ public class User implements Serializable {
   private String password;
 
   // 头像
-  @Column(nullable = false)
+  @Column(columnDefinition = "LONGTEXT", nullable = false)
   private String avatar;
 
   // 用户邮箱

@@ -31,12 +31,6 @@
             <label for="bio">个性签名</label>
             <textarea class="form-control" name="bio" id="bio">${user.bio!}</textarea>
           </div>
-          <div class="form-group">
-            <label for="avatar">头像</label>
-            <input type="file" class="form-control" name="avatar" id="avatar"/>
-            <br>
-            <img src="${user.avatar!}" width="150" style="border-radius: 4px;">
-          </div>
           <#if user.block == true>
             <button type="button" disabled="disabled" class="btn btn-default">保存设置</button>
           <#else>

@@ -263,7 +263,7 @@ public class IndexController extends BaseController {
 
     Date now = new Date();
     // generator avatar
-    String avatarUrl = identicon.generator(username);
+    String avatar = identicon.generator();
 
     user = new User();
     user.setEmail(email);
@@ -272,7 +272,7 @@ public class IndexController extends BaseController {
     user.setInTime(now);
     user.setBlock(false);
     user.setToken(UUID.randomUUID().toString());
-    user.setAvatar(avatarUrl);
+    user.setAvatar(avatar);
     user.setAttempts(0);
     user.setScore(2000);// first register score 2000
     user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
