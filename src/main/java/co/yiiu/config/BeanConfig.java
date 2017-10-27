@@ -11,7 +11,10 @@ import co.yiiu.module.user.service.UserService;
 import co.yiiu.web.secrity.YiiuUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Component;
@@ -41,6 +44,8 @@ public class BeanConfig {
   private UserService userService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private Environment env;
 
   @Bean
   public PrincipalExtractor principalExtractor() {
@@ -94,6 +99,18 @@ public class BeanConfig {
         , yiiuUserDetailService, persistentTokenService);
     services.setAlwaysRemember(true);
     return services;
+  }
+
+  @Bean
+  public EmbeddedServletContainerFactory servletContainerFactory() {
+    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+    tomcat.addConnectorCustomizers(connector -> {
+      connector.setScheme("http");
+      connector.setPort(Integer.parseInt(env.getProperty("server.port")));
+      connector.setRedirectPort(8443);
+      connector.setSecure(true);
+    });
+    return tomcat;
   }
 
 }

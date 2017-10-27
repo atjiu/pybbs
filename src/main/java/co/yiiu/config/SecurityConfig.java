@@ -72,20 +72,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginPage("/login")
         .loginProcessingUrl("/login")
         .failureUrl("/login?error")
-        .defaultSuccessUrl(siteConfig.getBaseUrl())
+        .defaultSuccessUrl("/")
         .permitAll();
 
     http.rememberMe().key("remember-me").rememberMeServices(beanConfig.persistentTokenBasedRememberMeServices());
 
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl(siteConfig.getBaseUrl() + "/")
+        .logoutSuccessUrl("/")
         .deleteCookies("JSESSIONID", "remember-me");
 
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 //    http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile", "/github_login");
+
   }
 
   @Override

@@ -77,7 +77,7 @@ public class BaseEntity {
     List<String> users = fetchUsers(null, content);
     for (String user : users) {
       user = user.trim();
-      content = content.replace(user, "[" + user + "](" + siteConfig.getBaseUrl() + "/user/" + user.replace("@", "") + ")");
+      content = content.replace(user, "[" + user + "](" + siteConfig.getBaseUrl() + "user/" + user.replace("@", "") + ")");
     }
     // markdown 转 html 并返回
     return Jsoup.clean(
