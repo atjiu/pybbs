@@ -46,6 +46,14 @@
       </div>
     </div>
   </div>
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">社交帐号登录</div>
+      <div class="panel-body">
+        <a href="/github_login" class="btn btn-success btn-block">Github登录</a>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   $(function () {

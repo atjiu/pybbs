@@ -12,7 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,14 +32,9 @@ public class YiiuInvocationSecurityMetadataSource implements FilterInvocationSec
    */
   public void loadResourceDefine() {
     map = new HashMap<>();
-    Collection<ConfigAttribute> array;
-    ConfigAttribute cfg;
     List<Permission> permissions = permissionService.findAll(true);
     for (Permission permission : permissions) {
-      array = new ArrayList<>();
-      cfg = new SecurityConfig(permission.getName());
-      array.add(cfg);
-      map.put(permission.getUrl(), array);
+      map.put(permission.getUrl(), Arrays.asList(new SecurityConfig(permission.getName())));
     }
     log.info("security info load success!!");
   }

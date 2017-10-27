@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -365,8 +364,6 @@ public class IndexController extends BaseController {
     // 将图像输出到Servlet输出流中。
     ServletOutputStream sos = resp.getOutputStream();
     ImageIO.write(buffImg, "jpeg", sos);
-    sos.flush();
-    sos.close();
   }
 
   @GetMapping("/sendEmailCode")

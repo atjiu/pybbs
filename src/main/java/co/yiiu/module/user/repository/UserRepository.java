@@ -1,5 +1,6 @@
 package co.yiiu.module.user.repository;
 
+import co.yiiu.module.user.model.GithubUser;
 import co.yiiu.module.user.model.User;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,5 +29,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   User findByToken(String token);
 
   User findByEmail(String email);
+
+  User findByGithubUser(GithubUser githubUser);
 
 }

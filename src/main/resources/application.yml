@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  application:
+    name: YIIU
+    index: 1
   resources:
     static-locations:
     - classpath:/${site.theme}/static/
@@ -35,9 +38,22 @@ spring:
       mail.smtp.ssl.enable: true
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
-  servlet:
+  http:
     multipart:
       max-file-size: 2MB
+security:
+  oauth2:
+    client:
+      client-id:
+      client-secret:
+      accessTokenUri: https://github.com/login/oauth/access_token
+      userAuthorizationUri: https://github.com/login/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://api.github.com/user
+    sso:
+      login-path: /github_login
+
 site:
   name: YIIU
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
