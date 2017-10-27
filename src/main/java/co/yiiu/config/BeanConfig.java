@@ -107,8 +107,10 @@ public class BeanConfig {
     tomcat.addConnectorCustomizers(connector -> {
       connector.setScheme("http");
       connector.setPort(Integer.parseInt(env.getProperty("server.port")));
-      connector.setRedirectPort(8443);
-      connector.setSecure(true);
+      if(siteConfig.isSsl()) {
+        connector.setRedirectPort(8443);
+        connector.setSecure(true);
+      }
     });
     return tomcat;
   }

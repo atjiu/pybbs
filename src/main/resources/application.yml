@@ -74,6 +74,7 @@ site:
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
+  ssl: false # 网站重写向是否转到https上，默认是否，如果你网站开启了https，请把这个设置为true
   cookie:
     domain: localhost
     attendanceMaxAge: 86400

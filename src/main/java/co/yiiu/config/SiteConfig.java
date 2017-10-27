@@ -27,7 +27,16 @@ public class SiteConfig {
   private String googleZZ;
   private String baiduTJ;
   private String baiduZZ;
+  private boolean ssl;
   private CookieConfig cookie;
+
+  public boolean isSsl() {
+    return ssl;
+  }
+
+  public void setSsl(boolean ssl) {
+    this.ssl = ssl;
+  }
 
   public int getLoginPoints() {
     return loginPoints;
