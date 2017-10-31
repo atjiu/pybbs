@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,6 +106,16 @@ public class BaseEntity {
           element.parent().addClass("embedded_video_wrapper");
           element.parent().append("<iframe class='embedded_video' src='" + href.replace("watch?v=", "embed/") + "' frameborder='0' allowfullscreen></iframe>");
           element.remove();
+        } else if(href.contains("http://v.youku.com/v_show/")) {
+          try {
+            URL aUrl = new URL(href);
+            String _href = "http://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
+            element.parent().addClass("embedded_video_wrapper");
+            element.parent().append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' allowfullscreen></iframe>");
+            element.remove();
+          } catch (MalformedURLException e) {
+            e.printStackTrace();
+          }
         }
       });
     }
