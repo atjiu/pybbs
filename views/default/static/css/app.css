@@ -77,7 +77,7 @@
 .topic-detail-content blockquote{padding:0 15px;color:#777;border-left:4px solid #ddd}
 .topic-detail-content blockquote>:first-child{margin-top:0}
 .topic-detail-content blockquote>:last-child{margin-bottom:0}
-.topic-detail-content img{box-sizing:content-box;background-color:#fff}
+.topic-detail-content img{max-width:100%;box-sizing:content-box;background-color:#fff}
 .topic-detail-content code:before,.topic-detail-content code:after{letter-spacing:-.2em;content:"\00a0"}
 .topic-detail-content pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}
 .topic-detail-content .highlight{margin-bottom:16px}
@@ -129,7 +129,6 @@
 .hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}
 body{font-family:"Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB","Microsoft Yahei",sans-serif}
 pre{padding:0;color:#fff}
-img{max-width:100%;}
 .wrapper{width:100%;background-color:#e5e5e5}
 .title a:visited{color:#888}
 .avatar{border-radius:4px;max-width:48px}
@@ -141,6 +140,7 @@ img{max-width:100%;}
 .topic-append-content{background-color:#fffff9}
 .gray{color:#999}
 .payload{width:100%;background-color:#f5f5f5;padding:5px 10px;word-break:break-all;word-wrap:break-word;margin-top:5px;margin-bottom:5px}
+.payload img,.user_replies img{max-width:100%}
 .mar-top-5{margin-top:5px}
 .mar-bot-5{margin-bottom:5px}
 .mar-bot-10{margin-bottom:10px}
@@ -149,6 +149,7 @@ img{max-width:100%;}
 .header-navbar li a{padding-left:15px;padding-right:15px}
 .paginate-bot{padding-bottom:0}
 .permission-item.active a{color:#fff}
+.reply-content img{max-width:100%}
 .panel{border:0;margin-bottom:10px}
 .panel td{padding-left:15px!important;padding-right:15px!important}
 .panel th{padding-left:15px!important;padding-right:15px!important}
@@ -163,6 +164,7 @@ form textarea{resize:vertical}
 #menu .fa{border:1px solid #fff;cursor:pointer;border-radius:3px;padding:4px}
 #menu .fa:hover{border:1px solid #ccc}
 #pre_div{background-color:#fafafa;border-radius:4px;padding:10px}
+#pre_div img{max-width:100%}
 .upload-area{border:4px dashed #ddd;text-align:center;height:100px;line-height:100px}
 .upload-area-active{border-color:#7A7A7A}
 .progress{margin-bottom:0;text-align:center;position:relative}
@@ -171,6 +173,7 @@ form textarea{resize:vertical}
 .file-delete{color:red;position:absolute;right:0;top:0;font-size:16px;cursor:pointer}
 .table>tbody>tr>td{word-break:break-all}
 .search-result{max-height:200px;overflow:hidden}
+.search-result img{max-width:100%;}
 .nodes>a{width:80px;margin-right:20px}
 .col-md-3,.col-md-9,.col-md-2,.col-md-10{padding:0 5px}
 .origin-avatar {max-width: 100%;}
