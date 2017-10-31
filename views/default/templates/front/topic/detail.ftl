@@ -79,7 +79,7 @@
       <#if topic.content?? && topic.content != "">
         <div class="divide"></div>
         <div class="panel-body topic-detail-content">
-          ${model.markedNotAt(topic.content)}
+          ${model.marked(topic.content, false)}
         </div>
       </#if>
       <#if sec.isAuthenticated()>

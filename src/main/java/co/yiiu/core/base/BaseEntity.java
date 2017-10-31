@@ -6,7 +6,9 @@ import co.yiiu.core.util.DateUtil;
 import co.yiiu.core.util.MarkdownUtil;
 import co.yiiu.module.node.service.NodeService;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -70,17 +72,19 @@ public class BaseEntity {
    * @param content
    * @return
    */
-  public String marked(String content) {
+  public String marked(String content, boolean dealAt) {
     if (StringUtils.isEmpty(content))
       return "";
-    // 处理@
-    List<String> users = fetchUsers(null, content);
-    for (String user : users) {
-      user = user.trim();
-      content = content.replace(user, "[" + user + "](" + siteConfig.getBaseUrl() + "user/" + user.replace("@", "") + ")");
+    if (dealAt) {
+      // 处理@
+      List<String> users = fetchUsers(null, content);
+      for (String user : users) {
+        user = user.trim();
+        content = content.replace(user, "[" + user + "](" + siteConfig.getBaseUrl() + "user/" + user.replace("@", "") + ")");
+      }
     }
     // markdown 转 html 并返回
-    return Jsoup.clean(
+    String clearContent = Jsoup.clean(
         MarkdownUtil.render(content),
         Whitelist
             .relaxed()
@@ -90,28 +94,20 @@ public class BaseEntity {
             .addAttributes("table", "class")
             .addAttributes("a", "target")
     );
-  }
-
-  /**
-   * 解析markdown文章(不解析@)
-   *
-   * @param content
-   * @return
-   */
-  public String markedNotAt(String content) {
-    if (StringUtils.isEmpty(content))
-      return "";
-    // markdown 转 html 并返回
-    return Jsoup.clean(
-        MarkdownUtil.render(content),
-        Whitelist
-            .relaxed()
-            .addAttributes("input", "checked", "type")
-            .addAttributes("span", "class")
-            .addAttributes("code", "class")
-            .addAttributes("table", "class")
-            .addAttributes("a", "target")
-    );
+    //处理youtube视频
+    Document parse = Jsoup.parse(clearContent);
+    Elements aElements = parse.select("a");
+    if (aElements != null && aElements.size() > 0) {
+      aElements.forEach(element -> {
+        String href = element.attr("href");
+        if (href.contains("https://www.youtube.com/watch")) {
+          element.parent().addClass("embedded_video_wrapper");
+          element.parent().append("<iframe class='embedded_video' src='" + href.replace("watch?v=", "embed/") + "' frameborder='0' allowfullscreen></iframe>");
+          element.remove();
+        }
+      });
+    }
+    return parse.outerHtml();
   }
 
   /**
