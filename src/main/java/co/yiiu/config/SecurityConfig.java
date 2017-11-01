@@ -1,5 +1,6 @@
 package co.yiiu.config;
 
+import co.yiiu.web.secrity.ValidateCodeAuthenticationFilter;
 import co.yiiu.web.secrity.YiiuFilterSecurityInterceptor;
 import co.yiiu.web.secrity.YiiuUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -29,13 +31,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
   private YiiuUserDetailService yiiuUserDetailService;
   @Autowired
   private YiiuFilterSecurityInterceptor yiiuFilterSecurityInterceptor;
   @Autowired
   private BeanConfig beanConfig;
+  @Autowired
+  private ValidateCodeAuthenticationFilter validateCodeAuthenticationFilter;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -83,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .deleteCookies("JSESSIONID", "remember-me");
 
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-//    http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile", "/github_login");
 

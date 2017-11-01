@@ -137,7 +137,7 @@
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
     <#include "../components/user_info.ftl"/>
-    <@user_info username=topic.user.username text="author"/>
+    <@user_info/>
   </div>
 </div>
 <script src="/static/js/highlight.min.js"></script>
