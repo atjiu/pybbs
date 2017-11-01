@@ -22,9 +22,9 @@
           <div class="row">
             <#list m.fileList as n>
               <div class="col-xs-6 col-md-3">
-                <div class="thumbnail">
-                        <span class="file-delete" data-dirName="${m.dirName}"
-                              data-fileName="${n.fileName}">&times;</span>
+                <div class="thumbnail show_big_image">
+                    <span class="file-delete" data-dirName="${m.dirName}"
+                          data-fileName="${n.fileName}">&times;</span>
                   <img src="${n.fileUrl}">
                 </div>
               </div>
@@ -38,6 +38,7 @@
     </div>
   </div>
 </div>
+<#include "../../components/show_big_image.ftl"/>
 <script>
   $(function () {
     $(".file-delete").click(function () {
@@ -64,7 +65,7 @@
           }
         });
       }
-    })
+    });
   })
 </script>
 </@html>

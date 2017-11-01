@@ -67,7 +67,6 @@
                         href="javascript:if(confirm('确定要锁定吗？'))location.href='/admin/topic/${topic.id}/lock'">锁定</a></span>
                   </#if>
                 </#if>
-
               </#if>
             </p>
           </div>
@@ -78,7 +77,7 @@
       </div>
       <#if topic.content?? && topic.content != "">
         <div class="divide"></div>
-        <div class="panel-body topic-detail-content">
+        <div class="panel-body topic-detail-content show_big_image">
           ${model.marked(topic.content, false)}
         </div>
       </#if>

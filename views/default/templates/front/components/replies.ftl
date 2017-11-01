@@ -11,7 +11,7 @@
           <#if topic_user?? && topic_user.username == reply.user.username>
             <span class="text-success">[楼主]</span>
           </#if>
-          ${model.formatDate(reply.inTime)}
+        ${model.formatDate(reply.inTime)}
           <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">
               <#if model.isUp(user.id, reply.upIds) == true>
@@ -41,13 +41,14 @@
             </span>
           </#if>
         </div>
-        ${model.marked(reply.content, true)}
+        <div class="show_big_image">${model.marked(reply.content, true)}</div>
       </div>
     </div>
       <#if reply_has_next>
       <div class="divide"></div>
       </#if>
     </#list>
+    <#include "../components/show_big_image.ftl"/>
   <script>
     function replyUp(dom, id) {
       var url;

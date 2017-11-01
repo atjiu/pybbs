@@ -170,7 +170,7 @@ form textarea{resize:vertical}
 .progress{margin-bottom:0;text-align:center;position:relative}
 .progress .progress-bar{position:absolute;width:0}
 .progress div{color:#545454;position:absolute;width:100%}
-.file-delete{color:red;position:absolute;right:0;top:0;font-size:16px;cursor:pointer}
+.file-delete{color:red;position:absolute;right:-5px;top:-5px;font-size:16px;cursor:pointer}
 .table>tbody>tr>td{word-break:break-all}
 .search-result{max-height:200px;overflow:hidden}
 .search-result img{max-width:100%;}
@@ -179,3 +179,4 @@ form textarea{resize:vertical}
 .origin-avatar {max-width: 100%;}
 .embedded_video_wrapper{position:relative;padding-bottom:56.25%;height:0;}
 .embedded_video{position:absolute;width:100%;height:100%;}
+.show_big_image img{cursor:pointer;}

@@ -18,7 +18,7 @@
             </td>
           </tr>
           <tr class="user_replies">
-            <td>
+            <td class="show_big_image">
               ${model.marked(reply.content!, true)}
             </td>
           </tr>
@@ -37,5 +37,6 @@
       </#if>
     </#if>
   </div>
+  <#include "../components/show_big_image.ftl"/>
   </@user_replies_tag>
 </#macro>
