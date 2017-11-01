@@ -48,7 +48,6 @@
       <div class="divide"></div>
       </#if>
     </#list>
-    <#include "../components/show_big_image.ftl"/>
   <script>
     function replyUp(dom, id) {
       var url;

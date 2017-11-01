@@ -138,6 +138,7 @@
     <#include "../components/user_info.ftl"/>
     <@user_info/>
   </div>
+  <#include "../components/show_big_image.ftl"/>
 </div>
 <script src="/static/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
