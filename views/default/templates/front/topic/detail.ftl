@@ -135,8 +135,13 @@
     </#if>
   </div>
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../components/user_info.ftl"/>
-    <@user_info/>
+    <#if sec.isAuthenticated()>
+      <#include "../components/user_info.ftl"/>
+      <@user_info/>
+    <#else>
+      <#include "../components/welcome.ftl"/>
+      <@welcome/>
+    </#if>
   </div>
   <#include "../components/show_big_image.ftl"/>
 </div>
