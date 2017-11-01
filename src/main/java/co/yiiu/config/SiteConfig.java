@@ -22,6 +22,7 @@ public class SiteConfig {
   private long attemptsWaitTime;
   private int maxCreateTopic;
   private long userUploadSpaceSize;
+  private int score;
   private int loginPoints;
   private String GA;
   private String googleZZ;
@@ -172,6 +173,14 @@ public class SiteConfig {
 
   public void setUserUploadSpaceSize(long userUploadSpaceSize) {
     this.userUploadSpaceSize = userUploadSpaceSize;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   public CookieConfig getCookie() {

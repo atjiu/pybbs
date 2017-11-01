@@ -273,7 +273,7 @@ public class IndexController extends BaseController {
     user.setToken(UUID.randomUUID().toString());
     user.setAvatar(avatar);
     user.setAttempts(0);
-    user.setScore(2000);// first register score 2000
+    user.setScore(siteConfig.getScore());
     user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
 
     // set user's role
