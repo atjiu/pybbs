@@ -41,7 +41,7 @@
             </span>
           </#if>
         </div>
-        ${model.marked(reply.content)}
+        ${model.marked(reply.content, true)}
       </div>
     </div>
       <#if reply_has_next>

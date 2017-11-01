@@ -11,7 +11,7 @@
       </td>
     </tr>
     <tr>
-      <td>${model.marked(reply.content)}</td>
+      <td>${model.marked(reply.content, true)}</td>
     </tr>
   </#list>
 </table>

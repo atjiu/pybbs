@@ -19,7 +19,7 @@
           </tr>
           <tr class="user_replies">
             <td>
-              ${model.marked(reply.content!)}
+              ${model.marked(reply.content!, true)}
             </td>
           </tr>
         </#list>

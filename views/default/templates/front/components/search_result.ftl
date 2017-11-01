@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td class="search-result">
-        ${model.marked(topic.content)}
+        ${model.marked(topic.content!, true)}
       </td>
     </tr>
   </#list>
