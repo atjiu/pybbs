@@ -13,4 +13,6 @@
     </div>
   </div>
 </div>
+<script src="/static/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 </@html>

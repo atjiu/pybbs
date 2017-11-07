@@ -7,7 +7,7 @@
       </td>
     </tr>
     <tr>
-      <td class="search-result">
+      <td class="search-result topic-detail-content">
         ${model.marked(topic.content!, true)}
       </td>
     </tr>
