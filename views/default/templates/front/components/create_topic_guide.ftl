@@ -8,7 +8,7 @@
     <p>• 在标题中描述内容要点。如果一件事情在标题的长度内就已经可以说清楚，那就没有必要写正文了。</p>
     <p>• 保持对陌生人的友善。用知识去帮助别人。</p>
     <p>• 每天每个用户最多只能发${site.maxCreateTopic} 个话题。</p>
-    <p>• 发布话题会扣除用户10积分</p>
+    <p>• 发布话题会<#if site.createTopicScore gte 0>增加<#else>扣除</#if>用户${site.createTopicScore?abs}积分</p>
     <p>• 发布话题5分钟后不能再编辑</p>
   </div>
 </div>

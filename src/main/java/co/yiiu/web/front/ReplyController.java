@@ -1,5 +1,6 @@
 package co.yiiu.web.front;
 
+import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.base.BaseEntity;
 import co.yiiu.core.bean.Result;
@@ -39,6 +40,9 @@ public class ReplyController extends BaseController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private SiteConfig siteConfig;
+
   /**
    * 保存回复
    *
@@ -50,7 +54,7 @@ public class ReplyController extends BaseController {
   public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    if (user.getScore() < 5) throw new Exception("你的积分不足，不能评论");
+    if (user.getScore() + siteConfig.getCreateReplyScore() < 0 ) throw new Exception("你的积分不足，不能评论");
     if (StringUtils.isEmpty(content)) throw new Exception("回复内容不能为空");
 
     if (topicId != null) {
@@ -63,6 +67,10 @@ public class ReplyController extends BaseController {
         reply.setUp(0);
         reply.setContent(content);
         replyService.save(reply);
+
+        // update score
+        user.setScore(user.getScore() + siteConfig.getCreateReplyScore());
+        userService.save(user);
 
         //回复+1
         topic.setReplyCount(topic.getReplyCount() + 1);

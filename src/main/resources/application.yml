@@ -72,6 +72,8 @@ site:
   attempts: 5
   attemptsWaitTime: 15
   maxCreateTopic: 10
+  createTopicScore: -10  # 创建主题变化的积分
+  createReplyScore : -5  # 创建回复变化的积分
   userUploadSpaceSize: 50 # 单位MB
   score: 2000 # 用户注册后初始积分
   loginPoints: 2 # 登录点，最多2个位置登录，第三个登录点会覆盖第一个

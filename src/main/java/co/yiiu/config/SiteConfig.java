@@ -23,6 +23,8 @@ public class SiteConfig {
   private int attempts;
   private long attemptsWaitTime;
   private int maxCreateTopic;
+  private int createTopicScore;
+  private int createReplyScore;
   private long userUploadSpaceSize;
   private int score;
   private int loginPoints;
@@ -200,5 +202,21 @@ public class SiteConfig {
 
   public void setCookie(CookieConfig cookie) {
     this.cookie = cookie;
+  }
+
+  public int getCreateTopicScore() {
+    return createTopicScore;
+  }
+
+  public void setCreateTopicScore(int createTopicScore) {
+    this.createTopicScore = createTopicScore;
+  }
+
+  public int getCreateReplyScore() {
+    return createReplyScore;
+  }
+
+  public void setCreateReplyScore(int createReplyScore) {
+    this.createReplyScore = createReplyScore;
   }
 }
