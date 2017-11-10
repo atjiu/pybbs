@@ -80,7 +80,7 @@ public class TopicController extends BaseController {
 
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
 
-    if (user.getScore() < 10) throw new Exception("你的积分不足，不能发布话题");
+    if (user.getScore() + siteConfig.getCreateTopicScore() >= 0) throw new Exception("你的积分不足，不能发布话题");
 
     String now = DateUtil.formatDate(new Date());
     Date date1 = DateUtil.string2Date(now + " 00:00:00", DateUtil.FORMAT_DATETIME);
@@ -106,7 +106,7 @@ public class TopicController extends BaseController {
 
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用了，不能进行此项操作");
 
-    if (user.getScore() < 10) throw new Exception("你的积分不足，不能发布话题");
+    if (user.getScore() + siteConfig.getCreateTopicScore() >= 0) throw new Exception("你的积分不足，不能发布话题");
 
     Date now = new Date();
     String currentDateStr = DateUtil.formatDate(now);
@@ -138,7 +138,7 @@ public class TopicController extends BaseController {
       topicService.save(topic);
 
       // update score
-      user.setScore(user.getScore() - 10);
+      user.setScore(user.getScore() + siteConfig.getCreateTopicScore());
       userService.save(user);
 
       //节点的话题数加一
