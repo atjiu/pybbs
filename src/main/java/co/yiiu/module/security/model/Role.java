@@ -21,6 +21,7 @@ public class Role implements Serializable {
   private int id;
 
   // 权限标识
+  @Column(unique = true)
   private String name;
 
   // 权限描述

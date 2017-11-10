@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Integer> {
 
+  Permission findByName(String name);
+
   Permission findById(int id);
 
   List<Permission> findByPidGreaterThan(int pid);

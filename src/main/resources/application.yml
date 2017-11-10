@@ -14,11 +14,15 @@ spring:
     - file:./views/${site.theme}/templates/
     cache: false
   datasource:
-    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
-    username: root
-    password: 123123
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:./yiiu.sqlite
+#  datasource:
+#    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
+#    username: root
+#    password: 123123
   jpa:
-    database: mysql
+#    database: mysql
+    database-platform: co.yiiu.core.dialect.SQLiteDialect
     show-sql: true
     hibernate:
       ddl-auto: update
@@ -78,6 +82,7 @@ site:
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   ssl: false # 网站重写向是否转到https上，默认是否，如果你网站开启了https，请把这个设置为true
+  newUserRole: user # 这里跟data.yml里的 _roles 里配置的角色名字要一
   cookie:
     domain: localhost
     attendanceMaxAge: 86400

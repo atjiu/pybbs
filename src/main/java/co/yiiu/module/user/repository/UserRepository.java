@@ -2,9 +2,6 @@ package co.yiiu.module.user.repository;
 
 import co.yiiu.module.user.model.GithubUser;
 import co.yiiu.module.user.model.User;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

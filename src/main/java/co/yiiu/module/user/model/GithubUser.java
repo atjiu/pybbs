@@ -2,7 +2,6 @@ package co.yiiu.module.user.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by tomoya.

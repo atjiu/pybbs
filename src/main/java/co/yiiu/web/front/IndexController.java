@@ -1,6 +1,7 @@
 package co.yiiu.web.front;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.config.data.DataConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
@@ -277,7 +278,7 @@ public class IndexController extends BaseController {
     user.setSpaceSize(siteConfig.getUserUploadSpaceSize());
 
     // set user's role
-    Role role = roleService.findById(3); // normal user
+    Role role = roleService.findByName(siteConfig.getNewUserRole());
     Set roles = new HashSet();
     roles.add(role);
     user.setRoles(roles);
