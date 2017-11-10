@@ -54,7 +54,7 @@ public class ReplyController extends BaseController {
   public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    if (user.getScore() + siteConfig.getCreateReplyScore() >= 0 ) throw new Exception("你的积分不足，不能评论");
+    if (user.getScore() + siteConfig.getCreateReplyScore() < 0 ) throw new Exception("你的积分不足，不能评论");
     if (StringUtils.isEmpty(content)) throw new Exception("回复内容不能为空");
 
     if (topicId != null) {
