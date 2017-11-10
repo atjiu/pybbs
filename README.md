@@ -42,8 +42,8 @@
 
 *数据库里的表是项目启动时自动创建的，不要再问创建表的脚本在哪了*
 
+- 创建数据库yiiu, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
 - `git clone https://github.com/yiiu-co/yiiu`
-- 创建数据库yiiu, 字符集utf8
 - 运行 `mvn spring-boot:run` 启动项目 (这一步系统会自动把表创建好)
 - 访问 `http://localhost:8080`
 - 登录用户名：tomoya 密码：123123 (权限是超级管理员)
@@ -57,7 +57,7 @@
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 
-## 添加emoji支持
+## 添加emoji支持（仅MySQL数据库）
 
 - 创建数据库时选择 `utf8mb4` 字符集
 - 添加下面这段配置到 `/etc/mysql/mysql.conf.d/mysqld.conf` 里的 `[mysqld]` 下，保存重启Mysql服务
@@ -70,7 +70,7 @@ init_connect='SET NAMES utf8mb4'
 ```
 - 如果不行，试着把yiiu也重启一下
 
-## 想用MySQL
+## 切回MySQL方法
 
 打开 `application.yml` 将下面关于mysql连接的配置放开，把sqlite相关的配置注释掉就可以了
 
@@ -134,6 +134,10 @@ QQ群：`419343003`
 ## 贡献
 
 欢迎大家提 issues 及 pr 
+
+感谢以下朋友的pr
+
+[@beldon](https://github.com/beldon) [@Teddy-Zhu](https://github.com/Teddy-Zhu)
 
 ## License
 
