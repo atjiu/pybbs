@@ -71,6 +71,29 @@ init_connect='SET NAMES utf8mb4'
 ```
 - 如果不行，试着把yiiu也重启一下
 
+## 想用MySQL
+
+打开 `application.yml` 将下面关于mysql连接的配置放开，把sqlite相关的配置注释掉就可以了
+
+```yml
+# mysql 配置
+  datasource:
+    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
+    username: root
+    password: 123123
+  jpa:
+    database: mysql
+```
+
+```yml
+# sqlite 配置
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:./yiiu.sqlite
+  jpa:
+    database-platform: co.yiiu.core.dialect.SQLiteDialect
+```
+
 ## 关于主题
 
 本项目配置的结构目录非常方便主题开发，如果你想适配一套自己喜欢的主题，可以按照 `views` 目录下的文件夹结构开发，然后修改一下配置文件里的 `site.theme` 的值即可打包部署了

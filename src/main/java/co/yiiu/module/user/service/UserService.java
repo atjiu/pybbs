@@ -1,6 +1,5 @@
 package co.yiiu.module.user.service;
 
-import co.yiiu.module.user.model.GithubUser;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -21,6 +21,7 @@ public class Permission implements Serializable {
   private int id;
 
   // 权限名称
+  @Column(unique = true)
   private String name;
 
   // 权限描述

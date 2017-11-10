@@ -1,12 +1,14 @@
 package co.yiiu.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
+@Configuration
 @ConfigurationProperties(prefix = "site")
 public class SiteConfig {
 
@@ -29,6 +31,7 @@ public class SiteConfig {
   private String baiduTJ;
   private String baiduZZ;
   private boolean ssl;
+  private String newUserRole;
   private CookieConfig cookie;
 
   public boolean isSsl() {
@@ -181,6 +184,14 @@ public class SiteConfig {
 
   public void setScore(int score) {
     this.score = score;
+  }
+
+  public String getNewUserRole() {
+    return newUserRole;
+  }
+
+  public void setNewUserRole(String newUserRole) {
+    this.newUserRole = newUserRole;
   }
 
   public CookieConfig getCookie() {

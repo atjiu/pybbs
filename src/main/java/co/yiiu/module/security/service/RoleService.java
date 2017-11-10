@@ -24,6 +24,10 @@ public class RoleService {
   @Autowired
   private RoleRepository roleRepository;
 
+  public Role findByName(String name) {
+    return roleRepository.findByName(name);
+  }
+
   /**
    * 查询所有的角色
    *

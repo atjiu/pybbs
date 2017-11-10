@@ -7,7 +7,6 @@ import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +31,10 @@ public class PermissionService {
   private PermissionRepository permissionRepository;
   @Autowired
   private UserService userService;
+
+  public Permission findByName(String name) {
+    return permissionRepository.findByName(name);
+  }
 
   /**
    * 根据pid查询权限
