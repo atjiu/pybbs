@@ -12,7 +12,7 @@
 - Spring-JPA
 - Hibernate-Search5.8.0
 - Freemarker
-- MySQL
+- Sqlite(或MySQL)
 - Bootstrap3
 - Ehcache
 
@@ -45,7 +45,6 @@
 - `git clone https://github.com/yiiu-co/yiiu`
 - 创建数据库yiiu, 字符集utf8
 - 运行 `mvn spring-boot:run` 启动项目 (这一步系统会自动把表创建好)
-- 将 `yiiu.sql` 导入数据库
 - 访问 `http://localhost:8080`
 - 登录用户名：tomoya 密码：123123 (权限是超级管理员)
 
