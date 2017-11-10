@@ -25,6 +25,8 @@ _roles:
       - user:list
       - user:role
       - user:delete
+      - user:block
+      - user:unblock
       - permission:list
       - permission:add
       - permission:edit
@@ -131,6 +133,14 @@ _permissions:
         name: user:delete
         description: 用户删除
         url: /admin/user/*/delete
+      -
+        name: user:block
+        description: 用户禁用
+        url: /admin/user/*/block
+      -
+        name: user:unblock
+        description: 用户解禁
+        url: /admin/user/*/unblock
   -
     name: permission
     description: 权限

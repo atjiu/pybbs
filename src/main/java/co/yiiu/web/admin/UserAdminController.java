@@ -93,15 +93,11 @@ public class UserAdminController extends BaseController {
    * @return
    */
   @PostMapping("/{id}/role")
-  public String saveRole(@PathVariable Integer id, int score, Integer[] roleIds, HttpServletResponse response) {
+  public String saveRole(@PathVariable Integer id, int score, Integer roleId, HttpServletResponse response) {
     User user = userService.findById(id);
     Set<Role> roles = new HashSet<>();
-    if (roleIds != null) {
-      for (int i : roleIds) {
-        Role role = roleService.findById(i);
-        roles.add(role);
-      }
-    }
+    Role role = roleService.findById(roleId);
+    roles.add(role);
     //TODO 记录日志
     user.setScore(score);
     user.setRoles(roles);

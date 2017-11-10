@@ -23,7 +23,7 @@
             <label for="roles">角色</label>
             <div>
               <#list roles as role>
-                <input type="checkbox" name="roleIds" value="${role.id}" id="role_${role.id}">
+                <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}">
                 <label for="role_${role.id}">${role.description}</label>&nbsp;
               </#list>
               <script type="text/javascript">
