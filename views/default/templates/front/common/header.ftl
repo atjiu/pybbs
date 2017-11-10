@@ -38,7 +38,7 @@
           <#if sec.allGranted("admin:index")>
             <li <#if page_tab == 'admin'> class="active" </#if>><a href="/admin/index">进入后台</a></li>
           </#if>
-          <li><a href="javascript:if(confirm('确定要登出YIIU吗？'))location.href='/logout'">退出</a></li>
+          <li><a href="javascript:if(confirm('确定要登出${site.name!}吗？'))location.href='/logout'">退出</a></li>
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
