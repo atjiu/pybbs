@@ -114,7 +114,7 @@
         <#else>
           <div class="panel-heading">
             添加一条新回复
-            <small class="text-danger">这会扣除你${site.createReplyScore}积分</small>
+            <small class="text-danger">这会<#if site.createReplyScore gte 0>增加<#else>扣除</#if>你${site.createReplyScore?abs}积分</small>
             <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
           </div>
           <div class="panel-body">
