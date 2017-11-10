@@ -29,7 +29,12 @@
             <#list page.getContent() as user>
             <tr>
               <td>${user.id}</td>
-              <td><a href="/user/${user.username}" target="_blank">${user.username}</a></td>
+              <td>
+                <#if user.githubUser??>
+                  <i class="fa fa-github"></i>
+                </#if>
+                <a href="/user/${user.username}" target="_blank">${user.username}</a>
+              </td>
               <td><a href="mailto:${user.email!}" target="_blank">${user.email!}</a></td>
               <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
               <td>${user.score!0}</td>
