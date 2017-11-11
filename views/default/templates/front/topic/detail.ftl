@@ -1,12 +1,12 @@
 <#include "../common/layout.ftl">
-<@html page_title="${topic.title}">
+<@html page_title="${topic.title!}">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-body topic-detail-header">
         <div class="media">
           <div class="media-body">
-            <h2 class="topic-detail-title">${topic.title!}</h2>
+            <h2 class="topic-detail-title">${topic.title!?html}</h2>
             <p class="gray">
               <#if topic.top == true>
                 <span class="label label-primary">置顶</span>
@@ -84,7 +84,7 @@
       <#if sec.isAuthenticated()>
         <div class="panel-footer">
           <a
-              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${sec.getPrincipal()!}&title=${topic.title!}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
+              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${sec.getPrincipal()!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
           <#if collect??>
             <a href="/collect/${topic.id!}/delete">取消收藏</a>
           <#else>

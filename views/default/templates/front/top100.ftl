@@ -26,7 +26,7 @@
               <td>
                 <i>
                   <#if user.bio??>
-                    ${user.bio}
+                    ${user.bio?html}
                   <#else>
                     "这家伙很懒，什么都没有留下"
                   </#if>

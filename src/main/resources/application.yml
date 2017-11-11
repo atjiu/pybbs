@@ -88,3 +88,10 @@ site:
     attendanceMaxAge: 86400
     attendanceName: attendance
     rememberMeExpireDay: 30 # 记住我30天
+
+
+score:
+  template:
+    dailySign: 每日签到获得积分${scoreLog.changeScore}
+    createTopic: 发表主题[<a href="/topic/${topic.id}" target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
+    replyTopic: 回复主题[<a href="/topic/${topic.id}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分

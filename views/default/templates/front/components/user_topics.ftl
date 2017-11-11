@@ -12,7 +12,7 @@
           <div class="media">
             <div class="media-body">
               <div class="title">
-                <a href="/topic/${topic.id!}">${topic.title!}</a>
+                <a href="/topic/${topic.id!}">${topic.title!?html}</a>
               </div>
               <p>
                 <a href="/go/${topic.node.value!}">${topic.node.name!}</a>
