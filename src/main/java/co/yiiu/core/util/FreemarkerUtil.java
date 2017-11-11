@@ -60,9 +60,9 @@ public class FreemarkerUtil {
 
 
         try {
-            Template stringTemplte = configuration.getTemplate("");
-            cachedTemplate.put(template, stringTemplte);
-            return stringTemplte;
+            Template stringTemplate = configuration.getTemplate("");
+            cachedTemplate.put(template, stringTemplate);
+            return stringTemplate;
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("get template error", e);

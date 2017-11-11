@@ -1,25 +1,27 @@
 package co.yiiu.web.front;
 
+import co.yiiu.config.ScoreEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.config.data.DataConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
-import co.yiiu.core.util.DateUtil;
-import co.yiiu.core.util.FileUploadEnum;
-import co.yiiu.core.util.FileUtil;
-import co.yiiu.core.util.StrUtil;
+import co.yiiu.core.util.*;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.module.attendance.model.Attendance;
 import co.yiiu.module.attendance.service.AttendanceService;
 import co.yiiu.module.code.model.CodeEnum;
 import co.yiiu.module.code.service.CodeService;
+import co.yiiu.module.score.model.ScoreEventEnum;
+import co.yiiu.module.score.model.ScoreLog;
+import co.yiiu.module.score.service.ScoreLogService;
 import co.yiiu.module.security.model.Role;
 import co.yiiu.module.security.service.RoleService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicSearch;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +78,13 @@ public class IndexController extends BaseController {
   private AttendanceService attendanceService;
   @Autowired
   private RoleService roleService;
+  @Autowired
+  FreemarkerUtil freemarkerUtil;
+  @Autowired
+  ScoreEventConfig scoreEventConfig;
 
+  @Autowired
+  ScoreLogService scoreLogService;
   /**
    * 首页
    *
@@ -284,6 +292,26 @@ public class IndexController extends BaseController {
     user.setRoles(roles);
 
     userService.save(user);
+
+    //region 记录积分log
+    if(siteConfig.getScore() != 0){
+      ScoreLog scoreLog = new ScoreLog();
+
+      scoreLog.setInTime(new Date());
+      scoreLog.setEvent(ScoreEventEnum.REGISTER.getEvent());
+      scoreLog.setChangeScore(siteConfig.getCreateReplyScore());
+      scoreLog.setScore(user.getScore());
+      scoreLog.setUser(user);
+
+      Map<String, Object> params = Maps.newHashMap();
+      params.put("scoreLog", scoreLog);
+      params.put("user", user);
+      String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.REGISTER.getName()), params);
+      scoreLog.setEventDescription(des);
+      scoreLogService.save(scoreLog);
+
+    }
+    //endregion 记录积分log
     return Result.success();
   }
 

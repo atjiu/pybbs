@@ -7,7 +7,8 @@ package co.yiiu.module.score.model;
 public enum ScoreEventEnum {
     DAILY_SIGN("每日签到", "dailySign"),
     CREATE_TOPIC("发布主题", "createTopic"),
-    REPLY_TOPIC("回复主题", "replyTopic");
+    REPLY_TOPIC("回复主题", "replyTopic"),
+    REGISTER("注册","register");
 
     private String event;
     private String name;

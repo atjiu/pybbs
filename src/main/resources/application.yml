@@ -95,3 +95,4 @@ score:
     dailySign: 每日签到获得积分${scoreLog.changeScore}
     createTopic: 发表主题[<a href="/topic/${topic.id}" target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
     replyTopic: 回复主题[<a href="/topic/${topic.id}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
+    register: 用户注册奖励${scoreLog.changeScore}积分
