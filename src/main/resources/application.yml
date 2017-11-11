@@ -88,7 +88,12 @@ site:
     attendanceMaxAge: 86400
     attendanceName: attendance
     rememberMeExpireDay: 30 # 记住我30天
-
+  mail:
+    subject: 注册验证码 - ${site.name}
+    content: |
+          <p>您好</p>
+          <p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>${genCode}</span> , 请在10分钟内使用！</p><br>
+          <small>本邮件为系统发出，请不要回复</small>
 
 score:
   template:
