@@ -160,7 +160,7 @@ public class TopicController extends BaseController {
 
       scoreLog.setInTime(new Date());
       scoreLog.setEvent(ScoreEventEnum.CREATE_TOPIC.getEvent());
-      scoreLog.setChangeScore(siteConfig.getCreateReplyScore());
+      scoreLog.setChangeScore(siteConfig.getCreateTopicScore());
       scoreLog.setScore(user.getScore());
       scoreLog.setUser(user);
 

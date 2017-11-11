@@ -162,6 +162,22 @@ public class IndexController extends BaseController {
         user.setScore(user.getScore() + score);
         userService.save(user);
 
+        // 记录积分log
+        ScoreLog scoreLog = new ScoreLog();
+
+        scoreLog.setInTime(new Date());
+        scoreLog.setEvent(ScoreEventEnum.DAILY_SIGN.getEvent());
+        scoreLog.setChangeScore(score);
+        scoreLog.setScore(user.getScore());
+        scoreLog.setUser(user);
+
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("scoreLog", scoreLog);
+        params.put("user", user);
+        String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.DAILY_SIGN.getName()), params);
+        scoreLog.setEventDescription(des);
+        scoreLogService.save(scoreLog);
+
         // write remark to cookie
         writeAttendanceCookie(response, now, date2);
 
@@ -299,7 +315,7 @@ public class IndexController extends BaseController {
 
       scoreLog.setInTime(new Date());
       scoreLog.setEvent(ScoreEventEnum.REGISTER.getEvent());
-      scoreLog.setChangeScore(siteConfig.getCreateReplyScore());
+      scoreLog.setChangeScore(user.getScore());
       scoreLog.setScore(user.getScore());
       scoreLog.setUser(user);
 
