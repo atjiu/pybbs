@@ -1,10 +1,10 @@
 <#include "../../front/common/layout.ftl"/>
-<@html page_title="${reply.topic.title} 回复编辑">
+<@html page_title="${reply.topic.title!} 回复编辑">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / <a href="/topic/${reply.topic.id}">${reply.topic.title}</a> / 编辑回复
+        <a href="/">主页</a> / <a href="/topic/${reply.topic.id}">${reply.topic.title!?html}</a> / 编辑回复
       </div>
       <div class="panel-body">
         <form action="/admin/reply/update" method="post" id="editorForm">

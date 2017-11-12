@@ -23,7 +23,7 @@
                 <a id="choiceNode" class="btn btn-default" onclick="javascript:;" data-toggle="modal"
                    data-target="#choiceModal">${topic.node.name!}</a>
               </span>
-              <input type="text" class="form-control" id="title" name="title" value="${topic.title!}" placeholder="标题">
+              <input type="text" class="form-control" id="title" name="title" value="${topic.title!?html}" placeholder="标题">
             </div>
           </div>
 

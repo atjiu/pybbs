@@ -15,11 +15,11 @@
               <h3 style="margin-top: 0">${currentUser.username!}</h3>
               <p>积分：<a href="/top100">${currentUser.score!0}</a></p>
               <#if currentUser.bio??>
-                <p><i class="gray">${currentUser.bio!}</i></p>
+                <p><i class="gray">${currentUser.bio!?html}</i></p>
               </#if>
               <div>收藏话题: <a href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
               <#if currentUser.url??>
-                <div>主页: <a href="${currentUser.url!}" target="_blank">${currentUser.url!}</a></div>
+                <div>主页: <a href="${currentUser.url!?html}" target="_blank">${currentUser.url!?html}</a></div>
               </#if>
               <div>入驻时间: ${model.formatDate(currentUser.inTime)}</div>
             </div>

@@ -14,7 +14,7 @@
         <div class="media">
           <div class="media-body">
             <div class="title">
-              <a href="/topic/${collect.topic.id!}">${collect.topic.title!}</a>
+              <a href="/topic/${collect.topic.id!}">${collect.topic.title!?html}</a>
             </div>
             <p>
               <a href="/go/${collect.topic.node.value!}">${collect.topic.node.name!}</a>

@@ -12,7 +12,7 @@
           <div class="media-heading">
             <a href="/user/${user.username!}">${user.username!}</a>
             <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
-              <i>${user.bio!"这家伙很懒，什么都没有留下"}</i>
+              <i>${(user.bio!"这家伙很懒，什么都没有留下")?html}</i>
             </div>
           </div>
         </div>

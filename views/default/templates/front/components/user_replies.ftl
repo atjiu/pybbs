@@ -14,7 +14,7 @@
               ${model.formatDate(reply.inTime)!}
               回复了
               <a href="/user/${reply.user.username}">${reply.user.username}</a>
-              创建的话题 › <a href="/topic/${reply.topic.id}">${reply.topic.title}</a>
+              创建的话题 › <a href="/topic/${reply.topic.id}">${reply.topic.title!?html}</a>
             </td>
           </tr>
           <tr class="user_replies">

@@ -16,7 +16,7 @@
             <#list page.getContent() as topic>
             <tr>
               <td>
-                <a href="/topic/${topic.id}" target="_blank">${topic.title!}</a>
+                <a href="/topic/${topic.id}" target="_blank">${topic.title!?html}</a>
               </td>
               <td>${model.formatDate(topic.inTime)}</td>
               <td>

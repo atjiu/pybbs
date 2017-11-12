@@ -1,15 +1,21 @@
 package co.yiiu.web.front;
 
+import co.yiiu.config.ScoreEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.DateUtil;
+import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.node.model.Node;
 import co.yiiu.module.node.service.NodeService;
+import co.yiiu.module.score.model.ScoreEventEnum;
+import co.yiiu.module.score.model.ScoreLog;
+import co.yiiu.module.score.service.ScoreLogService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -42,7 +49,13 @@ public class TopicController extends BaseController {
   private UserService userService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  FreemarkerUtil freemarkerUtil;
+  @Autowired
+  ScoreEventConfig scoreEventConfig;
 
+  @Autowired
+  ScoreLogService scoreLogService;
   /**
    * 话题详情
    *
@@ -140,6 +153,26 @@ public class TopicController extends BaseController {
       // update score
       user.setScore(user.getScore() + siteConfig.getCreateTopicScore());
       userService.save(user);
+
+
+      //region 记录积分log
+      ScoreLog scoreLog = new ScoreLog();
+
+      scoreLog.setInTime(new Date());
+      scoreLog.setEvent(ScoreEventEnum.CREATE_TOPIC.getEvent());
+      scoreLog.setChangeScore(siteConfig.getCreateTopicScore());
+      scoreLog.setScore(user.getScore());
+      scoreLog.setUser(user);
+
+      Map<String, Object> params = Maps.newHashMap();
+      params.put("scoreLog", scoreLog);
+      params.put("user", user);
+      params.put("topic", topic);
+      String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.CREATE_TOPIC.getName()), params);
+      scoreLog.setEventDescription(des);
+      scoreLogService.save(scoreLog);
+      //endregion 记录积分log
+
 
       //节点的话题数加一
       node.setTopicCount(node.getTopicCount() + 1);

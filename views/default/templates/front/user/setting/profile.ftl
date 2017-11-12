@@ -21,15 +21,15 @@
           </div>
           <div class="form-group">
             <label for="email">邮箱</label>
-            <input type="text" class="form-control" id="email" name="email" value="${user.email!}"/>
+            <input type="text" class="form-control" id="email" name="email" value="${user.email!?html}"/>
           </div>
           <div class="form-group">
             <label for="url">个人主页</label>
-            <input type="text" class="form-control" id="url" name="url" value="${user.url!}"/>
+            <input type="text" class="form-control" id="url" name="url" value="${user.url!?html}"/>
           </div>
           <div class="form-group">
             <label for="bio">个性签名</label>
-            <textarea class="form-control" name="bio" id="bio">${user.bio!}</textarea>
+            <textarea class="form-control" name="bio" id="bio">${user.bio!?html}</textarea>
           </div>
           <#if user.block == true>
             <button type="button" disabled="disabled" class="btn btn-default">保存设置</button>

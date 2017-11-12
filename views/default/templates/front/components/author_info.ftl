@@ -17,7 +17,7 @@
       </div>
       <#if author.bio?? && author.bio != "">
         <div style="color: #7A7A7A; font-size: 12px; margin-top:5px;">
-          <i>“ ${author.bio!} ” </i>
+          <i>“ ${author.bio!?html} ” </i>
         </div>
       </#if>
     </div>

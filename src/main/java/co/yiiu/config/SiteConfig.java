@@ -36,6 +36,8 @@ public class SiteConfig {
   private String newUserRole;
   private CookieConfig cookie;
 
+  private MailTemplateConfig mail;
+
   public boolean isSsl() {
     return ssl;
   }
@@ -218,5 +220,13 @@ public class SiteConfig {
 
   public void setCreateReplyScore(int createReplyScore) {
     this.createReplyScore = createReplyScore;
+  }
+
+  public MailTemplateConfig getMail() {
+    return mail;
+  }
+
+  public void setMail(MailTemplateConfig mail) {
+    this.mail = mail;
   }
 }
