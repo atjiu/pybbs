@@ -32,6 +32,8 @@ spring:
       hibernate.search.default.indexBase: ./indexes
   mvc:
     static-path-pattern: /static/**
+    favicon:
+      enabled: false
   mail:
     host: smtp.qq.com
     username: xxoo@qq.com
