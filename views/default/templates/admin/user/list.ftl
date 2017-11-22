@@ -21,6 +21,7 @@
             <th>个人主页</th>
             <th>积分</th>
             <th>空间</th>
+            <th>时间</th>
             <th>状态</th>
             <th>操作</th>
           </tr>
@@ -35,10 +36,19 @@
                 </#if>
                 <a href="/user/${user.username}" target="_blank">${user.username}</a>
               </td>
-              <td><a href="mailto:${user.email!}" target="_blank">${user.email!}</a></td>
-              <td><a href="${user.url!}" target="_blank">${user.url!}</a></td>
+              <td>
+                <a href="mailto:${user.email!}" target="_blank" title="${user.email!}">
+                  <i class="glyphicon glyphicon-envelope"></i>
+                </a>
+              </td>
+              <td>
+                <a href="${user.url!}" target="_blank" title="${user.url!}">
+                  <i class="glyphicon glyphicon-link"></i>
+                </a>
+              </td>
               <td>${user.score!0}</td>
               <td>${user.spaceSize!0}MB</td>
+              <td>${model.formatDate(user.inTime)}</td>
               <td>
                 <#if user.block == true>
                   <span class="text-danger">禁用</span>
