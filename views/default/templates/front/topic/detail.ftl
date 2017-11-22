@@ -6,7 +6,16 @@
       <div class="panel-body topic-detail-header">
         <div class="media">
           <div class="media-body">
-            <h2 class="topic-detail-title">${topic.title!?html}</h2>
+            <h2 class="topic-detail-title">
+              <#if topic.url??>
+                <a href="${topic.url!?html}" target="_blank">
+                  <i class="glyphicon glyphicon-link"></i>
+                  ${topic.title!?html}
+                </a>
+              <#else>
+                ${topic.title!?html}
+              </#if>
+            </h2>
             <p class="gray">
               <#if topic.top == true>
                 <span class="label label-primary">置顶</span>

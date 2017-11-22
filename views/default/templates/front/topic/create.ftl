@@ -9,15 +9,19 @@
       <div class="panel-body">
         <form method="post" action="/topic/save" id="createForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-          <input type="hidden" name="nodeId" id="nodeId" value="${node!}"/>
+          <input type="hidden" name="nodeId" id="nodeId" value="${nodeId!}"/>
           <div class="form-group">
             <label for="title">标题</label>
             <div class="input-group">
               <span class="input-group-btn">
-                <a id="choiceNode" class="btn btn-default" onclick="javascript:;" data-toggle="modal" data-target="#choiceModal">选择节点</a>
+                <a id="choiceNode" class="btn btn-default" onclick="javascript:;" data-toggle="modal" data-target="#choiceModal">${nodeName!"选择节点"}</a>
               </span>
               <input type="text" class="form-control" id="title" name="title" value="${title!}" placeholder="标题">
             </div>
+          </div>
+          <div class="form-group">
+            <label for="url">转载URL</label>
+            <input type="text" class="form-control" name="url" id="url" value="${url!}" placeholder="转载文章的URL">
           </div>
         <#--editor component-->
           <#include "../components/editor.ftl"/>

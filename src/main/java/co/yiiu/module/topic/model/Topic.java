@@ -40,6 +40,9 @@ public class Topic implements Serializable {
   @Column(unique = true, nullable = false)
   private String title;
 
+  // 转载文章的url
+  private String url;
+
   @Field(store = Store.YES)
   //内容
   @Column(columnDefinition = "text")
@@ -111,6 +114,14 @@ public class Topic implements Serializable {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 
   public String getContent() {

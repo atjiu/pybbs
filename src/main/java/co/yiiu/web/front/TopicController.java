@@ -56,6 +56,7 @@ public class TopicController extends BaseController {
 
   @Autowired
   ScoreLogService scoreLogService;
+
   /**
    * 话题详情
    *
@@ -113,7 +114,7 @@ public class TopicController extends BaseController {
    * @return
    */
   @PostMapping("/save")
-  public String save(Integer nodeId, String title, String content,
+  public String save(Integer nodeId, String title, String url, String content,
                      HttpServletResponse response, RedirectAttributes redirectAttributes) throws Exception {
     User user = getUser();
 
@@ -134,6 +135,8 @@ public class TopicController extends BaseController {
       errorMessage = "请输入标题";
     } else if (node == null) {
       errorMessage = "节点不存在";
+    } else if (url != null && !url.contains("http://") && !url.contains("https://")) {
+      errorMessage = "转载URL格式不正确";
     } else {
       if (topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
 
@@ -141,6 +144,7 @@ public class TopicController extends BaseController {
 
       topic.setNode(node);
       topic.setTitle(title);
+      topic.setUrl(url);
       topic.setContent(content);
       topic.setInTime(new Date());
       topic.setView(0);
@@ -180,8 +184,12 @@ public class TopicController extends BaseController {
 
       return redirect(response, "/topic/" + topic.getId());
     }
-    redirectAttributes.addFlashAttribute("node", node);
+    if (node != null) {
+      redirectAttributes.addFlashAttribute("nodeId", node.getId());
+      redirectAttributes.addFlashAttribute("nodeName", node.getName());
+    }
     redirectAttributes.addFlashAttribute("title", title);
+    redirectAttributes.addFlashAttribute("url", url);
     redirectAttributes.addFlashAttribute("content", content);
     redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
     return redirect("/topic/create");
@@ -214,7 +222,7 @@ public class TopicController extends BaseController {
    * @return
    */
   @PostMapping("/{id}/edit")
-  public String update(@PathVariable Integer id, Integer nodeId, String title, String content,
+  public String update(@PathVariable Integer id, Integer nodeId, String title, String url, String content,
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     User user = getUser();
@@ -231,8 +239,12 @@ public class TopicController extends BaseController {
     if (node == null)
       throw new Exception("版块不存在");
 
+    if (url != null && !url.contains("http://") && !url.contains("https://"))
+      throw new Exception("转载URL格式不正确");
+
     topic.setNode(node);
     topic.setTitle(title);
+    topic.setUrl(url);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);

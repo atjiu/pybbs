@@ -24,10 +24,9 @@ public class YiiuFilterSecurityInterceptor extends AbstractSecurityInterceptor i
 
   /**
    * @param filterConfig
-   * @throws ServletException
    */
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
+  public void init(FilterConfig filterConfig) {
 
   }
 
@@ -41,8 +40,7 @@ public class YiiuFilterSecurityInterceptor extends AbstractSecurityInterceptor i
   @Override
   public void doFilter(ServletRequest request, ServletResponse response,
                        FilterChain chain) throws IOException, ServletException {
-    FilterInvocation fi = new FilterInvocation(request, response, chain);
-    invoke(fi);
+    invoke(new FilterInvocation(request, response, chain));
   }
 
   public void invoke(FilterInvocation fi) throws IOException, ServletException {

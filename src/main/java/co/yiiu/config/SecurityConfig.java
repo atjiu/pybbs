@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile", "/github_login");
+    http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile", "/github_login", "/favicon.ico");
 
   }
 

@@ -27,6 +27,11 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label for="url">转载URL</label>
+            <input type="text" class="form-control" name="url" id="url" value="${topic.url!?html}" placeholder="转载文章的URL">
+          </div>
+
         <#--editor component-->
           <#include "../components/editor.ftl"/>
           <@editor content=topic.content/>

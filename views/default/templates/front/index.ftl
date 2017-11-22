@@ -50,7 +50,16 @@
               </div>
               <div class="media-body">
                 <div class="title">
-                  <a href="/topic/${topic.id!}">${topic.title!?html}</a>
+                  <#if topic.url??>
+                    <a href="${topic.url!?html}" target="_blank">
+                      ${topic.title!?html}
+                      <i class="glyphicon glyphicon-link"></i>
+                    </a>
+                  <#else>
+                    <a href="/topic/${topic.id!}">
+                      ${topic.title!?html}
+                    </a>
+                  </#if>
                 </div>
                 <p class="gray">
                   <#if topic.top == true>
@@ -63,7 +72,7 @@
                   <span>•</span>
                   <span><a href="/user/${topic.user.username!}">${topic.user.username!}</a></span>
                   <span class="hidden-sm hidden-xs">•</span>
-                  <span class="hidden-sm hidden-xs">${topic.replyCount!0}个回复</span>
+                  <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.replyCount!0}个回复</a></span>
                   <span class="hidden-sm hidden-xs">•</span>
                   <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
                   <span>•</span>
