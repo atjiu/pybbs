@@ -37,14 +37,18 @@
                 <a href="/user/${user.username}" target="_blank">${user.username}</a>
               </td>
               <td>
-                <a href="mailto:${user.email!}" target="_blank" title="${user.email!}">
-                  <i class="glyphicon glyphicon-envelope"></i>
-                </a>
+                <#if user.email??>
+                  <a href="mailto:${user.email!}" target="_blank" title="${user.email!}">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                  </a>
+                </#if>
               </td>
               <td>
-                <a href="${user.url!}" target="_blank" title="${user.url!}">
-                  <i class="glyphicon glyphicon-link"></i>
-                </a>
+                <#if user.url??>
+                  <a href="${user.url!}" target="_blank" title="${user.url!}">
+                    <i class="glyphicon glyphicon-link"></i>
+                  </a>
+                </#if>
               </td>
               <td>${user.score!0}</td>
               <td>${user.spaceSize!0}MB</td>
