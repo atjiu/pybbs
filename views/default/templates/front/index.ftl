@@ -50,14 +50,14 @@
               </div>
               <div class="media-body">
                 <div class="title">
-                  <#if topic.url??>
+                  <#if model.isEmpty(topic.url)>
+                    <a href="/topic/${topic.id!}">
+                      ${topic.title!?html}
+                    </a>
+                  <#else>
                     <a href="${topic.url!?html}" target="_blank">
                       ${topic.title!?html}
                       <i class="glyphicon glyphicon-link"></i>
-                    </a>
-                  <#else>
-                    <a href="/topic/${topic.id!}">
-                      ${topic.title!?html}
                     </a>
                   </#if>
                 </div>
