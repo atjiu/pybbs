@@ -76,7 +76,7 @@ public class TopicAdminController extends BaseController {
 
     Node node = nodeService.findById(nodeId);
     if (node == null) throw new Exception("版块不存在");
-    if (url != null && !url.contains("http://") && !url.contains("https://"))
+    if (!StringUtils.isEmpty(url) && !url.contains("http://") && !url.contains("https://"))
       throw new Exception("转载URL格式不正确");
 
     topic.setNode(node);

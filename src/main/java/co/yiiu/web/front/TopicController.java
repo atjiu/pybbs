@@ -135,7 +135,7 @@ public class TopicController extends BaseController {
       errorMessage = "请输入标题";
     } else if (node == null) {
       errorMessage = "节点不存在";
-    } else if (url != null && !url.contains("http://") && !url.contains("https://")) {
+    } else if (!StringUtils.isEmpty(url) && !url.contains("http://") && !url.contains("https://")) {
       errorMessage = "转载URL格式不正确";
     } else {
       if (topicService.findByTitle(title) != null) throw new Exception("话题标题已经存在");
@@ -239,7 +239,7 @@ public class TopicController extends BaseController {
     if (node == null)
       throw new Exception("版块不存在");
 
-    if (url != null && !url.contains("http://") && !url.contains("https://"))
+    if (!StringUtils.isEmpty(url) && !url.contains("http://") && !url.contains("https://"))
       throw new Exception("转载URL格式不正确");
 
     topic.setNode(node);
