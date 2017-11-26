@@ -33,6 +33,8 @@ spring:
       hibernate.search.lucene_version: LUCENE_CURRENT
   mvc:
     static-path-pattern: /static/**
+    favicon:
+      enabled: false
   mail:
     host: smtp.qq.com
     username: xxoo@qq.com

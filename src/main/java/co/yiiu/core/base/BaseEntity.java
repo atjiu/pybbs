@@ -68,6 +68,10 @@ public class BaseEntity {
     }
   }
 
+  public boolean isEmpty(String text) {
+    return StringUtils.isEmpty(text);
+  }
+
   /**
    * 解析markdown文章
    *

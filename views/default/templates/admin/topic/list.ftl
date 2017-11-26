@@ -12,12 +12,29 @@
       </div>
       <@topics_tag p=p lastest=true>
         <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>标题</th>
+            <th>原文</th>
+            <th>R/V</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+          </thead>
           <tbody>
             <#list page.getContent() as topic>
             <tr>
               <td>
                 <a href="/topic/${topic.id}" target="_blank">${topic.title!?html}</a>
               </td>
+              <td>
+                <#if !model.isEmpty(topic.url)>
+                  <a href="${topic.url!?html}" target="_blank">
+                    <i class="glyphicon glyphicon-link"></i>
+                  </a>
+                </#if>
+              </td>
+              <td>${topic.replyCount!0}/${topic.view!0}</td>
               <td>${model.formatDate(topic.inTime)}</td>
               <td>
                 <a href="/admin/topic/${topic.id}/edit" class="btn btn-xs btn-warning" target="_blank">编辑</a>

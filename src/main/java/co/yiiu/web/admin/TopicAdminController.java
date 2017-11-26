@@ -70,13 +70,15 @@ public class TopicAdminController extends BaseController {
    * @return
    */
   @PostMapping("/{id}/edit")
-  public String update(@PathVariable Integer id, Integer nodeId, String title, String content,
+  public String update(@PathVariable Integer id, Integer nodeId, String title, String url, String content,
                        HttpServletResponse response) throws Exception {
     Topic topic = topicService.findById(id);
     Node oldNode = topic.getNode();
 
     Node node = nodeService.findById(nodeId);
     if (node == null) throw new Exception("版块不存在");
+    if (!StringUtils.isEmpty(url) && !url.contains("http://") && !url.contains("https://"))
+      throw new Exception("转载URL格式不正确");
 
     //更新node的话题数
     if (!Objects.equals(topic.getNode().getId(), nodeId)) {
@@ -86,6 +88,7 @@ public class TopicAdminController extends BaseController {
 
     topic.setNode(node);
     topic.setTitle(title);
+    topic.setUrl(url);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
