@@ -9,10 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -57,12 +54,12 @@ public class NodeService {
 
   @CacheEvict(allEntries = true)
   public void deleteById(int id) {
-    nodeRepository.deleteById(id);
+    nodeRepository.delete(id);
   }
 
   @Cacheable
   public Node findById(int id) {
-    return nodeRepository.findById(id);
+    return nodeRepository.findOne(id);
   }
 
   @Cacheable
@@ -70,14 +67,25 @@ public class NodeService {
     return nodeRepository.findByValue(value);
   }
 
-  public void dealNodeTopicCount(Node oldNode, Node newNode) {
-    if(oldNode.getId() != newNode.getId()) {
-      //原来的节点话题数-1
-      oldNode.setTopicCount(oldNode.getTopicCount() - 1);
-      this.save(oldNode);
-      //原来的节点话题数+1
-      newNode.setTopicCount(newNode.getTopicCount() + 1);
-      this.save(newNode);
-    }
+  @CacheEvict(allEntries = true)
+  public void deleteByPid(int pid) {
+    nodeRepository.deleteByPid(pid);
   }
+
+  // number : 1 or -1
+  @CacheEvict(allEntries = true)
+  public void dealTopicCount(Node node, int number) {
+    //处理当前的节点
+    node.setTopicCount(node.getTopicCount() + number);
+    this.save(node);
+
+    //处理当前节点的父节点
+    int pid = node.getPid();
+    Node pNode = this.findById(pid);
+    pNode.setTopicCount(pNode.getTopicCount() + number);
+    this.save(pNode);
+  }
+
+  @CacheEvict(allEntries = true)
+  public void clearCache(){}
 }

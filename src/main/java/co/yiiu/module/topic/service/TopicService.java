@@ -102,9 +102,9 @@ public class TopicService {
   @Cacheable
   public Page<Topic> page(int p, int size, String tab) {
     Sort sort = new Sort(
-          new Sort.Order(Sort.Direction.DESC, "top"),
-          new Sort.Order(Sort.Direction.DESC, "inTime"),
-          new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
+        new Sort.Order(Sort.Direction.DESC, "top"),
+        new Sort.Order(Sort.Direction.DESC, "inTime"),
+        new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     switch (tab) {
       case "default":
@@ -184,5 +184,10 @@ public class TopicService {
         new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     return topicRepository.findByNode(node, pageable);
+  }
+
+  //查询节点下有多少话题数
+  public long countByNode(Node node) {
+    return topicRepository.countByNode(node);
   }
 }

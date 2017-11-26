@@ -19,6 +19,7 @@
                 <th>ID</th>
                 <th>名称</th>
                 <th>值</th>
+                <th>话题数</th>
                 <th>添加日期</th>
                 <th>操作</th>
               </tr>
@@ -27,6 +28,7 @@
                   <td>${node.id!}</td>
                   <td>${node.name!}</td>
                   <td>${node.value!}</td>
+                  <td>${node.topicCount!0}</td>
                   <td>${model.formatDate(node.inTime)!}</td>
                   <td>
                     <a href="/admin/node/${node.id!}/edit" class="btn btn-xs btn-warning">编辑</a>
@@ -41,7 +43,14 @@
       </div>
       <div class="col-md-3">
         <div class="panel panel-default">
-          <div class="panel-heading">父节点</div>
+          <div class="panel-heading">
+            父节点
+            <span class="pull-right">
+              <a href="javascript:if(confirm('确定要校正各个节点的话题数吗？')) location.href='/admin/node/correction'">
+                校正话题数
+              </a>
+            </span>
+          </div>
           <div class="list-group">
             <#list pnodes as node>
               <li class="list-group-item permission-item <#if pid?? && pid == node.id>active</#if>">
@@ -51,7 +60,7 @@
                   </a>&nbsp;
                 </#if>
                 <a href="/admin/node/list?pid=${node.id!}">
-                  ${node.name!}
+                  ${node.name!} (${node.topicCount!0})
                 </a>
               </li>
             </#list>

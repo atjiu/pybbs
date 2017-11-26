@@ -74,10 +74,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-    </dependency>
     <!--json格式化类库 -->
     <dependency>
       <groupId>com.google.guava</groupId>

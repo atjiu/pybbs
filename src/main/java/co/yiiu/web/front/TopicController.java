@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by tomoya.
@@ -175,8 +176,7 @@ public class TopicController extends BaseController {
 
 
       //节点的话题数加一
-      node.setTopicCount(node.getTopicCount() + 1);
-      nodeService.save(node);
+      nodeService.dealTopicCount(node, 1);
 
       return redirect(response, "/topic/" + topic.getId());
     }
@@ -231,14 +231,18 @@ public class TopicController extends BaseController {
     if (node == null)
       throw new Exception("版块不存在");
 
+    //更新node的话题数
+    if (!Objects.equals(topic.getNode().getId(), nodeId)) {
+      nodeService.dealTopicCount(topic.getNode(), -1);
+      nodeService.dealTopicCount(node, 1);
+    }
+
     topic.setNode(node);
     topic.setTitle(title);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
 
-    //更新node的话题数
-    nodeService.dealNodeTopicCount(oldNode, node);
     return redirect(response, "/topic/" + topic.getId());
   }
 

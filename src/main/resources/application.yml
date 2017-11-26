@@ -30,6 +30,7 @@ spring:
       hibernate.format_sql: true
       hibernate.search.default.directory_provider: filesystem
       hibernate.search.default.indexBase: ./indexes
+      hibernate.search.lucene_version: LUCENE_CURRENT
   mvc:
     static-path-pattern: /static/**
   mail:

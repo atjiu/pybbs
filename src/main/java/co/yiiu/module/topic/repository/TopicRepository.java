@@ -37,4 +37,6 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
   void delete(Topic topic);
 
   Page<Topic> findByNode(Node node, Pageable pageable);
+
+  long countByNode(Node node);
 }

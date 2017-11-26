@@ -12,10 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class YiiuInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -69,7 +66,7 @@ public class YiiuInvocationSecurityMetadataSource implements FilterInvocationSec
    */
   @Override
   public Collection<ConfigAttribute> getAllConfigAttributes() {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override

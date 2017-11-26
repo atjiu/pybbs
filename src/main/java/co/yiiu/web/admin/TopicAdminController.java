@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by tomoya.
@@ -77,14 +78,18 @@ public class TopicAdminController extends BaseController {
     Node node = nodeService.findById(nodeId);
     if (node == null) throw new Exception("版块不存在");
 
+    //更新node的话题数
+    if (!Objects.equals(topic.getNode().getId(), nodeId)) {
+      nodeService.dealTopicCount(topic.getNode(), -1);
+      nodeService.dealTopicCount(node, 1);
+    }
+
     topic.setNode(node);
     topic.setTitle(title);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
 
-    //更新node的话题数
-    nodeService.dealNodeTopicCount(oldNode, node);
     return redirect(response, "/topic/" + topic.getId());
   }
 

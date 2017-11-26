@@ -16,17 +16,11 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
 
   List<Node> findAll();
 
-  List<Node> findByPid(int pid);
+  List<Node> findByPid(Integer pid);
 
-  List<Node> findByPidNot(int pid);
-
-  Node findById(int id);
-
-  Node findByName(String name);
-
-  Node save(Node node);
-
-  void deleteById(int id);
+  List<Node> findByPidNot(Integer pid);
 
   Node findByValue(String value);
+
+  void deleteByPid(Integer pid);
 }
