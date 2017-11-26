@@ -28,6 +28,7 @@
                 <a href="/topic/${topic.id}" target="_blank">${topic.title!?html}</a>
               </td>
               <td>
+                <#if !model.isEmpty(topic.url)>
                   <a href="${topic.url!?html}" target="_blank">
                     <i class="glyphicon glyphicon-link"></i>
                   </a>
