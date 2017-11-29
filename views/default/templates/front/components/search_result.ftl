@@ -3,7 +3,7 @@
   <#list topics as topic>
     <tr>
       <td>
-        <a href="/topic/${topic.id!}" target="_blank" style="font-size: 16px;">${topic.title!?html}</a>
+        <a href="/topic/${topic.id!}" target="_blank" style="font-size: 16px;">${topic.title!}</a>
       </td>
     </tr>
     <tr>
