@@ -85,6 +85,7 @@ public class UserService {
    *
    * @param id
    */
+  @CacheEvict(allEntries = true)
   public void blockUser(Integer id) {
     User user = findById(id);
     user.setBlock(true);
@@ -96,6 +97,7 @@ public class UserService {
    *
    * @param id
    */
+  @CacheEvict(allEntries = true)
   public void unBlockUser(Integer id) {
     User user = findById(id);
     user.setBlock(false);
