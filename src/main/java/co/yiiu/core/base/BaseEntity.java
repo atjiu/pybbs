@@ -83,7 +83,14 @@ public class BaseEntity {
       return "";
     if (dealAt) {
       // 处理@
-      List<String> users = fetchUsers(null, content);
+      List<String> tmp = fetchUsers(null, content);
+      List<String> users = new ArrayList<>();
+      //去重
+      tmp.forEach(user -> {
+        if (!users.contains(user)) {
+          users.add(user);
+        }
+      });
       for (String user : users) {
         user = user.trim();
         content = content.replace(user, "[" + user + "](" + siteConfig.getBaseUrl() + "user/" + user.replace("@", "") + ")");
