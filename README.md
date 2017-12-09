@@ -57,6 +57,8 @@
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 
+windows上启动脚本参见 [传送门](https://github.com/yiiu-co/yiiu/wiki/windows上的启动脚本)
+
 ## 添加emoji支持（仅MySQL数据库）
 
 - 创建数据库时选择 `utf8mb4` 字符集
