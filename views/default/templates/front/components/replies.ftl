@@ -41,7 +41,7 @@
             </span>
           </#if>
         </div>
-        <div class="show_big_image">${model.marked(reply.content, true)}</div>
+        <div class="show_big_image reply-detail-content">${model.marked(reply.content, true)}</div>
       </div>
     </div>
       <#if reply_has_next>
