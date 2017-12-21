@@ -77,7 +77,7 @@ dl dd{padding:0 16px;margin-bottom:16px}
 blockquote{padding:0 15px;color:#777;border-left:4px solid #ddd}
 blockquote>:first-child{margin-top:0}
 blockquote>:last-child{margin-bottom:0}
-img{max-width:100%;box-sizing:content-box;background-color:#fff}
+.topic-detail-content, .reply-detail-content img{max-width:100%;box-sizing:content-box;background-color:#fff}
 code {color:#fff; background-color: #23241f; padding: 5px;}
 code:before, code:after{letter-spacing:-.2em;content:"\00a0"}
 pre>code{padding:0;margin:0;font-size:100%;word-break:normal;background:transparent;border:0;}
