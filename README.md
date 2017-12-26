@@ -95,6 +95,16 @@ init_connect='SET NAMES utf8mb4'
     database-platform: co.yiiu.core.dialect.SQLiteDialect
 ```
 
+另外pom.xml文件里的mysql依赖也要取消注释
+
+```xml
+<dependency>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-java</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
 ## 关于主题
 
 本项目配置的结构目录非常方便主题开发，如果你想适配一套自己喜欢的主题，可以按照 `views` 目录下的文件夹结构开发，然后修改一下配置文件里的 `site.theme` 的值即可打包部署了
