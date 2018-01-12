@@ -10,7 +10,7 @@
   <version>2.7</version>
   <packaging>jar</packaging>
 
-  <name>yiiu</name>
+  <name>YIIU</name>
   <description>YIIU develop by spring-boot</description>
 
   <parent>

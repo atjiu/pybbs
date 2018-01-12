@@ -114,7 +114,7 @@ public class BaseEntity {
       aElements.forEach(element -> {
         String href = element.attr("href");
         if (href.contains("https://www.youtube.com/watch")) {
-          element.parent().addClass("embedded_video_wrapper");
+          element.parent().addClass("embed-responsive embed-responsive-16by9");
           element.parent().append("<iframe class='embedded_video' src='" + href.replace("watch?v=", "embed/") + "' frameborder='0' allowfullscreen></iframe>");
           element.remove();
         } else if(href.contains("http://v.youku.com/v_show/")) {
