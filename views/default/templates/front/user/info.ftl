@@ -15,7 +15,7 @@
               <h3 style="margin-top: 0">${currentUser.username!}</h3>
               <p>积分：<a href="/top100">${currentUser.score!0}</a></p>
               <#if currentUser.bio??>
-                <p><i class="gray">${currentUser.bio!?html}</i></p>
+                <p><i class="gray">${currentUser.bio!}</i></p>
               </#if>
               <div>收藏话题: <a href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
               <#if currentUser.url??>

@@ -35,34 +35,34 @@
                 <#if sec.topicEditable(topic)>
                   <span>•</span>
                   <#if sec.allGranted("topic:edit")>
-                    <span><a href="/admin/topic/${topic.id}/edit">编辑</a></span>
+                    <span><a href="/admin/topic/${topic.id?c}/edit">编辑</a></span>
                   <#else>
-                    <span><a href="/topic/${topic.id}/edit">编辑</a></span>
+                    <span><a href="/topic/${topic.id?c}/edit">编辑</a></span>
                   </#if>
                 </#if>
                 <#if sec.allGranted("topic:delete")>
                   <span>•</span>
                   <span>
-                    <a href="javascript:if(confirm('确定要删除吗？'))location.href='/admin/topic/${topic.id}/delete'">删除</a>
+                    <a href="javascript:if(confirm('确定要删除吗？'))location.href='/admin/topic/${topic.id?c}/delete'">删除</a>
                   </span>
                 </#if>
                 <#if sec.allGranted("topic:top")>
                   <span>•</span>
                   <#if topic.top == true>
                     <span><a
-                        href="javascript:if(confirm('确定要取消置顶吗？'))location.href='/admin/topic/${topic.id}/top'">取消置顶</a></span>
+                        href="javascript:if(confirm('确定要取消置顶吗？'))location.href='/admin/topic/${topic.id?c}/top'">取消置顶</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要置顶吗？'))location.href='/admin/topic/${topic.id}/top'">置顶</a></span>
+                        href="javascript:if(confirm('确定要置顶吗？'))location.href='/admin/topic/${topic.id?c}/top'">置顶</a></span>
                   </#if>
                 </#if>
                 <#if sec.allGranted("topic:good")>
                   <span>•</span>
                   <#if topic.good == true>
-                    <span><a href="javascript:if(confirm('确定要取消加精吗？'))location.href='/admin/topic/${topic.id}/good'">取消加精</a></span>
+                    <span><a href="javascript:if(confirm('确定要取消加精吗？'))location.href='/admin/topic/${topic.id?c}/good'">取消加精</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要加精吗？'))location.href='/admin/topic/${topic.id}/good'">加精</a></span>
+                        href="javascript:if(confirm('确定要加精吗？'))location.href='/admin/topic/${topic.id?c}/good'">加精</a></span>
                   </#if>
                 </#if>
 
@@ -70,10 +70,10 @@
                   <span>•</span>
                   <#if topic.lock == true>
                     <span><a
-                        href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/admin/topic/${topic.id}/lock'">取消锁定</a></span>
+                        href="javascript:if(confirm('确定要取消锁定吗？'))location.href='/admin/topic/${topic.id?c}/lock'">取消锁定</a></span>
                   <#else>
                     <span><a
-                        href="javascript:if(confirm('确定要锁定吗？'))location.href='/admin/topic/${topic.id}/lock'">锁定</a></span>
+                        href="javascript:if(confirm('确定要锁定吗？'))location.href='/admin/topic/${topic.id?c}/lock'">锁定</a></span>
                   </#if>
                 </#if>
               </#if>
@@ -93,11 +93,11 @@
       <#if sec.isAuthenticated()>
         <div class="panel-footer">
           <a
-              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id!}?r=${sec.getPrincipal()!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
+              href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id?c}?r=${sec.getPrincipal()!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
           <#if collect??>
-            <a href="/collect/${topic.id!}/delete">取消收藏</a>
+            <a href="/collect/${topic.id?c}/delete">取消收藏</a>
           <#else>
-            <a href="/collect/${topic.id!}/add">加入收藏</a>
+            <a href="/collect/${topic.id?c}/add">加入收藏</a>
           </#if>
           <span class="pull-right">${collectCount!0}个收藏</span>
         </div>
@@ -130,7 +130,7 @@
             <#if !sec.isLock()>
               <form action="/reply/save" method="post" id="editorForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <input type="hidden" value="${topic.id}" name="topicId"/>
+                <input type="hidden" value="${topic.id?c}" name="topicId"/>
                 <#include "../components/editor.ftl"/>
                 <@editor row=5 type="reply"/>
                 <button type="submit" class="btn btn-default">回复</button>

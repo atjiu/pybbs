@@ -51,7 +51,7 @@
               <div class="media-body">
                 <div class="title">
                   <#if model.isEmpty(topic.url)>
-                    <a href="/topic/${topic.id!}">
+                    <a href="/topic/${topic.id?c}">
                       ${topic.title!?html}
                     </a>
                   <#else>

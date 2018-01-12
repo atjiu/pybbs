@@ -21,7 +21,7 @@
             </div>
             <div class="media-body">
               <div class="title">
-                <a href="/topic/${topic.id!}">${topic.title!?html}</a>
+                <a href="/topic/${topic.id?c}">${topic.title!?html}</a>
               </div>
               <p class="gray">
                 <#if topic.top == true>

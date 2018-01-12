@@ -25,7 +25,7 @@
             <#list page.getContent() as topic>
             <tr>
               <td>
-                <a href="/topic/${topic.id}" target="_blank">${topic.title!?html}</a>
+                <a href="/topic/${topic.id?c}" target="_blank">${topic.title!?html}</a>
               </td>
               <td>
                 <#if !model.isEmpty(topic.url)>
@@ -37,8 +37,8 @@
               <td>${topic.replyCount!0}/${topic.view!0}</td>
               <td>${model.formatDate(topic.inTime)}</td>
               <td>
-                <a href="/admin/topic/${topic.id}/edit" class="btn btn-xs btn-warning" target="_blank">编辑</a>
-                <a href="javascript:if(confirm('确定要删除这个话题吗？'))location.href='/admin/topic/${topic.id!}/delete?a=1'"
+                <a href="/admin/topic/${topic.id?c}/edit" class="btn btn-xs btn-warning" target="_blank">编辑</a>
+                <a href="javascript:if(confirm('确定要删除这个话题吗？'))location.href='/admin/topic/${topic.id?c}/delete?a=1'"
                    class="btn btn-xs btn-danger">删除</a>
               </td>
             </tr>

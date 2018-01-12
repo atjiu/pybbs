@@ -13,6 +13,8 @@ spring:
     - classpath:/${site.theme}/templates/
     - file:./views/${site.theme}/templates/
     cache: false
+    settings:
+      template_exception_handler: rethrow
   datasource:
     driver-class-name: org.sqlite.JDBC
     url: jdbc:sqlite:./yiiu.sqlite
@@ -109,6 +111,6 @@ site:
 score:
   template:
     dailySign: 每日签到获得${scoreLog.changeScore}积分
-    createTopic: 发表主题[<a href="/topic/${topic.id}" target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
-    replyTopic: 回复主题[<a href="/topic/${topic.id}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
+    createTopic: 发表主题[<a href="/topic/${topic.id?c}" target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
+    replyTopic: 回复主题[<a href="/topic/${topic.id?c}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
     register: 用户注册奖励${scoreLog.changeScore}积分

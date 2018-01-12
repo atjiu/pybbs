@@ -9,9 +9,9 @@
       <div class="panel-body">
         <form method="post"
               <#if from?? && from == "end">
-                action="/admin/topic/${topic.id}/edit"
+                action="/admin/topic/${topic.id?c}/edit"
               <#else>
-                action="/topic/${topic.id}/edit"
+                action="/topic/${topic.id?c}/edit"
               </#if> id="editForm">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
