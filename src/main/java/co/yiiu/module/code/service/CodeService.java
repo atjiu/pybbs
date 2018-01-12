@@ -22,8 +22,8 @@ public class CodeService {
   @Autowired
   private CodeRepository codeRepository;
 
-  public Code findByCodeAndType(String code, CodeEnum type) {
-    List<Code> codes = codeRepository.findByCodeAndType(code, type.name());
+  public Code findByEmailAndCodeAndType(String email, String code, CodeEnum type) {
+    List<Code> codes = codeRepository.findByEmailAndCodeAndType(email, code, type.name());
     if (codes.size() > 0) return codes.get(0);
     return null;
   }
@@ -34,7 +34,7 @@ public class CodeService {
 
   public String genEmailCode(String email) {
     String genCode = StrUtil.randomString(6);
-    Code code = findByCodeAndType(genCode, CodeEnum.EMAIL);
+    Code code = findByEmailAndCodeAndType(email, genCode, CodeEnum.EMAIL);
     if (code != null) {
       return genEmailCode(email);
     } else {
@@ -49,8 +49,8 @@ public class CodeService {
     }
   }
 
-  public int validateCode(String code, CodeEnum type) {
-    Code code1 = findByCodeAndType(code, type);
+  public int validateCode(String email, String code, CodeEnum type) {
+    Code code1 = findByEmailAndCodeAndType(email, code, type);
     if (code1 == null) return 1;// 验证码不正确
     if (DateUtil.isExpire(code1.getExpireTime())) return 2; // 过期了
     if (code1.isUsed()) return 3; // 验证码已经被使用了

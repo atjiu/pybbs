@@ -45,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/static/**")
         .permitAll()
         .antMatchers(
-            "/upload",
-            "/attendance",
+            "/common/upload",
+            "/common/attendance",
             "/admin/**",
             "/topic/create",
             "/topic/*/delete",
@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(yiiuFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     http.addFilterBefore(validateCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    http.csrf().ignoringAntMatchers("/upload", "/user/space/deleteFile", "/github_login", "/favicon.ico");
+    http.csrf().ignoringAntMatchers("/common/upload", "/user/space/deleteFile", "/github_login", "/favicon.ico");
 
   }
 

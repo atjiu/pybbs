@@ -200,7 +200,7 @@
   });
 
   $("#selectFileInput").fileupload({
-    url: '/upload',
+    url: '/common/upload',
     dataType: 'json',
     done: function (e, data) {
       $("#upload-modal-btn").click();

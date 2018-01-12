@@ -3,6 +3,8 @@ package co.yiiu.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -35,8 +37,16 @@ public class SiteConfig {
   private boolean ssl;
   private String newUserRole;
   private CookieConfig cookie;
-
+  private List<String> illegalUsername;
   private MailTemplateConfig mail;
+
+  public List<String> getIllegalUsername() {
+    return illegalUsername;
+  }
+
+  public void setIllegalUsername(List<String> illegalUsername) {
+    this.illegalUsername = illegalUsername;
+  }
 
   public boolean isSsl() {
     return ssl;

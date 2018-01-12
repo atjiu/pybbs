@@ -36,7 +36,7 @@
             <div class="input-group">
               <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
               <span class="input-group-btn">
-                <img src="/code" id="changeCode"/>
+                <img src="/common/code" id="changeCode"/>
               </span>
             </div>
           </div>
@@ -116,12 +116,12 @@
 
     $("#changeCode").click(function () {
       var date = new Date();
-      $(this).attr("src", "/code?ver=" + date.getTime());
+      $(this).attr("src", "/common/code?ver=" + date.getTime());
     });
     $("#send_email_btn").click(function () {
       $("#send_email_btn").attr("disabled", true);
       $.ajax({
-        url: "/sendEmailCode",
+        url: "/common/sendEmailCode",
         async: true,
         cache: false,
         type: 'get',

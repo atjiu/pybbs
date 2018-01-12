@@ -6,7 +6,7 @@
   <script>
     function attendance(e) {
       $.ajax({
-        url: "/attendance",
+        url: "/common/attendance",
         async: true,
         cache: false,
         type: "get",

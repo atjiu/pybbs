@@ -29,7 +29,7 @@
           <p class="upload-area">
             <button type="button" class="btn btn-success" id="selectPicBtn">选择图片</button>
             <input type="file" class="hidden" name="file" accept="image/png,image/gif,image/jpg,image/jpeg"
-                   data-url="/upload" id="selectFileInput"/>
+                   data-url="/common/upload" id="selectFileInput"/>
           </p>
           <div class="progress hidden">
             <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"

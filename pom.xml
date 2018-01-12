@@ -60,9 +60,9 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <!--<dependency>-->
-      <!--<groupId>mysql</groupId>-->
-      <!--<artifactId>mysql-connector-java</artifactId>-->
-      <!--<scope>runtime</scope>-->
+    <!--<groupId>mysql</groupId>-->
+    <!--<artifactId>mysql-connector-java</artifactId>-->
+    <!--<scope>runtime</scope>-->
     <!--</dependency>-->
     <dependency>
       <groupId>org.xerial</groupId>
@@ -146,9 +146,9 @@
       <resource>
         <directory>src/main/resources</directory>
       </resource>
-      <resource>
-        <directory>views</directory>
-      </resource>
+      <!--<resource>-->
+      <!--<directory>views</directory>-->
+      <!--</resource>-->
     </resources>
     <plugins>
       <plugin>

@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface CodeRepository extends JpaRepository<Code, Integer> {
 
-  List<Code> findByCodeAndType(String code, String type);
+  List<Code> findByEmailAndCodeAndType(String email, String code, String type);
 
 }
