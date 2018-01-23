@@ -103,7 +103,7 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/profile")
-  public String setting(@PathVariable String username, Model model) {
+  public String setting(Model model) {
     model.addAttribute("user", getUser());
     return "front/user/setting/profile";
   }
