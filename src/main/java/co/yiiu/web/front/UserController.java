@@ -263,6 +263,26 @@ public class UserController extends BaseController {
   }
 
   /**
+   * delete user upload file
+   *
+   * @param dirName
+   * @param fileName
+   * @return
+   */
+  @PostMapping("/space/deleteFile")
+  @ResponseBody
+  public Result deleteFile(String dirName, String fileName) {
+    String userUploadPath = getUsername() + "/";
+    File file = new File(siteConfig.getUploadPath() + userUploadPath + dirName + "/" + fileName);
+    if (file.exists()) {
+      if (file.delete()) return Result.success();
+      else return Result.error("删除失败");
+    } else {
+      return Result.error("文件不存在");
+    }
+  }
+
+  /**
    * query user score history
    *
    * @param p     page
