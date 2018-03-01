@@ -57,6 +57,16 @@
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 
+#### 启动好后可能会报404错误，两个解决办法
+
+1. 把pom.xml里的这段代码放开注释重新打包再启动即可
+```
+<resource>
+  <directory>views</directory>
+</resource>
+```
+2. 把源码里的views文件夹复制到打好的jar包文件夹里（跟jar包同级）
+
 windows上启动脚本参见 [传送门](https://github.com/yiiu-co/yiiu/wiki/windows上的启动脚本)
 
 ## 添加emoji支持（仅MySQL数据库）
