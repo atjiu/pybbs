@@ -57,6 +57,13 @@
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 
+## docker镜像部署
+
+**感谢 @beldon 提供的Dockerfile**
+
+- docker pull tomoya92/yiiu:2.7
+- docker run -d --name yiiu -v /var/yiiu:/app/ -p 8080:8080 tomoya92/yiiu:2.7
+
 #### 启动好后可能会报404错误，两个解决办法
 
 1. 把pom.xml里的这段代码放开注释重新打包再启动即可
