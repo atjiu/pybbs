@@ -28,7 +28,7 @@
                 <span>•</span>
                 <span><a href="/user/${topic.user.username}">${topic.user.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.replyCount!0}个回复</a></span>
+                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.commentCount!0}个评论</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
                 <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
                 <span>•</span>

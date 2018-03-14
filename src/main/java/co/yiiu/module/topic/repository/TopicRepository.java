@@ -26,7 +26,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
   Page<Topic> findByGood(boolean b, Pageable pageable);
 
-  Page<Topic> findByReplyCount(int i, Pageable pageable);
+  Page<Topic> findByCommentCount(int i, Pageable pageable);
 
   Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
 

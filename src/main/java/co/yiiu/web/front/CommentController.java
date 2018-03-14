@@ -7,10 +7,10 @@ import co.yiiu.core.base.BaseEntity;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.FreemarkerUtil;
+import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.notification.model.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.reply.model.Reply;
-import co.yiiu.module.reply.service.ReplyService;
+import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.score.model.ScoreEventEnum;
 import co.yiiu.module.score.model.ScoreLog;
 import co.yiiu.module.score.service.ScoreLogService;
@@ -35,13 +35,13 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Controller
-@RequestMapping("/reply")
-public class ReplyController extends BaseController {
+@RequestMapping("/comment")
+public class CommentController extends BaseController {
 
   @Autowired
   private TopicService topicService;
   @Autowired
-  private ReplyService replyService;
+  private CommentService commentService;
   @Autowired
   private NotificationService notificationService;
   @Autowired
@@ -58,7 +58,7 @@ public class ReplyController extends BaseController {
   ScoreLogService scoreLogService;
 
   /**
-   * 保存回复
+   * 保存评论
    *
    * @param topicId
    * @param content
@@ -68,27 +68,27 @@ public class ReplyController extends BaseController {
   public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
     User user = getUser();
     if (user.isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    if (user.getScore() + siteConfig.getCreateReplyScore() < 0) throw new Exception("你的积分不足，不能评论");
-    if (StringUtils.isEmpty(content)) throw new Exception("回复内容不能为空");
+    if (user.getScore() + siteConfig.getCreateCommentScore() < 0) throw new Exception("你的积分不足，不能评论");
+    if (StringUtils.isEmpty(content)) throw new Exception("评论内容不能为空");
 
     if (topicId != null) {
       Topic topic = topicService.findById(topicId);
       if (topic != null) {
-        Reply reply = new Reply();
-        reply.setUser(user);
-        reply.setTopic(topic);
-        reply.setInTime(new Date());
-        reply.setUp(0);
-        reply.setContent(content);
-        replyService.save(reply);
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setTopic(topic);
+        comment.setInTime(new Date());
+        comment.setUp(0);
+        comment.setContent(content);
+        commentService.save(comment);
 
         // update score
-        user.setScore(user.getScore() + siteConfig.getCreateReplyScore());
+        user.setScore(user.getScore() + siteConfig.getCreateCommentScore());
         userService.save(user);
 
-        //回复+1
-        topic.setReplyCount(topic.getReplyCount() + 1);
-        topic.setLastReplyTime(new Date());
+        //评论+1
+        topic.setCommentCount(topic.getCommentCount() + 1);
+        topic.setLastCommentTime(new Date());
         topicService.save(topic);
 
 
@@ -96,8 +96,8 @@ public class ReplyController extends BaseController {
         ScoreLog scoreLog = new ScoreLog();
 
         scoreLog.setInTime(new Date());
-        scoreLog.setEvent(ScoreEventEnum.REPLY_TOPIC.getEvent());
-        scoreLog.setChangeScore(siteConfig.getCreateReplyScore());
+        scoreLog.setEvent(ScoreEventEnum.COMMENT_TOPIC.getEvent());
+        scoreLog.setChangeScore(siteConfig.getCreateCommentScore());
         scoreLog.setScore(user.getScore());
         scoreLog.setUser(user);
 
@@ -105,14 +105,14 @@ public class ReplyController extends BaseController {
         params.put("scoreLog", scoreLog);
         params.put("user", user);
         params.put("topic", topic);
-        String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.REPLY_TOPIC.getName()), params);
+        String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.COMMENT_TOPIC.getName()), params);
         scoreLog.setEventDescription(des);
         scoreLogService.save(scoreLog);
         //endregion 记录积分log
 
         //给话题作者发送通知
         if (user.getId() != topic.getUser().getId()) {
-          notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
+          notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COMMENT.name(), topic, content);
         }
         //给At用户发送通知
         List<String> atUsers = BaseEntity.fetchUsers(null, content);
@@ -142,13 +142,13 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result up(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply _reply = replyService.findById(id);
+    Comment _comment = commentService.findById(id);
 
-    if (_reply == null) throw new ApiException("回复不存在");
-    if (user.getId() == _reply.getUser().getId()) throw new ApiException("不能给自己的回复点赞");
+    if (_comment == null) throw new ApiException("评论不存在");
+    if (user.getId() == _comment.getUser().getId()) throw new ApiException("不能给自己的评论点赞");
 
-    Reply reply = replyService.up(user.getId(), _reply);
-    return Result.success(reply.getUpDown());
+    Comment comment = commentService.up(user.getId(), _comment);
+    return Result.success(comment.getUpDown());
   }
 
   /**
@@ -162,9 +162,9 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result cancelUp(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply reply = replyService.cancelUp(user.getId(), id);
-    if (reply == null) throw new ApiException("回复不存在");
-    return Result.success(reply.getUpDown());
+    Comment comment = commentService.cancelUp(user.getId(), id);
+    if (comment == null) throw new ApiException("评论不存在");
+    return Result.success(comment.getUpDown());
   }
 
   /**
@@ -178,13 +178,13 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result down(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply _reply = replyService.findById(id);
+    Comment _comment = commentService.findById(id);
 
-    if (_reply == null) throw new ApiException("回复不存在");
-    if (user.getId() == _reply.getUser().getId()) throw new ApiException("不能给自己的回复点赞");
+    if (_comment == null) throw new ApiException("评论不存在");
+    if (user.getId() == _comment.getUser().getId()) throw new ApiException("不能给自己的评论点赞");
 
-    Reply reply = replyService.down(user.getId(), _reply);
-    return Result.success(reply.getUpDown());
+    Comment comment = commentService.down(user.getId(), _comment);
+    return Result.success(comment.getUpDown());
   }
 
   /**
@@ -198,8 +198,8 @@ public class ReplyController extends BaseController {
   @ResponseBody
   public Result cancelDown(@PathVariable Integer id) throws ApiException {
     User user = getUser();
-    Reply reply = replyService.cancelDown(user.getId(), id);
-    if (reply == null) throw new ApiException("回复不存在");
-    return Result.success(reply.getUpDown());
+    Comment comment = commentService.cancelDown(user.getId(), id);
+    if (comment == null) throw new ApiException("评论不存在");
+    return Result.success(comment.getUpDown());
   }
 }

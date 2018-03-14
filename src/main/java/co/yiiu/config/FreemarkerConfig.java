@@ -24,7 +24,7 @@ public class FreemarkerConfig {
   @Autowired
   private UserTopicDirective userTopicDirective;
   @Autowired
-  private UserReplyDirective userReplyDirective;
+  private UserCommentDirective userCommentDirective;
   @Autowired
   private UserCollectDirective userCollectDirective;
   @Autowired
@@ -54,7 +54,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("model", baseEntity);
 
     configuration.setSharedVariable("user_topics_tag", userTopicDirective);
-    configuration.setSharedVariable("user_replies_tag", userReplyDirective);
+    configuration.setSharedVariable("user_replies_tag", userCommentDirective);
     configuration.setSharedVariable("user_collects_tag", userCollectDirective);
     configuration.setSharedVariable("topics_tag", topicsDirective);
     configuration.setSharedVariable("user_tag", userDirective);

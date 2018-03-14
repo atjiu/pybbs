@@ -34,7 +34,7 @@
                   </a>
                 </#if>
               </td>
-              <td>${topic.replyCount!0}/${topic.view!0}</td>
+              <td>${topic.commentCount!0}/${topic.view!0}</td>
               <td>${model.formatDate(topic.inTime)}</td>
               <td>
                 <a href="/admin/topic/${topic.id?c}/edit" class="btn btn-xs btn-warning" target="_blank">编辑</a>

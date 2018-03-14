@@ -103,40 +103,40 @@
         </div>
       </#if>
     </div>
-    <#if topic.replyCount == 0 && topic.lock == false>
+    <#if topic.commentCount == 0 && topic.lock == false>
       <div class="panel panel-default">
-        <div class="panel-body text-center">目前暂无回复</div>
+        <div class="panel-body text-center">目前暂无评论</div>
       </div>
     <#else>
       <div class="panel panel-default">
-        <div class="panel-heading">${topic.replyCount!0} 条回复</div>
-        <div class="panel-body paginate-bot panel-body-reply">
+        <div class="panel-heading">${topic.commentCount!0} 条评论</div>
+        <div class="panel-body paginate-bot panel-body-comment">
           <#include "../components/replies.ftl"/>
-          <@reply id=topic.id topic_user=topic.user/>
+          <@comment id=topic.id topic_user=topic.user/>
         </div>
       </div>
     </#if>
     <#if sec.isAuthenticated()>
       <div class="panel panel-default">
         <#if topic.lock == true>
-          <div class="panel-body text-center">该话题目前已经被锁定，无法添加新回复。</div>
+          <div class="panel-body text-center">该话题目前已经被锁定，无法添加新评论。</div>
         <#else>
           <div class="panel-heading">
-            添加一条新回复
-            <small class="text-danger">这会<#if site.createReplyScore gte 0>增加<#else>扣除</#if>你${site.createReplyScore?abs}积分</small>
+            添加一条新评论
+            <small class="text-danger">这会<#if site.createCommentScore gte 0>增加<#else>扣除</#if>你${site.createCommentScore?abs}积分</small>
             <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
           </div>
           <div class="panel-body">
             <#if !sec.isLock()>
-              <form action="/reply/save" method="post" id="editorForm">
+              <form action="/comment/save" method="post" id="editorForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" value="${topic.id?c}" name="topicId"/>
                 <#include "../components/editor.ftl"/>
-                <@editor row=5 type="reply"/>
-                <button type="submit" class="btn btn-default">回复</button>
+                <@editor row=5 type="comment"/>
+                <button type="submit" class="btn btn-default">评论</button>
               </form>
             <#else>
-              <div class="text-center">你的帐户被禁用了，不能回复</div>
+              <div class="text-center">你的帐户被禁用了，不能评论</div>
             </#if>
           </div>
         </#if>

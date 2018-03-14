@@ -126,8 +126,8 @@ public class UserService {
 //        User user = findById(id);
 //        //删除用户的收藏
 //        collectService.deleteByUser(user);
-//        //删除用户发的所有回复
-//        replyService.deleteByUser(user);
+//        //删除用户发的所有评论
+//        commentService.deleteByUser(user);
 //        //删除用户的通知
 //        notificationService.deleteByUser(user);
 //        notificationService.deleteByTargetUser(user);

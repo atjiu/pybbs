@@ -49,7 +49,7 @@ public class NotificationService {
   public void sendNotification(User user, Topic topic, String content) {
     //给话题作者发送通知
     if (user.getId() != topic.getUser().getId()) {
-      this.sendNotification(user, topic.getUser(), NotificationEnum.REPLY.name(), topic, content);
+      this.sendNotification(user, topic.getUser(), NotificationEnum.COMMENT.name(), topic, content);
     }
     //给At用户发送通知
     List<String> atUsers = BaseEntity.fetchUsers(null, content);

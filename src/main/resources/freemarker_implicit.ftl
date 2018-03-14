@@ -7,4 +7,4 @@
 [#-- @ftlvariable name="sec" type="co.yiiu.web.tag.SpringSecurityTag" --]
 [#-- @ftlvariable name="topic" type="co.yiiu.module.topic.model.Topic" --]
 [#-- @ftlvariable name="user" type="co.yiiu.module.user.model.User" --]
-[#-- @ftlvariable name="reply" type="co.yiiu.module.reply.model.Reply" --]
+[#-- @ftlvariable name="comment" type="co.yiiu.module.comment.model.Comment" --]

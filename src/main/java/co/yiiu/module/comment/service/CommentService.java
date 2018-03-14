@@ -1,8 +1,8 @@
-package co.yiiu.module.reply.service;
+package co.yiiu.module.comment.service;
 
 import co.yiiu.core.util.Constants;
-import co.yiiu.module.reply.model.Reply;
-import co.yiiu.module.reply.repository.ReplyRepository;
+import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.repository.CommentRepository;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
@@ -29,10 +29,10 @@ import java.util.Map;
 @Service
 @Transactional
 @CacheConfig(cacheNames = "replies")
-public class ReplyService {
+public class CommentService {
 
   @Autowired
-  private ReplyRepository replyRepository;
+  private CommentRepository commentRepository;
   @Autowired
   private TopicService topicService;
 
@@ -42,17 +42,17 @@ public class ReplyService {
    * @return
    */
   @Cacheable
-  public Reply findById(int id) {
-    return replyRepository.findOne(id);
+  public Comment findById(int id) {
+    return commentRepository.findOne(id);
   }
 
   /**
    * 保存评论
-   * @param reply
+   * @param comment
    */
   @CacheEvict(allEntries = true)
-  public void save(Reply reply) {
-    replyRepository.save(reply);
+  public void save(Comment comment) {
+    commentRepository.save(comment);
   }
 
   /**
@@ -63,170 +63,170 @@ public class ReplyService {
   @CacheEvict(allEntries = true)
   public Map delete(int id) {
     Map map = new HashMap();
-    Reply reply = findById(id);
-    if (reply != null) {
-      map.put("topicId", reply.getTopic().getId());
-      Topic topic = reply.getTopic();
-      topic.setReplyCount(topic.getReplyCount() - 1);
+    Comment comment = findById(id);
+    if (comment != null) {
+      map.put("topicId", comment.getTopic().getId());
+      Topic topic = comment.getTopic();
+      topic.setCommentCount(topic.getCommentCount() - 1);
       topicService.save(topic);
-      replyRepository.delete(id);
+      commentRepository.delete(id);
     }
     return map;
   }
 
   /**
-   * 删除用户发布的所有回复
+   * 删除用户发布的所有评论
    *
    * @param user
    */
   @CacheEvict(allEntries = true)
   public void deleteByUser(User user) {
-    replyRepository.deleteByUser(user);
+    commentRepository.deleteByUser(user);
   }
 
   /**
-   * 根据话题删除回复
+   * 根据话题删除评论
    *
    * @param topic
    */
   @CacheEvict(allEntries = true)
   public void deleteByTopic(Topic topic) {
-    replyRepository.deleteByTopic(topic);
+    commentRepository.deleteByTopic(topic);
   }
 
   /**
    * 赞
    *
    * @param userId
-   * @param reply
+   * @param comment
    */
   @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Reply up(int userId, Reply reply) {
-    String upIds = reply.getUpIds();
+  public Comment up(int userId, Comment comment) {
+    String upIds = comment.getUpIds();
     if (upIds == null) upIds = Constants.COMMA;
     if (!upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-      reply.setUp(reply.getUp() + 1);
-      reply.setUpIds(upIds + userId + Constants.COMMA);
+      comment.setUp(comment.getUp() + 1);
+      comment.setUpIds(upIds + userId + Constants.COMMA);
 
-      String downIds = reply.getDownIds();
+      String downIds = comment.getDownIds();
       if (downIds == null) downIds = Constants.COMMA;
       if (downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-        reply.setDown(reply.getDown() - 1);
+        comment.setDown(comment.getDown() - 1);
         downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        reply.setDownIds(downIds);
+        comment.setDownIds(downIds);
       }
-      int count = reply.getUp() - reply.getDown();
-      reply.setUpDown(count > 0 ? count : 0);
-      save(reply);
+      int count = comment.getUp() - comment.getDown();
+      comment.setUpDown(count > 0 ? count : 0);
+      save(comment);
     }
-    return reply;
+    return comment;
   }
 
   /**
    * 取消赞
    *
    * @param userId
-   * @param replyId
+   * @param commentId
    */
   @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Reply cancelUp(int userId, int replyId) {
-    Reply reply = findById(replyId);
-    if (reply != null) {
-      String upIds = reply.getUpIds();
+  public Comment cancelUp(int userId, int commentId) {
+    Comment comment = findById(commentId);
+    if (comment != null) {
+      String upIds = comment.getUpIds();
       if (upIds == null) upIds = Constants.COMMA;
       if (upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-        reply.setUp(reply.getUp() - 1);
+        comment.setUp(comment.getUp() - 1);
         upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        reply.setUpIds(upIds);
+        comment.setUpIds(upIds);
 
-        int count = reply.getUp() - reply.getDown();
-        reply.setUpDown(count > 0 ? count : 0);
-        save(reply);
+        int count = comment.getUp() - comment.getDown();
+        comment.setUpDown(count > 0 ? count : 0);
+        save(comment);
       }
     }
-    return reply;
+    return comment;
   }
 
   /**
    * 踩
    *
    * @param userId
-   * @param reply
+   * @param comment
    */
   @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Reply down(int userId, Reply reply) {
-    String downIds = reply.getDownIds();
+  public Comment down(int userId, Comment comment) {
+    String downIds = comment.getDownIds();
     if (downIds == null) downIds = Constants.COMMA;
     if (!downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-      reply.setDown(reply.getDown() + 1);
-      reply.setDownIds(downIds + userId + Constants.COMMA);
+      comment.setDown(comment.getDown() + 1);
+      comment.setDownIds(downIds + userId + Constants.COMMA);
 
-      String upIds = reply.getUpIds();
+      String upIds = comment.getUpIds();
       if (upIds == null) upIds = Constants.COMMA;
       if (upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-        reply.setUp(reply.getUp() - 1);
+        comment.setUp(comment.getUp() - 1);
         upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        reply.setUpIds(upIds);
+        comment.setUpIds(upIds);
       }
-      int count = reply.getUp() - reply.getDown();
-      reply.setUpDown(count > 0 ? count : 0);
-      save(reply);
+      int count = comment.getUp() - comment.getDown();
+      comment.setUpDown(count > 0 ? count : 0);
+      save(comment);
     }
-    return reply;
+    return comment;
   }
 
   /**
    * 取消踩
    *
    * @param userId
-   * @param replyId
+   * @param commentId
    */
   @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Reply cancelDown(int userId, int replyId) {
-    Reply reply = findById(replyId);
-    if (reply != null) {
-      String downIds = reply.getDownIds();
+  public Comment cancelDown(int userId, int commentId) {
+    Comment comment = findById(commentId);
+    if (comment != null) {
+      String downIds = comment.getDownIds();
       if (downIds == null) downIds = Constants.COMMA;
       if (downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-        reply.setDown(reply.getDown() - 1);
+        comment.setDown(comment.getDown() - 1);
         downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        reply.setDownIds(downIds);
+        comment.setDownIds(downIds);
 
-        int count = reply.getUp() - reply.getDown();
-        reply.setUpDown(count > 0 ? count : 0);
-        save(reply);
+        int count = comment.getUp() - comment.getDown();
+        comment.setUpDown(count > 0 ? count : 0);
+        save(comment);
       }
     }
-    return reply;
+    return comment;
   }
 
   /**
-   * 根据话题查询回复列表
+   * 根据话题查询评论列表
    *
    * @param topic
    * @return
    */
   @Cacheable
-  public List<Reply> findByTopic(Topic topic) {
-    return replyRepository.findByTopicOrderByUpDownDescDownAscInTimeAsc(topic);
+  public List<Comment> findByTopic(Topic topic) {
+    return commentRepository.findByTopicOrderByUpDownDescDownAscInTimeAsc(topic);
   }
 
   /**
-   * 分页查询回复列表
+   * 分页查询评论列表
    *
    * @param p
    * @param size
    * @return
    */
   @Cacheable
-  public Page<Reply> page(int p, int size) {
+  public Page<Comment> page(int p, int size) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    return replyRepository.findAll(pageable);
+    return commentRepository.findAll(pageable);
   }
 
   /**
-   * 查询用户的回复列表
+   * 查询用户的评论列表
    *
    * @param p
    * @param size
@@ -234,9 +234,9 @@ public class ReplyService {
    * @return
    */
   @Cacheable
-  public Page<Reply> findByUser(int p, int size, User user) {
+  public Page<Comment> findByUser(int p, int size, User user) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    return replyRepository.findByUser(user, pageable);
+    return commentRepository.findByUser(user, pageable);
   }
 }

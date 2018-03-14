@@ -1,7 +1,7 @@
 package co.yiiu.web.tag;
 
-import co.yiiu.module.reply.model.Reply;
-import co.yiiu.module.reply.service.ReplyService;
+import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;
@@ -19,12 +19,12 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Component
-public class UserReplyDirective implements TemplateDirectiveModel {
+public class UserCommentDirective implements TemplateDirectiveModel {
 
   @Autowired
   private UserService userService;
   @Autowired
-  private ReplyService replyService;
+  private CommentService commentService;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,
@@ -36,7 +36,7 @@ public class UserReplyDirective implements TemplateDirectiveModel {
     int limit = Integer.parseInt(map.get("limit").toString());
 
     User currentUser = userService.findByUsername(username);
-    Page<Reply> page = replyService.findByUser(p, limit, currentUser);
+    Page<Comment> page = commentService.findByUser(p, limit, currentUser);
 
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));

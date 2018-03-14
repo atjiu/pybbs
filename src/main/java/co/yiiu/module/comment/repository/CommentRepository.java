@@ -1,6 +1,6 @@
-package co.yiiu.module.reply.repository;
+package co.yiiu.module.comment.repository;
 
-import co.yiiu.module.reply.model.Reply;
+import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
@@ -16,13 +16,13 @@ import java.util.List;
  * https://yiiu.co
  */
 @Repository
-public interface ReplyRepository extends JpaRepository<Reply, Integer> {
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-  List<Reply> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
+  List<Comment> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
 
   void deleteByTopic(Topic topic);
 
   void deleteByUser(User user);
 
-  Page<Reply> findByUser(User user, Pageable pageable);
+  Page<Comment> findByUser(User user, Pageable pageable);
 }

@@ -1,5 +1,5 @@
 <#include "../common/layout.ftl"/>
-<@html page_title="${username}回复的话题" page_tab="user">
+<@html page_title="${username}评论的话题" page_tab="user">
 <div class="row">
   <div class="col-md-9">
     <#include "../components/user_replies.ftl"/>

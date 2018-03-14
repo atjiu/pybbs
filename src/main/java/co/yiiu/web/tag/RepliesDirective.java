@@ -1,7 +1,7 @@
 package co.yiiu.web.tag;
 
-import co.yiiu.module.reply.model.Reply;
-import co.yiiu.module.reply.service.ReplyService;
+import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class RepliesDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private ReplyService replyService;
+  private CommentService commentService;
   @Autowired
   private UserService userService;
 
@@ -39,7 +39,7 @@ public class RepliesDirective implements TemplateDirectiveModel {
     Topic topic = new Topic();
     topic.setId(topicId);
 
-    List<Reply> replies = replyService.findByTopic(topic);
+    List<Comment> replies = commentService.findByTopic(topic);
     environment.setVariable("replies", builder.build().wrap(replies));
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

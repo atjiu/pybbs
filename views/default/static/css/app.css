@@ -77,7 +77,7 @@ dl dd{padding:0 16px;margin-bottom:16px}
 blockquote{padding:0 15px;color:#777;border-left:4px solid #ddd}
 blockquote>:first-child{margin-top:0}
 blockquote>:last-child{margin-bottom:0}
-.topic-detail-content img, .reply-detail-content img {max-width:100%;box-sizing:content-box;background-color:#fff}
+.topic-detail-content img, .comment-detail-content img {max-width:100%;box-sizing:content-box;background-color:#fff}
 code {color:#fff; background-color: #23241f; padding: 5px;}
 code:before, code:after{letter-spacing:-.2em;content:"\00a0"}
 pre>code{padding:0;margin:0;font-size:100%;word-break:normal;background:transparent;border:0;}
@@ -118,8 +118,8 @@ kbd{display:inline-block;padding:3px 5px;font:11px Consolas,"Liberation Mono",Me
 hr{border-bottom-color:#eee}
 
 .topic-detail-content pre {padding: 5px;}
-.reply-detail-content {word-break: break-all;}
-.reply-detail-content pre {padding: 10px;}
+.comment-detail-content {word-break: break-all;}
+.comment-detail-content pre {padding: 10px;}
 
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#23241f}
 .hljs,.hljs-tag,.hljs-subst{color:#f8f8f2}
@@ -155,15 +155,15 @@ pre{padding:0;color:#fff}
 .header-navbar li a{padding-left:15px;padding-right:15px}
 .paginate-bot{padding-bottom:0}
 .permission-item.active a{color:#fff}
-.reply-content img{max-width:100%}
+.comment-content img{max-width:100%}
 .panel{border:0;margin-bottom:10px}
 .panel td{padding-left:15px!important;padding-right:15px!important}
 .panel th{padding-left:15px!important;padding-right:15px!important}
 form textarea{resize:vertical}
 #error_message{color:red}
-.panel-body-reply{padding:0}
-.media-reply{padding:15px;margin-top:0}
-.reply-highlight{background-color:#f4fcf0}
+.panel-body-comment{padding:0}
+.media-comment{padding:15px;margin-top:0}
+.comment-highlight{background-color:#f4fcf0}
 .nav-pills > li > a{position:relative;display:block;padding:0 5px}
 .up-down-disable{cursor:pointer}
 .up-down-enable{cursor:pointer;color:#337ab7}

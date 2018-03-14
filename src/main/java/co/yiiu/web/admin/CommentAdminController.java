@@ -2,8 +2,8 @@ package co.yiiu.web.admin;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.module.reply.model.Reply;
-import co.yiiu.module.reply.service.ReplyService;
+import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -22,16 +22,16 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Controller
-@RequestMapping("/admin/reply")
-public class ReplyAdminController extends BaseController {
+@RequestMapping("/admin/comment")
+public class CommentAdminController extends BaseController {
 
   @Autowired
   private SiteConfig siteConfig;
   @Autowired
-  private ReplyService replyService;
+  private CommentService commentService;
 
   /**
-   * 回复列表
+   * 评论列表
    *
    * @param p
    * @param model
@@ -39,13 +39,13 @@ public class ReplyAdminController extends BaseController {
    */
   @GetMapping("/list")
   public String list(Integer p, Model model) {
-    Page<Reply> page = replyService.page(p == null ? 1 : p, siteConfig.getPageSize());
+    Page<Comment> page = commentService.page(p == null ? 1 : p, siteConfig.getPageSize());
     model.addAttribute("page", page);
-    return "admin/reply/list";
+    return "admin/comment/list";
   }
 
   /**
-   * 编辑回复
+   * 编辑评论
    *
    * @param id
    * @param model
@@ -55,13 +55,13 @@ public class ReplyAdminController extends BaseController {
   public String edit(@PathVariable Integer id, Model model) throws Exception {
     if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
 
-    Reply reply = replyService.findById(id);
-    model.addAttribute("reply", reply);
-    return "admin/reply/edit";
+    Comment comment = commentService.findById(id);
+    model.addAttribute("comment", comment);
+    return "admin/comment/edit";
   }
 
   /**
-   * 更新回复内容
+   * 更新评论内容
    *
    * @param id
    * @param topicId
@@ -73,16 +73,16 @@ public class ReplyAdminController extends BaseController {
   public String update(Integer id, Integer topicId, String content, HttpServletResponse response) throws Exception {
     if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
 
-    Reply reply = replyService.findById(id);
-    if (reply == null) throw new Exception("回复不存在");
+    Comment comment = commentService.findById(id);
+    if (comment == null) throw new Exception("评论不存在");
 
-    reply.setContent(content);
-    replyService.save(reply);
+    comment.setContent(content);
+    commentService.save(comment);
     return redirect(response, "/topic/" + topicId);
   }
 
   /**
-   * 删除回复
+   * 删除评论
    *
    * @param id
    * @return
@@ -90,7 +90,7 @@ public class ReplyAdminController extends BaseController {
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Integer id, HttpServletResponse response) {
     if (id != null) {
-      Map map = replyService.delete(id);
+      Map map = commentService.delete(id);
       return redirect(response, "/topic/" + map.get("topicId"));
     }
     return redirect(response, "/");

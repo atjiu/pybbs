@@ -19,14 +19,14 @@
                   <a href="/user/${notification.user.username}">${notification.user.username}</a>
                   <#if notification.action == "COLLECT">
                     收藏了你发布的话题
-                  <#elseif notification.action == "REPLY">
+                  <#elseif notification.action == "COMMENT">
                     在
                   <#elseif notification.action == "AT">
-                    在回复
+                    在评论
                   </#if>
                   <a href="/topic/${notification.topic.id}">${notification.topic.title!?html}</a>
-                  <#if notification.action == "REPLY">
-                    里回复了你
+                  <#if notification.action == "COMMENT">
+                    里评论了你
                   <#elseif notification.action == "AT">
                     时提到了你
                   </#if>

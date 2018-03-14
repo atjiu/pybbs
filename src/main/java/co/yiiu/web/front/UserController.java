@@ -71,7 +71,7 @@ public class UserController extends BaseController {
   }
 
   /**
-   * 用户发布的所有回复
+   * 用户发布的所有评论
    *
    * @param username
    * @return

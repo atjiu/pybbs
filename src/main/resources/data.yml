@@ -19,9 +19,9 @@ _roles:
       - topic:good
       - topic:list
       - topic:lock
-      - reply:edit
-      - reply:delete
-      - reply:list
+      - comment:edit
+      - comment:delete
+      - comment:list
       - user:list
       - user:role
       - user:delete
@@ -52,9 +52,9 @@ _roles:
       - topic:good
       - topic:list
       - topic:lock
-      - reply:edit
-      - reply:delete
-      - reply:list
+      - comment:edit
+      - comment:delete
+      - comment:list
   -
     name: user
     description: 会员
@@ -100,22 +100,22 @@ _permissions:
         description: 话题锁定
         url: /admin/topic/*/lock
   -
-    name: reply
-    description: 回复
+    name: comment
+    description: 评论
     url:
     childs:
       -
-        name: reply:edit
-        description: 回复编辑
-        url: /admin/reply/*/edit
+        name: comment:edit
+        description: 评论编辑
+        url: /admin/comment/*/edit
       -
-        name: reply:delete
-        description: 回复删除
-        url: /admin/reply/*/delete
+        name: comment:delete
+        description: 评论删除
+        url: /admin/comment/*/delete
       -
-        name: reply:list
-        description: 回复列表
-        url: /admin/reply/list
+        name: comment:list
+        description: 评论列表
+        url: /admin/comment/list
   -
     name: user
     description: 用户

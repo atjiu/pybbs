@@ -3,7 +3,7 @@ package co.yiiu.module.topic.service;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.node.model.Node;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.reply.service.ReplyService;
+import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
@@ -34,7 +34,7 @@ public class TopicService {
   @Autowired
   private TopicRepository topicRepository;
   @Autowired
-  private ReplyService replyService;
+  private CommentService commentService;
   @Autowired
   private CollectService collectService;
   @Autowired
@@ -74,8 +74,8 @@ public class TopicService {
       collectService.deleteByTopic(topic);
       //删除通知里提到的话题
       notificationService.deleteByTopic(topic);
-      //删除话题下面的回复
-      replyService.deleteByTopic(topic);
+      //删除话题下面的评论
+      commentService.deleteByTopic(topic);
 
       //删除话题
       topicRepository.delete(topic);
@@ -104,7 +104,7 @@ public class TopicService {
     Sort sort = new Sort(
         new Sort.Order(Sort.Direction.DESC, "top"),
         new Sort.Order(Sort.Direction.DESC, "inTime"),
-        new Sort.Order(Sort.Direction.DESC, "lastReplyTime"));
+        new Sort.Order(Sort.Direction.DESC, "lastCommentTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     switch (tab) {
       case "default":
@@ -116,7 +116,7 @@ public class TopicService {
         pageable = new PageRequest(p - 1, size, sort);
         return topicRepository.findAll(pageable);
       case "noanswer":
-        return topicRepository.findByReplyCount(0, pageable);
+        return topicRepository.findByCommentCount(0, pageable);
       default:
         return null;
     }

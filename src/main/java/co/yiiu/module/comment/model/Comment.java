@@ -1,4 +1,4 @@
-package co.yiiu.module.reply.model;
+package co.yiiu.module.comment.model;
 
 import co.yiiu.core.util.Constants;
 import co.yiiu.module.topic.model.Topic;
@@ -15,18 +15,18 @@ import java.util.Date;
  * https://yiiu.co
  */
 @Entity
-@Table(name = "yiiu_reply")
-public class Reply implements Serializable {
+@Table(name = "yiiu_comment")
+public class Comment implements Serializable {
 
   @Id
   @GeneratedValue
   private int id;
 
-  //回复的内容
+  //评论的内容
   @Column(columnDefinition = "text", nullable = false)
   private String content;
 
-  //回复时间
+  //评论时间
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
   private Date inTime;
 
@@ -51,11 +51,11 @@ public class Reply implements Serializable {
   @JoinColumn(nullable = false, name = "user_id")
   private User user;
 
-  //对回复点赞的用户id，逗号隔开(英文逗号)
+  //对评论点赞的用户id，逗号隔开(英文逗号)
   @Column(columnDefinition = "text")
   private String upIds;
 
-  //对回复点踩的用户id，逗号隔开(英文逗号)
+  //对评论点踩的用户id，逗号隔开(英文逗号)
   @Column(columnDefinition = "text")
   private String downIds;
 

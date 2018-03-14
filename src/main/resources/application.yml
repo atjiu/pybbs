@@ -78,7 +78,7 @@ site:
   attemptsWaitTime: 15
   maxCreateTopic: 10
   createTopicScore: -10  # 创建主题变化的积分
-  createReplyScore : -5  # 创建回复变化的积分
+  createCommentScore : -5  # 创建评论变化的积分
   userUploadSpaceSize: 50 # 单位MB
   score: 2000 # 用户注册后初始积分
   loginPoints: 2 # 登录点，最多2个位置登录，第三个登录点会覆盖第一个
@@ -98,7 +98,7 @@ site:
     content: |
           <p>您好</p>
           <p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>${genCode}</span> , 请在10分钟内使用！</p><br>
-          <small>本邮件为系统发出，请不要回复</small>
+          <small>本邮件为系统发出，请不要评论</small>
   illegalUsername:
   - profile
   - changeAvatar
@@ -112,5 +112,5 @@ score:
   template:
     dailySign: 每日签到获得${scoreLog.changeScore}积分
     createTopic: 发表主题[<a href="/topic/${topic.id?c}" target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
-    replyTopic: 回复主题[<a href="/topic/${topic.id?c}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
+    commentTopic: 评论主题[<a href="/topic/${topic.id?c}"  target="_blank">${topic.title?html}</a>],扣减${scoreLog.changeScore}积分
     register: 用户注册奖励${scoreLog.changeScore}积分

@@ -1,60 +1,60 @@
-<#macro reply topic_user=null id=id>
+<#macro comment topic_user=null id=id>
   <@replies_tag id=id>
-    <#list replies as reply>
-    <div class="media media-reply <#if reply.upDown &gt;= 3> reply-highlight</#if>" id="reply${reply.id}">
+    <#list replies as comment>
+    <div class="media media-comment <#if comment.upDown &gt;= 3> comment-highlight</#if>" id="comment${comment.id}">
       <div class="media-left">
-        <a href="/user/${reply.user.username}"><img src="${reply.user.avatar}" class="avatar" alt=""/></a>
+        <a href="/user/${comment.user.username}"><img src="${comment.user.avatar}" class="avatar" alt=""/></a>
       </div>
-      <div class="media-body reply-content">
+      <div class="media-body comment-content">
         <div class="media-heading gray">
-          <a href="/user/${reply.user.username!}">${reply.user.username!} </a>
-          <#if topic_user?? && topic_user.username == reply.user.username>
+          <a href="/user/${comment.user.username!}">${comment.user.username!} </a>
+          <#if topic_user?? && topic_user.username == comment.user.username>
             <span class="text-success">[楼主]</span>
           </#if>
-        ${model.formatDate(reply.inTime)}
+        ${model.formatDate(comment.inTime)}
           <#if sec.isAuthenticated() && !sec.isLock()>
             <span class="pull-right">
-              <#if model.isUp(user.id, reply.upIds) == true>
+              <#if model.isUp(user.id, comment.upIds) == true>
                 <span class="glyphicon glyphicon-thumbs-up up-down-enable"
-                      onclick="replyUp(this, '${reply.id}')"></span>
+                      onclick="commentUp(this, '${comment.id}')"></span>
               <#else>
                 <span class="glyphicon glyphicon-thumbs-up up-down-disable"
-                      onclick="replyUp(this, '${reply.id}')"></span>
+                      onclick="commentUp(this, '${comment.id}')"></span>
               </#if>
-              <#if model.isDown(user.id, reply.downIds) == true>
+              <#if model.isDown(user.id, comment.downIds) == true>
                 <span class="glyphicon glyphicon-thumbs-down up-down-enable"
-                      onclick="replyDown(this, '${reply.id}')"></span>
+                      onclick="commentDown(this, '${comment.id}')"></span>
               <#else>
                 <span class="glyphicon glyphicon-thumbs-down up-down-disable"
-                      onclick="replyDown(this, '${reply.id}')"></span>
+                      onclick="commentDown(this, '${comment.id}')"></span>
               </#if>
-              <span id="up_down_vote_count_${reply.id}">${reply.upDown}</span>
-              <#if sec.allGranted("reply:edit")>
-                <a href="/admin/reply/${reply.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
+              <span id="up_down_vote_count_${comment.id}">${comment.upDown}</span>
+              <#if sec.allGranted("comment:edit")>
+                <a href="/admin/comment/${comment.id}/edit"><span class="glyphicon glyphicon-edit"></span></a>
               </#if>
-              <#if sec.allGranted("reply:delete")>
-                <a href="javascript:if(confirm('确定要删除吗？'))location.href='/admin/reply/${reply.id!}/delete'"><span
+              <#if sec.allGranted("comment:delete")>
+                <a href="javascript:if(confirm('确定要删除吗？'))location.href=comment${comment.id!}"><span
                     class="glyphicon glyphicon-trash"></span></a>
               </#if>
-              <a href="javascript:replythis('${reply.user.username}');"><span
+              <a href="javascript:commentThis('${comment.user.username}');"><span
                   class="glyphicon glyphicon-comment"></span></a>
             </span>
           </#if>
         </div>
-        <div class="show_big_image reply-detail-content">${model.marked(reply.content, true)}</div>
+        <div class="show_big_image comment-detail-content">${model.marked(comment.content, true)}</div>
       </div>
     </div>
-      <#if reply_has_next>
+      <#if comment_has_next>
       <div class="divide"></div>
       </#if>
     </#list>
   <script>
-    function replyUp(dom, id) {
+    function commentUp(dom, id) {
       var url;
       if ($(dom).hasClass("up-down-enable")) {
-        url = "/reply/" + id + "/cancelUp"
+        url = "/comment/" + id + "/cancelUp"
       } else if ($(dom).hasClass("up-down-disable")) {
-        url = "/reply/" + id + "/up";
+        url = "/comment/" + id + "/up";
       }
       if (url) {
         $.ajax({
@@ -84,12 +84,12 @@
       }
     }
 
-    function replyDown(dom, id) {
+    function commentDown(dom, id) {
       var url;
       if ($(dom).hasClass("up-down-enable")) {
-        url = "/reply/" + id + "/cancelDown"
+        url = "/comment/" + id + "/cancelDown"
       } else if ($(dom).hasClass("up-down-disable")) {
-        url = "/reply/" + id + "/down";
+        url = "/comment/" + id + "/down";
       }
       if (url) {
         $.ajax({
@@ -119,7 +119,7 @@
       }
     }
 
-    function replythis(author) {
+    function commentThis(author) {
       var contentVal = $("#content").val();
       if (contentVal.length === 0) {
         contentVal += "@" + author + " ";

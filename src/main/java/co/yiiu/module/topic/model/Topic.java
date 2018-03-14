@@ -5,6 +5,8 @@ import co.yiiu.module.node.model.Node;
 import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
@@ -24,6 +26,8 @@ import java.util.Date;
 @Analyzer(impl = SmartChineseAnalyzer.class)
 @Entity
 @Table(name = "yiiu_topic")
+@Getter
+@Setter
 public class Topic implements Serializable {
 
   @Id
@@ -59,10 +63,10 @@ public class Topic implements Serializable {
   @Column(name = "modify_time")
   private Date modifyTime;
 
-  // last reply date
+  // last comment date
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
-  @Column(name = "last_reply_time")
-  private Date lastReplyTime;
+  @Column(name = "last_comment_time")
+  private Date lastCommentTime;
 
   //是否置顶
   private boolean top;
@@ -80,9 +84,9 @@ public class Topic implements Serializable {
   @JsonIgnore
   private User user;
 
-  //回复数
-  @Column(name = "reply_count")
-  private int replyCount;
+  //评论数
+  @Column(name = "comment_count")
+  private int commentCount;
 
   @Column(columnDefinition = "text")
   //点赞用户id，逗号隔开(英文逗号)
@@ -92,123 +96,4 @@ public class Topic implements Serializable {
   @Column(name = "topic_lock")
   private boolean lock;
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public Node getNode() {
-    return node;
-  }
-
-  public void setNode(Node node) {
-    this.node = node;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  public Date getInTime() {
-    return inTime;
-  }
-
-  public void setInTime(Date inTime) {
-    this.inTime = inTime;
-  }
-
-  public Date getModifyTime() {
-    return modifyTime;
-  }
-
-  public void setModifyTime(Date modifyTime) {
-    this.modifyTime = modifyTime;
-  }
-
-  public Date getLastReplyTime() {
-    return lastReplyTime;
-  }
-
-  public void setLastReplyTime(Date lastReplyTime) {
-    this.lastReplyTime = lastReplyTime;
-  }
-
-  public boolean isTop() {
-    return top;
-  }
-
-  public void setTop(boolean top) {
-    this.top = top;
-  }
-
-  public boolean isGood() {
-    return good;
-  }
-
-  public void setGood(boolean good) {
-    this.good = good;
-  }
-
-  public int getView() {
-    return view;
-  }
-
-  public void setView(int view) {
-    this.view = view;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public int getReplyCount() {
-    return replyCount;
-  }
-
-  public void setReplyCount(int replyCount) {
-    this.replyCount = replyCount;
-  }
-
-  public String getUpIds() {
-    return upIds;
-  }
-
-  public void setUpIds(String upIds) {
-    this.upIds = upIds;
-  }
-
-  public boolean isLock() {
-    return lock;
-  }
-
-  public void setLock(boolean lock) {
-    this.lock = lock;
-  }
 }

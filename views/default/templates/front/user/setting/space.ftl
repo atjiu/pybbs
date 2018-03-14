@@ -42,7 +42,7 @@
 <script>
   $(function () {
     $(".file-delete").click(function () {
-      if (confirm("确定要删除这张图片吗？有可能会导致话题或者回复里图片不能正常展示")) {
+      if (confirm("确定要删除这张图片吗？有可能会导致话题或者评论里图片不能正常展示")) {
         var self = $(this);
         var dirName = $(this).attr('data-dirName');
         var fileName = $(this).attr('data-fileName');

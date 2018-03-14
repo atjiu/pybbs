@@ -9,7 +9,7 @@
           <li <#if !tab?? || tab == ''>class="active"</#if>><a href="/">默认</a></li>
           <li <#if tab?? && tab == 'good'>class="active"</#if>><a href="/?tab=good">精华</a></li>
           <li <#if tab?? && tab == 'newest'>class="active"</#if>><a href="/?tab=newest">最新</a></li>
-          <li <#if tab?? && tab == 'noanswer'>class="active"</#if>><a href="/?tab=noanswer">等待回复</a></li>
+          <li <#if tab?? && tab == 'noanswer'>class="active"</#if>><a href="/?tab=noanswer">等待评论</a></li>
           <li><a href="javascript:;" data-toggle="modal" data-target="#choiceModal">节点</a></li>
           <div class="modal fade" id="choiceModal" tabindex="-1" role="dialog" aria-labelledby="choiceModalLabel">
             <div class="modal-dialog" role="document">
@@ -72,7 +72,7 @@
                   <span>•</span>
                   <span><a href="/user/${topic.user.username!}">${topic.user.username!}</a></span>
                   <span class="hidden-sm hidden-xs">•</span>
-                  <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.replyCount!0}个回复</a></span>
+                  <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.commentCount!0}个评论</a></span>
                   <span class="hidden-sm hidden-xs">•</span>
                   <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
                   <span>•</span>
