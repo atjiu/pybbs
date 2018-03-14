@@ -27,6 +27,7 @@ public class GithubUserService {
 
   /**
    * 根据github的登录名查询github登录记录
+   *
    * @param login
    * @return
    */
@@ -37,6 +38,7 @@ public class GithubUserService {
 
   /**
    * 根据本地用户查询github登录记录
+   *
    * @param user
    * @return
    */

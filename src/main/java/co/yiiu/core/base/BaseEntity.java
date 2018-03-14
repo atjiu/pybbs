@@ -117,7 +117,7 @@ public class BaseEntity {
           element.parent().addClass("embed-responsive embed-responsive-16by9");
           element.parent().append("<iframe class='embedded_video' src='" + href.replace("watch?v=", "embed/") + "' frameborder='0' allowfullscreen></iframe>");
           element.remove();
-        } else if(href.contains("http://v.youku.com/v_show/")) {
+        } else if (href.contains("http://v.youku.com/v_show/")) {
           try {
             URL aUrl = new URL(href);
             String _href = "http://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");

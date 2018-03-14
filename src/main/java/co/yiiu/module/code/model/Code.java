@@ -1,5 +1,8 @@
 package co.yiiu.module.code.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +12,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "yiiu_code")
+@Getter
+@Setter
 public class Code implements Serializable {
 
   @Id
@@ -30,59 +35,4 @@ public class Code implements Serializable {
 
   private String mobile;
 
-  public String getMobile() {
-    return mobile;
-  }
-
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public Date getExpireTime() {
-    return expireTime;
-  }
-
-  public void setExpireTime(Date expireTime) {
-    this.expireTime = expireTime;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public boolean isUsed() {
-    return isUsed;
-  }
-
-  public void setUsed(boolean used) {
-    isUsed = used;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
 }

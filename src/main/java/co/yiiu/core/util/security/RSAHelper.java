@@ -52,7 +52,7 @@ public class RSAHelper {
    * 用公钥加密 <br>
    * 每次加密的字节数，不能超过密钥的长度值减去11
    *
-   * @param data   需加密数据的byte数据
+   * @param data      需加密数据的byte数据
    * @param publicKey 公钥
    * @return 加密后的byte型数据
    */

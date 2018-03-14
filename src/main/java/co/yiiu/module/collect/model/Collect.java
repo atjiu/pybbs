@@ -4,6 +4,8 @@ import co.yiiu.core.util.Constants;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,8 +16,10 @@ import java.util.Date;
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-@Table(name = "yiiu_collect")
 @Entity
+@Table(name = "yiiu_collect")
+@Getter
+@Setter
 public class Collect implements Serializable {
 
   @Id
@@ -36,35 +40,5 @@ public class Collect implements Serializable {
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
   private Date inTime;
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public Topic getTopic() {
-    return topic;
-  }
-
-  public void setTopic(Topic topic) {
-    this.topic = topic;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public Date getInTime() {
-    return inTime;
-  }
-
-  public void setInTime(Date inTime) {
-    this.inTime = inTime;
-  }
 }
+

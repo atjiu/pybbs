@@ -1,9 +1,9 @@
 package co.yiiu.module.topic.service;
 
 import co.yiiu.module.collect.service.CollectService;
+import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.node.model.Node;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;

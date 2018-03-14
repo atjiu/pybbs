@@ -1,5 +1,8 @@
 package co.yiiu.module.system.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,6 +13,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "yiiu_system")
+@Getter
+@Setter
 public class System implements Serializable {
 
   @Id
@@ -24,27 +29,4 @@ public class System implements Serializable {
   @Column(nullable = false)
   private String value;
 
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
 }

@@ -162,6 +162,7 @@ public class NotificationService {
 
   /**
    * 话题被删除了，删除由话题引起的通知信息
+   *
    * @param topic
    */
   @CacheEvict(allEntries = true)

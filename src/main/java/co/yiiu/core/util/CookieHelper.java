@@ -60,7 +60,7 @@ public class CookieHelper {
 
   public static String getValue(HttpServletRequest request, String cookieName) {
     Cookie cookie = findCookieByName(request, cookieName);
-    if(cookie != null) {
+    if (cookie != null) {
       return cookie.getValue();
     }
     return null;

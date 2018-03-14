@@ -48,7 +48,7 @@ public class AfterStartup implements ApplicationListener<ContextRefreshedEvent> 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
     System system = systemService.findByName("init");
-    if(system == null) {
+    if (system == null) {
       system = new System();
       system.setName("init");
       system.setValue("1");
@@ -56,7 +56,7 @@ public class AfterStartup implements ApplicationListener<ContextRefreshedEvent> 
 
       insert();
     } else {
-      if(system.getValue().equalsIgnoreCase("0")) {
+      if (system.getValue().equalsIgnoreCase("0")) {
         // 系统已经初始化过了，这里有人为修改过的
         // 添加你想要的处理
       }

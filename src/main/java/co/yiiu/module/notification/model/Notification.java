@@ -4,6 +4,8 @@ import co.yiiu.core.util.Constants;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +18,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "yiiu_notification")
+@Getter
+@Setter
 public class Notification implements Serializable {
 
   @Id
@@ -52,67 +56,4 @@ public class Notification implements Serializable {
   @Column(columnDefinition = "text")
   private String content;
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public boolean isRead() {
-    return isRead;
-  }
-
-  public void setRead(boolean read) {
-    isRead = read;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public User getTargetUser() {
-    return targetUser;
-  }
-
-  public void setTargetUser(User targetUser) {
-    this.targetUser = targetUser;
-  }
-
-  public Date getInTime() {
-    return inTime;
-  }
-
-  public void setInTime(Date inTime) {
-    this.inTime = inTime;
-  }
-
-  public String getAction() {
-    return action;
-  }
-
-  public void setAction(String action) {
-    this.action = action;
-  }
-
-  public Topic getTopic() {
-    return topic;
-  }
-
-  public void setTopic(Topic topic) {
-    this.topic = topic;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
 }
