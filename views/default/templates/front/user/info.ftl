@@ -1,9 +1,7 @@
-<#include "../common/layout.ftl"/>
+<#include "../layout/layout.ftl"/>
 <@html page_title="${username}个人主页" page_tab="user">
 <div class="row">
-  <div class="col-md-9">
-
-  <#--user info-->
+  <div class="col-md-3">
     <@current_user_tag username=username>
       <div class="panel panel-default">
         <div class="panel-body">
@@ -13,7 +11,7 @@
             </div>
             <div class="media-body">
               <h3 style="margin-top: 0">${currentUser.username!}</h3>
-              <p>积分：<a href="/top100">${currentUser.score!0}</a></p>
+              <p>声望：<a href="/top100">${currentUser.reputation!0}</a></p>
               <#if currentUser.bio??>
                 <p><i class="gray">${currentUser.bio!}</i></p>
               </#if>
@@ -27,18 +25,14 @@
         </div>
       </div>
     </@current_user_tag>
-
-  <#--user topics-->
-    <#include "../components/user_topics.ftl"/>
-    <@user_topics username=username p=1 limit=7/>
-
-  <#--user replies-->
-    <#include "../components/user_replies.ftl"/>
-    <@user_replies username=username p=1 limit=7/>
-
   </div>
 
-  <div class="col-md-3 hidden-sm hidden-xs">
+  <div class="col-md-9">
+    <#include "../components/user_topics.ftl"/>
+    <@user_topics username=username p=1 limit=7 isFooter=true/>
+
+    <#include "../components/user_comments.ftl"/>
+    <@user_comments username=username p=1 limit=7 isFooter=true/>
   </div>
 
 </div>

@@ -7,6 +7,10 @@ package co.yiiu.module.notification.model;
  */
 public enum NotificationEnum {
   COMMENT,
+  REPLY,
   COLLECT,
-  AT
+  UP_TOPIC,
+  UP_COMMENT,
+  DOWN_TOPIC,
+  DOWN_COMMENT
 }

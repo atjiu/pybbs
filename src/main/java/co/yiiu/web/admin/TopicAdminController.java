@@ -1,22 +1,19 @@
 package co.yiiu.web.admin;
 
+import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.module.node.model.Node;
-import co.yiiu.module.node.service.NodeService;
+import co.yiiu.core.bean.Result;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Created by tomoya.
@@ -30,7 +27,7 @@ public class TopicAdminController extends BaseController {
   @Autowired
   private TopicService topicService;
   @Autowired
-  private NodeService nodeService;
+  private SiteConfig siteConfig;
 
   /**
    * topic list
@@ -40,8 +37,8 @@ public class TopicAdminController extends BaseController {
    * @return
    */
   @GetMapping("/list")
-  public String list(Integer p, Model model) {
-    model.addAttribute("p", p);
+  public String list(@RequestParam(defaultValue = "1") Integer p, Model model) {
+    model.addAttribute("page", topicService.findAllForAdmin(p, siteConfig.getPageSize()));
     return "admin/topic/list";
   }
 
@@ -52,14 +49,13 @@ public class TopicAdminController extends BaseController {
    * @param model
    * @return
    */
-  @GetMapping("/{id}/edit")
-  public String edit(@PathVariable int id, Model model) throws Exception {
+  @GetMapping("/edit")
+  public String edit(Integer id, Model model) {
     Topic topic = topicService.findById(id);
-    if (topic == null) throw new Exception("话题不存在");
+    Assert.notNull(topic, "话题不存在");
 
     model.addAttribute("topic", topic);
-    model.addAttribute("from", "end");
-    return "front/topic/edit";
+    return "admin/topic/edit";
   }
 
   /**
@@ -69,31 +65,16 @@ public class TopicAdminController extends BaseController {
    * @param content
    * @return
    */
-  @PostMapping("/{id}/edit")
-  public String update(@PathVariable Integer id, Integer nodeId, String title, String url, String content,
-                       HttpServletResponse response) throws Exception {
+  @PostMapping("/edit")
+  @ResponseBody
+  public Result update(Integer id, String title, String content) {
     Topic topic = topicService.findById(id);
-    Node oldNode = topic.getNode();
-
-    Node node = nodeService.findById(nodeId);
-    if (node == null) throw new Exception("版块不存在");
-    if (!StringUtils.isEmpty(url) && !url.contains("http://") && !url.contains("https://"))
-      throw new Exception("转载URL格式不正确");
-
-    //更新node的话题数
-    if (!Objects.equals(topic.getNode().getId(), nodeId)) {
-      nodeService.dealTopicCount(topic.getNode(), -1);
-      nodeService.dealTopicCount(node, 1);
-    }
-
-    topic.setNode(node);
     topic.setTitle(title);
-    topic.setUrl(url);
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.save(topic);
 
-    return redirect(response, "/topic/" + topic.getId());
+    return Result.success();
   }
 
   /**
@@ -102,55 +83,41 @@ public class TopicAdminController extends BaseController {
    * @param id
    * @return
    */
-  @GetMapping("/{id}/delete")
-  public String delete(String a, HttpServletResponse response, @PathVariable Integer id) {
+  @GetMapping("/delete")
+  @ResponseBody
+  public Result delete(Integer id) {
     // delete topic
-    topicService.deleteById(id);
-    return redirect(response, StringUtils.isEmpty(a) ? "/" : "/admin/topic/list");
+    topicService.deleteById(id, getAdminUser().getId());
+    return Result.success();
   }
 
   /**
    * 加/减精华
    *
    * @param id
-   * @param response
    * @return
    */
-  @GetMapping("/{id}/good")
-  public String good(@PathVariable Integer id, HttpServletResponse response) {
+  @GetMapping("/good")
+  @ResponseBody
+  public Result good(Integer id) {
     Topic topic = topicService.findById(id);
-    topic.setGood(!topic.isGood());
+    topic.setGood(!topic.getGood());
     topicService.save(topic);
-    return redirect(response, "/topic/" + id);
+    return Result.success();
   }
 
   /**
    * 置/不置顶
    *
    * @param id
-   * @param response
    * @return
    */
-  @GetMapping("/{id}/top")
-  public String top(@PathVariable Integer id, HttpServletResponse response) {
+  @GetMapping("/top")
+  @ResponseBody
+  public Result top(Integer id) {
     Topic topic = topicService.findById(id);
-    topic.setTop(!topic.isTop());
+    topic.setTop(!topic.getTop());
     topicService.save(topic);
-    return redirect(response, "/topic/" + id);
-  }
-
-  /**
-   * 锁定/不锁定
-   *
-   * @param id
-   * @param response
-   * @return
-   */
-  @GetMapping("/{id}/lock")
-  public String lock(@PathVariable Integer id, HttpServletResponse response) {
-    Topic topic = topicService.findById(id);
-    topic.setLock(!topic.isLock());
-    topicService.save(topic);
-    return redirect(response, "/topic/" + id);
+    return Result.success();
   }
 }

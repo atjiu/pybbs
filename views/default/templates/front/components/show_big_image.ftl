@@ -2,7 +2,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="showBigImageModal">
   <div class="modal-dialog" style="width: 98%" role="document">
     <div class="modal-content">
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <img src="" id="bigImage" style="max-width: 100%;" alt="">
       </div>
     </div>

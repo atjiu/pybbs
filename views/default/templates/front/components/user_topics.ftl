@@ -7,36 +7,38 @@
         暂无话题
       </div>
     <#else>
-      <div class="panel-body">
-        <#list page.getContent() as topic>
+      <div class="panel-body paginate-bot">
+        <#list page.getContent() as map>
           <div class="media">
             <div class="media-body">
               <div class="title">
-                <#if model.isEmpty(topic.url)>
-                  <a href="/topic/${topic.id?c}">
-                    ${topic.title!?html}
+                <#if model.isEmpty(map.topic.url)>
+                  <a href="/topic/${map.topic.id?c}">
+                    ${map.topic.title!?html}
                   </a>
                 <#else>
-                  <a href="${topic.url!?html}" target="_blank">
-                    ${topic.title!?html}
+                  <a href="${map.topic.url!?html}" target="_blank">
+                    ${map.topic.title!?html}
                     <i class="glyphicon glyphicon-link"></i>
                   </a>
                 </#if>
               </div>
               <p>
-                <a href="/go/${topic.node.value!}">${topic.node.name!}</a>
-                <span>•</span>
-                <span><a href="/user/${topic.user.username}">${topic.user.username}</a></span>
+                <i class="fa fa-chevron-up"></i>
+                <i class="fa fa-chevron-down"></i>
+                <span>${map.topic.up - map.topic.down}</span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id!c}">${topic.commentCount!0}个评论</a></span>
+                <span><a href="/user/${map.user.username}">${map.user.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
+                <span class="hidden-sm hidden-xs"><a href="/topic/${map.topic.id!c}">${map.topic.commentCount!0}个评论</a></span>
+                <span class="hidden-sm hidden-xs">•</span>
+                <span class="hidden-sm hidden-xs">${map.topic.view!0}次浏览</span>
                 <span>•</span>
-                <span>${model.formatDate(topic.inTime)}</span>
+                <span>${model.formatDate(map.topic.inTime)}</span>
               </p>
             </div>
           </div>
-          <#if topic_has_next>
+          <#if map_has_next>
             <div class="divide mar-top-5"></div>
           </#if>
         </#list>
@@ -45,7 +47,7 @@
           <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/topics" urlParas=""/>
         </#if>
       </div>
-      <#if isFooter || page.getTotalElements() &gt;= limit>
+      <#if isFooter>
         <div class="panel-footer">
           <a href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
         </div>

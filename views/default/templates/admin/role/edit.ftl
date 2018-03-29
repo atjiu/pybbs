@@ -1,68 +1,145 @@
-<#include "../common/layout.ftl"/>
-<@html page_title="配置权限" page_tab="admin">
-<div class="row">
-  <div class="col-md-2 hidden-sm hidden-xs">
-    <#include "../components/admin_left.ftl">
-    <@admin_left page_tab="role"/>
-  </div>
-  <div class="col-md-10">
-    <div class="panel panel-default">
-      <div class="panel-heading">配置权限</div>
-      <div class="panel-body">
-        <form action="/admin/role/${role.id}/edit" method="post" id="roleForm">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-          <div class="form-group">
-            <label for="name">角色名称</label>
-            <input type="text" id="name" name="name" value="${role.name!}" class="form-control"/>
+<#include "../layout/layout.ftl">
+<@html page_title="角色编辑" page_tab="admin_user_role">
+  <section class="content-header">
+    <h1>
+      角色
+      <small>编辑</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
+      <li><a href="/admin/role/list">角色</a></li>
+      <li class="active">编辑</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="box box-info">
+      <div class="box-header with-border">
+        <h3 class="box-title">角色编辑</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <div id="tree"></div>
           </div>
-          <div class="form-group">
-            <label for="description">角色描述</label>
-            <input type="text" id="description" name="description" value="${role.description!}"
-                   class="form-control"/>
+          <div class="col-sm-9">
+            <form id="form">
+              <div class="form-group">
+                <label>角色名</label>
+                <input type="text" id="name" value="${role.name!}" class="form-control" placeholder="角色名">
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary">保存</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="roles">权限</label>
-            <div>
-              <#list list as l>
-                <h4><b>${l.permission.description!}</b></h4>
-                <#list l.childPermissions as childPermission>
-                  <input type="checkbox" name="permissionIds" value="${childPermission.id}"
-                         id="permission_${childPermission.id}">
-                  <label for="permission_${childPermission.id}">${childPermission.description!}</label>&nbsp;
-                </#list>
-              </#list>
-              <script type="text/javascript">
-                  <#list role.permissions as permission>
-                  $("#permission_${permission.id!}").attr("checked", true);
-                  </#list>
-              </script>
-            </div>
-          </div>
-          <button type="button" id="roleBtn" onclick="roleSubmit()" class="btn btn-sm btn-default">保存</button>
-          <span id="error_message"></span>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 <script>
-  function roleSubmit() {
-    var errors = 0;
-    var em = $("#error_message");
-    var name = $("#name").val();
-    var description = $("#description").val();
-    if (name.length === 0) {
-      errors++;
-      em.html("角色标识不能为空");
+  var data = ${data!};
+  var nodeIds = [];
+  $(function() {
+    var tree = $('#tree');
+    tree.treeview({
+      data: data,
+      levels: 3,
+      showCheckbox: true,
+    });
+
+    var nodes = tree.treeview('getUnselected');
+    var checkedNodes = [];
+    <#list rolePermissions as rolePermission>
+      checkedNodes.push(${rolePermission.permissionId?c});
+    </#list>
+    var _checkedNodes = [];
+    $.each(nodes, function(i, v) {
+      if(v.pid > 0 && checkedNodes.indexOf(v.id) >= 0) {
+        _checkedNodes.push(v.nodeId);
+      }
+    })
+    tree.treeview('checkNode', [_checkedNodes, {silent: true}]);
+
+    tree.on('nodeChecked', onNodeChecked);
+    tree.on('nodeUnchecked', onNodeUnChecked);
+
+    $("#form").submit(function() {
+      nodeIds = [];
+      getNodeIds(tree.treeview('getChecked'));
+      var name = $("#name").val();
+      if (!name) {
+        toast('角色名不能为空');
+        return false;
+      }
+      $.ajax({
+        url: '/admin/role/edit',
+        async: true,
+        cache: false,
+        type: 'post',
+        dataType: 'json',
+        data: {
+          id: '${role.id?c}',
+          name: name,
+          nodeIds: nodeIds
+        },
+        success: function(data) {
+          if (data.code === 200) {
+            toast('编辑成功');
+            setTimeout(function() {
+              window.location.href = "/admin/role/list";
+            }, 1000);
+          } else {
+            toast(data.description);
+          }
+        }
+      })
+      return false;
+    })
+
+    function onNodeChecked(event, node_data) {
+      var first_index, last_index, last_node, nodes, range, i;
+      nodes = node_data.nodes;
+      if (nodes) {
+        first_index = node_data.nodeId;
+        last_node = nodes[nodes.length - 1];
+        while (last_node.nodes) {
+          nodes = last_node.nodes;
+          last_node = nodes[nodes.length - 1];
+        }
+        last_index = last_node.nodeId;
+        range = [];
+        for (i = first_index; i <= last_index; i++) {
+          range.push(i);
+        }
+        return tree.treeview('checkNode', [range, {silent: true}]);
+      }
     }
-    if (description.length === 0) {
-      errors++;
-      em.html("角色描述不能为空");
+
+    function onNodeUnChecked(event, node_data) {
+      var first_index, last_index, last_node, nodes, range, i;
+      nodes = node_data.nodes;
+      if (nodes) {
+        first_index = node_data.nodeId;
+        last_node = nodes[nodes.length - 1];
+        while (last_node && last_node.nodes) {
+          nodes = last_node.nodes;
+          last_node = nodes[nodes.length - 1];
+        }
+        last_index = last_node.nodeId;
+        range = [];
+        for (i = first_index; i <= last_index; i++) {
+          range.push(i);
+        }
+        return tree.treeview('uncheckNode', [range, {silent: true}]);
+      }
     }
-    if (errors === 0) {
-      var form = $("#roleForm");
-      form.submit();
+
+    function getNodeIds(nodes) {
+      $.each(nodes, function(i, v) {
+        if (!v.nodes) {
+          nodeIds.push(v.id);
+        }
+      })
     }
-  }
+  })
 </script>
 </@html>

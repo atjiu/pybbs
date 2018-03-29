@@ -43,7 +43,7 @@ public class CodeService {
       code.setExpireTime(DateUtil.getMinuteAfter(new Date(), 10));
       code.setType(CodeEnum.EMAIL.name());
       code.setEmail(email);
-      code.setUsed(false);
+      code.setIsUsed(false);
       save(code);
       return genCode;
     }
@@ -53,8 +53,8 @@ public class CodeService {
     Code code1 = findByEmailAndCodeAndType(email, code, type);
     if (code1 == null) return 1;// 验证码不正确
     if (DateUtil.isExpire(code1.getExpireTime())) return 2; // 过期了
-    if (code1.isUsed()) return 3; // 验证码已经被使用了
-    code1.setUsed(true);
+    if (code1.getIsUsed()) return 3; // 验证码已经被使用了
+    code1.setIsUsed(true);
     save(code1);
     return 0; // 正常
   }

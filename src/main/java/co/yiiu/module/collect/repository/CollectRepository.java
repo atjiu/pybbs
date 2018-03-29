@@ -1,12 +1,13 @@
 package co.yiiu.module.collect.repository;
 
 import co.yiiu.module.collect.model.Collect;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CollectRepository extends JpaRepository<Collect, Integer> {
 
-  Page<Collect> findByUser(User user, Pageable pageable);
+  @Query(value = "select c as collect, t as topic, u as user from Collect c, Topic t, User u where t.id = c.topicId and c.userId = u.id and c.userId = ?1",
+      countQuery = "select count(1) from Collect c, Topic t, User u where t.id = c.topicId and c.userId = u.id and c.userId = ?1")
+  Page<Map> findByUserId(Integer userId, Pageable pageable);
 
-  long countByUser(User user);
+  long countByUserId(Integer userId);
 
-  long countByTopic(Topic topic);
+  long countByTopicId(Integer topicId);
 
-  Collect findByUserAndTopic(User user, Topic topic);
+  Collect findByUserIdAndTopicId(Integer userId, Integer topicId);
 
-  void deleteByUser(User user);
+  void deleteByUserId(Integer userId);
 
-  void deleteByTopic(Topic topic);
+  void deleteByTopicId(Integer topicId);
 }

@@ -1,25 +1,34 @@
 package co.yiiu.module.comment.service;
 
-import co.yiiu.core.util.Constants;
+import co.yiiu.config.SiteConfig;
+import co.yiiu.core.util.EmailUtil;
+import co.yiiu.core.util.FreemarkerUtil;
+import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.model.CommentAction;
 import co.yiiu.module.comment.repository.CommentRepository;
+import co.yiiu.module.log.model.LogEventEnum;
+import co.yiiu.module.log.model.LogTargetEnum;
+import co.yiiu.module.log.service.LogService;
+import co.yiiu.module.notification.model.NotificationEnum;
+import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.model.UserReputation;
+import co.yiiu.module.user.service.UserService;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -28,63 +37,61 @@ import java.util.Map;
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "replies")
 public class CommentService {
 
   @Autowired
   private CommentRepository commentRepository;
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private LogService logService;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private NotificationService notificationService;
+  @Autowired
+  private EmailUtil emailUtil;
+  @Autowired
+  private FreemarkerUtil freemarkerUtil;
+  @Autowired
+  private SiteConfig siteConfig;
 
-  /**
-   * 根据id查询评论
-   *
-   * @param id
-   * @return
-   */
-  @Cacheable
   public Comment findById(int id) {
     return commentRepository.findOne(id);
   }
 
-  /**
-   * 保存评论
-   *
-   * @param comment
-   */
-  @CacheEvict(allEntries = true)
   public void save(Comment comment) {
     commentRepository.save(comment);
   }
 
-  /**
-   * 根据id删除评论
-   *
-   * @param id
-   * @return
-   */
-  @CacheEvict(allEntries = true)
-  public Map delete(int id) {
-    Map map = new HashMap();
+  public Comment update(Topic topic, Comment oldComment, Comment comment, Integer userId) {
+    this.save(comment);
+    // 日志
+    logService.save(LogEventEnum.EDIT_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(),
+        JsonUtil.objectToJson(oldComment), JsonUtil.objectToJson(comment), topic);
+    return comment;
+  }
+
+  public void delete(int id, Integer userId) {
     Comment comment = findById(id);
     if (comment != null) {
-      map.put("topicId", comment.getTopic().getId());
-      Topic topic = comment.getTopic();
+      Topic topic = topicService.findById(comment.getTopicId());
       topic.setCommentCount(topic.getCommentCount() - 1);
       topicService.save(topic);
+      // 日志
+      logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(), JsonUtil.objectToJson(comment), null, topic);
       commentRepository.delete(id);
     }
-    return map;
   }
 
   /**
    * 删除用户发布的所有评论
+   * 不做日志记录 原因 {@link TopicService#deleteByUserId(Integer)}
    *
-   * @param user
+   * @param userId
    */
-  @CacheEvict(allEntries = true)
-  public void deleteByUser(User user) {
-    commentRepository.deleteByUser(user);
+  public void deleteByUserId(Integer userId) {
+    commentRepository.deleteByUserId(userId);
   }
 
   /**
@@ -92,126 +99,187 @@ public class CommentService {
    *
    * @param topic
    */
-  @CacheEvict(allEntries = true)
   public void deleteByTopic(Topic topic) {
-    commentRepository.deleteByTopic(topic);
+    commentRepository.deleteByTopicId(topic.getId());
+  }
+
+  public Comment createComment(Integer userId, Topic topic, Integer commentId, String content) {
+    Comment comment = new Comment();
+    comment.setCommentId(commentId);
+    comment.setUserId(userId);
+    comment.setTopicId(topic.getId());
+    comment.setInTime(new Date());
+    comment.setUp(0);
+    comment.setDown(0);
+    comment.setUpIds("");
+    comment.setDownIds("");
+    comment.setContent(content);
+    this.save(comment);
+
+    //评论+1
+    topic.setCommentCount(topic.getCommentCount() + 1);
+    topic.setLastCommentTime(new Date());
+    topicService.save(topic);
+
+    // 通知
+    User commentUser = userService.findById(comment.getUserId());
+    if (commentId != null) {
+      Comment replyComment = this.findById(commentId);
+      if(!userId.equals(replyComment.getUserId())) {
+        notificationService.sendNotification(userId, replyComment.getUserId(), NotificationEnum.REPLY, topic.getId(), content);
+        // 邮件
+        // 被回复的用户
+        User _commentUser = userService.findById(replyComment.getUserId());
+        if(_commentUser.getReplyEmail() && !StringUtils.isEmpty(_commentUser.getEmail())) {
+          Map params = Maps.newHashMap();
+          params.put("username", commentUser.getUsername());
+          params.put("topic", topic);
+          params.put("domain", siteConfig.getBaseUrl());
+          params.put("content", content);
+          String subject = freemarkerUtil.format((String) siteConfig.getMail().getReplyComment().get("subject"), params);
+          String emailContent = freemarkerUtil.format((String) siteConfig.getMail().getReplyComment().get("content"), params);
+          emailUtil.sendEmail(_commentUser.getEmail(), subject, emailContent);
+        }
+      }
+    }
+    if (!topic.getUserId().equals(userId)) {
+      notificationService.sendNotification(userId, topic.getUserId(), NotificationEnum.COMMENT, topic.getId(), content);
+      // 邮件
+      User topicUser = userService.findById(topic.getUserId());
+      if(topicUser.getCommentEmail() && !StringUtils.isEmpty(topicUser.getEmail())) {
+        Map params = Maps.newHashMap();
+        params.put("username", commentUser.getUsername());
+        params.put("topic", topic);
+        params.put("domain", siteConfig.getBaseUrl());
+        params.put("content", content);
+        String subject = freemarkerUtil.format((String) siteConfig.getMail().getCommentTopic().get("subject"), params);
+        String emailContent = freemarkerUtil.format((String) siteConfig.getMail().getCommentTopic().get("content"), params);
+        emailUtil.sendEmail(topicUser.getEmail(), subject, emailContent);
+      }
+    }
+
+    return comment;
   }
 
   /**
-   * 赞
+   * 对评论投票
    *
    * @param userId
    * @param comment
    */
-  @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Comment up(int userId, Comment comment) {
-    String upIds = comment.getUpIds();
-    if (upIds == null) upIds = Constants.COMMA;
-    if (!upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-      comment.setUp(comment.getUp() + 1);
-      comment.setUpIds(upIds + userId + Constants.COMMA);
-
-      String downIds = comment.getDownIds();
-      if (downIds == null) downIds = Constants.COMMA;
-      if (downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+  public Map<String, Object> vote(Integer userId, Comment comment, CommentAction action) {
+    Map<String, Object> map = new HashMap<>();
+    List<String> upIds = new ArrayList<>();
+    List<String> downIds = new ArrayList<>();
+    LogEventEnum logEventEnum = null;
+    NotificationEnum notificationEnum = null;
+    User commentUser = userService.findById(comment.getUserId());
+    if (!StringUtils.isEmpty(comment.getUpIds())) {
+      upIds = Lists.newArrayList(comment.getUpIds().split(","));
+    }
+    if (!StringUtils.isEmpty(comment.getDownIds())) {
+      downIds = Lists.newArrayList(comment.getDownIds().split(","));
+    }
+    if (action.equals(CommentAction.UP)) {
+      logEventEnum = LogEventEnum.UP_COMMENT;
+      notificationEnum = NotificationEnum.UP_COMMENT;
+      commentUser.setReputation(commentUser.getReputation() + UserReputation.UP_COMMENT.getReputation());
+      // 如果点踩ID里有，就删除，并将down - 1
+      if (downIds.contains(String.valueOf(userId))) {
         comment.setDown(comment.getDown() - 1);
-        downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        comment.setDownIds(downIds);
+        downIds.remove(String.valueOf(userId));
       }
-      int count = comment.getUp() - comment.getDown();
-      comment.setUpDown(count > 0 ? count : 0);
-      save(comment);
-    }
-    return comment;
-  }
-
-  /**
-   * 取消赞
-   *
-   * @param userId
-   * @param commentId
-   */
-  @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Comment cancelUp(int userId, int commentId) {
-    Comment comment = findById(commentId);
-    if (comment != null) {
-      String upIds = comment.getUpIds();
-      if (upIds == null) upIds = Constants.COMMA;
-      if (upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+      // 如果点赞ID里没有，就添加上，并将up + 1
+      if (!upIds.contains(String.valueOf(userId))) {
+        upIds.add(String.valueOf(userId));
+        comment.setUp(comment.getUp() + 1);
+        map.put("isUp", true);
+        map.put("isDown", false);
+      } else {
+        upIds.remove(String.valueOf(userId));
         comment.setUp(comment.getUp() - 1);
-        upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        comment.setUpIds(upIds);
-
-        int count = comment.getUp() - comment.getDown();
-        comment.setUpDown(count > 0 ? count : 0);
-        save(comment);
+        map.put("isUp", false);
+        map.put("isDown", false);
       }
-    }
-    return comment;
-  }
-
-  /**
-   * 踩
-   *
-   * @param userId
-   * @param comment
-   */
-  @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Comment down(int userId, Comment comment) {
-    String downIds = comment.getDownIds();
-    if (downIds == null) downIds = Constants.COMMA;
-    if (!downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
-      comment.setDown(comment.getDown() + 1);
-      comment.setDownIds(downIds + userId + Constants.COMMA);
-
-      String upIds = comment.getUpIds();
-      if (upIds == null) upIds = Constants.COMMA;
-      if (upIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+    } else if (action.equals(CommentAction.DOWN)) {
+      logEventEnum = LogEventEnum.DOWN_COMMENT;
+      notificationEnum = NotificationEnum.DOWN_COMMENT;
+      commentUser.setReputation(commentUser.getReputation() + UserReputation.DOWN_COMMENT.getReputation());
+      // 如果点赞ID里有，就删除，并将up - 1
+      if (upIds.contains(String.valueOf(userId))) {
         comment.setUp(comment.getUp() - 1);
-        upIds = upIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        comment.setUpIds(upIds);
+        upIds.remove(String.valueOf(userId));
       }
-      int count = comment.getUp() - comment.getDown();
-      comment.setUpDown(count > 0 ? count : 0);
-      save(comment);
-    }
-    return comment;
-  }
-
-  /**
-   * 取消踩
-   *
-   * @param userId
-   * @param commentId
-   */
-  @CacheEvict(allEntries = true) //有更新操作都要清一下缓存
-  public Comment cancelDown(int userId, int commentId) {
-    Comment comment = findById(commentId);
-    if (comment != null) {
-      String downIds = comment.getDownIds();
-      if (downIds == null) downIds = Constants.COMMA;
-      if (downIds.contains(Constants.COMMA + userId + Constants.COMMA)) {
+      // 如果点踩ID里没有，就添加上，并将down + 1
+      if (!downIds.contains(String.valueOf(userId))) {
+        downIds.add(String.valueOf(userId));
+        comment.setDown(comment.getDown() + 1);
+        map.put("isUp", false);
+        map.put("isDown", true);
+      } else {
+        downIds.remove(String.valueOf(userId));
         comment.setDown(comment.getDown() - 1);
-        downIds = downIds.replace(Constants.COMMA + userId + Constants.COMMA, Constants.COMMA);
-        comment.setDownIds(downIds);
-
-        int count = comment.getUp() - comment.getDown();
-        comment.setUpDown(count > 0 ? count : 0);
-        save(comment);
+        map.put("isUp", false);
+        map.put("isDown", false);
       }
     }
-    return comment;
+    map.put("commentId", comment.getId());
+    map.put("up", comment.getUp());
+    map.put("down", comment.getDown());
+    map.put("vote", comment.getUp() - comment.getDown());
+    comment.setUpIds(StringUtils.collectionToCommaDelimitedString(upIds));
+    comment.setDownIds(StringUtils.collectionToCommaDelimitedString(downIds));
+    save(comment);
+    // 通知
+    notificationService.sendNotification(userId, commentUser.getId(), notificationEnum, comment.getTopicId(), null);
+    // 记录日志
+    Topic topic = topicService.findById(comment.getTopicId());
+    logService.save(logEventEnum, userId, LogTargetEnum.COMMENT.name(), comment.getId(), null, null, topic);
+    return map;
   }
 
   /**
    * 根据话题查询评论列表
    *
-   * @param topic
+   * @param topicId
    * @return
    */
-  @Cacheable
-  public List<Comment> findByTopic(Topic topic) {
-    return commentRepository.findByTopicOrderByUpDownDescDownAscInTimeAsc(topic);
+  public List<Map> findByTopicId(Integer topicId) {
+    List<Map> comments = commentRepository.findByTopicId(topicId);
+    return sortLayer(comments, new ArrayList<>(), 1); // 初始深度为1
+  }
+
+  private List<Map> sortLayer(List<Map> comments, List<Map> newComments, Integer layer) {
+    if (comments == null || comments.size() == 0) {
+      return newComments;
+    }
+    if (newComments.size() == 0) {
+      comments.forEach(map -> {
+        if (((Comment) map.get("comment")).getCommentId() == null) {
+          ((Comment) map.get("comment")).setLayer(layer);
+          newComments.add(map);
+        }
+      });
+      comments.removeAll(newComments);
+      return sortLayer(comments, newComments, layer + 1);
+    } else {
+      for (int index = 0; index < newComments.size(); index++) {
+        Map newComment = newComments.get(index);
+
+        List<Map> findComments = new ArrayList<>();
+        comments.forEach(map -> {
+          if (Objects.equals(((Comment) map.get("comment")).getCommentId(), ((Comment) newComment.get("comment")).getId())) {
+            ((Comment) map.get("comment")).setLayer(layer);
+            findComments.add(map);
+          }
+        });
+        comments.removeAll(findComments);
+
+        newComments.addAll(newComments.indexOf(newComment) + 1, findComments);
+        index = newComments.indexOf(newComment) + findComments.size();
+      }
+      return sortLayer(comments, newComments, layer + 1);
+    }
   }
 
   /**
@@ -221,7 +289,6 @@ public class CommentService {
    * @param size
    * @return
    */
-  @Cacheable
   public Page<Comment> page(int p, int size) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
@@ -236,10 +303,17 @@ public class CommentService {
    * @param user
    * @return
    */
-  @Cacheable
-  public Page<Comment> findByUser(int p, int size, User user) {
+  public Page<Map> findByUser(int p, int size, User user) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    return commentRepository.findByUser(user, pageable);
+    return commentRepository.findByUserId(user.getId(), pageable);
+  }
+
+  // 后台评论列表
+  public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
+    Pageable pageable = new PageRequest(pageNo - 1, pageSize, new Sort(
+        new Sort.Order(Sort.Direction.DESC, "inTime")
+    ));
+    return commentRepository.findAllForAdmin(pageable);
   }
 }

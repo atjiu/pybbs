@@ -1,4 +1,4 @@
-<#include "../common/layout.ftl"/>
+<#include "../layout/layout.ftl"/>
 <@html page_title="${username}创建的话题" page_tab="user">
 <div class="row">
   <div class="col-md-9">

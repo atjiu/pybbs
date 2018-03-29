@@ -1,15 +1,16 @@
-<#include "./common/layout.ftl">
-<@html page_title="首页 - ${site.name!}" page_tab="admin">
-<div class="row">
-  <div class="col-md-2 hidden-sm hidden-xs">
-    <#include "./components/admin_left.ftl">
-    <@admin_left page_tab="index"/>
-  </div>
-  <div class="col-md-10">
-    <div class="panel panel-default">
-      <div class="panel-heading">仪表盘</div>
-      <div class="panel-body">欢迎来到后台管理页面！</div>
-    </div>
-  </div>
-</div>
+<#include "layout/layout.ftl">
+<@html page_title="首页" page_tab="index">
+  <section class="content-header">
+    <h1>
+     首页
+      <small>仪表盘</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
+      <li class="active">仪表盘</li>
+    </ol>
+  </section>
+  <section class="content">
+    <p>欢迎登录${site.name}管理系统</p>
+  </section>
 </@html>

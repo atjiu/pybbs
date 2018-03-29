@@ -3,14 +3,15 @@ package co.yiiu.web.front;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
+import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.security.Base64Helper;
-import co.yiiu.module.score.service.ScoreLogService;
+import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
+import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -40,7 +41,7 @@ public class UserController extends BaseController {
   @Autowired
   private SiteConfig siteConfig;
   @Autowired
-  private ScoreLogService scoreLogService;
+  private LogService logService;
 
   /**
    * 个人资料
@@ -74,11 +75,11 @@ public class UserController extends BaseController {
    * @param username
    * @return
    */
-  @GetMapping("/{username}/replies")
-  public String replies(@PathVariable String username, Integer p, Model model) {
+  @GetMapping("/{username}/comments")
+  public String comments(@PathVariable String username, Integer p, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("p", p);
-    return "front/user/replies";
+    return "front/user/comments";
   }
 
   /**
@@ -100,7 +101,7 @@ public class UserController extends BaseController {
    * @param model
    * @return
    */
-  @GetMapping("/profile")
+  @GetMapping("/setting/profile")
   public String setting(Model model) {
     model.addAttribute("user", getUser());
     return "front/user/setting/profile";
@@ -115,13 +116,17 @@ public class UserController extends BaseController {
    * @param response
    * @return
    */
-  @PostMapping("/profile")
-  public String updateUserInfo(String email, String url, String bio, HttpServletResponse response) throws Exception {
+  @PostMapping("/setting/profile")
+  public String updateUserInfo(String email, String url, String bio, HttpServletResponse response,
+                               @RequestParam(defaultValue = "false") Boolean commentEmail,
+                               @RequestParam(defaultValue = "false") Boolean replyEmail) throws Exception {
     User user = getUser();
-    if (user.isBlock())
+    if (user.getBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
     if (bio != null && bio.trim().length() > 0) user.setBio(bio);
+    user.setCommentEmail(commentEmail);
+    user.setReplyEmail(replyEmail);
     user.setUrl(url);
     userService.save(user);
     return redirect(response, "/user/" + user.getUsername());
@@ -133,7 +138,7 @@ public class UserController extends BaseController {
    * @param model
    * @return
    */
-  @GetMapping("/changeAvatar")
+  @GetMapping("/setting/changeAvatar")
   public String changeAvatar(Model model) {
     model.addAttribute("user", getUser());
     return "front/user/setting/changeAvatar";
@@ -146,7 +151,7 @@ public class UserController extends BaseController {
    * @return
    * @throws ApiException
    */
-  @PostMapping("changeAvatar")
+  @PostMapping("setting/changeAvatar")
   @ResponseBody
   public Result changeAvatar(String avatar) throws ApiException, IOException {
     if (StringUtils.isEmpty(avatar)) throw new ApiException("头像不能为空");
@@ -168,7 +173,7 @@ public class UserController extends BaseController {
     return Result.success();
   }
 
-  @GetMapping("/changePassword")
+  @GetMapping("/setting/changePassword")
   public String changePassword() {
     return "front/user/setting/changePassword";
   }
@@ -178,23 +183,17 @@ public class UserController extends BaseController {
    *
    * @param oldPassword
    * @param newPassword
-   * @param model
    * @return
    */
-  @PostMapping("/changePassword")
-  public String changePassword(String oldPassword, String newPassword, Model model) throws Exception {
+  @PostMapping("/setting/changePassword")
+  @ResponseBody
+  public Result changePassword(String oldPassword, String newPassword) {
     User user = getUser();
-    if (user.isBlock())
-      throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    if (new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
-      user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-      userService.save(user);
-      model.addAttribute("changePasswordErrorMsg", "修改成功，请重新登录");
-    } else {
-      model.addAttribute("changePasswordErrorMsg", "旧密码不正确");
-    }
-    model.addAttribute("user", getUser());
-    return "front/user/setting/changePassword";
+    ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用，不能进行此项操作");
+    ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword()), "旧密码不正确");
+    user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+    userService.save(user);
+    return Result.success();
   }
 
   /**
@@ -203,7 +202,7 @@ public class UserController extends BaseController {
    * @param model
    * @return
    */
-  @GetMapping("/accessToken")
+  @GetMapping("/setting/accessToken")
   public String accessToken(Model model) {
     model.addAttribute("user", getUser());
     return "/front/user/setting/accessToken";
@@ -215,86 +214,26 @@ public class UserController extends BaseController {
    * @param response
    * @return
    */
-  @GetMapping("/refreshToken")
+  @GetMapping("/setting/refreshToken")
   public String refreshToken(HttpServletResponse response) {
     User user = getUser();
     user.setToken(UUID.randomUUID().toString());
     userService.save(user);
-    return redirect(response, "/user/accessToken");
+    return redirect(response, "/user/setting/accessToken");
   }
 
   /**
-   * user upload file list
-   *
-   * @param model
-   * @return
-   */
-  @GetMapping("/space")
-  public String space(Model model) {
-    long count = 0;
-    String userUploadPath = getUsername() + "/";
-    List list = new ArrayList();
-    File file = new File(siteConfig.getUploadPath() + userUploadPath);
-    if (file.exists()) {
-      for (File f : file.listFiles()) {
-        Map map = new HashMap();
-        if (f.isDirectory() && f.listFiles().length > 0) {
-          String dirName = f.getName();
-          List fileList = new ArrayList();
-          for (File f1 : f.listFiles()) {
-            count += f1.length();
-            Map m = new HashMap();
-            m.put("fileName", f1.getName());
-            m.put("fileUrl", siteConfig.getStaticUrl() + userUploadPath + dirName + "/" + f1.getName());
-            fileList.add(m);
-          }
-          map.put("dirName", dirName);
-          map.put("fileList", fileList);
-          list.add(map);
-        }
-      }
-    }
-    model.addAttribute("user", getUser());
-    model.addAttribute("count", (double) count / 1000000);
-    model.addAttribute("list", list);
-    return "front/user/setting/space";
-  }
-
-  /**
-   * delete user upload file
-   *
-   * @param dirName
-   * @param fileName
-   * @return
-   */
-  @PostMapping("/space/deleteFile")
-  @ResponseBody
-  public Result deleteFile(String dirName, String fileName) {
-    String userUploadPath = getUsername() + "/";
-    File file = new File(siteConfig.getUploadPath() + userUploadPath + dirName + "/" + fileName);
-    if (file.exists()) {
-      if (file.delete()) return Result.success();
-      else return Result.error("删除失败");
-    } else {
-      return Result.error("文件不存在");
-    }
-  }
-
-  /**
-   * query user score history
+   * query user log history
    *
    * @param p     page
    * @param model
    * @return
    */
-  @GetMapping("/scoreLog")
-  public String scoreLog(Integer p, Model model) {
+  @GetMapping("/setting/log")
+  public String scoreLog(@RequestParam(defaultValue = "1") Integer p, Model model) {
     User user = getUser();
-
-    model.addAttribute("scoreLogs", scoreLogService.findScoreByUser(p, siteConfig.getPageSize(), user));
-
-    return "front/user/setting/scoreLog";
+    model.addAttribute("page", logService.findByUserId(p, siteConfig.getPageSize(), user.getId()));
+    return "front/user/setting/log";
   }
-
 
 }

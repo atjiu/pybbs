@@ -1,8 +1,6 @@
 package co.yiiu.module.comment.model;
 
 import co.yiiu.core.util.Constants;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +22,7 @@ public class Comment implements Serializable {
 
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
   //评论的内容
   @Column(columnDefinition = "text", nullable = false)
@@ -36,24 +34,17 @@ public class Comment implements Serializable {
 
   //点赞个数
   @Column(nullable = false)
-  private int up;
+  private Integer up;
 
   //踩的个数
   @Column(nullable = false)
-  private int down;
-
-  @Column(nullable = false, name = "up_down")
-  private int upDown;
+  private Integer down;
 
   //与话题的关联关系
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "topic_id")
-  private Topic topic;
+  private Integer topicId;
 
   //与用户的关联关系
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "user_id")
-  private User user;
+  private Integer userId;
 
   //对评论点赞的用户id，逗号隔开(英文逗号)
   @Column(columnDefinition = "text")
@@ -62,5 +53,12 @@ public class Comment implements Serializable {
   //对评论点踩的用户id，逗号隔开(英文逗号)
   @Column(columnDefinition = "text")
   private String downIds;
+
+  // 被评论对象的ID
+  private Integer commentId;
+
+  // 评价的分支深度，不作持久化
+  @Transient
+  private Integer layer;
 
 }

@@ -1,17 +1,20 @@
 package co.yiiu.core.bean;
 
-import co.yiiu.core.ErrorCodeConstant;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-public class Result<T> {
+@Getter
+@Setter
+public class Result {
 
   private int code;
   private String description;
-  private T detail;
+  private Object detail;
 
   public static Result success() {
     return success(null);
@@ -30,7 +33,7 @@ public class Result<T> {
   }
 
   public static Result error(String description) {
-    return error(ErrorCodeConstant.error, description);
+    return error(201, description);
   }
 
   public static Result error(int code, String description) {
@@ -41,27 +44,4 @@ public class Result<T> {
     return result;
   }
 
-  public int getCode() {
-    return code;
-  }
-
-  public void setCode(int code) {
-    this.code = code;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public T getDetail() {
-    return detail;
-  }
-
-  public void setDetail(T detail) {
-    this.detail = detail;
-  }
 }

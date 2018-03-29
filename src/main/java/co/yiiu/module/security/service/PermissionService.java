@@ -2,12 +2,7 @@ package co.yiiu.module.security.service;
 
 import co.yiiu.module.security.model.Permission;
 import co.yiiu.module.security.repository.PermissionRepository;
-import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,109 +10,65 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * Created by tomoya.
- * Copyright (c) 2016, All Rights Reserved.
- * https://yiiu.co
+ * Created by tomoya at 2018/3/19
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "permissions")
 public class PermissionService {
 
   @Autowired
   private PermissionRepository permissionRepository;
   @Autowired
-  private UserService userService;
+  private RolePermissionService rolePermissionService;
 
-  public Permission findByName(String name) {
-    return permissionRepository.findByName(name);
-  }
-
-  /**
-   * 根据pid查询权限
-   *
-   * @param pid
-   * @return
-   */
-  @Cacheable
-  public List<Permission> findByPid(int pid) {
-    return permissionRepository.findByPid(pid);
-  }
-
-  /**
-   * 查询权限列表
-   *
-   * @return
-   */
-  @Cacheable
-  public List findAll(boolean child) {
-    if (child) {
-      return permissionRepository.findByPidGreaterThan(0);
-    } else {
-      List list = new ArrayList();
-      List<Permission> permissions = this.findByPid(0);
-      for (Permission permission : permissions) {
-        Map map = new HashMap();
-        map.put("permission", permission);
-        map.put("childPermissions", this.findByPid(permission.getId()));
-        list.add(map);
+  public List<Map<String, Object>> findAll() {
+    List<Map<String, Object>> node = new ArrayList<>();
+    Map<String, Object> map = new HashMap<>();
+    map.put("text", "root");
+    map.put("id", 0);
+    map.put("pid", 0);
+    List<Map<String, Object>> nodes = new ArrayList<>();
+    List<Permission> permissions = permissionRepository.findByPid(0);
+    permissions.forEach(permission -> {
+      Map<String, Object> childMap1 = new HashMap<>();
+      childMap1.put("text", permission.getName());
+      childMap1.put("pid", permission.getPid());
+      childMap1.put("id", permission.getId());
+      childMap1.put("value", permission.getValue());
+      childMap1.put("url", permission.getUrl());
+      if(permission.getPid() == 0) {
+        List<Map<String, Object>> childNodes = new ArrayList<>();
+        List<Permission> childPermissions = permissionRepository.findByPid(permission.getId());
+        childPermissions.forEach(childPermission -> {
+          Map<String, Object> childMap2 = new HashMap<>();
+          childMap2.put("text", childPermission.getName());
+          childMap2.put("pid", childPermission.getPid());
+          childMap2.put("id", childPermission.getId());
+          childMap2.put("value", childPermission.getValue());
+          childMap2.put("url", childPermission.getUrl());
+          childNodes.add(childMap2);
+        });
+        childMap1.put("nodes", childNodes);
       }
-      return list;
-    }
+      nodes.add(childMap1);
+    });
+    map.put("nodes", nodes);
+    node.add(map);
+    return node;
   }
 
-  /**
-   * 根据用户的id查询用户的所有权限
-   *
-   * @param adminUserId
-   * @return
-   */
-  @Cacheable
-  public List<Permission> findByAdminUserId(int adminUserId) {
-    User user = userService.findById(adminUserId);
-    List<Permission> permissions = new ArrayList<>();
-    if (user.getRoles().size() > 0) {
-      user.getRoles()
-          .stream()
-          .filter(role -> role.getPermissions().size() > 0)
-          .forEach(role -> {
-                permissions.addAll(
-                    role.getPermissions()
-                        .stream()
-                        .filter(permission -> permission.getPid() > 0)
-                        .collect(Collectors.toList())
-                );
-              }
-          );
-    }
-    return permissions;
+  public Permission save(Permission permission) {
+    return permissionRepository.save(permission);
   }
 
-  @CacheEvict(allEntries = true)
-  public void save(Permission permission) {
-    permissionRepository.save(permission);
+  public List<Permission> findByUserId(Integer userId) {
+    return permissionRepository.findByUserId(userId);
   }
 
-  /**
-   * 删除权限
-   * 判断权限的pid是不是0，是的话，就删除其下所有的权限
-   *
-   * @param id
-   */
-  @CacheEvict(allEntries = true)
-  public void deleteById(Integer id) {
-    Permission permission = findById(id);
-    if (permission.getPid() == 0) {
-      permissionRepository.deleteByPid(permission.getId());
-    }
-    permissionRepository.delete(permission);
-  }
-
-  @Cacheable
-  public Permission findById(int id) {
-    return permissionRepository.findById(id);
+  public void delete(Integer id) {
+    rolePermissionService.deleteByPermissionId(id);
+    permissionRepository.delete(id);
   }
 }

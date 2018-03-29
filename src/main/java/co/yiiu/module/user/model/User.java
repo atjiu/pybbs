@@ -1,7 +1,6 @@
 package co.yiiu.module.user.model;
 
 import co.yiiu.core.util.Constants;
-import co.yiiu.module.security.model.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -10,8 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by tomoya.
@@ -36,7 +33,7 @@ public class User implements Serializable {
    */
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
   // 用户名
   @Column(unique = true, nullable = false)
@@ -55,6 +52,10 @@ public class User implements Serializable {
   @Column(unique = true)
   private String email;
 
+  // 用户手机号
+  @Column(unique = true)
+  private String mobile;
+
   // 个人签名
   @Column(length = 64)
   private String bio;
@@ -68,50 +69,19 @@ public class User implements Serializable {
   private Date inTime;
 
   // 用户是否被禁用
-  private boolean block;
+  private Boolean block;
 
   // 用户令牌
   private String token;
 
-  // 用户积分
-  private int score;
+  // 用户声望
+  @Column(columnDefinition = "INT DEFAULT 0")
+  private Integer reputation;
 
-  // 尝试登录次数
-  private int attempts;
+  // 评论话题发邮件
+  private Boolean commentEmail;
 
-  // 尝试登录时间
-  @Column(name = "attempts_time")
-  private Date attemptsTime;
-
-  // user space size
-  @Column(name = "space_size", nullable = false)
-  private long spaceSize;
-
-  // 用户与角色的关联关系
-  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "yiiu_user_role",
-      joinColumns = {
-          @JoinColumn(name = "user_id")
-      },
-      inverseJoinColumns = {
-          @JoinColumn(name = "role_id")
-      }
-  )
-  @JsonIgnore
-  private Set<Role> roles = new HashSet<>();
-
-  /**
-   * @OneToOne：一对一关联 cascade：级联,它可以有有五个值可选,分别是：
-   * CascadeType.PERSIST：级联新建
-   * CascadeType.REMOVE : 级联删除
-   * CascadeType.REFRESH：级联刷新
-   * CascadeType.MERGE  ： 级联更新
-   * CascadeType.ALL    ： 以上全部四项
-   * @JoinColumn:主表外键字段 github_user_id：User所映射的表中的一个字段
-   */
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "github_user_id")
-  private GithubUser githubUser;
+  // 回复评论发邮件
+  private Boolean replyEmail;
 
 }

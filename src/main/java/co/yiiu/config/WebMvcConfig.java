@@ -1,6 +1,8 @@
 package co.yiiu.config;
 
+import co.yiiu.web.interceptor.AdminInterceptor;
 import co.yiiu.web.interceptor.CommonInterceptor;
+import co.yiiu.web.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,6 +19,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
   @Autowired
   private CommonInterceptor commonInterceptor;
+  @Autowired
+  private UserInterceptor userInterceptor;
+  @Autowired
+  private AdminInterceptor adminInterceptor;
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
@@ -31,5 +37,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(commonInterceptor).addPathPatterns("/**");
+    registry.addInterceptor(userInterceptor).addPathPatterns(
+        "/topic/create",
+        "/topic/save",
+        "/topic/*/edit",
+        "/comment/save",
+        "/collect/*/add",
+        "/collect/*/delete",
+        "/notification/list",
+        "/user/setting/*"
+    );
+    registry.addInterceptor(adminInterceptor)
+        .addPathPatterns("/admin/**")
+        .excludePathPatterns("/admin/login", "/admin/logout");
   }
 }

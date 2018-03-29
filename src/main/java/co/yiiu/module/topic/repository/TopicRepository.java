@@ -1,14 +1,14 @@
 package co.yiiu.module.topic.repository;
 
-import co.yiiu.module.node.model.Node;
 import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -20,23 +20,34 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
   Topic findById(int id);
 
-  Page<Topic> findByUser(User user, Pageable pageable);
+  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = ?1",
+      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.userId = ?1")
+  Page<Map> findByUserId(Integer userId, Pageable pageable);
 
-  void deleteByUser(User user);
+  void deleteByUserId(Integer userId);
 
-  Page<Topic> findByGood(boolean b, Pageable pageable);
+  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id",
+      countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
+  Page<Map> findTopics(Pageable pageable);
 
-  Page<Topic> findByCommentCount(int i, Pageable pageable);
+  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.good = ?1",
+      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.good = ?1")
+  Page<Map> findByGood(boolean b, Pageable pageable);
 
-  Page<Topic> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
-
-  int countByInTimeBetween(Date date1, Date date2);
+  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.commentCount = ?1",
+      countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.commentCount = ?1")
+  Page<Map> findByCommentCount(int i, Pageable pageable);
 
   Topic findByTitle(String title);
 
   void delete(Topic topic);
 
-  Page<Topic> findByNode(Node node, Pageable pageable);
+  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id",
+      countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
+  Page<Map> findAllForAdmin(Pageable pageable);
 
-  long countByNode(Node node);
+  @Query(value = "select t as topic, u as user from Topic t, User u, TopicTag tt where t.userId = u.id and t.id = tt.topicId and tt.tagId = ?1",
+      countQuery = "select count(1) from Topic t, User u, TopicTag tt where t.userId = u.id and t.id = tt.topicId and tt.tagId = ?1")
+  Page<Map> findTopicsByTagId(Integer tagId, Pageable pageable);
+
 }

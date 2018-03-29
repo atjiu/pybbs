@@ -1,17 +1,24 @@
 package co.yiiu.module.user.service;
 
+import co.yiiu.config.SiteConfig;
+import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
+import co.yiiu.module.collect.service.CollectService;
+import co.yiiu.module.comment.service.CommentService;
+import co.yiiu.module.notification.service.NotificationService;
+import co.yiiu.module.log.service.LogService;
+import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by tomoya.
@@ -20,27 +27,52 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "users")
 public class UserService {
 
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private LogService logService;
+  @Autowired
+  private TopicService topicService;
+  @Autowired
+  private CommentService commentService;
+  @Autowired
+  private CollectService collectService;
+  @Autowired
+  private NotificationService notificationService;
+
+  public User createUser(String username, String password, String email, String avatar, String url, String bio) {
+    User user = new User();
+    user.setEmail(email);
+    user.setUsername(username);
+    user.setPassword(new BCryptPasswordEncoder().encode(password));
+    user.setInTime(new Date());
+    user.setBlock(false);
+    user.setToken(UUID.randomUUID().toString());
+    user.setAvatar(avatar);
+    user.setUrl(url);
+    user.setBio(bio);
+    user.setReputation(0);
+    // 默认邮件打开
+    user.setCommentEmail(true);
+    user.setReplyEmail(true);
+    return this.save(user);
+  }
 
   /**
-   * search user by score desc
+   * search user by log desc
    *
    * @param p
    * @param size
    * @return
    */
-  @Cacheable
-  public Page<User> findByScore(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "score"));
+  public Page<User> findByReputation(int p, int size) {
+    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "reputation"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
-    return userRepository.findByBlock(false, pageable);
+    return userRepository.findAll(pageable);
   }
 
-  @Cacheable
   public User findById(int id) {
     return userRepository.findById(id);
   }
@@ -51,19 +83,16 @@ public class UserService {
    * @param username
    * @return
    */
-  @Cacheable
   public User findByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 
-  @Cacheable
   public User findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
-  @CacheEvict(allEntries = true)
-  public void save(User user) {
-    userRepository.save(user);
+  public User save(User user) {
+    return userRepository.save(user);
   }
 
   /**
@@ -73,7 +102,6 @@ public class UserService {
    * @param size
    * @return
    */
-  @Cacheable
   public Page<User> pageUser(int p, int size) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
@@ -85,7 +113,6 @@ public class UserService {
    *
    * @param id
    */
-  @CacheEvict(allEntries = true)
   public void blockUser(Integer id) {
     User user = findById(id);
     user.setBlock(true);
@@ -97,7 +124,6 @@ public class UserService {
    *
    * @param id
    */
-  @CacheEvict(allEntries = true)
   public void unBlockUser(Integer id) {
     User user = findById(id);
     user.setBlock(false);
@@ -110,30 +136,23 @@ public class UserService {
    * @param token
    * @return
    */
-  @Cacheable
   public User findByToken(String token) {
     return userRepository.findByToken(token);
   }
 
-  /**
-   * 删除用户
-   * 注：这会删除用户的所有记录，慎重操作
-   * @param id
-   */
-  //TODO 关联太多，不提供删除用户操作
-  //@CacheEvict(allEntries = true)
-//    public void deleteById(int id) {
-//        User user = findById(id);
-//        //删除用户的收藏
-//        collectService.deleteByUser(user);
-//        //删除用户发的所有评论
-//        commentService.deleteByUser(user);
-//        //删除用户的通知
-//        notificationService.deleteByUser(user);
-//        notificationService.deleteByTargetUser(user);
-//        //删除该用户的所有话题
-//        topicService.deleteByUser(user);
-//        //删除用户
-//        userDao.deleteById(id);
-//    }
+  public void deleteById(Integer id) {
+    // 删除用户的日志
+    logService.deleteByUserId(id);
+    // 删除用户的通知
+    notificationService.deleteByTargetUser(id);
+    // 删除用户的收藏
+    collectService.deleteByUserId(id);
+    // 删除用户的评论
+    commentService.deleteByUserId(id);
+    // 删除用户的话题
+    topicService.deleteByUserId(id);
+    // 删除用户
+    userRepository.deleteById(id);
+  }
+
 }

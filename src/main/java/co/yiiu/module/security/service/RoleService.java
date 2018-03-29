@@ -1,68 +1,58 @@
 package co.yiiu.module.security.service;
 
 import co.yiiu.module.security.model.Role;
+import co.yiiu.module.security.model.RolePermission;
 import co.yiiu.module.security.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tomoya.
- * Copyright (c) 2016, All Rights Reserved.
- * https://yiiu.co
+ * Created by tomoya at 2018/3/19
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "roles")
 public class RoleService {
 
   @Autowired
   private RoleRepository roleRepository;
+  @Autowired
+  private RolePermissionService rolePermissionService;
 
-  public Role findByName(String name) {
-    return roleRepository.findByName(name);
+  public Role findById(Integer id) {
+    return roleRepository.findOne(id);
   }
 
-  /**
-   * 查询所有的角色
-   *
-   * @return
-   */
-  @Cacheable
   public List<Role> findAll() {
     return roleRepository.findAll();
   }
 
-  /**
-   * 删除角色
-   *
-   * @param id
-   */
-  @CacheEvict(allEntries = true)
-  public void deleteById(Integer id) {
-    Role role = findById(id);
-    roleRepository.delete(role);
+  public void save(Integer id, String name, Integer[] permissionIds) {
+    Role role = new Role();
+    if(id != null) {
+      role = findById(id);
+    }
+    role.setName(name);
+    role = roleRepository.save(role);
+    // 保存角色权限关联
+    rolePermissionService.deleteRoleId(role.getId());
+    if(permissionIds.length > 0) {
+      List<RolePermission> list = new ArrayList<>();
+      for (Integer permissionId : permissionIds) {
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRoleId(role.getId());
+        rolePermission.setPermissionId(permissionId);
+        list.add(rolePermission);
+      }
+      rolePermissionService.save(list);
+    }
   }
 
-  /**
-   * 根据id查找角色
-   *
-   * @param id
-   * @return
-   */
-  @Cacheable
-  public Role findById(int id) {
-    return roleRepository.findById(id);
+  public void delete(Integer id) {
+    rolePermissionService.deleteRoleId(id);
+    roleRepository.delete(id);
   }
-
-  @CacheEvict(allEntries = true)
-  public void save(Role role) {
-    roleRepository.save(role);
-  }
-
 }

@@ -1,14 +1,12 @@
 package co.yiiu.core.base;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.core.exception.ApiAssert;
+import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -18,11 +16,6 @@ import java.io.IOException;
  * https://yiiu.co
  */
 public class BaseController {
-
-  @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
-  private UserService userService;
 
   /**
    * 带参重定向
@@ -51,49 +44,30 @@ public class BaseController {
   }
 
   /**
-   * 获取Security用户
-   *
-   * @return
-   */
-  protected UserDetails getSecurityUser() {
-    Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    boolean b = o instanceof UserDetails;
-    if (b) {
-      return (UserDetails) o;
-    }
-    return null;
-  }
-
-  /**
    * 获取用户信息
    *
-   * @return
+   * @return 没登录返回错误信息
    */
   protected User getUser() {
-    UserDetails userDetails = getSecurityUser();
-    if (userDetails != null) {
-      return userService.findByUsername(userDetails.getUsername());
-    }
-    return null;
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    return (User) request.getSession().getAttribute("user");
+  }
+
+  protected AdminUser getAdminUser() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    return (AdminUser) request.getSession().getAttribute("admin_user");
   }
 
   /**
    * 获取用户信息
    *
-   * @param token
-   * @return
+   * @return 没登录返回json
    */
-  protected User getUser(String token) {
-    if (StringUtils.isEmpty(token)) {
-      return null;
-    } else {
-      return userService.findByToken(token);
-    }
-  }
-
-  protected String getUsername() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+  protected User getApiUser() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    User user = (User) request.getSession().getAttribute("user");
+    ApiAssert.notNull(user, "请先登录");
+    return user;
   }
 
 }

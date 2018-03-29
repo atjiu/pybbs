@@ -1,7 +1,6 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
-import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -35,7 +34,7 @@ public class TopicsDirective implements TemplateDirectiveModel {
     if (StringUtils.isEmpty(tab)) tab = "default";
 
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
-    Page<Topic> page = topicService.page(p, siteConfig.getPageSize(), tab);
+    Page<Map> page = topicService.page(p, siteConfig.getPageSize(), tab);
 
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

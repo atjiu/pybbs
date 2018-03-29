@@ -1,6 +1,5 @@
 package co.yiiu.web.front;
 
-import co.yiiu.core.ErrorCodeConstant;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
@@ -46,8 +45,7 @@ public class NotificationController extends BaseController {
   @GetMapping("/notRead")
   @ResponseBody
   public Result notRead() throws ApiException {
-    User user = getUser();
-    if (user == null) throw new ApiException(ErrorCodeConstant.notLogin, "请先登录");
+    User user = getApiUser();
     return Result.success(notificationService.countByTargetUserAndIsRead(user, false));
   }
 }

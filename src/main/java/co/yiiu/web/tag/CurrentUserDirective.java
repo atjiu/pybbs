@@ -31,7 +31,7 @@ public class CurrentUserDirective implements TemplateDirectiveModel {
 
     String username = map.get("username").toString();
     User currentUser = userService.findByUsername(username);
-    long collectCount = collectService.countByUser(currentUser);
+    long collectCount = collectService.countByUserId(currentUser.getId());
 
     environment.setVariable("currentUser", builder.build().wrap(currentUser));
     environment.setVariable("collectCount", builder.build().wrap(collectCount));

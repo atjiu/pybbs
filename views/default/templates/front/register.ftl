@@ -1,4 +1,4 @@
-<#include "./common/layout.ftl">
+<#include "layout/layout.ftl">
 <@html page_title="注册" page_tab="register">
 <div class="row">
   <div class="col-md-9">
@@ -8,7 +8,6 @@
       </div>
       <div class="panel-body">
         <form role="form" id="form" method="post">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
           <div class="form-group">
             <label for="username">用户名</label>
             <input type="text" class="form-control" id="username" name="username"
@@ -41,7 +40,6 @@
             </div>
           </div>
           <button type="submit" class="btn btn-default" id="reg_btn">注册</button>
-          <span id="error_message"></span>
         </form>
       </div>
     </div>
@@ -50,7 +48,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">社交帐号登录</div>
       <div class="panel-body">
-        <a href="/github_login" class="btn btn-success btn-block">Github登录</a>
+        <a href="/oauth2/github/login" class="btn btn-success btn-block">Github登录</a>
       </div>
     </div>
   </div>
@@ -64,27 +62,26 @@
       var emailCode = $("#emailCode").val();
       var code = $("#code").val();
       if (username.length === 0) {
-        $("#error_message").text("用户名不能为空");
+        toast("用户名不能为空");
         return false;
       }
       if (password.length === 0) {
-        $("#error_message").text("密码不能为空");
+        toast("密码不能为空");
         return false;
       }
       if (email.length === 0) {
-        $("#error_message").text("邮箱不能为空");
+        toast("邮箱不能为空");
         return false;
       }
       if (emailCode.length === 0) {
-        $("#error_message").text("邮箱验证码不能为空");
+        toast("邮箱验证码不能为空");
         return false;
       }
       if (code.length === 0) {
-        $("#error_message").text("验证码不能为空");
+        toast("验证码不能为空");
         return false;
       }
 
-      $("#error_message").text("");
       $.ajax({
         url: '/register',
         async: false,
@@ -92,7 +89,6 @@
         type: "post",
         dataType: "json",
         data: {
-          '${_csrf.parameterName}': '${_csrf.token}',
           username: $("#username").val(),
           password: $("#password").val(),
           email: $("#email").val(),
@@ -103,11 +99,11 @@
           if (data.code === 200) {
             location.href = "/login?s=reg";
           } else {
-            $("#error_message").text(data.description);
+            toast(data.description, 'error');
           }
         },
         error: function (err) {
-          $("#error_message").text(err.message);
+          toast('服务器出错了', 'error');
         }
       });
 
@@ -135,7 +131,7 @@
             $("#send_email_btn").html("发送成功");
             $("#email").attr("disabled", true);
           } else {
-            $("#error_message").text(data.description);
+            toast(data.description);
             $("#send_email_btn").attr("disabled", false);
           }
         }

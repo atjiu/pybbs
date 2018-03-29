@@ -8,15 +8,10 @@
 
 - JDK8
 - Spring-Boot1.5.8
-- Spring-Security
 - Spring-JPA
-- Hibernate-Search5.8.0
 - Freemarker
-- Sqlite(或MySQL)
+- MySQL
 - Bootstrap3
-- Ehcache
-
-*呃，就是spring全家桶*
 
 ## 特性
 
@@ -25,18 +20,7 @@
 - 本地登录，注册
 - 登录时有验证码，尝试登录次数的限制
 - 使用 `Spring-Boot` 开发
-- 权限使用 `Spring-Security` ，基于url做的权限方便配置管理
 - 使用的 `Spring-JPA` 操作数据存储
-- 使用 `Hibernate-Search` 做数据检索，支持中文分词和结果关键字高亮
-- 自己实现了一个Markdown编辑器, 附带菜单，书写方便, 还支持拖拽图片上传
-
-待完成的功能 *如果有你折腾过的，欢迎提pr，先谢过了:-)* 
-
-- [ ] 权限修改后实现热更新，不用重新登录就可以生效
-- [ ] 第三方登录成功后记住我
-- [ ] 制作Docker镜像
-- [X] 登录记住我 感谢@beldon
-- [X] 第三方登录集成，集成Github登录
 
 ## 快速开始
 
@@ -45,24 +29,18 @@
 - 创建数据库yiiu, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
 - `git clone https://github.com/yiiu-co/yiiu`
 - 运行 `mvn spring-boot:run` 启动项目 (这一步系统会自动把表创建好)
-- 访问 `http://localhost:8080`
-- 登录用户名：tomoya 密码：123123 (权限是超级管理员)
+- 前台页面访问 `http://localhost:8080`
+- 后台页面访问 `http://localhost:8080/admin/login` 用户名: admin 密码: 123123
 
 ## 打包部署开发环境
 
+- 创建数据库yiiu, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
 - 将项目里的application.yml文件复制一份，重新命名application-prod.yml，并修改里面的配置项
 - 运行 `mvn clean compile package`
 - 拷贝 `target/yiiu.jar` 到你想存放的地方
 - 运行 `java -jar yiiu.jar --spring.profiles.active=prod > yiiu.log 2>&1 &` 项目就在后台运行了
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
-
-## docker镜像部署
-
-**感谢 @beldon 提供的Dockerfile**
-
-- docker pull tomoya92/yiiu:2.7
-- docker run -d --name yiiu -v /var/yiiu:/app/ -p 8080:8080 tomoya92/yiiu:2.7
 
 #### 启动好后可能会报404错误，两个解决办法
 
@@ -88,39 +66,6 @@ collation-server = utf8mb4_unicode_ci
 init_connect='SET NAMES utf8mb4'
 ```
 - 如果不行，试着把yiiu也重启一下
-
-## 切回MySQL方法
-
-打开 `application.yml` 将下面关于mysql连接的配置放开，把sqlite相关的配置注释掉就可以了
-
-```yml
-# mysql 配置
-  datasource:
-    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
-    username: root
-    password: 123123
-  jpa:
-    database: mysql
-```
-
-```yml
-# sqlite 配置
-  datasource:
-    driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:./yiiu.sqlite
-  jpa:
-    database-platform: co.yiiu.core.dialect.SQLiteDialect
-```
-
-另外pom.xml文件里的mysql依赖也要取消注释
-
-```xml
-<dependency>
-  <groupId>mysql</groupId>
-  <artifactId>mysql-connector-java</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
 
 ## 关于主题
 

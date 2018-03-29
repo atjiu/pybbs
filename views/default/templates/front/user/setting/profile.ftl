@@ -1,9 +1,9 @@
-<#include "../../common/layout.ftl"/>
+<#include "../../layout/layout.ftl"/>
 <@html page_title="修改个人资料" page_tab="setting">
 <div class="row">
 
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../../common/setting_menu.ftl"/>
+    <#include "../../layout/setting_menu.ftl"/>
     <@setting_menu setting_menu_tab="profile"/>
   </div>
 
@@ -13,8 +13,7 @@
         <a href="/">主页</a> / 个人设置
       </div>
       <div class="panel-body">
-        <form action="/user/profile" method="post" id="userProfileForm" enctype="multipart/form-data">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <form action="/user/setting/profile" method="post" id="userProfileForm" enctype="multipart/form-data">
           <div class="form-group">
             <label for="username">昵称</label>
             <input type="text" disabled class="form-control" id="username" value="${user.username}"/>
@@ -30,6 +29,14 @@
           <div class="form-group">
             <label for="bio">个性签名</label>
             <textarea class="form-control" name="bio" id="bio">${user.bio!?html}</textarea>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" name="commentEmail" id="commentEmail" <#if user.commentEmail>checked</#if>/>
+            <label for="commentEmail">话题被评论邮件提醒</label>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" name="replyEmail" id="replyEmail" <#if user.replyEmail>checked</#if>/>
+            <label for="replyEmail">评论被回复邮件提醒</label>
           </div>
           <#if user.block == true>
             <button type="button" disabled="disabled" class="btn btn-default">保存设置</button>

@@ -1,9 +1,9 @@
-<#include "../../common/layout.ftl"/>
+<#include "../../layout/layout.ftl"/>
 <@html page_title="用户令牌" page_tab="setting">
 <div class="row">
 
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../../common/setting_menu.ftl"/>
+    <#include "../../layout/setting_menu.ftl"/>
     <@setting_menu setting_menu_tab="accessToken"/>
   </div>
 
@@ -11,7 +11,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">用户令牌</div>
       <div class="panel-body">
-        <p>Token: ${user.token!} <a href="/user/refreshToken" class="btn btn-xs btn-danger">刷新Token</a></p>
+        <p>Token: ${user.token!} <a href="/user/setting/refreshToken" class="btn btn-xs btn-danger">刷新Token</a></p>
         <p id="qrcode"></p>
       </div>
     </div>

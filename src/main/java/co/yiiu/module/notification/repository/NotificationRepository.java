@@ -1,8 +1,6 @@
 package co.yiiu.module.notification.repository;
 
 import co.yiiu.module.notification.model.Notification;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -20,21 +19,25 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
 
-  Page<Notification> findByTargetUser(User targetUser, Pageable pageable);
+  @Query(value = "select n as notification, t as topic, u as user from Notification n, Topic t, User u where t.id = n.topicId and n.userId = u.id and n.targetUserId = ?1",
+      countQuery = "select count(1) from Notification n, Topic t, User u where t.id = n.topicId and n.userId = u.id and n.targetUserId = ?1")
+  Page<Map> findByTargetUserId(Integer targetUserId, Pageable pageable);
 
-  Page<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead, Pageable pageable);
+  @Query(value = "select n as notification, t as topic, u as user from Notification n, Topic t, User u where t.id = n.topicId and n.userId = u.id and n.targetUserId = ?1 and n.isRead = ?2",
+      countQuery = "select count(1) from Notification n, Topic t, User u where t.id = n.topicId and n.userId = u.id and n.targetUserId = ?1 and n.isRead = ?2")
+  Page<Map> findByTargetUserIdAndIsRead(Integer targetUserId, boolean isRead, Pageable pageable);
 
-  List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead);
+  List<Notification> findByTargetUserIdAndIsRead(Integer targetUserId, boolean isRead);
 
-  long countByTargetUserAndIsRead(User targetUser, boolean isRead);
+  long countByTargetUserIdAndIsRead(Integer targetUserId, boolean isRead);
 
   @Modifying
-  @Query("update Notification n set n.isRead = true where n.targetUser = ?1")
-  void updateByIsRead(User targetUser);
+  @Query("update Notification n set n.isRead = true where n.targetUserId = ?1")
+  void updateByIsRead(Integer targetUserId);
 
-  void deleteByTargetUser(User user);
+  void deleteByTargetUserId(Integer userId);
 
-  void deleteByUser(User user);
+  void deleteByUserId(Integer userId);
 
-  void deleteByTopic(Topic topic);
+  void deleteByTopicId(Integer topicId);
 }

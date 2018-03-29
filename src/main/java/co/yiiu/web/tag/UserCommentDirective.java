@@ -1,6 +1,5 @@
 package co.yiiu.web.tag;
 
-import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -36,7 +35,7 @@ public class UserCommentDirective implements TemplateDirectiveModel {
     int limit = Integer.parseInt(map.get("limit").toString());
 
     User currentUser = userService.findByUsername(username);
-    Page<Comment> page = commentService.findByUser(p, limit, currentUser);
+    Page<Map> page = commentService.findByUser(p, limit, currentUser);
 
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));

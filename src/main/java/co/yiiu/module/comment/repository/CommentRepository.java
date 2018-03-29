@@ -1,14 +1,15 @@
 package co.yiiu.module.comment.repository;
 
 import co.yiiu.module.comment.model.Comment;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -18,11 +19,19 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-  List<Comment> findByTopicOrderByUpDownDescDownAscInTimeAsc(Topic topic);
+  @Query(value = "select c as comment, u as user from Comment c, User u where c.userId = u.id and c.topicId = ?1",
+    countQuery = "select count(1) from Comment c, User u where c.userId = u.id and c.topicId = ?1")
+  List<Map> findByTopicId(Integer topicId);
 
-  void deleteByTopic(Topic topic);
+  void deleteByTopicId(Integer topicId);
 
-  void deleteByUser(User user);
+  void deleteByUserId(Integer userId);
 
-  Page<Comment> findByUser(User user, Pageable pageable);
+  @Query(value = "select c as comment, u as user, t as topic from Comment c, User u, Topic t where c.userId = u.id and c.topicId = t.id and c.userId = ?1",
+      countQuery = "select count(1) from Comment c, User u, Topic t where c.userId = u.id and c.topicId = t.id and c.userId = ?1")
+  Page<Map> findByUserId(Integer userId, Pageable pageable);
+
+  @Query(value = "select c as comment, u as user, t as topic from Comment c, User u, Topic t where c.userId = u.id and t.id = c.topicId",
+      countQuery = "select count(1) from Comment c, User u, Topic t where c.userId = u.id and t.id = c.topicId")
+  Page<Map> findAllForAdmin(Pageable pageable);
 }

@@ -1,6 +1,5 @@
 package co.yiiu.module.notification.service;
 
-import co.yiiu.core.base.BaseEntity;
 import co.yiiu.module.notification.model.Notification;
 import co.yiiu.module.notification.model.NotificationEnum;
 import co.yiiu.module.notification.repository.NotificationRepository;
@@ -9,8 +8,6 @@ import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -33,58 +31,35 @@ public class NotificationService {
 
   @Autowired
   private NotificationRepository notificationRepository;
-  @Autowired
-  private UserService userService;
 
   /**
    * 保存通知
    *
    * @param notification
    */
-  @CacheEvict(allEntries = true)
   public void save(Notification notification) {
     notificationRepository.save(notification);
-  }
-
-  public void sendNotification(User user, Topic topic, String content) {
-    //给话题作者发送通知
-    if (user.getId() != topic.getUser().getId()) {
-      this.sendNotification(user, topic.getUser(), NotificationEnum.COMMENT.name(), topic, content);
-    }
-    //给At用户发送通知
-    List<String> atUsers = BaseEntity.fetchUsers(null, content);
-    for (String u : atUsers) {
-      u = u.replace("@", "").trim();
-      if (!u.equals(user.getUsername())) {
-        User _user = userService.findByUsername(u);
-        if (_user != null) {
-          this.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
-        }
-      }
-    }
   }
 
   /**
    * 发送通知
    *
-   * @param user
-   * @param targetUser
+   * @param userId
+   * @param targetUserId
    * @param action
-   * @param topic
+   * @param topicId
    * @param content
    */
-  public void sendNotification(User user, User targetUser, String action, Topic topic, String content) {
-    new Thread(() -> {
-      Notification notification = new Notification();
-      notification.setUser(user);
-      notification.setTargetUser(targetUser);
-      notification.setInTime(new Date());
-      notification.setTopic(topic);
-      notification.setAction(action);
-      notification.setContent(content);
-      notification.setRead(false);
-      save(notification);
-    }).start();
+  public void sendNotification(Integer userId, Integer targetUserId, NotificationEnum action, Integer topicId, String content) {
+    Notification notification = new Notification();
+    notification.setUserId(userId);
+    notification.setTargetUserId(targetUserId);
+    notification.setInTime(new Date());
+    notification.setTopicId(topicId);
+    notification.setAction(action.name());
+    notification.setContent(content);
+    notification.setIsRead(false);
+    save(notification);
   }
 
   /**
@@ -96,14 +71,13 @@ public class NotificationService {
    * @param isRead
    * @return
    */
-  @Cacheable
-  public Page<Notification> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
+  public Page<Map> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
     Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
     Pageable pageable = new PageRequest(p - 1, size, sort);
     if (isRead == null) {
-      return notificationRepository.findByTargetUser(targetUser, pageable);
+      return notificationRepository.findByTargetUserId(targetUser.getId(), pageable);
     }
-    return notificationRepository.findByTargetUserAndIsRead(targetUser, isRead, pageable);
+    return notificationRepository.findByTargetUserIdAndIsRead(targetUser.getId(), isRead, pageable);
   }
 
   /**
@@ -113,9 +87,8 @@ public class NotificationService {
    * @param isRead
    * @return
    */
-  @Cacheable
   public long countByTargetUserAndIsRead(User targetUser, boolean isRead) {
-    return notificationRepository.countByTargetUserAndIsRead(targetUser, isRead);
+    return notificationRepository.countByTargetUserIdAndIsRead(targetUser.getId(), isRead);
   }
 
   /**
@@ -125,9 +98,8 @@ public class NotificationService {
    * @param isRead
    * @return
    */
-  @Cacheable
   public List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead) {
-    return notificationRepository.findByTargetUserAndIsRead(targetUser, isRead);
+    return notificationRepository.findByTargetUserIdAndIsRead(targetUser.getId(), isRead);
   }
 
   /**
@@ -135,29 +107,17 @@ public class NotificationService {
    *
    * @param targetUser
    */
-  @CacheEvict(allEntries = true)
   public void updateByIsRead(User targetUser) {
-    notificationRepository.updateByIsRead(targetUser);
-  }
-
-  /**
-   * 删除用户的通知
-   *
-   * @param user
-   */
-  @CacheEvict(allEntries = true)
-  public void deleteByUser(User user) {
-    notificationRepository.deleteByUser(user);
+    notificationRepository.updateByIsRead(targetUser.getId());
   }
 
   /**
    * 删除目标用户的通知
    *
-   * @param user
+   * @param userId
    */
-  @CacheEvict(allEntries = true)
-  public void deleteByTargetUser(User user) {
-    notificationRepository.deleteByTargetUser(user);
+  public void deleteByTargetUser(Integer userId) {
+    notificationRepository.deleteByTargetUserId(userId);
   }
 
   /**
@@ -165,9 +125,8 @@ public class NotificationService {
    *
    * @param topic
    */
-  @CacheEvict(allEntries = true)
   public void deleteByTopic(Topic topic) {
-    notificationRepository.deleteByTopic(topic);
+    notificationRepository.deleteByTopicId(topic.getId());
   }
 
 }

@@ -1,43 +1,26 @@
 package co.yiiu.module.security.model;
 
-import co.yiiu.module.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Created by tomoya.
- * Copyright (c) 2016, All Rights Reserved.
- * https://yiiu.co
+ * Created by tomoya at 2018/3/19
  */
 @Entity
 @Table(name = "yiiu_role")
-@Getter
 @Setter
+@Getter
 public class Role implements Serializable {
-
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
-  // 权限标识
-  @Column(unique = true)
   private String name;
-
-  // 权限描述
-  private String description;
-
-  @ManyToMany(mappedBy = "roles")
-  private Set<User> users = new HashSet<>();
-
-  // 角色与权限的关联关系
-  @ManyToMany(cascade = CascadeType.PERSIST)
-  @JoinTable(name = "yiiu_role_permission", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {
-      @JoinColumn(name = "permission_id")})
-  private Set<Permission> permissions = new HashSet<>();
 
 }

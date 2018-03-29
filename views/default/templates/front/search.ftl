@@ -1,4 +1,4 @@
-<#include "./common/layout.ftl"/>
+<#include "layout/layout.ftl"/>
 <@html page_tab="" page_title="搜索结果">
 <div class="row">
   <div class="col-md-12">

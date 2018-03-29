@@ -1,6 +1,5 @@
 package co.yiiu.module.user.repository;
 
-import co.yiiu.module.user.model.GithubUser;
 import co.yiiu.module.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +16,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
   User findById(int id);
 
-  Page<User> findByBlock(boolean block, Pageable pageable);
-
   User findByUsername(String username);
 
   void deleteById(int id);
@@ -26,7 +23,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   User findByToken(String token);
 
   User findByEmail(String email);
-
-  User findByGithubUser(GithubUser githubUser);
 
 }

@@ -1,8 +1,6 @@
 package co.yiiu.module.collect.model;
 
 import co.yiiu.core.util.Constants;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,17 +22,13 @@ public class Collect implements Serializable {
 
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
   //与话题的关联关系
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "topic_id")
-  private Topic topic;
+  private Integer topicId;
 
   //与用户的关联关系
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "user_id")
-  private User user;
+  private Integer userId;
 
   @Column(name = "in_time")
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)

@@ -2,18 +2,21 @@ package co.yiiu.web.admin;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Result;
 import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.service.CommentService;
+import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -29,6 +32,8 @@ public class CommentAdminController extends BaseController {
   private SiteConfig siteConfig;
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private TopicService topicService;
 
   /**
    * 评论列表
@@ -39,7 +44,7 @@ public class CommentAdminController extends BaseController {
    */
   @GetMapping("/list")
   public String list(Integer p, Model model) {
-    Page<Comment> page = commentService.page(p == null ? 1 : p, siteConfig.getPageSize());
+    Page<Map> page = commentService.findAllForAdmin(p == null ? 1 : p, siteConfig.getPageSize());
     model.addAttribute("page", page);
     return "admin/comment/list";
   }
@@ -51,12 +56,12 @@ public class CommentAdminController extends BaseController {
    * @param model
    * @return
    */
-  @GetMapping("/{id}/edit")
-  public String edit(@PathVariable Integer id, Model model) throws Exception {
-    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-
+  @GetMapping("/edit")
+  public String edit(Integer id, Model model) {
     Comment comment = commentService.findById(id);
+    Topic topic = topicService.findById(comment.getTopicId());
     model.addAttribute("comment", comment);
+    model.addAttribute("topic", topic);
     return "admin/comment/edit";
   }
 
@@ -64,21 +69,18 @@ public class CommentAdminController extends BaseController {
    * 更新评论内容
    *
    * @param id
-   * @param topicId
    * @param content
-   * @param response
    * @return
    */
-  @PostMapping("/update")
-  public String update(Integer id, Integer topicId, String content, HttpServletResponse response) throws Exception {
-    if (getUser().isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-
+  @PostMapping("/edit")
+  @ResponseBody
+  public Result update(Integer id, String content) {
     Comment comment = commentService.findById(id);
-    if (comment == null) throw new Exception("评论不存在");
+    Assert.notNull(comment, "评论不存在");
 
     comment.setContent(content);
     commentService.save(comment);
-    return redirect(response, "/topic/" + topicId);
+    return Result.success();
   }
 
   /**
@@ -87,13 +89,11 @@ public class CommentAdminController extends BaseController {
    * @param id
    * @return
    */
-  @GetMapping("/{id}/delete")
-  public String delete(@PathVariable Integer id, HttpServletResponse response) {
-    if (id != null) {
-      Map map = commentService.delete(id);
-      return redirect(response, "/topic/" + map.get("topicId"));
-    }
-    return redirect(response, "/");
+  @GetMapping("/delete")
+  @ResponseBody
+  public Result delete(Integer id) {
+    commentService.delete(id, getAdminUser().getId());
+    return Result.success();
   }
 
 }

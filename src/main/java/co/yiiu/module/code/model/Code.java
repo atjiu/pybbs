@@ -18,7 +18,7 @@ public class Code implements Serializable {
 
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
   @Column(unique = true)
   private String code;
@@ -29,7 +29,7 @@ public class Code implements Serializable {
   private String type;
 
   @Column(name = "is_used")
-  private boolean isUsed;
+  private Boolean isUsed;
 
   private String email;
 

@@ -1,27 +1,20 @@
 package co.yiiu.config;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Map;
+
 /**
  * Created by teddyzhu.
  * Copyright (c) 2017, All Rights Reserved.
  */
+@Getter
+@Setter
 public class MailTemplateConfig {
 
-  private String subject;
-  private String content;
+  Map<String, Object> register;
+  Map<String, Object> commentTopic;
+  Map<String, Object> replyComment;
 
-  public String getSubject() {
-    return subject;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
 }

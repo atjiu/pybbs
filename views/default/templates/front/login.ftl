@@ -1,4 +1,4 @@
-<#include "./common/layout.ftl">
+<#include "layout/layout.ftl">
 <@html page_title="登录" page_tab="login">
 <div class="row">
   <div class="col-md-9">
@@ -7,14 +7,10 @@
         <a href="/">主页</a> / 登录
       </div>
       <div class="panel-body">
-        <#if SPRING_SECURITY_LAST_EXCEPTION??>
-          <div class="alert alert-danger">${(SPRING_SECURITY_LAST_EXCEPTION.message)!}</div>
-        </#if>
         <#if s?? && s == "reg">
           <div class="alert alert-success">注册成功，快快登录吧！</div>
         </#if>
-        <form role="form" action="/login" method="post">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <form role="form" id="form">
           <div class="form-group">
             <label for="username">用户名</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
@@ -37,7 +33,7 @@
               <input type="checkbox" name="remember-me" id="rememberme" checked> 记住我
             </label>
           </div>
-          <button type="submit" class="btn btn-default">登录</button>
+          <button type="submit" id="btn" class="btn btn-default">登录</button>
         </form>
       </div>
     </div>
@@ -46,7 +42,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">社交帐号登录</div>
       <div class="panel-body">
-        <a href="/github_login" class="btn btn-success btn-block">Github登录</a>
+        <a href="/oauth2/github/login" class="btn btn-success btn-block">Github登录</a>
       </div>
     </div>
   </div>
@@ -56,6 +52,45 @@
     $("#changeCode").click(function () {
       var date = new Date();
       $(this).attr("src", "/common/code?ver=" + date.getTime());
+    })
+    $("#form").submit(function() {
+      var username = $("#username").val();
+      var password = $("#password").val();
+      var code = $("#code").val();
+      if(!username) {
+        toast('用户名不能为空');
+        return false;
+      }
+      if(!password) {
+        toast('密码不能为空');
+        return false;
+      }
+      if(!code) {
+        toast('验证码不能为空');
+        return false;
+      }
+      $.ajax({
+        url: '/login',
+        type: 'post',
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: {
+          username: $("#username").val(),
+          password: $("#password").val(),
+          code: $("#code").val(),
+          rememberMe: $("#rememberme").is(':checked')
+        },
+        success: function(data){
+          if(data.code === 200) {
+            toast("登录成功");
+            window.location.href = "/";
+          } else {
+            toast(data.description);
+          }
+        }
+      })
+      return false;
     })
   })
 </script>

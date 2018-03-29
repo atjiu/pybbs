@@ -1,9 +1,9 @@
-<#include "../../common/layout.ftl"/>
+<#include "../../layout/layout.ftl"/>
 <@html page_title="修改头像" page_tab="setting">
 <div class="row">
 
   <div class="col-md-3 hidden-sm hidden-xs">
-    <#include "../../common/setting_menu.ftl"/>
+    <#include "../../layout/setting_menu.ftl"/>
     <@setting_menu setting_menu_tab="changeAvatar"/>
   </div>
 
@@ -93,20 +93,19 @@
       } else {
         var avatarBase64 = newAvatarImg.cropper('getCroppedCanvas', {width: 100, height: 100}).toDataURL();
         $.ajax({
-          url: '/user/changeAvatar',
+          url: '/user/setting/changeAvatar',
           async: false,
           cache: false,
           method: 'post',
           dataType: 'json',
           data: {
-            '${_csrf.parameterName}': '${_csrf.token}',
             avatar: avatarBase64
           },
           success: function (data) {
             if(data.code === 200) {
-              alert("修改成功");
+              toast("修改成功");
             } else {
-              alert(data.description);
+              toast(data.description);
             }
           }
         })

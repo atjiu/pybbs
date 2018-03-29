@@ -1,6 +1,5 @@
 package co.yiiu.web.tag;
 
-import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -36,7 +35,7 @@ public class UserTopicDirective implements TemplateDirectiveModel {
     int limit = Integer.parseInt(map.get("limit").toString());
 
     User currentUser = userService.findByUsername(username);
-    Page<Topic> page = topicService.findByUser(p, limit, currentUser);
+    Page<Map> page = topicService.findByUser(p, limit, currentUser);
 
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));

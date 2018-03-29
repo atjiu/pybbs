@@ -1,8 +1,6 @@
 package co.yiiu.module.notification.model;
 
 import co.yiiu.core.util.Constants;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,21 +22,17 @@ public class Notification implements Serializable {
 
   @Id
   @GeneratedValue
-  private int id;
+  private Integer id;
 
   //通知是否已读
   @Column(name = "is_read")
-  private boolean isRead;
+  private Boolean isRead;
 
   //发起通知用户
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "user_id")
-  private User user;
+  private Integer userId;
 
   //要通知用户
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "target_user_id")
-  private User targetUser;
+  private Integer targetUserId;
 
   @Column(name = "in_time")
   @JsonFormat(pattern = Constants.DATETIME_FORMAT)
@@ -48,9 +42,7 @@ public class Notification implements Serializable {
   private String action;
 
   //关联的话题
-  @ManyToOne
-  @JoinColumn(nullable = false, name = "topic_id")
-  private Topic topic;
+  private Integer topicId;
 
   //通知内容（冗余字段）
   @Column(columnDefinition = "text")

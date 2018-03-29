@@ -1,7 +1,6 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
-import co.yiiu.module.collect.model.Collect;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -38,7 +37,7 @@ public class UserCollectDirective implements TemplateDirectiveModel {
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
 
     User currentUser = userService.findByUsername(username);
-    Page<Collect> page = collectService.findByUser(p, siteConfig.getPageSize(), currentUser);
+    Page<Map> page = collectService.findByUserId(p, siteConfig.getPageSize(), currentUser.getId());
 
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));

@@ -1,32 +1,31 @@
 package co.yiiu.web.front;
 
-import co.yiiu.config.ScoreEventConfig;
+import co.yiiu.config.LogEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.base.BaseEntity;
 import co.yiiu.core.bean.Result;
-import co.yiiu.core.exception.ApiException;
+import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.model.CommentAction;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.notification.model.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.score.model.ScoreEventEnum;
-import co.yiiu.module.score.model.ScoreLog;
-import co.yiiu.module.score.service.ScoreLogService;
+import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
+import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,17 +44,11 @@ public class CommentController extends BaseController {
   @Autowired
   private NotificationService notificationService;
   @Autowired
-  private UserService userService;
-
-  @Autowired
-  private SiteConfig siteConfig;
-  @Autowired
   FreemarkerUtil freemarkerUtil;
   @Autowired
-  ScoreEventConfig scoreEventConfig;
-
+  LogEventConfig logEventConfig;
   @Autowired
-  ScoreLogService scoreLogService;
+  LogService logService;
 
   /**
    * 保存评论
@@ -65,141 +58,85 @@ public class CommentController extends BaseController {
    * @return
    */
   @PostMapping("/save")
-  public String save(Integer topicId, String content, HttpServletResponse response) throws Exception {
-    User user = getUser();
-    if (user.isBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    if (user.getScore() + siteConfig.getCreateCommentScore() < 0) throw new Exception("你的积分不足，不能评论");
-    if (StringUtils.isEmpty(content)) throw new Exception("评论内容不能为空");
+  @ResponseBody
+  public Result save(Integer topicId, Integer commentId, String content) {
+    User user = getApiUser();
+    ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用，不能进行此项操作");
+    ApiAssert.notEmpty(content, "评论内容不能为空");
+    ApiAssert.notNull(topicId, "话题ID不存在");
 
-    if (topicId != null) {
-      Topic topic = topicService.findById(topicId);
-      if (topic != null) {
-        Comment comment = new Comment();
-        comment.setUser(user);
-        comment.setTopic(topic);
-        comment.setInTime(new Date());
-        comment.setUp(0);
-        comment.setContent(content);
-        commentService.save(comment);
+    Topic topic = topicService.findById(topicId);
+    ApiAssert.notNull(topic, "回复的话题不存在");
 
-        // update score
-        user.setScore(user.getScore() + siteConfig.getCreateCommentScore());
-        userService.save(user);
+    Comment comment = commentService.createComment(user.getId(), topic, commentId, content);
+    return Result.success(comment);
+  }
 
-        //评论+1
-        topic.setCommentCount(topic.getCommentCount() + 1);
-        topic.setLastCommentTime(new Date());
-        topicService.save(topic);
+  /**
+   * 对评论投票
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/{id}/vote")
+  @ResponseBody
+  public Result vote(@PathVariable Integer id, String action) {
+    User user = getApiUser();
+    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.VOTE_COMMENT.getReputation(), "声望太低，不能进行这项操作");
+    Comment comment = commentService.findById(id);
 
+    ApiAssert.notNull(comment, "评论不存在");
+    ApiAssert.notTrue(user.getId().equals(comment.getUserId()), "不能给自己的评论投票");
 
-        //region 记录积分log
-        ScoreLog scoreLog = new ScoreLog();
-
-        scoreLog.setInTime(new Date());
-        scoreLog.setEvent(ScoreEventEnum.COMMENT_TOPIC.getEvent());
-        scoreLog.setChangeScore(siteConfig.getCreateCommentScore());
-        scoreLog.setScore(user.getScore());
-        scoreLog.setUser(user);
-
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("scoreLog", scoreLog);
-        params.put("user", user);
-        params.put("topic", topic);
-        String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.COMMENT_TOPIC.getName()), params);
-        scoreLog.setEventDescription(des);
-        scoreLogService.save(scoreLog);
-        //endregion 记录积分log
-
-        //给话题作者发送通知
-        if (user.getId() != topic.getUser().getId()) {
-          notificationService.sendNotification(getUser(), topic.getUser(), NotificationEnum.COMMENT.name(), topic, content);
-        }
-        //给At用户发送通知
-        List<String> atUsers = BaseEntity.fetchUsers(null, content);
-        for (String u : atUsers) {
-          u = u.replace("@", "").trim();
-          if (!u.equals(user.getUsername())) {
-            User _user = userService.findByUsername(u);
-            if (_user != null) {
-              notificationService.sendNotification(user, _user, NotificationEnum.AT.name(), topic, content);
-            }
-          }
-        }
-        return redirect(response, "/topic/" + topicId);
-      }
+    // 验证参数
+    CommentAction commentAction;
+    if (action.equalsIgnoreCase("up")) {
+      commentAction = CommentAction.UP;
+    } else if (action.equalsIgnoreCase("down")) {
+      commentAction = CommentAction.DOWN;
+    } else {
+      return Result.error("参数错误");
     }
-    return redirect(response, "/");
+    Map<String, Object> map = commentService.vote(user.getId(), comment, commentAction);
+    return Result.success(map);
   }
 
-  /**
-   * 点赞
-   *
-   * @param id
-   * @return
-   * @throws ApiException
-   */
-  @GetMapping("/{id}/up")
-  @ResponseBody
-  public Result up(@PathVariable Integer id) throws ApiException {
+  @GetMapping("/edit")
+  public String edit(Integer id, Model model) {
     User user = getUser();
-    Comment _comment = commentService.findById(id);
+    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.EDIT_COMMENT.getReputation(), "声望太低，不能进行这项操作");
 
-    if (_comment == null) throw new ApiException("评论不存在");
-    if (user.getId() == _comment.getUser().getId()) throw new ApiException("不能给自己的评论点赞");
-
-    Comment comment = commentService.up(user.getId(), _comment);
-    return Result.success(comment.getUpDown());
+    Comment comment = commentService.findById(id);
+    model.addAttribute("topic", topicService.findById(comment.getTopicId()));
+    model.addAttribute("comment", comment);
+    return "front/comment/edit";
   }
 
-  /**
-   * 取消点赞
-   *
-   * @param id
-   * @return
-   * @throws ApiException
-   */
-  @GetMapping("/{id}/cancelUp")
+  @PostMapping("/edit")
   @ResponseBody
-  public Result cancelUp(@PathVariable Integer id) throws ApiException {
-    User user = getUser();
-    Comment comment = commentService.cancelUp(user.getId(), id);
-    if (comment == null) throw new ApiException("评论不存在");
-    return Result.success(comment.getUpDown());
+  public Result edit(Integer id, String content) {
+    User user = getApiUser();
+    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.EDIT_COMMENT.getReputation(), "声望太低，不能进行这项操作");
+    ApiAssert.notEmpty(content, "评论内容不能为空");
+    Comment comment = commentService.findById(id);
+    Comment oldComment = comment;
+    comment.setContent(content);
+    commentService.save(comment);
+    Topic topic = topicService.findById(comment.getTopicId());
+    comment = commentService.update(topic, oldComment, comment, user.getId());
+    return Result.success(comment);
   }
 
-  /**
-   * 踩
-   *
-   * @param id
-   * @return
-   * @throws ApiException
-   */
-  @GetMapping("/{id}/down")
-  @ResponseBody
-  public Result down(@PathVariable Integer id) throws ApiException {
+  @GetMapping("/delete")
+  public String delete(Integer id) {
     User user = getUser();
-    Comment _comment = commentService.findById(id);
+    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.DELETE_COMMENT.getReputation(), "声望太低，不能进行这项操作");
 
-    if (_comment == null) throw new ApiException("评论不存在");
-    if (user.getId() == _comment.getUser().getId()) throw new ApiException("不能给自己的评论点赞");
-
-    Comment comment = commentService.down(user.getId(), _comment);
-    return Result.success(comment.getUpDown());
+    Comment comment = commentService.findById(id);
+    Assert.notNull(comment, "评论不存在");
+    Integer topicId = comment.getTopicId();
+    commentService.delete(id, getUser().getId());
+    return redirect("/topic/" + topicId);
   }
 
-  /**
-   * 取消踩
-   *
-   * @param id
-   * @return
-   * @throws ApiException
-   */
-  @GetMapping("/{id}/cancelDown")
-  @ResponseBody
-  public Result cancelDown(@PathVariable Integer id) throws ApiException {
-    User user = getUser();
-    Comment comment = commentService.cancelDown(user.getId(), id);
-    if (comment == null) throw new ApiException("评论不存在");
-    return Result.success(comment.getUpDown());
-  }
 }

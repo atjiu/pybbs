@@ -9,31 +9,29 @@
         暂无收藏
       </div>
     <#else>
-    <div class="panel-body">
-      <#list page.getContent() as collect>
-        <div class="media">
-          <div class="media-body">
-            <div class="title">
-              <a href="/topic/${collect.topic.id!}">${collect.topic.title!?html}</a>
+      <div class="panel-body">
+        <#list page.getContent() as map>
+          <div class="media">
+            <div class="media-body">
+              <div class="title">
+                <a href="/topic/${map.topic.id!}">${map.topic.title!?html}</a>
+              </div>
+              <p>
+                <span><a href="/user/${map.user.username}">${map.user.username}</a></span>
+                <span class="hidden-sm hidden-xs">•</span>
+                <span class="hidden-sm hidden-xs">${map.topic.commentCount!0}个评论</span>
+                <span class="hidden-sm hidden-xs">•</span>
+                <span class="hidden-sm hidden-xs">${map.topic.view!0}次浏览</span>
+                <span>•</span>
+                <span>${model.formatDate(map.topic.inTime)}</span>
+              </p>
             </div>
-            <p>
-              <a href="/go/${collect.topic.node.value!}">${collect.topic.node.name!}</a>
-              <span>•</span>
-              <span><a href="/user/${collect.topic.user.username}">${collect.topic.user.username}</a></span>
-              <span class="hidden-sm hidden-xs">•</span>
-              <span class="hidden-sm hidden-xs">${collect.topic.commentCount!0}个评论</span>
-              <span class="hidden-sm hidden-xs">•</span>
-              <span class="hidden-sm hidden-xs">${collect.topic.view!0}次浏览</span>
-              <span>•</span>
-              <span>${model.formatDate(collect.topic.inTime)}</span>
-            </p>
           </div>
-        </div>
-        <#if collect_has_next>
-          <div class="divide mar-top-5"></div>
-        </#if>
+          <#if map_has_next>
+            <div class="divide mar-top-5"></div>
+          </#if>
+        </#list>
       </div>
-      </#list>
     </#if>
     <#include "paginate.ftl"/>
     <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/${username}/collects" urlParas=""/>

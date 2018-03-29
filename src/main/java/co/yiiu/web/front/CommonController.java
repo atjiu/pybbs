@@ -1,42 +1,31 @@
 package co.yiiu.web.front;
 
-import co.yiiu.config.ScoreEventConfig;
+import co.yiiu.config.LogEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.*;
-import co.yiiu.module.attendance.model.Attendance;
-import co.yiiu.module.attendance.service.AttendanceService;
 import co.yiiu.module.code.service.CodeService;
-import co.yiiu.module.score.model.ScoreEventEnum;
-import co.yiiu.module.score.model.ScoreLog;
-import co.yiiu.module.score.service.ScoreLogService;
+import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Maps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -47,8 +36,6 @@ import java.util.Random;
 @RequestMapping("/common")
 public class CommonController extends BaseController {
 
-  private Logger log = LoggerFactory.getLogger(CommonController.class);
-
   @Autowired
   private UserService userService;
   @Autowired
@@ -56,19 +43,15 @@ public class CommonController extends BaseController {
   @Autowired
   private FileUtil fileUtil;
   @Autowired
-  private JavaMailSender javaMailSender;
-  @Autowired
   private CodeService codeService;
-  @Autowired
-  private Environment env;
-  @Autowired
-  private AttendanceService attendanceService;
   @Autowired
   FreemarkerUtil freemarkerUtil;
   @Autowired
-  ScoreEventConfig scoreEventConfig;
+  LogEventConfig logEventConfig;
   @Autowired
-  ScoreLogService scoreLogService;
+  LogService logService;
+  @Autowired
+  private EmailUtil emailUtil;
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height
@@ -158,101 +141,16 @@ public class CommonController extends BaseController {
     User user = userService.findByEmail(email);
     if (user != null) throw new ApiException("邮箱已经被使用");
 
-    try {
-      String genCode = codeService.genEmailCode(email);
-      MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-      helper.setFrom(env.getProperty("spring.mail.username"));
-      helper.setTo(email);
-
-      Map<String, Object> params = Maps.newHashMap();
-      params.put("genCode", genCode);
-      helper.setSubject(freemarkerUtil.format(siteConfig.getMail().getSubject(), params));
-      helper.setText(freemarkerUtil.format(siteConfig.getMail().getContent(), params), true);
-      javaMailSender.send(mimeMessage);
+    String genCode = codeService.genEmailCode(email);
+    Map<String, Object> params = Maps.newHashMap();
+    params.put("genCode", genCode);
+    String subject = freemarkerUtil.format((String) siteConfig.getMail().getRegister().get("subject"), params);
+    String content = freemarkerUtil.format((String) siteConfig.getMail().getRegister().get("content"), params);
+    if(emailUtil.sendEmail(email, subject, content)) {
       return Result.success();
-    } catch (Exception e) {
-      log.error(e.getMessage());
+    } else {
       return Result.error("邮件发送失败");
     }
-  }
-
-  /**
-   * Daily attendance
-   *
-   * @param request
-   * @return
-   */
-  @GetMapping("/attendance")
-  @ResponseBody
-  public Result attendance(HttpServletRequest request, HttpServletResponse response) {
-    String attendanceValue = StrUtil.getCookie(request, siteConfig.getCookie().getAttendanceName());
-
-    Random random = new Random();
-    Date now = new Date();
-
-    User user = getUser();
-    Date date1 = DateUtil.string2Date(
-        DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE) + " 00:00:00",
-        DateUtil.FORMAT_DATETIME
-    );
-    Date date2 = DateUtil.string2Date(
-        DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE) + " 23:59:59",
-        DateUtil.FORMAT_DATETIME
-    );
-
-    if (StringUtils.isEmpty(attendanceValue) || !"1".equals(attendanceValue)) {
-      Attendance attendance = attendanceService.findByUserAndInTime(user, date1, date2);
-      if (attendance == null) {
-        int score = random.nextInt(51) + 1; // random score in 1 - 50
-        // save attendance record
-        attendance = new Attendance();
-        attendance.setInTime(now);
-        attendance.setScore(score);
-        attendance.setUser(user);
-        attendanceService.save(attendance);
-
-        // update user score
-        user.setScore(user.getScore() + score);
-        userService.save(user);
-
-        // 记录积分log
-        ScoreLog scoreLog = new ScoreLog();
-
-        scoreLog.setInTime(new Date());
-        scoreLog.setEvent(ScoreEventEnum.DAILY_SIGN.getEvent());
-        scoreLog.setChangeScore(score);
-        scoreLog.setScore(user.getScore());
-        scoreLog.setUser(user);
-
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("scoreLog", scoreLog);
-        params.put("user", user);
-        String des = freemarkerUtil.format(scoreEventConfig.getTemplate().get(ScoreEventEnum.DAILY_SIGN.getName()), params);
-        scoreLog.setEventDescription(des);
-        scoreLogService.save(scoreLog);
-
-        // write remark to cookie
-        writeAttendanceCookie(response, now, date2);
-
-        return Result.success(score);
-      }
-    }
-    writeAttendanceCookie(response, now, date2);
-    return Result.error("你今天已经签到过了");
-  }
-
-  private void writeAttendanceCookie(HttpServletResponse response, Date date1, Date date2) {
-    int maxAge = Math.abs((int) ((date2.getTime() - date1.getTime()) / 1000)); // second
-    StrUtil.setCookie(
-        response,
-        siteConfig.getCookie().getAttendanceName(), // name
-        "1", // value
-        maxAge, // maxAge
-        true, // httpOnly
-        siteConfig.getCookie().getDomain(), // domain
-        "/" // path
-    );
   }
 
   /**
@@ -264,12 +162,10 @@ public class CommonController extends BaseController {
   @PostMapping("/upload")
   @ResponseBody
   public Result upload(@RequestParam("file") MultipartFile file) {
+    String username = getUser().getUsername();
     if (!file.isEmpty()) {
       try {
-        if (fileUtil.getTotalSizeOfFilesInDir(new File(siteConfig.getUploadPath() + getUsername())) + file.getSize()
-            > getUser().getSpaceSize() * 1024 * 1024)
-          return Result.error("你的上传空间不够了，请用积分去用户中心兑换");
-        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, getUsername());
+        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, username);
         return Result.success(requestUrl);
       } catch (IOException e) {
         e.printStackTrace();
@@ -277,5 +173,28 @@ public class CommonController extends BaseController {
       }
     }
     return Result.error("文件不存在");
+  }
+
+  // wangEditor 上传
+  @PostMapping("/wangEditorUpload")
+  @ResponseBody
+  public Map<String, Object> wangEditorUpload(@RequestParam("file") MultipartFile file) {
+    String username = getUser().getUsername();
+    Map<String, Object> map = new HashMap<>();
+    if (!file.isEmpty()) {
+      try {
+        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, username);
+        map.put("errno", 0);
+        map.put("data", Arrays.asList(requestUrl));
+      } catch (IOException e) {
+        e.printStackTrace();
+        map.put("errno", 2);
+        map.put("desc", e.getLocalizedMessage());
+      }
+    } else {
+      map.put("errno", 1);
+      map.put("desc", "请选择图片");
+    }
+    return map;
   }
 }
