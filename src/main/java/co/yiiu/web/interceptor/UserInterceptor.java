@@ -1,6 +1,7 @@
 package co.yiiu.web.interceptor;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.core.base.BaseEntity;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.module.user.model.User;
@@ -25,9 +26,7 @@ import javax.servlet.http.HttpSession;
 public class UserInterceptor implements HandlerInterceptor {
 
   @Autowired
-  private UserService userService;
-  @Autowired
-  private SiteConfig siteConfig;
+  private BaseEntity baseEntity;
 
   /**
    * 如果session里没有用户信息，那么取cookie里的token，然后去数据库里查用户信息，再将用户信息存在session里
@@ -39,8 +38,7 @@ public class UserInterceptor implements HandlerInterceptor {
    */
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-    HttpSession session = request.getSession();
-    User user = (User) session.getAttribute("user");
+    User user = baseEntity.getUser();
     Assert.notNull(user, "请先登录，点击去<a href='/login'>登录</a>");
     return true;
   }

@@ -26,7 +26,7 @@
           <div class="form-group">
             <label>内容</label>
             <#include "../../front/components/editor.ftl"/>
-            <@editor height="400px" content="${topic.content!}"/>
+            <@editor height="400px" content=model.formatContent(topic.content)/>
           </div>
           <button type="submit" id="btn" class="btn btn-sm btn-primary">提交</button>
         </form>

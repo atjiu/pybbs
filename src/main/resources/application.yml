@@ -48,6 +48,7 @@ flyway:
   baseline-on-migrate: true
   locations:
     - classpath:/db
+
 site:
   name: YIIU
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
@@ -69,9 +70,9 @@ site:
     adminUserMaxAge: 30 # 天
   oauth2:
     github:
-      clientId:
-      clientSecret:
-      callbackUrl: https://你的外网域名/oauth2/github/callback
+      clientId: becbb7ea2f472f12bb59
+      clientSecret: 009f598e9c0e32cc050bb5ef887fff09d1c0e4ae
+      callbackUrl: https://fea612d0.ngrok.io/oauth2/github/callback
   mail:
     register:
       subject: 注册验证码 - ${site.name}

@@ -35,8 +35,10 @@ public class CommonInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                          ModelAndView modelAndView) {
-    User user = baseEntity.getUser();
-    if (user != null) modelAndView.addObject("user", user);
+    if(modelAndView != null) {
+      User user = baseEntity.getUser();
+      if (user != null) modelAndView.addObject("user", user);
+    }
   }
 
   @Override

@@ -92,6 +92,8 @@ public class StrUtil {
   }
 
   // 格式化url参数部分返回map
+  // params格式：a=1&b=2&c=3
+  // 返回：{a: 1, b: 2, c: 3}
   public static Map<String, Object> formatParams(String params) {
     if(StringUtils.isEmpty(params)) return null;
     Map<String, Object> map = new HashMap<>();

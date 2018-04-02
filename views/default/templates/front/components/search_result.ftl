@@ -8,7 +8,7 @@
     </tr>
     <tr>
       <td class="search-result topic-detail-content">
-        ${model.marked(topic.content!, true)}
+        ${model.formatContent(topic.content)}
       </td>
     </tr>
   </#list>

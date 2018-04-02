@@ -3,6 +3,7 @@ package co.yiiu.core.base;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.JsonUtil;
+import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.model.Permission;
@@ -13,6 +14,10 @@ import co.yiiu.module.security.service.RoleService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -23,8 +28,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -84,6 +92,37 @@ public class BaseEntity {
 
   public boolean isEmpty(String text) {
     return StringUtils.isEmpty(text);
+  }
+
+  public String formatContent(String content) {
+    Document parse = Jsoup.parse(content);
+    Elements tableElements = parse.select("table");
+    tableElements.forEach(element -> element.addClass("table table-bordered"));
+    Elements aElements = parse.select("p");
+    if (aElements != null && aElements.size() > 0) {
+      aElements.forEach(element -> {
+        try {
+          String href = element.text();
+          if (href.contains("https://www.youtube.com/watch")) {
+            URL aUrl = new URL(href);
+            String query = aUrl.getQuery();
+            Map<String, Object> querys = StrUtil.formatParams(query);
+            element.text("");
+            element.addClass("embed-responsive embed-responsive-16by9");
+            element.append("<iframe class='embedded_video' src='https://www.youtube.com/embed/" + querys.get("v") + "' frameborder='0' allowfullscreen></iframe>");
+          } else if(href.contains("http://v.youku.com/v_show/")) {
+            element.text("");
+            URL aUrl = new URL(href);
+            String _href = "http://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
+            element.addClass("embedded_video_wrapper");
+            element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' allowfullscreen></iframe>");
+          }
+        } catch (MalformedURLException e) {
+          e.printStackTrace();
+        }
+      });
+    }
+    return parse.outerHtml();
   }
 
   public User getUser() {

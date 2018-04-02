@@ -50,8 +50,10 @@ public class AdminInterceptor implements HandlerInterceptor {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object o, ModelAndView modelAndView) {
-    AdminUser adminUser = baseEntity.getAdminUser();
-    if(adminUser != null) modelAndView.addObject("admin_user", adminUser);
+    if(modelAndView != null) {
+      AdminUser adminUser = baseEntity.getAdminUser();
+      if (adminUser != null) modelAndView.addObject("admin_user", adminUser);
+    }
   }
 
   @Override

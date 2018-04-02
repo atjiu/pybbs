@@ -93,11 +93,6 @@ public class TopicController extends BaseController {
 
     ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用了，不能进行此项操作");
 
-    Date now = new Date();
-    String currentDateStr = DateUtil.formatDate(now);
-    Date date1 = DateUtil.string2Date(currentDateStr + " 00:00:00", DateUtil.FORMAT_DATETIME);
-    Date date2 = DateUtil.string2Date(currentDateStr + " 23:59:59", DateUtil.FORMAT_DATETIME);
-
     ApiAssert.notEmpty(title, "请输入标题");
     ApiAssert.notEmpty(content, "请输入内容");
     ApiAssert.notEmpty(tag, "标签不能为空");

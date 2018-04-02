@@ -15,7 +15,7 @@
           <div class="form-group">
             <label for="content">内容</label>
             <#include "../components/editor.ftl"/>
-            <@editor height="400px" content=topic.content/>
+            <@editor height="400px" content=model.formatContent(topic.content)/>
           </div>
           <div class="form-group">
             <label for="tag">标签</label>

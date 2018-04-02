@@ -51,7 +51,7 @@
   </div>
     <div class="divide"></div>
     <div class="panel-body topic-detail-content show_big_image">
-      ${topic.content!}
+      ${model.formatContent(topic.content)}
       <div>
         <#list tags as tag>
           <a href="/topic/tag/${tag.name}"><span class="label label-success">${tag.name}</span></a>
