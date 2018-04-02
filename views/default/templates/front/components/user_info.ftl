@@ -26,7 +26,7 @@
         <span class="col-md-6"><a href="/notification/list"><span id="n_count">0</span> 条未读消息</a></span>
         <span class="col-md-6 text-right">声望：<a href="/top100">${user.reputation!0}</a></span>
         <script>
-          function notificationCount() {
+          /*function notificationCount() {
             $.ajax({
               url: "/notification/notRead",
               async: true,
@@ -44,7 +44,7 @@
           notificationCount();
           setInterval(function () {
             notificationCount();
-          }, 120000);
+          }, 120000);*/
         </script>
       </div>
     </div>

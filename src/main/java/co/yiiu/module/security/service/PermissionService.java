@@ -22,6 +22,8 @@ public class PermissionService {
   private PermissionRepository permissionRepository;
   @Autowired
   private RolePermissionService rolePermissionService;
+  @Autowired
+  private AdminUserService adminUserService;
 
   public List<Map<String, Object>> findAll() {
     List<Map<String, Object>> node = new ArrayList<>();
@@ -60,7 +62,10 @@ public class PermissionService {
   }
 
   public Permission save(Permission permission) {
-    return permissionRepository.save(permission);
+    permission = permissionRepository.save(permission);
+    // 删除redis里的用户缓存
+    adminUserService.deleteAllRedisAdminUser();
+    return permission;
   }
 
   public List<Permission> findByUserId(Integer userId) {
@@ -70,5 +75,8 @@ public class PermissionService {
   public void delete(Integer id) {
     rolePermissionService.deleteByPermissionId(id);
     permissionRepository.delete(id);
+    // 删除redis里的用户缓存
+    adminUserService.deleteAllRedisAdminUser();
   }
+
 }

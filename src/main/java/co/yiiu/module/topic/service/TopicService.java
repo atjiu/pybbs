@@ -1,11 +1,8 @@
 package co.yiiu.module.topic.service;
 
-import co.yiiu.config.LogEventConfig;
-import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.log.model.Log;
 import co.yiiu.module.log.model.LogEventEnum;
 import co.yiiu.module.log.model.LogTargetEnum;
 import co.yiiu.module.log.service.LogService;
@@ -15,13 +12,14 @@ import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.model.TopicAction;
-import co.yiiu.module.topic.model.TopicTag;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.model.UserReputation;
 import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import freemarker.template.utility.HtmlEscape;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -31,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.*;
 
@@ -60,15 +59,11 @@ public class TopicService {
   private LogService logService;
   @Autowired
   private UserService userService;
-  @Autowired
-  private FreemarkerUtil freemarkerUtil;
-  @Autowired
-  private LogEventConfig logEventConfig;
 
   public Topic createTopic(String title, String content, String tag, Integer userId) {
     Topic topic = new Topic();
-    topic.setTitle(title);
-    topic.setContent(content);
+    topic.setTitle(Jsoup.clean(title, Whitelist.none()));
+    topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     topic.setInTime(new Date());
     topic.setView(0);
     topic.setUserId(userId);
@@ -79,7 +74,7 @@ public class TopicService {
     topic.setDown(0);
     topic.setUpIds("");
     topic.setDownIds("");
-    topic.setTag(tag);
+    topic.setTag(Jsoup.clean(tag, Whitelist.none()));
     topic.setWeight(0.0);
     this.save(topic);
     // 处理标签

@@ -1,6 +1,7 @@
 package co.yiiu.module.user.service;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,8 @@ public class UserService {
   private CollectService collectService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private StringRedisTemplate stringRedisTemplate;
 
   public User createUser(String username, String password, String email, String avatar, String url, String bio) {
     User user = new User();
@@ -92,7 +97,11 @@ public class UserService {
   }
 
   public User save(User user) {
-    return userRepository.save(user);
+    user = userRepository.save(user);
+    // 更新redis里的数据
+    ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+    stringStringValueOperations.set(user.getToken(), JsonUtil.objectToJson(user));
+    return user;
   }
 
   /**

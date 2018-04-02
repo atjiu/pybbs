@@ -11,6 +11,8 @@ import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,7 +126,7 @@ public class UserController extends BaseController {
     if (user.getBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
     user.setEmail(email);
-    if (bio != null && bio.trim().length() > 0) user.setBio(bio);
+    if (bio != null && bio.trim().length() > 0) user.setBio(Jsoup.clean(bio, Whitelist.none()));
     user.setCommentEmail(commentEmail);
     user.setReplyEmail(replyEmail);
     user.setUrl(url);

@@ -30,10 +30,6 @@ public class RolePermissionService {
     rolePermissionRepository.deleteByRoleId(roleId);
   }
 
-  public void deleteRoleIdAndPermissionId(Integer roleId, Integer permissionId) {
-    rolePermissionRepository.deleteByRoleIdAndPermissionId(roleId, permissionId);
-  }
-
   public List<RolePermission> findByRoleId(Integer roleId) {
     return rolePermissionRepository.findByRoleId(roleId);
   }

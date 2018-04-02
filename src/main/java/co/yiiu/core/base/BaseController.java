@@ -3,6 +3,7 @@ package co.yiiu.core.base;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.user.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -16,6 +17,8 @@ import java.io.IOException;
  * https://yiiu.co
  */
 public class BaseController {
+
+  @Autowired private BaseEntity baseEntity;
 
   /**
    * 带参重定向
@@ -49,13 +52,11 @@ public class BaseController {
    * @return 没登录返回错误信息
    */
   protected User getUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    return (User) request.getSession().getAttribute("user");
+    return baseEntity.getUser();
   }
 
   protected AdminUser getAdminUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    return (AdminUser) request.getSession().getAttribute("admin_user");
+    return baseEntity.getAdminUser();
   }
 
   /**
@@ -64,8 +65,7 @@ public class BaseController {
    * @return 没登录返回json
    */
   protected User getApiUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    User user = (User) request.getSession().getAttribute("user");
+    User user = baseEntity.getUser();
     ApiAssert.notNull(user, "请先登录");
     return user;
   }

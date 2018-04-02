@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 /**
  * Created by tomoya.
@@ -63,7 +62,6 @@ public class IndexController extends BaseController {
   public String index(String tab, Integer p, Model model) {
     model.addAttribute("p", p);
     model.addAttribute("tab", tab);
-    System.out.println(siteConfig.getMail().getRegister().get("subject"));
     return "front/index";
   }
 
@@ -107,8 +105,6 @@ public class IndexController extends BaseController {
 
     ApiAssert.isTrue(new BCryptPasswordEncoder().matches(password, user.getPassword()), "密码不正确");
 
-    // 把用户信息写入session
-    session.setAttribute("user", user);
     if(rememberMe) {
       // 把用户信息写入cookie
       CookieHelper.addCookie(

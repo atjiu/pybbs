@@ -1,5 +1,6 @@
 <#include "../layout/layout.ftl">
 <@html page_title="${topic.title!}">
+<link rel="stylesheet" href="/static/wangEditor/wangEditor.min.css">
 <div class="panel panel-default">
   <div class="panel-body topic-detail-header">
     <div class="media">

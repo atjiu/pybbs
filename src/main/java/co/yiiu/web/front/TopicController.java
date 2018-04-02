@@ -17,6 +17,8 @@ import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -131,9 +133,9 @@ public class TopicController extends BaseController {
     ApiAssert.isTrue(oldTopic.getUserId().equals(user.getId()), "不能修改别人的话题");
 
     Topic topic = oldTopic;
-    topic.setTitle(title);
-    topic.setContent(content);
-    topic.setTag(tag);
+    topic.setTitle(Jsoup.clean(title, Whitelist.none()));
+    topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
+    topic.setTag(Jsoup.clean(tag, Whitelist.none()));
 
     topic = topicService.updateTopic(oldTopic, topic, user.getId());
 

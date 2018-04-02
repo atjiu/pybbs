@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>登录</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, adminUser-scalable=no" name="viewport">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/static/adminlte/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -98,7 +98,7 @@
     });
     $("#changeCode").click(function () {
       var date = new Date();
-      $(this).attr("src", "/code?ver=" + date.getTime());
+      $(this).attr("src", "/common/code?ver=" + date.getTime());
     })
     $("#form").submit(function() {
       var username = $("#username").val();
@@ -119,7 +119,7 @@
       $.ajax({
         url: '/admin/login',
         type: 'post',
-        async: true,
+        async: false,
         cache: false,
         dataType: 'json',
         data: {

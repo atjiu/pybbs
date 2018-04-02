@@ -74,19 +74,19 @@ li>p{margin-top:16px}
 dl{padding:0}
 dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}
 dl dd{padding:0 16px;margin-bottom:16px}
-blockquote{padding:0 15px;color:#777;border-left:4px solid #ddd}
-blockquote>:first-child{margin-top:0}
-blockquote>:last-child{margin-bottom:0}
+/*blockquote{padding:0 15px;color:#777;border-left:4px solid #ddd}*/
+/*blockquote>:first-child{margin-top:0}*/
+/*blockquote>:last-child{margin-bottom:0}*/
 .topic-detail-content img, .comment-detail-content img {max-width:100%;box-sizing:content-box;background-color:#fff}
-code {color:#fff; background-color: #23241f; padding: 5px;}
-code:before, code:after{letter-spacing:-.2em;content:"\00a0"}
-pre>code{padding:0;margin:0;font-size:100%;word-break:normal;background:transparent;border:0;}
-.highlight{margin-bottom:16px}
-.highlight pre,pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7}
-.highlight pre{margin-bottom:0;word-break:normal}
-pre{word-wrap:normal;padding:10px 15px;background:#23241f;border:0}
-pre code{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}
-pre code:before,pre code:after{content:normal}
+/*code {color:#fff; background-color: #23241f; padding: 5px;}*/
+/*code:before, code:after{letter-spacing:-.2em;content:"\00a0"}*/
+/*pre>code{padding:0;margin:0;font-size:100%;word-break:normal;background:transparent;border:0;}*/
+/*.highlight{margin-bottom:16px}*/
+/*.highlight pre,pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7}*/
+/*.highlight pre{margin-bottom:0;word-break:normal}*/
+/*pre{word-wrap:normal;padding:10px 15px;background:#23241f;border:0}*/
+/*pre code{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}*/
+/*pre code:before,pre code:after{content:normal}*/
 kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:solid 1px #ccc;border-bottom-color:#bbb;box-shadow:inset 0 -1px 0 #bbb}
 .pl-c{color:#969896}
 .pl-c1,.pl-s .pl-v{color:#0086b3}
@@ -122,20 +122,20 @@ hr{border-bottom-color:#eee}
 .comment-detail-content pre {padding: 10px;}
 .comment-detail-content img{max-width:100%}
 
-.hljs{display:block;overflow-x:auto;padding:.5em;background:#23241f}
-.hljs,.hljs-tag,.hljs-subst{color:#f8f8f2}
-.hljs-strong,.hljs-emphasis{color:#a8a8a2}
-.hljs-bullet,.hljs-quote,.hljs-number,.hljs-regexp,.hljs-literal,.hljs-link{color:#ae81ff}
-.hljs-code,.hljs-title,.hljs-section,.hljs-selector-class{color:#a6e22e}
-.hljs-strong{font-weight:700}
-.hljs-emphasis{font-style:italic}
-.hljs-keyword,.hljs-selector-tag,.hljs-name,.hljs-attr{color:#f92672}
-.hljs-symbol,.hljs-attribute{color:#66d9ef}
-.hljs-params,.hljs-class .hljs-title{color:#f8f8f2}
-.hljs-string,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-addition,.hljs-variable,.hljs-template-variable{color:#e6db74}
-.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}
+/*.hljs{display:block;overflow-x:auto;padding:.5em;background:#23241f}*/
+/*.hljs,.hljs-tag,.hljs-subst{color:#f8f8f2}*/
+/*.hljs-strong,.hljs-emphasis{color:#a8a8a2}*/
+/*.hljs-bullet,.hljs-quote,.hljs-number,.hljs-regexp,.hljs-literal,.hljs-link{color:#ae81ff}*/
+/*.hljs-code,.hljs-title,.hljs-section,.hljs-selector-class{color:#a6e22e}*/
+/*.hljs-strong{font-weight:700}*/
+/*.hljs-emphasis{font-style:italic}*/
+/*.hljs-keyword,.hljs-selector-tag,.hljs-name,.hljs-attr{color:#f92672}*/
+/*.hljs-symbol,.hljs-attribute{color:#66d9ef}*/
+/*.hljs-params,.hljs-class .hljs-title{color:#f8f8f2}*/
+/*.hljs-string,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-addition,.hljs-variable,.hljs-template-variable{color:#e6db74}*/
+/*.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}*/
 body{font-family:"Helvetica Neue","Luxi Sans","DejaVu Sans",Tahoma,"Hiragino Sans GB","Microsoft Yahei",sans-serif}
-pre{padding:0;color:#fff}
+/*pre{padding:0;color:#fff}*/
 .wrapper{width:100%;background-color:#e5e5e5}
 .title a:visited{color:#888}
 .avatar{border-radius:4px;max-width:48px}

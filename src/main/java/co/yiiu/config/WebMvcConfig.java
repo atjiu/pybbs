@@ -36,7 +36,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
    */
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(commonInterceptor).addPathPatterns("/**");
+    registry.addInterceptor(commonInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns("/common/**", "/admin/**");
     registry.addInterceptor(userInterceptor).addPathPatterns(
         "/topic/create",
         "/topic/save",

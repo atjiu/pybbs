@@ -19,6 +19,8 @@ import co.yiiu.module.user.model.UserReputation;
 import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -113,7 +115,7 @@ public class CommentService {
     comment.setDown(0);
     comment.setUpIds("");
     comment.setDownIds("");
-    comment.setContent(content);
+    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     this.save(comment);
 
     //评论+1

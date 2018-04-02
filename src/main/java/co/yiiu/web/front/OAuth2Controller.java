@@ -59,7 +59,6 @@ public class OAuth2Controller extends BaseController {
   @GetMapping("/github/callback")
   public String githubCallback(String code, String state, HttpServletResponse response, HttpSession session) {
     String sessionState = (String) session.getAttribute("state");
-    System.out.println(state + "===" + sessionState);
     Assert.isTrue(state.equalsIgnoreCase(sessionState), "非法请求");
 
     String url = "https://github.com/login/oauth/access_token";
@@ -102,10 +101,9 @@ public class OAuth2Controller extends BaseController {
         if (_user != null) nickName = nickName + "_" + githubId;
         user = userService.createUser(nickName, StrUtil.randomString(16), email, avatar, html_url, bio);
       }
-      oAuth2User = oAuth2UserService.createOAuth2User(nickName, avatar, user.getId(), githubId,
+      oAuth2UserService.createOAuth2User(nickName, avatar, user.getId(), githubId,
           accessToken, OAuth2User.Type.GITHUB.name());
     }
-    session.setAttribute("user", user);
     // 把用户信息写入cookie
     CookieHelper.addCookie(
         response,

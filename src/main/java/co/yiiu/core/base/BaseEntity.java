@@ -1,9 +1,30 @@
 package co.yiiu.core.base;
 
+import co.yiiu.config.SiteConfig;
+import co.yiiu.core.util.CookieHelper;
+import co.yiiu.core.util.JsonUtil;
+import co.yiiu.core.util.security.Base64Helper;
+import co.yiiu.module.security.model.AdminUser;
+import co.yiiu.module.security.model.Permission;
+import co.yiiu.module.security.model.Role;
+import co.yiiu.module.security.service.AdminUserService;
+import co.yiiu.module.security.service.PermissionService;
+import co.yiiu.module.security.service.RoleService;
+import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -11,6 +32,7 @@ import java.util.Date;
  * https://yiiu.co
  */
 @Component
+@Slf4j
 public class BaseEntity {
 
   private static final long MINUTE = 60 * 1000;
@@ -19,6 +41,19 @@ public class BaseEntity {
   private static final long WEEK = 7 * DAY;
   private static final long MONTH = 31 * DAY;
   private static final long YEAR = 12 * MONTH;
+
+  @Autowired
+  private StringRedisTemplate stringRedisTemplate;
+  @Autowired
+  private SiteConfig siteConfig;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private AdminUserService adminUserService;
+  @Autowired
+  private RoleService roleService;
+  @Autowired
+  private PermissionService permissionService;
 
   /**
    * 格式化日期
@@ -51,4 +86,61 @@ public class BaseEntity {
     return StringUtils.isEmpty(text);
   }
 
+  public User getUser() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+    String token = CookieHelper.getValue(request, siteConfig.getCookie().getUserName());
+    if (StringUtils.isEmpty(token)) return null;
+    // token不为空，查redis
+    try {
+      token = new String(Base64Helper.decode(token));
+      ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+      String redisUser = stringStringValueOperations.get(token);
+      if (!StringUtils.isEmpty(redisUser)) return JsonUtil.jsonToObject(redisUser, User.class);
+
+      User user = userService.findByToken(token);
+      if (user == null) {
+        CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
+      } else {
+        stringStringValueOperations.set(token, JsonUtil.objectToJson(user));
+        return user;
+      }
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
+    }
+    return null;
+  }
+
+  public AdminUser getAdminUser() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+    String token = CookieHelper.getValue(request, siteConfig.getCookie().getAdminUserName());
+    if (StringUtils.isEmpty(token)) return null;
+    // token不为空，查redis
+    try {
+      token = new String(Base64Helper.decode(token));
+      ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+      String redisAdminUser = stringStringValueOperations.get("admin_" + token);
+      if (!StringUtils.isEmpty(redisAdminUser)) return JsonUtil.jsonToObject(redisAdminUser, AdminUser.class);
+
+      AdminUser adminUser = adminUserService.findByToken(token);
+      if (adminUser == null) {
+        CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
+            siteConfig.getCookie().getDomain(), "/admin/");
+      } else {
+        Role role = roleService.findById(adminUser.getRoleId());
+        List<Permission> permissions = permissionService.findByUserId(adminUser.getId());
+        adminUser.setRole(role);
+        adminUser.setPermissions(permissions);
+        stringStringValueOperations.set("admin_" + token, JsonUtil.objectToJson(adminUser));
+        return adminUser;
+      }
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
+          siteConfig.getCookie().getDomain(), "/admin/");
+    }
+    return null;
+  }
 }

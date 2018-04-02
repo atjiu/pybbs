@@ -21,6 +21,8 @@ public class RoleService {
   private RoleRepository roleRepository;
   @Autowired
   private RolePermissionService rolePermissionService;
+  @Autowired
+  private AdminUserService adminUserService;
 
   public Role findById(Integer id) {
     return roleRepository.findOne(id);
@@ -49,10 +51,14 @@ public class RoleService {
       }
       rolePermissionService.save(list);
     }
+    // 删除redis里的用户缓存
+    adminUserService.deleteAllRedisAdminUser();
   }
 
   public void delete(Integer id) {
     rolePermissionService.deleteRoleId(id);
     roleRepository.delete(id);
+    // 删除redis里的用户缓存
+    adminUserService.deleteAllRedisAdminUser();
   }
 }

@@ -1,7 +1,6 @@
 package co.yiiu.web.front;
 
 import co.yiiu.config.LogEventConfig;
-import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
@@ -9,23 +8,19 @@ import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.model.CommentAction;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.notification.model.NotificationEnum;
-import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -41,8 +36,6 @@ public class CommentController extends BaseController {
   private TopicService topicService;
   @Autowired
   private CommentService commentService;
-  @Autowired
-  private NotificationService notificationService;
   @Autowired
   FreemarkerUtil freemarkerUtil;
   @Autowired
@@ -120,7 +113,7 @@ public class CommentController extends BaseController {
     ApiAssert.notEmpty(content, "评论内容不能为空");
     Comment comment = commentService.findById(id);
     Comment oldComment = comment;
-    comment.setContent(content);
+    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     commentService.save(comment);
     Topic topic = topicService.findById(comment.getTopicId());
     comment = commentService.update(topic, oldComment, comment, user.getId());
