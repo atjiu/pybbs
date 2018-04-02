@@ -47,7 +47,7 @@ public class OAuth2Controller extends BaseController {
   @GetMapping("/github/login")
   public String githubLogin(HttpSession session) {
     String state = StrUtil.randomString(6);
-    session.setAttribute("state", state);
+    session.setAttribute("state", state); // TODO 如果做分布式，这里还有些问题
     String url = "https://github.com/login/oauth/authorize?client_id=" +
         siteConfig.getOauth2().getGithub().getClientId() +
         "&redirect_uri=" + siteConfig.getOauth2().getGithub().getCallbackUrl() +
