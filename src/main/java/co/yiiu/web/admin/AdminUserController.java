@@ -13,6 +13,7 @@ import co.yiiu.module.security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -80,19 +81,23 @@ public class AdminUserController extends BaseController {
   public Result update(Integer id, String username, String oldPassword, String password, Integer roleId) {
     ApiAssert.notNull(id, "用户ID不存在");
     ApiAssert.notEmpty(username, "用户名不能为空");
-    ApiAssert.notEmpty(oldPassword, "旧密码不能为空");
-    ApiAssert.notEmpty(password, "密码不能为空");
     ApiAssert.notNull(roleId, "请选择角色");
 
     AdminUser adminUser = adminUserService.findOne(id);
     ApiAssert.notNull(adminUser, "用户不存在");
-
-    ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, adminUser.getPassword()), "旧密码不正确");
-
     adminUser.setUsername(username);
-    adminUser.setPassword(new BCryptPasswordEncoder().encode(password));
+    if(!StringUtils.isEmpty(oldPassword) && !StringUtils.isEmpty(password)) {
+      ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, adminUser.getPassword()), "旧密码不正确");
+      adminUser.setPassword(new BCryptPasswordEncoder().encode(password));
+    }
     adminUser.setRoleId(roleId);
     adminUserService.save(adminUser);
     return Result.success();
+  }
+
+  @GetMapping("/delete")
+  public String delete(Integer id) {
+    adminUserService.deleteById(id);
+    return redirect("/admin/admin_user/list");
   }
 }

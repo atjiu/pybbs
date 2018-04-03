@@ -54,6 +54,13 @@ public class AdminUserService {
     return adminUserRepository.findByUsername(username);
   }
 
+  public void deleteById(Integer id) {
+    AdminUser adminUser = this.findOne(id);
+    // 删除缓存数据
+    stringRedisTemplate.delete("admin_" + adminUser.getToken());
+    adminUserRepository.delete(adminUser);
+  }
+
   // 删除所有后台用户存在redis里的数据
   public void deleteAllRedisAdminUser() {
     List<AdminUser> adminUsers = adminUserRepository.findAll();
