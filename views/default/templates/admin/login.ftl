@@ -7,15 +7,15 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="/static/adminlte/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/AdminLTE/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/static/adminlte/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/static/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="/static/adminlte/plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" href="/static/AdminLTE/plugins/iCheck/square/blue.css">
   <link rel="stylesheet" href="/static/jquery-toast-plugin/jquery.toast.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -71,11 +71,11 @@
 </div>
 <!-- /.login-box -->
 <!-- jQuery 2.2.3 -->
-<script src="/static/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/static/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="/static/adminlte/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="/static/adminlte/plugins/iCheck/icheck.min.js"></script>
+<script src="/static/AdminLTE/plugins/iCheck/icheck.min.js"></script>
 <script src="/static/jquery-toast-plugin/jquery.toast.min.js"></script>
 <script>
   function toast(txt, icon) {
