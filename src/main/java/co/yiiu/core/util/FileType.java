@@ -5,8 +5,8 @@ package co.yiiu.core.util;
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-public enum FileUploadEnum {
+public enum FileType {
 
-  AVATAR, FILE
+  PICTURE
 
 }

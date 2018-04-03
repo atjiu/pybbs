@@ -6,6 +6,8 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.*;
+import co.yiiu.module.attachment.model.Attachment;
+import co.yiiu.module.attachment.service.AttachmentService;
 import co.yiiu.module.code.service.CodeService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.model.User;
@@ -13,6 +15,7 @@ import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +55,8 @@ public class CommonController extends BaseController {
   LogService logService;
   @Autowired
   private EmailUtil emailUtil;
+  @Autowired
+  private AttachmentService attachmentService;
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height
@@ -165,8 +170,12 @@ public class CommonController extends BaseController {
     String username = getUser().getUsername();
     if (!file.isEmpty()) {
       try {
-        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, username);
-        return Result.success(requestUrl);
+        String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
+        Attachment attachment = attachmentService.findByMd5(md5);
+        if (attachment == null) {
+          attachment = fileUtil.uploadFile(file, FileType.PICTURE, username);
+        }
+        return Result.success(attachment.getRequestUrl());
       } catch (IOException e) {
         e.printStackTrace();
         return Result.error("上传失败");
@@ -183,9 +192,13 @@ public class CommonController extends BaseController {
     Map<String, Object> map = new HashMap<>();
     if (!file.isEmpty()) {
       try {
-        String requestUrl = fileUtil.uploadFile(file, FileUploadEnum.FILE, username);
+        String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
+        Attachment attachment = attachmentService.findByMd5(md5);
+        if (attachment == null) {
+          attachment = fileUtil.uploadFile(file, FileType.PICTURE, username);
+        }
         map.put("errno", 0);
-        map.put("data", Arrays.asList(requestUrl));
+        map.put("data", Arrays.asList(attachment.getRequestUrl()));
       } catch (IOException e) {
         e.printStackTrace();
         map.put("errno", 2);
