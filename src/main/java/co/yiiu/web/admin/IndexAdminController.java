@@ -90,8 +90,7 @@ public class IndexAdminController extends BaseController {
   }
 
   @GetMapping("/logout")
-  public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-    session.removeAttribute("admin_user");
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
     CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
         siteConfig.getCookie().getDomain(), "/admin/");
     return redirect("/admin/login");

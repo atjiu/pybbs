@@ -1,23 +1,22 @@
 package co.yiiu.web.front;
 
-import co.yiiu.config.LogEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.CookieHelper;
-import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.code.model.CodeEnum;
 import co.yiiu.module.code.service.CodeService;
-import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +44,9 @@ public class IndexController extends BaseController {
   @Autowired
   private CodeService codeService;
   @Autowired
-  FreemarkerUtil freemarkerUtil;
-  @Autowired
-  LogEventConfig logEventConfig;
-  @Autowired
-  LogService logService;
-  @Autowired
   private TagService tagService;
+  @Autowired
+  private StringRedisTemplate stringRedisTemplate;
 
   /**
    * 首页
@@ -174,8 +169,7 @@ public class IndexController extends BaseController {
 
   // 登出
   @GetMapping("/logout")
-  public String logout(HttpServletResponse response, HttpSession session) {
-    session.removeAttribute("user");
+  public String logout(HttpServletResponse response) {
     CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
     return redirect("/");
   }
