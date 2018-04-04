@@ -60,6 +60,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   @Override
   protected void addResourceHandlers(ResourceHandlerRegistry registry) {
     super.addResourceHandlers(registry);
-    registry.addResourceHandler("/static/**").addResourceLocations("file:./views/" + siteConfig.getTheme() + "/static/");
+    registry.addResourceHandler("/static/**").addResourceLocations(
+        "file:./views/" + siteConfig.getTheme() + "/static/",
+        "classpath:/" + siteConfig.getTheme() + "/static/");
   }
 }
