@@ -21,7 +21,7 @@ import java.util.Date;
 public class Comment implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   //评论的内容

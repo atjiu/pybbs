@@ -16,7 +16,7 @@ import java.util.Date;
 public class Attachment {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   // 文件存储的本地路径
   private String localPath;

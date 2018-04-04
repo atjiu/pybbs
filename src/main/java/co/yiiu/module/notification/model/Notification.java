@@ -21,7 +21,7 @@ import java.util.Date;
 public class Notification implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   //通知是否已读

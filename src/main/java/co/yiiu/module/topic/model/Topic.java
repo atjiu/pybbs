@@ -21,7 +21,7 @@ import java.util.Date;
 public class Topic implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   //标题

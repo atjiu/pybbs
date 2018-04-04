@@ -32,7 +32,7 @@ public class User implements Serializable {
    * generator 指定生成主键使用的生成器
    */
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   // 用户名

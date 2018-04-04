@@ -17,7 +17,7 @@ import java.util.Date;
 public class Code implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   @Column(unique = true)

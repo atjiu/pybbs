@@ -18,7 +18,7 @@ import java.util.List;
 public class AdminUser implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   private String username;

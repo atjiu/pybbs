@@ -18,7 +18,7 @@ import java.util.Date;
 public class Log implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   // 事件名
