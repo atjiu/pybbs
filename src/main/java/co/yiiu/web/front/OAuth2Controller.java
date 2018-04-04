@@ -45,7 +45,7 @@ public class OAuth2Controller extends BaseController {
         "&redirect_uri=" + siteConfig.getOauth2().getGithub().getCallbackUrl() +
         "&scope=user" +
         "&state=" + state;
-    return redirect(url);
+    return "redirect:" + url;
   }
 
   @GetMapping("/github/callback")
