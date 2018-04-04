@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
@@ -23,6 +24,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private UserInterceptor userInterceptor;
   @Autowired
   private AdminInterceptor adminInterceptor;
+  @Autowired
+  private SiteConfig siteConfig;
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
@@ -52,5 +55,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     registry.addInterceptor(adminInterceptor)
         .addPathPatterns("/admin/**")
         .excludePathPatterns("/admin/login", "/admin/logout");
+  }
+
+  @Override
+  protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    super.addResourceHandlers(registry);
+    registry.addResourceHandler("/static/**").addResourceLocations("file:./views/" + siteConfig.getTheme() + "/static/");
   }
 }

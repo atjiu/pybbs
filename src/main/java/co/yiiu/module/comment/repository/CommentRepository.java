@@ -20,7 +20,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
   @Query(value = "select c as comment, u as user from Comment c, User u where c.userId = u.id and c.topicId = ?1",
     countQuery = "select count(1) from Comment c, User u where c.userId = u.id and c.topicId = ?1")
-  List<Map> findByTopicId(Integer topicId);
+  List<Map> findCommentWithTopic(Integer topicId);
 
   void deleteByTopicId(Integer topicId);
 
@@ -33,4 +33,6 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
   @Query(value = "select c as comment, u as user, t as topic from Comment c, User u, Topic t where c.userId = u.id and t.id = c.topicId",
       countQuery = "select count(1) from Comment c, User u, Topic t where c.userId = u.id and t.id = c.topicId")
   Page<Map> findAllForAdmin(Pageable pageable);
+
+  List<Comment> findByTopicId(Integer topicId);
 }

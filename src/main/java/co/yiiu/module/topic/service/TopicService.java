@@ -2,6 +2,7 @@ package co.yiiu.module.topic.service;
 
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
+import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.model.LogEventEnum;
 import co.yiiu.module.log.model.LogTargetEnum;
@@ -245,6 +246,8 @@ public class TopicService {
     map.put("down", topic.getDown());
     // 更新用户声望
     userService.save(topicUser);
+    // 计算weight
+    this.weight(topic, null);
     // 发送通知
     notificationService.sendNotification(userId, topic.getUserId(), notificationEnum, topic.getId(), null);
     // 记录日志
@@ -256,6 +259,27 @@ public class TopicService {
     Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
     return topicRepository.findAllForAdmin(pageable);
+  }
+
+  // 计算话题的weight
+  public void weight(Topic topic, List<Comment> comments) {
+    if (comments == null) {
+      comments = commentService.findByTopicId(topic.getId());
+    }
+    double Qview = Math.log10(topic.getView());
+    int Qanswer = comments.size();
+    int Qscore = topic.getUp() - topic.getDown();
+    Optional<Integer> Ascore = Optional.of(0);
+    if(Qanswer > 0) {
+      Ascore = comments.stream()
+          .map(comment -> comment.getUp() - comment.getDown())
+          .reduce(Integer::sum);
+    }
+    long Qage = topic.getInTime().getTime();
+    long Qupdated = topic.getLastCommentTime() == null ? 0 : topic.getLastCommentTime().getTime();
+    double weightScore = ((Qview * 4) + (Qanswer * Qscore) / 5 + Ascore.get()) / Math.pow(((Qage + 1) - (Qage - Qupdated) / 2), 1.5);
+    topic.setWeight(weightScore);
+    save(topic);
   }
 
 }

@@ -5,8 +5,7 @@ import com.google.common.collect.Maps;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -20,11 +19,8 @@ import java.util.Map;
  * Copyright (c) 2017, All Rights Reserved.
  */
 @Component
+@Slf4j
 public class FreemarkerUtil {
-
-
-  private final Log logger = LogFactory.getLog(FreemarkerUtil.class);
-
 
   @Autowired
   FreeMarkerConfigurer freeMarkerConfigurer;
@@ -34,10 +30,11 @@ public class FreemarkerUtil {
   public String format(String template, Map<String, Object> objectMap) {
     StringWriter writer = new StringWriter();
     try {
+      template = template.replace("$\\{", "${");
       getTemplateConfiguration(template).process(objectMap, writer);
     } catch (TemplateException | IOException e) {
       e.printStackTrace();
-      logger.error("render template error", e);
+      log.error("render template error", e);
     }
     return writer.toString();
   }
@@ -52,7 +49,7 @@ public class FreemarkerUtil {
       configuration = freeMarkerConfigurer.createConfiguration();
     } catch (IOException | TemplateException e) {
       e.printStackTrace();
-      logger.error("get system configuration error", e);
+      log.error("get system configuration error", e);
     }
     configuration.setTemplateLoader(new StringTemplateLoader(template));
     configuration.setDefaultEncoding("UTF-8");
@@ -64,7 +61,7 @@ public class FreemarkerUtil {
       return stringTemplate;
     } catch (IOException e) {
       e.printStackTrace();
-      logger.error("get template error", e);
+      log.error("get template error", e);
     }
     return null;
   }

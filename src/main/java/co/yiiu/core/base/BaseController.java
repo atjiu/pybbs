@@ -1,5 +1,6 @@
 package co.yiiu.core.base;
 
+import co.yiiu.config.SiteConfig;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.user.model.User;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class BaseController {
 
   @Autowired private BaseEntity baseEntity;
+  @Autowired private SiteConfig siteConfig;
 
   /**
    * 带参重定向
@@ -24,23 +26,9 @@ public class BaseController {
    * @return
    */
   protected String redirect(String path) {
-    return "redirect:" + path;
-  }
-
-  /**
-   * 不带参重定向
-   *
-   * @param response
-   * @param path
-   * @return
-   */
-  protected String redirect(HttpServletResponse response, String path) {
-    try {
-      response.sendRedirect(path);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
+    String baseUrl = siteConfig.getBaseUrl();
+    baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+    return "redirect:" + baseUrl + path;
   }
 
   /**

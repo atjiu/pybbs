@@ -1,5 +1,6 @@
 package co.yiiu.module.comment.service;
 
+import co.yiiu.config.MailTemplateConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.EmailUtil;
 import co.yiiu.core.util.FreemarkerUtil;
@@ -57,8 +58,10 @@ public class CommentService {
   private FreemarkerUtil freemarkerUtil;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private MailTemplateConfig mailTemplateConfig;
 
-  public Comment findById(int id) {
+  public Comment findById(Integer id) {
     return commentRepository.findById(id).get();
   }
 
@@ -74,7 +77,7 @@ public class CommentService {
     return comment;
   }
 
-  public void delete(int id, Integer userId) {
+  public void delete(Integer id, Integer userId) {
     Comment comment = findById(id);
     if (comment != null) {
       Topic topic = topicService.findById(comment.getTopicId());
@@ -83,6 +86,8 @@ public class CommentService {
       // 日志
       logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(), JsonUtil.objectToJson(comment), null, topic);
       commentRepository.deleteById(id);
+      // 计算weight
+      topicService.weight(topic, null);
     }
   }
 
@@ -138,8 +143,8 @@ public class CommentService {
           params.put("topic", topic);
           params.put("domain", siteConfig.getBaseUrl());
           params.put("content", content);
-          String subject = freemarkerUtil.format((String) siteConfig.getMail().getReplyComment().get("subject"), params);
-          String emailContent = freemarkerUtil.format((String) siteConfig.getMail().getReplyComment().get("content"), params);
+          String subject = freemarkerUtil.format((String) mailTemplateConfig.getReplyComment().get("subject"), params);
+          String emailContent = freemarkerUtil.format((String) mailTemplateConfig.getReplyComment().get("content"), params);
           emailUtil.sendEmail(_commentUser.getEmail(), subject, emailContent);
         }
       }
@@ -154,8 +159,8 @@ public class CommentService {
         params.put("topic", topic);
         params.put("domain", siteConfig.getBaseUrl());
         params.put("content", content);
-        String subject = freemarkerUtil.format((String) siteConfig.getMail().getCommentTopic().get("subject"), params);
-        String emailContent = freemarkerUtil.format((String) siteConfig.getMail().getCommentTopic().get("content"), params);
+        String subject = freemarkerUtil.format((String) mailTemplateConfig.getCommentTopic().get("subject"), params);
+        String emailContent = freemarkerUtil.format((String) mailTemplateConfig.getCommentTopic().get("content"), params);
         emailUtil.sendEmail(topicUser.getEmail(), subject, emailContent);
       }
     }
@@ -237,6 +242,8 @@ public class CommentService {
     // 记录日志
     Topic topic = topicService.findById(comment.getTopicId());
     logService.save(logEventEnum, userId, LogTargetEnum.COMMENT.name(), comment.getId(), null, null, topic);
+    // 计算weight
+    topicService.weight(topic, null);
     return map;
   }
 
@@ -246,9 +253,13 @@ public class CommentService {
    * @param topicId
    * @return
    */
-  public List<Map> findByTopicId(Integer topicId) {
-    List<Map> comments = commentRepository.findByTopicId(topicId);
+  public List<Map> findCommentWithTopic(Integer topicId) {
+    List<Map> comments = commentRepository.findCommentWithTopic(topicId);
     return sortLayer(comments, new ArrayList<>(), 1); // 初始深度为1
+  }
+
+  public List<Comment> findByTopicId(Integer topicId) {
+    return commentRepository.findByTopicId(topicId);
   }
 
   private List<Map> sortLayer(List<Map> comments, List<Map> newComments, Integer layer) {

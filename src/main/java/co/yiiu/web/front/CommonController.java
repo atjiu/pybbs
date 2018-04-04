@@ -1,7 +1,7 @@
 package co.yiiu.web.front;
 
 import co.yiiu.config.LogEventConfig;
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.MailTemplateConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
@@ -42,7 +42,7 @@ public class CommonController extends BaseController {
   @Autowired
   private UserService userService;
   @Autowired
-  private SiteConfig siteConfig;
+  private MailTemplateConfig mailTemplateConfig;
   @Autowired
   private FileUtil fileUtil;
   @Autowired
@@ -149,8 +149,8 @@ public class CommonController extends BaseController {
     String genCode = codeService.genEmailCode(email);
     Map<String, Object> params = Maps.newHashMap();
     params.put("genCode", genCode);
-    String subject = freemarkerUtil.format((String) siteConfig.getMail().getRegister().get("subject"), params);
-    String content = freemarkerUtil.format((String) siteConfig.getMail().getRegister().get("content"), params);
+    String subject = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("subject"), params);
+    String content = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("content"), params);
     if(emailUtil.sendEmail(email, subject, content)) {
       return Result.success();
     } else {

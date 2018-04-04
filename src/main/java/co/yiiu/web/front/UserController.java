@@ -118,7 +118,7 @@ public class UserController extends BaseController {
    * @return
    */
   @PostMapping("/setting/profile")
-  public String updateUserInfo(String email, String url, String bio, HttpServletResponse response,
+  public String updateUserInfo(String email, String url, String bio,
                                @RequestParam(defaultValue = "false") Boolean commentEmail,
                                @RequestParam(defaultValue = "false") Boolean replyEmail) throws Exception {
     User user = getUser();
@@ -130,7 +130,7 @@ public class UserController extends BaseController {
     user.setReplyEmail(replyEmail);
     user.setUrl(url);
     userService.save(user);
-    return redirect(response, "/user/" + user.getUsername());
+    return redirect("/user/" + user.getUsername());
   }
 
   /**
@@ -216,11 +216,11 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/setting/refreshToken")
-  public String refreshToken(HttpServletResponse response) {
+  public String refreshToken() {
     User user = getUser();
     user.setToken(UUID.randomUUID().toString());
     userService.save(user);
-    return redirect(response, "/user/setting/accessToken");
+    return redirect("/user/setting/accessToken");
   }
 
   /**

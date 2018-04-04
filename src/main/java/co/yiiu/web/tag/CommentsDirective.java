@@ -33,7 +33,7 @@ public class CommentsDirective extends BaseController implements TemplateDirecti
 
     int topicId = Integer.parseInt(map.get("id").toString());
 
-    List<Map> comments = commentService.findByTopicId(topicId);
+    List<Map> comments = commentService.findCommentWithTopic(topicId);
     environment.setVariable("comments", builder.build().wrap(comments));
 
     User user = getUser();

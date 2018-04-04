@@ -5,11 +5,9 @@ spring:
     name: YIIU
   resources:
     static-locations:
-    - classpath:/${site.theme}/static/
     - file:./views/${site.theme}/static/
   freemarker:
     template-loader-path:
-    - classpath:/${site.theme}/templates/
     - file:./views/${site.theme}/templates/
     cache: false
     settings:
@@ -26,10 +24,6 @@ spring:
     properties:
       hibernate.format_sql: false
     open-in-view: false
-  mvc:
-    static-path-pattern: /static/**
-    favicon:
-      enabled: false
   mail:
     host: smtp.qq.com
     username: xxoo@qq.com
@@ -43,7 +37,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 2MB
-
 
 site:
   name: YIIU
@@ -69,40 +62,41 @@ site:
       clientId: becbb7ea2f472f12bb59
       clientSecret: 009f598e9c0e32cc050bb5ef887fff09d1c0e4ae
       callbackUrl: https://fea612d0.ngrok.io/oauth2/github/callback
-  mail:
-    register:
-      subject: 注册验证码 - ${site.name}
-      content: |
-        <p>您好</p>
-        <p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>${genCode!}</span> , 请在10分钟内使用！</p><br>
-        <small>本邮件为系统发出，请不要评论</small>
-    commentTopic:
-      subject: 话题被评论 - ${site.name}
-      content: |
-        <p>您好</p>
-        <p>&nbsp;&nbsp;${username!} 评论了您的话题 <a href='${domain!}topic/${topic.id?c}'>${topic.title!}</a></p>
-        <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>${content!}</div><br>
-        <small>本邮件为系统发出，请不要评论</small>
-    replyComment:
-      subject: 评论被回复 - ${site.name}
-      content: |
-        <p>您好</p>
-        <p>&nbsp;&nbsp;${username!} 回复了您在话题 <a href='${domain!}topic/${topic.id?c}'>${topic.title!}</a> 下的评论</p>
-        <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>${content!}</div><br>
-        <small>本邮件为系统发出，请不要评论</small>
+
+mail:
+  register:
+    subject: 注册验证码 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>$\{genCode!}</span> , 请在10分钟内使用！</p><br>
+      <small>本邮件为系统发出，请不要评论</small>
+  commentTopic:
+    subject: 话题被评论 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;$\{username!} 评论了您的话题 <a href='$\{domain!}topic/$\{topic.id?c}'>$\{topic.title!}</a></p>
+      <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>$\{content!}</div><br>
+      <small>本邮件为系统发出，请不要评论</small>
+  replyComment:
+    subject: 评论被回复 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;$\{username!} 回复了您在话题 <a href='$\{domain!}topic/$\{topic.id?c}'>$\{topic.title!}</a> 下的评论</p>
+      <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>$\{content!}</div><br>
+      <small>本邮件为系统发出，请不要评论</small>
 
 log:
   template:
-    createTopic: 创建话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    commentTopic: 评论话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    replyComment: 回复话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 下的评论
-    editTopic: 编辑话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    deleteTopic: 删除话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    collectTopic: 收藏话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    deleteCollectTopic: 删除收藏的话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a>
-    editComment: 编辑话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 下的评论
-    deleteComment: 删除话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 下的评论
-    upTopic: 给话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 点赞
-    downTopic: 给话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 点踩
-    upComment: 给话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 下的评论点赞
-    downComment: 给话题 <a href="/topic/${topic.id?c}" target="_blank">${topic.title}</a> 下的评论点踩
+    createTopic: 创建话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    commentTopic: 评论话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    replyComment: 回复话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 下的评论
+    editTopic: 编辑话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    deleteTopic: 删除话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    collectTopic: 收藏话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    deleteCollectTopic: 删除收藏的话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a>
+    editComment: 编辑话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 下的评论
+    deleteComment: 删除话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 下的评论
+    upTopic: 给话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 点赞
+    downTopic: 给话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 点踩
+    upComment: 给话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 下的评论点赞
+    downComment: 给话题 <a href='/topic/$\{topic.id?c}' target='_blank'>$\{topic.title}</a> 下的评论点踩

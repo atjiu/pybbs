@@ -30,6 +30,5 @@ public class SiteConfig {
   private String baiduZZ;
   private CookieConfig cookie;
   private OAuth2Config oauth2;
-  private MailTemplateConfig mail;
 
 }

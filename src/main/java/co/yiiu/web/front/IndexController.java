@@ -15,7 +15,6 @@ import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +43,6 @@ public class IndexController extends BaseController {
   private CodeService codeService;
   @Autowired
   private TagService tagService;
-  @Autowired
-  private StringRedisTemplate stringRedisTemplate;
 
   /**
    * 首页
