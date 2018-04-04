@@ -1,6 +1,5 @@
 package co.yiiu.module.user.service;
 
-import co.yiiu.config.OAuth2;
 import co.yiiu.module.user.model.OAuth2User;
 import co.yiiu.module.user.repository.OAuth2UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,8 +13,8 @@ import java.util.Map;
 @Setter
 public class MailTemplateConfig {
 
-  Map<String, Object> register;
-  Map<String, Object> commentTopic;
-  Map<String, Object> replyComment;
+  Map register;
+  Map commentTopic;
+  Map replyComment;
 
 }

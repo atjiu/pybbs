@@ -45,7 +45,7 @@ public class TopicTagService {
       topicTag.setTopicId(topicId);
       topicTags.add(topicTag);
     });
-    return topicTagRepository.save(topicTags);
+    return topicTagRepository.saveAll(topicTags);
   }
 
 }

@@ -5,7 +5,6 @@ import co.yiiu.module.notification.model.NotificationEnum;
 import co.yiiu.module.notification.repository.NotificationRepository;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -72,8 +71,9 @@ public class NotificationService {
    * @return
    */
   public Page<Map> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "isRead"), new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.ASC, "isRead")
+        .and(new Sort(Sort.Direction.DESC, "inTime"));
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     if (isRead == null) {
       return notificationRepository.findByTargetUserId(targetUser.getId(), pageable);
     }

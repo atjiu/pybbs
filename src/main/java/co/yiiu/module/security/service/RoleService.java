@@ -25,7 +25,7 @@ public class RoleService {
   private AdminUserService adminUserService;
 
   public Role findById(Integer id) {
-    return roleRepository.findOne(id);
+    return roleRepository.findById(id).get();
   }
 
   public List<Role> findAll() {
@@ -57,7 +57,7 @@ public class RoleService {
 
   public void delete(Integer id) {
     rolePermissionService.deleteRoleId(id);
-    roleRepository.delete(id);
+    roleRepository.deleteById(id);
     // 删除redis里的用户缓存
     adminUserService.deleteAllRedisAdminUser();
   }

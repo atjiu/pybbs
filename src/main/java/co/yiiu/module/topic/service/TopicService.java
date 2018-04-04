@@ -17,7 +17,6 @@ import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.model.UserReputation;
 import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Lists;
-import freemarker.template.utility.HtmlEscape;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.*;
 
@@ -136,22 +134,16 @@ public class TopicService {
   }
 
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
-    Sort sort = new Sort(
-        new Sort.Order(Sort.Direction.DESC, "top"),
-        new Sort.Order(Sort.Direction.DESC, "weight"),
-        new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
     switch (tab) {
       case "default":
         return topicRepository.findTopics(pageable);
       case "good":
         return topicRepository.findByGood(true, pageable);
       case "newest":
-        sort = new Sort(
-            new Sort.Order(Sort.Direction.DESC, "weight"),
-            new Sort.Order(Sort.Direction.DESC, "inTime")
-        );
-        pageable = new PageRequest(pageNo - 1, pageSize, sort);
+        sort = new Sort(Sort.Direction.DESC, "weight", "inTime");
+        pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return topicRepository.findTopics(pageable);
       case "noanswer":
         return topicRepository.findByCommentCount(0, pageable);
@@ -161,10 +153,8 @@ public class TopicService {
   }
 
   public Page<Map> pageByTagId(Integer pageNo, Integer pageSize, Integer tagId) {
-    Sort sort = new Sort(
-        new Sort.Order(Sort.Direction.DESC, "weight"),
-        new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "weight", "inTime");
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
     return topicRepository.findTopicsByTagId(tagId, pageable);
   }
 
@@ -177,8 +167,8 @@ public class TopicService {
    * @return
    */
   public Page<Map> findByUser(int p, int size, User user) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return topicRepository.findByUserId(user.getId(), pageable);
   }
 
@@ -263,12 +253,8 @@ public class TopicService {
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    Sort sort = new Sort(
-        new Sort.Order(Sort.Direction.DESC, "top"),
-        new Sort.Order(Sort.Direction.DESC, "weight"),
-        new Sort.Order(Sort.Direction.DESC, "inTime")
-    );
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
     return topicRepository.findAllForAdmin(pageable);
   }
 

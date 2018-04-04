@@ -23,9 +23,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.UUID;
 
 /**
  * Created by tomoya.

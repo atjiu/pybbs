@@ -31,6 +31,7 @@
 - 创建数据库yiiu, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
 - `git clone https://github.com/yiiu-co/yiiu`
 - 运行 `mvn spring-boot:run` 启动项目 (这一步系统会自动把表创建好)
+- 将项目下的 `init.sql` 文件导入到数据库
 - 前台页面访问 `http://localhost:8080`
 - 后台页面访问 `http://localhost:8080/admin/login` 用户名: admin 密码: 123123
 
@@ -41,6 +42,7 @@
 - 运行 `mvn clean compile package`
 - 拷贝 `target/yiiu.jar` 到你想存放的地方
 - 运行 `java -jar yiiu.jar --spring.profiles.active=prod > yiiu.log 2>&1 &` 项目就在后台运行了
+- 将项目下的 `init.sql` 文件导入到数据库
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 

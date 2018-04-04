@@ -25,7 +25,7 @@ public class TagService {
   private TagRepository tagRepository;
 
   public Tag findById(Integer id) {
-    return tagRepository.findOne(id);
+    return tagRepository.findById(id).get();
   }
 
   public Tag save(Tag tag) {
@@ -33,7 +33,7 @@ public class TagService {
   }
 
   public List<Tag> save(List<Tag> tags) {
-    return tagRepository.save(tags);
+    return tagRepository.saveAll(tags);
   }
 
   public Tag findByName(String name) {
@@ -58,7 +58,7 @@ public class TagService {
       }
       tagList.add(tag);
     }
-    return tagRepository.save(tagList);
+    return tagRepository.saveAll(tagList);
   }
 
   // 查询话题的标签
@@ -67,10 +67,8 @@ public class TagService {
   }
 
   public Page<Tag> page(Integer pageNo, Integer pageSize) {
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, new Sort(
-        new Sort.Order(Sort.Direction.DESC, "topicCount"),
-        new Sort.Order(Sort.Direction.DESC, "inTime")
-    ));
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize,
+        new Sort(Sort.Direction.DESC, "topicCount"));
     return tagRepository.findAll(pageable);
   }
 }

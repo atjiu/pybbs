@@ -2,8 +2,6 @@ package co.yiiu.web.tag;
 
 import co.yiiu.core.base.BaseController;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;

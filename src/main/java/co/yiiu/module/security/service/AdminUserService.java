@@ -1,6 +1,5 @@
 package co.yiiu.module.security.service;
 
-import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.repository.AdminUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +26,12 @@ public class AdminUserService {
   private StringRedisTemplate stringRedisTemplate;
 
   public Page<AdminUser> page(Integer pageNo, Integer pageSize) {
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, new Sort(
-        new Sort.Order(Sort.Direction.DESC, "inTime")
-    ));
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, new Sort(Sort.Direction.DESC, "inTime"));
     return adminUserRepository.findAll(pageable);
   }
 
   public AdminUser findOne(Integer id) {
-    return adminUserRepository.findOne(id);
+    return adminUserRepository.findById(id).get();
   }
 
   public AdminUser save(AdminUser adminUser) {

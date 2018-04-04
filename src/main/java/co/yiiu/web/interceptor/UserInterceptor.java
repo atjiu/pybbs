@@ -1,22 +1,16 @@
 package co.yiiu.web.interceptor;
 
-import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseEntity;
-import co.yiiu.core.util.CookieHelper;
-import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by tomoya at 2018/3/15

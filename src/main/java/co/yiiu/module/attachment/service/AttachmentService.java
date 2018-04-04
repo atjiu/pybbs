@@ -1,6 +1,5 @@
 package co.yiiu.module.attachment.service;
 
-import co.yiiu.core.util.DateUtil;
 import co.yiiu.module.attachment.model.Attachment;
 import co.yiiu.module.attachment.repository.AttachmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

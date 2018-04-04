@@ -59,7 +59,7 @@ public class CommentService {
   private SiteConfig siteConfig;
 
   public Comment findById(int id) {
-    return commentRepository.findOne(id);
+    return commentRepository.findById(id).get();
   }
 
   public void save(Comment comment) {
@@ -82,7 +82,7 @@ public class CommentService {
       topicService.save(topic);
       // 日志
       logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(), JsonUtil.objectToJson(comment), null, topic);
-      commentRepository.delete(id);
+      commentRepository.deleteById(id);
     }
   }
 
@@ -292,8 +292,8 @@ public class CommentService {
    * @return
    */
   public Page<Comment> page(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return commentRepository.findAll(pageable);
   }
 
@@ -306,16 +306,14 @@ public class CommentService {
    * @return
    */
   public Page<Map> findByUser(int p, int size, User user) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return commentRepository.findByUserId(user.getId(), pageable);
   }
 
   // 后台评论列表
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    Pageable pageable = new PageRequest(pageNo - 1, pageSize, new Sort(
-        new Sort.Order(Sort.Direction.DESC, "inTime")
-    ));
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, new Sort(Sort.Direction.DESC, "inTime"));
     return commentRepository.findAllForAdmin(pageable);
   }
 }

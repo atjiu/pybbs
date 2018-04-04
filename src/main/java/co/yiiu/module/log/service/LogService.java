@@ -6,7 +6,6 @@ import co.yiiu.module.log.model.Log;
 import co.yiiu.module.log.model.LogEventEnum;
 import co.yiiu.module.log.repository.LogRepository;
 import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,8 +36,8 @@ public class LogService {
   }
 
   public Page<Log> findByUserId(Integer p, int size, Integer userId) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return logRepository.findByUserId(userId, pageable);
   }
 
@@ -47,9 +46,7 @@ public class LogService {
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    Pageable pageable =new PageRequest(pageNo - 1, pageSize, new Sort(
-        new Sort.Order(Sort.Direction.DESC, "inTime")
-    ));
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, new Sort(Sort.Direction.DESC, "inTime"));
     return logRepository.findAllForAdmin(pageable);
   }
 

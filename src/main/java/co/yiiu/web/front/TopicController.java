@@ -5,7 +5,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.DateUtil;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.log.service.LogService;
@@ -25,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

@@ -9,25 +9,17 @@ import co.yiiu.module.user.model.OAuth2User;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.OAuth2UserService;
 import co.yiiu.module.user.service.UserService;
-import com.google.common.base.Strings;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.BasicJsonParser;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Map;
 
 /**

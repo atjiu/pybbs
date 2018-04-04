@@ -1,12 +1,11 @@
 package co.yiiu.module.user.service;
 
-import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.log.service.LogService;
+import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
@@ -73,8 +72,8 @@ public class UserService {
    * @return
    */
   public Page<User> findByReputation(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "reputation"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "reputation");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return userRepository.findAll(pageable);
   }
 
@@ -112,8 +111,8 @@ public class UserService {
    * @return
    */
   public Page<User> pageUser(int p, int size) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return userRepository.findAll(pageable);
   }
 

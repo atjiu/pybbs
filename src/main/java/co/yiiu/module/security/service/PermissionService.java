@@ -74,7 +74,7 @@ public class PermissionService {
 
   public void delete(Integer id) {
     rolePermissionService.deleteByPermissionId(id);
-    permissionRepository.delete(id);
+    permissionRepository.deleteById(id);
     // 删除redis里的用户缓存
     adminUserService.deleteAllRedisAdminUser();
   }

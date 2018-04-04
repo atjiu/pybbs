@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.model.Role;

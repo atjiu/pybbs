@@ -42,8 +42,8 @@ public class CollectService {
   private NotificationService notificationService;
 
   public Page<Map> findByUserId(int p, int size, Integer userId) {
-    Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = new PageRequest(p - 1, size, sort);
+    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
+    Pageable pageable = PageRequest.of(p - 1, size, sort);
     return collectRepository.findByUserId(userId, pageable);
   }
 
@@ -79,11 +79,11 @@ public class CollectService {
   }
 
   public void deleteById(int id) {
-    Collect collect = collectRepository.findOne(id);
+    Collect collect = collectRepository.findById(id).get();
     // 日志
     Topic topic = topicService.findById(collect.getTopicId());
     logService.save(LogEventEnum.DELETE_COLLECT_TOPIC, collect.getUserId(), LogTargetEnum.COLLECT.name(), collect.getId(), JsonUtil.objectToJson(collect), null, topic);
-    collectRepository.delete(id);
+    collectRepository.deleteById(id);
   }
 
   /**

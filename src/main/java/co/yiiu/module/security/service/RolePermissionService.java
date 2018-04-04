@@ -23,7 +23,7 @@ public class RolePermissionService {
   }
 
   public List<RolePermission> save(List<RolePermission> rolePermissions) {
-    return rolePermissionRepository.save(rolePermissions);
+    return rolePermissionRepository.saveAll(rolePermissions);
   }
 
   public void deleteRoleId(Integer roleId) {

@@ -3,7 +3,6 @@ server:
 spring:
   application:
     name: YIIU
-    index: 1
   resources:
     static-locations:
     - classpath:/${site.theme}/static/
@@ -13,8 +12,8 @@ spring:
     - classpath:/${site.theme}/templates/
     - file:./views/${site.theme}/templates/
     cache: false
-#    settings:
-#      template_exception_handler: rethrow
+    settings:
+      template_exception_handler: rethrow
   datasource:
     url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
     username: root
@@ -40,14 +39,10 @@ spring:
       mail.smtp.ssl.enable: true
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
-  http:
+  servlet:
     multipart:
       max-file-size: 2MB
 
-flyway:
-  baseline-on-migrate: true
-  locations:
-    - classpath:/db
 
 site:
   name: YIIU
