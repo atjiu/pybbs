@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -165,8 +166,9 @@ public class IndexController extends BaseController {
 
   // 登出
   @GetMapping("/logout")
-  public String logout(HttpServletResponse response) {
-    CookieHelper.clearCookieByName(response, siteConfig.getCookie().getUserName());
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
+    CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
+        siteConfig.getCookie().getDomain(), "/");
     return redirect("/");
   }
 
