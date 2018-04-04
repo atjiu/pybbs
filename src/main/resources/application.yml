@@ -25,6 +25,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate.format_sql: false
+    open-in-view: false
   mvc:
     static-path-pattern: /static/**
     favicon:

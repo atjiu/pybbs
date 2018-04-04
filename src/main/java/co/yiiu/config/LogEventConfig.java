@@ -1,6 +1,5 @@
 package co.yiiu.config;
 
-import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,6 +17,6 @@ import java.util.Map;
 @Setter
 public class LogEventConfig {
 
-  private Map<String, String> template = Maps.newHashMap();
+  private Map<String, String> template;
 
 }
