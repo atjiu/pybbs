@@ -71,17 +71,19 @@ public class DateUtil {
     return false;
   }
 
+  // 获取 hour 后的时间
   public static Date getHourAfter(Date date, int hour) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
-    calendar.set(Calendar.HOUR, hour + 1);
+    calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + hour);
     return calendar.getTime();
   }
 
+  // 获取 hour 前的时间
   public static Date getHourBefore(Date date, int hour) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
-    calendar.set(Calendar.HOUR, -(hour - 1));
+    calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) - hour);
     return calendar.getTime();
   }
 
