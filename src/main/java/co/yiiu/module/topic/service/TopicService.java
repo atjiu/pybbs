@@ -135,18 +135,16 @@ public class TopicService {
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
     Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-    if(tab.equalsIgnoreCase("default")) {
-      return topicRepository.findTopics(pageable);
-    } else if(tab.equalsIgnoreCase("good")) {
+    if (tab.equalsIgnoreCase("good")) {
       return topicRepository.findByGood(true, pageable);
-    } else if(tab.equalsIgnoreCase("newest")) {
+    } else if (tab.equalsIgnoreCase("newest")) {
       sort = new Sort(Sort.Direction.DESC, "inTime", "weight");
       pageable = PageRequest.of(pageNo - 1, pageSize, sort);
       return topicRepository.findTopics(pageable);
-    } else if(tab.equalsIgnoreCase("noanswer")) {
+    } else if (tab.equalsIgnoreCase("noanswer")) {
       return topicRepository.findByCommentCount(0, pageable);
     } else {
-      return null;
+      return topicRepository.findTopics(pageable);
     }
   }
 
@@ -267,7 +265,7 @@ public class TopicService {
     int Qanswer = comments.size();
     int Qscore = topic.getUp() - topic.getDown();
     Optional<Integer> Ascore = Optional.of(0);
-    if(Qanswer > 0) {
+    if (Qanswer > 0) {
       Ascore = comments.stream()
           .map(comment -> comment.getUp() - comment.getDown())
           .reduce(Integer::sum);

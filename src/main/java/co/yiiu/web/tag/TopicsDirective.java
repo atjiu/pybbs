@@ -31,7 +31,7 @@ public class TopicsDirective implements TemplateDirectiveModel {
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
     String tab = StringUtils.isEmpty(map.get("tab")) ? "default" : map.get("tab").toString();
-    if (StringUtils.isEmpty(tab)) tab = "default";
+    if (StringUtils.isEmpty(tab)) tab = "";
 
     int p = map.get("p") == null ? 1 : Integer.parseInt(map.get("p").toString());
     Page<Map> page = topicService.page(p, siteConfig.getPageSize(), tab);

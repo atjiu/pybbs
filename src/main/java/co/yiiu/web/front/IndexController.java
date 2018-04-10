@@ -167,7 +167,7 @@ public class IndexController extends BaseController {
   // 登出
   @GetMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) {
-    CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
+    CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getUserName(),
         siteConfig.getCookie().getDomain(), "/");
     return redirect("/");
   }
