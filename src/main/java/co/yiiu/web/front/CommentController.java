@@ -4,12 +4,13 @@ import co.yiiu.config.LogEventConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
+import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.comment.model.Comment;
-import co.yiiu.module.comment.model.CommentAction;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.model.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
@@ -80,17 +81,9 @@ public class CommentController extends BaseController {
 
     ApiAssert.notNull(comment, "评论不存在");
     ApiAssert.notTrue(user.getId().equals(comment.getUserId()), "不能给自己的评论投票");
+    ApiAssert.isTrue(EnumUtil.isDefined(VoteAction.values(), action), "参数错误");
 
-    // 验证参数
-    CommentAction commentAction;
-    if (action.equalsIgnoreCase("up")) {
-      commentAction = CommentAction.UP;
-    } else if (action.equalsIgnoreCase("down")) {
-      commentAction = CommentAction.DOWN;
-    } else {
-      return Result.error("参数错误");
-    }
-    Map<String, Object> map = commentService.vote(user.getId(), comment, commentAction);
+    Map<String, Object> map = commentService.vote(user.getId(), comment, action);
     return Result.success(map);
   }
 

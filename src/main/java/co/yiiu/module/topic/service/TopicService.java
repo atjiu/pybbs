@@ -12,7 +12,7 @@ import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.topic.model.TopicAction;
+import co.yiiu.module.topic.model.VoteAction;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.model.UserReputation;
@@ -21,7 +21,6 @@ import com.google.common.collect.Lists;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +38,6 @@ import java.util.*;
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "topics")
 public class TopicService {
 
   @Autowired
@@ -102,8 +100,8 @@ public class TopicService {
     return topicRepository.save(topic);
   }
 
-  public Topic findById(int id) {
-    return topicRepository.findById(id);
+  public Topic findById(Integer id) {
+    return topicRepository.findById(id).get();
   }
 
   public void deleteById(Integer id, Integer userId) {
@@ -137,19 +135,18 @@ public class TopicService {
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
     Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-    switch (tab) {
-      case "default":
-        return topicRepository.findTopics(pageable);
-      case "good":
-        return topicRepository.findByGood(true, pageable);
-      case "newest":
-        sort = new Sort(Sort.Direction.DESC, "weight", "inTime");
-        pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return topicRepository.findTopics(pageable);
-      case "noanswer":
-        return topicRepository.findByCommentCount(0, pageable);
-      default:
-        return null;
+    if(tab.equalsIgnoreCase("default")) {
+      return topicRepository.findTopics(pageable);
+    } else if(tab.equalsIgnoreCase("good")) {
+      return topicRepository.findByGood(true, pageable);
+    } else if(tab.equalsIgnoreCase("newest")) {
+      sort = new Sort(Sort.Direction.DESC, "inTime", "weight");
+      pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+      return topicRepository.findTopics(pageable);
+    } else if(tab.equalsIgnoreCase("noanswer")) {
+      return topicRepository.findByCommentCount(0, pageable);
+    } else {
+      return null;
     }
   }
 
@@ -183,7 +180,7 @@ public class TopicService {
     return topicRepository.findByTitle(title);
   }
 
-  public Map<String, Object> vote(Integer userId, Topic topic, TopicAction action) {
+  public Map<String, Object> vote(Integer userId, Topic topic, String action) {
     Map<String, Object> map = new HashMap<>();
     List<String> upIds = new ArrayList<>();
     List<String> downIds = new ArrayList<>();
@@ -196,7 +193,7 @@ public class TopicService {
     if (!StringUtils.isEmpty(topic.getDownIds())) {
       downIds = Lists.newArrayList(topic.getDownIds().split(","));
     }
-    if (action.equals(TopicAction.UP)) {
+    if (action.equals(VoteAction.UP.name())) {
       logEventEnum = LogEventEnum.UP_TOPIC;
       notificationEnum = NotificationEnum.UP_TOPIC;
       topicUser.setReputation(topicUser.getReputation() + UserReputation.UP_TOPIC.getReputation());
@@ -217,7 +214,7 @@ public class TopicService {
         map.put("isUp", false);
         map.put("isDown", false);
       }
-    } else if (action.equals(TopicAction.DOWN)) {
+    } else if (action.equals(VoteAction.DOWN.name())) {
       logEventEnum = LogEventEnum.DOWN_TOPIC;
       notificationEnum = NotificationEnum.DOWN_TOPIC;
       topicUser.setReputation(topicUser.getReputation() + UserReputation.DOWN_TOPIC.getReputation());

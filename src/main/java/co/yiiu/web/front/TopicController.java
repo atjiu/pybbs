@@ -5,13 +5,14 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
+import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.topic.model.TopicAction;
+import co.yiiu.module.topic.model.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
@@ -157,16 +158,9 @@ public class TopicController extends BaseController {
     ApiAssert.notNull(topic, "话题不存在");
     ApiAssert.notTrue(user.getId().equals(topic.getUserId()), "不能给自己的话题投票");
 
-    // 验证参数
-    TopicAction topicAction;
-    if (action.equalsIgnoreCase("up")) {
-      topicAction = TopicAction.UP;
-    } else if (action.equalsIgnoreCase("down")) {
-      topicAction = TopicAction.DOWN;
-    } else {
-      return Result.error("参数错误");
-    }
-    Map<String, Object> map = topicService.vote(user.getId(), topic, topicAction);
+    ApiAssert.isTrue(EnumUtil.isDefined(VoteAction.values(), action), "参数错误");
+
+    Map<String, Object> map = topicService.vote(user.getId(), topic, action);
     return Result.success(map);
   }
 

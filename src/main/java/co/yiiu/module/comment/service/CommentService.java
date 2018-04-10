@@ -6,7 +6,6 @@ import co.yiiu.core.util.EmailUtil;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.comment.model.Comment;
-import co.yiiu.module.comment.model.CommentAction;
 import co.yiiu.module.comment.repository.CommentRepository;
 import co.yiiu.module.log.model.LogEventEnum;
 import co.yiiu.module.log.model.LogTargetEnum;
@@ -14,6 +13,7 @@ import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.model.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.model.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.model.UserReputation;
@@ -174,7 +174,7 @@ public class CommentService {
    * @param userId
    * @param comment
    */
-  public Map<String, Object> vote(Integer userId, Comment comment, CommentAction action) {
+  public Map<String, Object> vote(Integer userId, Comment comment, String action) {
     Map<String, Object> map = new HashMap<>();
     List<String> upIds = new ArrayList<>();
     List<String> downIds = new ArrayList<>();
@@ -187,7 +187,7 @@ public class CommentService {
     if (!StringUtils.isEmpty(comment.getDownIds())) {
       downIds = Lists.newArrayList(comment.getDownIds().split(","));
     }
-    if (action.equals(CommentAction.UP)) {
+    if (action.equals(VoteAction.UP.name())) {
       logEventEnum = LogEventEnum.UP_COMMENT;
       notificationEnum = NotificationEnum.UP_COMMENT;
       commentUser.setReputation(commentUser.getReputation() + UserReputation.UP_COMMENT.getReputation());
@@ -208,7 +208,7 @@ public class CommentService {
         map.put("isUp", false);
         map.put("isDown", false);
       }
-    } else if (action.equals(CommentAction.DOWN)) {
+    } else if (action.equals(VoteAction.DOWN.name())) {
       logEventEnum = LogEventEnum.DOWN_COMMENT;
       notificationEnum = NotificationEnum.DOWN_COMMENT;
       commentUser.setReputation(commentUser.getReputation() + UserReputation.DOWN_COMMENT.getReputation());

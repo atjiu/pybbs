@@ -6,9 +6,6 @@ import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.

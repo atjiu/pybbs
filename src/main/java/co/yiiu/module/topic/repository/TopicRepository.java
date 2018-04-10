@@ -17,8 +17,6 @@ import java.util.Map;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
-  Topic findById(int id);
-
   @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = ?1",
       countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.userId = ?1")
   Page<Map> findByUserId(Integer userId, Pageable pageable);
@@ -31,11 +29,11 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
   @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.good = ?1",
       countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.good = ?1")
-  Page<Map> findByGood(boolean b, Pageable pageable);
+  Page<Map> findByGood(Boolean b, Pageable pageable);
 
   @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.commentCount = ?1",
       countQuery = "select count(1) from Topic t, User u where t.userId = u.id and t.commentCount = ?1")
-  Page<Map> findByCommentCount(int i, Pageable pageable);
+  Page<Map> findByCommentCount(Integer commentCount, Pageable pageable);
 
   Topic findByTitle(String title);
 
