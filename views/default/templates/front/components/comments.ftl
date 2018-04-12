@@ -40,7 +40,7 @@
   <script>
     function vote(dom, id, action) {
       $.ajax({
-        url: '/comment/' + id + '/vote',
+        url: '/api/comment/' + id + '/vote',
         async: true,
         cache: false,
         type: "get",

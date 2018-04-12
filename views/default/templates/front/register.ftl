@@ -117,7 +117,7 @@
     $("#send_email_btn").click(function () {
       $("#send_email_btn").attr("disabled", true);
       $.ajax({
-        url: "/common/sendEmailCode",
+        url: "/api/common/sendEmailCode",
         async: true,
         cache: false,
         type: 'get',

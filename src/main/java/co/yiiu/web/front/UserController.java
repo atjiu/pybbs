@@ -113,7 +113,6 @@ public class UserController extends BaseController {
    * @param email
    * @param url
    * @param bio
-   * @param response
    * @return
    */
   @PostMapping("/setting/profile")
@@ -123,7 +122,7 @@ public class UserController extends BaseController {
     User user = getUser();
     if (user.getBlock())
       throw new Exception("你的帐户已经被禁用，不能进行此项操作");
-    user.setEmail(email);
+//    user.setEmail(email); TODO 还要对邮箱进行验证 另外这个方法将被删除，提到接口Controller里处理
     if (bio != null && bio.trim().length() > 0) user.setBio(Jsoup.clean(bio, Whitelist.none()));
     user.setCommentEmail(commentEmail);
     user.setReplyEmail(replyEmail);
@@ -145,59 +144,16 @@ public class UserController extends BaseController {
   }
 
   /**
-   * 保存头像
-   *
-   * @param avatar
+   * 修改密码
    * @return
-   * @throws ApiException
    */
-  @PostMapping("setting/changeAvatar")
-  @ResponseBody
-  public Result changeAvatar(String avatar) throws ApiException, IOException {
-    if (StringUtils.isEmpty(avatar)) throw new ApiException("头像不能为空");
-    String _avatar = avatar.substring(avatar.indexOf(",") + 1, avatar.length());
-    User user = getUser();
-    byte[] bytes;
-    try {
-      bytes = Base64Helper.decode(_avatar);
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new ApiException("头像格式不正确");
-    }
-    ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-    BufferedImage bufferedImage = ImageIO.read(bais);
-    String __avatar = identicon.saveFile(user.getUsername(), bufferedImage);
-    user.setAvatar(__avatar);
-    userService.save(user);
-    bais.close();
-    return Result.success();
-  }
-
   @GetMapping("/setting/changePassword")
   public String changePassword() {
     return "front/user/setting/changePassword";
   }
 
   /**
-   * 修改密码
-   *
-   * @param oldPassword
-   * @param newPassword
-   * @return
-   */
-  @PostMapping("/setting/changePassword")
-  @ResponseBody
-  public Result changePassword(String oldPassword, String newPassword) {
-    User user = getUser();
-    ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用，不能进行此项操作");
-    ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword()), "旧密码不正确");
-    user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-    userService.save(user);
-    return Result.success();
-  }
-
-  /**
-   * user accessToken page
+   * 用户的Token页面
    *
    * @param model
    * @return
@@ -211,13 +167,11 @@ public class UserController extends BaseController {
   /**
    * 刷新token
    *
-   * @param response
    * @return
    */
   @GetMapping("/setting/refreshToken")
   public String refreshToken() {
     User user = getUser();
-    user.setToken(UUID.randomUUID().toString());
     userService.save(user);
     return redirect("/user/setting/accessToken");
   }

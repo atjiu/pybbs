@@ -28,7 +28,7 @@
         toast("请输入内容");
       } else {
         $.ajax({
-          url: '/comment/edit',
+          url: '/api/comment/edit',
           type: 'post',
           async: false,
           cache: false,

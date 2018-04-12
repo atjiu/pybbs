@@ -41,14 +41,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(commonInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/common/**", "/admin/**");
+        .excludePathPatterns("/api/**", "/common/**", "/admin/**");
     registry.addInterceptor(userInterceptor).addPathPatterns(
         "/topic/create",
-        "/topic/save",
-        "/topic/*/edit",
         "/comment/save",
-        "/collect/*/add",
-        "/collect/*/delete",
         "/notification/list",
         "/user/setting/*"
     );

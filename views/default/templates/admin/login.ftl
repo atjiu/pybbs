@@ -52,11 +52,6 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox" checked name="remember-me" id="rememberme"> 记住我
-            </label>
-          </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
@@ -125,8 +120,7 @@
         data: {
           username: username,
           password: password,
-          code: code,
-          rememberMe: $("#rememberme").is(':checked')
+          code: code
         },
         success: function(data) {
           if(data.code === 200) {

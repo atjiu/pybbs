@@ -28,11 +28,6 @@
               </span>
             </div>
           </div>
-          <div class="checkbox">
-            <label for="rememberme">
-              <input type="checkbox" name="remember-me" id="rememberme" checked> 记住我
-            </label>
-          </div>
           <button type="submit" id="btn" class="btn btn-default">登录</button>
         </form>
       </div>
@@ -78,8 +73,7 @@
         data: {
           username: $("#username").val(),
           password: $("#password").val(),
-          code: $("#code").val(),
-          rememberMe: $("#rememberme").is(':checked')
+          code: $("#code").val()
         },
         success: function(data){
           if(data.code === 200) {

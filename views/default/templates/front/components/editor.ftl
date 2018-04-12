@@ -11,7 +11,7 @@
   var E = window.wangEditor;
   var editor = new E('#editor');
   editor.customConfig.uploadFileName = 'file';
-  editor.customConfig.uploadImgServer = '/common/wangEditorUpload';
+  editor.customConfig.uploadImgServer = '/api/common/wangEditorUpload';
   editor.customConfig.menus = [
     'head',  // 标题
     'bold',  // 粗体

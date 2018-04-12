@@ -112,7 +112,7 @@
         toast("评论内容不能为空");
       } else {
         $.ajax({
-          url: '/comment/save',
+          url: '/api/comment/save',
           type: 'post',
           async: false,
           cache: false,
@@ -137,9 +137,9 @@
     });
     $(".collectTopic").click(function() {
       var txt = $(this).text();
-      var url = '/collect/delete?topicId=${topic.id?c}';
+      var url = '/api/collect/delete?topicId=${topic.id?c}';
       if(txt === '加入收藏') {
-        url = '/collect/add?topicId=${topic.id?c}';
+        url = '/api/collect/add?topicId=${topic.id?c}';
       }
       $.ajax({
         url: url,
@@ -167,7 +167,7 @@
   });
   function voteTopic(dom, id, action) {
     $.ajax({
-      url: '/topic/' + id + '/vote',
+      url: '/api/topic/' + id + '/vote',
       async: true,
       cache: false,
       type: "get",

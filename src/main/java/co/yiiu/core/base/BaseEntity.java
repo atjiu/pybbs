@@ -124,6 +124,7 @@ public class BaseEntity {
     return parse.outerHtml();
   }
 
+  // 获取前台用户
   public User getUser() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
@@ -150,6 +151,7 @@ public class BaseEntity {
     return null;
   }
 
+  // 获取后台用户
   public AdminUser getAdminUser() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();

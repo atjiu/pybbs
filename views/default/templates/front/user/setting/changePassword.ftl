@@ -50,7 +50,7 @@
         return false;
       }
       $.ajax({
-        url: '/user/setting/changePassword',
+        url: '/api/user/setting/changePassword',
         type: 'post',
         async: true,
         cache: false,

@@ -23,8 +23,6 @@ public class CommentsDirective extends BaseController implements TemplateDirecti
 
   @Autowired
   private CommentService commentService;
-  @Autowired
-  private UserService userService;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels,

@@ -138,6 +138,11 @@ public class UserService {
     save(user);
   }
 
+  public User refreshToken(User user) {
+    user.setToken(UUID.randomUUID().toString());
+    return this.save(user);
+  }
+
   /**
    * 根据令牌查询用户
    *

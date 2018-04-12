@@ -55,7 +55,7 @@ public class IndexAdminController extends BaseController {
 
   @PostMapping("/login")
   @ResponseBody
-  public Result login(String username, String password, String code, Boolean rememberMe, HttpServletResponse response, HttpSession session) {
+  public Result login(String username, String password, String code, HttpServletResponse response, HttpSession session) {
     ApiAssert.notEmpty(username, "用户名不能为空");
     ApiAssert.notEmpty(password, "密码不能为空");
     ApiAssert.notEmpty(code, "验证码不能为空");
@@ -74,18 +74,16 @@ public class IndexAdminController extends BaseController {
     adminUser.setPermissions(permissions);
 
     session.setAttribute("admin_user", adminUser);
-    if(rememberMe) {
-      CookieHelper.addCookie(
-          response,
-          siteConfig.getCookie().getDomain(),
-          "/admin/",
-          siteConfig.getCookie().getAdminUserName(),
-          Base64Helper.encode(adminUser.getToken().getBytes()),
-          siteConfig.getCookie().getAdminUserMaxAge() * 24 * 60 * 60,
-          true,
-          false
-      );
-    }
+    CookieHelper.addCookie(
+        response,
+        siteConfig.getCookie().getDomain(),
+        "/admin/",
+        siteConfig.getCookie().getAdminUserName(),
+        Base64Helper.encode(adminUser.getToken().getBytes()),
+        siteConfig.getCookie().getAdminUserMaxAge() * 24 * 60 * 60,
+        true,
+        false
+    );
     return Result.success();
   }
 

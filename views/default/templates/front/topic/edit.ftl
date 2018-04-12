@@ -49,7 +49,7 @@
         toast("请输入标签");
       } else {
         $.ajax({
-          url: '/topic/edit',
+          url: '/api/topic/edit',
           type: 'post',
           async: false,
           cache: false,

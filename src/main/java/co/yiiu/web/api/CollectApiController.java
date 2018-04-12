@@ -1,4 +1,4 @@
-package co.yiiu.web.front;
+package co.yiiu.web.api;
 
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
@@ -9,19 +9,18 @@ import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-@Controller
-@RequestMapping("/collect")
-public class CollectController extends BaseController {
+@RestController
+@RequestMapping("/api/collect")
+public class CollectApiController extends BaseController {
 
   @Autowired
   private CollectService collectService;
@@ -29,7 +28,6 @@ public class CollectController extends BaseController {
   private TopicService topicService;
 
   @GetMapping("/add")
-  @ResponseBody
   public Result add(Integer topicId) {
     User user = getApiUser();
     Topic topic = topicService.findById(topicId);
@@ -45,7 +43,6 @@ public class CollectController extends BaseController {
   }
 
   @GetMapping("/delete")
-  @ResponseBody
   public Result delete(Integer topicId) {
     User user = getApiUser();
     Collect collect = collectService.findByUserIdAndTopicId(user.getId(), topicId);

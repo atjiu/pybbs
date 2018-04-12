@@ -93,7 +93,7 @@
       } else {
         var avatarBase64 = newAvatarImg.cropper('getCroppedCanvas', {width: 100, height: 100}).toDataURL();
         $.ajax({
-          url: '/user/setting/changeAvatar',
+          url: '/api/user/setting/changeAvatar',
           async: false,
           cache: false,
           method: 'post',

@@ -22,6 +22,7 @@
 - 登录时有验证码，尝试登录次数的限制
 - 使用 `Spring-Boot` 开发
 - 使用的 `Spring-JPA` 操作数据存储
+- 使用 HQL 编写sql，可以轻松切换成 Hibernate 支持的数据库
 - Redis做缓存支持分布式
 
 ## 快速开始

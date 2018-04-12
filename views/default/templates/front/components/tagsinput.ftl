@@ -39,9 +39,9 @@
   var tagAutoComplete = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '${site.baseUrl!}tag/autocomplete',
+    prefetch: '${site.baseUrl!}api/tag/autocomplete',
     remote: {
-      url: '${site.baseUrl!}tag/autocomplete?keyword=%QUERY',
+      url: '${site.baseUrl!}api/tag/autocomplete?keyword=%QUERY',
       wildcard: '%QUERY',
       filter: function(data) {
         return $.map(data.detail, function(v) {

@@ -85,23 +85,6 @@ public class TopicController extends BaseController {
     return "front/topic/create";
   }
 
-  @PostMapping("/save")
-  @ResponseBody
-  public Result save(String title, String content, String tag) {
-    User user = getUser();
-
-    ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用了，不能进行此项操作");
-
-    ApiAssert.notEmpty(title, "请输入标题");
-    ApiAssert.notEmpty(content, "请输入内容");
-    ApiAssert.notEmpty(tag, "标签不能为空");
-    ApiAssert.notTrue(topicService.findByTitle(title) != null, "话题标题已经存在");
-
-    Topic topic = topicService.createTopic(title, content, tag, user.getId());
-
-    return Result.success(topic);
-  }
-
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
     User user = getUser();
@@ -113,29 +96,6 @@ public class TopicController extends BaseController {
     return "/front/topic/edit";
   }
 
-  @PostMapping("/edit")
-  @ResponseBody
-  public Result update(Integer id, String title, String content, String tag) {
-    User user = getApiUser();
-    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.EDIT_TOPIC.getReputation(), "声望太低，不能进行这项操作");
-
-    ApiAssert.notEmpty(title, "请输入标题");
-    ApiAssert.notEmpty(content, "请输入内容");
-    ApiAssert.notEmpty(tag, "标签不能为空");
-
-    Topic oldTopic = topicService.findById(id);
-    ApiAssert.isTrue(oldTopic.getUserId().equals(user.getId()), "不能修改别人的话题");
-
-    Topic topic = oldTopic;
-    topic.setTitle(Jsoup.clean(title, Whitelist.none()));
-    topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
-    topic.setTag(Jsoup.clean(tag, Whitelist.none()));
-
-    topic = topicService.updateTopic(oldTopic, topic, user.getId());
-
-    return Result.success(topic);
-  }
-
   @GetMapping("/delete")
   public String delete(Integer id) {
     User user = getUser();
@@ -143,25 +103,6 @@ public class TopicController extends BaseController {
     // delete topic
     topicService.deleteById(id, getUser().getId());
     return redirect("/");
-  }
-
-  // 给话题投票
-  @GetMapping("/{id}/vote")
-  @ResponseBody
-  public Result vote(@PathVariable Integer id, String action) {
-    User user = getApiUser();
-
-    ApiAssert.isTrue(user.getReputation() >= ReputationPermission.VOTE_TOPIC.getReputation(), "声望太低，不能进行这项操作");
-
-    Topic topic = topicService.findById(id);
-
-    ApiAssert.notNull(topic, "话题不存在");
-    ApiAssert.notTrue(user.getId().equals(topic.getUserId()), "不能给自己的话题投票");
-
-    ApiAssert.isTrue(EnumUtil.isDefined(VoteAction.values(), action), "参数错误");
-
-    Map<String, Object> map = topicService.vote(user.getId(), topic, action);
-    return Result.success(map);
   }
 
   @GetMapping("/tag/{name}")

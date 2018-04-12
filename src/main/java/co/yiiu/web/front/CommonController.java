@@ -1,23 +1,12 @@
 package co.yiiu.web.front;
 
 import co.yiiu.config.LogEventConfig;
-import co.yiiu.config.MailTemplateConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.bean.Result;
-import co.yiiu.core.exception.ApiException;
-import co.yiiu.core.util.*;
-import co.yiiu.module.attachment.model.Attachment;
-import co.yiiu.module.attachment.service.AttachmentService;
-import co.yiiu.module.code.service.CodeService;
+import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.log.service.LogService;
-import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -27,9 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -40,23 +26,11 @@ import java.util.Random;
 public class CommonController extends BaseController {
 
   @Autowired
-  private UserService userService;
-  @Autowired
-  private MailTemplateConfig mailTemplateConfig;
-  @Autowired
-  private FileUtil fileUtil;
-  @Autowired
-  private CodeService codeService;
-  @Autowired
   FreemarkerUtil freemarkerUtil;
   @Autowired
   LogEventConfig logEventConfig;
   @Autowired
   LogService logService;
-  @Autowired
-  private EmailUtil emailUtil;
-  @Autowired
-  private AttachmentService attachmentService;
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height
@@ -136,78 +110,5 @@ public class CommonController extends BaseController {
     // 将图像输出到Servlet输出流中。
     ServletOutputStream sos = resp.getOutputStream();
     ImageIO.write(buffImg, "jpeg", sos);
-  }
-
-  @GetMapping("/sendEmailCode")
-  @ResponseBody
-  public Result sendEmailCode(String email) throws ApiException {
-    if (!StrUtil.check(email, StrUtil.check)) throw new ApiException("请输入正确的Email");
-
-    User user = userService.findByEmail(email);
-    if (user != null) throw new ApiException("邮箱已经被使用");
-
-    String genCode = codeService.genEmailCode(email);
-    Map<String, Object> params = Maps.newHashMap();
-    params.put("genCode", genCode);
-    String subject = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("subject"), params);
-    String content = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("content"), params);
-    if(emailUtil.sendEmail(email, subject, content)) {
-      return Result.success();
-    } else {
-      return Result.error("邮件发送失败");
-    }
-  }
-
-  /**
-   * upload file
-   *
-   * @param file
-   * @return
-   */
-  @PostMapping("/upload")
-  @ResponseBody
-  public Result upload(@RequestParam("file") MultipartFile file) {
-    String username = getUser().getUsername();
-    if (!file.isEmpty()) {
-      try {
-        String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
-        Attachment attachment = attachmentService.findByMd5(md5);
-        if (attachment == null) {
-          attachment = fileUtil.uploadFile(file, FileType.PICTURE, username);
-        }
-        return Result.success(attachment.getRequestUrl());
-      } catch (IOException e) {
-        e.printStackTrace();
-        return Result.error("上传失败");
-      }
-    }
-    return Result.error("文件不存在");
-  }
-
-  // wangEditor 上传
-  @PostMapping("/wangEditorUpload")
-  @ResponseBody
-  public Map<String, Object> wangEditorUpload(@RequestParam("file") MultipartFile file) {
-    String username = getUser().getUsername();
-    Map<String, Object> map = new HashMap<>();
-    if (!file.isEmpty()) {
-      try {
-        String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
-        Attachment attachment = attachmentService.findByMd5(md5);
-        if (attachment == null) {
-          attachment = fileUtil.uploadFile(file, FileType.PICTURE, username);
-        }
-        map.put("errno", 0);
-        map.put("data", Arrays.asList(attachment.getRequestUrl()));
-      } catch (IOException e) {
-        e.printStackTrace();
-        map.put("errno", 2);
-        map.put("desc", e.getLocalizedMessage());
-      }
-    } else {
-      map.put("errno", 1);
-      map.put("desc", "请选择图片");
-    }
-    return map;
   }
 }
