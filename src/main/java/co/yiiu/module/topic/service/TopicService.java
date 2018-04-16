@@ -25,10 +25,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -275,6 +280,26 @@ public class TopicService {
     double weightScore = ((Qview * 4) + (Qanswer * Qscore) / 5 + Ascore.get()) / Math.pow(((Qage + 1) - (Qage - Qupdated) / 2), 1.5);
     topic.setWeight(weightScore);
     save(topic);
+  }
+
+  /**
+   * 复杂sql查询demo
+   * @return
+   */
+  public List<Topic> findByTest(Integer userId, List<String> tags){
+    Specification<Topic> specification = (Specification<Topic>) (root, query, cb) -> {
+      List<Predicate> pList = new ArrayList<>();
+      if(userId != null) {
+        Predicate predicate = cb.equal(root.get("userId"), userId);
+        pList.add(predicate);
+      }
+      if(tags.size() > 0) {
+        Predicate predicate = cb.not(cb.in(root.get("tag")).value(tags));
+        pList.add(predicate);
+      }
+      return cb.and(pList.toArray(new Predicate[0]));
+    };
+    return topicRepository.findAll(specification);
   }
 
 }

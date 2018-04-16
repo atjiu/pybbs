@@ -22,7 +22,7 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.format_sql: false
+      hibernate.format_sql: true
     open-in-view: false
   mail:
     host: smtp.qq.com
