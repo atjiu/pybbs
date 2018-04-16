@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ public class TopicController extends BaseController {
   @GetMapping("/{id}")
   public String detail(@PathVariable Integer id, Model model) {
     Topic topic = topicService.findById(id);
+
     Assert.notNull(topic, "话题不存在");
 
     // 浏览量+1
