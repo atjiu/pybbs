@@ -37,7 +37,7 @@ VALUES
   (36, '编辑', 35, '/admin/admin_user/edit', 'admin_user:edit'),
   (37, '删除', 35, '/admin/admin_user/delete', 'admin_user:delete'),
   (38, '添加', 35, '/admin/admin_user/add', 'admin_user:add'),
-  (40, '清除Redis缓存', 1, '/admin/clear', 'index:clear');
+  (40, '清除Redis缓存', 1, '/admin/clear', 'admin_index:clear');
 
 
 INSERT INTO `yiiu_role` (`id`, `name`)
