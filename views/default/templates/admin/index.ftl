@@ -13,8 +13,10 @@
   <section class="content">
     <p>欢迎登录${site.name}管理系统</p>
 
-    <button class="btn btn-sm btn-danger" onclick="clearRedisData(1)">清除前台Redis数据</button>&nbsp;
-    <button class="btn btn-sm btn-danger" onclick="clearRedisData(2)">清除后台Redis数据</button>
+    <#if sec.hasPermission("admin:clear")>
+      <button class="btn btn-sm btn-danger" onclick="clearRedisData(1)">清除前台Redis数据</button>&nbsp;
+      <button class="btn btn-sm btn-danger" onclick="clearRedisData(2)">清除后台Redis数据</button>
+    </#if>
   </section>
 <script>
   function clearRedisData(type) {
