@@ -30,6 +30,12 @@
   ];
   editor.create();
 
+  function commentThis(username, commentId) {
+    $("#replyAuthor").text(username);
+    $("#commentId").val(commentId);
+    $("#replyP").removeClass("hidden");
+  }
+
   function cancelReply() {
     $("#replyAuthor").text("");
     $("#commentId").val("");

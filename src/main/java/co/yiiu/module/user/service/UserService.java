@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.UUID;
@@ -47,6 +48,7 @@ public class UserService {
   private StringRedisTemplate stringRedisTemplate;
 
   public User createUser(String username, String password, String email, String avatar, String url, String bio) {
+    if(!StringUtils.isEmpty(email) && email.equals("null")) email = null;
     User user = new User();
     user.setEmail(email);
     user.setUsername(username);

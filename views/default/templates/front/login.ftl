@@ -65,7 +65,7 @@
         return false;
       }
       $.ajax({
-        url: '/login',
+        url: '/api/login',
         type: 'post',
         async: false,
         cache: false,
