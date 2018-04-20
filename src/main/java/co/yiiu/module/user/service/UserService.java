@@ -6,6 +6,7 @@ import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.service.NotificationService;
+import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -170,4 +172,9 @@ public class UserService {
     userRepository.deleteById(id);
   }
 
+  // 删除所有后台用户存在redis里的数据
+  public void deleteAllRedisUser() {
+    List<User> users = userRepository.findAll();
+    users.forEach(user -> stringRedisTemplate.delete(user.getToken()));
+  }
 }

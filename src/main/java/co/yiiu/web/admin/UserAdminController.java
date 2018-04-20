@@ -30,6 +30,12 @@ public class UserAdminController extends BaseController {
     return "admin/user/list";
   }
 
+  @GetMapping("/edit")
+  public String edit(Integer id, Model model) {
+    model.addAttribute("user", userService.findById(id));
+    return "admin/user/edit";
+  }
+
   @GetMapping("/delete")
   @ResponseBody
   public Result delete(Integer id) {
