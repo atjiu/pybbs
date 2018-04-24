@@ -3,6 +3,12 @@ package co.yiiu.core.util;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.module.attachment.model.Attachment;
 import co.yiiu.module.attachment.service.AttachmentService;
+import com.qiniu.common.Zone;
+import com.qiniu.http.Response;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.DefaultPutRet;
+import com.qiniu.util.Auth;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +42,7 @@ public class FileUtil {
   private AttachmentService attachmentService;
 
   /**
-   * upload file
+   * 上传文件到本地
    *
    * @param file
    * @param fileType
@@ -44,15 +50,8 @@ public class FileUtil {
    * @throws IOException
    */
   public Attachment uploadFile(MultipartFile file, FileType fileType, String username) throws IOException {
-    String suffix = "." + file.getContentType().split("/")[1];
-    Integer width = null, height = null;
-    // 如果是图片，计算图片长宽
-    if (fileType.equals(FileType.PICTURE)) {
-      BufferedImage image = ImageIO.read(file.getInputStream());
-      width = image.getWidth();
-      height = image.getHeight();
-    }
-    String size = getFileSize(file.getSize());
+    Map<String, Object> map = getFileSize(file);
+    String suffix = (String) map.get("suffix");
     String fileName = UUID.randomUUID().toString() + suffix;
     String today = DateUtil.formatDateTime(new Date(), DateUtil.FORMAT_DATE);
     // 判断要上传的文件夹是否存在，不存在则创建
@@ -70,7 +69,34 @@ public class FileUtil {
     stream.write(file.getBytes());
 
     // 构建Attachment对象
-    return attachmentService.createAttachment(localPath, fileName, requestUrl, fileType.name(), width, height, size, suffix, md5);
+    return attachmentService.createAttachment(localPath, fileName, requestUrl, fileType.name(),
+        (Integer) map.get("width"), (Integer) map.get("height"), (String) map.get("size"), suffix, md5);
+  }
+
+  /**
+   * 上传文件到七牛
+   *
+   * @param file
+   * @param fileType
+   * @return
+   * @throws IOException
+   */
+  public Attachment uploadFileToQiniu(MultipartFile file, FileType fileType) throws IOException {
+    Map<String, Object> map = getFileSize(file);
+    String suffix = (String) map.get("suffix");
+    String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
+    //构造一个带指定Zone对象的配置类
+    Configuration cfg = new Configuration(Zone.zone2());
+    //...其他参数参考类注释
+    UploadManager uploadManager = new UploadManager(cfg);
+    Auth auth = Auth.create(siteConfig.getUpload().getQiniu().getAccessKey(), siteConfig.getUpload().getQiniu().getSecretKey());
+    String uploadToken = auth.uploadToken(siteConfig.getUpload().getQiniu().getBucket());
+    Response response = uploadManager.put(file.getInputStream(), null, uploadToken, null, null);
+    DefaultPutRet defaultPutRet = JsonUtil.jsonToObject(response.bodyString(), DefaultPutRet.class);
+    String requestUrl = siteConfig.getUpload().getQiniu().getDomain() + defaultPutRet.key;
+    // 将图片信息保存在数据库
+    return attachmentService.createAttachment(null, defaultPutRet.key, requestUrl, fileType.name(),
+        (Integer) map.get("width"), (Integer) map.get("height"), (String) map.get("size"), suffix, md5);
   }
 
   public Map<String, Object> getFileSize(MultipartFile file) {

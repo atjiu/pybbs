@@ -2,11 +2,20 @@ package co.yiiu.core.util.identicon;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.HashUtil;
+import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.generator.IBaseGenartor;
 import co.yiiu.core.util.identicon.generator.impl.MyGenerator;
 import co.yiiu.core.util.security.MD5Helper;
 import com.google.common.base.Preconditions;
+import com.qiniu.common.QiniuException;
+import com.qiniu.common.Zone;
+import com.qiniu.http.Response;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.DefaultPutRet;
+import com.qiniu.util.Auth;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -15,10 +24,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.Base64;
 
 /**
@@ -27,6 +33,7 @@ import java.util.Base64;
  * Time: 下午2:42
  */
 @Component
+@Slf4j
 public class Identicon {
 
   private IBaseGenartor genartor;
@@ -98,7 +105,24 @@ public class Identicon {
       ImageIO.write(image, "PNG", file1);
       return siteConfig.getStaticUrl() + userAvatarPath + fileName;
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e.getLocalizedMessage());
+    }
+    return "";
+  }
+
+  public String saveFileToQiniu(byte[] data) {
+    try {
+      //构造一个带指定Zone对象的配置类
+      Configuration cfg = new Configuration(Zone.zone2());
+      //...其他参数参考类注释
+      UploadManager uploadManager = new UploadManager(cfg);
+      Auth auth = Auth.create(siteConfig.getUpload().getQiniu().getAccessKey(), siteConfig.getUpload().getQiniu().getSecretKey());
+      String uploadToken = auth.uploadToken(siteConfig.getUpload().getQiniu().getBucket());
+      Response response = uploadManager.put(data, null, uploadToken, null, null, true);
+      DefaultPutRet defaultPutRet = JsonUtil.jsonToObject(response.bodyString(), DefaultPutRet.class);
+      return siteConfig.getUpload().getQiniu().getDomain() + defaultPutRet.key;
+    } catch (QiniuException e) {
+      log.error(e.getLocalizedMessage());
     }
     return "";
   }

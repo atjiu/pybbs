@@ -3,31 +3,26 @@ package co.yiiu.web.front;
 import co.yiiu.config.LogEventConfig;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.bean.Result;
-import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.topic.model.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.ReputationPermission;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tomoya.

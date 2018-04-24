@@ -2,12 +2,7 @@ package co.yiiu.web.front;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
-import co.yiiu.core.bean.Result;
-import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.exception.ApiException;
 import co.yiiu.core.util.identicon.Identicon;
-import co.yiiu.core.util.security.Base64Helper;
-import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
@@ -16,14 +11,7 @@ import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by tomoya.

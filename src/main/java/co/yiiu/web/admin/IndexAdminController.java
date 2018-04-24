@@ -13,7 +13,6 @@ import co.yiiu.module.security.model.Role;
 import co.yiiu.module.security.service.AdminUserService;
 import co.yiiu.module.security.service.PermissionService;
 import co.yiiu.module.security.service.RoleService;
-import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

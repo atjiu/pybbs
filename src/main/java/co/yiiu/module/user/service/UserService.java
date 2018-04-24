@@ -6,7 +6,6 @@ import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.repository.UserRepository;
