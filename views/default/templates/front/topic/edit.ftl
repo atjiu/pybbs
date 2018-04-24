@@ -43,8 +43,8 @@
       var tag = $("#tag").val();
       if(!title) {
         toast("请输入标题");
-      } else if(!contentText) {
-        toast("请输入内容");
+      // } else if(!contentText) {
+      //   toast("请输入内容");
       } else if(!tag) {
         toast("请输入标签");
       } else {
@@ -57,7 +57,7 @@
           data: {
             id: '${topic.id?c}',
             title: title,
-            content: contentHtml,
+            content: contentText ? contentHtml : '',
             tag: tag
           },
           success: function(data){

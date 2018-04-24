@@ -82,7 +82,7 @@ public class TopicApiController extends BaseController {
     ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用了，不能进行此项操作");
 
     ApiAssert.notEmpty(title, "请输入标题");
-    ApiAssert.notEmpty(content, "请输入内容");
+//    ApiAssert.notEmpty(content, "请输入内容");
     ApiAssert.notEmpty(tag, "标签不能为空");
     ApiAssert.notTrue(topicService.findByTitle(title) != null, "话题标题已经存在");
 
@@ -105,7 +105,7 @@ public class TopicApiController extends BaseController {
     ApiAssert.isTrue(user.getReputation() >= ReputationPermission.EDIT_TOPIC.getReputation(), "声望太低，不能进行这项操作");
 
     ApiAssert.notEmpty(title, "请输入标题");
-    ApiAssert.notEmpty(content, "请输入内容");
+//    ApiAssert.notEmpty(content, "请输入内容");
     ApiAssert.notEmpty(tag, "标签不能为空");
 
     Topic oldTopic = topicService.findById(id);
