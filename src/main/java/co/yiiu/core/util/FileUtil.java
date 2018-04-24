@@ -4,6 +4,7 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.module.attachment.model.Attachment;
 import co.yiiu.module.attachment.service.AttachmentService;
 import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -24,6 +27,7 @@ import java.util.UUID;
  * https://yiiu.co
  */
 @Component
+@Slf4j
 public class FileUtil {
 
   @Autowired
@@ -69,8 +73,26 @@ public class FileUtil {
     return attachmentService.createAttachment(localPath, fileName, requestUrl, fileType.name(), width, height, size, suffix, md5);
   }
 
+  public Map<String, Object> getFileSize(MultipartFile file) {
+    Map<String, Object> map = new HashMap<>();
+    try {
+      BufferedImage image = ImageIO.read(file.getInputStream());
+      String suffix = "." + file.getContentType().split("/")[1];
+      int width = image.getWidth();
+      int height = image.getHeight();
+      map.put("suffix", suffix);
+      map.put("width", width);
+      map.put("height", height);
+      map.put("size", getFileSize(file.getSize()));
+      return map;
+    } catch (IOException e) {
+      log.error(e.getLocalizedMessage());
+    }
+    return null;
+  }
+
   // 格式化文件大小
-  private static String getFileSize(long longSize) {
+  public String getFileSize(long longSize) {
     String fileSize;
     long SIZE_BT = 1024L;
     long SIZE_KB = SIZE_BT * 1024;

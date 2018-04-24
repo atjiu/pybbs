@@ -52,12 +52,19 @@ site:
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
+  uploadType: local # local, qiniu
   cookie:
     domain: localhost
     userName: remember-me
     userMaxAge: 30 # 天
     adminUserName: admin-remember-me
     adminUserMaxAge: 30 # 天
+  upload:
+    qiniu:
+      accessKey: 9g8ftmtOyy4cSWymIAzsG2y3QDtgpvB5PXwVZPDY
+      secretKey: UHQMfXIMwBQAkykO3gwtCn7dnaJWCpUfqKgnlmFl
+      bucket: yiiu
+      domain: http://p7o6459pu.bkt.clouddn.com/
   oauth2:
     github:
       clientId: becbb7ea2f472f12bb59
