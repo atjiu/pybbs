@@ -52,17 +52,24 @@ site:
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
+  uploadType: local # local, qiniu
   cookie:
     domain: localhost
     userName: remember-me
     userMaxAge: 30 # 天
     adminUserName: admin-remember-me
     adminUserMaxAge: 30 # 天
+  upload:
+    qiniu:
+      accessKey: # 七牛开发者上传的key
+      secretKey: # 七牛开发者上传的密钥
+      bucket: # 创建的存储空间名称
+      domain: # 存储空间域名
   oauth2:
     github:
-      clientId: becbb7ea2f472f12bb59
-      clientSecret: 009f598e9c0e32cc050bb5ef887fff09d1c0e4ae
-      callbackUrl: https://fea612d0.ngrok.io/oauth2/github/callback
+      clientId: # github申请应用的ClientId
+      clientSecret: # 对应的密钥
+      callbackUrl: ${site.baseUrl}/oauth2/github/callback
 
 mail:
   register:

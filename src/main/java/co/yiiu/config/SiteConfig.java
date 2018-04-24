@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Map;
+
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
@@ -28,7 +30,10 @@ public class SiteConfig {
   private String googleZZ;
   private String baiduTJ;
   private String baiduZZ;
+  private String uploadType;
   private CookieConfig cookie;
   private OAuth2Config oauth2;
+
+  private UploadConfig upload;
 
 }
