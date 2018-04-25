@@ -48,6 +48,11 @@
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
 
+#### 注意
+
+1. 开发环境要在IDE里装上lombok插件，否则编译器会报错
+2. 项目去掉了session，用户登录信息都存在redis里了，所以要先装好redis，默认配置的话直接启动即可，如果不装redis项目启动不会报错，但登录状态不会存储
+
 #### 启动好后可能会报404错误，两个解决办法
 
 1. 把pom.xml里的这段代码放开注释重新打包再启动即可
