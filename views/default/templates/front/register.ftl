@@ -83,7 +83,7 @@
       }
 
       $.ajax({
-        url: '/register',
+        url: '/api/register',
         async: false,
         cache: false,
         type: "post",
