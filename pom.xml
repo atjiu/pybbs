@@ -45,6 +45,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
+      <version>1.4.7.RELEASE</version><!--引入es后开始报错，这里引入一下版本号就好了-->
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
     </dependency>
 
     <dependency>

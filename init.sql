@@ -1,6 +1,6 @@
 INSERT INTO `yiiu_admin_user` (`id`, `in_time`, `password`, `token`, `username`, `role_id`)
 VALUES
-  (1, '2018-03-19 16:24:24', '$2a$10$eP47pOdRWwg2kcED7KN8FuLBcTD8uBeNs7v6kAZLYsIlyksXrjrN6', '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 1);
+  (1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 1);
 
 INSERT INTO `yiiu_permission` (`id`, `name`, `pid`, `url`, `value`)
 VALUES
@@ -37,7 +37,9 @@ VALUES
   (36, '编辑', 35, '/admin/admin_user/edit', 'admin_user:edit'),
   (37, '删除', 35, '/admin/admin_user/delete', 'admin_user:delete'),
   (38, '添加', 35, '/admin/admin_user/add', 'admin_user:add'),
-  (40, '清除Redis缓存', 1, '/admin/clear', 'admin_index:clear');
+  (40, '清除Redis缓存', 1, '/admin/clear', 'admin_index:clear'),
+  (41, '索引话题', 1, '/admin/indexedTopic', 'admin_index:indexedTopic');
+
 
 
 INSERT INTO `yiiu_role` (`id`, `name`)
@@ -86,4 +88,5 @@ VALUES
   (111, 28, 1),
   (112, 36, 1),
   (113, 37, 1),
-  (114, 38, 1);
+  (114, 41, 1),
+  (115, 38, 1);

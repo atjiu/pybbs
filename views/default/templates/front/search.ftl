@@ -4,15 +4,13 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">搜索结果</div>
-      <#include "components/search_result.ftl"/>
-      <@searchresult topics=page.getContent()/>
-      <div class="panel-body" style="padding: 0 15px;">
+        <div class="panel-body">
+        <#include "components/search_result.ftl"/>
+        <@searchresult topics=page.content/>
         <#include "./components/paginate.ftl"/>
-        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/search" urlParas="&q=${q!}" showdivide="no"/>
+        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/search" urlParas="&keyword=${keyword!}" showdivide="no"/>
       </div>
     </div>
   </div>
 </div>
-<script src="/static/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
 </@html>

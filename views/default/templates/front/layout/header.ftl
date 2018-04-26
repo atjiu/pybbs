@@ -15,7 +15,7 @@
       <#if site.search?? && site.search == true>
         <form class="navbar-form navbar-left hidden-xs hidden-sm" role="search" action="/search" method="get">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" name="q" value="${q!}" style="width: 270px;" placeholder="回车搜索">
+            <input type="text" class="form-control" name="keyword" value="${keyword!}" style="width: 270px;" placeholder="回车搜索">
             <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
           </div>
         </form>

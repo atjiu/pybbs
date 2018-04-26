@@ -3,10 +3,14 @@ package co.yiiu.web.front;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
+import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.tag.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +29,8 @@ public class IndexController extends BaseController {
   private SiteConfig siteConfig;
   @Autowired
   private TagService tagService;
+  @Autowired
+  private TopicSearchService topicSearchService;
 
   /**
    * 首页
@@ -36,6 +42,22 @@ public class IndexController extends BaseController {
     model.addAttribute("p", p);
     model.addAttribute("tab", tab);
     return "front/index";
+  }
+
+  /**
+   * 搜索
+   * @param keyword 关键字
+   * @param pageNo
+   * @param model
+   * @return
+   */
+  @GetMapping("/search")
+  public String search(String keyword, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
+    Assert.notNull(keyword, "请输入关键词");
+    Page<TopicIndex> page = topicSearchService.query(keyword, pageNo, siteConfig.getPageSize());
+    model.addAttribute("page", page);
+    model.addAttribute("keyword", keyword);
+    return "front/search";
   }
 
   @GetMapping("/tags")

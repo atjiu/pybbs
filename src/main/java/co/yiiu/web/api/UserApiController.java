@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
@@ -14,12 +13,6 @@ import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.util.Map;
 
 /**

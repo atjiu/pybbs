@@ -12,6 +12,8 @@ import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.code.model.CodeEnum;
 import co.yiiu.module.code.service.CodeService;
+import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.TopicTab;
 import co.yiiu.module.topic.service.TopicService;
@@ -45,6 +47,8 @@ public class IndexApiController extends BaseController {
   private Identicon identicon;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private TopicSearchService topicSearchService;
 
   /**
    * 首页接口
@@ -58,6 +62,18 @@ public class IndexApiController extends BaseController {
       ApiAssert.isTrue(EnumUtil.isDefined(TopicTab.values(), tab), "参数错误");
     }
     Page<Map> page = topicService.page(pageNo, siteConfig.getPageSize(), tab);
+    return Result.success(page);
+  }
+
+  /**
+   * 搜索
+   * @param keyword 关键字
+   * @param pageNo
+   * @return
+   */
+  @GetMapping("/search")
+  public Result search(String keyword, @RequestParam(defaultValue = "1") Integer pageNo) {
+    Page<TopicIndex> page = topicSearchService.query(keyword, pageNo, siteConfig.getPageSize());
     return Result.success(page);
   }
 

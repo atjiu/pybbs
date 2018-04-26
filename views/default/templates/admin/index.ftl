@@ -15,7 +15,10 @@
 
     <#if sec.hasPermission("admin_index:clear")>
       <button class="btn btn-sm btn-danger" onclick="clearRedisData(1)">清除前台Redis数据</button>&nbsp;
-      <button class="btn btn-sm btn-danger" onclick="clearRedisData(2)">清除后台Redis数据</button>
+      <button class="btn btn-sm btn-danger" onclick="clearRedisData(2)">清除后台Redis数据</button>&nbsp;
+    </#if>
+    <#if sec.hasPermission("admin_index:indexedTopic")>
+      <button class="btn btn-sm btn-danger" onclick="indexTopic()">索引话题</button>
     </#if>
   </section>
 <script>
@@ -30,6 +33,24 @@
       success: function (data) {
         if(data.code === 200) {
           toast("清除成功", 'success');
+        } else {
+          toast(data.description);
+        }
+      }
+    })
+  }
+
+  function indexTopic() {
+    $.ajax({
+      url: '/admin/indexedTopic',
+      async: false,
+      cache: true,
+      type: 'get',
+      dataType: 'json',
+      data: {},
+      success: function (data) {
+        if(data.code === 200) {
+          toast("索引成功", 'success');
         } else {
           toast(data.description);
         }
