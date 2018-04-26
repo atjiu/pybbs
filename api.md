@@ -15,6 +15,19 @@
 
 Result.success(Page<Map>)
 
+### 搜索
+
+地址 GET /api/search
+
+参数
+
+- pageNo 页数
+- keyword 关键字
+
+返回
+
+Result.success(Page<TopicIndex>)
+
 ### 标签
 
 地址 GET /api/tags/
