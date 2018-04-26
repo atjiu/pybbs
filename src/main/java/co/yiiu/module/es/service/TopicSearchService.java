@@ -32,7 +32,10 @@ public class TopicSearchService {
   @Autowired
   private TopicIndexRepository topicIndexRepository;
 
-  public void indexed() {
+  /**
+   * 索引全部话题
+   */
+  public void indexedAll() {
     List<TopicIndex> topicIndices = new ArrayList<>();
     List<Topic> topics = topicRepository.findAll();
     topics.forEach(topic -> {
@@ -47,13 +50,53 @@ public class TopicSearchService {
       topicIndex.setUsername(user.getUsername());
       topicIndices.add(topicIndex);
     });
+    // 保存前先删除索引
+    this.clearAll();
     topicIndexRepository.saveAll(topicIndices);
   }
 
+  /**
+   * 索引话题
+   * @param topic
+   * @param username
+   */
+  public void indexed(Topic topic, String username) {
+    TopicIndex topicIndex = new TopicIndex();
+    topicIndex.setId(topic.getId());
+    topicIndex.setTitle(topic.getTitle());
+    topicIndex.setTag(topic.getTag());
+    topicIndex.setContent(topic.getContent());
+    topicIndex.setInTime(topic.getInTime());
+    topicIndex.setUsername(username);
+    topicIndexRepository.save(topicIndex);
+  }
+
+  /**
+   * 根据id删除索引
+   * @param id
+   */
+  public void deleteById(Integer id) {
+    topicIndexRepository.deleteById(id);
+  }
+
+  /**
+   * 查询索引
+   * @param keyword
+   * @param pageNo
+   * @param pageSize
+   * @return
+   */
   public Page<TopicIndex> query(String keyword, Integer pageNo, Integer pageSize) {
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
     QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(keyword, "title", "content");
     SearchQuery query = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(queryBuilder).build();
     return topicIndexRepository.search(query);
+  }
+
+  /**
+   * 清除所有的索引
+   */
+  public void clearAll() {
+    topicIndexRepository.deleteAll();
   }
 }

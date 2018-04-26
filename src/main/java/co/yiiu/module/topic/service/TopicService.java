@@ -4,6 +4,7 @@ import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.service.CommentService;
+import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.log.model.LogEventEnum;
 import co.yiiu.module.log.model.LogTargetEnum;
 import co.yiiu.module.log.service.LogService;
@@ -58,14 +59,16 @@ public class TopicService {
   private LogService logService;
   @Autowired
   private UserService userService;
+  @Autowired
+  private TopicSearchService topicSearchService;
 
-  public Topic createTopic(String title, String content, String tag, Integer userId) {
+  public Topic createTopic(String title, String content, String tag, User user) {
     Topic topic = new Topic();
     topic.setTitle(Jsoup.clean(title, Whitelist.none()));
     topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     topic.setInTime(new Date());
     topic.setView(0);
-    topic.setUserId(userId);
+    topic.setUserId(user.getId());
     topic.setCommentCount(0);
     topic.setGood(false);
     topic.setTop(false);
@@ -81,20 +84,24 @@ public class TopicService {
     List<Tag> tagList = tagService.save(tag.split(","));
     topicTagService.save(tagList, topic.getId());
     // 日志
-    logService.save(LogEventEnum.CREATE_TOPIC, userId, LogTargetEnum.TOPIC.name(), topic.getId(),
+    logService.save(LogEventEnum.CREATE_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         null, JsonUtil.objectToJson(topic), topic);
+    // 索引话题
+    topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 
-  public Topic updateTopic(Topic oldTopic, Topic topic, Integer userId) {
+  public Topic updateTopic(Topic oldTopic, Topic topic, User user) {
     this.save(topic);
     // 处理标签
     topicTagService.deleteByTopicId(topic.getId());
     List<Tag> tagList = tagService.save(topic.getTag().split(","));
     topicTagService.save(tagList, topic.getId());
     // 日志
-    logService.save(LogEventEnum.EDIT_TOPIC, userId, LogTargetEnum.TOPIC.name(), topic.getId(),
+    logService.save(LogEventEnum.EDIT_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         JsonUtil.objectToJson(oldTopic), JsonUtil.objectToJson(topic), topic);
+    // 索引话题
+    topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 
@@ -120,6 +127,8 @@ public class TopicService {
           JsonUtil.objectToJson(topic), null, topic);
       //删除话题
       topicRepository.delete(topic);
+      //删除索引
+      topicSearchService.deleteById(id);
     }
   }
 

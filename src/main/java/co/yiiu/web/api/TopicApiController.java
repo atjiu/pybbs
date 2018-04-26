@@ -86,7 +86,7 @@ public class TopicApiController extends BaseController {
     ApiAssert.notEmpty(tag, "标签不能为空");
     ApiAssert.notTrue(topicService.findByTitle(title) != null, "话题标题已经存在");
 
-    Topic topic = topicService.createTopic(title, content, tag, user.getId());
+    Topic topic = topicService.createTopic(title, content, tag, user);
 
     return Result.success(topic);
   }
@@ -116,7 +116,7 @@ public class TopicApiController extends BaseController {
     topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     topic.setTag(Jsoup.clean(tag, Whitelist.none()));
 
-    topic = topicService.updateTopic(oldTopic, topic, user.getId());
+    topic = topicService.updateTopic(oldTopic, topic, user);
 
     return Result.success(topic);
   }

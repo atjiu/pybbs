@@ -115,7 +115,7 @@ public class IndexAdminController extends BaseController {
   @GetMapping("/indexedTopic")
   @ResponseBody
   public Result topicIndexed() {
-    topicSearchService.indexed();
+    topicSearchService.indexedAll();
     return Result.success();
   }
 }
