@@ -15,8 +15,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
 
   Tag findByName(String name);
 
-  List<Tag> findTop7ByNameLike(String name);
-
   @Query(value = "select t from Tag t, TopicTag tt where t.id = tt.tagId and tt.topicId = ?1")
   List<Tag> findByTopicId(Integer topicId);
 

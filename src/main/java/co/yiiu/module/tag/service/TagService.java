@@ -40,10 +40,6 @@ public class TagService {
     return tagRepository.findByName(name);
   }
 
-  public List<Tag> findByNameLike(String name) {
-    return tagRepository.findTop7ByNameLike("%" + name + "%");
-  }
-
   public List<Tag> save(String[] tags) {
     List<Tag> tagList = new ArrayList<>();
     for(String t: tags) {
