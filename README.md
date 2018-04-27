@@ -28,6 +28,12 @@
 
 ## 快速开始
 
+#### 写在前面
+
+1. 开发环境要在IDE里装上lombok插件，否则编译器会报错
+2. 项目去掉了session，用户登录信息都存在redis里了，所以要先装好redis，默认配置的话直接启动即可，如果不装redis项目启动不会报错，但登录状态不会存储
+3. 项目已经接入了elasticsearch，所以在启动前还要先安装一下es，版本5.6.0，下载地址：https://www.elastic.co/downloads/past-releases
+
 *数据库里的表是项目启动时自动创建的，不要再问创建表的脚本在哪了*
 
 - 创建数据库yiiu, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
@@ -47,11 +53,6 @@
 - 将项目下的 `init.sql` 文件导入到数据库
 - 关闭服务运行 `ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9`
 - 查看日志运行 `tail -200f yiiu.log`
-
-#### 注意
-
-1. 开发环境要在IDE里装上lombok插件，否则编译器会报错
-2. 项目去掉了session，用户登录信息都存在redis里了，所以要先装好redis，默认配置的话直接启动即可，如果不装redis项目启动不会报错，但登录状态不会存储
 
 #### 启动好后可能会报404错误，两个解决办法
 
