@@ -8,6 +8,7 @@ import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,7 +90,10 @@ public class TopicSearchService {
   public Page<TopicIndex> query(String keyword, Integer pageNo, Integer pageSize) {
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
     QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(keyword, "title", "content");
-    SearchQuery query = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(queryBuilder).build();
+    SearchQuery query = new NativeSearchQueryBuilder()
+        .withPageable(pageable)
+        .withQuery(queryBuilder)
+        .build();
     return topicIndexRepository.search(query);
   }
 

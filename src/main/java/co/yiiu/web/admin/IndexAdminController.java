@@ -7,6 +7,7 @@ import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.security.Base64Helper;
 import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
+import co.yiiu.module.es.service.TagSearchService;
 import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.model.Permission;
@@ -48,6 +49,8 @@ public class IndexAdminController extends BaseController {
   private UserService userService;
   @Autowired
   private TopicSearchService topicSearchService;
+  @Autowired
+  private TagSearchService tagSearchService;
 
   @GetMapping("/index")
   public String index() {
@@ -116,6 +119,13 @@ public class IndexAdminController extends BaseController {
   @ResponseBody
   public Result topicIndexed() {
     topicSearchService.indexedAll();
+    return Result.success();
+  }
+
+  @GetMapping("/indexedTag")
+  @ResponseBody
+  public Result indexedTag() {
+    tagSearchService.indexedAll();
     return Result.success();
   }
 }

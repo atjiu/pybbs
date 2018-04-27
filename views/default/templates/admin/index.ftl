@@ -20,6 +20,9 @@
     <#if sec.hasPermission("admin_index:indexedTopic")>
       <button class="btn btn-sm btn-danger" onclick="indexTopic()">索引话题</button>
     </#if>
+    <#if sec.hasPermission("admin_index:indexedTag")>
+      <button class="btn btn-sm btn-danger" onclick="indexedTag()">索引标签</button>
+    </#if>
   </section>
 <script>
   function clearRedisData(type) {
@@ -43,6 +46,24 @@
   function indexTopic() {
     $.ajax({
       url: '/admin/indexedTopic',
+      async: false,
+      cache: true,
+      type: 'get',
+      dataType: 'json',
+      data: {},
+      success: function (data) {
+        if(data.code === 200) {
+          toast("索引成功", 'success');
+        } else {
+          toast(data.description);
+        }
+      }
+    })
+  }
+
+  function indexedTag() {
+    $.ajax({
+      url: '/admin/indexedTag',
       async: false,
       cache: true,
       type: 'get',
