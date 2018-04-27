@@ -51,7 +51,7 @@
           cache: false,
           dataType: 'json',
           data: {
-            id: '${topic.id?c}',
+            id: '${topic.id}',
             title: title,
             content: contentHtml
           },

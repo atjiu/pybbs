@@ -38,9 +38,11 @@ VALUES
   (37, '删除', 35, '/admin/admin_user/delete', 'admin_user:delete'),
   (38, '添加', 35, '/admin/admin_user/add', 'admin_user:add'),
   (40, '清除Redis缓存', 1, '/admin/clear', 'admin_index:clear'),
-  (41, '索引话题', 1, '/admin/indexedTopic', 'admin_index:indexedTopic');
-
-
+  (41, '索引话题', 1, '/admin/indexedTopic', 'admin_index:indexedTopic'),
+  (43, '标签', 0, '/admin/tag/*', 'tag'),
+  (44, '列表', 43, '/admin/tag/list', 'tag:list'),
+  (45, '编辑', 43, '/admin/tag/edit', 'tag:edit'),
+  (46, '删除', 43, '/admin/tag/delete', 'tag:delete');
 
 INSERT INTO `yiiu_role` (`id`, `name`)
 VALUES
@@ -89,4 +91,7 @@ VALUES
   (112, 36, 1),
   (113, 37, 1),
   (114, 41, 1),
-  (115, 38, 1);
+  (115, 38, 1),
+  (198, 44, 1),
+  (199, 45, 1),
+  (200, 46, 1);

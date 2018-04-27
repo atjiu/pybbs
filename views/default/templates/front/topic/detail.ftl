@@ -38,9 +38,9 @@
           <span>${topic.view!1}次点击</span>
           <#if user?? && topic.userId == user.id>
             <span>•</span>
-            <span><a href="/topic/edit?id=${topic.id?c}">编辑</a></span>
+            <span><a href="/topic/edit?id=${topic.id}">编辑</a></span>
             <span>•</span>
-            <span><a href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/delete?id=${topic.id?c}'">删除</a></span>
+            <span><a href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/delete?id=${topic.id}'">删除</a></span>
           </#if>
         </p>
       </div>
@@ -60,7 +60,7 @@
     </div>
   <#if user??>
     <div class="panel-footer">
-      <a href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id?c}?r=${user.username!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
+      <a href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id}?r=${user.username!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
       <#if collect??>
         <a href="javascript:;" class="collectTopic">取消收藏</a>
       <#else>
@@ -118,13 +118,13 @@
           cache: false,
           dataType: 'json',
           data: {
-            topicId: '${topic.id?c}',
+            topicId: '${topic.id}',
             commentId: $("#commentId").val(),
             content: contentHtml
           },
           success: function(data){
             if(data.code === 200) {
-              window.location.href = "/topic/${topic.id?c}";
+              window.location.href = "/topic/${topic.id}";
             } else {
               toast(data.description);
             }
@@ -137,9 +137,9 @@
     });
     $(".collectTopic").click(function() {
       var txt = $(this).text();
-      var url = '/api/collect/delete?topicId=${topic.id?c}';
+      var url = '/api/collect/delete?topicId=${topic.id}';
       if(txt === '加入收藏') {
-        url = '/api/collect/add?topicId=${topic.id?c}';
+        url = '/api/collect/add?topicId=${topic.id}';
       }
       $.ajax({
         url: url,

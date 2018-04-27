@@ -16,23 +16,23 @@
   <#if (currentPage == 1)>
     <!--<li>上页</li>-->
   <#else>
-    <li><a href="${actionUrl}?p=1${urlParas!}">&lt;&lt;</a></li>
-    <li><a href="${actionUrl}?p=#{currentPage - 1}${urlParas!}">&lt;</a></li>
+    <li><a href="${actionUrl}?pageNo=1${urlParas!}">&lt;&lt;</a></li>
+    <li><a href="${actionUrl}?pageNo=#{currentPage - 1}${urlParas!}">&lt;</a></li>
   </#if>
 
   <#list startPage..endPage as i>
     <#if currentPage == i>
       <li class="active"><a class="disabled">#{i}</a></li>
     <#else>
-      <li><a href="${actionUrl}?p=#{i}${urlParas!}">#{i}</a></li>
+      <li><a href="${actionUrl}?pageNo=#{i}${urlParas!}">#{i}</a></li>
     </#if>
   </#list>
 
   <#if (currentPage == totalPage)>
     <!--<li>下页</li>-->
   <#else>
-    <li><a href="${actionUrl}?p=#{currentPage + 1}${urlParas!}">&gt;</a></li>
-    <li><a href="${actionUrl}?p=#{totalPage}${urlParas!}">&gt;&gt;</a></li>
+    <li><a href="${actionUrl}?pageNo=#{currentPage + 1}${urlParas!}">&gt;</a></li>
+    <li><a href="${actionUrl}?pageNo=#{totalPage}${urlParas!}">&gt;&gt;</a></li>
   </#if>
 </ul>
 </#macro>

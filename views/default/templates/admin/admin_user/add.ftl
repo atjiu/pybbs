@@ -33,8 +33,8 @@
                 <label>角色</label>
                 <div>
                   <#list roles as role>
-                    <input type="radio" name="roleId" value="${role.id?c}" id="role_${role.id?c}">&nbsp;
-                    <label for="role_${role.id?c}">${role.name!}</label>
+                    <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}">&nbsp;
+                    <label for="role_${role.id}">${role.name!}</label>
                   </#list>
                 </div>
               </div>

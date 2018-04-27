@@ -36,6 +36,14 @@
           </a>
         </li>
       </#if>
+      <#if sec.hasPermission('tag:list')>
+        <li <#if page_tab=='tag'>class="active"</#if>>
+          <a href="/admin/tag/list">
+            <i class="fa fa-list"></i>
+            <span>标签列表</span>
+          </a>
+        </li>
+      </#if>
       <#if sec.hasPermission('user:list')>
         <li <#if page_tab=='user'>class="active"</#if>>
           <a href="/admin/user/list">

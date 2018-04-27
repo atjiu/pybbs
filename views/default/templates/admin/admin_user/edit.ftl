@@ -36,8 +36,8 @@
               <div class="form-group">
                 <label>角色</label>
                 <#list roles as role>
-                  <input type="radio" name="roleId" value="${role.id?c}" id="role_${role.id?c}" <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
-                  <label for="role_${role.id?c}">${role.name!}</label>
+                  <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}" <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
+                  <label for="role_${role.id}">${role.name!}</label>
                 </#list>
               </div>
               <button type="submit" class="btn btn-sm btn-primary">保存</button>
@@ -70,7 +70,7 @@
         type: 'post',
         dataType: 'json',
         data: {
-          id: '${adminUser.id?c}',
+          id: '${adminUser.id}',
           username: username,
           oldPassword: oldPassword,
           password: password,

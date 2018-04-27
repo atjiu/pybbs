@@ -32,14 +32,14 @@
           <tbody>
           <#list roles as role>
             <tr>
-              <td>${role.id?c}</td>
+              <td>${role.id}</td>
               <td>${role.name!}</td>
               <td>
                 <#if sec.hasPermission('role:edit')>
-                  <a href="/admin/role/edit?id=${role.id?c}" class="btn btn-sm btn-warning">编辑</a>
+                  <a href="/admin/role/edit?id=${role.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
                 <#if sec.hasPermission('role:delete')>
-                  <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/role/delete?id=${role.id?c}'" class="btn btn-sm btn-danger">删除</a>
+                  <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/role/delete?id=${role.id}'" class="btn btn-sm btn-danger">删除</a>
                 </#if>
               </td>
             </tr>

@@ -48,7 +48,7 @@
           cache: false,
           dataType: 'json',
           data: {
-            id: '${comment.id?c}',
+            id: '${comment.id}',
             content: contentHtml
           },
           success: function(data){

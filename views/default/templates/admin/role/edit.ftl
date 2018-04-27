@@ -49,7 +49,7 @@
     var nodes = tree.treeview('getUnselected');
     var checkedNodes = [];
     <#list rolePermissions as rolePermission>
-      checkedNodes.push(${rolePermission.permissionId?c});
+      checkedNodes.push(${rolePermission.permissionId});
     </#list>
     var _checkedNodes = [];
     $.each(nodes, function(i, v) {
@@ -77,7 +77,7 @@
         type: 'post',
         dataType: 'json',
         data: {
-          id: '${role.id?c}',
+          id: '${role.id}',
           name: name,
           nodeIds: nodeIds
         },

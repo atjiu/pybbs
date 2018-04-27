@@ -33,15 +33,15 @@
           <tbody>
           <#list page.content as user>
             <tr>
-              <td>${user.id?c}</td>
+              <td>${user.id}</td>
               <td>${user.username!}</td>
               <td>${user.inTime!}</td>
               <td>
                 <#if sec.hasPermission('admin_user:edit')>
-                  <a href="/admin/admin_user/edit?id=${user.id?c}" class="btn btn-sm btn-warning">编辑</a>
+                  <a href="/admin/admin_user/edit?id=${user.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
                 <#if sec.hasPermission('admin_user:delete')>
-                  <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/admin_user/delete?id=${user.id?c}'" class="btn btn-sm btn-danger">删除</a>
+                  <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/admin_user/delete?id=${user.id}'" class="btn btn-sm btn-danger">删除</a>
                 </#if>
               </td>
             </tr>

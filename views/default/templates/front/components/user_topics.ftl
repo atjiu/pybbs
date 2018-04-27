@@ -13,7 +13,7 @@
             <div class="media-body">
               <div class="title">
                 <#if model.isEmpty(map.topic.url)>
-                  <a href="/topic/${map.topic.id?c}">
+                  <a href="/topic/${map.topic.id}">
                     ${map.topic.title!?html}
                   </a>
                 <#else>

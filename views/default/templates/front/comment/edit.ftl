@@ -3,7 +3,7 @@
 <div class="row">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <a href="/">主页</a> / <a href="/topic/${topic.id?c}">${topic.title}</a> / 编辑评论
+      <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
     </div>
     <div class="panel-body">
       <form id="form">
@@ -34,12 +34,12 @@
           cache: false,
           dataType: 'json',
           data: {
-            id: '${comment.id?c}',
+            id: '${comment.id}',
             content: contentHtml
           },
           success: function(data) {
             if (data.code === 200) {
-              window.location.href = "/topic/${topic.id?c}";
+              window.location.href = "/topic/${topic.id}";
             } else {
               toast(data.description);
             }

@@ -30,7 +30,7 @@
           <tbody>
           <#list page.content as map>
             <tr>
-              <td>${map.log.id?c}</td>
+              <td>${map.log.id}</td>
               <td>${map.log.eventDescription!}</td>
               <td>${map.user.username!}</td>
               <td>${map.log.inTime!}</td>

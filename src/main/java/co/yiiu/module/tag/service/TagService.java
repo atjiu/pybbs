@@ -71,4 +71,8 @@ public class TagService {
         new Sort(Sort.Direction.DESC, "topicCount"));
     return tagRepository.findAll(pageable);
   }
+
+  public void delete(Tag tag) {
+    tagRepository.delete(tag);
+  }
 }
