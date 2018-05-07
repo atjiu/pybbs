@@ -2,7 +2,7 @@
 > 
 > 使用说明：请保留页面底部的 *powered by yiiu.co* 感谢支持
 
-在线地址: [yiiu.co](https://yiiu.co)
+在线地址: [yiiu.co](https://yiiu.co) | [文档地址](https://yiiu-co.github.io/yiiu/#/)
 
 ## 技术栈
 
