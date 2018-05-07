@@ -2,6 +2,8 @@
 
 > YIIU是使用 Spring-Boot 开发的一个论坛（社区）系统，具有简洁的界面，实用的功能，您值得拥有
 
+在线地址：[yiiu.co](https://yiiu.co/)
+
 ## 技术栈
 
 - Java8
