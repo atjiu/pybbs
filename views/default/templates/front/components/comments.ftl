@@ -13,8 +13,11 @@
             <span class="text-success">[楼主]</span>
           </#if>
           ${model.formatDate(map.comment.inTime)}
-          <#if user??>
-            <span class="pull-right">
+          <span class="pull-right">
+            <i class="fa fa-chevron-up up-down-enable" onclick="vote(this, '${map.comment.id}', 'up')"></i>
+                <i class="fa fa-chevron-down up-down-enable" onclick="vote(this, '${map.comment.id}', 'down')"></i>
+                <span id="up_down_vote_count_${map.comment.id}">${map.comment.up - map.comment.down}</span>
+            <#if user??>
               <#if user.id != map.comment.userId>
                 <i class="fa fa-chevron-up
                   <#if map.comment.upIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
@@ -30,8 +33,8 @@
               </#if>
               <a href="javascript:commentThis('${map.user.username}', '${map.comment.id}');"><span
                   class="glyphicon glyphicon-comment"></span></a>
-            </span>
-          </#if>
+            </#if>
+          </span>
         </div>
         <div class="show_big_image comment-detail-content clearfix">${map.comment.content!}</div>
       </div>
