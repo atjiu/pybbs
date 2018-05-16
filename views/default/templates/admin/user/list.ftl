@@ -26,28 +26,39 @@
             <th>手机号</th>
             <th>邮箱</th>
             <th>声望</th>
+            <th>状态</th>
             <th>时间</th>
             <th>操作</th>
           </tr>
           </thead>
           <tbody>
           <#list page.content as user>
-            <tr>
-              <td>${user.id}</td>
-              <td>${user.username!}</td>
-              <td>${user.mobile!}</td>
-              <td>${user.email!}</td>
-              <td>${user.reputation!0}</td>
-              <td>${user.inTime!}</td>
-              <td>
+          <tr <#if user.block> class="danger"</#if>>
+            <td>${user.id}</td>
+            <td>${user.username!}</td>
+            <td>${user.mobile!}</td>
+            <td>${user.email!}</td>
+            <td>${user.reputation!0}</td>
+            <td>
+                <#if user.block>
+                  <span class="text-danger">禁用</span>
+                <#else>
+                  <span class="text-success">正常</span>
+                </#if>
+            </td>
+            <td>${user.inTime!}</td>
+            <td>
+                <#if sec.hasPermission('user:block')>
+                  <button onclick="blockBtn('${user.id}')" class="btn btn-sm btn-warning">禁用</button>
+                </#if>
                 <#if sec.hasPermission('user:edit')>
                   <a href="/admin/user/edit?id=${user.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
                 <#if sec.hasPermission('user:delete')>
                   <button onclick="deleteBtn('${user.id}')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
-              </td>
-            </tr>
+            </td>
+          </tr>
           </#list>
           </tbody>
         </table>
@@ -61,7 +72,7 @@
     </div>
   </section>
 <script>
-  function deleteBtn(id, action) {
+  function deleteBtn(id) {
     if (confirm('确定要删除这个用户吗？\r\n 注：此过程不可逆！！')) {
       if (confirm('真的确定了吗？此过程不可逆！！！')) {
         $.ajax({
@@ -73,7 +84,7 @@
           data: {
             id: id
           },
-          success: function(data) {
+          success: function (data) {
             if (data.code === 200) {
               window.location.reload();
             } else {
@@ -83,6 +94,26 @@
         })
       }
     }
+  }
+
+  function blockBtn(id) {
+    $.ajax({
+      url: '/admin/user/block',
+      type: 'get',
+      async: false,
+      cache: false,
+      dataType: 'json',
+      data: {
+        id: id
+      },
+      success: function (data) {
+        if (data.code === 200) {
+          window.location.reload();
+        } else {
+          toast(data.description);
+        }
+      }
+    })
   }
 </script>
 </@html>

@@ -100,9 +100,7 @@ public class UserService {
 
   public User save(User user) {
     user = userRepository.save(user);
-    // 更新redis里的数据
-    ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
-    stringStringValueOperations.set(user.getToken(), JsonUtil.objectToJson(user));
+    this.refreshCache(user);
     return user;
   }
 
@@ -120,25 +118,15 @@ public class UserService {
   }
 
   /**
-   * 禁用用户
+   * 禁用/解禁用户
    *
    * @param id
    */
   public void blockUser(Integer id) {
     User user = findById(id);
-    user.setBlock(true);
+    user.setBlock(!user.getBlock());
     save(user);
-  }
-
-  /**
-   * 用户解禁
-   *
-   * @param id
-   */
-  public void unBlockUser(Integer id) {
-    User user = findById(id);
-    user.setBlock(false);
-    save(user);
+    this.refreshCache(user);
   }
 
   public User refreshToken(User user) {
@@ -175,5 +163,11 @@ public class UserService {
   public void deleteAllRedisUser() {
     List<User> users = userRepository.findAll();
     users.forEach(user -> stringRedisTemplate.delete(user.getToken()));
+  }
+
+  public void refreshCache(User user) {
+    // 更新redis里的数据
+    ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+    stringStringValueOperations.set(user.getToken(), JsonUtil.objectToJson(user));
   }
 }

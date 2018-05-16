@@ -1,5 +1,6 @@
 package co.yiiu.module.topic.service;
 
+import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.model.Comment;
@@ -61,6 +62,8 @@ public class TopicService {
   private UserService userService;
   @Autowired
   private TopicSearchService topicSearchService;
+  @Autowired
+  private SiteConfig siteConfig;
 
   public Topic createTopic(String title, String content, String tag, User user) {
     Topic topic = new Topic();
@@ -87,7 +90,7 @@ public class TopicService {
     logService.save(LogEventEnum.CREATE_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         null, JsonUtil.objectToJson(topic), topic);
     // 索引话题
-    topicSearchService.indexed(topic, user.getUsername());
+    if(siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 
@@ -101,7 +104,7 @@ public class TopicService {
     logService.save(LogEventEnum.EDIT_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         JsonUtil.objectToJson(oldTopic), JsonUtil.objectToJson(topic), topic);
     // 索引话题
-    topicSearchService.indexed(topic, user.getUsername());
+    if(siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 
@@ -250,6 +253,8 @@ public class TopicService {
     topic = save(topic);
     map.put("up", topic.getUp());
     map.put("down", topic.getDown());
+    map.put("topicId", topic.getId());
+    map.put("vote", topic.getUp() - topic.getDown());
     // 更新用户声望
     userService.save(topicUser);
     // 计算weight

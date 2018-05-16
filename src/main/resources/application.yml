@@ -25,7 +25,7 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.format_sql: true
+      hibernate.format_sql: false
     open-in-view: false
 #  redis: # 如果redis都是默认配置，下面这些都可以不用配置
 #    host: localhost
@@ -59,7 +59,7 @@ site:
   pageSize: 20
   uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
-  search: true
+  search: false
   GA: #Google Analytics ID
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID

@@ -14,17 +14,14 @@
           </#if>
           ${model.formatDate(map.comment.inTime)}
           <span class="pull-right">
-            <i class="fa fa-chevron-up up-down-enable" onclick="vote(this, '${map.comment.id}', 'up')"></i>
-                <i class="fa fa-chevron-down up-down-enable" onclick="vote(this, '${map.comment.id}', 'down')"></i>
-                <span id="up_down_vote_count_${map.comment.id}">${map.comment.up - map.comment.down}</span>
             <#if user??>
               <#if user.id != map.comment.userId>
-                <i class="fa fa-chevron-up
+                <i id="up_icon_${map.comment.id}" class="fa fa-chevron-up
                   <#if map.comment.upIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                      onclick="vote(this, '${map.comment.id}', 'up')"></i>
-                <i class="fa fa-chevron-down
+                      onclick="vote('${map.comment.id}', 'UP')"></i>
+                <i id="down_icon_${map.comment.id}" class="fa fa-chevron-down
                   <#if map.comment.downIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                      onclick="vote(this, '${map.comment.id}', 'down')"></i>
+                      onclick="vote('${map.comment.id}', 'DOWN')"></i>
                 <span id="up_down_vote_count_${map.comment.id}">${map.comment.up - map.comment.down}</span>
               <#else>
                 <a href="/comment/edit?id=${map.comment.id}"><span class="glyphicon glyphicon-edit"></span></a>
@@ -33,6 +30,10 @@
               </#if>
               <a href="javascript:commentThis('${map.user.username}', '${map.comment.id}');"><span
                   class="glyphicon glyphicon-comment"></span></a>
+            <#else>
+              <i id="up_icon_${map.comment.id}" class="fa fa-chevron-up up-down-disable" onclick="vote('${map.comment.id}', 'UP')"></i>
+              <i id="down_icon_${map.comment.id}" class="fa fa-chevron-down up-down-disable" onclick="vote('${map.comment.id}', 'DOWN')"></i>
+              <span id="up_down_vote_count_${map.comment.id}">${map.comment.up - map.comment.down}</span>
             </#if>
           </span>
         </div>
@@ -41,7 +42,7 @@
     </div>
   </#list>
   <script>
-    function vote(dom, id, action) {
+    function vote(id, action) {
       $.ajax({
         url: '/api/comment/' + id + '/vote',
         async: true,
@@ -54,12 +55,18 @@
         success: function (data) {
           if (data.code === 200) {
             $("#up_down_vote_count_" + id).text(data.detail.vote);
-            if ($(dom).hasClass("up-down-enable")) {
-              $(dom).removeClass("up-down-enable");
-              $(dom).addClass("up-down-disable");
-            } else if ($(dom).hasClass("up-down-disable")) {
-              $(dom).removeClass("up-down-disable");
-              $(dom).addClass("up-down-enable");
+            var upIcon = $("#up_icon_" + data.detail.commentId);
+            var downIcon = $("#down_icon_" + data.detail.commentId);
+            upIcon.removeClass("up-down-enable");
+            upIcon.removeClass("up-down-disable");
+            downIcon.removeClass("up-down-enable");
+            downIcon.removeClass("up-down-disable");
+            if(data.detail.isUp) {
+              upIcon.addClass("up-down-enable");
+              downIcon.addClass("up-down-disable");
+            } else if(data.detail.isDown) {
+              downIcon.addClass("up-down-enable");
+              upIcon.addClass("up-down-disable");
             }
           } else {
             toast(data.description);

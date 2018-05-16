@@ -16,12 +16,12 @@
           </#if>
         </h2>
         <p class="gray">
-          <i class="fa fa-chevron-up
+          <i id="up_icon_${topic.id}" class="fa fa-chevron-up
               <#if user?? && topic.upIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-             onclick="voteTopic(this, '${topic.id}', 'up')"></i>
-          <i class="fa fa-chevron-down
+             onclick="voteTopic('UP')"></i>
+          <i id="down_icon_${topic.id}" class="fa fa-chevron-down
               <#if user?? && topic.downIds?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-             onclick="voteTopic(this, '${topic.id}', 'down')"></i>
+             onclick="voteTopic('DOWN')"></i>
           <span id="up_down_vote_count_${topic.id}">${topic.up - topic.down}</span>
           <span>•</span>
           <#if topic.top == true>
@@ -165,9 +165,9 @@
       })
     })
   });
-  function voteTopic(dom, id, action) {
+  function voteTopic(action) {
     $.ajax({
-      url: '/api/topic/' + id + '/vote',
+      url: '/api/topic/${topic.id}/vote',
       async: true,
       cache: false,
       type: "get",
@@ -177,13 +177,19 @@
       },
       success: function (data) {
         if (data.code === 200) {
-          $("#up_down_vote_count_" + id).text(data.detail.vote);
-          if ($(dom).hasClass("up-down-enable")) {
-            $(dom).removeClass("up-down-enable");
-            $(dom).addClass("up-down-disable");
-          } else if ($(dom).hasClass("up-down-disable")) {
-            $(dom).removeClass("up-down-disable");
-            $(dom).addClass("up-down-enable");
+          $("#up_down_vote_count_" + data.detail.topicId).text(data.detail.vote);
+          var upIcon = $("#up_icon_" + data.detail.topicId);
+          var downIcon = $("#down_icon_" + data.detail.topicId);
+          upIcon.removeClass("up-down-enable");
+          upIcon.removeClass("up-down-disable");
+          downIcon.removeClass("up-down-enable");
+          downIcon.removeClass("up-down-disable");
+          if(data.detail.isUp) {
+            upIcon.addClass("up-down-enable");
+            downIcon.addClass("up-down-disable");
+          } else if(data.detail.isDown) {
+            downIcon.addClass("up-down-enable");
+            upIcon.addClass("up-down-disable");
           }
         } else {
           toast(data.description);

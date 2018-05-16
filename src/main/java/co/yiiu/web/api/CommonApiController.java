@@ -58,11 +58,8 @@ public class CommonApiController extends BaseController {
     params.put("genCode", genCode);
     String subject = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("subject"), params);
     String content = freemarkerUtil.format((String) mailTemplateConfig.getRegister().get("content"), params);
-    if (emailUtil.sendEmail(email, subject, content)) {
-      return Result.success();
-    } else {
-      return Result.error("邮件发送失败");
-    }
+    emailUtil.sendEmail(email, subject, content);
+    return Result.success();
   }
 
   /**
