@@ -190,7 +190,6 @@ public class CommentService {
     if (action.equals(VoteAction.UP.name())) {
       logEventEnum = LogEventEnum.UP_COMMENT;
       notificationEnum = NotificationEnum.UP_COMMENT;
-      commentUser.setReputation(commentUser.getReputation() + UserReputation.UP_COMMENT.getReputation());
       // 如果点踩ID里有，就删除，并将down - 1
       if (downIds.contains(String.valueOf(userId))) {
         comment.setDown(comment.getDown() - 1);
@@ -198,11 +197,13 @@ public class CommentService {
       }
       // 如果点赞ID里没有，就添加上，并将up + 1
       if (!upIds.contains(String.valueOf(userId))) {
+        commentUser.setReputation(commentUser.getReputation() + UserReputation.UP_COMMENT.getReputation());
         upIds.add(String.valueOf(userId));
         comment.setUp(comment.getUp() + 1);
         map.put("isUp", true);
         map.put("isDown", false);
       } else {
+        commentUser.setReputation(commentUser.getReputation() - UserReputation.UP_COMMENT.getReputation());
         upIds.remove(String.valueOf(userId));
         comment.setUp(comment.getUp() - 1);
         map.put("isUp", false);
@@ -211,7 +212,6 @@ public class CommentService {
     } else if (action.equals(VoteAction.DOWN.name())) {
       logEventEnum = LogEventEnum.DOWN_COMMENT;
       notificationEnum = NotificationEnum.DOWN_COMMENT;
-      commentUser.setReputation(commentUser.getReputation() + UserReputation.DOWN_COMMENT.getReputation());
       // 如果点赞ID里有，就删除，并将up - 1
       if (upIds.contains(String.valueOf(userId))) {
         comment.setUp(comment.getUp() - 1);
@@ -219,11 +219,13 @@ public class CommentService {
       }
       // 如果点踩ID里没有，就添加上，并将down + 1
       if (!downIds.contains(String.valueOf(userId))) {
+        commentUser.setReputation(commentUser.getReputation() + UserReputation.DOWN_COMMENT.getReputation());
         downIds.add(String.valueOf(userId));
         comment.setDown(comment.getDown() + 1);
         map.put("isUp", false);
         map.put("isDown", true);
       } else {
+        commentUser.setReputation(commentUser.getReputation() - UserReputation.DOWN_COMMENT.getReputation());
         downIds.remove(String.valueOf(userId));
         comment.setDown(comment.getDown() - 1);
         map.put("isUp", false);

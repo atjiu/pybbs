@@ -208,7 +208,6 @@ public class TopicService {
     if (action.equals(VoteAction.UP.name())) {
       logEventEnum = LogEventEnum.UP_TOPIC;
       notificationEnum = NotificationEnum.UP_TOPIC;
-      topicUser.setReputation(topicUser.getReputation() + UserReputation.UP_TOPIC.getReputation());
       // 如果点踩ID里有，就删除，并将down - 1
       if (downIds.contains(String.valueOf(userId))) {
         topic.setDown(topic.getDown() - 1);
@@ -216,11 +215,13 @@ public class TopicService {
       }
       // 如果点赞ID里没有，就添加上，并将up + 1
       if (!upIds.contains(String.valueOf(userId))) {
+        topicUser.setReputation(topicUser.getReputation() + UserReputation.UP_TOPIC.getReputation());
         upIds.add(String.valueOf(userId));
         topic.setUp(topic.getUp() + 1);
         map.put("isUp", true);
         map.put("isDown", false);
       } else {
+        topicUser.setReputation(topicUser.getReputation() - UserReputation.UP_TOPIC.getReputation());
         upIds.remove(String.valueOf(userId));
         topic.setUp(topic.getUp() - 1);
         map.put("isUp", false);
@@ -229,7 +230,6 @@ public class TopicService {
     } else if (action.equals(VoteAction.DOWN.name())) {
       logEventEnum = LogEventEnum.DOWN_TOPIC;
       notificationEnum = NotificationEnum.DOWN_TOPIC;
-      topicUser.setReputation(topicUser.getReputation() + UserReputation.DOWN_TOPIC.getReputation());
       // 如果点赞ID里有，就删除，并将up - 1
       if (upIds.contains(String.valueOf(userId))) {
         topic.setUp(topic.getUp() - 1);
@@ -237,11 +237,13 @@ public class TopicService {
       }
       // 如果点踩ID里没有，就添加上，并将down + 1
       if (!downIds.contains(String.valueOf(userId))) {
+        topicUser.setReputation(topicUser.getReputation() + UserReputation.DOWN_TOPIC.getReputation());
         downIds.add(String.valueOf(userId));
         topic.setDown(topic.getDown() + 1);
         map.put("isUp", false);
         map.put("isDown", true);
       } else {
+        topicUser.setReputation(topicUser.getReputation() - UserReputation.DOWN_TOPIC.getReputation());
         downIds.remove(String.valueOf(userId));
         topic.setDown(topic.getDown() - 1);
         map.put("isUp", false);
