@@ -192,6 +192,7 @@ public class CommentService {
       notificationEnum = NotificationEnum.UP_COMMENT;
       // 如果点踩ID里有，就删除，并将down - 1
       if (downIds.contains(String.valueOf(userId))) {
+        commentUser.setReputation(commentUser.getReputation() + UserReputation.DOWN_COMMENT.getReputation());
         comment.setDown(comment.getDown() - 1);
         downIds.remove(String.valueOf(userId));
       }
@@ -214,6 +215,7 @@ public class CommentService {
       notificationEnum = NotificationEnum.DOWN_COMMENT;
       // 如果点赞ID里有，就删除，并将up - 1
       if (upIds.contains(String.valueOf(userId))) {
+        commentUser.setReputation(commentUser.getReputation() - UserReputation.UP_COMMENT.getReputation());
         comment.setUp(comment.getUp() - 1);
         upIds.remove(String.valueOf(userId));
       }

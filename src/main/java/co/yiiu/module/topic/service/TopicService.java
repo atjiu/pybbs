@@ -210,6 +210,7 @@ public class TopicService {
       notificationEnum = NotificationEnum.UP_TOPIC;
       // 如果点踩ID里有，就删除，并将down - 1
       if (downIds.contains(String.valueOf(userId))) {
+        topicUser.setReputation(topicUser.getReputation() + UserReputation.DOWN_TOPIC.getReputation());
         topic.setDown(topic.getDown() - 1);
         downIds.remove(String.valueOf(userId));
       }
@@ -232,6 +233,7 @@ public class TopicService {
       notificationEnum = NotificationEnum.DOWN_TOPIC;
       // 如果点赞ID里有，就删除，并将up - 1
       if (upIds.contains(String.valueOf(userId))) {
+        topicUser.setReputation(topicUser.getReputation() - UserReputation.UP_TOPIC.getReputation());
         topic.setUp(topic.getUp() - 1);
         upIds.remove(String.valueOf(userId));
       }
