@@ -3,7 +3,7 @@
   <br>
   <p>
     <a href="https://github.com/yiiu-co/yiiu" target="_blank">源码地址</a>&nbsp;|&nbsp;
-    <a href="https://github.com/yiiu-co/yiiu/blob/master/README.md" target="_blank">搭建教程</a>&nbsp;|&nbsp;
+    <a href="https://yiiu-co.github.io/yiiu/#/" target="_blank">搭建文档</a>&nbsp;|&nbsp;
     <a href="https://github.com/yiiu-co/yiiu/blob/master/api.md" target="_blank">API</a>&nbsp;|&nbsp;
     <a href="/admin/login" target="_blank">后台登录</a>
   </p>
