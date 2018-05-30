@@ -1,5 +1,6 @@
 * [首页](/)
 * [开始使用](/getting-started)
+* [服务器发布网站](/deploy)
 * [网站基本配置](/base)
 * [数据库配置](/database)
 * [配置邮箱](/email)
