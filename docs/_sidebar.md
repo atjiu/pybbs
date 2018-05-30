@@ -6,4 +6,5 @@
 * [配置邮箱](/email)
 * [Github登录配置](/oauth2)
 * [图片上传配置](/upload-image)
+* [安装ES](/elasticsearch)
 * [权限说明](/permission)

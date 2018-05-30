@@ -31,13 +31,13 @@ apt update
 
 配置好了，再运行一下 `apt update`
 
-安装 Nginx 
+#### 安装 Nginx 
 
 ```shell
 apt install nginx
 ```
 
-关闭apache服务（如果有的话）
+#### 关闭apache服务（如果有的话）
 
 ```shell
 /etc/init.d/apache2 stop
@@ -46,7 +46,7 @@ apt install nginx
 只要能关闭就好
 ```
 
-安装 Java 8
+#### 安装 Java 8
 
 ```shell
 apt install python-software-properties
@@ -55,33 +55,41 @@ apt update
 apt install oracle-java8-installer
 ```
 
-安装Maven
+#### 安装Maven
 
 ```shell
 apt install maven
 ```
 
-安装数据库MySQL
+#### 安装数据库MySQL
 
 ```shell
 apt install mysql-server
 # 安装过程中会让输入密码
 ```
 
-创建数据库
+#### 创建数据库
 
 ```shell
 mysql -uroot -p
 CREATE DATABASE `yiiu` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
-安装git(如果系统已经自带了就不用装了)
+#### 安装Redis
+
+安装好之后我记得就是启动状态，不用管它的
+
+```shell
+apt install redis-server
+```
+
+#### 安装git(如果系统已经自带了就不用装了)
 
 ```shell
 apt install git
 ```
 
-下载项目
+#### 下载项目
 
 找一个你能记住的地方，把项目down下来，我习惯放在 `/home/` 下
 
@@ -91,7 +99,7 @@ cd /home/git/
 git clone https://github.com/yiiu-co/yiiu
 ```
 
-Maven构建项目
+#### Maven构建项目
 
 ```shell
 cd /home/git/yiiu
@@ -112,7 +120,7 @@ mv application.yml application-prod.yml
 # 具体配置见文档其它部分
 ```
 
-创建启动关闭脚本
+#### 创建启动关闭脚本
 
 ```shell
 # 启动脚本
@@ -123,7 +131,7 @@ echo 'ps -ef | grep yiiu.jar | grep -v grep | cut -c 9-15 | xargs kill -s 9' > s
 chmod a+x start.sh shutdown.sh
 ```
 
-启动项目
+#### 启动项目
 
 ```shell
 cd /home/java/yiiu/
