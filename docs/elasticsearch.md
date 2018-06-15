@@ -1,11 +1,18 @@
-下载 [elasticsearch-5.6.0](https://www.elastic.co/downloads/past-releases/elasticsearch-5-6-0)
+下载 [elasticsearch-5.6.8](https://www.elastic.co/downloads/past-releases/elasticsearch-5-6-8)
 
 下载后解压
 
-运行 `elasticsearch-5.6.0/bin/elasticsearch` 命令
+安装ik分词器
+
+```
+cd elasticsearch-5.6.8/bin/
+./elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.6.8/elasticsearch-analysis-ik-5.6.8.zip
+```
+
+启动ES
 
 ```shell
-cd elasticsearch-5.6.0/bin/
+cd elasticsearch-5.6.8/bin/
 ./elasticsearch
 ```
 

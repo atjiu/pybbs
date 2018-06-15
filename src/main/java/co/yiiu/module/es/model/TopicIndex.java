@@ -2,6 +2,8 @@ package co.yiiu.module.es.model;
 
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -16,7 +18,9 @@ public class TopicIndex implements Serializable {
 
   @Id
   private Integer id;
+  @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
   private String title;
+  @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
   private String content;
   private String username;
   private String tag;

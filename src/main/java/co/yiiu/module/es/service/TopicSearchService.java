@@ -89,11 +89,12 @@ public class TopicSearchService {
    */
   public Page<TopicIndex> query(String keyword, Integer pageNo, Integer pageSize) {
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-    QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(keyword, "title", "content");
-    SearchQuery query = new NativeSearchQueryBuilder()
-        .withPageable(pageable)
-        .withQuery(queryBuilder)
-        .build();
+    NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder()
+        .withQuery(
+          QueryBuilders.boolQuery()
+            .must(QueryBuilders.multiMatchQuery(keyword, "title", "content"))
+        );
+    SearchQuery query = queryBuilder.withPageable(pageable).build();
     return topicIndexRepository.search(query);
   }
 
