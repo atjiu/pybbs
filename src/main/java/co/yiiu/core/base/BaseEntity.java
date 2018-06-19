@@ -102,14 +102,14 @@ public class BaseEntity {
       aElements.forEach(element -> {
         try {
           String href = element.text();
-          if (href.contains("https://www.youtube.com/watch")) {
+          if (href.contains("//www.youtube.com/watch")) {
             URL aUrl = new URL(href);
             String query = aUrl.getQuery();
             Map<String, Object> querys = StrUtil.formatParams(query);
             element.text("");
             element.addClass("embed-responsive embed-responsive-16by9");
             element.append("<iframe class='embedded_video' src='https://www.youtube.com/embed/" + querys.get("v") + "' frameborder='0' allowfullscreen></iframe>");
-          } else if(href.contains("http://v.youku.com/v_show/")) {
+          } else if(href.contains("//v.youku.com/v_show/")) {
             element.text("");
             URL aUrl = new URL(href);
             String _href = "http://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
