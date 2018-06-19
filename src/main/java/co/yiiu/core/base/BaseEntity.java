@@ -112,7 +112,7 @@ public class BaseEntity {
           } else if(href.contains("//v.youku.com/v_show/")) {
             element.text("");
             URL aUrl = new URL(href);
-            String _href = "http://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
+            String _href = "https://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
             element.addClass("embedded_video_wrapper");
             element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' allowfullscreen></iframe>");
           }
