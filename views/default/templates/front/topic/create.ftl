@@ -39,7 +39,7 @@
     $("#btn").click(function () {
       var title = $("#title").val();
       var contentHtml = editor.txt.html();
-      var contentText = editor.txt.text();
+      // var contentText = editor.txt.text();
       var tag = $("#tag").val();
       if(!title) {
         toast("请输入标题");
@@ -56,7 +56,7 @@
           dataType: 'json',
           data: {
             title: title,
-            content: contentText ? contentHtml : '',
+            content: contentHtml,
             tag: tag
           },
           success: function(data){
