@@ -16,7 +16,7 @@ import java.util.Date;
  * https://yiiu.co
  */
 @Entity
-@Table(name = "yiiu_user")
+@Table
 @Getter
 @Setter
 public class User implements Serializable {

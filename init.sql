@@ -1,8 +1,8 @@
-INSERT INTO `yiiu_admin_user` (`id`, `in_time`, `password`, `token`, `username`, `role_id`)
+INSERT INTO `admin_user` (`id`, `in_time`, `password`, `token`, `username`, `role_id`)
 VALUES
   (1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 1);
 
-INSERT INTO `yiiu_permission` (`id`, `name`, `pid`, `url`, `value`)
+INSERT INTO `permission` (`id`, `name`, `pid`, `url`, `value`)
 VALUES
   (1, '主页', 0, '/admin/index', 'index'),
   (2, '话题', 0, '/admin/topic/*', 'topic'),
@@ -46,12 +46,12 @@ VALUES
   (47, '索引标签', 1, '/admin/indexedTag', 'admin_index:indexedTag'),
   (48, '编辑', 19, '/admin/user/edit', 'user:edit');
 
-INSERT INTO `yiiu_role` (`id`, `name`)
+INSERT INTO `role` (`id`, `name`)
 VALUES
   (1, 'admin'),
   (2, 'manager');
 
-INSERT INTO `yiiu_role_permission` (`id`, `permission_id`, `role_id`)
+INSERT INTO `role_permission` (`id`, `permission_id`, `role_id`)
 VALUES
   (2, 3, 23),
   (4, 4, 23),

@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by tomoya on 17-6-6.
  */
 @Entity
-@Table(name = "yiiu_code")
+@Table
 @Getter
 @Setter
 public class Code implements Serializable {

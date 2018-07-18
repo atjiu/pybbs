@@ -12,7 +12,7 @@ import java.util.List;
  * Created by tomoya at 2018/3/19
  */
 @Entity
-@Table(name = "yiiu_admin_user")
+@Table
 @Setter
 @Getter
 public class AdminUser implements Serializable {

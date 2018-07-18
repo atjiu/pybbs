@@ -12,7 +12,7 @@ import java.util.Date;
  * Copyright (c) 2017, All Rights Reserved.
  */
 @Entity
-@Table(name = "yiiu_log")
+@Table
 @Getter
 @Setter
 public class Log implements Serializable {

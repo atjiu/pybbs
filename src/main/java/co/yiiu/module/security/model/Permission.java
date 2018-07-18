@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by tomoya at 2018/3/19
  */
 @Entity
-@Table(name = "yiiu_permission")
+@Table
 @Setter
 @Getter
 public class Permission implements Serializable {

@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by tomoya at 2018/3/27
  */
 @Entity
-@Table(name = "yiiu_tag")
+@Table
 @Setter
 @Getter
 public class Tag implements Serializable {

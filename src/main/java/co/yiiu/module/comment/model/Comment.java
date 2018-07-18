@@ -15,7 +15,7 @@ import java.util.Date;
  * https://yiiu.co
  */
 @Entity
-@Table(name = "yiiu_comment")
+@Table
 @Getter
 @Setter
 public class Comment implements Serializable {

@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by tomoya at 2018/1/24
  */
 @Entity
-@Table(name = "yiiu_attachment")
+@Table
 @Getter
 @Setter
 public class Attachment {

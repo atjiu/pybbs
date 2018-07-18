@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by tomoya at 2018/3/19
  */
 @Entity
-@Table(name = "yiiu_role_permission")
+@Table
 @Setter
 @Getter
 public class RolePermission {
