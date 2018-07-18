@@ -10,8 +10,8 @@
   <version>3.0</version>
   <packaging>jar</packaging>
 
-  <name>YIIU</name>
-  <description>YIIU developer by spring-boot</description>
+  <name>pybbs</name>
+  <description>pybbs developer by spring-boot</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -97,7 +97,7 @@
   </properties>
 
   <build>
-    <finalName>yiiu</finalName>
+    <finalName>pybbs</finalName>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
