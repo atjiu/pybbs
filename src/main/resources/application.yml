@@ -1,32 +1,43 @@
 server:
   port: 8080
 spring:
+  application:
+    name: YIIU
   resources:
     static-locations:
-    - file:./static
+    - classpath:/${site.theme}/static/
+    - file:./views/${site.theme}/static/
   freemarker:
     template-loader-path:
-    - file:./templates
+    - classpath:/${site.theme}/templates/
+    - file:./views/${site.theme}/templates/
     cache: false
+    settings:
+      template_exception_handler: rethrow
+      number_format: 0.##
   datasource:
-    url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost/yiiu?useSSL=false&characterEncoding=utf8
     username: root
-    password: 123123
+    password:
   jpa:
     database: mysql
     show-sql: true
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.search.default.directory_provider: filesystem
-      hibernate.search.default.indexBase: ./indexes
-  mvc:
-    static-path-pattern: /static/**
+      hibernate.format_sql: false
+    open-in-view: false
+#  redis: # 如果redis都是默认配置，下面这些都可以不用配置
+#    host: localhost
+#    password:
+#    port: 6379
+#    ssl: false
+#    database: 0
   mail:
-    host: smtp.exmail.qq.com
-    username: xxoo@example.com
-    password:
-    port:
+    host: smtp.qq.com
+    username: xxoo@qq.com
+    password: # 这里的密码是QQ邮箱的授权码
+    port: 465
     properties:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
@@ -35,20 +46,77 @@ spring:
   servlet:
     multipart:
       max-file-size: 2MB
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch #默认为elasticsearch
+      cluster-nodes: 127.0.0.1:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+
 site:
-  name: 朋也社区
+  name: YIIU
   intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
-  baseUrl: http://localhost:8080/
+  baseUrl: http://localhost:8080/ # 不要忘了后面的 '/'
   staticUrl: http://localhost:8080/static/images/upload/
   pageSize: 20
-  uploadPath: ./static/images/upload/
+  uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
-  search: true
-  attempts: 5
-  attemptsWaitTime: 15
-  maxCreateTopic: 10
-  userUploadSpaceSize: 50 # 单位MB
+  search: false
+  GA: #Google Analytics ID
+  googleZZ: # google站长meta标签content值
+  baiduTJ: # 百度统计ID
+  baiduZZ: # 百度站长meta标签content值
+  uploadType: local # local, qiniu
   cookie:
     domain: localhost
-    attendanceMaxAge: 86400
-    attendanceName: attendance
+    userName: remember-me
+    userMaxAge: 30 # 天
+    adminUserName: admin-remember-me
+    adminUserMaxAge: 30 # 天
+  upload:
+    qiniu:
+      accessKey: # 七牛开发者上传的key
+      secretKey: # 七牛开发者上传的密钥
+      bucket: # 创建的存储空间名称
+      domain: # 存储空间域名
+  oauth2:
+    github:
+      clientId: # github申请应用的ClientId
+      clientSecret: # 对应的密钥
+      callbackUrl: ${site.baseUrl}/oauth2/github/callback
+
+mail:
+  register:
+    subject: 注册验证码 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;您的验证码为 <span style='color: red;'>$\{genCode!}</span> , 请在10分钟内使用！</p><br>
+      <small>本邮件为系统发出，请不要回复</small>
+  commentTopic:
+    subject: 话题被评论 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;$\{username!} 评论了您的话题 <a href='$\{domain!}topic/$\{topic.id}'>$\{topic.title!}</a></p>
+      <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>$\{content!}</div><br>
+      <small>本邮件为系统发出，请不要回复</small>
+  replyComment:
+    subject: 评论被回复 - ${site.name}
+    content: |
+      <p>您好</p>
+      <p>&nbsp;&nbsp;$\{username!} 回复了您在话题 <a href='$\{domain!}topic/$\{topic.id}'>$\{topic.title!}</a> 下的评论</p>
+      <div style='background-color: #fffbc1; padding: 20px; border-radius: 5px;'>$\{content!}</div><br>
+      <small>本邮件为系统发出，请不要回复</small>
+
+log:
+  template:
+    createTopic: 创建话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    commentTopic: 评论话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    replyComment: 回复话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论
+    editTopic: 编辑话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    deleteTopic: 删除话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    collectTopic: 收藏话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    deleteCollectTopic: 删除收藏的话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a>
+    editComment: 编辑话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论
+    deleteComment: 删除话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论
+    upTopic: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 点赞
+    downTopic: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 点踩
+    upComment: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论点赞
+    downComment: 给话题 <a href='/topic/$\{topic.id}' target='_blank'>$\{topic.title}</a> 下的评论点踩

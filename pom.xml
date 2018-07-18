@@ -5,26 +5,20 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>cn.tomoya</groupId>
-  <artifactId>pybbs</artifactId>
-  <version>2.6</version>
+  <groupId>co.yiiu</groupId>
+  <artifactId>yiiu</artifactId>
+  <version>3.0</version>
   <packaging>jar</packaging>
 
-  <name>pybbs</name>
-  <description>朋也社区 spring-boot 版本</description>
+  <name>YIIU</name>
+  <description>YIIU developer by spring-boot</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.0.M5</version>
+    <version>2.0.0.RELEASE</version>
     <relativePath/>
   </parent>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>9</java.version>
-  </properties>
 
   <dependencies>
     <dependency>
@@ -42,16 +36,7 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-freemarker</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -59,7 +44,17 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-undertow</artifactId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+      <version>1.4.7.RELEASE</version><!--引入es后开始报错，这里引入一下版本号就好了-->
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -71,26 +66,15 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-    </dependency>
     <!--json格式化类库 -->
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.16</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>19.0</version>
-    </dependency>
-    <!--markdown转换lib -->
-    <dependency>
-      <groupId>org.pegdown</groupId>
-      <artifactId>pegdown</artifactId>
-      <version>1.6.0</version>
     </dependency>
     <!--过滤html标签类库 -->
     <dependency>
@@ -98,132 +82,67 @@
       <artifactId>jsoup</artifactId>
       <version>1.9.2</version>
     </dependency>
-
-    <!--hibernate search orm-->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-search-orm</artifactId>
-      <version>5.8.0.Final</version>
+      <groupId>com.qiniu</groupId>
+      <artifactId>qiniu-java-sdk</artifactId>
+      <version>[7.2.0, 7.2.99]</version>
     </dependency>
-    <!--hibernate search dependency-->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-analyzers-smartcn</artifactId>
-      <version>5.5.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-highlighter</artifactId>
-      <version>5.5.4</version>
-    </dependency>
-
   </dependencies>
 
-  <repositories>
-    <repository>
-      <id>spring-snapshots</id>
-      <name>Spring Snapshots</name>
-      <url>https://repo.spring.io/snapshot</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>spring-snapshots</id>
-      <name>Spring Snapshots</name>
-      <url>https://repo.spring.io/snapshot</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <docker.image.prefix>tomoya92</docker.image.prefix>
+  </properties>
 
   <build>
-    <finalName>pybbs</finalName>
+    <finalName>yiiu</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>views</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>cn.tomoya.PybbsApplication</mainClass>
+          <mainClass>co.yiiu.Application</mainClass>
           <fork>true</fork>
         </configuration>
       </plugin>
 
-      <!--打包开始-->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.0.0</version>
         <configuration>
-          <archive>
-            <manifest>
-              <mainClass>cn.tomoya.PybbsApplication</mainClass>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-            </manifest>
-            <manifestEntries>
-              <Class-Path>./</Class-Path>
-            </manifestEntries>
-          </archive>
-          <excludes>
-            <exclude>bin/*</exclude>
-            <exclude>assembly/*</exclude>
-            <exclude>static/**</exclude>
-            <exclude>templates/**</exclude>
-            <exclude>application.yml</exclude>
-            <exclude>banner.txt</exclude>
-            <exclude>ehcache.xml</exclude>
-            <exclude>ehcache.xsd</exclude>
-          </excludes>
+          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+          <imageTags>${project.version}</imageTags>
+          <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.basedir}</directory>
+              <include>views/</include>
+            </resource>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.basedir}</directory>
+              <include>src/main/docker/app.sh</include>
+            </resource>
+          </resources>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.5</version>
-        <configuration>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>src/main/resources/assembly/assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!--打包结束-->
     </plugins>
   </build>
 

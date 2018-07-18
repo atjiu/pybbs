@@ -1,82 +1,36 @@
-## 如何开始
+## 简介
 
-### 开发环境部署
+> YIIU是使用 Spring-Boot 开发的一个论坛（社区）系统，具有简洁的界面，实用的功能，您值得拥有
 
-1. `git clone https://github.com/tomoya92/pybbs`
-2. 使用`idea` or `eclipse`打开项目
-3. 等待maven构建完成
-4. 运行 `PybbsApplication.java` 类
-5. 访问 `http://localhost:8080`
+在线地址：[yiiu.co](https://yiiu.co/)
 
-### 生产环境部署
+## 技术栈
 
-1. 新建文件夹 `pybbs`
-2. [下载最新jar包](https://github.com/tomoya92/pybbs/releases) 并放到 `pybbs` 文件夹下
-3. [下载最新源码包](https://github.com/tomoya92/pybbs/releases) 放到除 `pybbs` 以外的任意目录下并解压
-4. 拷贝源码包下的 `src/main/resources/application.yml` 文件到 `pybbs` 目录下
-5. 修改 `application.yml` 文件里的配置项，可参考下面**配置文件说明修改**
-6. 运行 `java -jar pybbs.jar` 
-7. 访问 `http://localhost:8080`
+- Java8
+- MySQL
+- Bootstrap3.x
+- SpringBoot2.0
+- Redis
+- Elasticsearch5.x
 
-## 配置文件说明
+## 使用前准备
 
-freemarker页面缓存开启关闭
+1. 有Java环境
 
-```yml
-spring:
-  freemarker:
-    cache: true ## true表示访问的页面开启缓存, false表示不开启缓存, 开启了缓存, 修改页面后会有一段时间不生效, 对流量小的网站, 建议关闭
-```
+  通过 `java -version` 查看一下自己服务器上配置的java版本是不是8
 
-数据库连接, 没什么好说的，配置成自己的数据库连接信息就可以了
+2. 有Redis环境
 
-```yml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
-    username: root
-    password: 123123
-  jpa:
-    database: mysql ## 朋也社区用的是jpa操作数据库，默认使用mysql，理论上hibernate支持的数据库，pybbs都支持，我没有其它数据库，就没测试
-    show-sql: true ## 日志文件里是否显示sql，生产环境关闭就可以了
-```
-
-站点信息配置
-
-```yml
-site:
-  name: 朋也社区
-  intro: <h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>
-  baseUrl: http://localhost:8080/
-  staticUrl: http://localhost:8080/static/images/upload/
-  pageSize: 20
-  uploadPath: ./static/images/upload/
-  theme: default
-  editor: wangeditor
-  search: true
-  attempts: 5
-  attemptsWaitTime: 15
-```
-
-| 名称 | 说明 |
-| --- | --- |
-| name | 站点的名称 |
-| intro | 末登录站点，显示的欢迎语 |
-| baseUrl | 站点的访问域名，注意后面必须要带上 `/` |
-| staticUrl | 站点的静态资源文件地址，配置规则 `baseUrl`+`static/images/upload/`注意后面必须要带上 `/` |
-| pageSize | 站点列表分页的条数，修改所有的分页都会变 |
-| uploadPath | **除非你知道怎么修改，否则不要修改它** |
-| theme | 主题名称, 默认 `default` 如果你安装其它主题或者自己写主题，请不要跟已有主题名称重复 |
-| editor | 可填 `wangeditor` `markdown` 新建/编辑话题以及回复用的编辑器，默认`wangeditor` |
-| search | 是否开启搜索，目前搜索用的是模糊查询，效率会比较低 |
-| attempts | 用户登录失败可尝试的次数，超过了，帐号会被锁定 `attemptsWaitTime` 时间， 默认5次 |
-| attemptsWaitTime | 用户登录失败 `attempts` 次以后，帐号被锁定的时间，默认15, 单位分钟|
-
-## 问题列表
-
-### 上传图片显示问题
-
-开发环境自己配置一下上传的地址 `uploadPath` 就可以了，要配置到项目编译文件目录 `target` 下，而且上传完了，重启一下服务
-
-生产环境下是没问题的
-
+  YIIU没有使用session，而是把用户的登录状态存在Redis里，所以需要一个Redis服务
+    
+3. 有Elasticsearch环境**(非必要)**
+    
+  es版本是个问题，必要要下载5.x版本的es，否则可能会集成不成功，这个主要是做检索用的，如果你不需要开启检索功能，那么这个可以不用准备，启动也不会报错
+    
+4. 有MySQL环境
+    
+  理论上支持所有Hibernate支持的数据库，因为项目里的SQL都是用HQL写的，没有原生SQL，所以不会出现SQL语言不兼容报错问题，开发使用的是MySQL，这里只做MySQL介绍
+    
+5. 安装maven（非必要）
+  
+  用于对源码构建成jar包，如果是开发环境，ide里自带的也有maven工具
