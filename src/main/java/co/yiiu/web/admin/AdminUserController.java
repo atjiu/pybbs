@@ -4,12 +4,12 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
-import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.model.Role;
 import co.yiiu.module.security.service.AdminUserService;
 import co.yiiu.module.security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -63,6 +63,7 @@ public class AdminUserController extends BaseController {
     adminUser.setRoleId(roleId);
     adminUser.setToken(UUID.randomUUID().toString());
     adminUser.setInTime(new Date());
+    adminUser.setAttempts(0);
     adminUserService.save(adminUser);
     return Result.success();
   }

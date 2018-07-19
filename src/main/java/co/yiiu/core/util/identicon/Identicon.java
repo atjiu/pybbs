@@ -6,7 +6,7 @@ import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.generator.IBaseGenartor;
 import co.yiiu.core.util.identicon.generator.impl.MyGenerator;
-import co.yiiu.core.util.security.MD5Helper;
+import co.yiiu.core.util.encrypt.MD5Helper;
 import com.google.common.base.Preconditions;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;

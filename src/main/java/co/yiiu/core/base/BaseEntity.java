@@ -4,7 +4,7 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;
-import co.yiiu.core.util.security.Base64Helper;
+import co.yiiu.core.util.encrypt.Base64Helper;
 import co.yiiu.module.security.model.AdminUser;
 import co.yiiu.module.security.model.Permission;
 import co.yiiu.module.security.model.Role;
@@ -20,6 +20,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -153,34 +155,13 @@ public class BaseEntity {
 
   // 获取后台用户
   public AdminUser getAdminUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-    String token = CookieHelper.getValue(request, siteConfig.getCookie().getAdminUserName());
-    if (StringUtils.isEmpty(token)) return null;
-    // token不为空，查redis
-    try {
-      token = new String(Base64Helper.decode(token));
-      ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
-      String redisAdminUser = stringStringValueOperations.get("admin_" + token);
-      if (!StringUtils.isEmpty(redisAdminUser)) return JsonUtil.jsonToObject(redisAdminUser, AdminUser.class);
+    Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      AdminUser adminUser = adminUserService.findByToken(token);
-      if (adminUser == null) {
-        CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
-            siteConfig.getCookie().getDomain(), "/admin/");
-      } else {
-        Role role = roleService.findById(adminUser.getRoleId());
-        List<Permission> permissions = permissionService.findByUserId(adminUser.getId());
-        adminUser.setRole(role);
-        adminUser.setPermissions(permissions);
-        stringStringValueOperations.set("admin_" + token, JsonUtil.objectToJson(adminUser));
-        return adminUser;
-      }
-    } catch (Exception e) {
-      log.error(e.getMessage());
-      CookieHelper.clearCookieByName(request, response, siteConfig.getCookie().getAdminUserName(),
-          siteConfig.getCookie().getDomain(), "/admin/");
+    if (obj instanceof org.springframework.security.core.userdetails.User) {
+      String username = ((UserDetails) obj).getUsername();
+      return adminUserService.findByUsername(username);
+    } else {
+      return null;
     }
-    return null;
   }
 }

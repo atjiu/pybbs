@@ -38,10 +38,10 @@
               <td>${map.user.username!}</td>
               <td>${map.comment.inTime!}</td>
               <td>
-                <#if sec.hasPermission('comment:edit')>
+                <#if sec.allGranted('comment:edit')>
                   <a href="/admin/comment/edit?id=${map.comment.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('comment:delete')>
+                <#if sec.allGranted('comment:delete')>
                   <button onclick="deleteBtn('${map.comment.id}')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
               </td>

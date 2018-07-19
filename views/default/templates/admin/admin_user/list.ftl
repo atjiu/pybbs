@@ -15,7 +15,7 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <h3 class="box-title">用户列表</h3>
-        <#if sec.hasPermission('admin_user:add')>
+        <#if sec.allGranted('admin_user:add')>
           <a href="/admin/admin_user/add" class="btn btn-sm btn-primary pull-right">添加</a>
         </#if>
       </div>
@@ -37,10 +37,10 @@
               <td>${user.username!}</td>
               <td>${user.inTime!}</td>
               <td>
-                <#if sec.hasPermission('admin_user:edit')>
+                <#if sec.allGranted('admin_user:edit')>
                   <a href="/admin/admin_user/edit?id=${user.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('admin_user:delete')>
+                <#if sec.allGranted('admin_user:delete')>
                   <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/admin_user/delete?id=${user.id}'" class="btn btn-sm btn-danger">删除</a>
                 </#if>
               </td>

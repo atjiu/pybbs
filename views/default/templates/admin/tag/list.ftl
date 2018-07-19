@@ -38,10 +38,10 @@
               <td>${tag.inTime!}</td>
               <td>${tag.topicCount!0}</td>
               <td>
-                <#if sec.hasPermission('tag:edit')>
+                <#if sec.allGranted('tag:edit')>
                   <a href="/admin/tag/edit?id=${tag.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('tag:delete')>
+                <#if sec.allGranted('tag:delete')>
                   <button onclick="deleteBtn('${tag.id}')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
               </td>

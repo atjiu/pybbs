@@ -1,6 +1,5 @@
 package co.yiiu.config;
 
-import co.yiiu.web.interceptor.AdminInterceptor;
 import co.yiiu.web.interceptor.CommonInterceptor;
 import co.yiiu.web.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private CommonInterceptor commonInterceptor;
   @Autowired
   private UserInterceptor userInterceptor;
-  @Autowired
-  private AdminInterceptor adminInterceptor;
   @Autowired
   private SiteConfig siteConfig;
 
@@ -48,9 +45,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         "/notification/list",
         "/user/setting/*"
     );
-    registry.addInterceptor(adminInterceptor)
-        .addPathPatterns("/admin/**")
-        .excludePathPatterns("/admin/login", "/admin/logout");
   }
 
   @Override

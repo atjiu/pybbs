@@ -5,18 +5,20 @@
 ## 技术栈
 
 - JDK8
-- Spring-Boot1.5.8
+- Spring-Boot
 - Spring-JPA
+- Spring-Security
 - Freemarker
 - MySQL
 - Bootstrap3
 - Redis
+- Elasticsearch
 
 ## 特性
 
 - 社区兼容性（IE9+）
 - 页面自适应布局
-- 本地登录，注册
+- 本地登录，注册, 第三方登录（Github)
 - 登录时有验证码，尝试登录次数的限制
 - 使用 `Spring-Boot` 开发
 - 使用的 `Spring-JPA` 操作数据存储

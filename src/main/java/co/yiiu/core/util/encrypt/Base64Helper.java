@@ -1,4 +1,4 @@
-package co.yiiu.core.util.security;
+package co.yiiu.core.util.encrypt;
 
 import java.io.UnsupportedEncodingException;
 

@@ -1,4 +1,4 @@
-package co.yiiu.core.util.security;
+package co.yiiu.core.util.encrypt;
 
 import javax.crypto.Cipher;
 import java.io.BufferedReader;

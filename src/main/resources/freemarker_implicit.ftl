@@ -6,6 +6,6 @@
 [#-- @ftlvariable name="topic" type="co.yiiu.module.topic.model.Topic" --]
 [#-- @ftlvariable name="user" type="co.yiiu.module.user.model.User" --]
 [#-- @ftlvariable name="comment" type="co.yiiu.module.comment.model.Comment" --]
-[#-- @ftlvariable name="sec" type="co.yiiu.config.SecurityConfig" --]
+[#-- @ftlvariable name="sec" type="co.yiiu.config.SecurityTag" --]
 [#-- @ftlvariable name="log" type="co.yiiu.module.log.model.Log" --]
 [#-- @ftlvariable name="tag" type="co.yiiu.module.tag.model.Tag" --]

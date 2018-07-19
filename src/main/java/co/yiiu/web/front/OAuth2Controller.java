@@ -4,7 +4,7 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.StrUtil;
-import co.yiiu.core.util.security.Base64Helper;
+import co.yiiu.core.util.encrypt.Base64Helper;
 import co.yiiu.module.user.model.OAuth2User;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.OAuth2UserService;

@@ -8,8 +8,7 @@ import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.identicon.Identicon;
-import co.yiiu.core.util.security.Base64Helper;
-import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
+import co.yiiu.core.util.encrypt.Base64Helper;
 import co.yiiu.module.code.model.CodeEnum;
 import co.yiiu.module.code.service.CodeService;
 import co.yiiu.module.es.model.TopicIndex;
@@ -21,6 +20,7 @@ import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 

@@ -88,6 +88,16 @@ public class IndexController extends BaseController {
   }
 
   /**
+   * 后台登录
+   * @return
+   */
+  @GetMapping("/adminlogin")
+  public String adminlogin() {
+    if(getAdminUser() != null) return redirect("/admin/index");
+    return "admin/login";
+  }
+
+  /**
    * 进入注册页面
    *
    * @return

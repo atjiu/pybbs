@@ -17,6 +17,9 @@ site:
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   uploadType: local # local, qiniu
+  loginPoints: 2 # 登录点，最多2个位置登录，第三个登录点会覆盖第一个
+  attempts: 5 # 登录后台尝试次数
+  attemptsWaitTime: 15 # 尝试次数达到${attempts}次后，等待时间，单位分钟
   cookie:
     domain: localhost
     userName: remember-me
@@ -39,7 +42,10 @@ site:
 | googleZZ |  | google站长meta标签content值 |  
 | baiduTJ |  | 百度统计ID |  
 | baiduZZ |  | 百度站长meta标签content值 |  
-| uploadType | local/qiniu | local表示将图片上传到本地，qiniu表示将图片上传到七牛上，但相应的要配置下面的七牛配置项 |  
+| uploadType | local/qiniu | local表示将图片上传到本地，qiniu表示将图片上传到七牛上，但相应的要配置下面的七牛配置项 |
+| loginPoints | 2 | 可在2个设备上登录，可以修改多个设备，默认2个 |  
+| attempts | 5 | 登录后台最多可以尝试次数 |  
+| loginPoints | 15 | 达到最大尝试次数后，帐号被锁多少分钟，单位：分钟 |  
 | cookie.domain |  | 站点访问域名是什么就填什么，不要带http(s):// 和 端口号 |  
 | cookie.userName |  | 前端登录后，写入cookie里的用户信息对象名 |  
 | cookie.userMaxAge |  | 前端用户登录成功写入的cookie有效期，默认30天 |  

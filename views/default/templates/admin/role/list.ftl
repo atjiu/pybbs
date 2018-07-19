@@ -15,7 +15,7 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <h3 class="box-title">角色列表</h3>
-        <#if sec.hasPermission('role:add')>
+        <#if sec.allGranted('role:add')>
           <a href="/admin/role/add" class="btn btn-sm btn-primary pull-right">添加</a>
         </#if>
       </div>
@@ -35,10 +35,10 @@
               <td>${role.id}</td>
               <td>${role.name!}</td>
               <td>
-                <#if sec.hasPermission('role:edit')>
+                <#if sec.allGranted('role:edit')>
                   <a href="/admin/role/edit?id=${role.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('role:delete')>
+                <#if sec.allGranted('role:delete')>
                   <a href="javascript:if(confirm('确定要删除吗？')) location.href='/admin/role/delete?id=${role.id}'" class="btn btn-sm btn-danger">删除</a>
                 </#if>
               </td>

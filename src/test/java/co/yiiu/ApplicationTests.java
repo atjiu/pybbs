@@ -1,7 +1,7 @@
 package co.yiiu;
 
-import co.yiiu.core.util.security.crypto.BCryptPasswordEncoder;
 import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 

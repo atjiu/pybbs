@@ -29,6 +29,10 @@ public class AdminUser implements Serializable {
 
   private String token;
 
+  private Integer attempts;
+
+  private Date attemptsTime;
+
   private Integer roleId;
 
   @Transient

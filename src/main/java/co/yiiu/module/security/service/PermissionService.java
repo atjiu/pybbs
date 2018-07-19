@@ -25,6 +25,10 @@ public class PermissionService {
   @Autowired
   private AdminUserService adminUserService;
 
+  public List<Permission> findChild() {
+    return permissionRepository.findByPidGreaterThan(0);
+  }
+
   public List<Map<String, Object>> findAll() {
     List<Map<String, Object>> node = new ArrayList<>();
     Map<String, Object> map = new HashMap<>();

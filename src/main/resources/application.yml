@@ -21,7 +21,7 @@ spring:
     password:
   jpa:
     database: mysql
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     properties:
@@ -65,6 +65,9 @@ site:
   baiduTJ: # 百度统计ID
   baiduZZ: # 百度站长meta标签content值
   uploadType: local # local, qiniu
+  loginPoints: 2 # 登录点，最多2个位置登录，第三个登录点会覆盖第一个
+  attempts: 5 # 登录后台尝试次数
+  attemptsWaitTime: 15 # 尝试次数达到${attempts}次后，等待时间，单位分钟
   cookie:
     domain: localhost
     userName: remember-me

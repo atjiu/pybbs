@@ -38,14 +38,14 @@ public class FreemarkerConfig {
   @Autowired
   private BaseEntity baseEntity;
   @Autowired
-  private SecurityConfig securityConfig;
+  private SecurityTag securityTag;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
     // 注入全局配置至freemarker
     configuration.setSharedVariable("site", siteConfig);
     configuration.setSharedVariable("model", baseEntity);
-    configuration.setSharedVariable("sec", securityConfig);
+    configuration.setSharedVariable("sec", securityTag);
 
     configuration.setSharedVariable("user_topics_tag", userTopicDirective);
     configuration.setSharedVariable("user_comments_tag", userCommentDirective);

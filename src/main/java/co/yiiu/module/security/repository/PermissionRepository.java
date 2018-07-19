@@ -18,4 +18,6 @@ public interface PermissionRepository extends JpaRepository<Permission, Integer>
   List<Permission> findByUserId(Integer userId);
 
   List<Permission> findByPid(Integer pid);
+
+  List<Permission> findByPidGreaterThan(Integer pid);
 }

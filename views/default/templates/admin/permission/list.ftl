@@ -37,13 +37,13 @@
                 <label>授权地址</label>
                 <input type="text" id="url" placeholder="授权地址" class="form-control">
               </div>
-              <#if sec.hasPermission('permission:add')>
+              <#if sec.allGranted('permission:add')>
                 <button type="submit" class="btn btn-sm btn-primary">保存</button>
               </#if>
-              <#if sec.hasPermission('permission:edit')>
+              <#if sec.allGranted('permission:edit')>
                 <button type="button" id="edit" class="btn btn-sm btn-warning">编辑</button>
               </#if>
-              <#if sec.hasPermission('permission:delete')>
+              <#if sec.allGranted('permission:delete')>
                 <button type="button" id="delete" class="btn btn-sm btn-danger">删除</button>
               </#if>
             </form>

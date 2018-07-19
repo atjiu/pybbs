@@ -7,12 +7,12 @@
           <img src="/static/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>欢迎您, ${admin_user.username!}</p>
+          <p>欢迎您, ${sec.principal!}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
       <li class="header">MAIN NAVIGATION</li>
-      <#if sec.hasPermission('dashboard')>
+      <#if sec.allGranted('dashboard')>
         <li <#if page_tab=='index'>class="active"</#if>>
           <a href="/admin/index">
             <i class="fa fa-dashboard"></i>
@@ -20,7 +20,7 @@
           </a>
         </li>
       </#if>
-      <#if sec.hasPermission('topic:list')>
+      <#if sec.allGranted('topic:list')>
         <li <#if page_tab=='topic'>class="active"</#if>>
           <a href="/admin/topic/list">
             <i class="fa fa-list"></i>
@@ -28,7 +28,7 @@
           </a>
         </li>
       </#if>
-      <#if sec.hasPermission('comment:list')>
+      <#if sec.allGranted('comment:list')>
         <li <#if page_tab=='comment'>class="active"</#if>>
           <a href="/admin/comment/list">
             <i class="fa fa-comment"></i>
@@ -36,7 +36,7 @@
           </a>
         </li>
       </#if>
-      <#if sec.hasPermission('tag:list')>
+      <#if sec.allGranted('tag:list')>
         <li <#if page_tab=='tag'>class="active"</#if>>
           <a href="/admin/tag/list">
             <i class="fa fa-list"></i>
@@ -44,7 +44,7 @@
           </a>
         </li>
       </#if>
-      <#if sec.hasPermission('user:list')>
+      <#if sec.allGranted('user:list')>
         <li <#if page_tab=='user'>class="active"</#if>>
           <a href="/admin/user/list">
             <i class="fa fa-user"></i>
@@ -52,7 +52,7 @@
           </a>
         </li>
       </#if>
-      <#if sec.hasPermission('log:list')>
+      <#if sec.allGranted('log:list')>
         <li <#if page_tab=='log'>class="active"</#if>>
           <a href="/admin/log/list">
             <i class="fa fa-list"></i>
@@ -68,7 +68,7 @@
             </span>
         </a>
         <ul class="treeview-menu">
-          <#if sec.hasPermission('admin_user:list')>
+          <#if sec.allGranted('admin_user:list')>
             <li <#if page_tab=='admin_user_list'>class="active"</#if>>
               <a href="/admin/admin_user/list">
                 <i class="fa fa-circle-o"></i>
@@ -76,7 +76,7 @@
               </a>
             </li>
           </#if>
-          <#if sec.hasPermission('permission:list')>
+          <#if sec.allGranted('permission:list')>
             <li <#if page_tab=='admin_user_role'>class="active"</#if>>
               <a href="/admin/role/list">
                 <i class="fa fa-circle-o"></i>
@@ -84,7 +84,7 @@
               </a>
             </li>
           </#if>
-          <#if sec.hasPermission('role:list')>
+          <#if sec.allGranted('role:list')>
             <li <#if page_tab=='admin_user_permission'>class="active"</#if>>
               <a href="/admin/permission/list">
                 <i class="fa fa-circle-o"></i>

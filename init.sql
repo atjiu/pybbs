@@ -1,6 +1,6 @@
-INSERT INTO `admin_user` (`id`, `in_time`, `password`, `token`, `username`, `role_id`)
+INSERT INTO `admin_user` (`id`, `in_time`, `password`, `role_id`, `token`, `username`, `attempts`, `attempts_time`)
 VALUES
-  (1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 1);
+	(1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', 1, '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 0, NULL);
 
 INSERT INTO `permission` (`id`, `name`, `pid`, `url`, `value`)
 VALUES
@@ -12,7 +12,7 @@ VALUES
   (6, '评论编辑', 5, '/admin/comment/edit', 'comment:edit'),
   (7, '评论删除', 5, '/admin/comment/delete', 'comment:delete'),
   (8, '评论列表', 5, '/admin/comment/list', 'comment:list'),
-  (9, '权限', 0, '/admin/security', 'security'),
+  (9, '权限', 0, '/admin/encrypt', 'encrypt'),
   (10, '后台用户列表', 9, '/admin/admin_user/list', 'admin_user:list'),
   (11, '角色列表', 9, '/admin/role/list', 'role:list'),
   (12, '权限列表', 9, '/admin/permission/list', 'permission:list'),

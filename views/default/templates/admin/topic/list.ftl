@@ -46,16 +46,16 @@
               </td>
               <td>${map.topic.inTime!}</td>
               <td>
-                <#if sec.hasPermission('topic:top')>
+                <#if sec.allGranted('topic:top')>
                   <button onclick="actionBtn('${map.topic.id}', 'top')" class="btn btn-sm btn-warning">置顶</button>
                 </#if>
-                <#if sec.hasPermission('topic:good')>
+                <#if sec.allGranted('topic:good')>
                   <button onclick="actionBtn('${map.topic.id}', 'good')" class="btn btn-sm btn-warning">加精</button>
                 </#if>
-                <#if sec.hasPermission('topic:edit')>
+                <#if sec.allGranted('topic:edit')>
                   <a href="/admin/topic/edit?id=${map.topic.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('topic:delete')>
+                <#if sec.allGranted('topic:delete')>
                   <button onclick="actionBtn('${map.topic.id}', 'delete')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
               </td>

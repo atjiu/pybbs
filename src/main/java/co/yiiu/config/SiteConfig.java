@@ -29,6 +29,9 @@ public class SiteConfig {
   private String baiduTJ;
   private String baiduZZ;
   private String uploadType;
+  private Integer loginPoints;
+  private Integer attempts;
+  private Integer attemptsWaitTime;
   private CookieConfig cookie;
   private OAuth2Config oauth2;
 

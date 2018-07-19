@@ -33,18 +33,18 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">${site.name!} 管理平台登录</p>
-    <form id="form">
+    <form id="form" action="/adminlogin" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" id="username" placeholder="用户名">
+        <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" id="password" placeholder="密码">
+        <input type="password" class="form-control" id="password" name="password" placeholder="密码">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group">
         <div class="input-group">
-          <input type="text" class="form-control" id="code" placeholder="验证码"/>
+          <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
           <span class="input-group-btn">
             <img src="/common/code" id="changeCode"/>
           </span>
@@ -52,6 +52,9 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
+          <#if SPRING_SECURITY_LAST_EXCEPTION??>
+            <div class="text-red">${(SPRING_SECURITY_LAST_EXCEPTION.message)!}</div>
+          </#if>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
@@ -111,29 +114,7 @@
         toast("验证码不能为空");
         return false;
       }
-      $.ajax({
-        url: '/admin/login',
-        type: 'post',
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: {
-          username: username,
-          password: password,
-          code: code
-        },
-        success: function(data) {
-          if(data.code === 200) {
-            toast("登录成功，1s后跳转到首页");
-            setTimeout(function() {
-              window.location.href = "/admin/index";
-            }, 1000);
-          } else {
-            toast(data.description);
-          }
-        }
-      })
-      return false;
+      return true;
     })
   });
 </script>

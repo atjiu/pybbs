@@ -48,13 +48,13 @@
             </td>
             <td>${user.inTime!}</td>
             <td>
-                <#if sec.hasPermission('user:block')>
+                <#if sec.allGranted('user:block')>
                   <button onclick="blockBtn('${user.id}')" class="btn btn-sm btn-warning">禁用</button>
                 </#if>
-                <#if sec.hasPermission('user:edit')>
+                <#if sec.allGranted('user:edit')>
                   <a href="/admin/user/edit?id=${user.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
-                <#if sec.hasPermission('user:delete')>
+                <#if sec.allGranted('user:delete')>
                   <button onclick="deleteBtn('${user.id}')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
             </td>

@@ -13,14 +13,14 @@
   <section class="content">
     <p>欢迎登录${site.name}管理系统</p>
 
-    <#if sec.hasPermission("admin_index:clear")>
+    <#if sec.allGranted("admin_index:clear")>
       <button class="btn btn-sm btn-danger" onclick="clearRedisData(1)">清除前台Redis数据</button>&nbsp;
       <button class="btn btn-sm btn-danger" onclick="clearRedisData(2)">清除后台Redis数据</button>&nbsp;
     </#if>
-    <#if sec.hasPermission("admin_index:indexedTopic")>
+    <#if sec.allGranted("admin_index:indexedTopic")>
       <button class="btn btn-sm btn-danger" onclick="indexTopic()">索引话题</button>
     </#if>
-    <#if sec.hasPermission("admin_index:indexedTag")>
+    <#if sec.allGranted("admin_index:indexedTag")>
       <button class="btn btn-sm btn-danger" onclick="indexedTag()">索引标签</button>
     </#if>
   </section>
