@@ -1,18 +1,15 @@
 package co.yiiu.module.es.service;
 
-import co.yiiu.module.es.model.TagIndex;
-import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.pojo.TagIndex;
 import co.yiiu.module.es.repository.TagIndexRepository;
 import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.repository.TagRepository;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;

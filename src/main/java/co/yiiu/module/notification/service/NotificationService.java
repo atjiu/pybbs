@@ -1,7 +1,7 @@
 package co.yiiu.module.notification.service;
 
 import co.yiiu.module.notification.model.Notification;
-import co.yiiu.module.notification.model.NotificationEnum;
+import co.yiiu.module.notification.pojo.NotificationEnum;
 import co.yiiu.module.notification.repository.NotificationRepository;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.user.model.User;

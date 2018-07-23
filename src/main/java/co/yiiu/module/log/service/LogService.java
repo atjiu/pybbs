@@ -3,7 +3,7 @@ package co.yiiu.module.log.service;
 import co.yiiu.config.LogEventConfig;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.log.model.Log;
-import co.yiiu.module.log.model.LogEventEnum;
+import co.yiiu.module.log.pojo.LogEventEnum;
 import co.yiiu.module.log.repository.LogRepository;
 import co.yiiu.module.topic.model.Topic;
 import com.google.common.collect.Maps;

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yiiu.module.security.mapper.AdminUserMapper">
+  <resultMap id="BaseResultMap" type="co.yiiu.module.security.pojo.AdminUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="attempts" jdbcType="INTEGER" property="attempts" />
+    <result column="attempts_time" jdbcType="TIMESTAMP" property="attemptsTime" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, attempts, attempts_time, in_time, password, role_id, token, username
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="co.yiiu.module.security.pojo.AdminUser">
+    insert into admin_user (id, attempts, attempts_time, 
+      in_time, password, role_id, 
+      token, username)
+    values (#{id,jdbcType=INTEGER}, #{attempts,jdbcType=INTEGER}, #{attemptsTime,jdbcType=TIMESTAMP}, 
+      #{inTime,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, 
+      #{token,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="co.yiiu.module.security.pojo.AdminUser">
+    insert into admin_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="attempts != null">
+        attempts,
+      </if>
+      <if test="attemptsTime != null">
+        attempts_time,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="attempts != null">
+        #{attempts,jdbcType=INTEGER},
+      </if>
+      <if test="attemptsTime != null">
+        #{attemptsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.security.pojo.AdminUser">
+    update admin_user
+    <set>
+      <if test="attempts != null">
+        attempts = #{attempts,jdbcType=INTEGER},
+      </if>
+      <if test="attemptsTime != null">
+        attempts_time = #{attemptsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.security.pojo.AdminUser">
+    update admin_user
+    set attempts = #{attempts,jdbcType=INTEGER},
+      attempts_time = #{attemptsTime,jdbcType=TIMESTAMP},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      password = #{password,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER},
+      token = #{token,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,14 +1,12 @@
 package co.yiiu.module.es.service;
 
-import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.pojo.TopicIndex;
 import co.yiiu.module.es.repository.TopicIndexRepository;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.repository.TopicRepository;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

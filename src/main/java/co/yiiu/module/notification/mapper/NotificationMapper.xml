@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yiiu.module.notification.mapper.NotificationMapper">
+  <resultMap id="BaseResultMap" type="co.yiiu.module.notification.pojo.Notification">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="is_read" jdbcType="BIT" property="isRead" />
+    <result column="target_user_id" jdbcType="INTEGER" property="targetUserId" />
+    <result column="topic_id" jdbcType="INTEGER" property="topicId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="co.yiiu.module.notification.pojo.Notification">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, action, in_time, is_read, target_user_id, topic_id, user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notification
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notification
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="co.yiiu.module.notification.pojo.Notification">
+    insert into notification (id, action, in_time, 
+      is_read, target_user_id, topic_id, 
+      user_id, content)
+    values (#{id,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{isRead,jdbcType=BIT}, #{targetUserId,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="co.yiiu.module.notification.pojo.Notification">
+    insert into notification
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="action != null">
+        action,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="targetUserId != null">
+        target_user_id,
+      </if>
+      <if test="topicId != null">
+        topic_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="targetUserId != null">
+        #{targetUserId,jdbcType=INTEGER},
+      </if>
+      <if test="topicId != null">
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.notification.pojo.Notification">
+    update notification
+    <set>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="targetUserId != null">
+        target_user_id = #{targetUserId,jdbcType=INTEGER},
+      </if>
+      <if test="topicId != null">
+        topic_id = #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="co.yiiu.module.notification.pojo.Notification">
+    update notification
+    set action = #{action,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      is_read = #{isRead,jdbcType=BIT},
+      target_user_id = #{targetUserId,jdbcType=INTEGER},
+      topic_id = #{topicId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.notification.pojo.Notification">
+    update notification
+    set action = #{action,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      is_read = #{isRead,jdbcType=BIT},
+      target_user_id = #{targetUserId,jdbcType=INTEGER},
+      topic_id = #{topicId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

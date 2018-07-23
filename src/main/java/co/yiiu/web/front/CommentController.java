@@ -8,7 +8,7 @@ import co.yiiu.module.comment.model.Comment;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.ReputationPermission;
+import co.yiiu.module.user.pojo.ReputationPermission;
 import co.yiiu.module.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

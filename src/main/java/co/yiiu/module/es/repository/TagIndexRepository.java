@@ -1,6 +1,6 @@
 package co.yiiu.module.es.repository;
 
-import co.yiiu.module.es.model.TagIndex;
+import co.yiiu.module.es.pojo.TagIndex;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

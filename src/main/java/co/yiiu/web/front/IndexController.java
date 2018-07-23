@@ -3,7 +3,7 @@ package co.yiiu.web.front;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
-import co.yiiu.module.es.model.TopicIndex;
+import co.yiiu.module.es.pojo.TopicIndex;
 import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.tag.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;

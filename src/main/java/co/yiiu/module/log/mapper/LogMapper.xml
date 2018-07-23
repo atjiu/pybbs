@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yiiu.module.log.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="co.yiiu.module.log.pojo.Log">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="event" jdbcType="VARCHAR" property="event" />
+    <result column="event_description" jdbcType="VARCHAR" property="eventDescription" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="target_id" jdbcType="INTEGER" property="targetId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="co.yiiu.module.log.pojo.LogWithBLOBs">
+    <result column="after_content" jdbcType="LONGVARCHAR" property="afterContent" />
+    <result column="before_content" jdbcType="LONGVARCHAR" property="beforeContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, event, event_description, in_time, target, target_id, user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    after_content, before_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
+    insert into log (id, event, event_description, 
+      in_time, target, target_id, 
+      user_id, after_content, before_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{event,jdbcType=VARCHAR}, #{eventDescription,jdbcType=VARCHAR}, 
+      #{inTime,jdbcType=TIMESTAMP}, #{target,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{afterContent,jdbcType=LONGVARCHAR}, #{beforeContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
+    insert into log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="event != null">
+        event,
+      </if>
+      <if test="eventDescription != null">
+        event_description,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="target != null">
+        target,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="afterContent != null">
+        after_content,
+      </if>
+      <if test="beforeContent != null">
+        before_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="event != null">
+        #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDescription != null">
+        #{eventDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="afterContent != null">
+        #{afterContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="beforeContent != null">
+        #{beforeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
+    update log
+    <set>
+      <if test="event != null">
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDescription != null">
+        event_description = #{eventDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="target != null">
+        target = #{target,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="afterContent != null">
+        after_content = #{afterContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="beforeContent != null">
+        before_content = #{beforeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
+    update log
+    set event = #{event,jdbcType=VARCHAR},
+      event_description = #{eventDescription,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      target = #{target,jdbcType=VARCHAR},
+      target_id = #{targetId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      after_content = #{afterContent,jdbcType=LONGVARCHAR},
+      before_content = #{beforeContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.log.pojo.Log">
+    update log
+    set event = #{event,jdbcType=VARCHAR},
+      event_description = #{eventDescription,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      target = #{target,jdbcType=VARCHAR},
+      target_id = #{targetId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

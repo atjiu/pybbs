@@ -3,7 +3,7 @@ package co.yiiu.module.code.service;
 import co.yiiu.core.util.DateUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.module.code.model.Code;
-import co.yiiu.module.code.model.CodeEnum;
+import co.yiiu.module.code.pojo.CodeEnum;
 import co.yiiu.module.code.repository.CodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -10,7 +10,7 @@ import co.yiiu.module.tag.model.Tag;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.model.Topic;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.ReputationPermission;
+import co.yiiu.module.user.pojo.ReputationPermission;
 import co.yiiu.module.user.model.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
