@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by tomoya at 2018/3/19
  */
 @Entity
-@Table
+@Table(name = "oauth2_user")
 @Getter
 @Setter
 public class OAuth2User implements Serializable {

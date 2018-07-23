@@ -24,8 +24,8 @@ public interface TopicRepository extends JpaRepository<Topic, Integer>, JpaSpeci
 
   void deleteByUserId(Integer userId);
 
-  @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id",
-      countQuery = "select count(1) from Topic t, User u where t.userId = u.id")
+  @Query(value = "select t as topic, u as user from Topic t , User u where t.userId = u.id",
+      countQuery = "select count(1) from Topic t")
   Page<Map> findTopics(Pageable pageable);
 
   @Query(value = "select t as topic, u as user from Topic t, User u where t.userId = u.id and t.good = ?1",
