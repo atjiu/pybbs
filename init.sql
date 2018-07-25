@@ -1,6 +1,196 @@
+CREATE TABLE `admin_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `in_time` datetime DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `attempts` int(11) DEFAULT NULL,
+  `attempts_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `attachment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `in_time` datetime DEFAULT NULL,
+  `local_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `md5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `request_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `suffix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `code` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `expire_time` datetime DEFAULT NULL,
+  `is_used` bit(1) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_f4s88vsvd8eypncfm39h9nkbh` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `collect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `in_time` datetime DEFAULT NULL,
+  `topic_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_id` int(11) DEFAULT NULL,
+  `content` text NOT NULL,
+  `down` int(11) NOT NULL,
+  `down_ids` text,
+  `in_time` datetime DEFAULT NULL,
+  `topic_id` int(11) DEFAULT NULL,
+  `up` int(11) NOT NULL,
+  `up_ids` text,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `after_content` text,
+  `before_content` text,
+  `event` varchar(255) DEFAULT NULL,
+  `event_description` varchar(255) DEFAULT NULL,
+  `in_time` datetime DEFAULT NULL,
+  `target` varchar(255) DEFAULT NULL,
+  `target_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action` varchar(255) DEFAULT NULL,
+  `content` text,
+  `in_time` datetime DEFAULT NULL,
+  `is_read` bit(1) DEFAULT NULL,
+  `target_user_id` int(11) DEFAULT NULL,
+  `topic_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth2_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `access_token` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `in_time` datetime DEFAULT NULL,
+  `nick_name` varchar(255) DEFAULT NULL,
+  `oauth_user_id` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `remember_me_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `series` varchar(255) DEFAULT NULL,
+  `token_value` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `role_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `permission_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `in_time` datetime DEFAULT NULL,
+  `intro` varchar(255) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `topic_count` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_esny9qulfe2tmsvjet4pc596e` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_count` int(11) DEFAULT NULL,
+  `content` text,
+  `down` int(11) DEFAULT NULL,
+  `down_ids` text,
+  `good` bit(1) DEFAULT NULL,
+  `in_time` datetime NOT NULL,
+  `last_comment_time` datetime DEFAULT NULL,
+  `modify_time` datetime DEFAULT NULL,
+  `tag` varchar(255) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `top` bit(1) DEFAULT NULL,
+  `up` int(11) DEFAULT NULL,
+  `up_ids` text,
+  `user_id` int(11) DEFAULT NULL,
+  `view` int(11) NOT NULL,
+  `weight` double DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_2983inw6rc5ogqomaguywqy5x` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `topic_tag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tag_id` int(11) DEFAULT NULL,
+  `topic_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `avatar` varchar(255) NOT NULL,
+  `bio` varchar(64) DEFAULT NULL,
+  `block` bit(1) DEFAULT NULL,
+  `comment_email` bit(1) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `in_time` datetime NOT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `reply_email` bit(1) DEFAULT NULL,
+  `reputation` int(11) DEFAULT '0',
+  `token` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_hqfqknnyrj6k3vonviiuvsex3` (`username`),
+  UNIQUE KEY `UK_mf0slcgojrpjk7xtqpigfwnx3` (`email`),
+  UNIQUE KEY `UK_6yoyhth5hxh9uns6gg1ko6t0c` (`mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `admin_user` (`id`, `in_time`, `password`, `role_id`, `token`, `username`, `attempts`, `attempts_time`)
 VALUES
-	(1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', 1, '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 0, NULL);
+  (1, '2018-03-19 16:24:24', '$2a$10$173kismq9rW55yKEM5rLyej6mfBMr6jYxnFKqSdUFLvV4P9hAHhM.', 1, '1efbaf4e-5cba-487f-a8db-dc375073b050', 'admin', 0, NULL);
 
 INSERT INTO `permission` (`id`, `name`, `pid`, `url`, `value`)
 VALUES

@@ -17,7 +17,7 @@ spring:
     - file:./views/${site.theme}/templates/
     cache: false
     settings:
-#      template_exception_handler: rethrow
+      template_exception_handler: rethrow
       number_format: 0.##
   datasource:
     url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
