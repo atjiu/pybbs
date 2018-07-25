@@ -1,12 +1,12 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
-import co.yiiu.module.user.model.User;
+import co.yiiu.core.bean.Page;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

@@ -5,13 +5,9 @@ import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.encrypt.Base64Helper;
-import co.yiiu.module.security.model.AdminUser;
-import co.yiiu.module.security.model.Permission;
-import co.yiiu.module.security.model.Role;
+import co.yiiu.module.security.pojo.AdminUser;
 import co.yiiu.module.security.service.AdminUserService;
-import co.yiiu.module.security.service.PermissionService;
-import co.yiiu.module.security.service.RoleService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -20,6 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -32,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,10 +55,6 @@ public class BaseEntity {
   private UserService userService;
   @Autowired
   private AdminUserService adminUserService;
-  @Autowired
-  private RoleService roleService;
-  @Autowired
-  private PermissionService permissionService;
 
   /**
    * 格式化日期
@@ -155,7 +147,9 @@ public class BaseEntity {
 
   // 获取后台用户
   public AdminUser getAdminUser() {
-    Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null) return null;
+    Object obj = authentication.getPrincipal();
 
     if (obj instanceof org.springframework.security.core.userdetails.User) {
       String username = ((UserDetails) obj).getUsername();

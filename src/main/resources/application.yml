@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: YIIU
+  devtools:
+    restart:
+      enabled: true
+      exclude: WEB-INF/**
   resources:
     static-locations:
     - classpath:/${site.theme}/static/
@@ -13,20 +17,12 @@ spring:
     - file:./views/${site.theme}/templates/
     cache: false
     settings:
-      template_exception_handler: rethrow
+#      template_exception_handler: rethrow
       number_format: 0.##
   datasource:
     url: jdbc:mysql://localhost/pybbs?useSSL=false&characterEncoding=utf8
     username: root
     password:
-  jpa:
-    database: mysql
-    show-sql: false
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate.format_sql: false
-    open-in-view: false
 #  redis: # 如果redis都是默认配置，下面这些都可以不用配置
 #    host: localhost
 #    password:

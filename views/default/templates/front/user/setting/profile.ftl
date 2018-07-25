@@ -13,7 +13,7 @@
         <a href="/">主页</a> / 个人设置
       </div>
       <div class="panel-body">
-        <form action="/user/setting/profile" method="post" id="userProfileForm" enctype="multipart/form-data">
+        <form action="/user/setting/profile" method="post" id="userProfileForm">
           <div class="form-group">
             <label for="username">昵称</label>
             <input type="text" disabled class="form-control" id="username" value="${user.username}"/>

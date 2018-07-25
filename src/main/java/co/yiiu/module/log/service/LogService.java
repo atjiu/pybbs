@@ -1,20 +1,22 @@
 package co.yiiu.module.log.service;
 
 import co.yiiu.config.LogEventConfig;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.FreemarkerUtil;
-import co.yiiu.module.log.model.Log;
+import co.yiiu.module.log.mapper.LogMapper;
+import co.yiiu.module.log.pojo.Log;
 import co.yiiu.module.log.pojo.LogEventEnum;
-import co.yiiu.module.log.repository.LogRepository;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.log.pojo.LogWithBLOBs;
+import co.yiiu.module.topic.pojo.Topic;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,43 +29,45 @@ public class LogService {
   @Autowired
   private FreemarkerUtil freemarkerUtil;
   @Autowired
-  private LogRepository logRepository;
+  private LogMapper logMapper;
   @Autowired
   private LogEventConfig logEventConfig;
 
-  public Log save(Log log) {
-    return logRepository.save(log);
+  public void save(LogWithBLOBs log) {
+    logMapper.insertSelective(log);
   }
 
-  public Page<Log> findByUserId(Integer p, int size, Integer userId) {
-    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    return logRepository.findByUserId(userId, pageable);
+  public Page<LogWithBLOBs> findByUserId(Integer pageNo, Integer pageSize, Integer userId) {
+    List<LogWithBLOBs> list = logMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    int count = logMapper.countByUserId(userId);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   public void deleteByUserId(Integer userId) {
-    logRepository.deleteByUserId(userId);
+    logMapper.deleteByUserId(userId);
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, new Sort(Sort.Direction.DESC, "inTime"));
-    return logRepository.findAllForAdmin(pageable);
+    List<Map> list = logMapper.findAllForAdmin((pageNo - 1) * pageSize, pageSize, "in_time desc");
+    int count = logMapper.countAllForAdmin();
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
-  public Log save(LogEventEnum event, Integer userId, String target, Integer targetId, String before, String after, Topic topic) {
+  public LogWithBLOBs save(LogEventEnum event, Integer userId, String target, Integer targetId, String before, String after, Topic topic) {
     Map<String, Object> params = Maps.newHashMap();
     params.put("topic", topic);
     String desc = freemarkerUtil.format(logEventConfig.getTemplate().get(event.getName()), params);
-    Log log = new Log();
+    LogWithBLOBs log = new LogWithBLOBs();
     log.setEvent(event.getEvent());
     log.setEventDescription(desc);
     log.setUserId(userId);
     log.setTarget(target);
     log.setTargetId(targetId);
-    log.setBefore(before);
-    log.setAfter(after);
+    log.setBeforeContent(before);
+    log.setAfterContent(after);
     log.setInTime(new Date());
-    return save(log);
+    save(log);
+    return log;
   }
 
 }

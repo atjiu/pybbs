@@ -19,7 +19,7 @@
           <#include "./components/topics.ftl"/>
           <@topics topics=page.content/>
           <#include "./components/paginate.ftl"/>
-          <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/" urlParas="&tab=${tab!}"/>
+          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/" urlParas="&tab=${tab!}"/>
         </div>
       </@topics_tag>
     </div>

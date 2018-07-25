@@ -42,7 +42,7 @@
       <#if page.totalPages &gt; 1>
         <div class="box-footer clearfix">
           <#include "../layout/paginate.ftl">
-          <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/log/list" urlParas=""/>
+          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/admin/log/list" urlParas=""/>
         </div>
       </#if>
     </div>

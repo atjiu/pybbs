@@ -3,7 +3,8 @@ package co.yiiu.web.admin;
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.Topic;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,12 +67,12 @@ public class TopicAdminController extends BaseController {
   @PostMapping("/edit")
   @ResponseBody
   public Result update(Integer id, String title, String content) {
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = new TopicWithBLOBs();
+    topic.setId(id);
     topic.setTitle(title);
     topic.setContent(content);
     topic.setModifyTime(new Date());
-    topicService.save(topic);
-
+    topicService.update(topic);
     return Result.success();
   }
 
@@ -98,9 +99,9 @@ public class TopicAdminController extends BaseController {
   @GetMapping("/good")
   @ResponseBody
   public Result good(Integer id) {
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = topicService.findById(id);
     topic.setGood(!topic.getGood());
-    topicService.save(topic);
+    topicService.update(topic);
     return Result.success();
   }
 
@@ -113,9 +114,9 @@ public class TopicAdminController extends BaseController {
   @GetMapping("/top")
   @ResponseBody
   public Result top(Integer id) {
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = topicService.findById(id);
     topic.setTop(!topic.getTop());
-    topicService.save(topic);
+    topicService.update(topic);
     return Result.success();
   }
 }

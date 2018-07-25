@@ -166,4 +166,44 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByTopicId" parameterType="java.lang.Integer" resultType="map">
+    select c.* from comment c left join topic t on c.topic_id = t.id left join user u on c.user_id = u.id where c.topic_id = #{topicId}
+  </select>
+  <select id="countByTopicId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from comment where topic_id = #{topicId}
+  </select>
+  <delete id="deleteByTopicId" parameterType="java.lang.Integer">
+    delete from comment where topic_id = #{topicId}
+  </delete>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from comment where user_id = #{userId}
+  </delete>
+  <select id="findAllForAdmin" resultType="map">
+    select c.* from comment c left join topic t on c.topic_id = t.id left join user u on c.user_id = u.id
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countAllForAdmin" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from comment
+  </select>
+  <select id="findCommentByTopicId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/> from comment where topic_id = #{topicId}
+  </select>
+  <select id="findByUserId" resultType="map">
+    select c.*, u.username, t.title as topic_title from comment c left join topic t on c.topic_id = t.id left join user u on u.id = c.user_id where c.user_id = #{userId}
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from comment where user_id = #{userId}
+  </select>
 </mapper>

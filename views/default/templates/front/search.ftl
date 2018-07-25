@@ -8,7 +8,7 @@
         <#include "components/search_result.ftl"/>
         <@searchresult topics=page.content/>
         <#include "./components/paginate.ftl"/>
-        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/search" urlParas="&keyword=${keyword!}" showdivide="no"/>
+        <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/search" urlParas="&keyword=${keyword!}" showdivide="no"/>
       </div>
     </div>
   </div>

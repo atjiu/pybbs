@@ -6,55 +6,55 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           通知
-          <span class="pull-right">总共收到通知 ${page.getTotalElements()!}</span>
+          <span class="pull-right">总共收到通知 ${page.totalCount!}</span>
         </div>
         <div class="panel-body">
-          <#list page.getContent() as map>
+          <#list page.getContent() as notification>
             <div class="media">
               <div class="media-left">
-                <img src="${map.user.avatar}" class="avatar-sm">
+                <img src="${notification.avatar}" class="avatar-sm">
               </div>
               <div class="media-body">
-                <div class="gray" <#if !map.notification.isRead>style="font-weight:700;"</#if>>
-                  <a href="/user/${map.user.username}">${map.user.username}</a>
-                  <#if map.notification.action == "COLLECT">
+                <div class="gray" <#if !notification.is_read>style="font-weight:700;"</#if>>
+                  <a href="/user/${notification.username}">${notification.username}</a>
+                  <#if notification.action == "COLLECT">
                     收藏了你发布的话题
-                  <#elseif map.notification.action == "COMMENT">
+                  <#elseif notification.action == "COMMENT">
                     在
-                  <#elseif map.notification.action == "REPLY"
-                        || map.notification.action == "UP_COMMENT"
-                        || map.notification.action == "DOWN_COMMENT">
+                  <#elseif notification.action == "REPLY"
+                        || notification.action == "UP_COMMENT"
+                        || notification.action == "DOWN_COMMENT">
                     在话题
-                  <#elseif map.notification.action == "UP_TOPIC">
+                  <#elseif notification.action == "UP_TOPIC">
                     赞了你的话题
-                  <#elseif map.notification.action == "DOWN_TOPIC">
+                  <#elseif notification.action == "DOWN_TOPIC">
                     踩了你的话题
                   </#if>
-                  <a href="/topic/${map.topic.id}">${map.topic.title!?html}</a>
-                  <#if map.notification.action == "COMMENT">
+                  <a href="/topic/${notification.topic_id}">${notification.topic_title!?html}</a>
+                  <#if notification.action == "COMMENT">
                     里评论了你
-                  <#elseif map.notification.action == "REPLY">
+                  <#elseif notification.action == "REPLY">
                     里回复了你的评论
-                  <#elseif map.notification.action == "UP_COMMENT">
+                  <#elseif notification.action == "UP_COMMENT">
                     里赞了你的评论
-                  <#elseif map.notification.action == "DOWN_COMMENT">
+                  <#elseif notification.action == "DOWN_COMMENT">
                     里踩了你的评论
                   </#if>
-                  <span>${model.formatDate(map.notification.inTime)}</span>
+                  <span>${model.formatDate(notification.in_time)}</span>
                 </div>
-                <#if map.notification.content?? && map.notification.content != "">
+                <#if notification.content?? && notification.content != "">
                   <div class="payload">
-                    ${map.notification.content!}
+                    ${notification.content!}
                   </div>
                 </#if>
               </div>
             </div>
-            <#if map_has_next>
+            <#if notification_has_next>
               <div class="divide mar-top-5"></div>
             </#if>
           </#list>
           <#include "../components/paginate.ftl"/>
-          <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/notification/list"/>
+          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/notification/list"/>
         </div>
       </div>
     </@notifications_tag>

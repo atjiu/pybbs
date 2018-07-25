@@ -1,17 +1,17 @@
 package co.yiiu.module.collect.service;
 
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.JsonUtil;
-import co.yiiu.module.collect.model.Collect;
-import co.yiiu.module.collect.repository.CollectRepository;
+import co.yiiu.module.collect.mapper.CollectMapper;
+import co.yiiu.module.collect.pojo.Collect;
 import co.yiiu.module.log.pojo.LogEventEnum;
 import co.yiiu.module.log.pojo.LogTargetEnum;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.pojo.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Map;
 public class CollectService {
 
   @Autowired
-  private CollectRepository collectRepository;
+  private CollectMapper collectMapper;
   @Autowired
   private TopicService topicService;
   @Autowired
@@ -39,26 +40,26 @@ public class CollectService {
   @Autowired
   private NotificationService notificationService;
 
-  public Page<Map> findByUserId(int p, int size, Integer userId) {
-    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    return collectRepository.findByUserId(userId, pageable);
+  public Page<Map> findByUserId(Integer pageNo, Integer pageSize, Integer userId) {
+    List<Map> list = collectMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    int count = collectMapper.countByUserId(userId);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   public long countByUserId(Integer userId) {
-    return collectRepository.countByUserId(userId);
+    return collectMapper.countByUserId(userId);
   }
 
   public long countByTopicId(Integer topicId) {
-    return collectRepository.countByTopicId(topicId);
+    return collectMapper.countByTopicId(topicId);
   }
 
   public Collect findByUserIdAndTopicId(Integer userId, Integer topicId) {
-    return collectRepository.findByUserIdAndTopicId(userId, topicId);
+    return collectMapper.findByUserIdAndTopicId(userId, topicId);
   }
 
-  public Collect save(Collect collect) {
-    return collectRepository.save(collect);
+  public void save(Collect collect) {
+    collectMapper.insertSelective(collect);
   }
 
   public Collect createCollect(Topic topic, Integer userId) {
@@ -77,11 +78,11 @@ public class CollectService {
   }
 
   public void deleteById(int id) {
-    Collect collect = collectRepository.findById(id).get();
+    Collect collect = collectMapper.selectByPrimaryKey(id);
     // 日志
     Topic topic = topicService.findById(collect.getTopicId());
     logService.save(LogEventEnum.DELETE_COLLECT_TOPIC, collect.getUserId(), LogTargetEnum.COLLECT.name(), collect.getId(), JsonUtil.objectToJson(collect), null, topic);
-    collectRepository.deleteById(id);
+    collectMapper.deleteByPrimaryKey(id);
   }
 
   /**
@@ -90,7 +91,7 @@ public class CollectService {
    * @param userId
    */
   public void deleteByUserId(Integer userId) {
-    collectRepository.deleteByUserId(userId);
+    collectMapper.deleteByUserId(userId);
   }
 
   /**
@@ -99,6 +100,6 @@ public class CollectService {
    * @param topicId
    */
   public void deleteByTopicId(Integer topicId) {
-    collectRepository.deleteByTopicId(topicId);
+    collectMapper.deleteByTopicId(topicId);
   }
 }

@@ -2,7 +2,7 @@ package co.yiiu.web.admin;
 
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
-import co.yiiu.module.security.model.Permission;
+import co.yiiu.module.security.pojo.Permission;
 import co.yiiu.module.security.service.PermissionService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

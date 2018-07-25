@@ -1,7 +1,7 @@
 package co.yiiu.module.security.service;
 
-import co.yiiu.module.security.model.RolePermission;
-import co.yiiu.module.security.repository.RolePermissionRepository;
+import co.yiiu.module.security.mapper.RolePermissionMapper;
+import co.yiiu.module.security.pojo.RolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,25 +16,27 @@ import java.util.List;
 public class RolePermissionService {
 
   @Autowired
-  private RolePermissionRepository rolePermissionRepository;
+  private RolePermissionMapper rolePermissionMapper;
 
-  public RolePermission save(RolePermission rolePermission) {
-    return rolePermissionRepository.save(rolePermission);
+  public void save(RolePermission rolePermission) {
+    rolePermissionMapper.insert(rolePermission);
   }
 
-  public List<RolePermission> save(List<RolePermission> rolePermissions) {
-    return rolePermissionRepository.saveAll(rolePermissions);
+  public void save(List<RolePermission> rolePermissions) {
+    for (RolePermission rolePermission : rolePermissions) {
+      this.save(rolePermission);
+    }
   }
 
   public void deleteRoleId(Integer roleId) {
-    rolePermissionRepository.deleteByRoleId(roleId);
+    rolePermissionMapper.deleteRolePermission(roleId, null);
   }
 
   public List<RolePermission> findByRoleId(Integer roleId) {
-    return rolePermissionRepository.findByRoleId(roleId);
+    return rolePermissionMapper.findByRoleId(roleId);
   }
 
   public void deleteByPermissionId(Integer permissionId) {
-    rolePermissionRepository.deleteByPermissionId(permissionId);
+    rolePermissionMapper.deleteRolePermission(null, permissionId);
   }
 }

@@ -1,6 +1,6 @@
 package co.yiiu.module.security.core;
 
-import co.yiiu.module.security.model.Permission;
+import co.yiiu.module.security.pojo.Permission;
 import co.yiiu.module.security.service.PermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

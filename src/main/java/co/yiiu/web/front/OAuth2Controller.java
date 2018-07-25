@@ -5,8 +5,9 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.encrypt.Base64Helper;
-import co.yiiu.module.user.model.OAuth2User;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.OAuth2User;
+import co.yiiu.module.user.pojo.OAuth2UserType;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.OAuth2UserService;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class OAuth2Controller extends BaseController {
 //      String blog = (String) jsonObject.get("blog");
     String html_url = (String) json.get("html_url");
 
-    OAuth2User oAuth2User = oAuth2UserService.findByOauthUserIdAndType(githubId, OAuth2User.Type.GITHUB.name());
+    OAuth2User oAuth2User = oAuth2UserService.findByOauthUserIdAndType(githubId, OAuth2UserType.GITHUB.name());
     User user;
     if(oAuth2User != null) {
       oAuth2User.setNickName(nickName);
@@ -94,7 +95,7 @@ public class OAuth2Controller extends BaseController {
         user = userService.createUser(nickName, StrUtil.randomString(16), email, avatar, html_url, bio);
       }
       oAuth2UserService.createOAuth2User(nickName, avatar, user.getId(), githubId,
-          accessToken, OAuth2User.Type.GITHUB.name());
+          accessToken, OAuth2UserType.GITHUB.name());
     }
     // 把用户信息写入cookie
     CookieHelper.addCookie(

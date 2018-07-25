@@ -2,6 +2,8 @@ package co.yiiu.module.security.mapper;
 
 import co.yiiu.module.security.pojo.Role;
 
+import java.util.List;
+
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    //自定义方法
+    List<Role> findAll();
 }

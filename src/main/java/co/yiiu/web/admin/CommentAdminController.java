@@ -2,13 +2,14 @@ package co.yiiu.web.admin;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.bean.Result;
-import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.pojo.Comment;
+import co.yiiu.module.comment.pojo.CommentWithBLOBs;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -75,7 +76,7 @@ public class CommentAdminController extends BaseController {
   @PostMapping("/edit")
   @ResponseBody
   public Result update(Integer id, String content) {
-    Comment comment = commentService.findById(id);
+    CommentWithBLOBs comment = commentService.findById(id);
     Assert.notNull(comment, "评论不存在");
 
     comment.setContent(content);

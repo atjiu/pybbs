@@ -1,7 +1,7 @@
 package co.yiiu.module.user.service;
 
-import co.yiiu.module.user.model.OAuth2User;
-import co.yiiu.module.user.repository.OAuth2UserRepository;
+import co.yiiu.module.user.mapper.OAuth2UserMapper;
+import co.yiiu.module.user.pojo.OAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +16,13 @@ import java.util.Date;
 public class OAuth2UserService {
 
   @Autowired
-  private OAuth2UserRepository oAuth2UserRepository;
+  private OAuth2UserMapper oAuth2UserMapper;
 
-  public OAuth2User save(OAuth2User oAuth2User) {
-    return oAuth2UserRepository.save(oAuth2User);
+  public void save(OAuth2User oAuth2User) {
+    oAuth2UserMapper.insertSelective(oAuth2User);
   }
 
-  public OAuth2User createOAuth2User(String nickName, String avatar, Integer userId, String oauthUserId,
+  public void createOAuth2User(String nickName, String avatar, Integer userId, String oauthUserId,
                                      String accessToken, String type) {
     OAuth2User oAuth2User = new OAuth2User();
     oAuth2User.setNickName(nickName);
@@ -32,10 +32,10 @@ public class OAuth2UserService {
     oAuth2User.setOauthUserId(oauthUserId);
     oAuth2User.setAccessToken(accessToken);
     oAuth2User.setAvatar(avatar);
-    return this.save(oAuth2User);
+    this.save(oAuth2User);
   }
 
   public OAuth2User findByOauthUserIdAndType(String oauthUserId, String type) {
-    return oAuth2UserRepository.findByOauthUserIdAndType(oauthUserId, type);
+    return oAuth2UserMapper.findByOauthUserIdAndType(oauthUserId, type);
   }
 }

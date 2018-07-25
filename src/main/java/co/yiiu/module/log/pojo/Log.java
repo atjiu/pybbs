@@ -7,8 +7,6 @@ public class Log {
 
     private String event;
 
-    private String eventDescription;
-
     private Date inTime;
 
     private String target;
@@ -31,14 +29,6 @@ public class Log {
 
     public void setEvent(String event) {
         this.event = event == null ? null : event.trim();
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription == null ? null : eventDescription.trim();
     }
 
     public Date getInTime() {

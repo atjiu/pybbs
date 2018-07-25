@@ -2,9 +2,11 @@ package co.yiiu.web.front;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.util.CookieHelper;
+import co.yiiu.core.util.encrypt.Base64Helper;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.module.log.service.LogService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by tomoya.
@@ -24,8 +28,6 @@ public class UserController extends BaseController {
 
   @Autowired
   private UserService userService;
-  @Autowired
-  private Identicon identicon;
   @Autowired
   private SiteConfig siteConfig;
   @Autowired
@@ -108,14 +110,16 @@ public class UserController extends BaseController {
                                @RequestParam(defaultValue = "false") Boolean commentEmail,
                                @RequestParam(defaultValue = "false") Boolean replyEmail) throws Exception {
     User user = getUser();
-    if (user.getBlock())
-      throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+    if (user.getBlock()) throw new Exception("你的帐户已经被禁用，不能进行此项操作");
+
+    User updateUser = new User();
+    updateUser.setId(user.getId());
 //    user.setEmail(email); TODO 还要对邮箱进行验证 另外这个方法将被删除，提到接口Controller里处理
-    if (bio != null && bio.trim().length() > 0) user.setBio(Jsoup.clean(bio, Whitelist.none()));
-    user.setCommentEmail(commentEmail);
-    user.setReplyEmail(replyEmail);
-    user.setUrl(url);
-    userService.save(user);
+    if (bio != null && bio.trim().length() > 0) updateUser.setBio(Jsoup.clean(bio, Whitelist.none()));
+    updateUser.setCommentEmail(commentEmail);
+    updateUser.setReplyEmail(replyEmail);
+    updateUser.setUrl(url);
+    userService.update(updateUser);
     return redirect("/user/" + user.getUsername());
   }
 
@@ -158,9 +162,20 @@ public class UserController extends BaseController {
    * @return
    */
   @GetMapping("/setting/refreshToken")
-  public String refreshToken() {
+  public String refreshToken(HttpServletResponse response) {
     User user = getUser();
-    userService.save(user);
+    user = userService.refreshToken(user);
+    //更新用户cookie
+    CookieHelper.addCookie(
+        response,
+        siteConfig.getCookie().getDomain(),
+        "/",
+        siteConfig.getCookie().getUserName(),
+        Base64Helper.encode(user.getToken().getBytes()),
+        siteConfig.getCookie().getUserMaxAge() * 24 * 60 * 60,
+        true,
+        false
+    );
     return redirect("/user/setting/accessToken");
   }
 

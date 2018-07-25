@@ -2,6 +2,7 @@ package co.yiiu.web.api;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.CookieHelper;
@@ -16,10 +17,9 @@ import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.tag.service.TagService;
 import co.yiiu.module.topic.pojo.TopicTab;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +73,7 @@ public class IndexApiController extends BaseController {
    */
   @GetMapping("/search")
   public Result search(String keyword, @RequestParam(defaultValue = "1") Integer pageNo) {
-    Page<TopicIndex> page = topicSearchService.query(keyword, pageNo, siteConfig.getPageSize());
+    org.springframework.data.domain.Page<TopicIndex> page = topicSearchService.query(keyword, pageNo, siteConfig.getPageSize());
     return Result.success(page);
   }
 

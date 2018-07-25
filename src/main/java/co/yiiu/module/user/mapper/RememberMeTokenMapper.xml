@@ -90,4 +90,14 @@
       username = #{username,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findBySeries" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from remember_me_token where series = #{series}
+  </select>
+  <delete id="deleteByUsername" parameterType="java.lang.String">
+    delete from remember_me_token where username = #{username}
+  </delete>
+  <select id="findAllByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from remember_me_token where username = #{username} order by date asc
+  </select>
 </mapper>

@@ -1,9 +1,9 @@
 package co.yiiu.module.topic.service;
 
-import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.tag.service.TagService;
-import co.yiiu.module.topic.model.TopicTag;
-import co.yiiu.module.topic.repository.TopicTagRepository;
+import co.yiiu.module.topic.mapper.TopicTagMapper;
+import co.yiiu.module.topic.pojo.TopicTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +19,13 @@ import java.util.List;
 public class TopicTagService {
 
   @Autowired
-  private TopicTagRepository topicTagRepository;
+  private TopicTagMapper topicTagMapper;
   @Autowired
   private TagService tagService;
 
   public void deleteByTopicId(Integer topicId) {
     // 先把标签的话题数都 - 1
-    List<TopicTag> topicTags = topicTagRepository.findByTopicId(topicId);
+    List<TopicTag> topicTags = topicTagMapper.findByTopicId(topicId);
     List<Tag> tags = new ArrayList<>();
     topicTags.forEach(topicTag -> {
       Tag tag = tagService.findById(topicTag.getTagId());
@@ -34,7 +34,7 @@ public class TopicTagService {
     });
     tagService.save(tags);
     // 操作完了，再删除中间表里的数据
-    topicTagRepository.deleteByTopicId(topicId);
+    topicTagMapper.deleteByTopicId(topicId);
   }
 
   public List<TopicTag> save(List<Tag> tags, Integer topicId) {
@@ -43,9 +43,10 @@ public class TopicTagService {
       TopicTag topicTag = new TopicTag();
       topicTag.setTagId(_tag.getId());
       topicTag.setTopicId(topicId);
+      topicTagMapper.insertSelective(topicTag);
       topicTags.add(topicTag);
     });
-    return topicTagRepository.saveAll(topicTags);
+    return topicTags;
   }
 
 }

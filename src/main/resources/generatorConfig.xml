@@ -27,27 +27,25 @@
       <property name="forceBigDecimals" value="false" />
     </javaTypeResolver>
 
-    <javaModelGenerator targetPackage="co.yiiu.module.user.pojo" targetProject="src/main/java">
+    <javaModelGenerator targetPackage="co.yiiu.module.topic.pojo" targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="co.yiiu.module.user.mapper"  targetProject="src/main/java">
+    <sqlMapGenerator targetPackage="co.yiiu.module.topic.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </sqlMapGenerator>
 
-    <javaClientGenerator type="XMLMAPPER" targetPackage="co.yiiu.module.user.mapper"  targetProject="src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="co.yiiu.module.topic.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-    <table schema="pybbs" tableName="oauth2_user" domainObjectName="OAuth2User"
+    <table schema="pybbs" tableName="topic" domainObjectName=""
            enableCountByExample="false"
            enableDeleteByExample="false" enableSelectByExample="false"
-           enableUpdateByExample="false"/>
-    <table schema="pybbs" tableName="user" domainObjectName=""
-           enableCountByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false"
-           enableUpdateByExample="false"/>
+           enableUpdateByExample="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
 
   </context>
 </generatorConfiguration>

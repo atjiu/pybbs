@@ -6,12 +6,13 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.log.service.LogService;
-import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.tag.service.TagService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.Topic;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.pojo.ReputationPermission;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,13 +53,17 @@ public class TopicController extends BaseController {
 
   @GetMapping("/{id}")
   public String detail(@PathVariable Integer id, Model model) {
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = topicService.findById(id);
 
     Assert.notNull(topic, "话题不存在");
 
     // 浏览量+1
-    topic.setView(topic.getView() + 1);
-    topicService.save(topic);// 更新话题数据
+    TopicWithBLOBs topicViewUpdate = new TopicWithBLOBs();
+    topicViewUpdate.setId(topic.getId());
+    topicViewUpdate.setView(topic.getView() + 1);
+    topicService.update(topicViewUpdate);// 更新话题数据
+
+    topic.setView(topicViewUpdate.getView());
     model.addAttribute("topic", topic);
     // 查询是否收藏过
     if (getUser() != null) {

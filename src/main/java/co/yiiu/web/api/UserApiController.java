@@ -2,24 +2,26 @@ package co.yiiu.web.api;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
+import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.encrypt.Base64Helper;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
@@ -69,7 +71,7 @@ public class UserApiController extends BaseController {
   public Result topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
     User currentUser = userService.findByUsername(username);
     Page<Map> page = topicService.findByUser(pageNo,
-        pageSize > siteConfig.getPageSize() ? siteConfig.getPageSize() : pageSize, currentUser);
+        pageSize > siteConfig.getPageSize() ? siteConfig.getPageSize() : pageSize, currentUser.getId());
     return Result.success(page);
   }
 
@@ -85,7 +87,7 @@ public class UserApiController extends BaseController {
   public Result comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
     User currentUser = userService.findByUsername(username);
     Page<Map> page = commentService.findByUser(pageNo,
-        pageSize > siteConfig.getPageSize() ? siteConfig.getPageSize() : pageSize, currentUser);
+        pageSize > siteConfig.getPageSize() ? siteConfig.getPageSize() : pageSize, currentUser.getId());
     return Result.success(page);
   }
 
@@ -119,13 +121,15 @@ public class UserApiController extends BaseController {
                                @RequestParam(defaultValue = "false") Boolean replyEmail) {
     User user = getApiUser();
     ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用，不能进行此项操作");
-//    user.setEmail(email);
-    if (bio != null && bio.trim().length() > 0) user.setBio(Jsoup.clean(bio, Whitelist.none()));
-    user.setCommentEmail(commentEmail);
-    user.setReplyEmail(replyEmail);
-    user.setUrl(url);
-    userService.save(user);
-    return Result.success(user);
+
+    User updateUser = new User();
+    updateUser.setId(user.getId());
+//    updateUser.setEmail(email);
+    if (bio != null && bio.trim().length() > 0) updateUser.setBio(Jsoup.clean(bio, Whitelist.none()));
+    updateUser.setCommentEmail(commentEmail);
+    updateUser.setReplyEmail(replyEmail);
+    updateUser.setUrl(url);
+    return Result.success(userService.update(updateUser));
   }
 
   /**
@@ -141,7 +145,7 @@ public class UserApiController extends BaseController {
     ApiAssert.notTrue(user.getBlock(), "你的帐户已经被禁用，不能进行此项操作");
     ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword()), "旧密码不正确");
     user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-    userService.save(user);
+    userService.update(user);
     return Result.success();
   }
 
@@ -168,7 +172,7 @@ public class UserApiController extends BaseController {
         __avatar = identicon.saveFileToQiniu(bytes);
       }
       user.setAvatar(__avatar);
-      userService.save(user);
+      userService.update(user);
       bais.close();
     } catch (Exception e) {
       e.printStackTrace();
@@ -183,9 +187,20 @@ public class UserApiController extends BaseController {
    * @return
    */
   @GetMapping("/setting/refreshToken")
-  public Result refreshToken() {
+  public Result refreshToken(HttpServletResponse response) {
     User user = getApiUser();
-    userService.save(user);
+    user = userService.refreshToken(user);
+    //更新用户cookie
+    CookieHelper.addCookie(
+        response,
+        siteConfig.getCookie().getDomain(),
+        "/",
+        siteConfig.getCookie().getUserName(),
+        Base64Helper.encode(user.getToken().getBytes()),
+        siteConfig.getCookie().getUserMaxAge() * 24 * 60 * 60,
+        true,
+        false
+    );
     return Result.success();
   }
 

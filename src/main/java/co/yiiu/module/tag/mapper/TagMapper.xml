@@ -103,4 +103,23 @@
       topic_count = #{topicCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from tag
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(1) from tag
+  </select>
+  <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from tag where name = #{name}
+  </select>
+  <select id="findByTopicId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select t.* from tag t left join topic_tag tt on t.id = tt.tag_id where tt.topic_id = #{topicId}
+  </select>
 </mapper>

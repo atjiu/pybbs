@@ -5,6 +5,8 @@ public class LogWithBLOBs extends Log {
 
     private String beforeContent;
 
+    private String eventDescription;
+
     public String getAfterContent() {
         return afterContent;
     }
@@ -19,5 +21,13 @@ public class LogWithBLOBs extends Log {
 
     public void setBeforeContent(String beforeContent) {
         this.beforeContent = beforeContent == null ? null : beforeContent.trim();
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }

@@ -27,7 +27,7 @@
         </table>
       </div>
       <#include "../../components/paginate.ftl"/>
-        <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/user/setting/log" urlParas=""/>
+        <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/user/setting/log" urlParas=""/>
     </div>
   </div>
 </div>

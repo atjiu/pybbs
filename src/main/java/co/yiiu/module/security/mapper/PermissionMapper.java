@@ -1,6 +1,9 @@
 package co.yiiu.module.security.mapper;
 
 import co.yiiu.module.security.pojo.Permission;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PermissionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,12 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+    //自定义方法
+    List<Permission> findByUserId(Integer userId);
+
+    List<Permission> findByPid(Integer pid);
+
+    List<Permission> findByPidGreaterThan(Integer pid);
+
 }

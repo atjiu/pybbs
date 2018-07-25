@@ -18,7 +18,7 @@
         </#list>
       </div>
       <#include "../components/paginate.ftl"/>
-      <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/tags" urlParas=""/>
+      <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/tags" urlParas=""/>
     </div>
   </div>
 </div>

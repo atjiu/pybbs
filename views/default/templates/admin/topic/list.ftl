@@ -30,33 +30,33 @@
           </tr>
           </thead>
           <tbody>
-          <#list page.content as map>
+          <#list page.content as topic>
             <tr>
-              <td>${map.topic.id}</td>
-              <td><a href="/topic/${map.topic.id}" target="_blank">${map.topic.title!}</a></td>
-              <td>${map.user.username!}</td>
+              <td>${topic.id}</td>
+              <td><a href="/topic/${topic.id}" target="_blank">${topic.title!}</a></td>
+              <td>${topic.username!}</td>
               <td>
-                <#if map.topic.top>
+                <#if topic.top>
                   置顶
-                <#elseif map.topic.good>
+                <#elseif topic.good>
                   精华
                 <#else>
                   &nbsp;
                 </#if>
               </td>
-              <td>${map.topic.inTime!}</td>
+              <td>${topic.in_time!}</td>
               <td>
                 <#if sec.allGranted('topic:top')>
-                  <button onclick="actionBtn('${map.topic.id}', 'top')" class="btn btn-sm btn-warning">置顶</button>
+                  <button onclick="actionBtn('${topic.id}', 'top')" class="btn btn-sm btn-warning">置顶</button>
                 </#if>
                 <#if sec.allGranted('topic:good')>
-                  <button onclick="actionBtn('${map.topic.id}', 'good')" class="btn btn-sm btn-warning">加精</button>
+                  <button onclick="actionBtn('${topic.id}', 'good')" class="btn btn-sm btn-warning">加精</button>
                 </#if>
                 <#if sec.allGranted('topic:edit')>
-                  <a href="/admin/topic/edit?id=${map.topic.id}" class="btn btn-sm btn-warning">编辑</a>
+                  <a href="/admin/topic/edit?id=${topic.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
                 <#if sec.allGranted('topic:delete')>
-                  <button onclick="actionBtn('${map.topic.id}', 'delete')" class="btn btn-sm btn-danger">删除</button>
+                  <button onclick="actionBtn('${topic.id}', 'delete')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
               </td>
             </tr>
@@ -67,7 +67,7 @@
       <#if page.totalPages &gt; 1>
         <div class="box-footer clearfix">
           <#include "../layout/paginate.ftl">
-          <@paginate currentPage=(page.getNumber() + 1) totalPage=page.getTotalPages() actionUrl="/admin/topic/list" urlParas=""/>
+          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/admin/topic/list" urlParas=""/>
         </div>
       </#if>
     </div>

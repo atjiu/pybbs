@@ -2,15 +2,15 @@ package co.yiiu.web.admin;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.FileType;
 import co.yiiu.core.util.FileUtil;
-import co.yiiu.module.attachment.model.Attachment;
-import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.attachment.pojo.Attachment;
+import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.tag.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +82,7 @@ public class TagAdminController extends BaseController {
     Tag tag = tagService.findById(id);
     ApiAssert.notTrue(tag.getTopicCount() > 0, "这个标签还有关联的话题，请先处理话题内标签再来删除");
 
-    tagService.delete(tag);
+    tagService.deleteById(id);
     return Result.success();
   }
 }

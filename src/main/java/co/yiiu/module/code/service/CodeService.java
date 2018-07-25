@@ -2,9 +2,9 @@ package co.yiiu.module.code.service;
 
 import co.yiiu.core.util.DateUtil;
 import co.yiiu.core.util.StrUtil;
-import co.yiiu.module.code.model.Code;
+import co.yiiu.module.code.mapper.CodeMapper;
+import co.yiiu.module.code.pojo.Code;
 import co.yiiu.module.code.pojo.CodeEnum;
-import co.yiiu.module.code.repository.CodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +20,16 @@ import java.util.List;
 public class CodeService {
 
   @Autowired
-  private CodeRepository codeRepository;
+  private CodeMapper codeMapper;
 
   public Code findByEmailAndCodeAndType(String email, String code, CodeEnum type) {
-    List<Code> codes = codeRepository.findByEmailAndCodeAndType(email, code, type.name());
+    List<Code> codes = codeMapper.findByEmailAndCodeAndType(email, code, type.name());
     if (codes.size() > 0) return codes.get(0);
     return null;
   }
 
   public void save(Code code) {
-    codeRepository.save(code);
+    codeMapper.insert(code);
   }
 
   public String genEmailCode(String email) {

@@ -1,7 +1,7 @@
 package co.yiiu.module.attachment.service;
 
-import co.yiiu.module.attachment.model.Attachment;
-import co.yiiu.module.attachment.repository.AttachmentRepository;
+import co.yiiu.module.attachment.mapper.AttachmentMapper;
+import co.yiiu.module.attachment.pojo.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +16,10 @@ import java.util.Date;
 public class AttachmentService {
 
   @Autowired
-  private AttachmentRepository attachmentRepository;
+  private AttachmentMapper attachmentMapper;
 
-  public Attachment save(Attachment attachment) {
-    return attachmentRepository.save(attachment);
+  public void save(Attachment attachment) {
+    attachmentMapper.insert(attachment);
   }
 
   public Attachment createAttachment(String localPath, String fileName, String requestUrl, String fileType,
@@ -35,10 +35,11 @@ public class AttachmentService {
     attachment.setSize(size);
     attachment.setSuffix(suffix);
     attachment.setMd5(md5);
-    return this.save(attachment);
+    this.save(attachment);
+    return attachment;
   }
 
   public Attachment findByMd5(String md5) {
-    return attachmentRepository.findByMd5(md5);
+    return attachmentMapper.findByMd5(md5);
   }
 }

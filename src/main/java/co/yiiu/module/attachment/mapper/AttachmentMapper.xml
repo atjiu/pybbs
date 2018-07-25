@@ -161,4 +161,11 @@
       width = #{width,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from attachment
+    where md5 = #{md5}
+  </select>
 </mapper>

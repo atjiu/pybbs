@@ -2,9 +2,9 @@ package co.yiiu.module.es.service;
 
 import co.yiiu.module.es.pojo.TopicIndex;
 import co.yiiu.module.es.repository.TopicIndexRepository;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.topic.repository.TopicRepository;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.topic.mapper.TopicMapper;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.List;
 public class TopicSearchService {
 
   @Autowired
-  private TopicRepository topicRepository;
+  private TopicMapper topicMapper;
   @Autowired
   private UserService userService;
   @Autowired
@@ -36,7 +36,7 @@ public class TopicSearchService {
    */
   public void indexedAll() {
     List<TopicIndex> topicIndices = new ArrayList<>();
-    List<Topic> topics = topicRepository.findAll();
+    List<TopicWithBLOBs> topics = topicMapper.findAll();
     topics.forEach(topic -> {
       TopicIndex topicIndex = new TopicIndex();
       topicIndex.setId(topic.getId());
@@ -59,7 +59,7 @@ public class TopicSearchService {
    * @param topic
    * @param username
    */
-  public void indexed(Topic topic, String username) {
+  public void indexed(TopicWithBLOBs topic, String username) {
     TopicIndex topicIndex = new TopicIndex();
     topicIndex.setId(topic.getId());
     topicIndex.setTitle(topic.getTitle());

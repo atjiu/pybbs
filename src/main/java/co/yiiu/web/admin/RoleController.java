@@ -2,8 +2,8 @@ package co.yiiu.web.admin;
 
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
-import co.yiiu.module.security.model.Role;
-import co.yiiu.module.security.model.RolePermission;
+import co.yiiu.module.security.pojo.Role;
+import co.yiiu.module.security.pojo.RolePermission;
 import co.yiiu.module.security.service.PermissionService;
 import co.yiiu.module.security.service.RolePermissionService;
 import co.yiiu.module.security.service.RoleService;

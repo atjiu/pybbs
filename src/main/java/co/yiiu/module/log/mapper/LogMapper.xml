@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="co.yiiu.module.log.pojo.Log">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="event" jdbcType="VARCHAR" property="event" />
-    <result column="event_description" jdbcType="VARCHAR" property="eventDescription" />
     <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
     <result column="target" jdbcType="VARCHAR" property="target" />
     <result column="target_id" jdbcType="INTEGER" property="targetId" />
@@ -13,12 +12,13 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="co.yiiu.module.log.pojo.LogWithBLOBs">
     <result column="after_content" jdbcType="LONGVARCHAR" property="afterContent" />
     <result column="before_content" jdbcType="LONGVARCHAR" property="beforeContent" />
+    <result column="event_description" jdbcType="LONGVARCHAR" property="eventDescription" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, event, event_description, in_time, target, target_id, user_id
+    id, event, in_time, target, target_id, user_id
   </sql>
   <sql id="Blob_Column_List">
-    after_content, before_content
+    after_content, before_content, event_description
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
@@ -155,4 +155,34 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--自定义方法-->
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/>
+    from log where user_id = #{userId}
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from log where user_id = #{userId}
+  </select>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from log where user_id = #{userId}
+  </delete>
+  <select id="findAllForAdmin" resultType="map">
+    select l.* from log l left join user u on l.user_id = u.id
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countAllForAdmin" resultType="java.lang.Integer">
+    select count(1) from log
+  </select>
 </mapper>

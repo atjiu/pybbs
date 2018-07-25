@@ -4,13 +4,14 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.EnumUtil;
-import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.pojo.Comment;
+import co.yiiu.module.comment.pojo.CommentWithBLOBs;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.pojo.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.pojo.ReputationPermission;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class CommentApiController extends BaseController {
     ApiAssert.notEmpty(content, "评论内容不能为空");
     ApiAssert.notNull(topicId, "话题ID不存在");
 
-    Topic topic = topicService.findById(topicId);
+    TopicWithBLOBs topic = topicService.findById(topicId);
     ApiAssert.notNull(topic, "回复的话题不存在");
 
     Comment comment = commentService.createComment(user.getId(), topic, commentId, content);
@@ -72,11 +73,11 @@ public class CommentApiController extends BaseController {
     User user = getApiUser();
     ApiAssert.isTrue(user.getReputation() >= ReputationPermission.EDIT_COMMENT.getReputation(), "声望太低，不能进行这项操作");
     ApiAssert.notEmpty(content, "评论内容不能为空");
-    Comment comment = commentService.findById(id);
-    Comment oldComment = comment;
+    CommentWithBLOBs comment = commentService.findById(id);
+    CommentWithBLOBs oldComment = comment;
     comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     commentService.save(comment);
-    Topic topic = topicService.findById(comment.getTopicId());
+    TopicWithBLOBs topic = topicService.findById(comment.getTopicId());
     comment = commentService.update(topic, oldComment, comment, user.getId());
     return Result.success(comment);
   }
@@ -92,7 +93,7 @@ public class CommentApiController extends BaseController {
   public Result vote(@PathVariable Integer id, String action) {
     User user = getApiUser();
     ApiAssert.isTrue(user.getReputation() >= ReputationPermission.VOTE_COMMENT.getReputation(), "声望太低，不能进行这项操作");
-    Comment comment = commentService.findById(id);
+    CommentWithBLOBs comment = commentService.findById(id);
 
     ApiAssert.notNull(comment, "评论不存在");
     ApiAssert.notTrue(user.getId().equals(comment.getUserId()), "不能给自己的评论投票");

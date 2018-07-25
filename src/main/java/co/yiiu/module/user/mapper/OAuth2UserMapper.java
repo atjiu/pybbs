@@ -14,4 +14,7 @@ public interface OAuth2UserMapper {
     int updateByPrimaryKeySelective(OAuth2User record);
 
     int updateByPrimaryKey(OAuth2User record);
+
+    //自定义方法
+    OAuth2User findByOauthUserIdAndType(String oauthUserId, String type);
 }

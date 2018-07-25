@@ -1,7 +1,7 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.module.collect.service.CollectService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;
 import freemarker.template.*;

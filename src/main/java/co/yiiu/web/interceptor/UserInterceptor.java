@@ -1,7 +1,7 @@
 package co.yiiu.web.interceptor;
 
 import co.yiiu.core.base.BaseEntity;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

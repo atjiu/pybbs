@@ -17,130 +17,6 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from oauth2_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from oauth2_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    insert into oauth2_user (id, access_token, avatar, 
-      in_time, nick_name, oauth_user_id, 
-      type, user_id)
-    values (#{id,jdbcType=INTEGER}, #{accessToken,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{nickName,jdbcType=VARCHAR}, #{oauthUserId,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    insert into oauth2_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="accessToken != null">
-        access_token,
-      </if>
-      <if test="avatar != null">
-        avatar,
-      </if>
-      <if test="inTime != null">
-        in_time,
-      </if>
-      <if test="nickName != null">
-        nick_name,
-      </if>
-      <if test="oauthUserId != null">
-        oauth_user_id,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="accessToken != null">
-        #{accessToken,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null">
-        #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="inTime != null">
-        #{inTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="nickName != null">
-        #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="oauthUserId != null">
-        #{oauthUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    update oauth2_user
-    <set>
-      <if test="accessToken != null">
-        access_token = #{accessToken,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null">
-        avatar = #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="inTime != null">
-        in_time = #{inTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="nickName != null">
-        nick_name = #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="oauthUserId != null">
-        oauth_user_id = #{oauthUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    update oauth2_user
-    set access_token = #{accessToken,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      in_time = #{inTime,jdbcType=TIMESTAMP},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      oauth_user_id = #{oauthUserId,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="co.yiiu.module.user.pojo.OAuth2User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
-    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="oauth_user_id" jdbcType="VARCHAR" property="oauthUserId" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, access_token, avatar, in_time, nick_name, oauth_user_id, type, user_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
     from oauth2user
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -249,4 +125,8 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByOauthUserIdAndType" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from oauth2_user where oauth_user_id = #{oauthUserId} and `type` = #{type}
+  </select>
 </mapper>

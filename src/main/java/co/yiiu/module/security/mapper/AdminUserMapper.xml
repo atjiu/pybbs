@@ -125,4 +125,26 @@
       username = #{username,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findAdminUser" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from admin_user where 1 = 1
+    <if test="token != null">
+      and token = #{token}
+    </if>
+    <if test="username != null">
+      and username = #{username}
+    </if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from admin_user
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(1) from admin_user
+  </select>
 </mapper>

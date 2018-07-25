@@ -1,11 +1,11 @@
 package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.core.bean.Page;
 import co.yiiu.module.topic.service.TopicService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

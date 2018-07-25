@@ -90,4 +90,19 @@
       value = #{value,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select p.* from permission p
+      left join role_permission rp on p.id = rp.permission_id
+      left join role r on rp.role_id = r.id
+      left join admin_user au on au.role_id = r.id
+    where
+      au.id = #{userId}
+  </select>
+  <select id="findByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from permission where pid = #{pid}
+  </select>
+  <select id="findByPidGreaterThan" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from permission where pid &gt; #{pid}
+  </select>
 </mapper>

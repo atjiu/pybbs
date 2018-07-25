@@ -142,4 +142,40 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByTargetUserId" resultType="map">
+    select n.*, u.username, u.avatar, t.id as topic_id, t.title as topic_title
+    from notification n left join topic t on n.topic_id = t.id left join user u on n.user_id = u.id
+    where n.target_user_id = #{targetUserId}
+    <if test="isRead != null">
+      and n.is_read = #{isRead,jdbcType=BIT}
+    </if>
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countByTargetUserId" resultType="java.lang.Integer">
+    select count(1) from notification where target_user_id = #{targetUserId}
+    <if test="isRead != null">
+      and is_read = #{isRead,jdbcType=BIT}
+    </if>
+  </select>
+  <update id="updateByIsRead" parameterType="java.lang.Integer">
+    update notification set is_read = true where target_user_id = #{targetUserId}
+  </update>
+  <delete id="deleteNotification">
+    delete from notification where 1 = 1
+    <if test="targetUserId != null">
+      and target_user_id = #{targetUserId}
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId}
+    </if>
+    <if test="topicId != null">
+      and topic_id = #{topicId}
+    </if>
+  </delete>
 </mapper>

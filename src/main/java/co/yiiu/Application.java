@@ -1,5 +1,6 @@
 package co.yiiu;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 // @EnableAutoConfiguration注解加上，有异常不会找默认error页面了，而是直接输出字符串
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @EnableElasticsearchRepositories(basePackages = "co.yiiu.module.es.repository")
+@MapperScan("co.yiiu.module")
 public class Application {
 
   public static void main(String[] args) {

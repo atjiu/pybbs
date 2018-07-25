@@ -2,10 +2,8 @@ package co.yiiu.module.es.service;
 
 import co.yiiu.module.es.pojo.TagIndex;
 import co.yiiu.module.es.repository.TagIndexRepository;
-import co.yiiu.module.tag.model.Tag;
-import co.yiiu.module.tag.repository.TagRepository;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.tag.mapper.TagMapper;
+import co.yiiu.module.tag.pojo.Tag;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +24,7 @@ import java.util.List;
 public class TagSearchService {
 
   @Autowired
-  private TagRepository tagRepository;
+  private TagMapper tagMapper;
   @Autowired
   private TagIndexRepository tagIndexRepository;
 
@@ -35,7 +33,7 @@ public class TagSearchService {
    */
   public void indexedAll() {
     List<TagIndex> tagIndices = new ArrayList<>();
-    List<Tag> tags = tagRepository.findAll();
+    List<Tag> tags = tagMapper.findAll(null, null, null);
     tags.forEach(tag -> {
       TagIndex tagIndex = new TagIndex();
       BeanUtils.copyProperties(tag, tagIndex);

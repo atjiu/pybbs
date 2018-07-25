@@ -38,10 +38,9 @@
     $("#form").submit(function() {
       var title = $("#title").val();
       var contentHtml = editor.txt.html();
-      var contentText = editor.txt.text();
       if(!title) {
         toast("请输入标题");
-      } else if(!contentText) {
+      } else if(!contentHtml) {
         toast("请输入内容");
       } else {
         $.ajax({

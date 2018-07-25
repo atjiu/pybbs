@@ -2,7 +2,7 @@ package co.yiiu.web.tag;
 
 import co.yiiu.core.base.BaseController;
 import co.yiiu.module.comment.service.CommentService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;

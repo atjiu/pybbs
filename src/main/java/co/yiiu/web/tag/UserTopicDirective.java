@@ -1,12 +1,12 @@
 package co.yiiu.web.tag;
 
+import co.yiiu.core.bean.Page;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class UserTopicDirective implements TemplateDirectiveModel {
     int limit = Integer.parseInt(map.get("limit").toString());
 
     User currentUser = userService.findByUsername(username);
-    Page<Map> page = topicService.findByUser(p, limit, currentUser);
+    Page<Map> page = topicService.findByUser(p, limit, currentUser.getId());
 
     environment.setVariable("page", builder.build().wrap(page));
     environment.setVariable("currentUser", builder.build().wrap(currentUser));

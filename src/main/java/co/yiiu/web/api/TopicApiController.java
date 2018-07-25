@@ -6,13 +6,14 @@ import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.EnumUtil;
 import co.yiiu.module.collect.service.CollectService;
-import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.tag.service.TagService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.pojo.Topic;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.pojo.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.pojo.ReputationPermission;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -45,7 +46,7 @@ public class TopicApiController extends BaseController {
   public Result detail(@PathVariable Integer id) {
     Map<String, Object> map = new HashMap<>();
 
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = topicService.findById(id);
     ApiAssert.notNull(topic, "话题不存在");
 
     // 浏览量+1
@@ -108,10 +109,10 @@ public class TopicApiController extends BaseController {
 //    ApiAssert.notEmpty(content, "请输入内容");
     ApiAssert.notEmpty(tag, "标签不能为空");
 
-    Topic oldTopic = topicService.findById(id);
+    TopicWithBLOBs oldTopic = topicService.findById(id);
     ApiAssert.isTrue(oldTopic.getUserId().equals(user.getId()), "不能修改别人的话题");
 
-    Topic topic = oldTopic;
+    TopicWithBLOBs topic = oldTopic;
     topic.setTitle(Jsoup.clean(title, Whitelist.none()));
     topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     topic.setTag(Jsoup.clean(tag, Whitelist.none()));
@@ -133,7 +134,7 @@ public class TopicApiController extends BaseController {
 
     ApiAssert.isTrue(user.getReputation() >= ReputationPermission.VOTE_TOPIC.getReputation(), "声望太低，不能进行这项操作");
 
-    Topic topic = topicService.findById(id);
+    TopicWithBLOBs topic = topicService.findById(id);
 
     ApiAssert.notNull(topic, "话题不存在");
     ApiAssert.notTrue(user.getId().equals(topic.getUserId()), "不能给自己的话题投票");

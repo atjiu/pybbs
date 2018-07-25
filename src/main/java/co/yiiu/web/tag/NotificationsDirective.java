@@ -2,13 +2,12 @@ package co.yiiu.web.tag;
 
 import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
+import co.yiiu.core.bean.Page;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.service.UserService;
+import co.yiiu.module.user.pojo.User;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,8 +23,6 @@ public class NotificationsDirective extends BaseController implements TemplateDi
 
   @Autowired
   private NotificationService notificationService;
-  @Autowired
-  private UserService userService;
   @Autowired
   private SiteConfig siteConfig;
 

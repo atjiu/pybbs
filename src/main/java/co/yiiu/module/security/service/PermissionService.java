@@ -1,7 +1,7 @@
 package co.yiiu.module.security.service;
 
-import co.yiiu.module.security.model.Permission;
-import co.yiiu.module.security.repository.PermissionRepository;
+import co.yiiu.module.security.mapper.PermissionMapper;
+import co.yiiu.module.security.pojo.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +19,14 @@ import java.util.Map;
 public class PermissionService {
 
   @Autowired
-  private PermissionRepository permissionRepository;
+  private PermissionMapper permissionMapper;
   @Autowired
   private RolePermissionService rolePermissionService;
   @Autowired
   private AdminUserService adminUserService;
 
   public List<Permission> findChild() {
-    return permissionRepository.findByPidGreaterThan(0);
+    return permissionMapper.findByPidGreaterThan(0);
   }
 
   public List<Map<String, Object>> findAll() {
@@ -36,7 +36,7 @@ public class PermissionService {
     map.put("id", 0);
     map.put("pid", 0);
     List<Map<String, Object>> nodes = new ArrayList<>();
-    List<Permission> permissions = permissionRepository.findByPid(0);
+    List<Permission> permissions = permissionMapper.findByPid(0);
     permissions.forEach(permission -> {
       Map<String, Object> childMap1 = new HashMap<>();
       childMap1.put("text", permission.getName());
@@ -46,7 +46,7 @@ public class PermissionService {
       childMap1.put("url", permission.getUrl());
       if(permission.getPid() == 0) {
         List<Map<String, Object>> childNodes = new ArrayList<>();
-        List<Permission> childPermissions = permissionRepository.findByPid(permission.getId());
+        List<Permission> childPermissions = permissionMapper.findByPid(permission.getId());
         childPermissions.forEach(childPermission -> {
           Map<String, Object> childMap2 = new HashMap<>();
           childMap2.put("text", childPermission.getName());
@@ -66,19 +66,19 @@ public class PermissionService {
   }
 
   public Permission save(Permission permission) {
-    permission = permissionRepository.save(permission);
+    permissionMapper.insert(permission);
     // 删除redis里的用户缓存
     adminUserService.deleteAllRedisAdminUser();
     return permission;
   }
 
   public List<Permission> findByUserId(Integer userId) {
-    return permissionRepository.findByUserId(userId);
+    return permissionMapper.findByUserId(userId);
   }
 
   public void delete(Integer id) {
     rolePermissionService.deleteByPermissionId(id);
-    permissionRepository.deleteById(id);
+    permissionMapper.deleteByPrimaryKey(id);
     // 删除redis里的用户缓存
     adminUserService.deleteAllRedisAdminUser();
   }

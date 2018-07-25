@@ -14,4 +14,7 @@ public interface AttachmentMapper {
     int updateByPrimaryKeySelective(Attachment record);
 
     int updateByPrimaryKey(Attachment record);
+
+    //自定义方法
+    Attachment findByMd5(String md5);
 }

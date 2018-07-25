@@ -1,12 +1,9 @@
 package co.yiiu.module.tag.service;
 
-import co.yiiu.module.tag.model.Tag;
-import co.yiiu.module.tag.repository.TagRepository;
+import co.yiiu.core.bean.Page;
+import co.yiiu.module.tag.mapper.TagMapper;
+import co.yiiu.module.tag.pojo.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,22 +19,28 @@ import java.util.List;
 public class TagService {
 
   @Autowired
-  private TagRepository tagRepository;
+  private TagMapper tagMapper;
 
   public Tag findById(Integer id) {
-    return tagRepository.findById(id).get();
+    return tagMapper.selectByPrimaryKey(id);
   }
 
-  public Tag save(Tag tag) {
-    return tagRepository.save(tag);
+  public void save(Tag tag) {
+    tagMapper.insertSelective(tag);
   }
 
-  public List<Tag> save(List<Tag> tags) {
-    return tagRepository.saveAll(tags);
+  public void update(Tag tag) {
+    tagMapper.updateByPrimaryKeySelective(tag);
+  }
+
+  public void save(List<Tag> tags) {
+    for (Tag tag : tags) {
+      this.save(tag);
+    }
   }
 
   public Tag findByName(String name) {
-    return tagRepository.findByName(name);
+    return tagMapper.findByName(name);
   }
 
   public List<Tag> save(String[] tags) {
@@ -49,26 +52,28 @@ public class TagService {
         tag.setInTime(new Date());
         tag.setName(t);
         tag.setTopicCount(1);
+        this.save(tag);
       } else {
         tag.setTopicCount(tag.getTopicCount() + 1);
+        this.update(tag);
       }
       tagList.add(tag);
     }
-    return tagRepository.saveAll(tagList);
+    return tagList;
   }
 
   // 查询话题的标签
   public List<Tag> findByTopicId(Integer topicId) {
-    return tagRepository.findByTopicId(topicId);
+    return tagMapper.findByTopicId(topicId);
   }
 
   public Page<Tag> page(Integer pageNo, Integer pageSize) {
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize,
-        new Sort(Sort.Direction.DESC, "topicCount"));
-    return tagRepository.findAll(pageable);
+    List<Tag> list = tagMapper.findAll((pageNo - 1) * pageSize, pageSize, "topic_count desc");
+    int count = tagMapper.count();
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
-  public void delete(Tag tag) {
-    tagRepository.delete(tag);
+  public void deleteById(Integer id) {
+    tagMapper.deleteByPrimaryKey(id);
   }
 }

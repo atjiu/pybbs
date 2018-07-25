@@ -4,7 +4,7 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

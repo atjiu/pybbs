@@ -1,9 +1,10 @@
 package co.yiiu.module.topic.service;
 
 import co.yiiu.config.SiteConfig;
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
-import co.yiiu.module.comment.model.Comment;
+import co.yiiu.module.comment.pojo.CommentWithBLOBs;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.es.service.TopicSearchService;
 import co.yiiu.module.log.pojo.LogEventEnum;
@@ -11,28 +12,26 @@ import co.yiiu.module.log.pojo.LogTargetEnum;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.pojo.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.tag.model.Tag;
+import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.tag.service.TagService;
-import co.yiiu.module.topic.model.Topic;
+import co.yiiu.module.topic.mapper.TopicMapper;
+import co.yiiu.module.topic.pojo.Topic;
+import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.pojo.VoteAction;
-import co.yiiu.module.topic.repository.TopicRepository;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.pojo.UserReputation;
 import co.yiiu.module.user.service.UserService;
 import com.google.common.collect.Lists;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**
@@ -45,7 +44,7 @@ import java.util.*;
 public class TopicService {
 
   @Autowired
-  private TopicRepository topicRepository;
+  private TopicMapper topicMapper;
   @Autowired
   private CommentService commentService;
   @Autowired
@@ -65,8 +64,8 @@ public class TopicService {
   @Autowired
   private SiteConfig siteConfig;
 
-  public Topic createTopic(String title, String content, String tag, User user) {
-    Topic topic = new Topic();
+  public TopicWithBLOBs createTopic(String title, String content, String tag, User user) {
+    TopicWithBLOBs topic = new TopicWithBLOBs();
     topic.setTitle(Jsoup.clean(title, Whitelist.none()));
     topic.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     topic.setInTime(new Date());
@@ -81,9 +80,8 @@ public class TopicService {
     topic.setDownIds("");
     topic.setTag(Jsoup.clean(tag, Whitelist.none()));
     topic.setWeight(0.0);
-    this.save(topic);
+    topic = this.save(topic);
     // 处理标签
-    topicTagService.deleteByTopicId(topic.getId());
     List<Tag> tagList = tagService.save(tag.split(","));
     topicTagService.save(tagList, topic.getId());
     // 日志
@@ -94,8 +92,8 @@ public class TopicService {
     return topic;
   }
 
-  public Topic updateTopic(Topic oldTopic, Topic topic, User user) {
-    this.save(topic);
+  public TopicWithBLOBs updateTopic(Topic oldTopic, TopicWithBLOBs topic, User user) {
+    this.update(topic);
     // 处理标签
     topicTagService.deleteByTopicId(topic.getId());
     List<Tag> tagList = tagService.save(topic.getTag().split(","));
@@ -108,12 +106,17 @@ public class TopicService {
     return topic;
   }
 
-  public Topic save(Topic topic) {
-    return topicRepository.save(topic);
+  public TopicWithBLOBs save(TopicWithBLOBs topic) {
+    int i = topicMapper.insertSelective(topic);
+    return topic;
   }
 
-  public Topic findById(Integer id) {
-    return topicRepository.findById(id).get();
+  public void update(TopicWithBLOBs topic) {
+    topicMapper.updateByPrimaryKeySelective(topic);
+  }
+
+  public TopicWithBLOBs findById(Integer id) {
+    return topicMapper.selectByPrimaryKey(id);
   }
 
   public void deleteById(Integer id, Integer userId) {
@@ -122,14 +125,14 @@ public class TopicService {
       //删除收藏这个话题的记录
       collectService.deleteByTopicId(id);
       //删除通知里提到的话题
-      notificationService.deleteByTopic(topic);
+      notificationService.deleteByTopic(id);
       //删除话题下面的评论
-      commentService.deleteByTopic(topic);
+      commentService.deleteByTopic(id);
       // 添加日志
       logService.save(LogEventEnum.DELETE_TOPIC, userId, LogTargetEnum.TOPIC.name(), topic.getId(),
           JsonUtil.objectToJson(topic), null, topic);
       //删除话题
-      topicRepository.delete(topic);
+      topicMapper.deleteByPrimaryKey(id);
       //删除索引
       topicSearchService.deleteById(id);
     }
@@ -143,43 +146,44 @@ public class TopicService {
    * @param userId
    */
   public void deleteByUserId(Integer userId) {
-    topicRepository.deleteByUserId(userId);
+    topicMapper.deleteByUserId(userId);
   }
 
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
-    Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
     if (tab.equalsIgnoreCase("good")) {
-      return topicRepository.findByGood(true, pageable);
+      List<Map> list = topicMapper.findTopic(null, true, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      int count = topicMapper.countTopic(null, true, null);
+      return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("newest")) {
-      sort = new Sort(Sort.Direction.DESC, "inTime", "weight");
-      pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-      return topicRepository.findTopics(pageable);
+      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.in_time desc, t.weight desc");
+      int count = topicMapper.countTopic(null, null, null);
+      return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("noanswer")) {
-      return topicRepository.findByCommentCount(0, pageable);
+      List<Map> list = topicMapper.findTopic(null, null, 0, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      int count = topicMapper.countTopic(null, null, 0);
+      return new Page<>(pageNo, pageSize, count, list);
     } else {
-      return topicRepository.findTopics(pageable);
+      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      int count = topicMapper.countTopic(null, null, null);
+      return new Page<>(pageNo, pageSize, count, list);
     }
   }
 
   public Page<Map> pageByTagId(Integer pageNo, Integer pageSize, Integer tagId) {
-    Sort sort = new Sort(Sort.Direction.DESC, "weight", "inTime");
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-    return topicRepository.findTopicsByTagId(tagId, pageable);
+    List<Map> list = topicMapper.findTopicsByTagId(tagId, (pageNo - 1) * pageSize, pageSize, "t.weight desc, t.in_time desc");
+    int count = topicMapper.countTopicsByTagId(tagId);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   /**
    * 查询用户的话题
    *
-   * @param p
-   * @param size
-   * @param user
    * @return
    */
-  public Page<Map> findByUser(int p, int size, User user) {
-    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    return topicRepository.findByUserId(user.getId(), pageable);
+  public Page<Map> findByUser(Integer pageNo, Integer pageSize, Integer userId) {
+    List<Map> list = topicMapper.findTopic(userId, null, null, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    int count = topicMapper.countTopic(userId, null, null);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   /**
@@ -189,10 +193,10 @@ public class TopicService {
    * @return
    */
   public Topic findByTitle(String title) {
-    return topicRepository.findByTitle(title);
+    return topicMapper.findByTitle(title);
   }
 
-  public Map<String, Object> vote(Integer userId, Topic topic, String action) {
+  public Map<String, Object> vote(Integer userId, TopicWithBLOBs topic, String action) {
     Map<String, Object> map = new HashMap<>();
     List<String> upIds = new ArrayList<>();
     List<String> downIds = new ArrayList<>();
@@ -271,13 +275,13 @@ public class TopicService {
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    Sort sort = new Sort(Sort.Direction.DESC, "top", "weight", "inTime");
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-    return topicRepository.findAllForAdmin(pageable);
+    List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "top desc, weight desc, in_time desc");
+    int count = topicMapper.countTopic(null, null, null);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   // 计算话题的weight
-  public void weight(Topic topic, List<Comment> comments) {
+  public void weight(TopicWithBLOBs topic, List<CommentWithBLOBs> comments) {
     if (comments == null) {
       comments = commentService.findByTopicId(topic.getId());
     }
@@ -295,26 +299,6 @@ public class TopicService {
     double weightScore = ((Qview * 4) + (Qanswer * Qscore) / 5 + Ascore.get()) / Math.pow(((Qage + 1) - (Qage - Qupdated) / 2), 1.5);
     topic.setWeight(weightScore);
     save(topic);
-  }
-
-  /**
-   * 复杂sql查询demo
-   * @return
-   */
-  public List<Topic> findByTest(Integer userId, List<String> tags){
-    Specification<Topic> specification = (Specification<Topic>) (root, query, cb) -> {
-      List<Predicate> pList = new ArrayList<>();
-      if(userId != null) {
-        Predicate predicate = cb.equal(root.get("userId"), userId);
-        pList.add(predicate);
-      }
-      if(tags.size() > 0) {
-        Predicate predicate = cb.not(cb.in(root.get("tag")).value(tags));
-        pList.add(predicate);
-      }
-      return cb.and(pList.toArray(new Predicate[0]));
-    };
-    return topicRepository.findAll(specification);
   }
 
 }

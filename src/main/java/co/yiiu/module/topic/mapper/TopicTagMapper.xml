@@ -68,4 +68,11 @@
       topic_id = #{topicId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!--自定义方法-->
+  <select id="findByTopicId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from topic_tag where topic_id = #{topicId}
+  </select>
+  <delete id="deleteByTopicId" parameterType="java.lang.Integer">
+    delete from topic_tag where topic_id = #{topicId}
+  </delete>
 </mapper>

@@ -1,12 +1,11 @@
 package co.yiiu.module.notification.service;
 
-import co.yiiu.module.notification.model.Notification;
+import co.yiiu.core.bean.Page;
+import co.yiiu.module.notification.mapper.NotificationMapper;
+import co.yiiu.module.notification.pojo.Notification;
 import co.yiiu.module.notification.pojo.NotificationEnum;
-import co.yiiu.module.notification.repository.NotificationRepository;
-import co.yiiu.module.topic.model.Topic;
-import co.yiiu.module.user.model.User;
+import co.yiiu.module.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,7 +26,7 @@ import java.util.Map;
 public class NotificationService {
 
   @Autowired
-  private NotificationRepository notificationRepository;
+  private NotificationMapper notificationMapper;
 
   /**
    * 保存通知
@@ -35,7 +34,7 @@ public class NotificationService {
    * @param notification
    */
   public void save(Notification notification) {
-    notificationRepository.save(notification);
+    notificationMapper.insertSelective(notification);
   }
 
   /**
@@ -62,20 +61,14 @@ public class NotificationService {
   /**
    * 根据用户查询通知
    *
-   * @param p
-   * @param size
    * @param targetUser
    * @param isRead
    * @return
    */
-  public Page<Map> findByTargetUserAndIsRead(int p, int size, User targetUser, Boolean isRead) {
-    Sort sort = new Sort(Sort.Direction.ASC, "isRead")
-        .and(new Sort(Sort.Direction.DESC, "inTime"));
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    if (isRead == null) {
-      return notificationRepository.findByTargetUserId(targetUser.getId(), pageable);
-    }
-    return notificationRepository.findByTargetUserIdAndIsRead(targetUser.getId(), isRead, pageable);
+  public Page<Map> findByTargetUserAndIsRead(Integer pageNo, Integer pageSize, User targetUser, Boolean isRead) {
+    List<Map> list = notificationMapper.findByTargetUserId(targetUser.getId(), isRead, (pageNo - 1) * pageSize, pageSize, "is_read asc, in_time desc");
+    int count = notificationMapper.countByTargetUserId(targetUser.getId(), isRead);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   /**
@@ -86,18 +79,7 @@ public class NotificationService {
    * @return
    */
   public long countByTargetUserAndIsRead(User targetUser, boolean isRead) {
-    return notificationRepository.countByTargetUserIdAndIsRead(targetUser.getId(), isRead);
-  }
-
-  /**
-   * 根据阅读状态查询通知
-   *
-   * @param targetUser
-   * @param isRead
-   * @return
-   */
-  public List<Notification> findByTargetUserAndIsRead(User targetUser, boolean isRead) {
-    return notificationRepository.findByTargetUserIdAndIsRead(targetUser.getId(), isRead);
+    return notificationMapper.countByTargetUserId(targetUser.getId(), isRead);
   }
 
   /**
@@ -106,25 +88,25 @@ public class NotificationService {
    * @param targetUser
    */
   public void updateByIsRead(User targetUser) {
-    notificationRepository.updateByIsRead(targetUser.getId());
+    notificationMapper.updateByIsRead(targetUser.getId());
   }
 
   /**
    * 删除目标用户的通知
    *
-   * @param userId
+   * @param targetUserId
    */
-  public void deleteByTargetUser(Integer userId) {
-    notificationRepository.deleteByTargetUserId(userId);
+  public void deleteByTargetUser(Integer targetUserId) {
+    notificationMapper.deleteNotification(targetUserId, null, null);
   }
 
   /**
    * 话题被删除了，删除由话题引起的通知信息
    *
-   * @param topic
+   * @param topicId
    */
-  public void deleteByTopic(Topic topic) {
-    notificationRepository.deleteByTopicId(topic.getId());
+  public void deleteByTopic(Integer topicId) {
+    notificationMapper.deleteNotification(null, null, topicId);
   }
 
 }

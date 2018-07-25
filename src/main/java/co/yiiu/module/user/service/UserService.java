@@ -1,18 +1,15 @@
 package co.yiiu.module.user.service;
 
+import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.topic.service.TopicService;
-import co.yiiu.module.user.model.User;
-import co.yiiu.module.user.repository.UserRepository;
+import co.yiiu.module.user.mapper.UserMapper;
+import co.yiiu.module.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,7 +31,7 @@ import java.util.UUID;
 public class UserService {
 
   @Autowired
-  private UserRepository userRepository;
+  private UserMapper userMapper;
   @Autowired
   private LogService logService;
   @Autowired
@@ -75,13 +72,13 @@ public class UserService {
    * @return
    */
   public Page<User> findByReputation(int p, int size) {
-    Sort sort = new Sort(Sort.Direction.DESC, "reputation");
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    return userRepository.findAll(pageable);
+    List<User> list = userMapper.findAll((p - 1) * size, size, "reputation desc");
+    int count = userMapper.count();
+    return new Page<>(p, size, count, list);
   }
 
   public User findById(int id) {
-    return userRepository.findById(id);
+    return userMapper.selectByPrimaryKey(id);
   }
 
   /**
@@ -91,15 +88,22 @@ public class UserService {
    * @return
    */
   public User findByUsername(String username) {
-    return userRepository.findByUsername(username);
+    return userMapper.findUser(null, username, null);
   }
 
   public User findByEmail(String email) {
-    return userRepository.findByEmail(email);
+    return userMapper.findUser(null, null, email);
   }
 
   public User save(User user) {
-    user = userRepository.save(user);
+    userMapper.insertSelective(user);
+    this.refreshCache(user);
+    return user;
+  }
+
+  public User update(User user) {
+    userMapper.updateByPrimaryKeySelective(user);
+    user = userMapper.selectByPrimaryKey(user.getId());
     this.refreshCache(user);
     return user;
   }
@@ -112,9 +116,9 @@ public class UserService {
    * @return
    */
   public Page<User> pageUser(int p, int size) {
-    Sort sort = new Sort(Sort.Direction.DESC, "inTime");
-    Pageable pageable = PageRequest.of(p - 1, size, sort);
-    return userRepository.findAll(pageable);
+    List<User> list = userMapper.findAll((p - 1) * size, size, "in_time desc");
+    int count = userMapper.count();
+    return new Page<>(p, size, count, list);
   }
 
   /**
@@ -125,13 +129,14 @@ public class UserService {
   public void blockUser(Integer id) {
     User user = findById(id);
     user.setBlock(!user.getBlock());
-    save(user);
+    update(user);
     this.refreshCache(user);
   }
 
+  //刷新用户token
   public User refreshToken(User user) {
     user.setToken(UUID.randomUUID().toString());
-    return this.save(user);
+    return this.update(user);
   }
 
   /**
@@ -141,7 +146,7 @@ public class UserService {
    * @return
    */
   public User findByToken(String token) {
-    return userRepository.findByToken(token);
+    return userMapper.findUser(token, null, null);
   }
 
   public void deleteById(Integer id) {
@@ -156,12 +161,12 @@ public class UserService {
     // 删除用户的话题
     topicService.deleteByUserId(id);
     // 删除用户
-    userRepository.deleteById(id);
+    userMapper.deleteByPrimaryKey(id);
   }
 
   // 删除所有后台用户存在redis里的数据
   public void deleteAllRedisUser() {
-    List<User> users = userRepository.findAll();
+    List<User> users = userMapper.findAll(null, null, null);
     users.forEach(user -> stringRedisTemplate.delete(user.getToken()));
   }
 

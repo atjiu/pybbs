@@ -79,4 +79,32 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--自定义方法-->
+  <select id="findByUserId" resultType="map">
+    select
+    t.*, u.username
+    from collect c left join topic t on c.topic_id = t.id left join user u on u.id = c.user_id
+    where c.user_id = #{userId}
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
+  <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from collect where user_id = #{userId}
+  </select>
+  <select id="countByTopicId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(1) from collect c left join topic t on c.topic_id = t.id where c.topic_id = #{topicId}
+  </select>
+  <select id="findByUserIdAndTopicId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from collect where user_id = #{userId} and topic_id = #{topicId}
+  </select>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from collect where user_id = #{userId}
+  </delete>
+  <delete id="deleteByTopicId" parameterType="java.lang.Integer">
+    delete from collect where topic_id = #{topicId}
+  </delete>
 </mapper>
