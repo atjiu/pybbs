@@ -180,7 +180,8 @@
     delete from comment where user_id = #{userId}
   </delete>
   <select id="findAllForAdmin" resultType="map">
-    select c.* from comment c left join topic t on c.topic_id = t.id left join user u on c.user_id = u.id
+    select c.*, t.id as topic_id, t.title as topic_title, u.username
+    from comment c left join topic t on c.topic_id = t.id left join user u on c.user_id = u.id
     <if test="orderBy != null">
       order by ${orderBy}
     </if>

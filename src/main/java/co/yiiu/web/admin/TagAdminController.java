@@ -64,7 +64,7 @@ public class TagAdminController extends BaseController {
       Tag tag = tagService.findById(id);
       tag.setIntro(intro);
       tag.setLogo(attachment != null ? attachment.getRequestUrl() : null);
-      tagService.save(tag);
+      tagService.update(tag);
     } catch (IOException e) {
       e.printStackTrace();
     }

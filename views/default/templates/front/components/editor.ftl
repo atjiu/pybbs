@@ -1,7 +1,7 @@
 <#macro editor height='300px' content="">
 <input type="hidden" id="commentId" value=""/>
 <p class="hidden" id="replyP">回复<span id="replyAuthor"></span>: <a href="javascript:cancelReply();">取消</a></p>
-<div id="editor" style="margin-bottom: 10px;">${content!}</div>
+<div id="editor" style="margin-bottom: 10px;"><div>${content!}</div></div>
 <link rel="stylesheet" href="/static/wangEditor/wangEditor.min.css">
 <style>
   .w-e-text-container {height: ${height}!important;}

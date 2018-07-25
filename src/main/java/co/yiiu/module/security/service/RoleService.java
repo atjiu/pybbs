@@ -32,13 +32,17 @@ public class RoleService {
     return roleMapper.findAll();
   }
 
-  public void save(Integer id, String name, Integer[] permissionIds) {
+  public void saveOrUpdate(Integer id, String name, Integer[] permissionIds) {
     Role role = new Role();
     if(id != null) {
       role = findById(id);
     }
     role.setName(name);
-    roleMapper.insert(role);
+    if (role.getId() == null) {
+      roleMapper.insertSelective(role);
+    } else {
+      roleMapper.updateByPrimaryKeySelective(role);
+    }
     // 保存角色权限关联
     rolePermissionService.deleteRoleId(role.getId());
     if(permissionIds.length > 0) {
@@ -61,4 +65,5 @@ public class RoleService {
     // 删除redis里的用户缓存
     adminUserService.deleteAllRedisAdminUser();
   }
+
 }

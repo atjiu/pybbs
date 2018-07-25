@@ -172,7 +172,7 @@
     delete from log where user_id = #{userId}
   </delete>
   <select id="findAllForAdmin" resultType="map">
-    select l.* from log l left join user u on l.user_id = u.id
+    select l.*, u.username from log l left join user u on l.user_id = u.id
     <if test="orderBy != null">
       order by ${orderBy}
     </if>

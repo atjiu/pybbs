@@ -46,7 +46,7 @@
                   <span class="text-success">正常</span>
                 </#if>
             </td>
-            <td>${user.inTime!}</td>
+            <td>${user.inTime?datetime}</td>
             <td>
                 <#if sec.allGranted('user:block')>
                   <button onclick="blockBtn('${user.id}')" class="btn btn-sm btn-warning">禁用</button>

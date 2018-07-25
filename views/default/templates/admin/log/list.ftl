@@ -28,12 +28,12 @@
           </tr>
           </thead>
           <tbody>
-          <#list page.content as map>
+          <#list page.content as log>
             <tr>
-              <td>${map.log.id}</td>
-              <td>${map.log.eventDescription!}</td>
-              <td>${map.user.username!}</td>
-              <td>${map.log.inTime!}</td>
+              <td>${log.id}</td>
+              <td width="50%">${log.event_description?html}</td>
+              <td>${log.username!}</td>
+              <td>${log.in_time!}</td>
             </tr>
           </#list>
           </tbody>

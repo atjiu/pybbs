@@ -80,7 +80,7 @@ public class CommentAdminController extends BaseController {
     Assert.notNull(comment, "评论不存在");
 
     comment.setContent(content);
-    commentService.save(comment);
+    commentService.update(comment);
     return Result.success();
   }
 

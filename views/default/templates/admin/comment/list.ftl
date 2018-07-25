@@ -30,19 +30,19 @@
           </tr>
           </thead>
           <tbody>
-          <#list page.content as map>
+          <#list page.content as comment>
             <tr>
-              <td>${map.comment.id}</td>
-              <td><a href="/topic/${map.topic.id}" target="_blank">${map.topic.title!}</a></td>
-              <td>${map.comment.content!}</td>
-              <td>${map.user.username!}</td>
-              <td>${map.comment.inTime!}</td>
+              <td>${comment.id}</td>
+              <td><a href="/topic/${comment.topic_id}" target="_blank">${comment.topic_title!}</a></td>
+              <td>${comment.content!}</td>
+              <td>${comment.username!}</td>
+              <td>${comment.in_time!}</td>
               <td>
                 <#if sec.allGranted('comment:edit')>
-                  <a href="/admin/comment/edit?id=${map.comment.id}" class="btn btn-sm btn-warning">编辑</a>
+                  <a href="/admin/comment/edit?id=${comment.id}" class="btn btn-sm btn-warning">编辑</a>
                 </#if>
                 <#if sec.allGranted('comment:delete')>
-                  <button onclick="deleteBtn('${map.comment.id}')" class="btn btn-sm btn-danger">删除</button>
+                  <button onclick="deleteBtn('${comment.id}')" class="btn btn-sm btn-danger">删除</button>
                 </#if>
               </td>
             </tr>

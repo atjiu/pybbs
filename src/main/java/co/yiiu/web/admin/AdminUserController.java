@@ -91,7 +91,7 @@ public class AdminUserController extends BaseController {
       adminUser.setPassword(new BCryptPasswordEncoder().encode(password));
     }
     adminUser.setRoleId(roleId);
-    adminUserService.save(adminUser);
+    adminUserService.update(adminUser);
     return Result.success();
   }
 

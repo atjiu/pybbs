@@ -35,7 +35,7 @@
             <tr>
               <td>${user.id}</td>
               <td>${user.username!}</td>
-              <td>${user.inTime!}</td>
+              <td>${user.inTime?datetime}</td>
               <td>
                 <#if sec.allGranted('admin_user:edit')>
                   <a href="/admin/admin_user/edit?id=${user.id}" class="btn btn-sm btn-warning">编辑</a>

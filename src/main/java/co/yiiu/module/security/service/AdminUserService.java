@@ -23,7 +23,7 @@ public class AdminUserService {
   private StringRedisTemplate stringRedisTemplate;
 
   public Page<AdminUser> page(Integer pageNo, Integer pageSize) {
-    List<AdminUser> list = adminUserMapper.findAll(pageNo, pageSize, "inTime desc");
+    List<AdminUser> list = adminUserMapper.findAll((pageNo - 1) * pageSize, pageSize, "in_time desc");
     int count = adminUserMapper.count();
     return new Page<>(pageNo, pageSize, count, list);
   }
@@ -37,6 +37,10 @@ public class AdminUserService {
     // 删除redis里的用户缓存
     this.deleteAllRedisAdminUser();
     return adminUser;
+  }
+
+  public void update(AdminUser adminUser) {
+    adminUserMapper.updateByPrimaryKeySelective(adminUser);
   }
 
   public AdminUser findByUsername(String username) {

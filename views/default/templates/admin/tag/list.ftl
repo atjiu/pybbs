@@ -35,7 +35,7 @@
               <td>${tag.id}</td>
               <td><img src="${tag.logo!}" width="30" alt=""></td>
               <td>${tag.name!}</td>
-              <td>${tag.inTime!}</td>
+              <td>${tag.inTime?datetime}</td>
               <td>${tag.topicCount!0}</td>
               <td>
                 <#if sec.allGranted('tag:edit')>

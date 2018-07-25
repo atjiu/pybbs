@@ -49,7 +49,7 @@ public class UserAdminController extends BaseController {
       user.setPassword(new BCryptPasswordEncoder().encode(password));
     }
     user.setReputation(reputation);
-    userService.save(user);
+    userService.update(user);
     return Result.success();
   }
 

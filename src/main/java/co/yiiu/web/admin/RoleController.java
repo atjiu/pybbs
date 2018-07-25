@@ -47,7 +47,7 @@ public class RoleController extends BaseController {
   @PostMapping("/add")
   @ResponseBody
   public Result save(@RequestParam("nodeIds[]") Integer[] nodeIds, String name) {
-    roleService.save(null, name, nodeIds);
+    roleService.saveOrUpdate(null, name, nodeIds);
     return Result.success();
   }
 
@@ -65,7 +65,7 @@ public class RoleController extends BaseController {
   @PostMapping("/edit")
   @ResponseBody
   public Result update(Integer id, @RequestParam("nodeIds[]") Integer[] nodeIds, String name) {
-    roleService.save(id, name, nodeIds);
+    roleService.saveOrUpdate(id, name, nodeIds);
     return Result.success();
   }
 

@@ -71,8 +71,12 @@ public class CommentService {
     commentMapper.insertSelective(comment);
   }
 
+  public void update(CommentWithBLOBs commentWithBLOBs) {
+    commentMapper.updateByPrimaryKeySelective(commentWithBLOBs);
+  }
+
   public CommentWithBLOBs update(TopicWithBLOBs topic, CommentWithBLOBs oldComment, CommentWithBLOBs comment, Integer userId) {
-    this.save(comment);
+    this.update(comment);
     // 日志
     logService.save(LogEventEnum.EDIT_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(),
         JsonUtil.objectToJson(oldComment), JsonUtil.objectToJson(comment), topic);
