@@ -20,17 +20,18 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.security.pojo.RolePermission">
-    insert into role_permission (id, permission_id, role_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{permissionId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role_permission (permission_id, role_id)
+    values (#{permissionId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.security.pojo.RolePermission">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into role_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="permissionId != null">
         permission_id,
       </if>
@@ -39,9 +40,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="permissionId != null">
         #{permissionId,jdbcType=INTEGER},
       </if>
@@ -79,6 +77,6 @@
     </if>
   </delete>
   <select id="findByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from role_permission where role_id = #{roleId}
+    select <include refid="Base_Column_List" /> from role_permission where role_id = #{roleId}
   </select>
 </mapper>

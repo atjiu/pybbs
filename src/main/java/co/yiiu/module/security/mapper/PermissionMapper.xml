@@ -22,17 +22,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.security.pojo.Permission">
-    insert into permission (id, name, pid, 
-      url, value)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
-      #{url,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into permission (name, pid, url, 
+      value)
+    values (#{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{value,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.security.pojo.Permission">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -47,9 +50,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -100,9 +100,9 @@
       au.id = #{userId}
   </select>
   <select id="findByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from permission where pid = #{pid}
+    select <include refid="Base_Column_List" /> from permission where pid = #{pid}
   </select>
   <select id="findByPidGreaterThan" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from permission where pid &gt; #{pid}
+    select <include refid="Base_Column_List" /> from permission where pid &gt; #{pid}
   </select>
 </mapper>

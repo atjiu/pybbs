@@ -28,6 +28,6 @@ public class LogWithBLOBs extends Log {
     }
 
     public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
+        this.eventDescription = eventDescription == null ? null : eventDescription.trim();
     }
 }

@@ -2,7 +2,7 @@ package co.yiiu.module.user.pojo;
 
 import java.util.Date;
 
-public class OAuth2User {
+public class Oauth2User {
     private Integer id;
 
     private String accessToken;

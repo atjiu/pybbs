@@ -21,17 +21,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.collect.pojo.Collect">
-    insert into collect (id, in_time, topic_id, 
-      user_id)
-    values (#{id,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP}, #{topicId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into collect (in_time, topic_id, user_id
+      )
+    values (#{inTime,jdbcType=TIMESTAMP}, #{topicId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.collect.pojo.Collect">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into collect
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="inTime != null">
         in_time,
       </if>
@@ -43,9 +46,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="inTime != null">
         #{inTime,jdbcType=TIMESTAMP},
       </if>
@@ -99,7 +99,7 @@
     select count(1) from collect c left join topic t on c.topic_id = t.id where c.topic_id = #{topicId}
   </select>
   <select id="findByUserIdAndTopicId" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from collect where user_id = #{userId} and topic_id = #{topicId}
+    select <include refid="Base_Column_List" /> from collect where user_id = #{userId} and topic_id = #{topicId}
   </select>
   <delete id="deleteByUserId" parameterType="java.lang.Integer">
     delete from collect where user_id = #{userId}

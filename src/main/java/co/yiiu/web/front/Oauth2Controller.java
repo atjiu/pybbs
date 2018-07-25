@@ -5,10 +5,10 @@ import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.StrUtil;
 import co.yiiu.core.util.encrypt.Base64Helper;
-import co.yiiu.module.user.pojo.OAuth2User;
-import co.yiiu.module.user.pojo.OAuth2UserType;
+import co.yiiu.module.user.pojo.Oauth2User;
+import co.yiiu.module.user.pojo.Oauth2UserType;
 import co.yiiu.module.user.pojo.User;
-import co.yiiu.module.user.service.OAuth2UserService;
+import co.yiiu.module.user.service.Oauth2UserService;
 import co.yiiu.module.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.BasicJsonParser;
@@ -28,12 +28,12 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/oauth2")
-public class OAuth2Controller extends BaseController {
+public class Oauth2Controller extends BaseController {
 
   @Autowired
   private UserService userService;
   @Autowired
-  private OAuth2UserService oAuth2UserService;
+  private Oauth2UserService oauth2UserService;
   @Autowired
   private SiteConfig siteConfig;
 
@@ -80,13 +80,13 @@ public class OAuth2Controller extends BaseController {
 //      String blog = (String) jsonObject.get("blog");
     String html_url = (String) json.get("html_url");
 
-    OAuth2User oAuth2User = oAuth2UserService.findByOauthUserIdAndType(githubId, OAuth2UserType.GITHUB.name());
+    Oauth2User oauth2User = oauth2UserService.findByOauthUserIdAndType(githubId, Oauth2UserType.GITHUB.name());
     User user;
-    if(oAuth2User != null) {
-      oAuth2User.setNickName(nickName);
-      oAuth2User.setAvatar(avatar);
-      oAuth2UserService.save(oAuth2User);
-      user = userService.findById(oAuth2User.getUserId());
+    if(oauth2User != null) {
+      oauth2User.setNickName(nickName);
+      oauth2User.setAvatar(avatar);
+      oauth2UserService.save(oauth2User);
+      user = userService.findById(oauth2User.getUserId());
     } else {
       user = (User) session.getAttribute("user");
       if (user == null) {
@@ -94,8 +94,8 @@ public class OAuth2Controller extends BaseController {
         if (_user != null) nickName = nickName + "_" + githubId;
         user = userService.createUser(nickName, StrUtil.randomString(16), email, avatar, html_url, bio);
       }
-      oAuth2UserService.createOAuth2User(nickName, avatar, user.getId(), githubId,
-          accessToken, OAuth2UserType.GITHUB.name());
+      oauth2UserService.createOAuth2User(nickName, avatar, user.getId(), githubId,
+          accessToken, Oauth2UserType.GITHUB.name());
     }
     // 把用户信息写入cookie
     CookieHelper.addCookie(

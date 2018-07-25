@@ -25,19 +25,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.security.pojo.AdminUser">
-    insert into admin_user (id, attempts, attempts_time, 
-      in_time, password, role_id, 
-      token, username)
-    values (#{id,jdbcType=INTEGER}, #{attempts,jdbcType=INTEGER}, #{attemptsTime,jdbcType=TIMESTAMP}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, 
-      #{token,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_user (attempts, attempts_time, in_time, 
+      password, role_id, token, 
+      username)
+    values (#{attempts,jdbcType=INTEGER}, #{attemptsTime,jdbcType=TIMESTAMP}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.security.pojo.AdminUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into admin_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="attempts != null">
         attempts,
       </if>
@@ -61,9 +64,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="attempts != null">
         #{attempts,jdbcType=INTEGER},
       </if>
@@ -127,7 +127,7 @@
   </update>
   <!--自定义方法-->
   <select id="findAdminUser" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from admin_user where 1 = 1
+    select <include refid="Base_Column_List" /> from admin_user where 1 = 1
     <if test="token != null">
       and token = #{token}
     </if>
@@ -136,7 +136,7 @@
     </if>
   </select>
   <select id="findAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from admin_user
+    select <include refid="Base_Column_List" /> from admin_user
     <if test="orderBy != null">
       order by ${orderBy}
     </if>

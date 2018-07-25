@@ -24,19 +24,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.code.pojo.Code">
-    insert into code (id, code, email, 
-      expire_time, is_used, mobile, 
-      type)
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{expireTime,jdbcType=TIMESTAMP}, #{isUsed,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into code (code, email, expire_time, 
+      is_used, mobile, type)
+    values (#{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{isUsed,jdbcType=BIT}, #{mobile,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.code.pojo.Code">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into code
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="code != null">
         code,
       </if>
@@ -57,9 +58,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>

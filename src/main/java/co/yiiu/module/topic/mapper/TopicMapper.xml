@@ -23,14 +23,14 @@
     <result column="up_ids" jdbcType="LONGVARCHAR" property="upIds" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, comment_count, down, good, in_time, last_comment_time, modify_time, tag, title,
+    id, comment_count, down, good, in_time, last_comment_time, modify_time, tag, title, 
     top, up, user_id, view, weight
   </sql>
   <sql id="Blob_Column_List">
     content, down_ids, up_ids
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select
+    select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -42,25 +42,28 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.topic.pojo.TopicWithBLOBs">
-    insert into topic (id, comment_count, down,
-      good, in_time, last_comment_time,
-      modify_time, tag, title,
-      top, up, user_id, view,
-      weight, content, down_ids,
-      up_ids)
-    values (#{id,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, #{down,jdbcType=INTEGER},
-      #{good,jdbcType=BIT}, #{inTime,jdbcType=TIMESTAMP}, #{lastCommentTime,jdbcType=TIMESTAMP},
-      #{modifyTime,jdbcType=TIMESTAMP}, #{tag,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-      #{top,jdbcType=BIT}, #{up,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{view,jdbcType=INTEGER},
-      #{weight,jdbcType=DOUBLE}, #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR},
-      #{upIds,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into topic (comment_count, down, good, 
+      in_time, last_comment_time, modify_time, 
+      tag, title, top, up, 
+      user_id, view, weight, 
+      content, down_ids, up_ids
+      )
+    values (#{commentCount,jdbcType=INTEGER}, #{down,jdbcType=INTEGER}, #{good,jdbcType=BIT}, 
+      #{inTime,jdbcType=TIMESTAMP}, #{lastCommentTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{tag,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{top,jdbcType=BIT}, #{up,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{view,jdbcType=INTEGER}, #{weight,jdbcType=DOUBLE}, 
+      #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR}, #{upIds,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.topic.pojo.TopicWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="commentCount != null">
         comment_count,
       </if>
@@ -111,9 +114,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="commentCount != null">
         #{commentCount,jdbcType=INTEGER},
       </if>
@@ -288,7 +288,7 @@
     delete from topic where user_id = #{userId}
   </delete>
   <select id="findByTitle" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from topic where title = #{title}
+    select <include refid="Base_Column_List" /> from topic where title = #{title}
   </select>
   <select id="findTopicsByTagId" resultType="map">
     select t.*, u.username, u.avatar from topic t left join topic_tag tt on t.id = tt.topic_id left join user u on t.user_id = u.id
@@ -305,6 +305,6 @@
     where tt.tag_id = #{tagId}
   </select>
   <select id="findAll" resultMap="ResultMapWithBLOBs">
-    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/> from topic
+    select <include refid="Base_Column_List" />, <include refid="Blob_Column_List" /> from topic
   </select>
 </mapper>

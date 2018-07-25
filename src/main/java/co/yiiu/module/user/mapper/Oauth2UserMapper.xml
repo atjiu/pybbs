@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.yiiu.module.user.mapper.OAuth2UserMapper">
-  <resultMap id="BaseResultMap" type="co.yiiu.module.user.pojo.OAuth2User">
+<mapper namespace="co.yiiu.module.user.mapper.Oauth2UserMapper">
+  <resultMap id="BaseResultMap" type="co.yiiu.module.user.pojo.Oauth2User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
@@ -17,27 +17,30 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from oauth2user
+    from oauth2_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from oauth2user
+    delete from oauth2_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    insert into oauth2user (id, access_token, avatar, 
-      in_time, nick_name, oauth_user_id, 
-      type, user_id)
-    values (#{id,jdbcType=INTEGER}, #{accessToken,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{nickName,jdbcType=VARCHAR}, #{oauthUserId,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="co.yiiu.module.user.pojo.Oauth2User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into oauth2_user (access_token, avatar, in_time, 
+      nick_name, oauth_user_id, type, 
+      user_id)
+    values (#{accessToken,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{nickName,jdbcType=VARCHAR}, #{oauthUserId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    insert into oauth2user
+  <insert id="insertSelective" parameterType="co.yiiu.module.user.pojo.Oauth2User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into oauth2_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="accessToken != null">
         access_token,
       </if>
@@ -61,9 +64,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="accessToken != null">
         #{accessToken,jdbcType=VARCHAR},
       </if>
@@ -87,8 +87,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    update oauth2user
+  <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.user.pojo.Oauth2User">
+    update oauth2_user
     <set>
       <if test="accessToken != null">
         access_token = #{accessToken,jdbcType=VARCHAR},
@@ -114,8 +114,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.user.pojo.OAuth2User">
-    update oauth2user
+  <update id="updateByPrimaryKey" parameterType="co.yiiu.module.user.pojo.Oauth2User">
+    update oauth2_user
     set access_token = #{accessToken,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       in_time = #{inTime,jdbcType=TIMESTAMP},
@@ -127,6 +127,6 @@
   </update>
   <!--自定义方法-->
   <select id="findByOauthUserIdAndType" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from oauth2_user where oauth_user_id = #{oauthUserId} and `type` = #{type}
+    select <include refid="Base_Column_List" /> from oauth2_user where oauth_user_id = #{oauthUserId} and `type` = #{type}
   </select>
 </mapper>

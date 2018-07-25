@@ -33,26 +33,26 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
-    insert into log (id, event, event_description, 
-      in_time, target, target_id, 
-      user_id, after_content, before_content
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into log (event, in_time, target, 
+      target_id, user_id, after_content, 
+      before_content, event_description
       )
-    values (#{id,jdbcType=INTEGER}, #{event,jdbcType=VARCHAR}, #{eventDescription,jdbcType=VARCHAR}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{target,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{afterContent,jdbcType=LONGVARCHAR}, #{beforeContent,jdbcType=LONGVARCHAR}
+    values (#{event,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, #{target,jdbcType=VARCHAR}, 
+      #{targetId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{afterContent,jdbcType=LONGVARCHAR}, 
+      #{beforeContent,jdbcType=LONGVARCHAR}, #{eventDescription,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into log
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="event != null">
         event,
-      </if>
-      <if test="eventDescription != null">
-        event_description,
       </if>
       <if test="inTime != null">
         in_time,
@@ -72,16 +72,13 @@
       <if test="beforeContent != null">
         before_content,
       </if>
+      <if test="eventDescription != null">
+        event_description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="event != null">
         #{event,jdbcType=VARCHAR},
-      </if>
-      <if test="eventDescription != null">
-        #{eventDescription,jdbcType=VARCHAR},
       </if>
       <if test="inTime != null">
         #{inTime,jdbcType=TIMESTAMP},
@@ -101,6 +98,9 @@
       <if test="beforeContent != null">
         #{beforeContent,jdbcType=LONGVARCHAR},
       </if>
+      <if test="eventDescription != null">
+        #{eventDescription,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
@@ -108,9 +108,6 @@
     <set>
       <if test="event != null">
         event = #{event,jdbcType=VARCHAR},
-      </if>
-      <if test="eventDescription != null">
-        event_description = #{eventDescription,jdbcType=VARCHAR},
       </if>
       <if test="inTime != null">
         in_time = #{inTime,jdbcType=TIMESTAMP},
@@ -130,35 +127,36 @@
       <if test="beforeContent != null">
         before_content = #{beforeContent,jdbcType=LONGVARCHAR},
       </if>
+      <if test="eventDescription != null">
+        event_description = #{eventDescription,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="co.yiiu.module.log.pojo.LogWithBLOBs">
     update log
     set event = #{event,jdbcType=VARCHAR},
-      event_description = #{eventDescription,jdbcType=VARCHAR},
       in_time = #{inTime,jdbcType=TIMESTAMP},
       target = #{target,jdbcType=VARCHAR},
       target_id = #{targetId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       after_content = #{afterContent,jdbcType=LONGVARCHAR},
-      before_content = #{beforeContent,jdbcType=LONGVARCHAR}
+      before_content = #{beforeContent,jdbcType=LONGVARCHAR},
+      event_description = #{eventDescription,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.log.pojo.Log">
     update log
     set event = #{event,jdbcType=VARCHAR},
-      event_description = #{eventDescription,jdbcType=VARCHAR},
       in_time = #{inTime,jdbcType=TIMESTAMP},
       target = #{target,jdbcType=VARCHAR},
       target_id = #{targetId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <!--自定义方法-->
   <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/>
+    select <include refid="Base_Column_List" />, <include refid="Blob_Column_List" />
     from log where user_id = #{userId}
     <if test="orderBy != null">
       order by ${orderBy}

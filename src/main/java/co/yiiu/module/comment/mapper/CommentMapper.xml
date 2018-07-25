@@ -34,21 +34,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.comment.pojo.CommentWithBLOBs">
-    insert into comment (id, comment_id, down, 
-      in_time, topic_id, up, 
-      user_id, content, down_ids, 
-      up_ids)
-    values (#{id,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{down,jdbcType=INTEGER}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{topicId,jdbcType=INTEGER}, #{up,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR}, 
-      #{upIds,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into comment (comment_id, down, in_time, 
+      topic_id, up, user_id, 
+      content, down_ids, up_ids
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{down,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{topicId,jdbcType=INTEGER}, #{up,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR}, #{upIds,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.comment.pojo.CommentWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="commentId != null">
         comment_id,
       </if>
@@ -78,9 +81,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="commentId != null">
         #{commentId,jdbcType=INTEGER},
       </if>
@@ -192,7 +192,7 @@
     select count(1) from comment
   </select>
   <select id="findCommentByTopicId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/> from comment where topic_id = #{topicId}
+    select <include refid="Base_Column_List" />, <include refid="Blob_Column_List" /> from comment where topic_id = #{topicId}
   </select>
   <select id="findByUserId" resultType="map">
     select c.*, u.username, t.title as topic_title from comment c left join topic t on c.topic_id = t.id left join user u on u.id = c.user_id where c.user_id = #{userId}

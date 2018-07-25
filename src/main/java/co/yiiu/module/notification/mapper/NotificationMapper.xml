@@ -32,19 +32,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.notification.pojo.Notification">
-    insert into notification (id, action, in_time, 
-      is_read, target_user_id, topic_id, 
-      user_id, content)
-    values (#{id,jdbcType=INTEGER}, #{action,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, 
-      #{isRead,jdbcType=BIT}, #{targetUserId,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into notification (action, in_time, is_read, 
+      target_user_id, topic_id, user_id, 
+      content)
+    values (#{action,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, 
+      #{targetUserId,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.notification.pojo.Notification">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into notification
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="action != null">
         action,
       </if>
@@ -68,9 +71,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="action != null">
         #{action,jdbcType=VARCHAR},
       </if>

@@ -29,21 +29,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.attachment.pojo.Attachment">
-    insert into attachment (id, file_name, height, 
-      in_time, local_path, md5, 
-      request_url, size, suffix, 
-      type, width)
-    values (#{id,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{height,jdbcType=INTEGER}, 
-      #{inTime,jdbcType=TIMESTAMP}, #{localPath,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR}, 
-      #{requestUrl,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{width,jdbcType=INTEGER})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into attachment (file_name, height, in_time, 
+      local_path, md5, request_url, 
+      size, suffix, type, 
+      width)
+    values (#{fileName,jdbcType=VARCHAR}, #{height,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP}, 
+      #{localPath,jdbcType=VARCHAR}, #{md5,jdbcType=VARCHAR}, #{requestUrl,jdbcType=VARCHAR}, 
+      #{size,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{width,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.attachment.pojo.Attachment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into attachment
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="fileName != null">
         file_name,
       </if>
@@ -76,9 +79,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
