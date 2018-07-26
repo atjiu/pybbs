@@ -13,7 +13,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {

@@ -45,9 +45,9 @@ public class IndexAdminController extends BaseController {
   @GetMapping("/clear")
   @ResponseBody
   public Result clear(Integer type) {
-    if(type == 1) {
+    if (type == 1) {
       userService.deleteAllRedisUser();
-    } else if(type == 2) {
+    } else if (type == 2) {
       adminUserService.deleteAllRedisAdminUser();
     }
     return Result.success();

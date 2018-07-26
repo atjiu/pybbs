@@ -33,13 +33,13 @@ public class ApiAssert extends Assert {
   }
 
   public static void isEmpty(String txt, String message) {
-    if(!StringUtils.isEmpty(txt)) {
+    if (!StringUtils.isEmpty(txt)) {
       throw new ApiException(message);
     }
   }
 
   public static void notEmpty(String txt, String message) {
-    if(StringUtils.isEmpty(txt)) {
+    if (StringUtils.isEmpty(txt)) {
       throw new ApiException(message);
     }
   }

@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class BaseController {
 
-  @Autowired private BaseEntity baseEntity;
-  @Autowired private SiteConfig siteConfig;
+  @Autowired
+  private BaseEntity baseEntity;
+  @Autowired
+  private SiteConfig siteConfig;
 
   /**
    * 带参重定向

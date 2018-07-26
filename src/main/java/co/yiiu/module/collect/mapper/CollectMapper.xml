@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.collect.mapper.CollectMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.collect.pojo.Collect">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="topic_id" jdbcType="INTEGER" property="topicId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime"/>
+    <result column="topic_id" jdbcType="INTEGER" property="topicId"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, in_time, topic_id, user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from collect
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from collect
-    where id = #{id,jdbcType=INTEGER}
+    DELETE FROM collect
+    WHERE id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.collect.pojo.Collect">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into collect (in_time, topic_id, user_id
-      )
+    )
     values (#{inTime,jdbcType=TIMESTAMP}, #{topicId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
-      )
+    )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.collect.pojo.Collect">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -73,11 +73,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.collect.pojo.Collect">
-    update collect
-    set in_time = #{inTime,jdbcType=TIMESTAMP},
-      topic_id = #{topicId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    UPDATE collect
+    SET in_time = #{inTime,jdbcType=TIMESTAMP},
+      topic_id  = #{topicId,jdbcType=INTEGER},
+      user_id   = #{userId,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <!--自定义方法-->
   <select id="findByUserId" resultType="map">
@@ -93,18 +93,26 @@
     </if>
   </select>
   <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(1) from collect where user_id = #{userId}
+    SELECT count(1)
+    FROM collect
+    WHERE user_id = #{userId}
   </select>
   <select id="countByTopicId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(1) from collect c left join topic t on c.topic_id = t.id where c.topic_id = #{topicId}
+    SELECT count(1)
+    FROM collect c LEFT JOIN topic t ON c.topic_id = t.id
+    WHERE c.topic_id = #{topicId}
   </select>
   <select id="findByUserIdAndTopicId" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from collect where user_id = #{userId} and topic_id = #{topicId}
+    select
+    <include refid="Base_Column_List"/>
+    from collect where user_id = #{userId} and topic_id = #{topicId}
   </select>
   <delete id="deleteByUserId" parameterType="java.lang.Integer">
-    delete from collect where user_id = #{userId}
+    DELETE FROM collect
+    WHERE user_id = #{userId}
   </delete>
   <delete id="deleteByTopicId" parameterType="java.lang.Integer">
-    delete from collect where topic_id = #{topicId}
+    DELETE FROM collect
+    WHERE topic_id = #{topicId}
   </delete>
 </mapper>

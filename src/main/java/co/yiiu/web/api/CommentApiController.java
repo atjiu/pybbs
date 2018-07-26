@@ -33,6 +33,7 @@ public class CommentApiController extends BaseController {
 
   /**
    * 话题的评论列表
+   *
    * @param topicId 话题ID
    * @return
    */
@@ -43,9 +44,10 @@ public class CommentApiController extends BaseController {
 
   /**
    * 保存评论
-   * @param topicId 话题ID
+   *
+   * @param topicId   话题ID
    * @param commentId 回复的评论ID，可以为null
-   * @param content 评论内容
+   * @param content   评论内容
    * @return
    */
   @PostMapping("/save")
@@ -64,7 +66,8 @@ public class CommentApiController extends BaseController {
 
   /**
    * 对评论进行编辑
-   * @param id 评论ID
+   *
+   * @param id      评论ID
    * @param content 评论内容
    * @return
    */
@@ -85,7 +88,7 @@ public class CommentApiController extends BaseController {
   /**
    * 对评论投票
    *
-   * @param id 评论ID
+   * @param id     评论ID
    * @param action 评论动作，只能填 UP, DOWN
    * @return
    */

@@ -24,6 +24,7 @@ public class UserInterceptor implements HandlerInterceptor {
 
   /**
    * 如果session里没有用户信息，那么取cookie里的token，然后去数据库里查用户信息，再将用户信息存在session里
+   *
    * @param request
    * @param response
    * @param o

@@ -46,6 +46,7 @@ public class TagSearchService {
 
   /**
    * 索引标签
+   *
    * @param tag
    */
   public void indexed(Tag tag) {
@@ -56,6 +57,7 @@ public class TagSearchService {
 
   /**
    * 根据id删除索引
+   *
    * @param id
    */
   public void deleteById(Integer id) {
@@ -64,6 +66,7 @@ public class TagSearchService {
 
   /**
    * 查询索引
+   *
    * @param keyword
    * @param limit
    * @return
@@ -74,7 +77,8 @@ public class TagSearchService {
     SearchQuery query = new NativeSearchQueryBuilder()
         .withPageable(pageable)
         .withQuery(queryBuilder)
-        .build();return tagIndexRepository.search(query).getContent();
+        .build();
+    return tagIndexRepository.search(query).getContent();
   }
 
   /**

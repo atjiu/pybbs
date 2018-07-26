@@ -7,8 +7,8 @@ package co.yiiu.core.util;
 public class EnumUtil {
 
   public static boolean isDefined(Enum[] enums, String value) {
-    for (Enum e: enums) {
-      if(e.name().equals(value)) {
+    for (Enum e : enums) {
+      if (e.name().equals(value)) {
         return true;
       }
     }

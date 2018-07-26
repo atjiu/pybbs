@@ -95,9 +95,9 @@ public class StrUtil {
   // params格式：a=1&b=2&c=3
   // 返回：{a: 1, b: 2, c: 3}
   public static Map<String, Object> formatParams(String params) {
-    if(StringUtils.isEmpty(params)) return null;
+    if (StringUtils.isEmpty(params)) return null;
     Map<String, Object> map = new HashMap<>();
-    for(String s : params.split("&")) {
+    for (String s : params.split("&")) {
       String[] ss = s.split("=");
       map.put(ss[0], ss[1]);
     }

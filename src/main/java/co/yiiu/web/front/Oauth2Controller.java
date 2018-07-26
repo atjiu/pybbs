@@ -82,7 +82,7 @@ public class Oauth2Controller extends BaseController {
 
     Oauth2User oauth2User = oauth2UserService.findByOauthUserIdAndType(githubId, Oauth2UserType.GITHUB.name());
     User user;
-    if(oauth2User != null) {
+    if (oauth2User != null) {
       oauth2User.setNickName(nickName);
       oauth2User.setAvatar(avatar);
       oauth2UserService.save(oauth2User);

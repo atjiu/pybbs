@@ -34,7 +34,7 @@ public class RoleService {
 
   public void saveOrUpdate(Integer id, String name, Integer[] permissionIds) {
     Role role = new Role();
-    if(id != null) {
+    if (id != null) {
       role = findById(id);
     }
     role.setName(name);
@@ -45,7 +45,7 @@ public class RoleService {
     }
     // 保存角色权限关联
     rolePermissionService.deleteRoleId(role.getId());
-    if(permissionIds.length > 0) {
+    if (permissionIds.length > 0) {
       List<RolePermission> list = new ArrayList<>();
       for (Integer permissionId : permissionIds) {
         RolePermission rolePermission = new RolePermission();

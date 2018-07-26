@@ -46,6 +46,7 @@ public class IndexController extends BaseController {
 
   /**
    * 搜索
+   *
    * @param keyword 关键字
    * @param pageNo
    * @param model
@@ -89,11 +90,12 @@ public class IndexController extends BaseController {
 
   /**
    * 后台登录
+   *
    * @return
    */
   @GetMapping("/adminlogin")
   public String adminlogin() {
-    if(getAdminUser() != null) return redirect("/admin/index");
+    if (getAdminUser() != null) return redirect("/admin/index");
     return "admin/login";
   }
 

@@ -6,8 +6,8 @@ import co.yiiu.core.bean.Page;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.CookieHelper;
-import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.encrypt.Base64Helper;
+import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.module.collect.service.CollectService;
 import co.yiiu.module.comment.service.CommentService;
 import co.yiiu.module.log.service.LogService;
@@ -166,9 +166,9 @@ public class UserApiController extends BaseController {
       ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
       BufferedImage bufferedImage = ImageIO.read(bais);
       String __avatar = null;
-      if(siteConfig.getUploadType().equals("local")) {
+      if (siteConfig.getUploadType().equals("local")) {
         __avatar = identicon.saveFile(user.getUsername(), bufferedImage);
-      } else if(siteConfig.getUploadType().equals("qiniu")) {
+      } else if (siteConfig.getUploadType().equals("qiniu")) {
         __avatar = identicon.saveFileToQiniu(bytes);
       }
       user.setAvatar(__avatar);

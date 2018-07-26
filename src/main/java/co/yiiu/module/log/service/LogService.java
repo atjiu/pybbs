@@ -4,15 +4,11 @@ import co.yiiu.config.LogEventConfig;
 import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.log.mapper.LogMapper;
-import co.yiiu.module.log.pojo.Log;
 import co.yiiu.module.log.pojo.LogEventEnum;
 import co.yiiu.module.log.pojo.LogWithBLOBs;
 import co.yiiu.module.topic.pojo.Topic;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

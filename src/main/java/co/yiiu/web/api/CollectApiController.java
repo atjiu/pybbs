@@ -5,7 +5,6 @@ import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.module.collect.pojo.Collect;
 import co.yiiu.module.collect.service.CollectService;
-import co.yiiu.module.topic.pojo.Topic;
 import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.service.TopicService;
 import co.yiiu.module.user.pojo.User;

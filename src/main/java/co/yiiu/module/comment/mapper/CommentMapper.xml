@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.comment.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.comment.pojo.Comment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
-    <result column="down" jdbcType="INTEGER" property="down" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="topic_id" jdbcType="INTEGER" property="topicId" />
-    <result column="up" jdbcType="INTEGER" property="up" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="comment_id" jdbcType="INTEGER" property="commentId"/>
+    <result column="down" jdbcType="INTEGER" property="down"/>
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime"/>
+    <result column="topic_id" jdbcType="INTEGER" property="topicId"/>
+    <result column="up" jdbcType="INTEGER" property="up"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="co.yiiu.module.comment.pojo.CommentWithBLOBs">
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="down_ids" jdbcType="LONGVARCHAR" property="downIds" />
-    <result column="up_ids" jdbcType="LONGVARCHAR" property="upIds" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    <result column="down_ids" jdbcType="LONGVARCHAR" property="downIds"/>
+    <result column="up_ids" jdbcType="LONGVARCHAR" property="upIds"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, comment_id, down, in_time, topic_id, up, user_id
@@ -22,29 +22,29 @@
     content, down_ids, up_ids
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     ,
-    <include refid="Blob_Column_List" />
+    <include refid="Blob_Column_List"/>
     from comment
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from comment
-    where id = #{id,jdbcType=INTEGER}
+    DELETE FROM comment
+    WHERE id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.comment.pojo.CommentWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into comment (comment_id, down, in_time, 
-      topic_id, up, user_id, 
-      content, down_ids, up_ids
-      )
-    values (#{commentId,jdbcType=INTEGER}, #{down,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP}, 
-      #{topicId,jdbcType=INTEGER}, #{up,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR}, #{upIds,jdbcType=LONGVARCHAR}
-      )
+    insert into comment (comment_id, down, in_time,
+    topic_id, up, user_id,
+    content, down_ids, up_ids
+    )
+    values (#{commentId,jdbcType=INTEGER}, #{down,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP},
+    #{topicId,jdbcType=INTEGER}, #{up,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+    #{content,jdbcType=LONGVARCHAR}, #{downIds,jdbcType=LONGVARCHAR}, #{upIds,jdbcType=LONGVARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.comment.pojo.CommentWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -144,40 +144,47 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="co.yiiu.module.comment.pojo.CommentWithBLOBs">
-    update comment
-    set comment_id = #{commentId,jdbcType=INTEGER},
-      down = #{down,jdbcType=INTEGER},
-      in_time = #{inTime,jdbcType=TIMESTAMP},
-      topic_id = #{topicId,jdbcType=INTEGER},
-      up = #{up,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR},
-      down_ids = #{downIds,jdbcType=LONGVARCHAR},
-      up_ids = #{upIds,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    UPDATE comment
+    SET comment_id = #{commentId,jdbcType=INTEGER},
+      down         = #{down,jdbcType=INTEGER},
+      in_time      = #{inTime,jdbcType=TIMESTAMP},
+      topic_id     = #{topicId,jdbcType=INTEGER},
+      up           = #{up,jdbcType=INTEGER},
+      user_id      = #{userId,jdbcType=INTEGER},
+      content      = #{content,jdbcType=LONGVARCHAR},
+      down_ids     = #{downIds,jdbcType=LONGVARCHAR},
+      up_ids       = #{upIds,jdbcType=LONGVARCHAR}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.comment.pojo.Comment">
-    update comment
-    set comment_id = #{commentId,jdbcType=INTEGER},
-      down = #{down,jdbcType=INTEGER},
-      in_time = #{inTime,jdbcType=TIMESTAMP},
-      topic_id = #{topicId,jdbcType=INTEGER},
-      up = #{up,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    UPDATE comment
+    SET comment_id = #{commentId,jdbcType=INTEGER},
+      down         = #{down,jdbcType=INTEGER},
+      in_time      = #{inTime,jdbcType=TIMESTAMP},
+      topic_id     = #{topicId,jdbcType=INTEGER},
+      up           = #{up,jdbcType=INTEGER},
+      user_id      = #{userId,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <!--自定义方法-->
   <select id="findByTopicId" parameterType="java.lang.Integer" resultType="map">
-    select c.* from comment c left join topic t on c.topic_id = t.id left join user u on c.user_id = u.id where c.topic_id = #{topicId}
+    SELECT c.*
+    FROM comment c LEFT JOIN topic t ON c.topic_id = t.id
+      LEFT JOIN user u ON c.user_id = u.id
+    WHERE c.topic_id = #{topicId}
   </select>
   <select id="countByTopicId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(1) from comment where topic_id = #{topicId}
+    SELECT count(1)
+    FROM comment
+    WHERE topic_id = #{topicId}
   </select>
   <delete id="deleteByTopicId" parameterType="java.lang.Integer">
-    delete from comment where topic_id = #{topicId}
+    DELETE FROM comment
+    WHERE topic_id = #{topicId}
   </delete>
   <delete id="deleteByUserId" parameterType="java.lang.Integer">
-    delete from comment where user_id = #{userId}
+    DELETE FROM comment
+    WHERE user_id = #{userId}
   </delete>
   <select id="findAllForAdmin" resultType="map">
     select c.*, t.id as topic_id, t.title as topic_title, u.username
@@ -190,13 +197,17 @@
     </if>
   </select>
   <select id="countAllForAdmin" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(1) from comment
+    SELECT count(1)
+    FROM comment
   </select>
   <select id="findCommentByTopicId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select <include refid="Base_Column_List" />, <include refid="Blob_Column_List" /> from comment where topic_id = #{topicId}
+    select<include refid="Base_Column_List"/>,
+    <include refid="Blob_Column_List"/>
+    from comment where topic_id = #{topicId}
   </select>
   <select id="findByUserId" resultType="map">
-    select c.*, u.username, t.title as topic_title from comment c left join topic t on c.topic_id = t.id left join user u on u.id = c.user_id where c.user_id = #{userId}
+    select c.*, u.username, t.title as topic_title from comment c left join topic t on c.topic_id = t.id left join user
+    u on u.id = c.user_id where c.user_id = #{userId}
     <if test="orderBy != null">
       order by ${orderBy}
     </if>
@@ -205,6 +216,8 @@
     </if>
   </select>
   <select id="countByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(1) from comment where user_id = #{userId}
+    SELECT count(1)
+    FROM comment
+    WHERE user_id = #{userId}
   </select>
 </mapper>

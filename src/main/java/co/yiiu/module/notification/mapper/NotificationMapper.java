@@ -7,36 +7,36 @@ import java.util.List;
 import java.util.Map;
 
 public interface NotificationMapper {
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(Notification record);
+  int insert(Notification record);
 
-    int insertSelective(Notification record);
+  int insertSelective(Notification record);
 
-    Notification selectByPrimaryKey(Integer id);
+  Notification selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Notification record);
+  int updateByPrimaryKeySelective(Notification record);
 
-    int updateByPrimaryKeyWithBLOBs(Notification record);
+  int updateByPrimaryKeyWithBLOBs(Notification record);
 
-    int updateByPrimaryKey(Notification record);
+  int updateByPrimaryKey(Notification record);
 
-    //自定义方法
-    List<Map> findByTargetUserId(
-        @Param("targetUserId") Integer targetUserId,
-        @Param("isRead") Boolean isRead,
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  //自定义方法
+  List<Map> findByTargetUserId(
+      @Param("targetUserId") Integer targetUserId,
+      @Param("isRead") Boolean isRead,
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int countByTargetUserId(@Param("targetUserId") Integer targetUserId, @Param("isRead") Boolean isRead);
+  int countByTargetUserId(@Param("targetUserId") Integer targetUserId, @Param("isRead") Boolean isRead);
 
-    void updateByIsRead(Integer targetUserId);
+  void updateByIsRead(Integer targetUserId);
 
-    void deleteNotification(
-        @Param("targetUserId") Integer targetUserId,
-        @Param("userId") Integer userId,
-        @Param("topicId") Integer topicId);
+  void deleteNotification(
+      @Param("targetUserId") Integer targetUserId,
+      @Param("userId") Integer userId,
+      @Param("topicId") Integer topicId);
 
 }

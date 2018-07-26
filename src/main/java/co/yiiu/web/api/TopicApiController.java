@@ -71,9 +71,10 @@ public class TopicApiController extends BaseController {
 
   /**
    * 保存话题
-   * @param title 话题标题
+   *
+   * @param title   话题标题
    * @param content 话题内容
-   * @param tag 话题标签，格式是 , 隔开的字符串（英文下的逗号）
+   * @param tag     话题标签，格式是 , 隔开的字符串（英文下的逗号）
    * @return
    */
   @PostMapping("/save")
@@ -94,10 +95,11 @@ public class TopicApiController extends BaseController {
 
   /**
    * 话题编辑
-   * @param id 话题ID
-   * @param title 话题标题
+   *
+   * @param id      话题ID
+   * @param title   话题标题
    * @param content 话题内容
-   * @param tag 话题标签，格式是 , 隔开的字符串（英文下的逗号）
+   * @param tag     话题标签，格式是 , 隔开的字符串（英文下的逗号）
    * @return
    */
   @PostMapping("/edit")
@@ -124,7 +126,8 @@ public class TopicApiController extends BaseController {
 
   /**
    * 给话题投票
-   * @param id 话题ID
+   *
+   * @param id     话题ID
    * @param action 赞成或者反对，只能填：UP, DOWN
    * @return
    */

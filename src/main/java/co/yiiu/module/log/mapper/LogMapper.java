@@ -8,37 +8,37 @@ import java.util.List;
 import java.util.Map;
 
 public interface LogMapper {
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(LogWithBLOBs record);
+  int insert(LogWithBLOBs record);
 
-    int insertSelective(LogWithBLOBs record);
+  int insertSelective(LogWithBLOBs record);
 
-    LogWithBLOBs selectByPrimaryKey(Integer id);
+  LogWithBLOBs selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(LogWithBLOBs record);
+  int updateByPrimaryKeySelective(LogWithBLOBs record);
 
-    int updateByPrimaryKeyWithBLOBs(LogWithBLOBs record);
+  int updateByPrimaryKeyWithBLOBs(LogWithBLOBs record);
 
-    int updateByPrimaryKey(Log record);
+  int updateByPrimaryKey(Log record);
 
-    // 自定义方法
-    List<LogWithBLOBs> findByUserId(
-        @Param("userId") Integer userId,
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  // 自定义方法
+  List<LogWithBLOBs> findByUserId(
+      @Param("userId") Integer userId,
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int countByUserId(Integer userId);
+  int countByUserId(Integer userId);
 
-    void deleteByUserId(Integer userId);
+  void deleteByUserId(Integer userId);
 
-    List<Map> findAllForAdmin(
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  List<Map> findAllForAdmin(
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int countAllForAdmin();
+  int countAllForAdmin();
 }

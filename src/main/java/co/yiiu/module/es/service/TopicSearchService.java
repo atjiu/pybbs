@@ -56,6 +56,7 @@ public class TopicSearchService {
 
   /**
    * 索引话题
+   *
    * @param topic
    * @param username
    */
@@ -72,6 +73,7 @@ public class TopicSearchService {
 
   /**
    * 根据id删除索引
+   *
    * @param id
    */
   public void deleteById(Integer id) {
@@ -80,6 +82,7 @@ public class TopicSearchService {
 
   /**
    * 查询索引
+   *
    * @param keyword
    * @param pageNo
    * @param pageSize
@@ -89,8 +92,8 @@ public class TopicSearchService {
     Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
     NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder()
         .withQuery(
-          QueryBuilders.boolQuery()
-            .must(QueryBuilders.multiMatchQuery(keyword, "title", "content"))
+            QueryBuilders.boolQuery()
+                .must(QueryBuilders.multiMatchQuery(keyword, "title", "content"))
         );
     SearchQuery query = queryBuilder.withPageable(pageable).build();
     return topicIndexRepository.search(query);

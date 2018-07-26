@@ -6,9 +6,6 @@ import co.yiiu.module.notification.pojo.Notification;
 import co.yiiu.module.notification.pojo.NotificationEnum;
 import co.yiiu.module.user.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

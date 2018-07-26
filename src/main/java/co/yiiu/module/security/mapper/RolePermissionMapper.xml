@@ -2,22 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.security.mapper.RolePermissionMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.security.pojo.RolePermission">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="permission_id" jdbcType="INTEGER" property="permissionId"/>
+    <result column="role_id" jdbcType="INTEGER" property="roleId"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, permission_id, role_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from role_permission
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from role_permission
-    where id = #{id,jdbcType=BIGINT}
+    DELETE FROM role_permission
+    WHERE id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.security.pojo.RolePermission">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -61,10 +61,10 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.security.pojo.RolePermission">
-    update role_permission
-    set permission_id = #{permissionId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
+    UPDATE role_permission
+    SET permission_id = #{permissionId,jdbcType=INTEGER},
+      role_id         = #{roleId,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=BIGINT}
   </update>
   <!--自定义方法-->
   <delete id="deleteRolePermission">
@@ -77,6 +77,8 @@
     </if>
   </delete>
   <select id="findByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from role_permission where role_id = #{roleId}
+    select
+    <include refid="Base_Column_List"/>
+    from role_permission where role_id = #{roleId}
   </select>
 </mapper>

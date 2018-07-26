@@ -47,6 +47,7 @@ public class TagAdminController extends BaseController {
 
   /**
    * 更新标签
+   *
    * @param id
    * @param intro
    * @param file
@@ -73,6 +74,7 @@ public class TagAdminController extends BaseController {
 
   /**
    * 删除标签，只能删除没有话题关联的标签
+   *
    * @param id
    * @return
    */

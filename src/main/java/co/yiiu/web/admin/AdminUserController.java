@@ -86,7 +86,7 @@ public class AdminUserController extends BaseController {
     AdminUser adminUser = adminUserService.findOne(id);
     ApiAssert.notNull(adminUser, "用户不存在");
     adminUser.setUsername(username);
-    if(!StringUtils.isEmpty(oldPassword) && !StringUtils.isEmpty(password)) {
+    if (!StringUtils.isEmpty(oldPassword) && !StringUtils.isEmpty(password)) {
       ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, adminUser.getPassword()), "旧密码不正确");
       adminUser.setPassword(new BCryptPasswordEncoder().encode(password));
     }

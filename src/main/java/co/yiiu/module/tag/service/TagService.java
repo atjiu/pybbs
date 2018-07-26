@@ -45,9 +45,9 @@ public class TagService {
 
   public List<Tag> save(String[] tags) {
     List<Tag> tagList = new ArrayList<>();
-    for(String t: tags) {
+    for (String t : tags) {
       Tag tag = this.findByName(t);
-      if(tag == null) {
+      if (tag == null) {
         tag = new Tag();
         tag.setInTime(new Date());
         tag.setName(t);

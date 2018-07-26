@@ -44,7 +44,7 @@ public class PermissionService {
       childMap1.put("id", permission.getId());
       childMap1.put("value", permission.getValue());
       childMap1.put("url", permission.getUrl());
-      if(permission.getPid() == 0) {
+      if (permission.getPid() == 0) {
         List<Map<String, Object>> childNodes = new ArrayList<>();
         List<Permission> childPermissions = permissionMapper.findByPid(permission.getId());
         childPermissions.forEach(childPermission -> {

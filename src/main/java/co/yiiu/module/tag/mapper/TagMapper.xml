@@ -2,34 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.tag.mapper.TagMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.tag.pojo.Tag">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="intro" jdbcType="VARCHAR" property="intro" />
-    <result column="logo" jdbcType="VARCHAR" property="logo" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="topic_count" jdbcType="INTEGER" property="topicCount" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime"/>
+    <result column="intro" jdbcType="VARCHAR" property="intro"/>
+    <result column="logo" jdbcType="VARCHAR" property="logo"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="topic_count" jdbcType="INTEGER" property="topicCount"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, in_time, intro, logo, name, topic_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from tag
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tag
-    where id = #{id,jdbcType=INTEGER}
+    DELETE FROM tag
+    WHERE id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.tag.pojo.Tag">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tag (in_time, intro, logo, 
-      name, topic_count)
-    values (#{inTime,jdbcType=TIMESTAMP}, #{intro,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{topicCount,jdbcType=INTEGER})
+    insert into tag (in_time, intro, logo,
+    name, topic_count)
+    values (#{inTime,jdbcType=TIMESTAMP}, #{intro,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR}, #{topicCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.tag.pojo.Tag">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -93,17 +93,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.tag.pojo.Tag">
-    update tag
-    set in_time = #{inTime,jdbcType=TIMESTAMP},
-      intro = #{intro,jdbcType=VARCHAR},
-      logo = #{logo,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    UPDATE tag
+    SET in_time   = #{inTime,jdbcType=TIMESTAMP},
+      intro       = #{intro,jdbcType=VARCHAR},
+      logo        = #{logo,jdbcType=VARCHAR},
+      name        = #{name,jdbcType=VARCHAR},
       topic_count = #{topicCount,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <!--自定义方法-->
   <select id="findAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from tag
+    select
+    <include refid="Base_Column_List"/>
+    from tag
     <if test="orderBy != null">
       order by ${orderBy}
     </if>
@@ -112,12 +114,17 @@
     </if>
   </select>
   <select id="count" resultType="java.lang.Integer">
-    select count(1) from tag
+    SELECT count(1)
+    FROM tag
   </select>
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from tag where name = #{name}
+    select
+    <include refid="Base_Column_List"/>
+    from tag where name = #{name}
   </select>
   <select id="findByTopicId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select t.* from tag t left join topic_tag tt on t.id = tt.tag_id where tt.topic_id = #{topicId}
+    SELECT t.*
+    FROM tag t LEFT JOIN topic_tag tt ON t.id = tt.tag_id
+    WHERE tt.topic_id = #{topicId}
   </select>
 </mapper>

@@ -46,7 +46,7 @@ public class UserService {
   private StringRedisTemplate stringRedisTemplate;
 
   public User createUser(String username, String password, String email, String avatar, String url, String bio) {
-    if(!StringUtils.isEmpty(email) && email.equals("null")) email = null;
+    if (!StringUtils.isEmpty(email) && email.equals("null")) email = null;
     User user = new User();
     user.setEmail(email);
     user.setUsername(username);

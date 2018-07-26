@@ -6,28 +6,28 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface TagMapper {
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(Tag record);
+  int insert(Tag record);
 
-    int insertSelective(Tag record);
+  int insertSelective(Tag record);
 
-    Tag selectByPrimaryKey(Integer id);
+  Tag selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Tag record);
+  int updateByPrimaryKeySelective(Tag record);
 
-    int updateByPrimaryKey(Tag record);
+  int updateByPrimaryKey(Tag record);
 
-    //自定义方法
-    List<Tag> findAll(
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  //自定义方法
+  List<Tag> findAll(
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int count();
+  int count();
 
-    Tag findByName(String name);
+  Tag findByName(String name);
 
-    List<Tag> findByTopicId(Integer topicId);
+  List<Tag> findByTopicId(Integer topicId);
 }

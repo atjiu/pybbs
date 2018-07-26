@@ -103,7 +103,7 @@ public class BaseEntity {
             element.text("");
             element.addClass("embed-responsive embed-responsive-16by9");
             element.append("<iframe class='embedded_video' src='https://www.youtube.com/embed/" + querys.get("v") + "' frameborder='0' allowfullscreen></iframe>");
-          } else if(href.contains("//v.youku.com/v_show/")) {
+          } else if (href.contains("//v.youku.com/v_show/")) {
             element.text("");
             URL aUrl = new URL(href);
             String _href = "https://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");

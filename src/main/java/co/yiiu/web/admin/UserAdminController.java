@@ -45,7 +45,7 @@ public class UserAdminController extends BaseController {
     User user = userService.findById(id);
     user.setUsername(username);
     // 如果密码字段存在，则修改
-    if(!StringUtils.isEmpty(password)) {
+    if (!StringUtils.isEmpty(password)) {
       user.setPassword(new BCryptPasswordEncoder().encode(password));
     }
     user.setReputation(reputation);

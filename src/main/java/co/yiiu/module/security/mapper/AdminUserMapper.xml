@@ -2,38 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.security.mapper.AdminUserMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.security.pojo.AdminUser">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="attempts" jdbcType="INTEGER" property="attempts" />
-    <result column="attempts_time" jdbcType="TIMESTAMP" property="attemptsTime" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="attempts" jdbcType="INTEGER" property="attempts"/>
+    <result column="attempts_time" jdbcType="TIMESTAMP" property="attemptsTime"/>
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+    <result column="token" jdbcType="VARCHAR" property="token"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, attempts, attempts_time, in_time, password, role_id, token, username
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from admin_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from admin_user
-    where id = #{id,jdbcType=INTEGER}
+    DELETE FROM admin_user
+    WHERE id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.security.pojo.AdminUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into admin_user (attempts, attempts_time, in_time, 
-      password, role_id, token, 
-      username)
-    values (#{attempts,jdbcType=INTEGER}, #{attemptsTime,jdbcType=TIMESTAMP}, #{inTime,jdbcType=TIMESTAMP}, 
-      #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR})
+    insert into admin_user (attempts, attempts_time, in_time,
+    password, role_id, token,
+    username)
+    values (#{attempts,jdbcType=INTEGER}, #{attemptsTime,jdbcType=TIMESTAMP}, #{inTime,jdbcType=TIMESTAMP},
+    #{password,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR},
+    #{username,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.security.pojo.AdminUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -115,19 +115,21 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.security.pojo.AdminUser">
-    update admin_user
-    set attempts = #{attempts,jdbcType=INTEGER},
+    UPDATE admin_user
+    SET attempts    = #{attempts,jdbcType=INTEGER},
       attempts_time = #{attemptsTime,jdbcType=TIMESTAMP},
-      in_time = #{inTime,jdbcType=TIMESTAMP},
-      password = #{password,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER},
-      token = #{token,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      in_time       = #{inTime,jdbcType=TIMESTAMP},
+      password      = #{password,jdbcType=VARCHAR},
+      role_id       = #{roleId,jdbcType=INTEGER},
+      token         = #{token,jdbcType=VARCHAR},
+      username      = #{username,jdbcType=VARCHAR}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <!--自定义方法-->
   <select id="findAdminUser" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from admin_user where 1 = 1
+    select
+    <include refid="Base_Column_List"/>
+    from admin_user where 1 = 1
     <if test="token != null">
       and token = #{token}
     </if>
@@ -136,7 +138,9 @@
     </if>
   </select>
   <select id="findAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from admin_user
+    select
+    <include refid="Base_Column_List"/>
+    from admin_user
     <if test="orderBy != null">
       order by ${orderBy}
     </if>
@@ -145,6 +149,7 @@
     </if>
   </select>
   <select id="count" resultType="java.lang.Integer">
-    select count(1) from admin_user
+    SELECT count(1)
+    FROM admin_user
   </select>
 </mapper>

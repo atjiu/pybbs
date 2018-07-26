@@ -14,7 +14,6 @@ import co.yiiu.module.log.pojo.LogTargetEnum;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.notification.pojo.NotificationEnum;
 import co.yiiu.module.notification.service.NotificationService;
-import co.yiiu.module.topic.pojo.Topic;
 import co.yiiu.module.topic.pojo.TopicWithBLOBs;
 import co.yiiu.module.topic.pojo.VoteAction;
 import co.yiiu.module.topic.service.TopicService;
@@ -26,9 +25,6 @@ import com.google.common.collect.Maps;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -138,12 +134,12 @@ public class CommentService {
     User commentUser = userService.findById(comment.getUserId());
     if (commentId != null) {
       Comment replyComment = this.findById(commentId);
-      if(!userId.equals(replyComment.getUserId())) {
+      if (!userId.equals(replyComment.getUserId())) {
         notificationService.sendNotification(userId, replyComment.getUserId(), NotificationEnum.REPLY, topic.getId(), content);
         // 邮件
         // 被回复的用户
         User _commentUser = userService.findById(replyComment.getUserId());
-        if(_commentUser.getReplyEmail() && !StringUtils.isEmpty(_commentUser.getEmail())) {
+        if (_commentUser.getReplyEmail() && !StringUtils.isEmpty(_commentUser.getEmail())) {
           Map params = Maps.newHashMap();
           params.put("username", commentUser.getUsername());
           params.put("topic", topic);
@@ -159,7 +155,7 @@ public class CommentService {
       notificationService.sendNotification(userId, topic.getUserId(), NotificationEnum.COMMENT, topic.getId(), content);
       // 邮件
       User topicUser = userService.findById(topic.getUserId());
-      if(topicUser.getCommentEmail() && !StringUtils.isEmpty(topicUser.getEmail())) {
+      if (topicUser.getCommentEmail() && !StringUtils.isEmpty(topicUser.getEmail())) {
         Map params = Maps.newHashMap();
         params.put("username", commentUser.getUsername());
         params.put("topic", topic);

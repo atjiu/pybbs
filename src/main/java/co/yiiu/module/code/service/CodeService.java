@@ -29,7 +29,11 @@ public class CodeService {
   }
 
   public void save(Code code) {
-    codeMapper.insert(code);
+    codeMapper.insertSelective(code);
+  }
+
+  public void update(Code code) {
+    codeMapper.updateByPrimaryKeySelective(code);
   }
 
   public String genEmailCode(String email) {
@@ -55,7 +59,7 @@ public class CodeService {
     if (DateUtil.isExpire(code1.getExpireTime())) return 2; // 过期了
     if (code1.getIsUsed()) return 3; // 验证码已经被使用了
     code1.setIsUsed(true);
-    save(code1);
+    update(code1);
     return 0; // 正常
   }
 }

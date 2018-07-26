@@ -25,9 +25,6 @@ import com.google.common.collect.Lists;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -88,7 +85,7 @@ public class TopicService {
     logService.save(LogEventEnum.CREATE_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         null, JsonUtil.objectToJson(topic), topic);
     // 索引话题
-    if(siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
+    if (siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 
@@ -102,7 +99,7 @@ public class TopicService {
     logService.save(LogEventEnum.EDIT_TOPIC, user.getId(), LogTargetEnum.TOPIC.name(), topic.getId(),
         JsonUtil.objectToJson(oldTopic), JsonUtil.objectToJson(topic), topic);
     // 索引话题
-    if(siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
+    if (siteConfig.isSearch()) topicSearchService.indexed(topic, user.getUsername());
     return topic;
   }
 

@@ -2,49 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.module.user.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="co.yiiu.module.user.pojo.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="bio" jdbcType="VARCHAR" property="bio" />
-    <result column="block" jdbcType="BIT" property="block" />
-    <result column="comment_email" jdbcType="BIT" property="commentEmail" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="reply_email" jdbcType="BIT" property="replyEmail" />
-    <result column="reputation" jdbcType="INTEGER" property="reputation" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+    <result column="bio" jdbcType="VARCHAR" property="bio"/>
+    <result column="block" jdbcType="BIT" property="block"/>
+    <result column="comment_email" jdbcType="BIT" property="commentEmail"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="reply_email" jdbcType="BIT" property="replyEmail"/>
+    <result column="reputation" jdbcType="INTEGER" property="reputation"/>
+    <result column="token" jdbcType="VARCHAR" property="token"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, avatar, bio, block, comment_email, email, in_time, mobile, password, reply_email, 
+    id, avatar, bio, block, comment_email, email, in_time, mobile, password, reply_email,
     reputation, token, url, username
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
+    DELETE FROM user
+    WHERE id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="co.yiiu.module.user.pojo.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (avatar, bio, block, 
-      comment_email, email, in_time, 
-      mobile, password, reply_email, 
-      reputation, token, url, 
-      username)
-    values (#{avatar,jdbcType=VARCHAR}, #{bio,jdbcType=VARCHAR}, #{block,jdbcType=BIT}, 
-      #{commentEmail,jdbcType=BIT}, #{email,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, 
-      #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{replyEmail,jdbcType=BIT}, 
-      #{reputation,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR})
+    insert into user (avatar, bio, block,
+    comment_email, email, in_time,
+    mobile, password, reply_email,
+    reputation, token, url,
+    username)
+    values (#{avatar,jdbcType=VARCHAR}, #{bio,jdbcType=VARCHAR}, #{block,jdbcType=BIT},
+    #{commentEmail,jdbcType=BIT}, #{email,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP},
+    #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{replyEmail,jdbcType=BIT},
+    #{reputation,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+    #{username,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="co.yiiu.module.user.pojo.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -180,25 +180,27 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="co.yiiu.module.user.pojo.User">
-    update user
-    set avatar = #{avatar,jdbcType=VARCHAR},
-      bio = #{bio,jdbcType=VARCHAR},
-      block = #{block,jdbcType=BIT},
+    UPDATE user
+    SET avatar      = #{avatar,jdbcType=VARCHAR},
+      bio           = #{bio,jdbcType=VARCHAR},
+      block         = #{block,jdbcType=BIT},
       comment_email = #{commentEmail,jdbcType=BIT},
-      email = #{email,jdbcType=VARCHAR},
-      in_time = #{inTime,jdbcType=TIMESTAMP},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      reply_email = #{replyEmail,jdbcType=BIT},
-      reputation = #{reputation,jdbcType=INTEGER},
-      token = #{token,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      email         = #{email,jdbcType=VARCHAR},
+      in_time       = #{inTime,jdbcType=TIMESTAMP},
+      mobile        = #{mobile,jdbcType=VARCHAR},
+      password      = #{password,jdbcType=VARCHAR},
+      reply_email   = #{replyEmail,jdbcType=BIT},
+      reputation    = #{reputation,jdbcType=INTEGER},
+      token         = #{token,jdbcType=VARCHAR},
+      url           = #{url,jdbcType=VARCHAR},
+      username      = #{username,jdbcType=VARCHAR}
+    WHERE id = #{id,jdbcType=INTEGER}
   </update>
   <!--自定义方法-->
   <select id="findAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from user
+    select
+    <include refid="Base_Column_List"/>
+    from user
     <if test="orderBy != null">
       order by ${orderBy}
     </if>
@@ -207,10 +209,13 @@
     </if>
   </select>
   <select id="count" resultType="java.lang.Integer">
-    select count(1) from user
+    SELECT count(1)
+    FROM user
   </select>
   <select id="findUser" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from user where 1 = 1
+    select
+    <include refid="Base_Column_List"/>
+    from user where 1 = 1
     <if test="token != null">
       and token = #{token}
     </if>

@@ -8,48 +8,48 @@ import java.util.List;
 import java.util.Map;
 
 public interface TopicMapper {
-    int deleteByPrimaryKey(Integer id);
+  int deleteByPrimaryKey(Integer id);
 
-    int insert(TopicWithBLOBs record);
+  int insert(TopicWithBLOBs record);
 
-    int insertSelective(TopicWithBLOBs record);
+  int insertSelective(TopicWithBLOBs record);
 
-    TopicWithBLOBs selectByPrimaryKey(Integer id);
+  TopicWithBLOBs selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(TopicWithBLOBs record);
+  int updateByPrimaryKeySelective(TopicWithBLOBs record);
 
-    int updateByPrimaryKeyWithBLOBs(TopicWithBLOBs record);
+  int updateByPrimaryKeyWithBLOBs(TopicWithBLOBs record);
 
-    int updateByPrimaryKey(Topic record);
+  int updateByPrimaryKey(Topic record);
 
-    //自定义方法
-    List<Map> findTopic(
-        @Param("userId") Integer userId,
-        @Param("good") Boolean good,
-        @Param("commentCount") Integer commentCount,
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  //自定义方法
+  List<Map> findTopic(
+      @Param("userId") Integer userId,
+      @Param("good") Boolean good,
+      @Param("commentCount") Integer commentCount,
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int countTopic(
-        @Param("userId") Integer userId,
-        @Param("good") Boolean good,
-        @Param("commentCount") Integer commentCount
-    );
+  int countTopic(
+      @Param("userId") Integer userId,
+      @Param("good") Boolean good,
+      @Param("commentCount") Integer commentCount
+  );
 
-    void deleteByUserId(Integer userId);
+  void deleteByUserId(Integer userId);
 
-    Topic findByTitle(String title);
+  Topic findByTitle(String title);
 
-    List<Map> findTopicsByTagId(
-        @Param("tagId") Integer tagId,
-        @Param("pageNo") Integer pageNo,
-        @Param("pageSize") Integer pageSize,
-        @Param("orderBy") String orderBy
-    );
+  List<Map> findTopicsByTagId(
+      @Param("tagId") Integer tagId,
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize,
+      @Param("orderBy") String orderBy
+  );
 
-    int countTopicsByTagId(Integer tagId);
+  int countTopicsByTagId(Integer tagId);
 
-    List<TopicWithBLOBs> findAll();
+  List<TopicWithBLOBs> findAll();
 }

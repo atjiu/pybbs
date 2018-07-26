@@ -8,8 +8,8 @@ import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.EnumUtil;
 import co.yiiu.core.util.StrUtil;
-import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.core.util.encrypt.Base64Helper;
+import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.module.code.pojo.CodeEnum;
 import co.yiiu.module.code.service.CodeService;
 import co.yiiu.module.es.pojo.TopicIndex;
@@ -52,13 +52,14 @@ public class IndexApiController extends BaseController {
 
   /**
    * 首页接口
+   *
    * @param pageNo 页数
-   * @param tab 类别，只能为空或者填: NEWEST, NOANSWER, GOOD
+   * @param tab    类别，只能为空或者填: NEWEST, NOANSWER, GOOD
    * @return Page对象，里面有分页信息
    */
   @GetMapping("/")
   public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "") String tab) {
-    if(!StringUtils.isEmpty(tab)) {
+    if (!StringUtils.isEmpty(tab)) {
       ApiAssert.isTrue(EnumUtil.isDefined(TopicTab.values(), tab), "参数错误");
     }
     Page<Map> page = topicService.page(pageNo, siteConfig.getPageSize(), tab);
@@ -67,6 +68,7 @@ public class IndexApiController extends BaseController {
 
   /**
    * 搜索
+   *
    * @param keyword 关键字
    * @param pageNo
    * @return
@@ -79,6 +81,7 @@ public class IndexApiController extends BaseController {
 
   /**
    * 标签页
+   *
    * @param pageNo 页数
    * @return Page对象，里面有分页信息
    */
@@ -89,6 +92,7 @@ public class IndexApiController extends BaseController {
 
   /**
    * 声望前100名用户
+   *
    * @return Page对象，里面有分页信息
    */
   @GetMapping("/top100")
@@ -98,6 +102,7 @@ public class IndexApiController extends BaseController {
 
   /**
    * 用户登录
+   *
    * @param username 用户名
    * @param password 密码
    * @param response
@@ -132,11 +137,11 @@ public class IndexApiController extends BaseController {
   /**
    * 注册验证
    *
-   * @param username 用户名
-   * @param password 密码
-   * @param email 邮箱
+   * @param username  用户名
+   * @param password  密码
+   * @param email     邮箱
    * @param emailCode 邮箱验证码
-   * @param code 图形验证码
+   * @param code      图形验证码
    * @param session
    * @return
    */

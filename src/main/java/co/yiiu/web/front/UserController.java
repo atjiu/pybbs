@@ -4,7 +4,6 @@ import co.yiiu.config.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.encrypt.Base64Helper;
-import co.yiiu.core.util.identicon.Identicon;
 import co.yiiu.module.log.service.LogService;
 import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
@@ -137,6 +136,7 @@ public class UserController extends BaseController {
 
   /**
    * 修改密码
+   *
    * @return
    */
   @GetMapping("/setting/changePassword")

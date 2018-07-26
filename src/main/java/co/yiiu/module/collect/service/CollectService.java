@@ -12,9 +12,6 @@ import co.yiiu.module.notification.service.NotificationService;
 import co.yiiu.module.topic.pojo.Topic;
 import co.yiiu.module.topic.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +66,7 @@ public class CollectService {
     collect.setUserId(userId);
     this.save(collect);
     // 通知
-    if(!topic.getUserId().equals(userId)) {
+    if (!topic.getUserId().equals(userId)) {
       notificationService.sendNotification(userId, topic.getUserId(), NotificationEnum.COLLECT, topic.getId(), null);
     }
     // 日志
@@ -88,6 +85,7 @@ public class CollectService {
   /**
    * 用户被删除了，删除对应的所有收藏记录
    * 不做日志，原因 {@link TopicService#deleteByUserId(Integer)}
+   *
    * @param userId
    */
   public void deleteByUserId(Integer userId) {
