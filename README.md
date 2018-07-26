@@ -6,7 +6,8 @@
 
 - JDK8
 - Spring-Boot
-- Spring-JPA
+- <del>Spring-JPA</del>
+- MyBatis
 - Spring-Security
 - Freemarker
 - MySQL
@@ -21,8 +22,10 @@
 - 本地登录，注册, 第三方登录（Github)
 - 登录时有验证码，尝试登录次数的限制
 - 使用 `Spring-Boot` 开发
-- 使用的 `Spring-JPA` 操作数据存储
-- 使用 HQL 编写sql，可以轻松切换成 Hibernate 支持的数据库
+- <del>使用的 `Spring-JPA` 操作数据存储</del>
+- 为了性能换用MyBatis操作数据库
+- <del>使用 HQL 编写sql，可以轻松切换成 Hibernate 支持的数据库</del>
+- 目前sql语句只支持MySQL，如果要切换数据库，需要手动修改代码 
 - Redis做缓存支持分布式
 - 一键切换上传方式，可选上传本地和上传到七牛
 - Elasticsearch做分词搜索
