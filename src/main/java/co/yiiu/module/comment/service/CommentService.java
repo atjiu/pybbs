@@ -128,7 +128,7 @@ public class CommentService {
     //评论+1
     topic.setCommentCount(topic.getCommentCount() + 1);
     topic.setLastCommentTime(new Date());
-    topicService.save(topic);
+    topicService.update(topic);
 
     // 通知
     User commentUser = userService.findById(comment.getUserId());
@@ -261,46 +261,45 @@ public class CommentService {
    */
   public List<Map> findCommentWithTopic(Integer topicId) {
     List<Map> comments = commentMapper.findByTopicId(topicId);
-    return comments;
-//    return sortLayer(comments, new ArrayList<>(), 1); // 初始深度为1
+    return sortLayer(comments, new ArrayList<>(), 1); // 初始深度为1
   }
 
   public List<CommentWithBLOBs> findByTopicId(Integer topicId) {
     return commentMapper.findCommentByTopicId(topicId);
   }
 
-//  private List<Map> sortLayer(List<Map> comments, List<Map> newComments, Integer layer) {
-//    if (comments == null || comments.size() == 0) {
-//      return newComments;
-//    }
-//    if (newComments.size() == 0) {
-//      comments.forEach(map -> {
-//        if (((CommentWithBLOBs) map.get("comment")).getCommentId() == null) {
-//          ((CommentWithBLOBs) map.get("comment")).setLayer(layer);
-//          newComments.add(map);
-//        }
-//      });
-//      comments.removeAll(newComments);
-//      return sortLayer(comments, newComments, layer + 1);
-//    } else {
-//      for (int index = 0; index < newComments.size(); index++) {
-//        Map newComment = newComments.get(index);
-//
-//        List<Map> findComments = new ArrayList<>();
-//        comments.forEach(map -> {
-//          if (Objects.equals(((Comment) map.get("comment")).getCommentId(), ((Comment) newComment.get("comment")).getId())) {
-//            ((Comment) map.get("comment")).setLayer(layer);
-//            findComments.add(map);
-//          }
-//        });
-//        comments.removeAll(findComments);
-//
-//        newComments.addAll(newComments.indexOf(newComment) + 1, findComments);
-//        index = newComments.indexOf(newComment) + findComments.size();
-//      }
-//      return sortLayer(comments, newComments, layer + 1);
-//    }
-//  }
+  private List<Map> sortLayer(List<Map> comments, List<Map> newComments, Integer layer) {
+    if (comments == null || comments.size() == 0) {
+      return newComments;
+    }
+    if (newComments.size() == 0) {
+      comments.forEach(map -> {
+        if (map.get("comment_id") == null) {
+          map.put("layer", layer);
+          newComments.add(map);
+        }
+      });
+      comments.removeAll(newComments);
+      return sortLayer(comments, newComments, layer + 1);
+    } else {
+      for (int index = 0; index < newComments.size(); index++) {
+        Map newComment = newComments.get(index);
+
+        List<Map> findComments = new ArrayList<>();
+        comments.forEach(map -> {
+          if (Objects.equals(map.get("comment_id"), newComment.get("id"))) {
+            map.put("layer", layer);
+            findComments.add(map);
+          }
+        });
+        comments.removeAll(findComments);
+
+        newComments.addAll(newComments.indexOf(newComment) + 1, findComments);
+        index = newComments.indexOf(newComment) + findComments.size();
+      }
+      return sortLayer(comments, newComments, layer + 1);
+    }
+  }
 
   /**
    * 查询用户的评论列表

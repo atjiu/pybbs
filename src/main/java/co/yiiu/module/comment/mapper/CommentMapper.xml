@@ -168,7 +168,7 @@
   </update>
   <!--自定义方法-->
   <select id="findByTopicId" parameterType="java.lang.Integer" resultType="map">
-    SELECT c.*
+    SELECT c.*, u.username, u.avatar
     FROM comment c LEFT JOIN topic t ON c.topic_id = t.id
       LEFT JOIN user u ON c.user_id = u.id
     WHERE c.topic_id = #{topicId}
