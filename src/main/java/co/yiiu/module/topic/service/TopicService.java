@@ -104,7 +104,7 @@ public class TopicService {
   }
 
   public TopicWithBLOBs save(TopicWithBLOBs topic) {
-    int i = topicMapper.insertSelective(topic);
+    topicMapper.insertSelective(topic);
     return topic;
   }
 
@@ -255,13 +255,13 @@ public class TopicService {
     }
     topic.setUpIds(StringUtils.collectionToCommaDelimitedString(upIds));
     topic.setDownIds(StringUtils.collectionToCommaDelimitedString(downIds));
-    topic = save(topic);
+    update(topic);
     map.put("up", topic.getUp());
     map.put("down", topic.getDown());
     map.put("topicId", topic.getId());
     map.put("vote", topic.getUp() - topic.getDown());
     // 更新用户声望
-    userService.save(topicUser);
+    userService.update(topicUser);
     // 计算weight
     this.weight(topic, null);
     // 发送通知
@@ -295,7 +295,7 @@ public class TopicService {
     long Qupdated = topic.getLastCommentTime() == null ? 0 : topic.getLastCommentTime().getTime();
     double weightScore = ((Qview * 4) + (Qanswer * Qscore) / 5 + Ascore.get()) / Math.pow(((Qage + 1) - (Qage - Qupdated) / 2), 1.5);
     topic.setWeight(weightScore);
-    save(topic);
+    update(topic);
   }
 
 }

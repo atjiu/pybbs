@@ -242,12 +242,14 @@ public class CommentService {
     map.put("vote", comment.getUp() - comment.getDown());
     comment.setUpIds(StringUtils.collectionToCommaDelimitedString(upIds));
     comment.setDownIds(StringUtils.collectionToCommaDelimitedString(downIds));
-    save(comment);
+    update(comment);
     // 通知
     notificationService.sendNotification(userId, commentUser.getId(), notificationEnum, comment.getTopicId(), null);
     // 记录日志
     TopicWithBLOBs topic = topicService.findById(comment.getTopicId());
     logService.save(logEventEnum, userId, LogTargetEnum.COMMENT.name(), comment.getId(), null, null, topic);
+    // 更新用户声望
+    userService.update(commentUser);
     // 计算weight
     topicService.weight(topic, null);
     return map;
