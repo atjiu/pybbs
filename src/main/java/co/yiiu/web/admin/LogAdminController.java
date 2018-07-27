@@ -23,8 +23,8 @@ public class LogAdminController extends BaseController {
   private SiteConfig siteConfig;
 
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer p, Model model) {
-    model.addAttribute("page", logService.findAllForAdmin(p, siteConfig.getPageSize()));
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
+    model.addAttribute("page", logService.findAllForAdmin(pageNo, siteConfig.getPageSize()));
     return "admin/log/list";
   }
 }

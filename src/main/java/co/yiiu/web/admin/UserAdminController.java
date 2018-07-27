@@ -26,8 +26,8 @@ public class UserAdminController extends BaseController {
   private SiteConfig siteConfig;
 
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer p, Model model) {
-    model.addAttribute("page", userService.pageUser(p, siteConfig.getPageSize()));
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
+    model.addAttribute("page", userService.pageUser(pageNo, siteConfig.getPageSize()));
     return "admin/user/list";
   }
 

@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -39,13 +36,12 @@ public class CommentAdminController extends BaseController {
   /**
    * 评论列表
    *
-   * @param p
    * @param model
    * @return
    */
   @GetMapping("/list")
-  public String list(Integer p, Model model) {
-    Page<Map> page = commentService.findAllForAdmin(p == null ? 1 : p, siteConfig.getPageSize());
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
+    Page<Map> page = commentService.findAllForAdmin(pageNo, siteConfig.getPageSize());
     model.addAttribute("page", page);
     return "admin/comment/list";
   }
