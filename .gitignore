@@ -23,5 +23,3 @@ out/
 .classpath
 docs/_site
 indexes/
-ehcache/
-yiiu.sqlite
