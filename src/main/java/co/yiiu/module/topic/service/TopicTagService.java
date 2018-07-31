@@ -26,13 +26,11 @@ public class TopicTagService {
   public void deleteByTopicId(Integer topicId) {
     // 先把标签的话题数都 - 1
     List<TopicTag> topicTags = topicTagMapper.findByTopicId(topicId);
-    List<Tag> tags = new ArrayList<>();
     topicTags.forEach(topicTag -> {
       Tag tag = tagService.findById(topicTag.getTagId());
       tag.setTopicCount(tag.getTopicCount() - 1);
-      tags.add(tag);
+      tagService.update(tag);
     });
-    tagService.save(tags);
     // 操作完了，再删除中间表里的数据
     topicTagMapper.deleteByTopicId(topicId);
   }

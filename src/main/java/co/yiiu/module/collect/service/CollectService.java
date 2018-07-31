@@ -38,7 +38,7 @@ public class CollectService {
   private NotificationService notificationService;
 
   public Page<Map> findByUserId(Integer pageNo, Integer pageSize, Integer userId) {
-    List<Map> list = collectMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<Map> list = collectMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "t.id desc");
     int count = collectMapper.countByUserId(userId);
     return new Page<>(pageNo, pageSize, count, list);
   }

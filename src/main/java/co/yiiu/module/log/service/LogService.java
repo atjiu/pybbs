@@ -34,7 +34,7 @@ public class LogService {
   }
 
   public Page<LogWithBLOBs> findByUserId(Integer pageNo, Integer pageSize, Integer userId) {
-    List<LogWithBLOBs> list = logMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<LogWithBLOBs> list = logMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "id desc");
     int count = logMapper.countByUserId(userId);
     return new Page<>(pageNo, pageSize, count, list);
   }
@@ -44,7 +44,7 @@ public class LogService {
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    List<Map> list = logMapper.findAllForAdmin((pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<Map> list = logMapper.findAllForAdmin((pageNo - 1) * pageSize, pageSize, "l.id desc");
     int count = logMapper.countAllForAdmin();
     return new Page<>(pageNo, pageSize, count, list);
   }

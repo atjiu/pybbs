@@ -23,7 +23,7 @@ public class AdminUserService {
   private StringRedisTemplate stringRedisTemplate;
 
   public Page<AdminUser> page(Integer pageNo, Integer pageSize) {
-    List<AdminUser> list = adminUserMapper.findAll((pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<AdminUser> list = adminUserMapper.findAll((pageNo - 1) * pageSize, pageSize, "id desc");
     int count = adminUserMapper.count();
     return new Page<>(pageNo, pageSize, count, list);
   }

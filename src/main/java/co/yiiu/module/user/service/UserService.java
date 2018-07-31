@@ -67,14 +67,14 @@ public class UserService {
   /**
    * search user by log desc
    *
-   * @param p
-   * @param size
+   * @param pageNo
+   * @param pageSize
    * @return
    */
-  public Page<User> findByReputation(int p, int size) {
-    List<User> list = userMapper.findAll((p - 1) * size, size, "reputation desc");
+  public Page<User> findByReputation(Integer pageNo, Integer pageSize) {
+    List<User> list = userMapper.findAll((pageNo - 1) * pageSize, pageSize, "reputation desc");
     int count = userMapper.count();
-    return new Page<>(p, size, count, list);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   public User findById(int id) {
@@ -111,14 +111,14 @@ public class UserService {
   /**
    * 分页查询用户列表
    *
-   * @param p
-   * @param size
+   * @param pageNo
+   * @param pageSize
    * @return
    */
-  public Page<User> pageUser(int p, int size) {
-    List<User> list = userMapper.findAll((p - 1) * size, size, "in_time desc");
+  public Page<User> pageUser(Integer pageNo, Integer pageSize) {
+    List<User> list = userMapper.findAll((pageNo - 1) * pageSize, pageSize, "id desc");
     int count = userMapper.count();
-    return new Page<>(p, size, count, list);
+    return new Page<>(pageNo, pageSize, count, list);
   }
 
   /**

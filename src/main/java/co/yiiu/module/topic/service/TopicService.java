@@ -131,7 +131,7 @@ public class TopicService {
       //删除话题
       topicMapper.deleteByPrimaryKey(id);
       //删除索引
-      topicSearchService.deleteById(id);
+      if(siteConfig.isSearch()) topicSearchService.deleteById(id);
     }
   }
 
@@ -148,26 +148,26 @@ public class TopicService {
 
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
     if (tab.equalsIgnoreCase("good")) {
-      List<Map> list = topicMapper.findTopic(null, true, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      List<Map> list = topicMapper.findTopic(null, true, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
       int count = topicMapper.countTopic(null, true, null);
       return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("newest")) {
-      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.in_time desc, t.weight desc");
+      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc, t.weight desc");
       int count = topicMapper.countTopic(null, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("noanswer")) {
-      List<Map> list = topicMapper.findTopic(null, null, 0, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      List<Map> list = topicMapper.findTopic(null, null, 0, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
       int count = topicMapper.countTopic(null, null, 0);
       return new Page<>(pageNo, pageSize, count, list);
     } else {
-      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.in_time desc");
+      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
       int count = topicMapper.countTopic(null, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     }
   }
 
   public Page<Map> pageByTagId(Integer pageNo, Integer pageSize, Integer tagId) {
-    List<Map> list = topicMapper.findTopicsByTagId(tagId, (pageNo - 1) * pageSize, pageSize, "t.weight desc, t.in_time desc");
+    List<Map> list = topicMapper.findTopicsByTagId(tagId, (pageNo - 1) * pageSize, pageSize, "t.weight desc, t.id desc");
     int count = topicMapper.countTopicsByTagId(tagId);
     return new Page<>(pageNo, pageSize, count, list);
   }
@@ -178,7 +178,7 @@ public class TopicService {
    * @return
    */
   public Page<Map> findByUser(Integer pageNo, Integer pageSize, Integer userId) {
-    List<Map> list = topicMapper.findTopic(userId, null, null, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<Map> list = topicMapper.findTopic(userId, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc");
     int count = topicMapper.countTopic(userId, null, null);
     return new Page<>(pageNo, pageSize, count, list);
   }
@@ -272,7 +272,7 @@ public class TopicService {
   }
 
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "top desc, weight desc, in_time desc");
+    List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
     int count = topicMapper.countTopic(null, null, null);
     return new Page<>(pageNo, pageSize, count, list);
   }

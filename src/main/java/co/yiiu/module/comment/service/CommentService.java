@@ -309,14 +309,14 @@ public class CommentService {
    * @return
    */
   public Page<Map> findByUser(Integer pageNo, Integer pageSize, Integer userId) {
-    List<Map> list = commentMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<Map> list = commentMapper.findByUserId(userId, (pageNo - 1) * pageSize, pageSize, "c.id desc");
     int count = commentMapper.countByUserId(userId);
     return new Page<>(pageNo, pageSize, count, list);
   }
 
   // 后台评论列表
   public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    List<Map> list = commentMapper.findAllForAdmin((pageNo - 1) * pageSize, pageSize, "in_time desc");
+    List<Map> list = commentMapper.findAllForAdmin((pageNo - 1) * pageSize, pageSize, "c.id desc");
     int count = commentMapper.countAllForAdmin();
     return new Page<>(pageNo, pageSize, count, list);
   }

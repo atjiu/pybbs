@@ -63,7 +63,7 @@ public class NotificationService {
    * @return
    */
   public Page<Map> findByTargetUserAndIsRead(Integer pageNo, Integer pageSize, User targetUser, Boolean isRead) {
-    List<Map> list = notificationMapper.findByTargetUserId(targetUser.getId(), isRead, (pageNo - 1) * pageSize, pageSize, "is_read asc, in_time desc");
+    List<Map> list = notificationMapper.findByTargetUserId(targetUser.getId(), isRead, (pageNo - 1) * pageSize, pageSize, "n.is_read asc, n.id desc");
     int count = notificationMapper.countByTargetUserId(targetUser.getId(), isRead);
     return new Page<>(pageNo, pageSize, count, list);
   }
