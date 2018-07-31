@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private MyCustomAuthenticationFilter myCustomAuthenticationFilter;
   @Autowired
   private PersistentTokenService persistentTokenService;
+  @Autowired
+  private SiteConfig siteConfig;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
         .logoutSuccessUrl("/adminlogin")
-        .deleteCookies("JSESSIONID", "remember-me");
+        .deleteCookies("JSESSIONID", siteConfig.getCookie().getAdminUserName());
 
     http.addFilterBefore(myCustomAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     http.addFilterAfter(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
@@ -80,8 +82,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices() {
-    PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices("remember-me"
-        , myUserDetailService, persistentTokenService);
+    PersistentTokenBasedRememberMeServices services = new PersistentTokenBasedRememberMeServices(
+        "pybbs",
+        myUserDetailService,
+        persistentTokenService
+    );
+    services.setCookieName(siteConfig.getCookie().getAdminUserName());
     services.setAlwaysRemember(true);
     return services;
   }

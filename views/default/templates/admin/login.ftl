@@ -33,6 +33,9 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">${site.name!} 管理平台登录</p>
+    <#if SPRING_SECURITY_LAST_EXCEPTION??>
+      <div class="text-red">${(SPRING_SECURITY_LAST_EXCEPTION.message)!}</div>
+    </#if>
     <form id="form" action="/adminlogin" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
@@ -52,9 +55,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <#if SPRING_SECURITY_LAST_EXCEPTION??>
-            <div class="text-red">${(SPRING_SECURITY_LAST_EXCEPTION.message)!}</div>
-          </#if>
+          <input type="checkbox" name="remember-me" id="remember-me" checked> <label for="remember-me">记住我</label>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
