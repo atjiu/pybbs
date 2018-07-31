@@ -51,7 +51,7 @@ public class TopicApiController extends BaseController {
 
     // 浏览量+1
     topic.setView(topic.getView() + 1);
-    topicService.save(topic);// 更新话题数据
+    topicService.update(topic);// 更新话题数据
     map.put("topic", topic);
     // 查询是否收藏过
     User user = baseEntity.getUser();

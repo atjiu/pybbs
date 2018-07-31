@@ -84,7 +84,7 @@ public class CommentService {
     if (comment != null) {
       TopicWithBLOBs topic = topicService.findById(comment.getTopicId());
       topic.setCommentCount(topic.getCommentCount() - 1);
-      topicService.save(topic);
+      topicService.update(topic);
       // 日志
       logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(), JsonUtil.objectToJson(comment), null, topic);
       commentMapper.deleteByPrimaryKey(id);

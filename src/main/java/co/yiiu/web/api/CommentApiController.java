@@ -79,7 +79,7 @@ public class CommentApiController extends BaseController {
     CommentWithBLOBs comment = commentService.findById(id);
     CommentWithBLOBs oldComment = comment;
     comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
-    commentService.save(comment);
+    commentService.update(comment);
     TopicWithBLOBs topic = topicService.findById(comment.getTopicId());
     comment = commentService.update(topic, oldComment, comment, user.getId());
     return Result.success(comment);
