@@ -50,6 +50,7 @@ public class FileUtil {
    * @throws IOException
    */
   public Attachment uploadFile(MultipartFile file, FileType fileType, String username) throws IOException {
+    if (file.isEmpty()) return null;
     Map<String, Object> map = getFileSize(file);
     String suffix = (String) map.get("suffix");
     String fileName = UUID.randomUUID().toString() + suffix;
@@ -82,6 +83,7 @@ public class FileUtil {
    * @throws IOException
    */
   public Attachment uploadFileToQiniu(MultipartFile file, FileType fileType) throws IOException {
+    if (file.isEmpty()) return null;
     Map<String, Object> map = getFileSize(file);
     String suffix = (String) map.get("suffix");
     String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
