@@ -4,13 +4,11 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">搜索结果</div>
-        <div class="panel-body">
         <#include "components/search_result.ftl"/>
         <@searchresult topics=page.content/>
         <#include "./components/paginate.ftl"/>
         <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/search" urlParas="&keyword=${keyword!}" showdivide="no"/>
       </div>
-    </div>
   </div>
 </div>
 </@html>
