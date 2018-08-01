@@ -72,6 +72,11 @@
     <include refid="Base_Column_List"/>
     from topic_tag where topic_id = #{topicId}
   </select>
+  <select id="countByTagId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select
+    count(id)
+    from topic_tag where tag_id = #{tagId}
+  </select>
   <delete id="deleteByTopicId" parameterType="java.lang.Integer">
     DELETE FROM topic_tag
     WHERE topic_id = #{topicId}

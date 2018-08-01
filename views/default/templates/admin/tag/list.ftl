@@ -15,6 +15,7 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <h3 class="box-title">标签列表</h3>
+        <a href="javascript:if(confirm('如果标签数比较多，这个操作会很耗费时间，确定继续吗？')) location.href='/admin/tag/async'" class="btn btn-xs btn-danger pull-right">同步话题数</a>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -34,7 +35,7 @@
             <tr>
               <td>${tag.id}</td>
               <td><img src="${tag.logo!}" width="30" alt=""></td>
-              <td>${tag.name!}</td>
+              <td><a href="/topic/tag/${tag.name!}" target="_blank">${tag.name!}</a></td>
               <td>${tag.inTime?datetime}</td>
               <td>${tag.topicCount!0}</td>
               <td>

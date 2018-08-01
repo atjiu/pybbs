@@ -20,5 +20,7 @@ public interface TopicTagMapper {
   //自定义方法
   List<TopicTag> findByTopicId(Integer topicId);
 
+  int countByTagId(Integer tagId);
+
   void deleteByTopicId(Integer topicId);
 }

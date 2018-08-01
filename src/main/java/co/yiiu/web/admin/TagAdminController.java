@@ -87,4 +87,10 @@ public class TagAdminController extends BaseController {
     tagService.deleteById(id);
     return Result.success();
   }
+
+  @GetMapping("/async")
+  public String async() {
+    tagService.async();
+    return redirect("/admin/tag/list");
+  }
 }

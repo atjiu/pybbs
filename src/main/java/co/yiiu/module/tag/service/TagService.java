@@ -3,6 +3,8 @@ package co.yiiu.module.tag.service;
 import co.yiiu.core.bean.Page;
 import co.yiiu.module.tag.mapper.TagMapper;
 import co.yiiu.module.tag.pojo.Tag;
+import co.yiiu.module.topic.mapper.TopicTagMapper;
+import co.yiiu.module.topic.service.TopicTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ public class TagService {
 
   @Autowired
   private TagMapper tagMapper;
+  @Autowired
+  private TopicTagMapper topicTagMapper;
 
   public Tag findById(Integer id) {
     return tagMapper.selectByPrimaryKey(id);
@@ -75,5 +79,15 @@ public class TagService {
 
   public void deleteById(Integer id) {
     tagMapper.deleteByPrimaryKey(id);
+  }
+
+  //同步标签的话题数
+  public void async() {
+    List<Tag> tags = tagMapper.findAll(null, null, null);
+    tags.forEach(tag -> {
+      int count = topicTagMapper.countByTagId(tag.getId());
+      tag.setTopicCount(count);
+      this.update(tag);
+    });
   }
 }
