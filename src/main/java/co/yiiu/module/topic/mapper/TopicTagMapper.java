@@ -23,4 +23,6 @@ public interface TopicTagMapper {
   int countByTagId(Integer tagId);
 
   void deleteByTopicId(Integer topicId);
+
+  void deleteInValidAssociate();
 }

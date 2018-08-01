@@ -84,6 +84,8 @@ public class TagService {
   //同步标签的话题数
   public void async() {
     List<Tag> tags = tagMapper.findAll(null, null, null);
+    //删除无效的关联
+    topicTagMapper.deleteInValidAssociate();
     tags.forEach(tag -> {
       int count = topicTagMapper.countByTagId(tag.getId());
       tag.setTopicCount(count);

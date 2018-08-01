@@ -81,4 +81,7 @@
     DELETE FROM topic_tag
     WHERE topic_id = #{topicId}
   </delete>
+  <delete id="deleteInValidAssociate">
+    delete from topic_tag where topic_id not in (select id from topic);
+  </delete>
 </mapper>
