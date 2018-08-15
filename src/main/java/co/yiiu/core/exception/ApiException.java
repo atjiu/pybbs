@@ -1,15 +1,10 @@
 package co.yiiu.core.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-@Getter
-@Setter
 public class ApiException extends RuntimeException {
 
   private int code;
@@ -25,4 +20,20 @@ public class ApiException extends RuntimeException {
     this.message = message;
   }
 
+  public int getCode() {
+    return code;
+  }
+
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  @Override
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

@@ -2,7 +2,6 @@ package co.yiiu.web.interceptor;
 
 import co.yiiu.core.base.BaseEntity;
 import co.yiiu.module.user.pojo.User;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  * Created by tomoya at 2018/3/15
  */
 @Component
-@Slf4j
 public class UserInterceptor implements HandlerInterceptor {
 
   @Autowired

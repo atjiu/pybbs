@@ -55,7 +55,7 @@ site:
   pageSize: 20
   uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
-  search: false
+  search: true
   GA: #Google Analytics ID
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID

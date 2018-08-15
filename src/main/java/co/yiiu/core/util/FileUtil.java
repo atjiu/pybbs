@@ -9,8 +9,8 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import lombok.Cleanup;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
@@ -33,8 +33,9 @@ import java.util.UUID;
  * https://yiiu.co
  */
 @Component
-@Slf4j
 public class FileUtil {
+
+  private Logger log = LoggerFactory.getLogger(FileUtil.class);
 
   @Autowired
   private SiteConfig siteConfig;
@@ -64,10 +65,11 @@ public class FileUtil {
     String md5 = DigestUtils.md5DigestAsHex(file.getInputStream());
 
     // 上传文件
-    @Cleanup BufferedOutputStream stream = new BufferedOutputStream(
+    BufferedOutputStream stream = new BufferedOutputStream(
         new FileOutputStream(new File(localPath))
     );
     stream.write(file.getBytes());
+    stream.close();
 
     // 构建Attachment对象
     return attachmentService.createAttachment(localPath, fileName, requestUrl, fileType.name(),

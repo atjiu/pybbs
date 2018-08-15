@@ -1,6 +1,7 @@
 package co.yiiu.core.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,8 +15,9 @@ import javax.mail.internet.MimeMessage;
  * Created by tomoya at 2018/3/29
  */
 @Component
-@Slf4j
 public class EmailUtil {
+
+  private Logger log = LoggerFactory.getLogger(EmailUtil.class);
 
   @Autowired
   private JavaMailSender javaMailSender;

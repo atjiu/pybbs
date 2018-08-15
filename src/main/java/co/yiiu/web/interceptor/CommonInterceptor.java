@@ -3,7 +3,8 @@ package co.yiiu.web.interceptor;
 import co.yiiu.core.base.BaseEntity;
 import co.yiiu.core.util.IpUtil;
 import co.yiiu.module.user.pojo.User;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,8 +20,9 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Component
-@Slf4j
 public class CommonInterceptor implements HandlerInterceptor {
+
+  private Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
 
   @Autowired
   private BaseEntity baseEntity;

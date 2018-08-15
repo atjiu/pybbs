@@ -9,10 +9,11 @@ import co.yiiu.module.security.pojo.AdminUser;
 import co.yiiu.module.security.service.AdminUserService;
 import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -37,8 +38,9 @@ import java.util.Map;
  * https://yiiu.co
  */
 @Component
-@Slf4j
 public class BaseEntity {
+
+  private Logger log = LoggerFactory.getLogger(BaseEntity.class);
 
   private static final long MINUTE = 60 * 1000;
   private static final long HOUR = 60 * MINUTE;

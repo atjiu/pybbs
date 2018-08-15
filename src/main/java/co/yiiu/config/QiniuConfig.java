@@ -1,13 +1,8 @@
 package co.yiiu.config;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Created by tomoya at 2018/4/24
  */
-@Setter
-@Getter
 public class QiniuConfig {
 
   private String accessKey;
@@ -15,4 +10,35 @@ public class QiniuConfig {
   private String bucket;
   private String domain;
 
+  public String getAccessKey() {
+    return accessKey;
+  }
+
+  public void setAccessKey(String accessKey) {
+    this.accessKey = accessKey;
+  }
+
+  public String getSecretKey() {
+    return secretKey;
+  }
+
+  public void setSecretKey(String secretKey) {
+    this.secretKey = secretKey;
+  }
+
+  public String getBucket() {
+    return bucket;
+  }
+
+  public void setBucket(String bucket) {
+    this.bucket = bucket;
+  }
+
+  public String getDomain() {
+    return domain;
+  }
+
+  public void setDomain(String domain) {
+    this.domain = domain;
+  }
 }

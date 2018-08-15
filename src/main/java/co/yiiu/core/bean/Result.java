@@ -1,15 +1,10 @@
 package co.yiiu.core.bean;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-@Getter
-@Setter
 public class Result {
 
   private int code;
@@ -44,4 +39,27 @@ public class Result {
     return result;
   }
 
+  public int getCode() {
+    return code;
+  }
+
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Object getDetail() {
+    return detail;
+  }
+
+  public void setDetail(Object detail) {
+    this.detail = detail;
+  }
 }

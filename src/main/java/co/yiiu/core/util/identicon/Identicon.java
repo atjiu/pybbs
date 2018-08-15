@@ -15,7 +15,8 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,8 +37,9 @@ import java.util.Base64;
  * Time: 下午2:42
  */
 @Component
-@Slf4j
 public class Identicon {
+
+  private Logger log = LoggerFactory.getLogger(Identicon.class);
 
   private IBaseGenartor genartor;
   @Autowired
