@@ -14,6 +14,7 @@
 - Bootstrap3
 - Redis
 - Elasticsearch
+- netty-socketio
 
 ## 特性
 
