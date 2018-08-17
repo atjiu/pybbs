@@ -85,7 +85,7 @@ public class Oauth2Controller extends BaseController {
     if (oauth2User != null) {
       oauth2User.setNickName(nickName);
       oauth2User.setAvatar(avatar);
-      oauth2UserService.save(oauth2User);
+      oauth2UserService.update(oauth2User);
       user = userService.findById(oauth2User.getUserId());
     } else {
       user = (User) session.getAttribute("user");

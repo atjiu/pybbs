@@ -22,6 +22,10 @@ public class Oauth2UserService {
     oauth2UserMapper.insertSelective(oauth2User);
   }
 
+  public void update(Oauth2User oauth2User) {
+    oauth2UserMapper.updateByPrimaryKeySelective(oauth2User);
+  }
+
   public void createOAuth2User(String nickName, String avatar, Integer userId, String oauthUserId,
                                String accessToken, String type) {
     Oauth2User oauth2User = new Oauth2User();
