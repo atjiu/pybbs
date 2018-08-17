@@ -1,6 +1,6 @@
 package co.yiiu.web.front;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.CookieHelper;
 import co.yiiu.core.util.encrypt.Base64Helper;

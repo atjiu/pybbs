@@ -1,6 +1,6 @@
 package co.yiiu.module.topic.service;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.module.collect.service.CollectService;

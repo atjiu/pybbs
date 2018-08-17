@@ -1,7 +1,7 @@
 package co.yiiu.module.comment.service;
 
-import co.yiiu.config.MailTemplateConfig;
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.MailTemplateConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.EmailUtil;
 import co.yiiu.core.util.FreemarkerUtil;

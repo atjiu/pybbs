@@ -124,7 +124,18 @@
           },
           success: function(data){
             if(data.code === 200) {
-              window.location.href = "/topic/${topic.id}";
+              socket.emit("notification", {
+                type: "comment",
+                payload: {
+                  username: "${user.username!}",
+                  topicUserName: "${topicUser.username!}",
+                  title: "${topic.title!}",
+                  id: "${topic.id!}"
+                }
+              });
+              setTimeout(function () {
+                window.location.href = "/topic/${topic.id}";
+              }, 1000)
             } else {
               toast(data.description);
             }

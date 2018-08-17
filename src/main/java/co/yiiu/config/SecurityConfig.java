@@ -1,5 +1,6 @@
 package co.yiiu.config;
 
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.module.security.core.MyAuthenticationProvider;
 import co.yiiu.module.security.core.MyCustomAuthenticationFilter;
 import co.yiiu.module.security.core.MyFilterSecurityInterceptor;

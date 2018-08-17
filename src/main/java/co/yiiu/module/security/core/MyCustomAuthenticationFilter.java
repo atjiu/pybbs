@@ -1,6 +1,6 @@
 package co.yiiu.module.security.core;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.module.security.pojo.AdminUser;
 import co.yiiu.module.security.service.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;

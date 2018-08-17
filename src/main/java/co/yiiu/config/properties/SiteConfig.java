@@ -1,4 +1,4 @@
-package co.yiiu.config;
+package co.yiiu.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +30,8 @@ public class SiteConfig {
   private Integer attemptsWaitTime;
   private CookieConfig cookie;
   private OAuth2Config oauth2;
-
   private UploadConfig upload;
+  private SocketConfig socket;
 
   public String getName() {
     return name;
@@ -183,5 +183,13 @@ public class SiteConfig {
 
   public void setUpload(UploadConfig upload) {
     this.upload = upload;
+  }
+
+  public SocketConfig getSocket() {
+    return socket;
+  }
+
+  public void setSocket(SocketConfig socket) {
+    this.socket = socket;
   }
 }

@@ -1,6 +1,6 @@
 package co.yiiu.web.tag;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.bean.Page;
 import co.yiiu.module.user.pojo.User;
 import co.yiiu.module.user.service.UserService;

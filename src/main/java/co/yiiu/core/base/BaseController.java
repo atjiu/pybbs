@@ -1,6 +1,6 @@
 package co.yiiu.core.base;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.exception.ApiAssert;
 import co.yiiu.module.security.pojo.AdminUser;
 import co.yiiu.module.user.pojo.User;

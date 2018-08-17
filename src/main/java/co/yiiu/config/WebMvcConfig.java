@@ -1,5 +1,6 @@
 package co.yiiu.config;
 
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.web.interceptor.CommonInterceptor;
 import co.yiiu.web.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

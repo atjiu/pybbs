@@ -1,7 +1,7 @@
 [#ftl]
 [#-- @implicitly included --]
 [#-- @ftlvariable name="page" type="co.yiiu.core.bean.Page" --]
-[#-- @ftlvariable name="site" type="co.yiiu.config.SiteConfig" --]
+[#-- @ftlvariable name="site" type="co.yiiu.config.properties.SiteConfig" --]
 [#-- @ftlvariable name="model" type="co.yiiu.core.base.BaseEntity" --]
 [#-- @ftlvariable name="topic" type="co.yiiu.module.topic.pojo.Topic" --]
 [#-- @ftlvariable name="user" type="co.yiiu.module.user.pojo.User" --]

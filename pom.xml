@@ -88,6 +88,12 @@
       <artifactId>qiniu-java-sdk</artifactId>
       <version>[7.2.0, 7.2.99]</version>
     </dependency>
+    <!--netty-socketio-->
+    <dependency>
+      <groupId>com.corundumstudio.socketio</groupId>
+      <artifactId>netty-socketio</artifactId>
+      <version>1.7.7</version>
+    </dependency>
   </dependencies>
 
   <properties>

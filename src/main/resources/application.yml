@@ -81,6 +81,9 @@ site:
       clientId: # github申请应用的ClientId
       clientSecret: # 对应的密钥
       callbackUrl: ${site.baseUrl}/oauth2/github/callback
+  socket:
+    hostname: localhost
+    port: 9092
 
 mail:
   register:

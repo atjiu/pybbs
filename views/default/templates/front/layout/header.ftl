@@ -15,7 +15,8 @@
       <#if site.search?? && site.search == true>
         <form class="navbar-form navbar-left hidden-xs hidden-sm" role="search" action="/search" method="get">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" name="keyword" value="${keyword!}" style="width: 270px;" placeholder="回车搜索">
+            <input type="text" class="form-control" name="keyword" value="${keyword!}" style="width: 270px;"
+                   placeholder="回车搜索">
             <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
           </div>
         </form>
@@ -47,4 +48,16 @@
     </div>
   </div>
 </nav>
+<#if user??>
+  <script src="/static/js/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://${site.socket.hostname}:${site.socket.port}/?username=${user.username!}');
+    // socket.on('connect', function () {});
+    // socket.on('disconnect', function () {});
+    socket.on('notification', function (data) {
+      toast(data.message);
+      $("#n_count").text(data.count);
+    });
+  </script>
+</#if>
 </#macro>

@@ -1,6 +1,6 @@
 package co.yiiu.module.log.service;
 
-import co.yiiu.config.LogEventConfig;
+import co.yiiu.config.properties.LogEventConfig;
 import co.yiiu.core.bean.Page;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.log.mapper.LogMapper;

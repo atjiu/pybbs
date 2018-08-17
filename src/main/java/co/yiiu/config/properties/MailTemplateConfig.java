@@ -1,4 +1,4 @@
-package co.yiiu.config;
+package co.yiiu.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

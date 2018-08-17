@@ -1,4 +1,4 @@
-package co.yiiu.config;
+package co.yiiu.config.properties;
 
 /**
  * Created by tomoya on 17-6-15.

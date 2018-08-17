@@ -1,7 +1,7 @@
 package co.yiiu.web.front;
 
-import co.yiiu.config.LogEventConfig;
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.LogEventConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.util.FreemarkerUtil;
 import co.yiiu.module.collect.service.CollectService;

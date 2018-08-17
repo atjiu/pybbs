@@ -1,6 +1,6 @@
 package co.yiiu.core.util.identicon;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.util.HashUtil;
 import co.yiiu.core.util.JsonUtil;
 import co.yiiu.core.util.StrUtil;

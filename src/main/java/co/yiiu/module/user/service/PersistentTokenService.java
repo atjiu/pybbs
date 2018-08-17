@@ -1,6 +1,6 @@
 package co.yiiu.module.user.service;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.module.user.mapper.RememberMeTokenMapper;
 import co.yiiu.module.user.pojo.RememberMeToken;
 import org.springframework.beans.BeanUtils;

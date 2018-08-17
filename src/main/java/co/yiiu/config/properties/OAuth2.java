@@ -1,4 +1,4 @@
-package co.yiiu.config;
+package co.yiiu.config.properties;
 
 public class OAuth2 {
   private String clientId;

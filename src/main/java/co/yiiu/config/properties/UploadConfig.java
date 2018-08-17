@@ -1,4 +1,6 @@
-package co.yiiu.config;
+package co.yiiu.config.properties;
+
+import co.yiiu.config.properties.QiniuConfig;
 
 /**
  * Created by tomoya at 2018/4/24

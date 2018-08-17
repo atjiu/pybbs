@@ -1,6 +1,6 @@
 package co.yiiu.web.admin;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.module.log.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;

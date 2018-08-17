@@ -1,6 +1,6 @@
 package co.yiiu.web.handler;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;

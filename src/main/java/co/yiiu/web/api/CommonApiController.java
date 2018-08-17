@@ -1,7 +1,7 @@
 package co.yiiu.web.api;
 
-import co.yiiu.config.MailTemplateConfig;
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.MailTemplateConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.base.BaseController;
 import co.yiiu.core.bean.Result;
 import co.yiiu.core.exception.ApiException;

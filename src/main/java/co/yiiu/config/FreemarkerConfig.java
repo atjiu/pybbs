@@ -1,5 +1,6 @@
 package co.yiiu.config;
 
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.core.base.BaseEntity;
 import co.yiiu.web.tag.*;
 import freemarker.template.TemplateModelException;

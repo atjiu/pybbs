@@ -1,6 +1,6 @@
 package co.yiiu.core.util;
 
-import co.yiiu.config.SiteConfig;
+import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.module.attachment.pojo.Attachment;
 import co.yiiu.module.attachment.service.AttachmentService;
 import com.qiniu.common.Zone;
