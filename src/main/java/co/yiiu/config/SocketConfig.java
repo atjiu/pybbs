@@ -25,7 +25,7 @@ public class SocketConfig {
   @Bean
   public SocketIOServer socketIOServer() {
     Configuration config = new Configuration();
-    config.setHostname(siteConfig.getSocket().getHostname());
+    config.setHostname("127.0.0.1");
     config.setPort(siteConfig.getSocket().getPort());
 
     // 协议升级超时时间（毫秒），默认10000。HTTP握手升级为ws协议超时时间

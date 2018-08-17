@@ -51,7 +51,7 @@
 <#if user??>
   <script src="/static/js/socket.io.js"></script>
   <script>
-    var socket = io.connect('//${site.socket.hostname}:${site.socket.port}/?username=${user.username!}');
+    var socket = io.connect('${site.socket.hostname!}/${site.socket.port!}?username=${user.username!}');
     // socket.on('connect', function () {});
     // socket.on('disconnect', function () {});
     socket.on('notification', function (data) {
