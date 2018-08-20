@@ -264,8 +264,14 @@
     <if test="good != null">
       and t.good = #{good,jdbcType=BIT}
     </if>
+    <if test="top != null">
+      and t.top = #{top,jdbcType=BIT}
+    </if>
     <if test="commentCount != null">
       and t.comment_count = #{commentCount}
+    </if>
+    <if test="startTime != null and endTime != null">
+      and t.in_time between #{startTime} and #{endTime}
     </if>
     <if test="orderBy != null">
       order by ${orderBy}
@@ -280,8 +286,14 @@
     <if test="good != null">
       and good = #{good,jdbcType=BIT}
     </if>
+    <if test="top != null">
+      and top = #{top,jdbcType=BIT}
+    </if>
     <if test="commentCount != null">
       and comment_count = #{commentCount}
+    </if>
+    <if test="startTime != null and endTime != null">
+      and in_time between #{startTime} and #{endTime}
     </if>
   </select>
   <delete id="deleteByUserId" parameterType="java.lang.Integer">

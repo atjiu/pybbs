@@ -18,6 +18,19 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
+        <form action="/admin/topic/list" class="form-inline">
+          <div class="form-group">
+            <input type="text" readonly id="startTime" name="startTime" value="${startTime!}" class="form-control" placeholder="开始时间">
+            <input type="text" readonly id="endTime" name="endTime" value="${endTime!}" class="form-control" placeholder="结束时间">
+            <input type="text" name="username" value="${username!}" class="form-control" placeholder="用户名">
+            <select name="status" id="status" class="form-control">
+              <option value="">请选择</option>
+              <option value="good" <#if status == "good">selected</#if>>精华</option>
+              <option value="top" <#if status == "top">selected</#if>>置顶</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">搜索</button>
+          </div>
+        </form>
         <table class="table table-bordered">
           <thead>
           <tr>
@@ -67,12 +80,23 @@
       <#if page.totalPages &gt; 1>
         <div class="box-footer clearfix">
           <#include "../layout/paginate.ftl">
-          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/admin/topic/list" urlParas=""/>
+          <@paginate currentPage=page.number totalPage=page.totalPages actionUrl="/admin/topic/list"
+            urlParas="&startTime=${startTime!}&endTime=${endTime!}&username=${username!}&status=${status!}"/>
         </div>
       </#if>
     </div>
   </section>
 <script>
+  $(function () {
+    $("#startTime").datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd'
+    });
+    $("#endTime").datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd'
+    });
+  })
   function actionBtn(id, action) {
     var msg, url;
     if(action === 'top') {

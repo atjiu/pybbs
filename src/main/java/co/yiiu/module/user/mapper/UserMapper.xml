@@ -215,15 +215,17 @@
   <select id="findUser" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
-    from user where 1 = 1
-    <if test="token != null">
-      and token = #{token}
-    </if>
-    <if test="username != null">
-      and username = #{username}
-    </if>
-    <if test="email != null">
-      and email = #{email}
-    </if>
+    from user
+    <where>
+      <if test="token != null">
+        token = #{token}
+      </if>
+      <if test="username != null">
+        and username = #{username}
+      </if>
+      <if test="email != null">
+        and email = #{email}
+      </if>
+    </where>
   </select>
 </mapper>

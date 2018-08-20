@@ -148,20 +148,20 @@ public class TopicService {
 
   public Page<Map> page(Integer pageNo, Integer pageSize, String tab) {
     if (tab.equalsIgnoreCase("good")) {
-      List<Map> list = topicMapper.findTopic(null, true, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
-      int count = topicMapper.countTopic(null, true, null);
+      List<Map> list = topicMapper.findTopic(null, true, null, null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
+      int count = topicMapper.countTopic(null, true, null, null, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("newest")) {
-      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc, t.weight desc");
-      int count = topicMapper.countTopic(null, null, null);
+      List<Map> list = topicMapper.findTopic(null, null, null, null, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc, t.weight desc");
+      int count = topicMapper.countTopic(null, null, null, null, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     } else if (tab.equalsIgnoreCase("noanswer")) {
-      List<Map> list = topicMapper.findTopic(null, null, 0, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
-      int count = topicMapper.countTopic(null, null, 0);
+      List<Map> list = topicMapper.findTopic(null, null, null, 0, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
+      int count = topicMapper.countTopic(null, null, null, 0, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     } else {
-      List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
-      int count = topicMapper.countTopic(null, null, null);
+      List<Map> list = topicMapper.findTopic(null, null, null, null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
+      int count = topicMapper.countTopic(null, null, null, null, null, null);
       return new Page<>(pageNo, pageSize, count, list);
     }
   }
@@ -178,8 +178,8 @@ public class TopicService {
    * @return
    */
   public Page<Map> findByUser(Integer pageNo, Integer pageSize, Integer userId) {
-    List<Map> list = topicMapper.findTopic(userId, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc");
-    int count = topicMapper.countTopic(userId, null, null);
+    List<Map> list = topicMapper.findTopic(userId, null, null, null, null, null, (pageNo - 1) * pageSize, pageSize, "t.id desc");
+    int count = topicMapper.countTopic(userId, null, null, null, null, null);
     return new Page<>(pageNo, pageSize, count, list);
   }
 
@@ -271,9 +271,25 @@ public class TopicService {
     return map;
   }
 
-  public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize) {
-    List<Map> list = topicMapper.findTopic(null, null, null, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
-    int count = topicMapper.countTopic(null, null, null);
+  public Page<Map> findAllForAdmin(Integer pageNo, Integer pageSize, String username, String startTime, String endTime,
+                                   String status) {
+    Integer userId = null;
+    if(!StringUtils.isEmpty(username)) {
+      User user = userService.findByUsername(username);
+      if(user != null) userId = user.getId();
+    }
+    Boolean good = null, top = null;
+    if (!StringUtils.isEmpty(status)) {
+      if (status.equals("good")) {
+        good = true;
+      } else if (status.equals("top")) {
+        top = true;
+      }
+    }
+    if ("".equals(startTime)) startTime = null;
+    if ("".equals(endTime)) endTime = null;
+    List<Map> list = topicMapper.findTopic(userId, good, top, null, startTime, endTime, (pageNo - 1) * pageSize, pageSize, "t.top desc, t.weight desc, t.id desc");
+    int count = topicMapper.countTopic(userId, good, top, null, startTime, endTime);
     return new Page<>(pageNo, pageSize, count, list);
   }
 

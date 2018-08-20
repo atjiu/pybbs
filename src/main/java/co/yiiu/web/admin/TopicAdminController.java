@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -35,8 +36,13 @@ public class TopicAdminController extends BaseController {
    * @return
    */
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
-    model.addAttribute("page", topicService.findAllForAdmin(pageNo, siteConfig.getPageSize()));
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, String startTime, String endTime,
+                     String status, Model model) {
+    model.addAttribute("page", topicService.findAllForAdmin(pageNo, siteConfig.getPageSize(), username, startTime, endTime, status));
+    model.addAttribute("startTime", startTime);
+    model.addAttribute("endTime", endTime);
+    model.addAttribute("username", username);
+    model.addAttribute("status", status);
     return "admin/topic/list";
   }
 

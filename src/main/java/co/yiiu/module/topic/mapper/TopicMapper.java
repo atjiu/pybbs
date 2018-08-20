@@ -26,7 +26,10 @@ public interface TopicMapper {
   List<Map> findTopic(
       @Param("userId") Integer userId,
       @Param("good") Boolean good,
+      @Param("top") Boolean top,
       @Param("commentCount") Integer commentCount,
+      @Param("startTime") String startTime,
+      @Param("endTime") String endTime,
       @Param("pageNo") Integer pageNo,
       @Param("pageSize") Integer pageSize,
       @Param("orderBy") String orderBy
@@ -35,7 +38,10 @@ public interface TopicMapper {
   int countTopic(
       @Param("userId") Integer userId,
       @Param("good") Boolean good,
-      @Param("commentCount") Integer commentCount
+      @Param("top") Boolean top,
+      @Param("commentCount") Integer commentCount,
+      @Param("startTime") String startTime,
+      @Param("endTime") String endTime
   );
 
   void deleteByUserId(Integer userId);
