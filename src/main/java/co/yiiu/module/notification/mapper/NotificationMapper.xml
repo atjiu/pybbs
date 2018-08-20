@@ -169,15 +169,17 @@
     WHERE target_user_id = #{targetUserId}
   </update>
   <delete id="deleteNotification">
-    delete from notification where 1 = 1
-    <if test="targetUserId != null">
-      and target_user_id = #{targetUserId}
-    </if>
-    <if test="userId != null">
-      and user_id = #{userId}
-    </if>
-    <if test="topicId != null">
-      and topic_id = #{topicId}
-    </if>
+    delete from notification
+    <where>
+      <if test="targetUserId != null">
+        and target_user_id = #{targetUserId}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="topicId != null">
+        and topic_id = #{topicId}
+      </if>
+    </where>
   </delete>
 </mapper>

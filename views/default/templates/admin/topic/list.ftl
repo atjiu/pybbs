@@ -89,7 +89,7 @@
 <script>
   $(function () {
     $("#startTime").datepicker({
-      autoclose: true,
+      autoclose: true,</where>
       format: 'yyyy-mm-dd'
     });
     $("#endTime").datepicker({

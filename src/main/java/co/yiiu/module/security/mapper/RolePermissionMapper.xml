@@ -68,13 +68,15 @@
   </update>
   <!--自定义方法-->
   <delete id="deleteRolePermission">
-    delete from role_permission where 1 = 1
-    <if test="roleId != null">
-      and role_id = #{roleId}
-    </if>
-    <if test="permissionId != null">
-      and permission_id = #{permissionId}
-    </if>
+    delete from role_permission
+    <where>
+      <if test="roleId != null">
+        and role_id = #{roleId}
+      </if>
+      <if test="permissionId != null">
+        and permission_id = #{permissionId}
+      </if>
+    </where>
   </delete>
   <select id="findByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select

@@ -117,15 +117,16 @@
     select
     <include refid="Base_Column_List"/>
     from code
-    where 1 = 1
-    <if test="email != null">
-      and email = #{email}
-    </if>
-    <if test="code != null">
-      and `code` = #{code}
-    </if>
-    <if test="type != null">
-      and `type` = #{type}
-    </if>
+    <where>
+      <if test="email != null">
+        email = #{email}
+      </if>
+      <if test="code != null">
+        and `code` = #{code}
+      </if>
+      <if test="type != null">
+        and `type` = #{type}
+      </if>
+    </where>
   </select>
 </mapper>
