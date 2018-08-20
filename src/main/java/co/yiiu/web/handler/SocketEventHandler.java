@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,12 @@ public class SocketEventHandler {
     String username = client.getHandshakeData().getSingleUrlParam("username");
     logger.info("用户{}上线了, sessionId: {}", username, client.getSessionId().toString());
     socketMap.put(username, client);
+    // notification count
+    long count = notificationService.countByTargetUserAndIsRead(userService.findByUsername(username), false);
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("count", count);
+    client.sendEvent("notification", map);
   }
 
   @OnDisconnect
@@ -64,7 +71,7 @@ public class SocketEventHandler {
     Map<String, Object> map = new HashMap<>();
     map.put("count", count);
     map.put("message", String.format(msg, username, titleId, title));
-    ((SocketIOClient)socketMap.get(topicUserName)).sendEvent("notification", map);
+    if(socketMap.get(topicUserName) != null) ((SocketIOClient)socketMap.get(topicUserName)).sendEvent("notification", map);
   }
 
 }

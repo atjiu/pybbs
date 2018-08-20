@@ -7,6 +7,7 @@ public class SocketConfig {
 
   private String hostname;
   private Integer port;
+  private String url;
 
   public String getHostname() {
     return hostname;
@@ -22,5 +23,13 @@ public class SocketConfig {
 
   public void setPort(Integer port) {
     this.port = port;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 }
