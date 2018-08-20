@@ -55,7 +55,8 @@ site:
   pageSize: 20
   uploadPath: ./views/${site.theme}/static/images/upload/
   theme: default
-  search: true
+  search: false
+  socketNotification: false
   GA: #Google Analytics ID
   googleZZ: # google站长meta标签content值
   baiduTJ: # 百度统计ID
@@ -84,6 +85,7 @@ site:
   socket:
     hostname: localhost
     port: 9092
+    url: http://localhost:9092
 
 mail:
   register:

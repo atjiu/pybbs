@@ -20,6 +20,7 @@ public class SiteConfig {
   private String uploadPath;
   private String theme;
   private boolean search;
+  private boolean socketNotification;
   private String GA;
   private String googleZZ;
   private String baiduTJ;
@@ -95,6 +96,14 @@ public class SiteConfig {
 
   public void setSearch(boolean search) {
     this.search = search;
+  }
+
+  public boolean isSocketNotification() {
+    return socketNotification;
+  }
+
+  public void setSocketNotification(boolean socketNotification) {
+    this.socketNotification = socketNotification;
   }
 
   public String getGA() {

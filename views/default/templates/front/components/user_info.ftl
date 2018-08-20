@@ -25,6 +25,33 @@
       <div class="row">
         <span class="col-md-6"><a href="/notification/list"><span id="n_count">0</span> 条未读消息</a></span>
         <span class="col-md-6 text-right">声望：<a href="/top100">${user.reputation!0}</a></span>
+      <#--如果没有开启socket通知，则继续使用轮询的方式-->
+        <#if !site.socketNotification>
+          <script>
+            var title = document.title;
+
+            function notificationCount() {
+              $.ajax({
+                url: "/api/notification/notRead",
+                async: true,
+                cache: false,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                  if (data.code === 200 && data.detail > 0) {
+                    $("#n_count").text(data.detail);
+                    document.title = "(" + data.detail + ") " + title;
+                  }
+                }
+              });
+            }
+
+            notificationCount();
+            setInterval(function () {
+              notificationCount();
+            }, 120000);
+          </script>
+        </#if>
       </div>
     </div>
   </div>

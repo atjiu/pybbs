@@ -48,20 +48,20 @@
     </div>
   </div>
 </nav>
-  <#if user??>
-  <script src="/static/js/socket.io.js"></script>
-  <script>
-    var socket = io.connect('${site.socket.url!}?username=${user.username!}');
-    // socket.on('connect', function () {});
-    // socket.on('disconnect', function () {});
-    var title = document.title;
-    socket.on('notification', function (data) {
-      if (data.message) toast(data.message);
-      if (data.count > 0) {
-        $("#n_count").text(data.count);
-        document.title = "(" + data.count + ") " + title;
-      }
-    });
-  </script>
+  <#if user?? && site.socketNotification>
+    <script src="/static/js/socket.io.js"></script>
+    <script>
+      var socket = io.connect('${site.socket.url!}?username=${user.username!}');
+      // socket.on('connect', function () {});
+      // socket.on('disconnect', function () {});
+      var title = document.title;
+      socket.on('notification', function (data) {
+        if (data.message) toast(data.message);
+        if (data.count > 0) {
+          $("#n_count").text(data.count);
+          document.title = "(" + data.count + ") " + title;
+        }
+      });
+    </script>
   </#if>
 </#macro>
