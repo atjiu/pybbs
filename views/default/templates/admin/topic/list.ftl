@@ -25,8 +25,8 @@
             <input type="text" name="username" value="${username!}" class="form-control" placeholder="用户名">
             <select name="status" id="status" class="form-control">
               <option value="">请选择</option>
-              <option value="good" <#if status == "good">selected</#if>>精华</option>
-              <option value="top" <#if status == "top">selected</#if>>置顶</option>
+              <option value="good" <#if status! == "good">selected</#if>>精华</option>
+              <option value="top" <#if status! == "top">selected</#if>>置顶</option>
             </select>
             <button type="submit" class="btn btn-primary btn-sm">搜索</button>
           </div>

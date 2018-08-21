@@ -1,17 +1,11 @@
 package co.yiiu.config;
 
 import co.yiiu.config.properties.SiteConfig;
-import co.yiiu.core.bean.Message;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by tomoya at 2018/8/17

@@ -4,7 +4,6 @@ import co.yiiu.core.bean.Page;
 import co.yiiu.module.tag.mapper.TagMapper;
 import co.yiiu.module.tag.pojo.Tag;
 import co.yiiu.module.topic.mapper.TopicTagMapper;
-import co.yiiu.module.topic.service.TopicTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
