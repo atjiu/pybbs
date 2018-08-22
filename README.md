@@ -14,7 +14,8 @@
 - Bootstrap3
 - Redis
 - Elasticsearch
-- netty-socketio
+- netty-socketio ([详见博客](https://tomoya92.github.io/2018/08/20/spring-boot-netty-socketio/))
+- jquery.pjax ([详见博客](https://tomoya92.github.io/2018/08/21/spring-boot-freemarker-pjax/))
 
 ## 特性
 
@@ -30,6 +31,8 @@
 - Redis做缓存支持分布式
 - 一键切换上传方式，可选上传本地和上传到七牛
 - Elasticsearch做分词搜索
+- socketio的接入实现了通知从服务端主动推送，省去了ajax的轮询
+- 利用pjax实现页面无刷新访问
 
 ## 快速开始
 

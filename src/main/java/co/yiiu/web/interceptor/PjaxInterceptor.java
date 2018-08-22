@@ -15,7 +15,6 @@ public class PjaxInterceptor implements HandlerInterceptor {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-    System.out.println(request.getRequestURI() + "  " + request.getHeader("X-PJAX"));
     Boolean pjax = Boolean.parseBoolean(request.getHeader("X-PJAX"));
     if(pjax) {
       modelAndView.addObject("layoutName", "layout-pjax.ftl");
