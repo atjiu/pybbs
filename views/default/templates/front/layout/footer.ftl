@@ -7,7 +7,7 @@
     <a href="https://github.com/tomoya92/pybbs/blob/master/api.md" target="_blank">API</a>&nbsp;|&nbsp;
     <a href="/adminlogin" target="_blank">后台登录</a>
   </p>
-  <p>致力于搭建一个分享发现好玩东西的社区 <script>document.write(new Date())</script></p>
+  <p>致力于搭建一个分享发现好玩东西的社区</p>
   <#--集成pjax后，统计就不准了，先去掉-->
   <#--<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <p>
