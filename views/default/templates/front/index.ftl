@@ -1,4 +1,4 @@
-<#include "layout/layout.ftl">
+<#include "layout/" + layoutName>
 <@html page_title="首页 - ${site.name!}" page_tab="index">
 <div class="row">
   <div class="col-md-9">
@@ -6,10 +6,10 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <ul class="nav nav-pills">
-          <li <#if !tab?? || tab == ''>class="active"</#if>><a href="/">默认</a></li>
-          <li <#if tab?? && tab == 'good'>class="active"</#if>><a href="/?tab=good">精华</a></li>
-          <li <#if tab?? && tab == 'newest'>class="active"</#if>><a href="/?tab=newest">最新</a></li>
-          <li <#if tab?? && tab == 'noanswer'>class="active"</#if>><a href="/?tab=noanswer">等待评论</a></li>
+          <li <#if !tab?? || tab == ''>class="active"</#if>><a data-pjax href="/">默认</a></li>
+          <li <#if tab?? && tab == 'good'>class="active"</#if>><a data-pjax href="/?tab=good">精华</a></li>
+          <li <#if tab?? && tab == 'newest'>class="active"</#if>><a data-pjax href="/?tab=newest">最新</a></li>
+          <li <#if tab?? && tab == 'noanswer'>class="active"</#if>><a data-pjax href="/?tab=noanswer">等待评论</a></li>
         </ul>
       </div>
 

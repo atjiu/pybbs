@@ -42,17 +42,10 @@
   </#if>
 
   <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.pjax.min.js"></script>
   <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   <script src="/static/jquery-toast-plugin/jquery.toast.min.js"></script>
   <script>
-    $(function () {
-      var n = $("#goTop");
-      n.click(function () {
-        return $("html,body").animate({
-          scrollTop: 0
-        });
-      });
-    });
     function toast(txt, icon) {
       $.toast({
         text: txt, // Text that is to be shown in the toast
@@ -78,11 +71,37 @@
         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
       </div>
     </form>
-    <#nested />
+    <div id="pjax-container">
+      <#nested />
+    </div>
   </div>
 </div>
   <#include "./footer.ftl">
   <@footer/>
+  <script>
+    $(function () {
+      var n = $("#goTop");
+      n.click(function () {
+        return $("html,body").animate({
+          scrollTop: 0
+        });
+      });
+    });
+    (function ($) {
+      $(document).pjax('[data-pjax] a, a[data-pjax]', '#pjax-container', {
+        timeout: 5000
+      });
+      $(document).on('pjax:start', function() {
+        NProgress.start();
+      });
+      $(document).on('pjax:end', function() {
+        NProgress.done();
+      });
+      // $(document).on('pjax:timeout', function() {
+      //   toast("请求超时", "error");
+      // });
+    })(jQuery);
+  </script>
 </body>
 </html>
 </#macro>

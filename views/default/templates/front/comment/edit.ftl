@@ -1,9 +1,9 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName>
 <@html page_title="编辑评论">
 <div class="row">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
+      <a data-pjax href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
     </div>
     <div class="panel-body">
       <form id="form">

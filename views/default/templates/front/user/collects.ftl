@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl"/>
+<#include "../layout/" + layoutName/>
 <@html page_title="${username}收藏的话题" page_tab="user">
 <div class="row">
   <div class="col-md-9">

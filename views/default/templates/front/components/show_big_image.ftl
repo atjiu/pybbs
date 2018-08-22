@@ -9,11 +9,11 @@
   </div>
 </div>
 <script>
-  $(function () {
-    $(".show_big_image img").click(function () {
-      var src = $(this).attr("src");
-      $("#bigImage").attr("src", src);
-      $("#toggleBigImageBtn").click();
-    });
-  })
+  // $(function () {
+  //   $(".show_big_image img").click(function () {
+  //     var src = $(this).attr("src");
+  //     $("#bigImage").attr("src", src);
+  //     $("#toggleBigImageBtn").click();
+  //   });
+  // })
 </script>

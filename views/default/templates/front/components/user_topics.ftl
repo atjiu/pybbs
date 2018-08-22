@@ -12,25 +12,18 @@
           <div class="media">
             <div class="media-body">
               <div class="title">
-                <#if model.isEmpty(topic.url)>
-                  <a href="/topic/${topic.id}">
-                    ${topic.title!?html}
-                  </a>
-                <#else>
-                  <a href="${topic.url!?html}" target="_blank">
-                    ${topic.title!?html}
-                    <i class="glyphicon glyphicon-link"></i>
-                  </a>
-                </#if>
+                <a data-pjax href="/topic/${topic.id}">
+                  ${topic.title!?html}
+                </a>
               </div>
               <p>
                 <i class="fa fa-chevron-up"></i>
                 <i class="fa fa-chevron-down"></i>
                 <span>${topic.up - topic.down}</span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span><a href="/user/${topic.username}">${topic.username}</a></span>
+                <span><a data-pjax href="/user/${topic.username}">${topic.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id}">${topic.comment_count!0}个评论</a></span>
+                <span class="hidden-sm hidden-xs"><a data-pjax href="/topic/${topic.id}">${topic.comment_count!0}个评论</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
                 <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
                 <span>•</span>
@@ -49,7 +42,7 @@
       </div>
       <#if isFooter>
         <div class="panel-footer">
-          <a href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
+          <a data-pjax href="/user/${username}/topics">${username}更多话题&gt;&gt;</a>
         </div>
       </#if>
     </#if>

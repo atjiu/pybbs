@@ -1,19 +1,11 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName/>
 <@html page_title="${topic.title!}">
-<link rel="stylesheet" href="/static/wangEditor/wangEditor.min.css">
 <div class="panel panel-default">
   <div class="panel-body topic-detail-header">
     <div class="media">
       <div class="media-body">
         <h2 class="topic-detail-title">
-          <#if model.isEmpty(topic.url)>
-            ${topic.title!?html}
-          <#else>
-            <a href="${topic.url!?html}" target="_blank">
-              <i class="glyphicon glyphicon-link"></i>
-              ${topic.title!?html}
-            </a>
-          </#if>
+          ${topic.title!?html}
         </h2>
         <p class="gray">
           <i id="up_icon_${topic.id}" class="fa fa-chevron-up
@@ -31,16 +23,16 @@
             <span class="label label-success">精华</span>
             <span>•</span>
           </#if>
-          <span><a href="/user/${topicUser.username!}">${topicUser.username!}</a></span>
+          <span><a data-pjax href="/user/${topicUser.username!}">${topicUser.username!}</a></span>
           <span>•</span>
           <span>${model.formatDate(topic.inTime)}</span>
           <span>•</span>
           <span>${topic.view!1}次点击</span>
           <#if user?? && topic.userId == user.id>
             <span>•</span>
-            <span><a href="/topic/edit?id=${topic.id}">编辑</a></span>
+            <span><a data-pjax href="/topic/edit?id=${topic.id}">编辑</a></span>
             <span>•</span>
-            <span><a href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/delete?id=${topic.id}'">删除</a></span>
+            <span><a data-pjax href="javascript:if(confirm('确定要删除吗？'))location.href='/topic/delete?id=${topic.id}'">删除</a></span>
           </#if>
         </p>
       </div>
@@ -54,7 +46,7 @@
       ${model.formatContent(topic.content)}
       <div>
         <#list tags as tag>
-          <a href="/topic/tag/${tag.name}"><span class="label label-success">${tag.name}</span></a>
+          <a data-pjax href="/topic/tag/${tag.name}"><span class="label label-success">${tag.name}</span></a>
         </#list>
       </div>
     </div>
@@ -62,9 +54,9 @@
     <div class="panel-footer">
       <a href="javascript:window.open('http://service.weibo.com/share/share.php?url=${site.baseUrl!}/topic/${topic.id}?r=${user.username!}&title=${topic.title!?html}', '_blank', 'width=550,height=370'); recordOutboundLink(this, 'Share', 'weibo.com');">分享微博</a>&nbsp;
       <#if collect??>
-        <a href="javascript:;" class="collectTopic">取消收藏</a>
+        <a data-pjax href="javascript:;" class="collectTopic">取消收藏</a>
       <#else>
-        <a href="javascript:;" class="collectTopic">加入收藏</a>
+        <a data-pjax href="javascript:;" class="collectTopic">加入收藏</a>
       </#if>
       <span class="pull-right"><span id="collectCount">${collectCount!0}</span>个收藏</span>
     </div>
@@ -124,17 +116,19 @@
           },
           success: function(data){
             if(data.code === 200) {
-              socket.emit("notification", {
-                type: "comment",
-                payload: {
-                  username: "${user.username!}",
-                  topicUserName: "${topicUser.username!}",
-                  title: "${topic.title!}",
-                  id: "${topic.id!}"
-                }
-              });
+              <#if site.socketNotification>
+                socket.emit("notification", {
+                  type: "comment",
+                  payload: {
+                    username: "${user.username!}",
+                    topicUserName: "${topicUser.username!}",
+                    title: "${topic.title!}",
+                    id: "${topic.id!}"
+                  }
+                });
+              </#if>
               setTimeout(function () {
-                window.location.href = "/topic/${topic.id}";
+                $.pjax.reload('#pjax-container', {timeout: 5000});
               }, 1000)
             } else {
               toast(data.description);

@@ -7,8 +7,8 @@
     <div class="media media-comment" style="margin-left: ${(comment.layer - 1) * 20}px;" id="comment${comment.id}">
       <div class="media-body">
         <div class="media-heading gray">
-          <a href="/user/${comment.username}"><img src="${comment.avatar}" class="avatar-sm" alt=""/></a>
-          <a href="/user/${comment.username!}">${comment.username!} </a>
+          <a data-pjax href="/user/${comment.username}"><img src="${comment.avatar}" class="avatar-sm" alt=""/></a>
+          <a data-pjax href="/user/${comment.username!}">${comment.username!} </a>
           <#if topic_user?? && topic_user.username == comment.username>
             <span class="text-success">[楼主]</span>
           </#if>
@@ -24,8 +24,8 @@
                       onclick="vote('${comment.id}', 'DOWN')"></i>
                 <span id="up_down_vote_count_${comment.id}">${comment.up - comment.down}</span>
               <#else>
-                <a href="/comment/edit?id=${comment.id}"><span class="glyphicon glyphicon-edit"></span></a>
-                <a href="javascript:if(confirm('确定要删除吗？'))location.href='/comment/delete?id=${comment.id!}'"><span
+                <a data-pjax href="/comment/edit?id=${comment.id}"><span class="glyphicon glyphicon-edit"></span></a>
+                <a data-pjax href="javascript:if(confirm('确定要删除吗？'))location.href='/comment/delete?id=${comment.id!}'"><span
                     class="glyphicon glyphicon-trash"></span></a>
               </#if>
               <a href="javascript:commentThis('${comment.username}', '${comment.id}');"><span

@@ -1,4 +1,4 @@
-<#include "../../layout/layout.ftl"/>
+<#include "../../layout/" + layoutName/>
 <@html page_title="修改个人资料" page_tab="setting">
 <div class="row">
 
@@ -10,7 +10,7 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 个人设置
+        <a data-pjax href="/">主页</a> / 个人设置
       </div>
       <div class="panel-body">
         <form action="/user/setting/profile" method="post" id="userProfileForm">

@@ -1,4 +1,4 @@
-<#include "../../layout/layout.ftl"/>
+<#include "../../layout/" + layoutName/>
 <@html page_title="修改个人密码" page_tab="setting">
 <div class="row">
 

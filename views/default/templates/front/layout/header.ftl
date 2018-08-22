@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" style="font-weight: 700; font-size: 27px;" href="/">${site.name!}</a>
+      <a data-pjax href="/" class="navbar-brand" style="font-weight: 700; font-size: 27px;">${site.name!}</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse header-navbar">
       <#if site.search?? && site.search == true>
@@ -22,27 +22,27 @@
         </form>
       </#if>
       <ul class="nav navbar-nav navbar-right">
-        <li class="hidden-xs <#if page_tab == "index">active</#if>">
-          <a href="/">首页</a>
+        <li class="hidden-xs <#if page_tab == "index">active</#if>" data-tab="index">
+          <a data-pjax href="/">首页</a>
         </li>
-        <li class="hidden-xs <#if page_tab == "tags">active</#if>">
-          <a href="/tags">标签</a>
+        <li class="hidden-xs <#if page_tab == "tags">active</#if>" data-tab="tags">
+          <a data-pjax href="/tags">标签</a>
         </li>
         <#if user??>
           <li class="hidden-md hidden-lg">
-            <a href="/topic/create">发布话题</a>
+            <a data-pjax href="/topic/create">发布话题</a>
           </li>
-          <li <#if page_tab == 'user'> class="active" </#if>>
-            <a href="/user/${user.username!}">
+          <li <#if page_tab == 'user'> class="active" </#if> data-tab="user">
+            <a data-pjax href="/user/${user.username!}">
               ${user.username!}
               <span class="badge" id="badge"></span>
             </a>
           </li>
-          <li <#if page_tab == 'setting'> class="active" </#if>><a href="/user/setting/profile">设置</a></li>
+          <li <#if page_tab == 'setting'> class="active" </#if> data-tab="setting"><a data-pjax href="/user/setting/profile">设置</a></li>
           <li><a href="javascript:if(confirm('确定要登出${site.name!}吗？'))location.href='/logout'">退出</a></li>
         <#else>
-          <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
-          <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
+          <li <#if page_tab == "login">class="active"</#if> data-tab="login"><a data-pjax href="/login">登录</a></li>
+          <li <#if page_tab == "register">class="active"</#if> data-tab="register"><a data-pjax href="/register">注册</a></li>
         </#if>
       </ul>
     </div>

@@ -14,10 +14,10 @@
           <div class="media">
             <div class="media-body">
               <div class="title">
-                <a href="/topic/${topic.id!}">${topic.title!?html}</a>
+                <a data-pjax href="/topic/${topic.id!}">${topic.title!?html}</a>
               </div>
               <p>
-                <span><a href="/user/${topic.username}">${topic.username}</a></span>
+                <span><a data-pjax href="/user/${topic.username}">${topic.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
                 <span class="hidden-sm hidden-xs">${topic.comment_count!0}个评论</span>
                 <span class="hidden-sm hidden-xs">•</span>

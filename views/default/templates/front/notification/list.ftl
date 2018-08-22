@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl"/>
+<#include "../layout/" + layoutName/>
 <@html page_title="通知">
 <div class="row">
   <div class="col-md-9">
@@ -16,7 +16,7 @@
               </div>
               <div class="media-body">
                 <div class="gray" <#if !notification.is_read>style="font-weight:700;"</#if>>
-                  <a href="/user/${notification.username}">${notification.username}</a>
+                  <a data-pjax href="/user/${notification.username}">${notification.username}</a>
                   <#if notification.action == "COLLECT">
                     收藏了你发布的话题
                   <#elseif notification.action == "COMMENT">
@@ -30,7 +30,7 @@
                   <#elseif notification.action == "DOWN_TOPIC">
                     踩了你的话题
                   </#if>
-                  <a href="/topic/${notification.topic_id}">${notification.topic_title!?html}</a>
+                  <a data-pjax href="/topic/${notification.topic_id}">${notification.topic_title!?html}</a>
                   <#if notification.action == "COMMENT">
                     里评论了你
                   <#elseif notification.action == "REPLY">

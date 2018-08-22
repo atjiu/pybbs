@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl"/>
+<#include "../layout/" + layoutName/>
 <@html page_title="${username}个人主页" page_tab="user">
 <div class="row">
   <div class="col-md-3">
@@ -11,13 +11,13 @@
             </div>
             <div class="media-body">
               <h3 style="margin-top: 0">${currentUser.username!}</h3>
-              <p>声望：<a href="/top100">${currentUser.reputation!0}</a></p>
+              <p>声望：<a data-pjax data-pjax href="/top100">${currentUser.reputation!0}</a></p>
               <#if currentUser.bio??>
                 <p><i class="gray">${currentUser.bio!}</i></p>
               </#if>
-              <div>收藏话题: <a href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
+              <div>收藏话题: <a data-pjax href="/user/${currentUser.username}/collects">${collectCount!0}</a></div>
               <#if currentUser.url??>
-                <div>主页: <a href="${currentUser.url!?html}" target="_blank">${currentUser.url!?html}</a></div>
+                <div>主页: <a data-pjax href="${currentUser.url!?html}" target="_blank">${currentUser.url!?html}</a></div>
               </#if>
               <div>入驻时间: ${model.formatDate(currentUser.inTime)}</div>
             </div>

@@ -1,10 +1,10 @@
-<#include "layout/layout.ftl">
+<#include "layout/" + layoutName/>
 <@html page_title="注册" page_tab="register">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 注册
+        <a data-pjax href="/">主页</a> / 注册
       </div>
       <div class="panel-body">
         <form role="form" id="form" method="post">

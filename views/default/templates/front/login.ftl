@@ -1,10 +1,10 @@
-<#include "layout/layout.ftl">
+<#include "layout/" + layoutName/>
 <@html page_title="登录" page_tab="login">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 登录
+        <a data-pjax href="/">主页</a> / 登录
       </div>
       <div class="panel-body">
         <#if s?? && s == "reg">

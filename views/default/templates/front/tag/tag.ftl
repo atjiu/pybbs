@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl"/>
+<#include "../layout/" + layoutName/>
 <@html page_title="${tag.name}">
 <div class="row">
   <div class="panel panel-default">

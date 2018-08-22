@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName>
 <@html page_title="评论编辑" page_tab="comment">
   <section class="content-header">
     <h1>

@@ -1,8 +1,8 @@
-<#include "layout/layout.ftl"/>
+<#include "layout/" + layoutName/>
 <@html page_title="声望前100 - ${site.name!}">
 <div class="panel panel-default">
   <div class="panel-heading">
-    <a href="/">主页</a> / Top100 声望榜
+    <a data-pjax href="/">主页</a> / Top100 声望榜
   </div>
   <@reputation_tag p=1 limit=100>
     <table class="table">
@@ -12,7 +12,7 @@
           <td rowspan="3" width="80">
             <img src="${user.avatar}" class="avatar-lg" alt="">
           </td>
-          <td style="font-size: 20px;">${user_index + 1}. <a href="/user/${user.username}">${user.username}</a>
+          <td style="font-size: 20px;">${user_index + 1}. <a data-pjax href="/user/${user.username}">${user.username}</a>
           </td>
           <td rowspan="3" style="font-size: 30px; width:70px; text-align: center;">
             <span class="label label-default"

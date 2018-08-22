@@ -2,6 +2,7 @@ package co.yiiu.config;
 
 import co.yiiu.config.properties.SiteConfig;
 import co.yiiu.web.interceptor.CommonInterceptor;
+import co.yiiu.web.interceptor.PjaxInterceptor;
 import co.yiiu.web.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   @Autowired
   private UserInterceptor userInterceptor;
   @Autowired
+  private PjaxInterceptor pjaxInterceptor;
+  @Autowired
   private SiteConfig siteConfig;
 
   @Override
@@ -39,13 +42,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(commonInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/api/**", "/common/**", "/admin/**");
+        .excludePathPatterns("/api/**", "/static/**", "/common/**", "/admin/**");
     registry.addInterceptor(userInterceptor).addPathPatterns(
         "/topic/create",
         "/comment/save",
         "/notification/list",
         "/user/setting/*"
     );
+    registry.addInterceptor(pjaxInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns("/api/**", "/static/**", "/common/**");
   }
 
   @Override

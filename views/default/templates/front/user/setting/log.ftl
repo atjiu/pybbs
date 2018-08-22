@@ -1,4 +1,4 @@
-<#include "../../layout/layout.ftl"/>
+<#include "../../layout/" + layoutName/>
 <@html page_title="个人日志记录" page_tab="setting">
 <div class="row">
   <div class="col-md-3 hidden-sm hidden-xs">
@@ -8,7 +8,7 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 个人日志记录
+        <a data-pjax href="/">主页</a> / 个人日志记录
       </div>
       <div class="table-responsive">
         <table class="table table-striped">

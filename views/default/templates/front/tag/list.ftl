@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName/>
 <@html page_title="标签 - ${site.name!}" page_tab="tags">
 <div class="row">
   <div class="panel panel-default">
@@ -9,7 +9,7 @@
             <#if tag.logo??>
               <img src="${tag.logo}" width="24" class="sponsor-tag-img" alt="${tag.name!}">
             </#if>
-            <a href="/topic/tag/${tag.name}">
+            <a data-pjax href="/topic/tag/${tag.name}">
               <span class="label label-success">${tag.name!}</span>
             </a>
             <span class="text-muted">x ${tag.topicCount}</span>

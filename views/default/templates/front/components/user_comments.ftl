@@ -13,8 +13,8 @@
             <td>
               ${model.formatDate(comment.in_time)!}
               评论了
-              <a href="/user/${comment.username}">${comment.username}</a>
-              创建的话题 › <a href="/topic/${comment.topic_id}">${comment.topic_title!?html}</a>
+              <a data-pjax href="/user/${comment.username}">${comment.username}</a>
+              创建的话题 › <a data-pjax href="/topic/${comment.topic_id}">${comment.topic_title!?html}</a>
             </td>
           </tr>
           <tr class="user_comments">
@@ -32,7 +32,7 @@
       </#if>
       <#if isFooter || page.totalCount &gt;= limit>
         <div class="panel-footer">
-          <a href="/user/${currentUser.username}/comments">${currentUser.username}更多评论&gt;&gt;</a>
+          <a data-pjax href="/user/${currentUser.username}/comments">${currentUser.username}更多评论&gt;&gt;</a>
         </div>
       </#if>
     </#if>

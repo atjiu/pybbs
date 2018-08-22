@@ -1,4 +1,4 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName>
 <@html page_title="用户添加" page_tab="admin_user_list">
   <section class="content-header">
     <h1>

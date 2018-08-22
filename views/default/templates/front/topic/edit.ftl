@@ -1,10 +1,10 @@
-<#include "../layout/layout.ftl">
+<#include "../layout/" + layoutName/>
 <@html page_title="编辑话题">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="/">主页</a> / 编辑话题
+        <a data-pjax href="/">主页</a> / 编辑话题
       </div>
       <div class="panel-body">
         <form id="form">

@@ -6,13 +6,13 @@
   <div class="panel-body">
     <div class="media">
       <div class="media-left">
-        <a href="/user/${author.username!}">
+        <a data-pjax href="/user/${author.username!}">
           <img src="${author.avatar!}" title="${author.username!}" class="avatar"/>
         </a>
       </div>
       <div class="media-body">
         <div class="media-heading">
-          <a href="/user/${author.username!}">${author.username!}</a>
+          <a data-pjax href="/user/${author.username!}">${author.username!}</a>
         </div>
       </div>
       <#if author.bio?? && author.bio != "">
