@@ -84,9 +84,19 @@ public class CommentService {
     if (comment != null) {
       TopicWithBLOBs topic = topicService.findById(comment.getTopicId());
       topic.setCommentCount(topic.getCommentCount() - 1);
-      topicService.update(topic);
       // 日志
       logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), comment.getId(), JsonUtil.objectToJson(comment), null, topic);
+      //删除子评论
+      List<CommentWithBLOBs> commentWithBLOBs = commentMapper.findChildByCommentId(id);
+      if (commentWithBLOBs != null && commentWithBLOBs.size() > 0) {
+        for (CommentWithBLOBs commentWithBLOB : commentWithBLOBs) {
+          // 日志
+          logService.save(LogEventEnum.DELETE_COMMENT, userId, LogTargetEnum.COMMENT.name(), commentWithBLOB.getId(), JsonUtil.objectToJson(commentWithBLOB), null, topic);
+          topic.setCommentCount(topic.getCommentCount() - 1);
+          commentMapper.deleteByPrimaryKey(commentWithBLOB.getId());
+        }
+      }
+      topicService.update(topic);
       commentMapper.deleteByPrimaryKey(id);
       // 计算weight
       topicService.weight(topic, null);

@@ -1,4 +1,4 @@
-<#include "layout/" + layoutName>
+<#include "layout/layout.ftl">
 <@html page_title="首页" page_tab="index">
   <section class="content-header">
     <h1>

@@ -1,4 +1,4 @@
-<#include "../layout/" + layoutName>
+<#include "../layout/layout.ftl">
 <@html page_title="话题编辑" page_tab="topic">
   <section class="content-header">
     <h1>

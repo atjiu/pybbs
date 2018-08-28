@@ -1,4 +1,4 @@
-<#include "../layout/" + layoutName>
+<#include "../layout/layout.ftl">
 <@html page_title="权限列表" page_tab="admin_user_permission">
   <section class="content-header">
     <h1>

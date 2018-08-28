@@ -51,7 +51,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     );
     registry.addInterceptor(pjaxInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/api/**", "/static/**", "/common/**");
+        .excludePathPatterns("/api/**", "/static/**", "/common/**", "/admin/**");
   }
 
   @Override

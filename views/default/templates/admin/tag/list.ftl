@@ -1,4 +1,4 @@
-<#include "../layout/" + layoutName>
+<#include "../layout/layout.ftl">
 <@html page_title="标签列表" page_tab="tag">
   <section class="content-header">
     <h1>

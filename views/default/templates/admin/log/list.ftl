@@ -1,4 +1,4 @@
-<#include "../layout/" + layoutName>
+<#include "../layout/layout.ftl">
 <@html page_title="日志列表" page_tab="log">
   <section class="content-header">
     <h1>

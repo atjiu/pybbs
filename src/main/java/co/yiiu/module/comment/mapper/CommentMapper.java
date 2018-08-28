@@ -49,4 +49,7 @@ public interface CommentMapper {
   );
 
   int countByUserId(Integer userId);
+
+  List<CommentWithBLOBs> findChildByCommentId(@Param("commentId") Integer commentId);
+
 }

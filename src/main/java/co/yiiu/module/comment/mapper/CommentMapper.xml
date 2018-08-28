@@ -220,4 +220,9 @@
     FROM comment
     WHERE user_id = #{userId}
   </select>
+  <select id="findChildByCommentId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/>
+    from comment
+    where comment_id = #{commentId}
+  </select>
 </mapper>
