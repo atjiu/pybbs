@@ -35,40 +35,38 @@
   </div>
 </div>
 <script type="text/javascript">
-  $(function () {
-    $("#btn").click(function () {
-      var title = $("#title").val();
-      var contentHtml = editor.txt.html();
-      // var contentText = editor.txt.text();
-      var tag = $("#tag").val();
-      if(!title) {
-        toast("请输入标题");
+  $("#btn").click(function () {
+    var title = $("#title").val();
+    var contentHtml = editor.txt.html();
+    // var contentText = editor.txt.text();
+    var tag = $("#tag").val();
+    if (!title) {
+      toast("请输入标题");
       // } else if(!contentText) {
       //   toast("请输入内容");
-      } else if(!tag) {
-        toast("请输入标签");
-      } else {
-        $.ajax({
-          url: '/api/topic/save',
-          type: 'post',
-          async: false,
-          cache: false,
-          dataType: 'json',
-          data: {
-            title: title,
-            content: contentHtml,
-            tag: tag
-          },
-          success: function(data){
-            if(data.code === 200) {
-              window.location.href = "/topic/" + data.detail.id;
-            } else {
-              toast(data.description);
-            }
+    } else if (!tag) {
+      toast("请输入标签");
+    } else {
+      $.ajax({
+        url: '/api/topic/save',
+        type: 'post',
+        async: false,
+        cache: false,
+        dataType: 'json',
+        data: {
+          title: title,
+          content: contentHtml,
+          tag: tag
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            window.location.href = "/topic/" + data.detail.id;
+          } else {
+            toast(data.description);
           }
-        })
-      }
-    });
-  })
+        }
+      })
+    }
+  });
 </script>
 </@html>

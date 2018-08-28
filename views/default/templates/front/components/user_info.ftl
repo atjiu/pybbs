@@ -17,7 +17,7 @@
           </div>
         </div>
         <div style="margin-top: 15px;">
-          <a data-pjax href="/topic/create" style="text-decoration: underline"><span class="glyphicon glyphicon-pencil"></span><i>发布话题</i></a>
+          <a href="/topic/create" style="text-decoration: underline"><span class="glyphicon glyphicon-pencil"></span><i>发布话题</i></a>
         </div>
       </div>
     </div>

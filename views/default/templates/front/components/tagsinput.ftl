@@ -7,13 +7,14 @@
     height: 16px;
     border-radius: 2px;
   }
+
   .tag-intro {
     font-size: 10px;
     color: gray;
     word-wrap: break-word;
     word-break: break-all;
     text-overflow: ellipsis;
-    overflow:hidden;
+    overflow: hidden;
     width: 300px;
   }
 </style>
@@ -43,8 +44,8 @@
     remote: {
       url: '${site.baseUrl!}api/tag/autocomplete?keyword=%QUERY',
       wildcard: '%QUERY',
-      filter: function(data) {
-        return $.map(data.detail, function(v) {
+      filter: function (data) {
+        return $.map(data.detail, function (v) {
           return v;
         })
       }
@@ -53,7 +54,9 @@
   $('#tag').tagsinput({
     maxTags: 5,
     trimValue: true,
-    typeaheadjs: {
+    typeaheadjs: [{
+      minLength: 2
+    }, {
       name: 'tag_auto_complete',
       displayKey: 'name',
       valueKey: 'name',
@@ -66,7 +69,7 @@
         // ].join('\n'),
         suggestion: Handlebars.compile($("#autocompleteTpl").html())
       }
-    }
+    }]
   });
 </script>
 </#macro>

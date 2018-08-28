@@ -94,7 +94,7 @@
       $(document).on('pjax:start', function() {
         NProgress.start();
       });
-      $(document).on('pjax:end', function() {
+      $(document).on('pjax:complete', function() {
         NProgress.done();
       });
       // $(document).on('pjax:timeout', function() {
