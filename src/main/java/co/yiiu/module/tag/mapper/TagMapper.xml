@@ -127,4 +127,12 @@
     FROM tag t LEFT JOIN topic_tag tt ON t.id = tt.tag_id
     WHERE tt.topic_id = #{topicId}
   </select>
+  <select id="findByNameLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tag where name LIKE '#{name}'
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo}, #{pageSize}
+    </if>
+  </select>
 </mapper>

@@ -91,4 +91,8 @@ public class TagService {
       this.update(tag);
     });
   }
+
+  public List<Tag> findByNameLike(String name, Integer pageNo, Integer pageSize) {
+    return tagMapper.findByNameLike("%" + name + "%", 0, 7);
+  }
 }

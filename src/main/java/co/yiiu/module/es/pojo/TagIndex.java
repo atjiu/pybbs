@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by tomoya at 4/27/18
  */
-@Document(indexName = "topic_index", type = "topic", refreshInterval = "-1")
+@Document(indexName = "pybbs", type = "tag", refreshInterval = "-1")
 public class TagIndex implements Serializable {
 
   @Id

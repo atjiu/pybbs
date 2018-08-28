@@ -30,4 +30,10 @@ public interface TagMapper {
   Tag findByName(String name);
 
   List<Tag> findByTopicId(Integer topicId);
+
+  List<Tag> findByNameLike(
+      @Param("name") String name,
+      @Param("pageNo") Integer pageNo,
+      @Param("pageSize") Integer pageSize
+  );
 }

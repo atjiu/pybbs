@@ -11,14 +11,16 @@ import java.util.Date;
 /**
  * Created by tomoya at 2018/4/24
  */
-@Document(indexName = "topic_index", type = "topic", refreshInterval = "-1")
+@Document(indexName = "pybbs", type = "topic", refreshInterval = "-1")
 public class TopicIndex implements Serializable {
 
   @Id
   private Integer id;
-  @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word", type = FieldType.text)
+
+  @Field(analyzer = "ik_max_word", type = FieldType.text)
   private String title;
-  @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word", type = FieldType.text)
+
+  @Field(analyzer = "ik_max_word", type = FieldType.text)
   private String content;
   private String username;
   private String tag;

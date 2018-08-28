@@ -73,7 +73,8 @@ public class TagSearchService {
    */
   public List<TagIndex> query(String keyword, Integer limit) {
     Pageable pageable = PageRequest.of(0, limit);
-    QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(keyword, "name");
+    //TODO fuzzyQuery模糊查询，即使写错了，也可以识别出来，但比较耗费性能，数据量多了不建议使用
+    QueryBuilder queryBuilder = QueryBuilders.fuzzyQuery("name", keyword);
     SearchQuery query = new NativeSearchQueryBuilder()
         .withPageable(pageable)
         .withQuery(queryBuilder)

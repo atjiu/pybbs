@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 @EnableElasticsearchRepositories(basePackages = "co.yiiu.module.es.repository")
 @MapperScan("co.yiiu.module")
+@ComponentScan("co.yiiu")
 public class Application {
 
   public static void main(String[] args) {
