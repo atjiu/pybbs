@@ -55,7 +55,7 @@
 
 - 创建数据库pybbs, 字符集utf8，如果想支持emoji，就要选择utf8mb4字符集（仅限使用MySQL数据库）
 - 将项目里的application.yml文件复制一份，重新命名application-prod.yml，并修改里面的配置项
-- 运行 `mvn clean compile package`
+- 运行 `mvn clean compile package -Dmaven.test.skip=true`
 - 拷贝 `target/pybbs.jar` 到你想存放的地方
 - 运行 `java -jar pybbs.jar --spring.profiles.active=prod > pybbs.log 2>&1 &` 项目就在后台运行了
 - 将项目下的 `init.sql` 文件导入到数据库
