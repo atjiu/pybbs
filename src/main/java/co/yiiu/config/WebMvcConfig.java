@@ -30,7 +30,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
-    configurer.setUseSuffixPatternMatch(false);
+    configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(false);
   }
 
   /**
@@ -61,4 +61,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         "file:./views/" + siteConfig.getTheme() + "/static/",
         "classpath:/" + siteConfig.getTheme() + "/static/");
   }
+
 }
