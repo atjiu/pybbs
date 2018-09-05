@@ -1,0 +1,35 @@
+site:
+  # 配置跨域域名
+  corsDomain: []
+  # 每页显示条数
+  pageSize: 20
+  # 下面是话题的分类，可以自行增加删减
+  sections:
+    - name: 分享
+      value: share
+    - name: 问答
+      value: ask
+    - name: 博客
+      value: blog
+    - name: 精华
+      value: good
+    - name: 招聘
+      value: job
+  # 下面是配置管理员，配置在后面的名字的用户都是管理员
+  admin: []
+  # 下面是被ban的用户，被ban后，不能发布话题和评论
+  ban: []
+
+# 七牛上传配置，不配置上传功能不能用
+qiniu:
+  accessKey: # 七牛开发者上传的key
+  secretKey: # 七牛开发者上传的密钥
+  bucket: # 创建的存储空间名称
+  domain: # 存储空间域名
+
+# jwt相关配置，保持默认就可以了
+jwt:
+  header: "Authorization"
+  secret: "mySecret"
+  expiration: 604800 # 7天有效期 单位 s
+  tokenHead: "Bearer "

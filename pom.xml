@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>co.yiiu</groupId>
-  <artifactId>yiiu</artifactId>
-  <version>3.0</version>
+  <artifactId>pybbs</artifactId>
+  <version>4.0</version>
   <packaging>jar</packaging>
 
   <name>pybbs</name>
@@ -16,155 +14,92 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.0.RELEASE</version>
-    <relativePath/>
+    <version>2.0.4.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <commonmark.version>0.10.0</commonmark.version>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mybatis.spring.boot</groupId>
-      <artifactId>mybatis-spring-boot-starter</artifactId>
-      <version>1.3.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-mail</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-freemarker</artifactId>
+      <artifactId>spring-boot-starter-data-mongodb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-redis</artifactId>
-      <version>1.4.7.RELEASE</version><!--引入es后开始报错，这里引入一下版本号就好了-->
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-    </dependency>
 
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--json格式化类库 -->
+
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
+      <groupId>de.flapdoodle.embed</groupId>
+      <artifactId>de.flapdoodle.embed.mongo</artifactId>
     </dependency>
+
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>19.0</version>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>0.9.1</version>
     </dependency>
-    <!--过滤html标签类库 -->
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
-      <version>1.9.2</version>
+      <version>1.11.2</version>
     </dependency>
+    <!--markdown-->
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-autolink</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-gfm-tables</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <!--end-->
     <dependency>
       <groupId>com.qiniu</groupId>
       <artifactId>qiniu-java-sdk</artifactId>
       <version>[7.2.0, 7.2.99]</version>
     </dependency>
-    <!--netty-socketio-->
     <dependency>
-      <groupId>com.corundumstudio.socketio</groupId>
-      <artifactId>netty-socketio</artifactId>
-      <version>1.7.7</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
   </dependencies>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
-    <docker.image.prefix>tomoya92</docker.image.prefix>
-  </properties>
-
   <build>
     <finalName>pybbs</finalName>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.xml</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>views</directory>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>co.yiiu.Application</mainClass>
-          <fork>true</fork>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.mybatis.generator</groupId>
-        <artifactId>mybatis-generator-maven-plugin</artifactId>
-        <version>1.3.2</version>
-        <configuration>
-          <verbose>true</verbose>
-          <overwrite>true</overwrite>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>1.0.0</version>
-        <configuration>
-          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-          <imageTags>${project.version}</imageTags>
-          <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-          <resources>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
-            </resource>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.basedir}</directory>
-              <include>views/</include>
-            </resource>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.basedir}</directory>
-              <include>src/main/docker/app.sh</include>
-            </resource>
-          </resources>
-        </configuration>
       </plugin>
     </plugins>
   </build>
