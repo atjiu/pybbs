@@ -1,8 +1,11 @@
 site:
   # 配置跨域域名
-  corsDomain: []
+  corsDomain: ["http://localhost:3000", "http://localhost:8080"]
   # 每页显示条数
   pageSize: 20
+  createTopicScore: 10
+  goodTopicScore: 20
+  createCommentScore: 5
   # 下面是话题的分类，可以自行增加删减
   sections:
     - name: 分享

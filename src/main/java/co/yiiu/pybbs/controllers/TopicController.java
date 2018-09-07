@@ -99,7 +99,10 @@ public class TopicController extends BaseController {
     topic.setGood(false);
     topic.setTop(false);
     topicService.save(topic);
-    return Result.success();
+    //更新用户的积分
+    user.setScore(user.getScore() + siteConfig.getCreateTopicScore());
+    userService.save(user);
+    return Result.success(topic.getId());
   }
 
   @PostMapping("/update")
@@ -130,6 +133,9 @@ public class TopicController extends BaseController {
     ApiAssert.isTrue(user.getId().equals(topic.getUserId())
         || siteConfig.getAdmin().contains(user.getUsername()), "不能删除别人的话题");
     topicService.deleteById(id);
+    //更新用户的积分
+    user.setScore(user.getScore() - siteConfig.getCreateTopicScore());
+    userService.save(user);
     return Result.success();
   }
 
@@ -141,6 +147,9 @@ public class TopicController extends BaseController {
     ApiAssert.isTrue(siteConfig.getAdmin().contains(user.getUsername()), "您没有权限");
     topic.setGood(!topic.getGood());
     topicService.save(topic);
+    //更新用户的积分
+    user.setScore(user.getScore() + siteConfig.getGoodTopicScore());
+    userService.save(user);
     return Result.success();
   }
 

@@ -135,7 +135,7 @@ Result.success(Map<String, Object>)
 
 返回
 
-Result.success()
+Result.success(id)
 
 ### 编辑话题
 

@@ -7,6 +7,7 @@ import co.yiiu.pybbs.models.Topic;
 import co.yiiu.pybbs.models.User;
 import co.yiiu.pybbs.services.CommentService;
 import co.yiiu.pybbs.services.TopicService;
+import co.yiiu.pybbs.services.UserService;
 import co.yiiu.pybbs.utils.Result;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -29,6 +30,8 @@ public class CommentController extends BaseController {
   private TopicService topicService;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private UserService userService;
 
   @PostMapping("/create")
   public Result create(String topicId, String content, String commentId) {
@@ -52,6 +55,9 @@ public class CommentController extends BaseController {
     // 更新话题的评论数
     topic.setCommentCount(topic.getCommentCount() + 1);
     topicService.save(topic);
+    //更新用户的积分
+    user.setScore(user.getScore() + siteConfig.getCreateCommentScore());
+    userService.save(user);
     return Result.success();
   }
 
@@ -81,6 +87,9 @@ public class CommentController extends BaseController {
     topicService.save(topic);
     // 删除评论
     commentService.deleteById(id);
+    //更新用户的积分
+    user.setScore(user.getScore() - siteConfig.getCreateCommentScore());
+    userService.save(user);
     return Result.success();
   }
 }

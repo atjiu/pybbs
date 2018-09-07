@@ -2,14 +2,11 @@ server:
   port: 8080
 spring:
 # 外置的mongodb服务配置
-#  data:
-#    mongodb:
-#     database: pybbs #一般只用配置这一个就可以了，如果数据库有密码，还要配置下面几个配置
-#     host:
-#     password:
-#     uri:
+  data:
+    mongodb:
+     database: pybbs #一般只用配置这一个就可以了，如果数据库有密码，还要配置下面几个配置
 # 内置的mongodb服务配置
-  mongodb:
-    embedded:
-      storage:
-        database-dir: ./data
+#  mongodb:
+#    embedded:
+#      storage:
+#        database-dir: ./data
