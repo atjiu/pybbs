@@ -30,11 +30,11 @@ public class JwtFilter implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    // 在WebMvcConfig里配置的Cors在这好像不起作用，这里还要再配置一遍
+    response.setHeader("Access-Control-Allow-Methods", "*");
+    response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+    response.setHeader("Access-Control-Allow-Origin", stringUtil.listToString(siteConfig.getCorsDomain(), ","));
     if (request.getMethod().equals("OPTIONS")) {
-      // 在WebMvcConfig里配置的Cors在这好像不起作用，这里还要再配置一遍
-      response.setHeader("Access-Control-Allow-Methods", "*");
-      response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-      response.setHeader("Access-Control-Allow-Origin", stringUtil.listToString(siteConfig.getCorsDomain(), ","));
       response.setStatus(HttpServletResponse.SC_NO_CONTENT);
       return false;
     }

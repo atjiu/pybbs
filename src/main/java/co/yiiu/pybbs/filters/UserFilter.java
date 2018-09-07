@@ -3,6 +3,7 @@ package co.yiiu.pybbs.filters;
 import co.yiiu.pybbs.conf.properties.SiteConfig;
 import co.yiiu.pybbs.utils.JwtTokenUtil;
 import co.yiiu.pybbs.utils.Result;
+import co.yiiu.pybbs.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,6 +22,8 @@ public class UserFilter implements HandlerInterceptor {
   private JwtTokenUtil jwtTokenUtil;
   @Autowired
   private SiteConfig siteConfig;
+  @Autowired
+  private StringUtil stringUtil;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {

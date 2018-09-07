@@ -42,7 +42,7 @@ public class Result {
     result.setCode(code);
     result.setDescription(description);
     result.setDetail(null);
-    response.setContentType("application/json");
+    response.setContentType("application/json;charset=utf-8");
     response.getWriter().write(JsonUtil.objectToJson(result));
   }
 
