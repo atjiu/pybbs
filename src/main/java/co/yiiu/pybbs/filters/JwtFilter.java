@@ -24,9 +24,9 @@ public class JwtFilter implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
     String authHeader = request.getHeader(jwtConfig.getHeader());
-    ApiAssert.notTrue(authHeader == null || !authHeader.startsWith(jwtConfig.getTokenHead()), "无效Token");
+    ApiAssert.notTrue(authHeader == null || !authHeader.startsWith(jwtConfig.getTokenHead()), 202, "无效Token");
     String authToken = authHeader.substring(jwtConfig.getTokenHead().length()); // The part after "Bearer "
-    ApiAssert.isTrue(jwtTokenUtil.validateToken(authToken), "Token不合法或已过期");
+    ApiAssert.isTrue(jwtTokenUtil.validateToken(authToken), 202, "Token不合法或已过期");
     return true;
   }
 }

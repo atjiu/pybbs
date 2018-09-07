@@ -32,7 +32,7 @@ public class BaseController {
     String authHeader = request.getHeader(jwtConfig.getHeader());
     String token = authHeader.substring(jwtConfig.getTokenHead().length());
     AccessToken accessToken = accessTokenService.findByToken(token);
-    ApiAssert.notNull(accessToken, "您的Token已无效，请重新登录获取");
+    ApiAssert.notNull(accessToken, 202, "您的Token已无效，请重新登录获取");
     return token;
   }
 
