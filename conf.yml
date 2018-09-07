@@ -1,6 +1,6 @@
 site:
   # 配置跨域域名
-  corsDomain: ["http://localhost:3000", "http://localhost:8080"]
+  corsDomain: ["http://localhost:3000"]
   # 每页显示条数
   pageSize: 20
   createTopicScore: 10

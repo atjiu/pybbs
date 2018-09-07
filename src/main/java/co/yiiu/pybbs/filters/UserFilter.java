@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.filters;
 
-import co.yiiu.pybbs.conf.properties.JwtConfig;
 import co.yiiu.pybbs.conf.properties.SiteConfig;
 import co.yiiu.pybbs.exceptions.ApiAssert;
 import co.yiiu.pybbs.utils.JwtTokenUtil;
@@ -20,16 +19,13 @@ public class UserFilter implements HandlerInterceptor {
   @Autowired
   private JwtTokenUtil jwtTokenUtil;
   @Autowired
-  private JwtConfig jwtConfig;
-  @Autowired
   private SiteConfig siteConfig;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-    String authHeader = request.getHeader(jwtConfig.getHeader());
-    String authToken = authHeader.substring(jwtConfig.getTokenHead().length()); // The part after "Bearer "
+    String authToken = (String) request.getAttribute("authToken");
     String username = jwtTokenUtil.getUsernameFromToken(authToken);
-    ApiAssert.isTrue(siteConfig.getBan().contains(username), "您的帐号已被封");
+    ApiAssert.notTrue(siteConfig.getBan().contains(username), "您的帐号已被封");
     return true;
   }
 }

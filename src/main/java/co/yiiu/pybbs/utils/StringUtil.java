@@ -42,4 +42,14 @@ public class StringUtil {
         .map(section -> section.get("value"))
         .collect(Collectors.toList());
   }
+
+  public String listToString(List<String> list, String sep) {
+    if (list == null || list.size() == 0) return null;
+    StringBuilder str = new StringBuilder();
+    for (String s: list) {
+      str.append(s).append(sep);
+    }
+    str.deleteCharAt(str.length() - 1);
+    return str.toString();
+  }
 }
