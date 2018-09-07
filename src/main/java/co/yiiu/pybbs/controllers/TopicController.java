@@ -148,7 +148,11 @@ public class TopicController extends BaseController {
     topic.setGood(!topic.getGood());
     topicService.save(topic);
     //更新用户的积分
-    user.setScore(user.getScore() + siteConfig.getGoodTopicScore());
+    if (topic.getGood()) {
+      user.setScore(user.getScore() + siteConfig.getGoodTopicScore());
+    } else {
+      user.setScore(user.getScore() - siteConfig.getGoodTopicScore());
+    }
     userService.save(user);
     return Result.success();
   }

@@ -40,6 +40,8 @@ public class CommentController extends BaseController {
     Topic topic = topicService.findById(topicId);
     ApiAssert.notNull(topic, "要评论的话题不存在");
     ApiAssert.notEmpty(content, "评论的内容不能为空");
+    // 将内容里的 \n 转成 <br/>
+    content = content.replaceAll("\\n", "<br/>");
     // 如果回复的评论id不为空，判断一下是否存在这个评论
     if (!StringUtils.isEmpty(commentId)) {
       Comment _comment = commentService.findById(commentId);
@@ -47,7 +49,7 @@ public class CommentController extends BaseController {
     }
     Comment comment = new Comment();
     comment.setCommentId(commentId);
-    comment.setContent(Jsoup.clean(content, Whitelist.none()));
+    comment.setContent(Jsoup.clean(content, Whitelist.none().addTags("br")));
     comment.setInTime(new Date());
     comment.setTopicId(topicId);
     comment.setUserId(user.getId());
@@ -58,7 +60,9 @@ public class CommentController extends BaseController {
     //更新用户的积分
     user.setScore(user.getScore() + siteConfig.getCreateCommentScore());
     userService.save(user);
-    return Result.success();
+    // 把保存成功的评论返回给前端
+    comment.setUser(user);
+    return Result.success(comment);
   }
 
   @PostMapping("/update")
