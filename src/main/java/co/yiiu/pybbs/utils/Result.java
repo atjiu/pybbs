@@ -1,5 +1,8 @@
 package co.yiiu.pybbs.utils;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 public class Result {
 
   private int code;
@@ -32,6 +35,15 @@ public class Result {
     result.setDescription(description);
     result.setDetail(null);
     return result;
+  }
+
+  public static void error(HttpServletResponse response, int code, String description) throws IOException {
+    Result result = new Result();
+    result.setCode(code);
+    result.setDescription(description);
+    result.setDetail(null);
+    response.setContentType("application/json");
+    response.getWriter().write(JsonUtil.objectToJson(result));
   }
 
   public int getCode() {
