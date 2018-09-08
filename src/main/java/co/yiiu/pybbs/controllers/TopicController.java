@@ -60,7 +60,11 @@ public class TopicController extends BaseController {
 
     // 判断用户是否登录过，登录过的话，查询出来这个话题是否被收藏过
     User user = getUserForTopicDetail();
-    if (user != null && collectService.findByUserIdAndTopicId(user.getId(), id) != null) map.put("collect", true);
+    if (user != null && collectService.findByUserIdAndTopicId(user.getId(), id) != null) {
+      map.put("collect", true);
+    } else {
+      map.put("collect", false);
+    }
 
     // 查询话题的user
     User topicUser = userService.findById(topic.getUserId());

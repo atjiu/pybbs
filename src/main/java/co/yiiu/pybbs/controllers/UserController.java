@@ -84,13 +84,18 @@ public class UserController extends BaseController {
     return Result.success(page);
   }
 
+  @GetMapping("/settings/profile")
+  public Result profile() {
+    return Result.success(getUser());
+  }
+
   @PostMapping("/settings/profile")
   public Result profile(String email, String website, String bio, String avatar) {
     User user = getUser();
     if (!StringUtils.isEmpty(email)) {
       ApiAssert.isTrue(stringUtil.check(email, stringUtil.emailRegex), "请输入正确的邮箱地址");
       User _user = userService.findByEmail(email);
-      ApiAssert.isNull(_user, "邮箱被占用了");
+      ApiAssert.notTrue(_user != null && !email.equals(user.getEmail()) , "邮箱被占用了");
       user.setEmail(email);
     }
     if (!StringUtils.isEmpty(website)) {
@@ -98,7 +103,10 @@ public class UserController extends BaseController {
       user.setWebsite(website);
     }
     if (!StringUtils.isEmpty(bio)) user.setBio(Jsoup.clean(bio, Whitelist.none()));
-    if (!StringUtils.isEmpty(avatar)) user.setAvatar(Jsoup.clean(avatar, Whitelist.none()));
+    if (!StringUtils.isEmpty(avatar)) {
+      ApiAssert.isTrue(stringUtil.check(avatar, stringUtil.urlRegex), "请输入正确的头像地址");
+      user.setAvatar(Jsoup.clean(avatar, Whitelist.none()));
+    }
     userService.save(user);
     return Result.success();
   }

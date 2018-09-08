@@ -38,7 +38,8 @@ public class BaseController {
 
   protected User getUserForTopicDetail() {
     HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-    String token = (String) request.getAttribute("authToken");
+    String authHeader = request.getHeader(jwtConfig.getHeader());
+    String token = authHeader.substring(jwtConfig.getTokenHead().length());
     AccessToken accessToken = accessTokenService.findByToken(token);
     if (accessToken != null) {
       return userService.findById(accessToken.getUserId());
