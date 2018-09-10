@@ -59,4 +59,12 @@ public class TopicService {
     if (topics.size() > 0) return topics.get(0);
     return null;
   }
+
+  public Topic findByUrl(String url) {
+    Topic topic = new Topic();
+    topic.setUrl(url);
+    List<Topic> topics = topicRepository.findAll(Example.of(topic));
+    if (topics.size() > 0) return topics.get(0);
+    return null;
+  }
 }

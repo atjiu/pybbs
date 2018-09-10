@@ -14,6 +14,8 @@ public class Topic implements Serializable {
   @Id
   private String id;
   private String title;
+  // 转载文章的链接
+  private String url;
   private String content;
   private String tab;
   private Date inTime;
@@ -32,6 +34,14 @@ public class Topic implements Serializable {
 
   @Transient
   private User user;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
   public Integer getCollectCount() {
     return collectCount;

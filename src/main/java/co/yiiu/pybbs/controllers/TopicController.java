@@ -16,6 +16,7 @@ import co.yiiu.pybbs.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -83,7 +84,7 @@ public class TopicController extends BaseController {
   }
 
   @PostMapping("/create")
-  public Result create(String title, String content, String tab) {
+  public Result create(String title, String url, String content, String tab) {
     User user = getUser();
     ApiAssert.notEmpty(title, "标题不能为空");
 //    ApiAssert.notEmpty(content, "内容不能为空");
@@ -91,9 +92,15 @@ public class TopicController extends BaseController {
     ApiAssert.isTrue(stringUtil.sectionValues().contains(tab), "分类不存在");
     Topic topic = topicService.findByTitle(title);
     ApiAssert.isNull(topic, "话题标题已经存在");
+    if (!StringUtils.isEmpty(url)) {
+      Topic topic_url = topicService.findByUrl(url);
+      ApiAssert.isNull(topic_url, "分享的链接已经存在");
+      ApiAssert.isTrue(stringUtil.check(url, stringUtil.urlRegex), "分享的不是标准URL地址");
+    }
     topic = new Topic();
     topic.setUserId(user.getId());
     topic.setTitle(Jsoup.clean(title, Whitelist.none()));
+    topic.setUrl(Jsoup.clean(url, Whitelist.none()));
     topic.setContent(content);
     topic.setInTime(new Date());
     topic.setCommentCount(0);

@@ -98,11 +98,11 @@ public class UserController extends BaseController {
       ApiAssert.isTrue(stringUtil.check(email, stringUtil.emailRegex), "请输入正确的邮箱地址");
       User _user = userService.findByEmail(email);
       ApiAssert.notTrue(_user != null && !email.equals(user.getEmail()) , "邮箱被占用了");
-      user.setEmail(email);
+      user.setEmail(Jsoup.clean(email, Whitelist.none()));
     }
     if (!StringUtils.isEmpty(website)) {
       ApiAssert.isTrue(stringUtil.check(website, stringUtil.urlRegex), "请输入正确的网址");
-      user.setWebsite(website);
+      user.setWebsite(Jsoup.clean(website, Whitelist.none()));
     }
     if (!StringUtils.isEmpty(bio)) user.setBio(Jsoup.clean(bio, Whitelist.none()));
     if (!StringUtils.isEmpty(avatar)) {

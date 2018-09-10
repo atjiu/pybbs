@@ -130,6 +130,7 @@ Result.success(Map<String, Object>)
 要认证信息
 
 - title 标题（不能为空）
+- url 转载文章的链接
 - content 内容 (支持markdown语法)
 - tab 分类
 
