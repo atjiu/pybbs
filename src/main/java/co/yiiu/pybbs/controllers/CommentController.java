@@ -87,7 +87,7 @@ public class CommentController extends BaseController {
         || siteConfig.getAdmin().contains(user.getUsername()), "不能删除别人的评论");
     // 更新话题的评论数
     Topic topic = topicService.findById(comment.getTopicId());
-    topic.setCommentCount(topic.getCommentCount() + 1);
+    topic.setCommentCount(topic.getCommentCount() - 1);
     topicService.save(topic);
     // 删除评论
     commentService.deleteById(id);
