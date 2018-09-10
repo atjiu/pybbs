@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tomoya at 2018/9/3
@@ -78,6 +80,9 @@ public class IndexController extends BaseController {
   public Result login(String username, String password) {
     ApiAssert.notEmpty(username, "用户名不能为空");
     ApiAssert.notEmpty(password, "密码不能为空");
+
+    Map<String, Object> map = new HashMap<>();
+
     User user = userService.findByUsername(username);
     ApiAssert.isTrue(user != null && new BCryptPasswordEncoder().matches(password, user.getPassword()), "用户名或密码不正确");
     String token;
@@ -93,13 +98,18 @@ public class IndexController extends BaseController {
     } else {
       token = accessToken.getToken();
     }
-    return Result.success(token);
+    map.put("token", token);
+    map.put("admin", siteConfig.getAdmin().contains(username));
+    return Result.success(map);
   }
 
   @PostMapping("/register")
   public Result register(String username, String password) {
     ApiAssert.isTrue(stringUtil.check(username, stringUtil.usernameRegex), "用户名只能输入[0-9a-zA-Z]，长度4-16位");
     ApiAssert.isTrue(stringUtil.check(password, stringUtil.passwordRegex), "密码只能输入[0-9a-zA-Z]，长度6-32位");
+
+    Map<String, Object> map = new HashMap<>();
+
     User user = userService.findByUsername(username);
     ApiAssert.isNull(user, "用户名已经存在");
     user = new User();
@@ -114,8 +124,10 @@ public class IndexController extends BaseController {
     accessToken.setToken(token);
     accessToken.setUserId(user.getId());
     accessToken.setInTime(new Date());
+
+    map.put("token", accessToken);
     accessTokenService.save(accessToken);
-    return Result.success(token);
+    return Result.success(map);
   }
 
   @GetMapping("/logout")

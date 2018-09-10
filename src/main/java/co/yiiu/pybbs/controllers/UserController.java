@@ -86,7 +86,9 @@ public class UserController extends BaseController {
 
   @GetMapping("/settings/profile")
   public Result profile() {
-    return Result.success(getUser());
+    User user = getUser();
+    user.setAdmin(siteConfig.getAdmin().contains(user.getUsername()));
+    return Result.success(user);
   }
 
   @PostMapping("/settings/profile")

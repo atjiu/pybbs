@@ -2,6 +2,7 @@ package co.yiiu.pybbs.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,6 +23,18 @@ public class User implements Serializable {
   private String bio;
   private Integer score;
   private Date inTime;
+
+  // 是否是管理员
+  @Transient
+  private boolean admin;
+
+  public boolean isAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(boolean admin) {
+    this.admin = admin;
+  }
 
   public String getAvatar() {
     return avatar;

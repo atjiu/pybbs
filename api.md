@@ -64,7 +64,7 @@ Result.success(List<User>)
 
 返回
 
-Result.success(token)
+Result.success(Map)
 
 ### 注册
 
@@ -77,7 +77,7 @@ Result.success(token)
 
 返回
 
-Result.success(token)
+Result.success(Map)
 
 ### 登出
 

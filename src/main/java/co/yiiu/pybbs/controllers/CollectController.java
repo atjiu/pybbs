@@ -51,7 +51,7 @@ public class CollectController extends BaseController {
     Collect collect = collectService.findByUserIdAndTopicId(user.getId(), topicId);
     ApiAssert.notNull(collect, "您还没有收藏了这个话题");
     // 更新话题的收藏数
-    topic.setCollectCount(topic.getCollectCount() + 1);
+    topic.setCollectCount(topic.getCollectCount() - 1);
     topicService.save(topic);
     // 取消收藏
     collectService.deleteById(collect.getId());
