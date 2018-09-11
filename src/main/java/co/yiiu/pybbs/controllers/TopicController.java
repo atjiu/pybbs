@@ -117,12 +117,17 @@ public class TopicController extends BaseController {
   }
 
   @PostMapping("/update")
-  public Result update(String id, String title, String content, String tab) {
+  public Result update(String id, String title, String url, String content, String tab) {
     ApiAssert.notEmpty(id, "话题ID不能为空");
     ApiAssert.notEmpty(title, "话题标题不能为空");
 //    ApiAssert.notEmpty(content, "话题内容不能为空");
     ApiAssert.notEmpty(tab, "话题分类不能为空");
     ApiAssert.isTrue(stringUtil.sectionValues().contains(tab), "分类不存在");
+    if (!StringUtils.isEmpty(url)) {
+      Topic topic_url = topicService.findByUrl(url);
+      ApiAssert.isNull(topic_url, "分享的链接已经存在");
+      ApiAssert.isTrue(stringUtil.check(url, stringUtil.urlRegex), "分享的不是标准URL地址");
+    }
     User user = getUser();
     Topic topic = topicService.findById(id);
     ApiAssert.notNull(topic, "话题不存在");
