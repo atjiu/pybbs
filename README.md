@@ -1,19 +1,20 @@
 > 使用说明：请在醒目的地方标明 powered by pybbs
 
-[接口文档](https://github.com/tomoya92/pybbs/blob/master/api.md)
+[接口文档](https://github.com/tomoya92/pybbs/blob/master/api.md) | [在线地址](https://dev.yiiu.co/)
 
-pybbs4.0 重新回归精简，请求全部以 restful 风格的接口提供，数据库使用内嵌的mongodb(可以通过简单的配置更改为外置数据库)，并且提供release安装包，方便部署，相关配置见下文
+前端项目开源地址: https://github.com/tomoya92/pybbs-front-react
+
+pybbs4.0 重新回归精简，请求全部以接口提供，数据库使用内嵌的mongodb(可以通过简单的配置更改为外置数据库)，并且提供release安装包，方便部署，相关配置见下文
 
 ## 部署
 
 [下载安装包](https://github.com/tomoya92/pybbs/releases)，解压，运行脚本(支持linux, mac)
 
-- `sh start.sh`      # 启动服务
-- `sh shutdown.sh`   # 停止服务
+**启动之前，要装好mongodb数据库，如果数据库有用户名密码，请在解压出来的文件夹内的`application-prod.yml`文件内修改数据库连接信息**
 
-### 数据库文件在哪？
-
-数据库使用的是内嵌的mongodb，数据库文件在安装目录根目录下的 `data` 文件夹里，备份直接拷贝即可
+- `sh start.sh`         # 启动服务
+- `sh shutdown.sh`      # 停止服务
+- `tail -200f log.file` # 查看日志
 
 ## 配置文件
 

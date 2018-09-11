@@ -1,10 +1,13 @@
 site:
   # 配置跨域域名
-  corsDomain: ["http://localhost:3000"]
+  corsDomain: []
   # 每页显示条数
   pageSize: 20
+  # 创建话题得到的积分
   createTopicScore: 10
+  # 话题被加精得到的积分
   goodTopicScore: 20
+  # 创建评论得到的积分
   createCommentScore: 5
   # 下面是话题的分类，可以自行增加删减
   sections:
