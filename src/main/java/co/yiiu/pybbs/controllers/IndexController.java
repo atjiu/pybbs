@@ -22,6 +22,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +61,7 @@ public class IndexController extends BaseController {
   public Result index(@RequestParam(defaultValue = "1") Integer pageNo, String tab) {
     if (!StringUtils.isEmpty(tab) && !stringUtil.sectionValues().contains(tab)) tab = null;
     // 限制一下最多只能拉取20页数据
-    if (pageNo > 20) return Result.success("没有更多数据了");
+    if (pageNo > 20) return Result.success(new PageImpl<Topic>(new ArrayList<>()));
     Page<Topic> page = topicService.findAll(pageNo, siteConfig.getPageSize(), tab);
     page.getContent().forEach(topic -> {
       //列表不输出内容，减小json大小
