@@ -19,6 +19,8 @@ public class TopicService {
   private TopicRepository topicRepository;
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private CollectService collectService;
 
   public void save(Topic topic) {
     topicRepository.save(topic);
@@ -42,6 +44,7 @@ public class TopicService {
 
   public void deleteById(String id) {
     commentService.deleteByTopicId(id);
+    collectService.deleteByTopicId(id);
     topicRepository.deleteById(id);
   }
 

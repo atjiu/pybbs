@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 
   @GetMapping("/{username}/topics")
   public Result topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize != null && pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Topic> page = topicService.findByUserId(user.getId(), pageNo, pageSize);
@@ -59,7 +59,7 @@ public class UserController extends BaseController {
 
   @GetMapping("/{username}/comments")
   public Result comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize != null && pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Comment> page = commentService.findByUserId(user.getId(), pageNo, pageSize);
@@ -73,7 +73,7 @@ public class UserController extends BaseController {
 
   @GetMapping("/{username}/collects")
   public Result collects(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize != null && pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Collect> page = collectService.findByUserId(user.getId(), pageNo, pageSize);
