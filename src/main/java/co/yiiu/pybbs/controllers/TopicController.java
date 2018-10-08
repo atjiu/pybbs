@@ -146,12 +146,13 @@ public class TopicController extends BaseController {
     User user = getUser();
     Topic topic = topicService.findById(id);
     ApiAssert.notTrue(topic == null, "您要删除的话题不存在");
+    User topicUser = userService.findById(topic.getUserId());
     ApiAssert.isTrue(user.getId().equals(topic.getUserId())
         || siteConfig.getAdmin().contains(user.getUsername()), "不能删除别人的话题");
     topicService.deleteById(id);
     //更新用户的积分
-    user.setScore(user.getScore() - siteConfig.getCreateTopicScore());
-    userService.save(user);
+    topicUser.setScore(topicUser.getScore() - siteConfig.getCreateTopicScore());
+    userService.save(topicUser);
     return Result.success();
   }
 
@@ -161,15 +162,16 @@ public class TopicController extends BaseController {
     Topic topic = topicService.findById(id);
     ApiAssert.notTrue(topic == null, "您要加精/取消加精的话题不存在");
     ApiAssert.isTrue(siteConfig.getAdmin().contains(user.getUsername()), "您没有权限");
+    User topicUser = userService.findById(topic.getUserId());
     topic.setGood(!topic.getGood());
     topicService.save(topic);
     //更新用户的积分
     if (topic.getGood()) {
-      user.setScore(user.getScore() + siteConfig.getGoodTopicScore());
+      topicUser.setScore(topicUser.getScore() + siteConfig.getGoodTopicScore());
     } else {
-      user.setScore(user.getScore() - siteConfig.getGoodTopicScore());
+      topicUser.setScore(topicUser.getScore() - siteConfig.getGoodTopicScore());
     }
-    userService.save(user);
+    userService.save(topicUser);
     return Result.success();
   }
 

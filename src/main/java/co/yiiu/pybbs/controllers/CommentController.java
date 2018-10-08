@@ -85,6 +85,7 @@ public class CommentController extends BaseController {
     Comment comment = commentService.findById(id);
     ApiAssert.isTrue(user.getId().equals(comment.getUserId())
         || siteConfig.getAdmin().contains(user.getUsername()), "不能删除别人的评论");
+    User commentUser = userService.findById(comment.getUserId());
     // 更新话题的评论数
     Topic topic = topicService.findById(comment.getTopicId());
     topic.setCommentCount(topic.getCommentCount() - 1);
@@ -92,8 +93,8 @@ public class CommentController extends BaseController {
     // 删除评论
     commentService.deleteById(id);
     //更新用户的积分
-    user.setScore(user.getScore() - siteConfig.getCreateCommentScore());
-    userService.save(user);
+    commentUser.setScore(commentUser.getScore() - siteConfig.getCreateCommentScore());
+    userService.save(commentUser);
     return Result.success();
   }
 }
