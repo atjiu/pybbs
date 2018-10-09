@@ -6,6 +6,7 @@ import co.yiiu.pybbs.models.Comment;
 import co.yiiu.pybbs.models.Topic;
 import co.yiiu.pybbs.models.User;
 import co.yiiu.pybbs.services.CommentService;
+import co.yiiu.pybbs.services.NotificationService;
 import co.yiiu.pybbs.services.TopicService;
 import co.yiiu.pybbs.services.UserService;
 import co.yiiu.pybbs.utils.Result;
@@ -32,6 +33,8 @@ public class CommentController extends BaseController {
   private SiteConfig siteConfig;
   @Autowired
   private UserService userService;
+  @Autowired
+  private NotificationService notificationService;
 
   @PostMapping("/create")
   public Result create(String topicId, String content, String commentId) {
@@ -42,10 +45,24 @@ public class CommentController extends BaseController {
     ApiAssert.notEmpty(content, "评论的内容不能为空");
     // 将内容里的 \n 转成 <br/>
     content = content.replaceAll("\\n", "<br/>");
+    // 声明通知用到的两个变量
+    String targetUserId = topic.getUserId();
+    String action = "COMMENT";
     // 如果回复的评论id不为空，判断一下是否存在这个评论
     if (!StringUtils.isEmpty(commentId)) {
       Comment _comment = commentService.findById(commentId);
       ApiAssert.notNull(_comment, "回复的评论不存在");
+      if (!topic.getUserId().equals(_comment.getUserId())) {
+        // 创建通知 给话题作者发通知
+        notificationService.create(topicId, user.getId(), targetUserId, action);
+      }
+      targetUserId = _comment.getUserId();
+      action = "REPLY";
+      // 创建通知 给回复对象的作者发通知
+      notificationService.create(topicId, user.getId(), targetUserId, action);
+    } else {
+      // 创建通知 给话题作者发通知
+      notificationService.create(topicId, user.getId(), targetUserId, action);
     }
     Comment comment = new Comment();
     comment.setCommentId(commentId);

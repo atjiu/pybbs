@@ -244,6 +244,36 @@ Result.success()
 
 Result.success()
 
+# 通知
+
+### 通知列表
+
+地址 GET /notification/list
+
+参数
+
+要认证信息
+
+- pageNo 页数
+
+返回
+
+Result.success(Page<Notification>)
+
+### 通知数量
+
+地址 GET /notification/notRead
+
+参数
+
+要认证信息
+
+无
+
+返回
+
+Result.success(count)
+
 # 用户
 
 ### 个人信息

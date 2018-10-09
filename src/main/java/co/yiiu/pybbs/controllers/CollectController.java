@@ -5,6 +5,7 @@ import co.yiiu.pybbs.models.Collect;
 import co.yiiu.pybbs.models.Topic;
 import co.yiiu.pybbs.models.User;
 import co.yiiu.pybbs.services.CollectService;
+import co.yiiu.pybbs.services.NotificationService;
 import co.yiiu.pybbs.services.TopicService;
 import co.yiiu.pybbs.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class CollectController extends BaseController {
   private CollectService collectService;
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private NotificationService notificationService;
 
   @PostMapping("save")
   public Result save(String topicId) {
@@ -39,6 +42,8 @@ public class CollectController extends BaseController {
     // 更新话题的收藏数
     topic.setCollectCount(topic.getCollectCount() + 1);
     topicService.save(topic);
+    // 创建通知
+    notificationService.create(topicId, user.getId(), topic.getUserId(), "COLLECT");
     return Result.success();
   }
 

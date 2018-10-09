@@ -44,7 +44,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
             "/user/settings/**",
             "/collect/save",
             "/collect/delete",
-            "/upload"
+            "/upload",
+            "/notification/list",
+            "/notification/notRead"
         );
     registry.addInterceptor(userFilter)
         .addPathPatterns(
