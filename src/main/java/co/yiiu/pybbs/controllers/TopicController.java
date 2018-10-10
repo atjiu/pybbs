@@ -51,6 +51,7 @@ public class TopicController extends BaseController {
 
     // 查询topic
     Topic topic = topicService.findById(id);
+    ApiAssert.notNull(topic, "话题不存在");
 
     // 更新话题点击次数
     topic.setView(topic.getView() + 1);
