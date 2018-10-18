@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * Created by tomoya at 2018/9/3
  */
@@ -48,8 +46,10 @@ public class UserController extends BaseController {
   }
 
   @GetMapping("/{username}/topics")
-  public Result topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+  public Result topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo,
+      Integer pageSize) {
+    if (pageSize == null || pageSize > siteConfig.getPageSize())
+      pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Topic> page = topicService.findByUserId(user.getId(), pageNo, pageSize);
@@ -58,22 +58,27 @@ public class UserController extends BaseController {
   }
 
   @GetMapping("/{username}/comments")
-  public Result comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+  public Result comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo,
+      Integer pageSize) {
+    if (pageSize == null || pageSize > siteConfig.getPageSize())
+      pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Comment> page = commentService.findByUserId(user.getId(), pageNo, pageSize);
     page.getContent().forEach(comment -> {
       comment.setUser(user);
       comment.setTopic(topicService.findById(comment.getTopicId()));
-      if (comment.getCommentId() != null) comment.setComment(commentService.findById(comment.getCommentId()));
+      if (comment.getCommentId() != null)
+        comment.setComment(commentService.findById(comment.getCommentId()));
     });
     return Result.success(page);
   }
 
   @GetMapping("/{username}/collects")
-  public Result collects(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Integer pageSize) {
-    if (pageSize == null || pageSize > siteConfig.getPageSize()) pageSize = siteConfig.getPageSize();
+  public Result collects(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo,
+      Integer pageSize) {
+    if (pageSize == null || pageSize > siteConfig.getPageSize())
+      pageSize = siteConfig.getPageSize();
     User user = userService.findByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     Page<Collect> page = collectService.findByUserId(user.getId(), pageNo, pageSize);
@@ -97,14 +102,15 @@ public class UserController extends BaseController {
     if (!StringUtils.isEmpty(email)) {
       ApiAssert.isTrue(stringUtil.check(email, stringUtil.emailRegex), "请输入正确的邮箱地址");
       User _user = userService.findByEmail(email);
-      ApiAssert.notTrue(_user != null && !email.equals(user.getEmail()) , "邮箱被占用了");
+      ApiAssert.notTrue(_user != null && !email.equals(user.getEmail()), "邮箱被占用了");
       user.setEmail(Jsoup.clean(email, Whitelist.none()));
     }
     if (!StringUtils.isEmpty(website)) {
       ApiAssert.isTrue(stringUtil.check(website, stringUtil.urlRegex), "请输入正确的网址");
       user.setWebsite(Jsoup.clean(website, Whitelist.none()));
     }
-    if (!StringUtils.isEmpty(bio)) user.setBio(Jsoup.clean(bio, Whitelist.none()));
+    if (!StringUtils.isEmpty(bio))
+      user.setBio(Jsoup.clean(bio, Whitelist.none()));
     if (!StringUtils.isEmpty(avatar)) {
       ApiAssert.isTrue(stringUtil.check(avatar, stringUtil.urlRegex), "请输入正确的头像地址");
       user.setAvatar(Jsoup.clean(avatar, Whitelist.none()));

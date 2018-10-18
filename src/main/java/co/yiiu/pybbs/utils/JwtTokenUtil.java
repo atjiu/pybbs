@@ -15,6 +15,7 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private static final String CLAIM_KEY_USERNAME = "sub";
   private static final String CLAIM_KEY_CREATED = "created";
 
@@ -57,10 +58,7 @@ public class JwtTokenUtil implements Serializable {
   private Claims getClaimsFromToken(String token) {
     Claims claims;
     try {
-      claims = Jwts.parser()
-          .setSigningKey(jwtConfig.getSecret())
-          .parseClaimsJws(token)
-          .getBody();
+      claims = Jwts.parser().setSigningKey(jwtConfig.getSecret()).parseClaimsJws(token).getBody();
     } catch (Exception e) {
       claims = null;
     }
@@ -88,17 +86,13 @@ public class JwtTokenUtil implements Serializable {
   }
 
   private String generateToken(Map<String, Object> claims) {
-    return Jwts.builder()
-        .setClaims(claims)
-        .setExpiration(generateExpirationDate())
-        .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
-        .compact();
+    return Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate())
+        .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret()).compact();
   }
 
   public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
     Date created = getCreatedDateFromToken(token);
-    return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
-        && !isTokenExpired(token);
+    return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && !isTokenExpired(token);
   }
 
   public String refreshToken(String token) {
@@ -117,9 +111,6 @@ public class JwtTokenUtil implements Serializable {
     String username = getUsernameFromToken(token);
     Date created = getCreatedDateFromToken(token);
     Date expiration = getExpirationDateFromToken(token);
-    return (
-        username != null
-            && !isTokenExpired(token)
-            && isCreatedBeforeLastPasswordReset(created, expiration));
+    return (username != null && !isTokenExpired(token) && isCreatedBeforeLastPasswordReset(created, expiration));
   }
 }

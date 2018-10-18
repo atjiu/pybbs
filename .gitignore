@@ -24,3 +24,5 @@ out/
 docs/_site
 indexes/
 data/
+.settings/
+logs/

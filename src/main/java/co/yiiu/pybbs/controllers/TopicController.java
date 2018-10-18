@@ -2,7 +2,6 @@ package co.yiiu.pybbs.controllers;
 
 import co.yiiu.pybbs.conf.properties.SiteConfig;
 import co.yiiu.pybbs.exceptions.ApiAssert;
-import co.yiiu.pybbs.models.AccessToken;
 import co.yiiu.pybbs.models.Comment;
 import co.yiiu.pybbs.models.Topic;
 import co.yiiu.pybbs.models.User;
@@ -58,7 +57,8 @@ public class TopicController extends BaseController {
     topicService.save(topic);
 
     // 根据mdrender判断内容是否要被渲染成html内容
-    if (mdrender) topic.setContent(Jsoup.clean(MDUtil.render(topic.getContent()), Whitelist.relaxed()));
+    if (mdrender)
+      topic.setContent(Jsoup.clean(MDUtil.render(topic.getContent()), Whitelist.relaxed()));
 
     // 判断用户是否登录过，登录过的话，查询出来这个话题是否被收藏过
     User user = getUserForTopicDetail();
@@ -76,7 +76,8 @@ public class TopicController extends BaseController {
     List<Comment> comments = commentService.findByTopicId(id);
     comments.forEach(comment -> {
       comment.setUser(userService.findById(comment.getUserId()));
-      if (comment.getCommentId() != null) comment.setComment(commentService.findById(comment.getCommentId()));
+      if (comment.getCommentId() != null)
+        comment.setComment(commentService.findById(comment.getCommentId()));
     });
 
     map.put("topic", topic);
@@ -88,7 +89,7 @@ public class TopicController extends BaseController {
   public Result create(String title, String url, String content, String tab) {
     User user = getUser();
     ApiAssert.notEmpty(title, "标题不能为空");
-//    ApiAssert.notEmpty(content, "内容不能为空");
+    // ApiAssert.notEmpty(content, "内容不能为空");
     ApiAssert.notEmpty(tab, "分类不能为空");
     ApiAssert.isTrue(stringUtil.sectionValues().contains(tab), "分类不存在");
     Topic topic = topicService.findByTitle(title);
@@ -111,7 +112,7 @@ public class TopicController extends BaseController {
     topic.setGood(false);
     topic.setTop(false);
     topicService.save(topic);
-    //更新用户的积分
+    // 更新用户的积分
     user.setScore(user.getScore() + siteConfig.getCreateTopicScore());
     userService.save(user);
     return Result.success(topic.getId());
@@ -121,7 +122,7 @@ public class TopicController extends BaseController {
   public Result update(String id, String title, String url, String content, String tab) {
     ApiAssert.notEmpty(id, "话题ID不能为空");
     ApiAssert.notEmpty(title, "话题标题不能为空");
-//    ApiAssert.notEmpty(content, "话题内容不能为空");
+    // ApiAssert.notEmpty(content, "话题内容不能为空");
     ApiAssert.notEmpty(tab, "话题分类不能为空");
     ApiAssert.isTrue(stringUtil.sectionValues().contains(tab), "分类不存在");
     if (!StringUtils.isEmpty(url)) {
@@ -132,8 +133,8 @@ public class TopicController extends BaseController {
     User user = getUser();
     Topic topic = topicService.findById(id);
     ApiAssert.notNull(topic, "话题不存在");
-    ApiAssert.isTrue(user.getId().equals(topic.getUserId())
-        || siteConfig.getAdmin().contains(user.getUsername()), "不能修改别人的话题");
+    ApiAssert.isTrue(user.getId().equals(topic.getUserId()) || siteConfig.getAdmin().contains(user.getUsername()),
+        "不能修改别人的话题");
     topic.setTitle(Jsoup.clean(title, Whitelist.none()));
     topic.setContent(content);
     topic.setTab(tab);
@@ -148,17 +149,17 @@ public class TopicController extends BaseController {
     Topic topic = topicService.findById(id);
     ApiAssert.notTrue(topic == null, "您要删除的话题不存在");
     User topicUser = userService.findById(topic.getUserId());
-    ApiAssert.isTrue(user.getId().equals(topic.getUserId())
-        || siteConfig.getAdmin().contains(user.getUsername()), "不能删除别人的话题");
+    ApiAssert.isTrue(user.getId().equals(topic.getUserId()) || siteConfig.getAdmin().contains(user.getUsername()),
+        "不能删除别人的话题");
     topicService.deleteById(id);
-    //更新用户的积分
+    // 更新用户的积分
     topicUser.setScore(topicUser.getScore() - siteConfig.getCreateTopicScore());
     userService.save(topicUser);
     return Result.success();
   }
 
   @PostMapping("/good")
-  public Result good(String id){
+  public Result good(String id) {
     User user = getUser();
     Topic topic = topicService.findById(id);
     ApiAssert.notTrue(topic == null, "您要加精/取消加精的话题不存在");
@@ -166,7 +167,7 @@ public class TopicController extends BaseController {
     User topicUser = userService.findById(topic.getUserId());
     topic.setGood(!topic.getGood());
     topicService.save(topic);
-    //更新用户的积分
+    // 更新用户的积分
     if (topic.getGood()) {
       topicUser.setScore(topicUser.getScore() + siteConfig.getGoodTopicScore());
     } else {
@@ -177,7 +178,7 @@ public class TopicController extends BaseController {
   }
 
   @PostMapping("/top")
-  public Result top(String id){
+  public Result top(String id) {
     User user = getUser();
     Topic topic = topicService.findById(id);
     ApiAssert.notTrue(topic == null, "您要置顶/取消置顶的话题不存在");
