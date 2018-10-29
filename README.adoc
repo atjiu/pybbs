@@ -5,7 +5,12 @@ ____
 
 == 文档
 
-https://tomoya92.github.io/pybbs/
+https://github.com/tomoya92/pybbs/tree/v2.6/docs/_posts
+
+- 2017-06-03-getting-started.md 快速开始
+- 2017-06-03-config.md 配置文件说明
+- 2017-06-03-question.md 常见问题
+- 2017-06-07-database.md 关于数据库
 
 == 技术栈
 
