@@ -119,7 +119,7 @@
         success: function (data) {
           if (data.code === 200) {
             $("#send_email_btn").html("发送成功");
-            $("#email").attr("disabled", true);
+            // $("#email").attr("disabled", true);
           } else {
             $("#error_message").text(data.description);
             $("#send_email_btn").attr("disabled", false);
