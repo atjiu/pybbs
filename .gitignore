@@ -26,3 +26,4 @@ indexes/
 data/
 .settings/
 logs/
+.vscode/
