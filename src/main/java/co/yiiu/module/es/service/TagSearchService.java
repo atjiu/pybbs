@@ -34,14 +34,16 @@ public class TagSearchService {
   public void indexedAll() {
     List<TagIndex> tagIndices = new ArrayList<>();
     List<Tag> tags = tagMapper.findAll(null, null, null);
-    tags.forEach(tag -> {
-      TagIndex tagIndex = new TagIndex();
-      BeanUtils.copyProperties(tag, tagIndex);
-      tagIndices.add(tagIndex);
-    });
-    // 保存前先删除索引
-    this.clearAll();
-    tagIndexRepository.saveAll(tagIndices);
+    if (tags.size() > 0) {
+      tags.forEach(tag -> {
+        TagIndex tagIndex = new TagIndex();
+        BeanUtils.copyProperties(tag, tagIndex);
+        tagIndices.add(tagIndex);
+      });
+      // 保存前先删除索引
+      this.clearAll();
+      tagIndexRepository.saveAll(tagIndices);
+    }
   }
 
   /**

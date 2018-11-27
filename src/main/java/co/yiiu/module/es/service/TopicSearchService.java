@@ -37,21 +37,23 @@ public class TopicSearchService {
   public void indexedAll() {
     List<TopicIndex> topicIndices = new ArrayList<>();
     List<TopicWithBLOBs> topics = topicMapper.findAll();
-    topics.forEach(topic -> {
-      TopicIndex topicIndex = new TopicIndex();
-      topicIndex.setId(topic.getId());
-      topicIndex.setTitle(topic.getTitle());
-      topicIndex.setTag(topic.getTag());
-      topicIndex.setContent(topic.getContent());
-      topicIndex.setInTime(topic.getInTime());
+    if (topics.size() > 0) {
+      topics.forEach(topic -> {
+        TopicIndex topicIndex = new TopicIndex();
+        topicIndex.setId(topic.getId());
+        topicIndex.setTitle(topic.getTitle());
+        topicIndex.setTag(topic.getTag());
+        topicIndex.setContent(topic.getContent());
+        topicIndex.setInTime(topic.getInTime());
 
-      User user = userService.findById(topic.getUserId());
-      topicIndex.setUsername(user.getUsername());
-      topicIndices.add(topicIndex);
-    });
-    // 保存前先删除索引
-    this.clearAll();
-    topicIndexRepository.saveAll(topicIndices);
+        User user = userService.findById(topic.getUserId());
+        topicIndex.setUsername(user.getUsername());
+        topicIndices.add(topicIndex);
+      });
+      // 保存前先删除索引
+      this.clearAll();
+      topicIndexRepository.saveAll(topicIndices);
+    }
   }
 
   /**

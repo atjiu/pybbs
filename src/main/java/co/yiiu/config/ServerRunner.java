@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Order(1)
-public class SocketServerRunner implements CommandLineRunner {
+public class ServerRunner implements CommandLineRunner {
 
   @Autowired
   private SocketIOServer server;
@@ -30,10 +30,7 @@ public class SocketServerRunner implements CommandLineRunner {
     // 配置文件里开启了socket就启动服务，没有开启就不启动
     if (siteConfig.isSocketNotification()) server.start();
     if (siteConfig.isSearch()) {
-      topicSearchService.clearAll();
       topicSearchService.indexedAll();
-
-      tagSearchService.clearAll();
       tagSearchService.indexedAll();
     }
   }
