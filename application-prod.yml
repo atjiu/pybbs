@@ -1,9 +1,0 @@
-server:
-  port: 8080
-spring:
-  data:
-    mongodb:
-      database: pybbs #一般只用配置这一个就可以了，如果数据库有密码，还要配置下面几个配置
-#      uri:
-#      port:
-#      password:

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yiiu.pybbs.mapper.SystemConfigMapper">
+
+  <resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.SystemConfig">
+    <id column="key" jdbcType="VARCHAR" property="key"/>
+    <id column="value" jdbcType="VARCHAR" property="value"/>
+    <id column="description" jdbcType="VARCHAR" property="description"/>
+  </resultMap>
+
+  <!-- 通用查询结果列-->
+  <sql id="Base_Column_List">
+      `key`, `value`, `description`
+  </sql>
+
+</mapper>

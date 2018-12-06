@@ -1,9 +1,28 @@
 server:
   port: 8080
 spring:
-  data:
-    mongodb:
-      database: pybbs #一般只用配置这一个就可以了，如果数据库有密码，还要配置下面几个配置
-#      uri:
-#      port:
-#      password:
+  datasource:
+    url: jdbc:mysql://localhost:3306/pybbs?useSSL=false&characterEncoding=utf8
+    username: root
+    password:
+  freemarker:
+    cache: false
+    settings:
+      template_exception_handler: rethrow
+      number_format: 0.##
+#  mvc:
+#    static-path-pattern: /static/**
+#  resources:
+#    static-locations: ["classpath:/static/"]
+
+# 配置mapper.xml位置，这个位置可以在pom.xml里配置
+mybatis-plus:
+  mapper-locations: classpath:/*Mapper.xml
+
+# 想看mybatis执行的sql的时候，去掉下面这段的注释
+#logging:
+#  level:
+#    co:
+#      yiiu:
+#        pybbs:
+#          mapper: debug
