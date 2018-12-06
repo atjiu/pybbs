@@ -48,7 +48,7 @@ public class CommentApiController extends BaseApiController {
     ApiAssert.notEmpty(content, "请输入评论内容");
     Comment comment = commentService.selectById(id);
     ApiAssert.notNull(comment, "这个评论可能已经被删除了，多发点对别人有帮助的评论吧");
-    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
+    comment.setContent(content);
     commentService.update(comment);
     return success(comment);
   }

@@ -2,10 +2,7 @@ package co.yiiu.pybbs.util;
 
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,5 +99,23 @@ public class StringUtil {
       map.put(ss[0], ss[1]);
     }
     return map;
+  }
+
+  // 查找评论里at的用户名
+  public static List<String> fetchAtUser(String content) {
+    if (StringUtils.isEmpty(content)) return null;
+    // 去掉 ``` ``` 包围的内容
+    content = content.replaceAll("```([\\s\\S]*)```", "");
+    // 去掉 ` ` 包围的内容
+    content = content.replaceAll("`([\\s\\S]*)`", "");
+    // 找到@的用户
+    String atRegex = "@[a-z0-9-_]+\\b?";
+    List<String> atUsers = new ArrayList<>();
+    Pattern regex = Pattern.compile(atRegex);
+    Matcher regexMatcher = regex.matcher(content);
+    while (regexMatcher.find()) {
+      atUsers.add(regexMatcher.group());
+    }
+    return atUsers;
   }
 }

@@ -4,6 +4,7 @@ import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,7 +64,7 @@ public class CommentService {
   public Comment insert(String content, Topic topic, User user, Integer commentId, HttpSession session) {
     Comment comment = new Comment();
     comment.setCommentId(commentId);
-    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
+    comment.setContent(content);
     comment.setInTime(new Date());
     comment.setTopicId(topic.getId());
     comment.setUserId(user.getId());
@@ -83,12 +84,12 @@ public class CommentService {
     if (commentId != null) {
       Comment targetComment = this.selectById(commentId);
       if (!user.getId().equals(targetComment.getUserId())) {
-        notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", comment.getContent());
+        notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", content);
       }
     }
     // 给话题作者发通知
     if (!user.getId().equals(topic.getUserId())) {
-      notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", comment.getContent());
+      notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", content);
     }
 
     // 日志 TODO

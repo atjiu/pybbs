@@ -61,7 +61,7 @@ public class CommentAdminController extends BaseAdminController {
   @ResponseBody
   public Result update(Integer id, String content) {
     Comment comment = commentService.selectById(id);
-    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
+    comment.setContent(content);
     commentService.update(comment);
     return success();
   }

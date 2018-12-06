@@ -1,14 +1,17 @@
 package co.yiiu.pybbs.util;
 
+import co.yiiu.pybbs.service.SystemConfigService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +21,9 @@ import java.util.Map;
  */
 @Component
 public class BaseModel {
+
+  @Autowired
+  private SystemConfigService systemConfigService;
 
   private static final long MINUTE = 60 * 1000;
   private static final long HOUR = 60 * MINUTE;
@@ -54,6 +60,12 @@ public class BaseModel {
   }
 
   public String formatContent(String content) {
+    List<String> atUsers = StringUtil.fetchAtUser(content);
+    if (atUsers != null) {
+      for (String atUser : atUsers) {
+        content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("baseUrl").toString() + "/user/" + atUser.replace("@", "") + ")");
+      }
+    }
     content = MarkdownUtil.render(content);
     content = Jsoup.clean(content, Whitelist.relaxed());
     Document parse = Jsoup.parse(content);
