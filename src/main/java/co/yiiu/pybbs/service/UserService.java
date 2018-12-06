@@ -69,7 +69,8 @@ public class UserService {
     user.setInTime(new Date());
     user.setAvatar(identicon.generator(username));
     userMapper.insert(user);
-    return user;
+    // 再查一下，有些数据库里默认值保存后，类里还是null
+    return this.selectById(user.getId());
   }
 
   // 根据用户token查询用户

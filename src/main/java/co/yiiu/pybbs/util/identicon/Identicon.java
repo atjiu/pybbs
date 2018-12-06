@@ -93,7 +93,7 @@ public class Identicon {
 
   public String saveFile(String username, BufferedImage image) {
     String fileName = "avatar.png";
-    String userAvatarPath = username + "/";
+    String userAvatarPath = "avatar/" + username + "/";
     try {
       File file = new File(systemConfigService.selectAllConfig().get("uploadPath").toString() + userAvatarPath);
       if (!file.exists()) file.mkdirs();

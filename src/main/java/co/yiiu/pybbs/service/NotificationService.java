@@ -25,7 +25,9 @@ public class NotificationService {
 
   // 查询消息
   public List<Map<String, Object>> selectByUserId(Integer userId, Boolean read, Integer limit) {
-    return notificationMapper.selectByUserId(userId, read, limit);
+    List<Map<String, Object>> notifications = notificationMapper.selectByUserId(userId, read, limit);
+    if (!read) notificationMapper.updateNotificationStatus(userId);
+    return notifications;
   }
 
   // 查询未读消息数量

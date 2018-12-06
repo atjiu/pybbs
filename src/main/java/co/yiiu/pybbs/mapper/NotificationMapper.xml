@@ -12,9 +12,10 @@
   </sql>-->
 
   <select id="selectByUserId" resultType="map">
-    select n.*, u.username, u.avatar, t.title, t.id as topicId
+    select n.*, uu.username, uu.avatar, t.title, t.id as topicId
     from notification n
     left join user u on u.id = n.target_user_id
+    left join user uu on uu.id = n.user_id
     left join topic t on t.id = n.topic_id
     where n.target_user_id = #{userId} and n.`read` = #{read}
     <if test="limit &gt; 0">

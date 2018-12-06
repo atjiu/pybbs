@@ -40,6 +40,11 @@ public class FileUtil {
 
       if (StringUtils.isEmpty(fileName)) fileName = StringUtil.uuid();
       String suffix = "." + file.getContentType().split("/")[1];
+      // 如果存放目录不存在，则创建
+      File savePath = new File(systemConfigService.selectAllConfig().get("uploadPath").toString() + customPath);
+      if (!savePath.exists()) savePath.mkdirs();
+
+      // 给上传的路径拼上文件名与后缀
       String localPath = systemConfigService.selectAllConfig().get("uploadPath").toString() + customPath + "/" + fileName + suffix;
 
       // 上传文件
@@ -47,6 +52,7 @@ public class FileUtil {
       stream.write(file.getBytes());
       stream.close();
 
+      // 上传成功后返回访问路径
       return systemConfigService.selectAllConfig().get("staticUrl").toString() + customPath + "/" + fileName + suffix + "?v=" + StringUtil.randomNumber(1);
     } catch (IOException e) {
       log.error(e.getMessage());
