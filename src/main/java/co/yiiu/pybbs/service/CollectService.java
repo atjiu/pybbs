@@ -3,6 +3,7 @@ package co.yiiu.pybbs.service;
 import co.yiiu.pybbs.mapper.CollectMapper;
 import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Tag;
+import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.TopicTag;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -35,6 +36,8 @@ public class CollectService {
   TopicTagService topicTagService;
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private NotificationService notificationService;
 
   // 查询话题被多少人收藏过
   public List<Collect> selectByTopicId(Integer topicId) {
@@ -63,7 +66,13 @@ public class CollectService {
     collect.setInTime(new Date());
     collectMapper.insert(collect);
 
-    // 通知 TODO
+    // 通知
+    Topic topic = topicService.selectById(topicId);
+    // 收藏自己的话题不发通知
+    if (!userId.equals(topic.getUserId())) {
+      notificationService.insert(userId, topic.getUserId(), topicId, "COLLECT", null);
+    }
+
     return collect;
   }
 

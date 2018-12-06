@@ -7,6 +7,8 @@ import co.yiiu.pybbs.model.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,8 @@ public class CommentService {
   private SystemConfigService systemConfigService;
   @Autowired
   private UserService userService;
+  @Autowired
+  private NotificationService notificationService;
 
   // 根据话题id查询评论
   public List<Map<String, Object>> selectByTopicId(Integer topicId) {
@@ -59,7 +63,7 @@ public class CommentService {
   public Comment insert(String content, Topic topic, User user, Integer commentId, HttpSession session) {
     Comment comment = new Comment();
     comment.setCommentId(commentId);
-    comment.setContent(content);
+    comment.setContent(Jsoup.clean(content, Whitelist.relaxed()));
     comment.setInTime(new Date());
     comment.setTopicId(topic.getId());
     comment.setUserId(user.getId());
@@ -74,7 +78,18 @@ public class CommentService {
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
 
-    // 通知 TODO
+    // 通知
+    // 给评论的作者发通知
+    if (commentId != null) {
+      Comment targetComment = this.selectById(commentId);
+      if (!user.getId().equals(targetComment.getUserId())) {
+        notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", comment.getContent());
+      }
+    }
+    // 给话题作者发通知
+    if (!user.getId().equals(topic.getUserId())) {
+      notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", comment.getContent());
+    }
 
     // 日志 TODO
 

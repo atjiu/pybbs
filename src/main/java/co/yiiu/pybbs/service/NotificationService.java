@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,5 +47,17 @@ public class NotificationService {
         .or()
         .eq(Notification::getUserId, userId);
     notificationMapper.delete(wrapper);
+  }
+
+  public void insert(Integer userId, Integer targetUserId, Integer topicId, String action, String content) {
+    Notification notification = new Notification();
+    notification.setAction(action);
+    notification.setContent(content);
+    notification.setUserId(userId);
+    notification.setTargetUserId(targetUserId);
+    notification.setTopicId(topicId);
+    notification.setInTime(new Date());
+    notification.setRead(false);
+    notificationMapper.insert(notification);
   }
 }
