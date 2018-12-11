@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface CommentMapper extends BaseMapper<Comment> {
 
-  @Select("select c.*, u.username, u.avatar, u.id as userId " +
+  @Select("select c.*, u.username, u.avatar, u.id as userId, 0 as layer " +
       "from comment c " +
       "left join user u on c.user_id = u.id " +
       "where c.topic_id = #{topicId}")

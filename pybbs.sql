@@ -312,6 +312,7 @@ LOCK TABLES `system_config` WRITE;
 INSERT INTO `system_config` (`key`, `value`, `description`)
 VALUES
 	('baseUrl','http://localhost:8080','网站部署后访问的域名，注意这个后面没有 \"/\"'),
+	('commentLayer', '1', '评论盖楼形式显示，1：是，0：否'),
 	('cookie.domain','localhost','存cookie时用到的域名，要与网站部署后访问的域名一致'),
 	('cookie.maxAge','604800','cookie有效期，单位秒，默认1周'),
 	('cookie.name','user_token','存cookie时用到的名称'),
@@ -325,7 +326,7 @@ VALUES
 	('mail.username','xxoo@qq.com','发送邮件的邮箱地址'),
 	('name','朋也社区','站点名称'),
 	('pageSize','20','分页每页条数'),
-	('socketNotification','0','是否开启websocket长连接获取通知数量，1：开启，0：关闭，默认 0'),
+	('socketNotification','0','是否开启websocket长连接获取通知数量，1：开启，0：关闭'),
 	('staticUrl','http://localhost:8080/static/upload/','静态文件访问地址，主要用于上传图片的访问，注意最后有个\"/\"'),
 	('uploadAvatarSizeLimit','2','上传头像文件大小，单位MB，默认2MB'),
 	('uploadPath','/Users/hh/Desktop/pybbs/static/upload/','上传文件的路径，注意最后有个\"/\"');

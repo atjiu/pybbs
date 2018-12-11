@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,11 @@ public class CommentService {
 
   // 根据话题id查询评论
   public List<Map<String, Object>> selectByTopicId(Integer topicId) {
-    return commentMapper.selectByTopicId(topicId);
+    List<Map<String, Object>> maps = commentMapper.selectByTopicId(topicId);
+    if (Integer.parseInt(systemConfigService.selectAllConfig().get("commentLayer").toString()) == 1) {
+      maps = this.sortByLayer(maps);
+    }
+    return maps;
   }
 
   // 删除话题时删除相关的评论
@@ -131,6 +136,44 @@ public class CommentService {
         Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()) : pageSize
     );
     return commentMapper.selectByUserId(iPage, userId);
+  }
+
+  // 盖楼排序
+  public List<Map<String, Object>> sortByLayer(List<Map<String, Object>> comments) {
+    List<Map<String, Object>> newComments = new ArrayList<>();
+    comments.forEach(comment -> {
+      if (comment.get("comment_id") == null) {
+        newComments.add(comment);
+      } else {
+        int index = this.findLastIndex(newComments, "comment_id", (Integer) comment.get("comment_id"));
+        if (index == -1) {
+          int upIndex = this.findLastIndex(newComments, "id", (Integer) comment.get("comment_id"));
+          if (upIndex == -1) {
+            newComments.add(comment);
+          } else {
+            Long layer = (Long) newComments.get(upIndex).get("layer") + 1;
+            comment.put("layer", layer);
+            newComments.add(upIndex + 1, comment);
+          }
+        } else {
+          Long layer = (Long) newComments.get(index).get("layer");
+          comment.put("layer", layer);
+          newComments.add(index + 1, comment);
+        }
+      }
+    });
+    return newComments;
+  }
+
+  // 从列表里查找指定值的下标
+  private int findLastIndex(List<Map<String, Object>> newComments, String key, Integer value) {
+    int index = -1;
+    for (int i = 0; i < newComments.size(); i++) {
+      if (newComments.get(i).get(key) == value) {
+        index = i;
+      }
+    }
+    return index;
   }
 
   // ---------------------------- admin ----------------------------

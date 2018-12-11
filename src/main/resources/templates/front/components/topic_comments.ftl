@@ -5,7 +5,7 @@
     <div class="panel-heading">共 ${comments?size} 条评论</div>
     <div class="panel-body">
       <#list comments as comment>
-        <div class="media" id="comment${comment.id}">
+        <div class="media" id="comment${comment.id}" style="padding-left: ${comment.layer * 30 + 15}px;">
           <div class="media-body">
             <div class="media-heading gray">
               <a href="/user/${comment.username}"><img src="${comment.avatar}" class="avatar avatar-sm" alt=""/></a>

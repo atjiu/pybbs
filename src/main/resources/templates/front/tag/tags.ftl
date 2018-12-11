@@ -4,7 +4,7 @@
   <div class="col-md-9">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="row">
+        <div class="row" style="overflow: hidden;">
           <#list page.records as tag>
             <div class="col-md-3 tag-item">
               <#if tag.icon??>
