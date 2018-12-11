@@ -118,4 +118,16 @@ public class StringUtil {
     }
     return atUsers;
   }
+
+  // 去掉数组里的空值和重复数据
+  public static Set<String> removeEmpty(String[] strs) {
+    if (strs == null || strs.length == 0) return null;
+    Set<String> set = new HashSet<>();
+    for (String str : strs) {
+      if (!StringUtils.isEmpty(str)) {
+        set.add(str);
+      }
+    }
+    return set;
+  }
 }
