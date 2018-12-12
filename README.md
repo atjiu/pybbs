@@ -4,8 +4,8 @@
 
 感谢群友 @小布 提供的演示环境，大家测试体验功能就好，不要去攻击人家的服务器，谢谢
 
-- 演示地址：[http://pybbs.kingsman.xin/](http://pybbs.kingsman.xin/) 用户名密码自己注册
-- 后台地址：[http://pybbs.kingsman.xin/adminlogin](http://pybbs.kingsman.xin/adminlogin) 用户名: admin 密码: 123123
+- 演示地址：[https://demo.yiiu.co/](https://demo.yiiu.co/) 用户名密码自己注册
+- 后台地址：[https://demo.yiiu.co/adminlogin](https://demo.yiiu.co/adminlogin) 用户名: test 密码: 123123
 
 如果发现了bug或者有好的建议，欢迎提issue，当然更欢迎 pr，服务器上数据不定期重置，切记不要发重要的信息在上面 **它只是个演示环境**
 
