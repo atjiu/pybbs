@@ -3,10 +3,14 @@ package co.yiiu.pybbs.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.yiiu.pybbs.service.SystemConfigService;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -30,6 +34,8 @@ public class ShiroConfig {
 
   @Autowired
   private MyShiroRealm myShiroRealm;
+  @Autowired
+  private SystemConfigService systemConfigService;
 
   @Bean
   public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -72,6 +78,7 @@ public class ShiroConfig {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     myShiroRealm.setCredentialsMatcher(myCredentialsMatcher());
     securityManager.setRealm(myShiroRealm);
+    securityManager.setRememberMeManager(rememberMeManager());
     return securityManager;
   }
 
@@ -81,6 +88,27 @@ public class ShiroConfig {
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
     authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
     return authorizationAttributeSourceAdvisor;
+  }
+
+  // 配置记住我功能
+  @Bean
+  public SimpleCookie rememberMeCookie() {
+    //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+    SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+    // 记住我cookie生效时间 单位秒
+    Integer adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get("adminRememberMeMaxAge").toString());
+    simpleCookie.setMaxAge(adminRememberMeMaxAge * 24 * 60 * 60);
+    return simpleCookie;
+  }
+
+  @Bean
+  public CookieRememberMeManager rememberMeManager() {
+    //System.out.println("ShiroConfiguration.rememberMeManager()");
+    CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+    cookieRememberMeManager.setCookie(rememberMeCookie());
+    //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+    cookieRememberMeManager.setCipherKey(Base64.encode("pybbs is the best!".getBytes()));
+    return cookieRememberMeManager;
   }
 
   @Bean
