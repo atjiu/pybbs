@@ -6,7 +6,7 @@
     <div class="media">
       <div class="media-left">
         <a href="/user/${topicUser.username}">
-          <img src="${topicUser.avatar}" title="${topicUser.username}" class="avatar"/>
+          <img src="${topicUser.avatar!}" title="${topicUser.username}" class="avatar"/>
         </a>
       </div>
       <div class="media-body">

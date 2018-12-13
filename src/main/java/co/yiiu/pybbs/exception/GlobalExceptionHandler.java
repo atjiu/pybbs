@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
       mav.addObject("errorCode", getStatus(request));
       mav.setViewName("front/error");
       return mav;
-    } else if (accept.contains("application/json")) {
+    } else /*if (accept.contains("application/json"))*/ {
       Result result = new Result();
       result.setCode(201);
       result.setDescription(e.getMessage());

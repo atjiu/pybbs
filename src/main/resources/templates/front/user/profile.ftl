@@ -6,7 +6,7 @@
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
-            <img src="${user.avatar}" class="avatar avatar-lg" alt="avatar"/>
+            <img src="${user.avatar!}" class="avatar avatar-lg" alt="avatar"/>
           </div>
           <div class="media-body">
             <h3 style="margin-top: 0">${user.username!}</h3>

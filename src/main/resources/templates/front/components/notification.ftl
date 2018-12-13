@@ -3,7 +3,7 @@
     <#list notifications as notification>
       <div class="media">
         <div class="media-left">
-          <img src="${notification.avatar}" class="avatar avatar-sm">
+          <img src="${notification.avatar!}" class="avatar avatar-sm">
         </div>
         <div class="media-body">
           <div class="gray" <#if !notification.read>style="font-weight:700;"</#if>>

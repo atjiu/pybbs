@@ -42,7 +42,7 @@ public class UserInterceptor implements HandlerInterceptor {
     if (accept.contains("text/html")) {
       response.setContentType("text/html;charset=utf-8");
       response.getWriter().write("<script>alert('请先登录!');window.history.go(-1);</script>");
-    } else if (accept.contains("application/json")) {
+    } else /*if (accept.contains("application/json"))*/ {
       response.setContentType("application/json;charset=utf-8");
       Result result = new Result();
       result.setCode(201);

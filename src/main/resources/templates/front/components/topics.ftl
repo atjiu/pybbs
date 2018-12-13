@@ -2,7 +2,7 @@
   <#list page.records as topic>
     <div class="media">
       <div class="media-left">
-        <a href="/user/${topic.username!}"><img src="${topic.avatar}" class="avatar" alt=""></a>
+        <a href="/user/${topic.username!}"><img src="${topic.avatar!}" class="avatar" alt=""></a>
       </div>
       <div class="media-body">
         <div class="title">

@@ -40,7 +40,7 @@
             </p>
           </div>
           <div class="media-right">
-            <img src="${topicUser.avatar}" class="avatar avatar-lg"/>
+            <img src="${topicUser.avatar!}" class="avatar avatar-lg"/>
           </div>
         </div>
       </div>
@@ -106,16 +106,18 @@
   var editor;
   $(function () {
     hljs.initHighlightingOnLoad();
-    CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
-    CodeMirror.keyMap.default["Tab"] = "indentMore";
-    editor = CodeMirror.fromTextArea(document.getElementById("content"), {
-      lineNumbers: true,     // 显示行数
-      indentUnit: 4,         // 缩进单位为4
-      tabSize: 4,
-      matchBrackets: true,   // 括号匹配
-      mode: 'markdown',     // Markdown模式
-      lineWrapping: true,    // 自动换行
-    });
+    <#if _user??>
+      CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
+      CodeMirror.keyMap.default["Tab"] = "indentMore";
+      editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+        lineNumbers: true,     // 显示行数
+        indentUnit: 4,         // 缩进单位为4
+        tabSize: 4,
+        matchBrackets: true,   // 括号匹配
+        mode: 'markdown',     // Markdown模式
+        lineWrapping: true,    // 自动换行
+      });
+    </#if>
 
     $("#goTop").click(function () {
       $(window).scrollTo({top: 0}, 1500);

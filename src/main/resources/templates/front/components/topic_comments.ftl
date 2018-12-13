@@ -8,16 +8,20 @@
         <div class="media" id="comment${comment.id}" style="padding-left: ${comment.layer * 30 + 15}px;">
           <div class="media-body">
             <div class="media-heading gray">
-              <a href="/user/${comment.username}"><img src="${comment.avatar}" class="avatar avatar-sm" alt=""/></a>
+              <a href="/user/${comment.username}"><img src="${comment.avatar!}" class="avatar avatar-sm" alt=""/></a>
               <a href="/user/${comment.username!}">${comment.username!} </a>
               <#if topicUser?? && topicUser.id == comment.userId>
                 <span class="text-success">[楼主]</span>
               </#if>
               ${model.formatDate(comment.in_time)}
               <span class="pull-right">
-              <i id="vote_icon_${comment.id}" class="fa fa-chevron-up
-                <#if model.getUpIds(comment.up_ids)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
-                 onclick="vote('${comment.id}')"></i>
+              <#if _user??>
+                <i id="vote_icon_${comment.id}" class="fa
+                                  <#if model.getUpIds(comment.up_ids)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
+                                  onclick="vote('${comment.id}')"></i>
+              <#else>
+                <i id="vote_icon_${comment.id}" class="fa fa-thumbs-o-up" onclick="vote('${comment.id}')"></i>
+              </#if>
               <#if _user??>
                 <span id="vote_count_${comment.id}">${model.getUpIds(comment.up_ids)?size}</span>
                 <#if _user.id == comment.userId>
