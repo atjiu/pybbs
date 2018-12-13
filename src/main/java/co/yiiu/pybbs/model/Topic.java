@@ -32,6 +32,16 @@ public class Topic implements Serializable {
   private Boolean top;
   // 加精
   private Boolean good;
+  // 点赞用户的id
+  private String upIds;
+
+  public String getUpIds() {
+    return upIds;
+  }
+
+  public void setUpIds(String upIds) {
+    this.upIds = upIds;
+  }
 
   public Integer getCollectCount() {
     return collectCount;

@@ -21,9 +21,15 @@ public class Comment implements Serializable {
   private String content;
   private Date inTime;
   private Integer commentId;
+  // 点赞用户的id
+  private String upIds;
 
-  public static long getSerialVersionUID() {
-    return serialVersionUID;
+  public String getUpIds() {
+    return upIds;
+  }
+
+  public void setUpIds(String upIds) {
+    this.upIds = upIds;
   }
 
   public Integer getId() {

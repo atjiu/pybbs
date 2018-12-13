@@ -15,26 +15,18 @@
               </#if>
               ${model.formatDate(comment.in_time)}
               <span class="pull-right">
+              <i id="vote_icon_${comment.id}" class="fa fa-chevron-up
+                <#if model.getUpIds(comment.up_ids)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
+                 onclick="vote('${comment.id}')"></i>
               <#if _user??>
-                <#if _user.id != comment.userId>
-                  <#--<i id="up_icon_${comment.id}" class="fa fa-chevron-up
-                    <#if comment.up_ids?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                     onclick="vote('${comment.id}', 'UP')"></i>
-                  <i id="down_icon_${comment.id}" class="fa fa-chevron-down
-                    <#if comment.down_ids?split(",")?seq_contains('${user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                     onclick="vote('${comment.id}', 'DOWN')"></i>
-                  <span id="up_down_vote_count_${comment.id}">${comment.up - comment.down}</span>-->
-                <#else>
+                <span id="vote_count_${comment.id}">${model.getUpIds(comment.up_ids)?size}</span>
+                <#if _user.id == comment.userId>
                   <a href="/comment/edit/${comment.id}"><span class="glyphicon glyphicon-edit"></span></a>
                   <a href="javascript:;" onclick="deleteComment(${comment.id})"><span
                       class="glyphicon glyphicon-trash"></span></a>
                 </#if>
                 <a href="javascript:commentThis('${comment.username}', '${comment.id}');"><span
                     class="glyphicon glyphicon-comment"></span></a>
-              <#else>
-                <#--<i id="up_icon_${comment.id}" class="fa fa-chevron-up up-down-disable" onclick="vote('${comment.id}', 'UP')"></i>
-                <i id="down_icon_${comment.id}" class="fa fa-chevron-down up-down-disable" onclick="vote('${comment.id}', 'DOWN')"></i>
-                <span id="up_down_vote_count_${comment.id}">${comment.up - comment.down}</span>-->
               </#if>
               </span>
             </div>
@@ -45,6 +37,27 @@
           <div class="divide"></div>
         </#if>
       </#list>
+      <script>
+        function vote(id) {
+          $.get("/api/comment/vote?id=" + id, function (data) {
+            if (data.code === 200) {
+              var voteIcon = $("#vote_icon_" + id);
+              if (voteIcon.hasClass("fa-thumbs-up")) {
+                toast("取消点赞成功", "success");
+                voteIcon.removeClass("fa-thumbs-up");
+                voteIcon.addClass("fa-thumbs-o-up");
+              } else {
+                toast("点赞成功", "success");
+                voteIcon.addClass("fa-thumbs-up");
+                voteIcon.removeClass("fa-thumbs-o-up");
+              }
+              $("#vote_count_" + id).text(data.detail);
+            } else {
+              toast(data.description);
+            }
+          })
+        }
+      </script>
     </div>
   </div>
 </#if>

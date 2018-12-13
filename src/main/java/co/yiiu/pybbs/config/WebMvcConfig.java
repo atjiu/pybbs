@@ -40,12 +40,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
             "/settings",
             "/topic/create",
             "/topic/edit/*",
-            "/api/topic/create",
-            "/api/topic/edit",
-            "/api/topic/delete",
-            "/api/comment/create",
-            "/api/collect/get",
-            "/api/collect/delete",
+            "/api/topic/*",
+            "/api/comment/*",
+            "/api/collect/*",
             "/api/settings/*",
             "/api/notification/notRead"
         );

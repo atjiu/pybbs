@@ -13,12 +13,10 @@ import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -109,6 +107,31 @@ public class CommentService {
   // 更新评论
   public void update(Comment comment) {
     commentMapper.updateById(comment);
+  }
+
+  // 对评论点赞
+  public int vote(Comment comment, User user, HttpSession session) {
+    String upIds = comment.getUpIds();
+    // 将点赞用户id的字符串转成集合
+    Set<String> strings = StringUtils.commaDelimitedListToSet(upIds);
+    // 把新的点赞用户id添加进集合，这里用set，正好可以去重，如果集合里已经有用户的id了，那么这次动作被视为取消点赞
+    Integer userScore = user.getScore();
+    if (strings.contains(String.valueOf(user.getId()))) { // 取消点赞行为
+      strings.remove(String.valueOf(user.getId()));
+      userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("upCommentScore").toString());
+    } else { // 点赞行为
+      strings.add(String.valueOf(user.getId()));
+      userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("upCommentScore").toString());
+    }
+    // 再把这些id按逗号隔开组成字符串
+    comment.setUpIds(StringUtils.collectionToCommaDelimitedString(strings));
+    // 更新评论
+    this.update(comment);
+    // 增加用户积分
+    user.setScore(userScore);
+    userService.update(user);
+    if (session != null) session.setAttribute("_user", user);
+    return strings.size();
   }
 
   // 删除评论

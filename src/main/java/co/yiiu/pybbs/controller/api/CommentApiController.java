@@ -6,15 +6,18 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.service.CommentService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.util.Result;
+import co.yiiu.pybbs.util.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 /**
  * Created by tomoya.
@@ -58,5 +61,15 @@ public class CommentApiController extends BaseApiController {
   public Result delete(Integer id, HttpSession session) {
     commentService.delete(id, session);
     return success();
+  }
+
+  // 点赞评论
+  @GetMapping("/vote")
+  public Result vote(Integer id, HttpSession session) {
+    Comment comment = commentService.selectById(id);
+    ApiAssert.notNull(comment, "这个评论可能已经被删除了");
+    ApiAssert.notTrue(comment.getUserId().equals(getUser().getId()), "给自己评论点赞，脸皮真厚！！");
+    int voteCount = commentService.vote(comment, getUser(), session);
+    return success(voteCount);
   }
 }

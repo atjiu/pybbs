@@ -7,12 +7,11 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -96,5 +95,11 @@ public class BaseModel {
       });
     }
     return parse.outerHtml();
+  }
+
+  // 将用户点赞的id从字符串转成集合
+  public Set<String> getUpIds(String upIds) {
+    if (StringUtils.isEmpty(upIds)) return new HashSet<>();
+    return StringUtils.commaDelimitedListToSet(upIds);
   }
 }
