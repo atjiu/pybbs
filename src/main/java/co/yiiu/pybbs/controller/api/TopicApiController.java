@@ -65,4 +65,13 @@ public class TopicApiController extends BaseApiController {
     topicService.delete(topic, session);
     return success();
   }
+
+  @GetMapping("/vote")
+  public Result vote(Integer id, HttpSession session) {
+    Topic topic = topicService.selectById(id);
+    ApiAssert.notNull(topic, "这个话题可能已经被删除了");
+    ApiAssert.notTrue(topic.getUserId().equals(getUser().getId()), "给自己话题点赞，脸皮真厚！！");
+    int voteCount = topicService.vote(topic, getUser(), session);
+    return success(voteCount);
+  }
 }

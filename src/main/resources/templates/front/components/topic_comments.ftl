@@ -5,7 +5,7 @@
     <div class="panel-heading">共 ${comments?size} 条评论</div>
     <div class="panel-body">
       <#list comments as comment>
-        <div class="media" id="comment${comment.id}" style="padding-left: ${comment.layer * 30 + 15}px;">
+        <div class="media" id="comment${comment.id}" style="padding-left: ${comment.layer * 30}px;">
           <div class="media-body">
             <div class="media-heading gray">
               <a href="/user/${comment.username}"><img src="${comment.avatar!}" class="avatar avatar-sm" alt=""/></a>
@@ -22,15 +22,14 @@
               <#else>
                 <i id="vote_icon_${comment.id}" class="fa fa-thumbs-o-up" onclick="vote('${comment.id}')"></i>
               </#if>
+              <span id="vote_count_${comment.id}">${model.getUpIds(comment.up_ids)?size}</span>&nbsp;
               <#if _user??>
-                <span id="vote_count_${comment.id}">${model.getUpIds(comment.up_ids)?size}</span>
                 <#if _user.id == comment.userId>
                   <a href="/comment/edit/${comment.id}"><span class="glyphicon glyphicon-edit"></span></a>
                   <a href="javascript:;" onclick="deleteComment(${comment.id})"><span
                       class="glyphicon glyphicon-trash"></span></a>
                 </#if>
-                <a href="javascript:commentThis('${comment.username}', '${comment.id}');"><span
-                    class="glyphicon glyphicon-comment"></span></a>
+                <i class="fa fa-reply" onclick="commentThis('${comment.username}', '${comment.id}')"></i>
               </#if>
               </span>
             </div>

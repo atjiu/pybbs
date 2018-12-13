@@ -11,14 +11,15 @@
               ${topic.title!?html}
             </h2>
             <p class="gray">
-            <#--<i id="up_icon_${topic.id}" class="fa fa-chevron-up
-              <#if _user?? && topic.upIds?split(",")?seq_contains('${_user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                 onclick="voteTopic('UP')"></i>
-              <i id="down_icon_${topic.id}" class="fa fa-chevron-down
-              <#if _user?? && topic.downIds?split(",")?seq_contains('${_user.id}')> up-down-enable <#else> up-down-disable </#if>"
-                 onclick="voteTopic('DOWN')"></i>
-              <span id="up_down_vote_count_${topic.id}">${topic.up - topic.down}</span>
-              <span>•</span>-->
+              <#if _user??>
+                <i id="vote_topic_icon_${topic.id}" style="font-size: 18px;"
+                class="fa <#if model.getUpIds(topic.upIds)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
+                                  onclick="voteTopic('${topic.id}')"></i>
+              <#else>
+                <i id="vote_topic_icon_${topic.id}" style="font-size: 18px;" class="fa fa-thumbs-o-up" onclick="voteTopic('${topic.id}')"></i>
+              </#if>
+              <span id="vote_topic_count_${topic.id}">${model.getUpIds(topic.upIds)?size}</span>
+              <span>•</span>
               <#if topic.top == true>
                 <span class="label label-primary">置顶</span>
                 <span>•</span>
@@ -187,6 +188,27 @@
       }
     });
   });
+
+  // 点赞话题
+  function voteTopic(id) {
+    $.get("/api/topic/vote?id=" + id, function (data) {
+      if (data.code === 200) {
+        var voteTopicIcon = $("#vote_topic_icon_" + id);
+        if (voteTopicIcon.hasClass("fa-thumbs-up")) {
+          toast("取消点赞成功", "success");
+          voteTopicIcon.removeClass("fa-thumbs-up");
+          voteTopicIcon.addClass("fa-thumbs-o-up");
+        } else {
+          toast("点赞成功", "success");
+          voteTopicIcon.addClass("fa-thumbs-up");
+          voteTopicIcon.removeClass("fa-thumbs-o-up");
+        }
+        $("#vote_topic_count_" + id).text(data.detail);
+      } else {
+        toast(data.description);
+      }
+    })
+  }
 
   // 删除评论
   function deleteComment(id) {
