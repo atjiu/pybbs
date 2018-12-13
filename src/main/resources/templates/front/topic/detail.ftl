@@ -101,9 +101,11 @@
     <@other_topic userId=topic.userId topicId=topic.id limit=7/>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>
   var editor;
   $(function () {
+    hljs.initHighlightingOnLoad();
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
     CodeMirror.keyMap.default["Tab"] = "indentMore";
     editor = CodeMirror.fromTextArea(document.getElementById("content"), {

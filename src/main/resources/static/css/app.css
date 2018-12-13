@@ -21,7 +21,7 @@ footer {
 .gray{color:#999}
 .divide{border-top:1px solid #eee;margin-top: 5px;}
 .comment-detail-content{margin-left:20px;word-break:break-all}
-.comment-detail-content pre{padding:10px}
+.topic-detail-content pre, .comment-detail-content pre{padding:0;border: 0;background-color: #f8f8f8;}
 .comment-detail-content img{max-width:100%}
 .panel>.table td,.panel>.table th {
   padding-left: 15px;

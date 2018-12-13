@@ -67,7 +67,7 @@ public class BaseModel {
       }
     }
     content = MarkdownUtil.render(content);
-    content = Jsoup.clean(content, Whitelist.relaxed());
+    content = Jsoup.clean(content, Whitelist.relaxed().addTags("code", "pre").addAttributes("code", "class"));
     Document parse = Jsoup.parse(content);
     Elements tableElements = parse.select("table");
     tableElements.forEach(element -> element.addClass("table table-bordered"));
