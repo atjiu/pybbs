@@ -24,11 +24,11 @@
               <input type="hidden" name="id" value="${adminUser.id}">
               <div class="form-group">
                 <label>用户名</label>
-                <input type="text" name="username" value="${adminUser.username!}" class="form-control" placeholder="用户名">
+                <input type="text" id="username" name="username" value="${adminUser.username!}" class="form-control" placeholder="用户名">
               </div>
               <div class="form-group">
                 <label>密码</label>
-                <input type="password" name="password" class="form-control" placeholder="密码">
+                <input type="password" id="password" name="password" class="form-control" placeholder="密码">
               </div>
               <div class="form-group">
                 <label>角色</label>
@@ -48,11 +48,6 @@
   </section>
 <script>
   $(function() {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
     $("#form").submit(function() {
       var username = $("#username").val();
       var oldPassword = $("#oldPassword").val();
@@ -71,7 +66,6 @@
         data: {
           id: '${adminUser.id}',
           username: username,
-          oldPassword: oldPassword,
           password: password,
           roleId: roleId
         },

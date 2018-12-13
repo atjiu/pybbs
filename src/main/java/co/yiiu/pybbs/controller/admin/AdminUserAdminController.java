@@ -10,6 +10,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,8 @@ public class AdminUserAdminController extends BaseAdminController {
   @RequiresPermissions("admin_user:edit")
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
+    AdminUser adminUser = getAdminUser();
+    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
     model.addAttribute("adminUser", adminUserService.selectById(id));
@@ -68,6 +71,8 @@ public class AdminUserAdminController extends BaseAdminController {
   @RequiresPermissions("admin_user:edit")
   @PostMapping("/edit")
   public String edit(AdminUser adminUser) {
+    AdminUser _adminUser = getAdminUser();
+    Assert.isTrue(_adminUser.getId().equals(adminUser.getId()), "谁给你的权限让你修改别人的帐号的？");
     if (StringUtils.isEmpty(adminUser.getPassword())) {
       adminUser.setPassword(null);
     } else {
