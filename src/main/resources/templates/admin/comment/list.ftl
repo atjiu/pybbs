@@ -44,7 +44,7 @@
               <td>${comment.id}</td>
               <td><a href="/topic/${comment.topicId}" target="_blank">${comment.title!}</a></td>
               <td>${comment.username!}</td>
-              <td>${comment.in_time!}</td>
+              <td>${comment.inTime!}</td>
               <td>
                 <#if sec.hasPermission("comment:edit")>
                   <a href="/admin/comment/edit?id=${comment.id}" class="btn btn-xs btn-warning">编辑</a>

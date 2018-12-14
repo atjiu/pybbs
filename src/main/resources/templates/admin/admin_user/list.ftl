@@ -37,7 +37,7 @@
               <td>${adminUser.id}</td>
               <td>${adminUser.username!}</td>
               <td>${adminUser.roleName!}</td>
-              <td>${adminUser.in_time?datetime}</td>
+              <td>${adminUser.inTime?datetime}</td>
               <td>
                 <#if sec.hasPermission('admin_user:edit')>
                   <a href="/admin/admin_user/edit?id=${adminUser.id}" class="btn btn-xs btn-warning">编辑</a>

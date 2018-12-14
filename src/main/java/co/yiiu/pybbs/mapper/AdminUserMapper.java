@@ -14,6 +14,5 @@ import java.util.Map;
  */
 public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
-  @Select("select u.*, r.name as roleName from admin_user u left join role r on u.role_id = r.id")
   List<Map<String, Object>> selectAll();
 }

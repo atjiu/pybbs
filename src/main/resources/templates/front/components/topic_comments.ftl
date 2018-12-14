@@ -13,16 +13,16 @@
               <#if topicUser?? && topicUser.id == comment.userId>
                 <span class="text-success">[楼主]</span>
               </#if>
-              ${model.formatDate(comment.in_time)}
+              ${model.formatDate(comment.inTime)}
               <span class="pull-right">
               <#if _user??>
                 <i id="vote_icon_${comment.id}" class="fa
-                                  <#if model.getUpIds(comment.up_ids)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
+                                  <#if model.getUpIds(comment.upIds)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
                                   onclick="vote('${comment.id}')"></i>
               <#else>
                 <i id="vote_icon_${comment.id}" class="fa fa-thumbs-o-up" onclick="vote('${comment.id}')"></i>
               </#if>
-              <span id="vote_count_${comment.id}">${model.getUpIds(comment.up_ids)?size}</span>&nbsp;
+              <span id="vote_count_${comment.id}">${model.getUpIds(comment.upIds)?size}</span>&nbsp;
               <#if _user??>
                 <#if _user.id == comment.userId>
                   <a href="/comment/edit/${comment.id}"><span class="glyphicon glyphicon-edit"></span></a>

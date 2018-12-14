@@ -21,6 +21,13 @@
     order by t.in_time desc
   </select>
 
+  <select id="selectByTopicId" resultType="map">
+    select c.*, u.username, u.avatar, u.id as userId, 0 as layer
+    from comment c
+    left join user u on c.user_id = u.id
+    where c.topic_id = #{topicId}
+  </select>
+
   <select id="selectAllForAdmin" resultType="map">
     select c.*, t.title, t.id as topicId, u.username
     from comment c

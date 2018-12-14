@@ -18,11 +18,11 @@
               <p>
                 <span><a href="/user/${topic.username}">${topic.username}</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
-                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id}">${topic.comment_count}个评论</a></span>
+                <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id}">${topic.commentCount}个评论</a></span>
                 <span class="hidden-sm hidden-xs">•</span>
                 <span class="hidden-sm hidden-xs">${topic.view}次浏览</span>
                 <span>•</span>
-                <span>${model.formatDate(topic.in_time)}</span>
+                <span>${model.formatDate(topic.inTime)}</span>
               </p>
             </div>
           </div>

@@ -165,12 +165,12 @@ public class CommentService {
   public List<Map<String, Object>> sortByLayer(List<Map<String, Object>> comments) {
     List<Map<String, Object>> newComments = new ArrayList<>();
     comments.forEach(comment -> {
-      if (comment.get("comment_id") == null) {
+      if (comment.get("commentId") == null) {
         newComments.add(comment);
       } else {
-        int index = this.findLastIndex(newComments, "comment_id", (Integer) comment.get("comment_id"));
+        int index = this.findLastIndex(newComments, "commentId", (Integer) comment.get("commentId"));
         if (index == -1) {
-          int upIndex = this.findLastIndex(newComments, "id", (Integer) comment.get("comment_id"));
+          int upIndex = this.findLastIndex(newComments, "id", (Integer) comment.get("commentId"));
           if (upIndex == -1) {
             newComments.add(comment);
           } else {

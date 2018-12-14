@@ -11,7 +11,7 @@
           <tr>
             <td>
               <a href="/user/${comment.commentUsername}">${comment.commentUsername}</a>
-              ${model.formatDate(comment.in_time)!}
+              ${model.formatDate(comment.inTime)!}
               评论了
               <a href="/user/${comment.topicUsername}">${comment.topicUsername}</a>
               创建的话题 › <a href="/topic/${comment.topicId}">${comment.title!?html}</a>

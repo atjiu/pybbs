@@ -23,11 +23,11 @@
           </#if>
           <span><a href="/user/${topic.username!}">${topic.username!}</a></span>
           <span class="hidden-sm hidden-xs">•</span>
-          <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id}">${topic.comment_count!0}个评论</a></span>
+          <span class="hidden-sm hidden-xs"><a href="/topic/${topic.id}">${topic.commentCount!0}个评论</a></span>
           <span class="hidden-sm hidden-xs">•</span>
           <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
           <span>•</span>
-          <span>${model.formatDate(topic.in_time)}</span>
+          <span>${model.formatDate(topic.inTime)}</span>
           <#if tags>
             <span>•</span>
             <#list topic.tags as tag>

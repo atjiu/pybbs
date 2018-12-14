@@ -46,7 +46,7 @@
               <td>${topic.id}</td>
               <td><a href="/topic/${topic.id}" target="_blank">${topic.title}</a></td>
               <td><a href="/user/${topic.username}" target="_blank">${topic.username}</a></td>
-              <td>${topic.comment_count}</td>
+              <td>${topic.commentCount}</td>
               <td>
                 <#if topic.top>
                   置顶
@@ -56,7 +56,7 @@
                   &nbsp;
                 </#if>
               </td>
-              <td>${topic.in_time!}</td>
+              <td>${topic.inTime!}</td>
               <td>
                 <#if sec.hasPermission("topic:top")>
                   <button onclick="actionBtn('${topic.id}', 'top', this)" class="btn btn-xs btn-warning">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.yiiu.pybbs.mapper.CollectMapper">
+<mapper namespace="co.yiiu.pybbs.mapper.AdminUserMapper">
 
   <!--<resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.Topic">
       <id column="id" jdbcType="INTEGER" property="id"/>
@@ -11,13 +11,8 @@
       topic_id as topicId, user_id as userId, in_time as inTime
   </sql>-->
 
-  <select id="selectByUserId" resultType="map">
-    select t.*, u.username, u.avatar
-    from collect c
-    left join topic t on t.id = c.topic_id
-    left join user u on t.user_id = u.id
-    where c.user_id = #{userId}
-    order by t.in_time desc
+  <select id="selectAll" resultType="map">
+    select u.*, r.name as roleName from admin_user u left join role r on u.role_id = r.id
   </select>
 
 </mapper>
