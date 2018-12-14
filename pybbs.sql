@@ -301,37 +301,46 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `system_config`;
 
 CREATE TABLE `system_config` (
-  `key` varchar(255) NOT NULL,
-  `value` varchar(255) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
   `description` varchar(1000) NOT NULL,
-  UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `pid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `system_config` WRITE;
 /*!40000 ALTER TABLE `system_config` DISABLE KEYS */;
 
-INSERT INTO `system_config` (`key`, `value`, `description`)
+INSERT INTO `system_config` (`id`, `key`, `value`, `description`, `pid`)
 VALUES
-	('adminRememberMeMaxAge', '30', '登录后台记住我功能记住时间，单位：天'),
-	('baseUrl','http://localhost:8080','网站部署后访问的域名，注意这个后面没有 \"/\"'),
-	('commentLayer', '1', '评论盖楼形式显示，1：是，0：否'),
-	('cookie.domain','localhost','存cookie时用到的域名，要与网站部署后访问的域名一致'),
-	('cookie.maxAge','604800','cookie有效期，单位秒，默认1周'),
-	('cookie.name','user_token','存cookie时用到的名称'),
-	('createCommentScore','5','发布评论奖励的积分'),
-	('createTopicScore','10','创建话题奖励的积分'),
-	('deleteCommentScore','5','删除评论要被扣除的积分'),
-	('deleteTopicScore','10','删除话题要被扣除的积分'),
-	('intro','<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>','站点介绍'),
-	('mail.host','smtp.qq.com','邮箱的smtp服务器地址'),
-	('mail.password','','发送邮件的邮箱密码'),
-	('mail.username','xxoo@qq.com','发送邮件的邮箱地址'),
-	('name','朋也社区','站点名称'),
-	('pageSize','20','分页每页条数'),
-	('socketNotification','0','是否开启websocket长连接获取通知数量，1：开启，0：关闭'),
-	('staticUrl','http://localhost:8080/static/upload/','静态文件访问地址，主要用于上传图片的访问，注意最后有个\"/\"'),
-	('uploadAvatarSizeLimit','2','上传头像文件大小，单位MB，默认2MB'),
-	('uploadPath','/Users/hh/Desktop/pybbs/static/upload/','上传文件的路径，注意最后有个\"/\"');
+	(23, NULL, NULL, '基础配置', 0),
+	(24, NULL, NULL, '邮箱配置', 0),
+	(25, NULL, NULL, '上传配置', 0),
+	(26, NULL, NULL, '积分配置', 0),
+	(1, 'adminRememberMeMaxAge', '30', '登录后台记住我功能记住时间，单位：天', 23),
+	(2, 'baseUrl', 'http://localhost:8080', '网站部署后访问的域名，注意这个后面没有 \"/\"', 23),
+	(3, 'commentLayer', '0', '评论盖楼形式显示，1：是，0：否', 23),
+	(4, 'cookie.domain', 'localhost', '存cookie时用到的域名，要与网站部署后访问的域名一致', 23),
+	(5, 'cookie.maxAge', '604800', 'cookie有效期，单位秒，默认1周', 23),
+	(6, 'cookie.name', 'user_token', '存cookie时用到的名称', 23),
+	(11, 'intro', '<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>', '站点介绍', 23),
+	(15, 'name', '朋也社区', '站点名称', 23),
+	(16, 'pageSize', '20', '分页每页条数', 23),
+	(17, 'socketNotification', '0', '是否开启websocket长连接获取通知数量，1：开启，0：关闭', 23),
+	(18, 'staticUrl', 'http://localhost:8080/static/upload/', '静态文件访问地址，主要用于上传图片的访问，注意最后有个\"/\"', 23),
+	(12, 'mail.host', 'smtp.qq.com', '邮箱的smtp服务器地址', 24),
+	(13, 'mail.password', '', '发送邮件的邮箱密码', 24),
+	(14, 'mail.username', 'xxoo@qq.com', '发送邮件的邮箱地址', 24),
+	(20, 'uploadAvatarSizeLimit', '2', '上传头像文件大小，单位MB，默认2MB', 25),
+	(21, 'uploadPath', '/Users/hh/git/github/pybbs/static/upload/', '上传文件的路径，注意最后有个\"/\"', 25),
+	(7, 'createCommentScore', '5', '发布评论奖励的积分', 26),
+	(8, 'createTopicScore', '10', '创建话题奖励的积分', 26),
+	(9, 'deleteCommentScore', '5', '删除评论要被扣除的积分', 26),
+	(10, 'deleteTopicScore', '10', '删除话题要被扣除的积分', 26),
+	(19, 'upCommentScore', '3', '点赞评论奖励评论作者的积分', 26),
+	(22, 'upTopicScore', '3', '点赞话题奖励话题作者的积分', 26);
+
 
 /*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
 UNLOCK TABLES;

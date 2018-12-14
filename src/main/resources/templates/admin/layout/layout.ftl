@@ -43,7 +43,7 @@
     <#include "header.ftl">
     <#include "menu.ftl">
     <@menu page_tab=page_tab/>
-      <div class="content-wrapper" style="padding: 50px 0; background-color: #fff;">
+      <div class="content-wrapper" style="padding: 50px 0; background-color: #eee;">
       <#nested>
       </div>
     <#include "footer.ftl"/>
