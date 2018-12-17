@@ -31,7 +31,7 @@ public class RedisUtil {
 
   public Jedis instance() {
     try {
-      if (this.jedis != null) return jedis;
+      if (this.jedis != null) return this.jedis;
       // 获取redis的连接
       // host
       SystemConfig systemConfigHost = systemConfigService.selectByKey("redis.host");
@@ -56,7 +56,10 @@ public class RedisUtil {
       if (StringUtils.isEmpty(host)
           || StringUtils.isEmpty(port)
           || StringUtils.isEmpty(database)
-          || StringUtils.isEmpty(timeout)) return null;
+          || StringUtils.isEmpty(timeout)) {
+        log.info("redis配置信息不全或没有配置...");
+        return null;
+      }
       JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
       // 配置jedis连接池最多空闲多少个实例，源码默认 8
       jedisPoolConfig.setMaxIdle(8);
@@ -73,9 +76,10 @@ public class RedisUtil {
           ssl.equals("1")
       );
       this.jedis = jedisPool.getResource();
+      log.info("redis连接对象获取成功...");
       return this.jedis;
     } catch (Exception e) {
-      log.error(e.getMessage());
+      log.error("配置redis连接池报错，错误信息: {}", e.getMessage());
       return null;
     }
   }
