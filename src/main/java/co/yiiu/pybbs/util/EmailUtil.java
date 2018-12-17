@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -29,10 +30,10 @@ public class EmailUtil {
     // 如果session已经存在了，就不执行了，直接返回对象
     if (session != null) return session;
     // session为空，判断系统是否配置了邮箱相关的参数，配置了继续，没配置白白
-    Object host = systemConfigService.selectAllConfig().get("mail.host");
-    Object username = systemConfigService.selectAllConfig().get("mail.username");
-    Object password = systemConfigService.selectAllConfig().get("mail.password");
-    if (host == null || username == null || password == null) return null;
+    String host = (String) systemConfigService.selectAllConfig().get("mail.host");
+    String username = (String) systemConfigService.selectAllConfig().get("mail.username");
+    String password = (String) systemConfigService.selectAllConfig().get("mail.password");
+    if (StringUtils.isEmpty(host) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return null;
     Properties properties = new Properties();
     properties.setProperty("mail.host", host.toString());
     //是否进行权限验证。

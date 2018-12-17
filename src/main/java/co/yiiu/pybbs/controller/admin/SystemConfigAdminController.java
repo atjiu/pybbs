@@ -36,12 +36,7 @@ public class SystemConfigAdminController extends BaseAdminController {
   @ResponseBody
   public Result edit(String[] key, String[] value) {
     if (key.length != value.length) return error("数据异常");
-    for (int i = 0; i < key.length; i++) {
-      SystemConfig systemConfig = new SystemConfig();
-      systemConfig.setKey(key[i]);
-      systemConfig.setValue(value[i]);
-      systemConfigService.update(systemConfig);
-    }
+    systemConfigService.update(key, value);
     return success();
   }
 }

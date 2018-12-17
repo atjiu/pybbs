@@ -2,16 +2,18 @@ package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
+import co.yiiu.pybbs.util.Constants;
+import co.yiiu.pybbs.util.JsonUtil;
+import co.yiiu.pybbs.util.RedisUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.commons.collections.comparators.ComparableComparator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -21,21 +23,36 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-@CacheConfig(cacheNames = "system_config")
 public class SystemConfigService {
 
   @Autowired
   private SystemConfigMapper systemConfigMapper;
+  @Autowired
+  private RedisUtil redisUtil;
 
-  @Cacheable
-  public Map<String, Object> selectAllConfig() {
-    List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
-    Map<String, Object> map = new HashMap<>();
-    systemConfigs
-        .stream()
-        .filter(systemConfig -> systemConfig.getPid() != 0)
-        .forEach(systemConfig -> map.put(systemConfig.getKey(), systemConfig.getValue()));
-    return map;
+  public Map selectAllConfig() {
+    String system_config = redisUtil.getString(Constants.REDIS_SYSTEM_CONFIG_KEY);
+    if (system_config != null) {
+      return JsonUtil.jsonToObject(system_config, Map.class);
+    } else {
+      List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
+      Map<String, Object> map = new HashMap<>();
+      systemConfigs
+          .stream()
+          .filter(systemConfig -> systemConfig.getPid() != 0)
+          .forEach(systemConfig -> map.put(systemConfig.getKey(), systemConfig.getValue()));
+      // 将查询出来的数据放到redis里缓存下来（如果redis可用的话）
+      redisUtil.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(map));
+      return map;
+    }
+  }
+
+  // 根据键取值
+  public SystemConfig selectByKey(String key) {
+    QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
+    wrapper.lambda()
+        .eq(SystemConfig::getKey, key);
+    return systemConfigMapper.selectOne(wrapper);
   }
 
   public Map<String, Object> selectAll() {
@@ -58,11 +75,16 @@ public class SystemConfigService {
   }
 
   // 在更新系统设置后，清一下selectAllConfig()的缓存
-  // 必须要将这个参数allEntries设置为true，否则清不掉
-  @CacheEvict(allEntries = true)
-  public void update(SystemConfig systemConfig) {
-    QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
-    wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
-    systemConfigMapper.update(systemConfig, wrapper);
+  public void update(String[] key, String[] value) {
+    for (int i = 0; i < key.length; i++) {
+      SystemConfig systemConfig = new SystemConfig();
+      systemConfig.setKey(key[i]);
+      systemConfig.setValue(value[i]);
+      QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
+      wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
+      systemConfigMapper.update(systemConfig, wrapper);
+    }
+    // 清除redis里关于 system_config 的缓存
+    redisUtil.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
   }
 }

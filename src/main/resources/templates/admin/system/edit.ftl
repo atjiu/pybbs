@@ -23,9 +23,9 @@
             <div class="box-body">
               <#list systems[key] as system>
                 <div>
-                  <h5>${key} <small>${system.description!}</small></h5>
+                  <h5>${system.description!}</h5>
                   <input type="hidden" name="key" value="${system.key}" class="form-control"/>
-                  <input type="text" name="value" value="${system.value}" class="form-control"/>
+                  <input type="text" name="value" value="${system.value!}" class="form-control"/>
                 </div>
               </#list>
             </div>

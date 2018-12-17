@@ -29,6 +29,7 @@
     <jsoup.version>1.11.3</jsoup.version>
     <mail.version>1.6.2</mail.version>
     <shiro-spring.version>1.4.0</shiro-spring.version>
+    <jedis.version>3.0.0</jedis.version>
   </properties>
 
   <dependencies>
@@ -128,6 +129,14 @@
       <version>${shiro-spring.version}</version>
     </dependency>
     <!--shiro-spring end-->
+
+    <!-- jedis start -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>${jedis.version}</version>
+    </dependency>
+    <!-- jedis end -->
   </dependencies>
 
   <build>
