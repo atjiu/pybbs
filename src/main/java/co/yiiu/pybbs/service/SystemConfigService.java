@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -75,7 +77,7 @@ public class SystemConfigService {
   }
 
   // 在更新系统设置后，清一下selectAllConfig()的缓存
-  public void update(String[] key, String[] value) {
+  public String update(String[] key, String[] value) throws IOException {
     for (int i = 0; i < key.length; i++) {
       SystemConfig systemConfig = new SystemConfig();
       systemConfig.setKey(key[i]);
@@ -84,7 +86,30 @@ public class SystemConfigService {
       wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
       systemConfigMapper.update(systemConfig, wrapper);
     }
+    // 判断redis配置是否去除，去除了，就将RedisUtil里的jedis属性设置为null
+    if (!this.isRedisConfig()) redisUtil.setJedis(null);
     // 清除redis里关于 system_config 的缓存
     redisUtil.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
+    return null;
+  }
+
+  // 判断redis是否配置了
+  public boolean isRedisConfig() {
+    SystemConfig systemConfigHost = this.selectByKey("redis.host");
+    String host = systemConfigHost.getValue();
+    // port
+    SystemConfig systemConfigPort = this.selectByKey("redis.port");
+    String port = systemConfigPort.getValue();
+    // database
+    SystemConfig systemConfigDatabase = this.selectByKey("redis.database");
+    String database = systemConfigDatabase.getValue();
+    // timeout
+    SystemConfig systemConfigTimeout = this.selectByKey("redis.timeout");
+    String timeout = systemConfigTimeout.getValue();
+
+    return !StringUtils.isEmpty(host)
+        && !StringUtils.isEmpty(port)
+        && !StringUtils.isEmpty(database)
+        && !StringUtils.isEmpty(timeout);
   }
 }

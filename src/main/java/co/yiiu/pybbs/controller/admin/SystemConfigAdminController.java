@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.controller.admin;
 
-import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 
 /**
  * Created by tomoya.
@@ -34,7 +35,7 @@ public class SystemConfigAdminController extends BaseAdminController {
   @RequiresPermissions("system:edit")
   @PostMapping("/edit")
   @ResponseBody
-  public Result edit(String[] key, String[] value) {
+  public Result edit(String[] key, String[] value) throws IOException {
     if (key.length != value.length) return error("数据异常");
     systemConfigService.update(key, value);
     return success();

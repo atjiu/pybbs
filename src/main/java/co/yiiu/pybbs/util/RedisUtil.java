@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.util.Set;
 
@@ -21,10 +22,16 @@ public class RedisUtil {
 
   @Autowired
   private SystemConfigService systemConfigService;
+  private Jedis jedis;
   private Logger log = LoggerFactory.getLogger(RedisUtil.class);
+
+  public void setJedis(Jedis jedis) {
+    this.jedis = jedis;
+  }
 
   public Jedis instance() {
     try {
+      if (this.jedis != null) return jedis;
       // 获取redis的连接
       // host
       SystemConfig systemConfigHost = systemConfigService.selectByKey("redis.host");
@@ -65,8 +72,9 @@ public class RedisUtil {
           null,
           ssl.equals("1")
       );
-      return jedisPool.getResource();
-    } catch (NumberFormatException e) {
+      this.jedis = jedisPool.getResource();
+      return this.jedis;
+    } catch (Exception e) {
       log.error(e.getMessage());
       return null;
     }
