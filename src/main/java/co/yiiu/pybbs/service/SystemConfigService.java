@@ -4,7 +4,7 @@ import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
-import co.yiiu.pybbs.util.RedisUtil;
+import co.yiiu.pybbs.config.service.RedisService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +30,10 @@ public class SystemConfigService {
   @Autowired
   private SystemConfigMapper systemConfigMapper;
   @Autowired
-  private RedisUtil redisUtil;
+  private RedisService redisService;
 
   public Map selectAllConfig() {
-    String system_config = redisUtil.getString(Constants.REDIS_SYSTEM_CONFIG_KEY);
+    String system_config = redisService.getString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     if (system_config != null) {
       return JsonUtil.jsonToObject(system_config, Map.class);
     } else {
@@ -44,7 +44,7 @@ public class SystemConfigService {
           .filter(systemConfig -> systemConfig.getPid() != 0)
           .forEach(systemConfig -> map.put(systemConfig.getKey(), systemConfig.getValue()));
       // 将查询出来的数据放到redis里缓存下来（如果redis可用的话）
-      redisUtil.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(map));
+      redisService.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(map));
       return map;
     }
   }
@@ -87,9 +87,9 @@ public class SystemConfigService {
       systemConfigMapper.update(systemConfig, wrapper);
     }
     // 判断redis配置是否去除，去除了，就将RedisUtil里的jedis属性设置为null
-    if (!this.isRedisConfig()) redisUtil.setJedis(null);
+    if (!this.isRedisConfig()) redisService.setJedis(null);
     // 清除redis里关于 system_config 的缓存
-    redisUtil.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
+    redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     return null;
   }
 

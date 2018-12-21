@@ -1,4 +1,4 @@
-package co.yiiu.pybbs.util;
+package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.service.SystemConfigService;
 import org.slf4j.Logger;
@@ -19,14 +19,15 @@ import java.util.Properties;
  */
 // 这个工具类来自博客：https://www.cnblogs.com/whgk/p/6506027.html
 @Component
-public class EmailUtil {
+public class EmailService implements BaseService<Session> {
 
   @Autowired
   private SystemConfigService systemConfigService;
   private Session session;
-  private Logger log = LoggerFactory.getLogger(EmailUtil.class);
+  private Logger log = LoggerFactory.getLogger(EmailService.class);
 
-  private Session instance() {
+  @Override
+  public Session instance() {
     // 如果session已经存在了，就不执行了，直接返回对象
     if (session != null) return session;
     // session为空，判断系统是否配置了邮箱相关的参数，配置了继续，没配置白白

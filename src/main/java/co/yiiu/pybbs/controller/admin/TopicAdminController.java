@@ -95,4 +95,37 @@ public class TopicAdminController extends BaseAdminController {
     topicService.delete(topic, null);
     return success();
   }
+
+  @RequiresPermissions("topic:index")
+  @GetMapping("/index")
+  @ResponseBody
+  public Result index(Integer id) {
+    Topic topic = topicService.selectById(id);
+    topicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    return success();
+  }
+
+  @RequiresPermissions("topic:index_all")
+  @GetMapping("/index_all")
+  @ResponseBody
+  public Result index_all() {
+    topicService.indexAllTopic();
+    return success();
+  }
+
+  @RequiresPermissions("topic:delete_index")
+  @GetMapping("/delete_index")
+  @ResponseBody
+  public Result delete_index(String id) { // ajax传过来的id，这用String接收，不用再转一次了
+    topicService.deleteTopicIndex(id);
+    return success();
+  }
+
+  @RequiresPermissions("topic:delete_all_index")
+  @GetMapping("/delete_all_index")
+  @ResponseBody
+  public Result delete_all_index() {
+    topicService.deleteAllTopicIndex();
+    return success();
+  }
 }

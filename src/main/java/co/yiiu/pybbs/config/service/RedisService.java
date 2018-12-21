@@ -1,4 +1,4 @@
-package co.yiiu.pybbs.util;
+package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.SystemConfigService;
@@ -10,25 +10,25 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.exceptions.JedisConnectionException;
-
-import java.util.Set;
 
 /**
- * Created by tomoya at 2018/12/17
+ * Created by tomoya.
+ * Copyright (c) 2018, All Rights Reserved.
+ * https://yiiu.co
  */
 @Component
-public class RedisUtil {
+public class RedisService implements BaseService<Jedis> {
 
   @Autowired
   private SystemConfigService systemConfigService;
   private Jedis jedis;
-  private Logger log = LoggerFactory.getLogger(RedisUtil.class);
+  private Logger log = LoggerFactory.getLogger(RedisService.class);
 
   public void setJedis(Jedis jedis) {
     this.jedis = jedis;
   }
 
+  @Override
   public Jedis instance() {
     try {
       if (this.jedis != null) return this.jedis;

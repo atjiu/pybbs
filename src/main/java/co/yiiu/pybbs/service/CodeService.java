@@ -3,7 +3,7 @@ package co.yiiu.pybbs.service;
 import co.yiiu.pybbs.mapper.CodeMapper;
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.util.DateUtil;
-import co.yiiu.pybbs.util.EmailUtil;
+import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class CodeService {
   @Autowired
   private CodeMapper codeMapper;
   @Autowired
-  private EmailUtil emailUtil;
+  private EmailService emailService;
 
   // 递归生成code，防止code重复
   private String generateToken() {
@@ -86,7 +86,7 @@ public class CodeService {
   public boolean sendEmail(Integer userId, String email) {
     Code code = this.createCode(userId, email);
     // 发送邮件
-    return emailUtil.sendEmail(email, "修改邮箱验证码", "你的验证码是：" + code.getCode() + "<br>请在30分钟内使用");
+    return emailService.sendEmail(email, "修改邮箱验证码", "你的验证码是：" + code.getCode() + "<br>请在30分钟内使用");
   }
 
   public void update(Code code) {

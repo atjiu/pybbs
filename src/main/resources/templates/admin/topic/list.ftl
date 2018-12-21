@@ -15,6 +15,14 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <h3 class="box-title">话题列表</h3>
+        <span class="pull-right">
+          <#if sec.hasPermission("topic:index_all")>
+            <button onclick="index_all_topic()" class="btn btn-primary btn-xs">索引全部话题</button>&nbsp;
+          </#if>
+          <#if sec.hasPermission("topic:delete_all_index")>
+            <button onclick="delete_all_index()" class="btn btn-danger btn-xs">删除所有话题索引</button>
+          </#if>
+        </span>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -58,6 +66,12 @@
               </td>
               <td>${topic.inTime!}</td>
               <td>
+                <#if sec.hasPermission("topic:index")>
+                  <button onclick="index_topic('${topic.id}')" class="btn btn-xs btn-primary">索引</button>
+                </#if>
+                <#if sec.hasPermission("topic:delete_index")>
+                  <button onclick="delete_index('${topic.id}')" class="btn btn-xs btn-danger">删除索引</button>
+                </#if>
                 <#if sec.hasPermission("topic:top")>
                   <button onclick="actionBtn('${topic.id}', 'top', this)" class="btn btn-xs btn-warning">
                     <#if topic.top>
@@ -129,6 +143,58 @@
             setTimeout(function () {
               window.location.reload();
             }, 700);
+          } else {
+            toast(data.description);
+          }
+        })
+      }
+    }
+  </#if>
+  <#if sec.hasPermission("topic:index")>
+    function index_topic(id) {
+      if (confirm("确定要单独索引这个话题吗？")) {
+        $.get("/admin/topic/index?id=" + id, function(data) {
+          if (data.code === 200) {
+            toast("成功", "success");
+          } else {
+            toast(data.description);
+          }
+        });
+      }
+    }
+  </#if>
+  <#if sec.hasPermission("topic:index_all")>
+    function index_all_topic() {
+      if (confirm("如果话题数量很多的话，这个操作会非常耗时，点击确定继续")) {
+        $.get("/admin/topic/index_all", function(data) {
+          if (data.code === 200) {
+            toast("成功", "success");
+          } else {
+            toast(data.description);
+          }
+        })
+      }
+    }
+  </#if>
+  <#if sec.hasPermission("topic:delete_all_index")>
+    function delete_all_index() {
+      if (confirm("删除了所有话题索引，用户就搜不到数据了，确定吗？")) {
+        $.get("/admin/topic/delete_all_index", function(data) {
+          if (data.code === 200) {
+            toast("成功", "success");
+          } else {
+            toast(data.description);
+          }
+        })
+      }
+    }
+  </#if>
+  <#if sec.hasPermission("topic:delete_index")>
+    function delete_index(id) {
+      if (confirm("确定要删除这个话题的索引吗？")) {
+        $.get("/admin/topic/delete_index?id=" + id, function(data) {
+          if (data.code === 200) {
+            toast("成功", "success");
           } else {
             toast(data.description);
           }

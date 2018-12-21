@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.controller.front;
 
-import co.yiiu.pybbs.exception.ApiAssert;
+import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
@@ -8,12 +8,11 @@ import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -45,6 +45,8 @@ public class IndexController extends BaseController {
   private UserService userService;
   @Autowired
   private TagService tagService;
+  @Autowired
+  private ElasticSearchService elasticSearchService;
 
   // 首页
   @GetMapping({"/", "/index", "/index.html"})
@@ -119,5 +121,18 @@ public class IndexController extends BaseController {
       }
     }
     return redirect("/admin/index");
+  }
+
+  @GetMapping("/search")
+  public String search(@RequestParam(defaultValue = "1") Integer pageNo, String keyword, Model model) {
+    if (StringUtils.isEmpty(keyword)) {
+      model.addAttribute("page", new Page<>());
+    } else {
+      Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString());
+      Page<Map<String, Object>> page = elasticSearchService.searchDocument(pageNo, pageSize, keyword, "title", "content");
+      model.addAttribute("page", page);
+      model.addAttribute("keyword", keyword);
+    }
+    return "front/search";
   }
 }

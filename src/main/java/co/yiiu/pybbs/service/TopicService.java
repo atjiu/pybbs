@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
@@ -16,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +45,8 @@ public class TopicService {
   private UserService userService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private ElasticSearchService elasticSearchService;
 
   public IPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
     IPage<Map<String, Object>> iPage = new Page<>(
@@ -105,6 +105,8 @@ public class TopicService {
     List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
     // 处理标签与话题的关联
     topicTagService.insertTopicTag(topic.getId(), tagList);
+    // 索引话题
+    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return topic;
   }
 
@@ -116,6 +118,8 @@ public class TopicService {
   // 更新话题
   public void update(Topic topic) {
     topicMapper.updateById(topic);
+    // 索引话题
+    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
   }
 
   // 更新话题
@@ -130,6 +134,8 @@ public class TopicService {
     List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
     // 处理标签与话题的关联
     topicTagService.insertTopicTag(topic.getId(), tagList);
+    // 索引话题
+    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return topic;
   }
 
@@ -151,6 +157,8 @@ public class TopicService {
     user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("deleteTopicScore").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
+    // 删除索引
+    this.deleteTopicIndex(String.valueOf(topic.getId()));
     // 最后删除话题
     topicMapper.deleteById(id);
   }
@@ -160,9 +168,52 @@ public class TopicService {
     QueryWrapper<Topic> wrapper = new QueryWrapper<>();
     wrapper.lambda()
         .eq(Topic::getUserId, userId);
+    List<Topic> topics = topicMapper.selectList(wrapper);
+    //删除索引
+    topics.forEach(topic -> {
+      this.deleteTopicIndex(String.valueOf(topic.getId()));
+    });
+    //删除话题
     topicMapper.delete(wrapper);
   }
 
+  // 索引全部话题
+  public void indexAllTopic() {
+    List<Topic> topics = topicMapper.selectList(null);
+    Map<String, Map<String, Object>> sources = topics.stream().collect(Collectors.toMap(key -> String.valueOf(key.getId()), value -> {
+      Map<String, Object> map = new HashMap<>();
+      map.put("title", value.getTitle());
+      map.put("content", value.getContent());
+      return map;
+    }));
+    elasticSearchService.bulkDocument("topic", sources);
+  }
+
+  public void indexTopic(String id, String title, String content) {
+    // 索引话题
+    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
+      Map<String, Object> source = new HashMap<>();
+      source.put("title", title);
+      source.put("content", content);
+      elasticSearchService.createDocument("topic", id, source);
+    }
+  }
+
+  public void deleteTopicIndex(String id) {
+    // 删除话题索引
+    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
+      elasticSearchService.deleteDocument("topic", id);
+    }
+  }
+
+  // 删除所有话题索引
+  public void deleteAllTopicIndex() {
+    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
+      List<Topic> topics = topicMapper.selectList(null);
+      List<Integer> ids = topics.stream().map(Topic::getId).collect(Collectors.toList());
+      elasticSearchService.bulkDeleteDocument("topic", ids);
+    }
+  }
   // ---------------------------- admin ----------------------------
 
   public IPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
@@ -196,4 +247,5 @@ public class TopicService {
     if (session != null) session.setAttribute("_user", user);
     return strings.size();
   }
+
 }

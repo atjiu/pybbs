@@ -1,7 +1,9 @@
 package co.yiiu.pybbs.util;
 
 /**
- * Created by tomoya at 2018/12/17
+ * Created by tomoya.
+ * Copyright (c) 2018, All Rights Reserved.
+ * https://yiiu.co
  */
 public class Constants {
 
