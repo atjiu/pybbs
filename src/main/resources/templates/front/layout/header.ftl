@@ -18,12 +18,14 @@
         <li <#if page_tab == "index">class="active"</#if>><a href="/">首页</a></li>
         <li <#if page_tab == "tags">class="active"</#if>><a href="/tags">标签</a></li>
       </ul>
-      <#--<form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>-->
+      <#if site.search == "1">
+        <form class="navbar-form navbar-left" action="/search" method="get">
+          <div class="form-group">
+            <input type="text" name="keyword" value="${keyword!}" class="form-control" required placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+      </#if>
       <ul class="nav navbar-nav navbar-right">
         <li <#if page_tab == "api">class="active"</#if>><a href="/api">API</a></li>
         <#if _user??>

@@ -25,7 +25,7 @@
                 <div>
                   <h5>${system.description!}</h5>
                   <input type="hidden" name="key" value="${system.key}" class="form-control"/>
-                  <input type="text" name="value" value="${system.value!}" class="form-control"/>
+                  <input type="text" id="${system.key!}" name="value" value="${system.value!}" class="form-control"/>
                 </div>
               </#list>
             </div>
@@ -39,16 +39,24 @@
   </section>
 <script>
   function save() {
-    $.post("/admin/system/edit", $("#form").serialize(), function (data) {
-      if (data.code === 200) {
-        toast("成功", "success");
-        setTimeout(function () {
-          window.location.reload();
-        }, 700);
-      } else {
-        toast(data.description);
-      }
-    })
+    var search = $("#search").val();
+    var es_host = $("input[id='elasticsearch.host']").val();
+    var es_port = $("input[id='elasticsearch.port']").val();
+    var es_index = $("input[id='elasticsearch.index']").val();
+    if (search === "1" && (es_host.length === 0 || es_port.length === 0 || es_index.length === 0)) {
+      toast("开启搜索功能却不配置ES服务，你是想让网站隔屁吗？");
+    } else {
+      $.post("/admin/system/edit", $("#form").serialize(), function (data) {
+        if (data.code === 200) {
+          toast("成功", "success");
+          setTimeout(function () {
+            window.location.reload();
+          }, 700);
+        } else {
+          toast(data.description);
+        }
+      });
+    }
   }
 </script>
 </@html>

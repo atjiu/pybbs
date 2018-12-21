@@ -33,10 +33,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -60,18 +57,21 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
     try {
       topicMappingBuilder = JsonXContent.contentBuilder()
           .startObject()
-          .startObject("properties")
-          .startObject("title")
-          .field("type", "text")
-          .field("analyzer", "ik_max_word")
-          .field("index", "true")
-          .endObject()
-          .startObject("content")
-          .field("type", "text")
-          .field("analyzer", "ik_max_word")
-          .field("index", "true")
-          .endObject()
-          .endObject()
+            .startObject("properties")
+//              .startObject("id")
+//                .field("type", "integer")
+//              .endObject()
+              .startObject("title")
+                .field("type", "text")
+                .field("analyzer", "ik_max_word")
+                .field("index", "true")
+              .endObject()
+              .startObject("content")
+                .field("type", "text")
+                .field("analyzer", "ik_max_word")
+                .field("index", "true")
+              .endObject()
+            .endObject()
           .endObject();
     } catch (IOException e) {
       e.printStackTrace();
@@ -242,6 +242,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
    */
   public Page<Map<String, Object>> searchDocument(Integer pageNo, Integer pageSize, String keyword, String... fields) {
     try {
+      if (this.instance() == null) return new Page<>();
       SearchRequest request = new SearchRequest(name);
       SearchSourceBuilder builder = new SearchSourceBuilder();
       builder.query(QueryBuilders.multiMatchQuery(keyword, fields));
@@ -251,7 +252,13 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
       // 总条数
       long totalCount = response.getHits().getTotalHits();
       // 结果集
-      List<Map<String, Object>> records = Arrays.stream(response.getHits().getHits()).map(SearchHit::getSourceAsMap).collect(Collectors.toList());
+      List<Map<String, Object>> records = Arrays.stream(response.getHits().getHits())
+          .map(hit -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", hit.getId());
+            map.putAll(hit.getSourceAsMap());
+            return map;
+          }).collect(Collectors.toList());
       Page<Map<String, Object>> page = new Page<>(pageNo, pageSize);
       page.setTotal(totalCount);
       page.setRecords(records);

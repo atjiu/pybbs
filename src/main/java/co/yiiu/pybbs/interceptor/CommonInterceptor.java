@@ -4,6 +4,7 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
+import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,12 +51,19 @@ public class CommonInterceptor implements HandlerInterceptor {
         user = userService.selectByToken(token);
         if (user != null) {
           // 用户存在写session，cookie然后给予通过
-          if (session != null) session.setAttribute("_user", user);
+          session.setAttribute("_user", user);
           cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie.name").toString(), user.getToken());
         }
       }
     }
     return true;
+  }
+
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    if (!HttpUtil.isApiRequest(request)) {
+      modelAndView.addObject("site", systemConfigService.selectAllConfig());
+    }
   }
 
   @Override

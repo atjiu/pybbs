@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.exception;
 
 import co.yiiu.pybbs.util.BaseModel;
+import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = Exception.class)
   public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
     e.printStackTrace();
-    String accept = request.getHeader("Accept");
-    if (accept.contains("text/html")) {
+    if (!HttpUtil.isApiRequest(request)) {
       ModelAndView mav = new ModelAndView();
       mav.addObject("exception", e);
       mav.addObject("errorCode", getStatus(request));

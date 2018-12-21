@@ -96,7 +96,7 @@ public class ShiroConfig {
     //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
     SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
     // 记住我cookie生效时间 单位秒
-    Integer adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get("adminRememberMeMaxAge").toString());
+    int adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get("adminRememberMeMaxAge").toString());
     simpleCookie.setMaxAge(adminRememberMeMaxAge * 24 * 60 * 60);
     return simpleCookie;
   }

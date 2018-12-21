@@ -1,16 +1,18 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
-import co.yiiu.pybbs.config.service.RedisService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -32,21 +34,23 @@ public class SystemConfigService {
   @Autowired
   private RedisService redisService;
 
+  private static Map SYSTEM_CONFIG;
+
   public Map selectAllConfig() {
+    if (SYSTEM_CONFIG != null) return SYSTEM_CONFIG;
     String system_config = redisService.getString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     if (system_config != null) {
-      return JsonUtil.jsonToObject(system_config, Map.class);
+      SYSTEM_CONFIG = JsonUtil.jsonToObject(system_config, Map.class);
     } else {
       List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
-      Map<String, Object> map = new HashMap<>();
-      systemConfigs
+      SYSTEM_CONFIG = systemConfigs
           .stream()
           .filter(systemConfig -> systemConfig.getPid() != 0)
-          .forEach(systemConfig -> map.put(systemConfig.getKey(), systemConfig.getValue()));
+          .collect(Collectors.toMap(SystemConfig::getKey, SystemConfig::getValue));
       // 将查询出来的数据放到redis里缓存下来（如果redis可用的话）
-      redisService.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(map));
-      return map;
+      redisService.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(SYSTEM_CONFIG));
     }
+    return SYSTEM_CONFIG;
   }
 
   // 根据键取值
@@ -77,7 +81,7 @@ public class SystemConfigService {
   }
 
   // 在更新系统设置后，清一下selectAllConfig()的缓存
-  public String update(String[] key, String[] value) throws IOException {
+  public void update(String[] key, String[] value) {
     for (int i = 0; i < key.length; i++) {
       SystemConfig systemConfig = new SystemConfig();
       systemConfig.setKey(key[i]);
@@ -90,7 +94,8 @@ public class SystemConfigService {
     if (!this.isRedisConfig()) redisService.setJedis(null);
     // 清除redis里关于 system_config 的缓存
     redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
-    return null;
+    // 更新SYSTEM_CONFIG
+    SYSTEM_CONFIG = null;
   }
 
   // 判断redis是否配置了

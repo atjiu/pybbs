@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -124,7 +125,8 @@ public class IndexController extends BaseController {
   }
 
   @GetMapping("/search")
-  public String search(@RequestParam(defaultValue = "1") Integer pageNo, String keyword, Model model) {
+  public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {
+    Assert.isTrue(systemConfigService.selectAllConfig().get("search").toString().equals("1"), "网站没有启动搜索功能，联系站长问问看");
     if (StringUtils.isEmpty(keyword)) {
       model.addAttribute("page", new Page<>());
     } else {

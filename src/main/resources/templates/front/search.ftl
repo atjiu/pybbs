@@ -1,0 +1,26 @@
+<#include "./layout/layout.ftl"/>
+<@html page_title="首页" page_tab="index">
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">搜索结果</div>
+      <table class="table">
+        <#list page.records as map>
+          <tr>
+            <td><a href="/topic/${map.id!}" target="_blank" style="font-size: 16px;">${map.title!}</a></td>
+          </tr>
+        </#list>
+      </table>
+      <#include "./components/paginate.ftl"/>
+      <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <#if _user??>
+      <#include "./components/user_info.ftl"/>
+    <#else>
+      <#include "./components/welcome.ftl"/>
+    </#if>
+  </div>
+</div>
+</@html>

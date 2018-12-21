@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -27,8 +28,6 @@ public class FreemarkerConfig {
 
   @Autowired
   private freemarker.template.Configuration configuration;
-  @Autowired
-  private SystemConfigService systemConfigService;
   @Autowired
   private TopicListDirective topicListDirective;
   @Autowired
@@ -46,7 +45,6 @@ public class FreemarkerConfig {
   public void setSharedVariable() throws TemplateModelException {
     //注入全局配置到freemarker
     log.info("开始配置freemarker全局变量...");
-    configuration.setSharedVariable("site", systemConfigService.selectAllConfig());
     configuration.setSharedVariable("model", baseModel);
     // shiro鉴权
     configuration.setSharedVariable("sec", shiroTag);

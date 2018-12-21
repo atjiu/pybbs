@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.interceptor;
 
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.Result;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,7 @@ public class UserInterceptor implements HandlerInterceptor {
   // 因为响应内容描述是中文，所以都要带上 ;charset=utf-8 否则会有乱码
   // 写注释真累费劲。。
   private void responseWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String accept = request.getHeader("Accept");
-    if (accept.contains("text/html")) {
+    if (!HttpUtil.isApiRequest(request)) {
       response.setContentType("text/html;charset=utf-8");
       response.getWriter().write("<script>alert('请先登录!');window.history.go(-1);</script>");
     } else /*if (accept.contains("application/json"))*/ {
