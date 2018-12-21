@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -17,21 +16,21 @@ import redis.clients.jedis.JedisPoolConfig;
  * https://yiiu.co
  */
 @Component
-public class RedisService implements BaseService<Jedis> {
+public class RedisService implements BaseService<JedisPool> {
 
   @Autowired
   private SystemConfigService systemConfigService;
-  private Jedis jedis;
+  private JedisPool jedisPool;
   private Logger log = LoggerFactory.getLogger(RedisService.class);
 
-  public void setJedis(Jedis jedis) {
-    this.jedis = jedis;
+  public void setJedis(JedisPool jedisPool) {
+    this.jedisPool = jedisPool;
   }
 
   @Override
-  public Jedis instance() {
+  public JedisPool instance() {
     try {
-      if (this.jedis != null) return this.jedis;
+      if (this.jedisPool != null) return this.jedisPool;
       // 获取redis的连接
       // host
       SystemConfig systemConfigHost = systemConfigService.selectByKey("redis.host");
@@ -64,8 +63,8 @@ public class RedisService implements BaseService<Jedis> {
       // 配置jedis连接池最多空闲多少个实例，源码默认 8
       jedisPoolConfig.setMaxIdle(8);
       // 配置jedis连接池最多创建多少个实例，源码默认 8
-      jedisPoolConfig.setMaxTotal(8);
-      JedisPool jedisPool = new JedisPool(
+      jedisPoolConfig.setMaxTotal(18);
+      jedisPool = new JedisPool(
           jedisPoolConfig,
           host,
           Integer.parseInt(port),
@@ -75,9 +74,8 @@ public class RedisService implements BaseService<Jedis> {
           null,
           ssl.equals("1")
       );
-      this.jedis = jedisPool.getResource();
       log.info("redis连接对象获取成功...");
-      return this.jedis;
+      return this.jedisPool;
     } catch (Exception e) {
       log.error("配置redis连接池报错，错误信息: {}", e.getMessage());
       return null;
@@ -86,21 +84,21 @@ public class RedisService implements BaseService<Jedis> {
 
   // 获取String值
   public String getString(String key) {
-    Jedis instance = this.instance();
+    JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || instance == null) return null;
-    return instance.get(key);
+    return instance.getResource().get(key);
   }
 
   public void setString(String key, String value) {
-    Jedis instance = this.instance();
+    JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || instance == null) return;
-    instance.set(key, value); // 返回值成功是 OK
+    instance.getResource().set(key, value); // 返回值成功是 OK
   }
 
   public void delString(String key) {
-    Jedis instance = this.instance();
+    JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || instance == null) return;
-    instance.del(key); // 返回值成功是 1
+    instance.getResource().del(key); // 返回值成功是 1
   }
 
   // TODO 后面会补充获取 list, map 等方法
