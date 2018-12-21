@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -86,19 +87,26 @@ public class RedisService implements BaseService<JedisPool> {
   public String getString(String key) {
     JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || instance == null) return null;
-    return instance.getResource().get(key);
+    Jedis jedis = instance.getResource();
+    String value = jedis.get(key);
+    jedis.close();
+    return value;
   }
 
   public void setString(String key, String value) {
     JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || instance == null) return;
-    instance.getResource().set(key, value); // 返回值成功是 OK
+    Jedis jedis = instance.getResource();
+    jedis.set(key, value); // 返回值成功是 OK
+    jedis.close();
   }
 
   public void delString(String key) {
     JedisPool instance = this.instance();
     if (StringUtils.isEmpty(key) || instance == null) return;
-    instance.getResource().del(key); // 返回值成功是 1
+    Jedis jedis = instance.getResource();
+    jedis.del(key); // 返回值成功是 1
+    jedis.close();
   }
 
   // TODO 后面会补充获取 list, map 等方法
