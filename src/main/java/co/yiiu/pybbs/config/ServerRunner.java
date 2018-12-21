@@ -25,7 +25,7 @@ public class ServerRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    Boolean search = systemConfigService.selectAllConfig().get("search").toString().equals("1");
+    boolean search = systemConfigService.selectAllConfig().get("search").toString().equals("1");
     if (search) {
       if (!elasticSearchService.existIndex()) {
         elasticSearchService.createIndex("topic", ElasticSearchService.topicMappingBuilder);

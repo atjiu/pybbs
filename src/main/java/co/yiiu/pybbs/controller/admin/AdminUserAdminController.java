@@ -61,7 +61,7 @@ public class AdminUserAdminController extends BaseAdminController {
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
     AdminUser adminUser = getAdminUser();
-    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
+//    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
     model.addAttribute("adminUser", adminUserService.selectById(id));
@@ -72,7 +72,7 @@ public class AdminUserAdminController extends BaseAdminController {
   @PostMapping("/edit")
   public String edit(AdminUser adminUser) {
     AdminUser _adminUser = getAdminUser();
-    Assert.isTrue(_adminUser.getId().equals(adminUser.getId()), "谁给你的权限让你修改别人的帐号的？");
+//    Assert.isTrue(_adminUser.getId().equals(adminUser.getId()), "谁给你的权限让你修改别人的帐号的？");
     if (StringUtils.isEmpty(adminUser.getPassword())) {
       adminUser.setPassword(null);
     } else {
