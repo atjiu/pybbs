@@ -6,12 +6,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -35,9 +34,8 @@ public class SystemConfigAdminController extends BaseAdminController {
   @RequiresPermissions("system:edit")
   @PostMapping("/edit")
   @ResponseBody
-  public Result edit(String[] key, String[] value) throws IOException {
-    if (key.length != value.length) return error("数据异常");
-    systemConfigService.update(key, value);
+  public Result edit(@RequestBody List<Map<String, String>> list) {
+    systemConfigService.update(list);
     return success();
   }
 }

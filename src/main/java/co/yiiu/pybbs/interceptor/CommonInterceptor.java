@@ -45,14 +45,14 @@ public class CommonInterceptor implements HandlerInterceptor {
     User user = (User) session.getAttribute("_user");
     if (user == null) {
       // 获取cookie里的token，查询用户的信息并放入session里
-      String token = cookieUtil.getCookie(systemConfigService.selectAllConfig().get("cookie.name").toString());
+      String token = cookieUtil.getCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
       if (!StringUtils.isEmpty(token)) {
         // 根据token查询用户是否存在
         user = userService.selectByToken(token);
         if (user != null) {
           // 用户存在写session，cookie然后给予通过
           session.setAttribute("_user", user);
-          cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie.name").toString(), user.getToken());
+          cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
         }
       }
     }

@@ -24,8 +24,23 @@
               <#list systems[key] as system>
                 <div>
                   <h5>${system.description!}</h5>
-                  <input type="hidden" name="key" value="${system.key}" class="form-control"/>
-                  <input type="text" id="${system.key!}" name="value" value="${system.value!}" class="form-control"/>
+                  <#--<input type="hidden" name="key" value="${system.key}" class="form-control"/>-->
+                  <#if system.type == "email">
+                    <input type="email" id="${system.key!}" name="${system.key!}" value="${system.value!}" class="form-control"/>
+                  <#elseif system.type == "text">
+                    <input type="text" id="${system.key!}" name="${system.key!}" value="${system.value!}" class="form-control"/>
+                  <#elseif system.type == "password">
+                    <input type="password" id="${system.key!}" name="${system.key!}" value="${system.value!}" class="form-control"/>
+                  <#elseif system.type == "url">
+                    <input type="url" id="${system.key!}" name="${system.key!}" value="${system.value!}" class="form-control"/>
+                  <#elseif system.type == "number">
+                    <input type="number" id="${system.key!}" name="${system.key!}" value="${system.value!}" class="form-control"/>
+                  <#elseif system.type == "radio">
+                    <input type="radio" id="${system.key!}1" name="${system.key!}" <#if system.value == "1">checked</#if> value="1"/>
+                    <label for="${system.key!}1">是</label>&nbsp;&nbsp;
+                    <input type="radio" id="${system.key!}0" name="${system.key!}" <#if system.value == "0">checked</#if> value="0"/>
+                    <label for="${system.key!}0">否</label>
+                  </#if>
                 </div>
               </#list>
             </div>
@@ -40,22 +55,30 @@
 <script>
   function save() {
     var search = $("#search").val();
-    var es_host = $("input[id='elasticsearch.host']").val();
-    var es_port = $("input[id='elasticsearch.port']").val();
-    var es_index = $("input[id='elasticsearch.index']").val();
+    var es_host = $("#elasticsearch_host").val();
+    var es_port = $("#elasticsearch_port").val();
+    var es_index = $("#elasticsearch_index").val();
     if (search === "1" && (es_host.length === 0 || es_port.length === 0 || es_index.length === 0)) {
       toast("开启搜索功能却不配置ES服务，你是想让网站隔屁吗？");
+      // TODO 增加相应输入框红色边框，提示用户应该配置哪地方
     } else {
-      $.post("/admin/system/edit", $("#form").serialize(), function (data) {
-        if (data.code === 200) {
-          toast("成功", "success");
-          setTimeout(function () {
-            window.location.reload();
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: "/admin/system/edit",
+        contentType:"application/json; charset=utf-8",
+        type: 'post',
+        dataType: 'json',
+        data: JSON.stringify($("#form").serializeArray()),
+        success: function(data) {
+          if (data.code === 200) {
+            toast("成功", "success");
+            setTimeout(function () {
+              window.location.reload();
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
-      });
+      })
     }
   }
 </script>

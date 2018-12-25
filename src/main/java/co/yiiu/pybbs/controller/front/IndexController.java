@@ -84,7 +84,7 @@ public class IndexController extends BaseController {
     // 清除session里的用户信息
     session.removeAttribute("_user");
     // 清除cookie里的用户token
-    cookieUtil.clearCookie(systemConfigService.selectAllConfig().get("cookie.name").toString());
+    cookieUtil.clearCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
     return redirect("/");
   }
 
@@ -130,7 +130,7 @@ public class IndexController extends BaseController {
     if (StringUtils.isEmpty(keyword)) {
       model.addAttribute("page", new Page<>());
     } else {
-      Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString());
+      Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString());
       Page<Map<String, Object>> page = elasticSearchService.searchDocument(pageNo, pageSize, keyword, "title", "content");
       model.addAttribute("page", page);
       model.addAttribute("keyword", keyword);

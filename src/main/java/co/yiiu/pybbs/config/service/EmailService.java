@@ -32,15 +32,15 @@ public class EmailService implements BaseService<Session> {
     // 如果session已经存在了，就不执行了，直接返回对象
     if (session != null) return session;
     // session为空，判断系统是否配置了邮箱相关的参数，配置了继续，没配置白白
-    SystemConfig systemConfigHost = systemConfigService.selectByKey("mail.host");
+    SystemConfig systemConfigHost = systemConfigService.selectByKey("mail_host");
     String host = systemConfigHost.getValue();
-    SystemConfig systemConfigUsername = systemConfigService.selectByKey("mail.username");
+    SystemConfig systemConfigUsername = systemConfigService.selectByKey("mail_username");
     String username = systemConfigUsername.getValue();
-    SystemConfig systemConfigPassword = systemConfigService.selectByKey("mail.password");
+    SystemConfig systemConfigPassword = systemConfigService.selectByKey("mail_password");
     String password = systemConfigPassword.getValue();
     if (StringUtils.isEmpty(host) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return null;
     Properties properties = new Properties();
-    properties.setProperty("mail.host", host.toString());
+    properties.setProperty("mail.host", host);
     //是否进行权限验证。
     properties.setProperty("mail.smtp.auth", "true");
     //0.2确定权限（账号和密码）
@@ -67,7 +67,7 @@ public class EmailService implements BaseService<Session> {
     try {
       //2 创建消息
       Message message = new MimeMessage(this.session);
-      String from = systemConfigService.selectAllConfig().get("mail.username").toString();
+      String from = systemConfigService.selectAllConfig().get("mail_username").toString();
       // 2.1 发件人 xxx@163.com 我们自己的邮箱地址，就是名称
       message.setFrom(new InternetAddress(from));
       /*

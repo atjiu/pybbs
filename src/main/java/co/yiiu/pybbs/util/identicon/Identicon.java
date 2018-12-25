@@ -95,12 +95,12 @@ public class Identicon {
     String fileName = "avatar.png";
     String userAvatarPath = "avatar/" + username + "/";
     try {
-      File file = new File(systemConfigService.selectAllConfig().get("uploadPath").toString() + userAvatarPath);
+      File file = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath);
       if (!file.exists()) file.mkdirs();
-      File file1 = new File(systemConfigService.selectAllConfig().get("uploadPath").toString() + userAvatarPath + fileName);
+      File file1 = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath + fileName);
       if (!file1.exists()) file1.createNewFile();
       ImageIO.write(image, "PNG", file1);
-      return systemConfigService.selectAllConfig().get("staticUrl").toString() + userAvatarPath + fileName;
+      return systemConfigService.selectAllConfig().get("static_url").toString() + userAvatarPath + fileName;
     } catch (IOException e) {
       log.error(e.getLocalizedMessage());
     }

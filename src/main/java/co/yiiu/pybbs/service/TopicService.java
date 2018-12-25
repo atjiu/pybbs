@@ -51,7 +51,7 @@ public class TopicService {
   public IPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
     IPage<Map<String, Object>> iPage = new Page<>(
         pageNo,
-        Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString())
+        Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString())
     );
     IPage<Map<String, Object>> page = topicMapper.selectAll(iPage, tab);
     selectTags(page, topicTagService, tagService);
@@ -84,7 +84,7 @@ public class TopicService {
   public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     IPage<Map<String, Object>> iPage = new Page<>(pageNo,
         pageSize == null ?
-            Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()) : pageSize
+            Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
     return topicMapper.selectByUserId(iPage, userId);
   }
@@ -98,7 +98,7 @@ public class TopicService {
     topic.setUserId(user.getId());
     topicMapper.insert(topic);
     // 增加用户积分
-    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("createTopicScore").toString()));
+    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
     // 保存标签
@@ -154,7 +154,7 @@ public class TopicService {
     topicTagService.deleteByTopicId(id);
     // 减去用户积分
     User user = userService.selectById(topic.getUserId());
-    user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("deleteTopicScore").toString()));
+    user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_topic_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
     // 删除索引
@@ -219,7 +219,7 @@ public class TopicService {
   public IPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
     IPage<Map<String, Object>> iPage = new Page<>(
         pageNo,
-        Integer.parseInt((String) systemConfigService.selectAllConfig().get("pageSize"))
+        Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size"))
     );
     return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
@@ -232,10 +232,10 @@ public class TopicService {
     Integer userScore = user.getScore();
     if (strings.contains(String.valueOf(user.getId()))) { // 取消点赞行为
       strings.remove(String.valueOf(user.getId()));
-      userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("upTopicScore").toString());
+      userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("up_topic_score").toString());
     } else { // 点赞行为
       strings.add(String.valueOf(user.getId()));
-      userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("upTopicScore").toString());
+      userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("up_topic_score").toString());
     }
     // 再把这些id按逗号隔开组成字符串
     topic.setUpIds(StringUtils.collectionToCommaDelimitedString(strings));

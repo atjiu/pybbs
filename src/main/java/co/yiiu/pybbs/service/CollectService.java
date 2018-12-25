@@ -112,7 +112,7 @@ public class CollectService {
   public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     IPage<Map<String, Object>> iPage = new Page<>(pageNo,
         pageSize == null ?
-            Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()) : pageSize
+            Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
     iPage = collectMapper.selectByUserId(iPage, userId);
     topicService.selectTags(iPage, topicTagService, tagService);

@@ -11,7 +11,6 @@ import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.IndicesOptions;
@@ -24,7 +23,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,11 +81,11 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
   public RestHighLevelClient instance() {
     if (this.client != null) return client;
     try {
-      SystemConfig systemConfigHost = systemConfigService.selectByKey("elasticsearch.host");
+      SystemConfig systemConfigHost = systemConfigService.selectByKey("elasticsearch_host");
       String host = systemConfigHost.getValue();
-      SystemConfig systemConfigPort = systemConfigService.selectByKey("elasticsearch.port");
+      SystemConfig systemConfigPort = systemConfigService.selectByKey("elasticsearch_port");
       String port = systemConfigPort.getValue();
-      SystemConfig systemConfigName = systemConfigService.selectByKey("elasticsearch.index");
+      SystemConfig systemConfigName = systemConfigService.selectByKey("elasticsearch_index");
       name = systemConfigName.getValue();
 
       if (StringUtils.isEmpty(host) || StringUtils.isEmpty(port)) return null;

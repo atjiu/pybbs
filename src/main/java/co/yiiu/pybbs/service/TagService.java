@@ -93,13 +93,13 @@ public class TagService {
 
   // 查询标签关联的话题
   public IPage<Map<String, Object>> selectTopicByTagId(Integer tagId, Integer pageNo) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()));
+    IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()));
     return tagMapper.selectTopicByTagId(iPage, tagId);
   }
 
   // 查询标签列表
   public IPage<Tag> selectAll(Integer pageNo, String name) {
-    IPage<Tag> iPage = new Page<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()));
+    IPage<Tag> iPage = new Page<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()));
     QueryWrapper<Tag> wrapper = new QueryWrapper<>();
     // 当传进来的name不为null的时候，就根据name查询
     if (!StringUtils.isEmpty(name)) {

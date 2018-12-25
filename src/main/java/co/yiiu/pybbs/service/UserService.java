@@ -101,7 +101,7 @@ public class UserService {
   // ------------------------------- admin ------------------------------------------
 
   public IPage<User> selectAll(Integer pageNo) {
-    Page<User> page = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("pageSize")));
+    Page<User> page = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     page.setDesc("in_time");
     return userMapper.selectPage(page, null);
   }

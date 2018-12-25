@@ -41,7 +41,7 @@ public class CommentService {
   // 根据话题id查询评论
   public List<Map<String, Object>> selectByTopicId(Integer topicId) {
     List<Map<String, Object>> maps = commentMapper.selectByTopicId(topicId);
-    if (Integer.parseInt(systemConfigService.selectAllConfig().get("commentLayer").toString()) == 1) {
+    if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
       maps = this.sortByLayer(maps);
     }
     return maps;
@@ -78,7 +78,7 @@ public class CommentService {
     topicService.update(topic);
 
     // 增加用户积分
-    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("createCommentScore").toString()));
+    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_comment_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
 
@@ -118,10 +118,10 @@ public class CommentService {
     Integer userScore = user.getScore();
     if (strings.contains(String.valueOf(user.getId()))) { // 取消点赞行为
       strings.remove(String.valueOf(user.getId()));
-      userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("upCommentScore").toString());
+      userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score").toString());
     } else { // 点赞行为
       strings.add(String.valueOf(user.getId()));
-      userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("upCommentScore").toString());
+      userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score").toString());
     }
     // 再把这些id按逗号隔开组成字符串
     comment.setUpIds(StringUtils.collectionToCommaDelimitedString(strings));
@@ -144,7 +144,7 @@ public class CommentService {
       topicService.update(topic);
       // 减去用户积分
       User user = userService.selectById(comment.getUserId());
-      user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("deleteCommentScore").toString()));
+      user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_comment_score").toString()));
       userService.update(user);
       if (session != null) session.setAttribute("_user", user);
       // 删除评论
@@ -156,7 +156,7 @@ public class CommentService {
   public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     IPage<Map<String, Object>> iPage = new Page<>(pageNo,
         pageSize == null ?
-        Integer.parseInt(systemConfigService.selectAllConfig().get("pageSize").toString()) : pageSize
+        Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
     return commentMapper.selectByUserId(iPage, userId);
   }
@@ -202,7 +202,7 @@ public class CommentService {
   // ---------------------------- admin ----------------------------
 
   public IPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("pageSize")));
+    IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 }

@@ -34,23 +34,23 @@ public class RedisService implements BaseService<JedisPool> {
       if (this.jedisPool != null) return this.jedisPool;
       // 获取redis的连接
       // host
-      SystemConfig systemConfigHost = systemConfigService.selectByKey("redis.host");
+      SystemConfig systemConfigHost = systemConfigService.selectByKey("redis_host");
       String host = systemConfigHost.getValue();
       // port
-      SystemConfig systemConfigPort = systemConfigService.selectByKey("redis.port");
+      SystemConfig systemConfigPort = systemConfigService.selectByKey("redis_port");
       String port = systemConfigPort.getValue();
       // password
-      SystemConfig systemConfigPassword = systemConfigService.selectByKey("redis.password");
+      SystemConfig systemConfigPassword = systemConfigService.selectByKey("redis_password");
       String password = systemConfigPassword.getValue();
       password = StringUtils.isEmpty(password) ? null : password;
       // database
-      SystemConfig systemConfigDatabase = systemConfigService.selectByKey("redis.database");
+      SystemConfig systemConfigDatabase = systemConfigService.selectByKey("redis_database");
       String database = systemConfigDatabase.getValue();
       // timeout
-      SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis.timeout");
+      SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
       String timeout = systemConfigTimeout.getValue();
       // ssl
-      SystemConfig systemConfigSSL = systemConfigService.selectByKey("redis.ssl");
+      SystemConfig systemConfigSSL = systemConfigService.selectByKey("redis_ssl");
       String ssl = systemConfigSSL.getValue();
 
       if (StringUtils.isEmpty(host)

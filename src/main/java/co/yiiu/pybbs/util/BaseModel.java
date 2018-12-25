@@ -62,7 +62,7 @@ public class BaseModel {
     List<String> atUsers = StringUtil.fetchAtUser(content);
     if (atUsers != null) {
       for (String atUser : atUsers) {
-        content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("baseUrl").toString() + "/user/" + atUser.replace("@", "") + ")");
+        content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("base_url").toString() + "/user/" + atUser.replace("@", "") + ")");
       }
     }
     content = MarkdownUtil.render(content);

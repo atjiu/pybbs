@@ -81,11 +81,11 @@ public class SystemConfigService {
   }
 
   // 在更新系统设置后，清一下selectAllConfig()的缓存
-  public void update(String[] key, String[] value) {
-    for (int i = 0; i < key.length; i++) {
+  public void update(List<Map<String, String>> list) {
+    for (Map map: list) {
       SystemConfig systemConfig = new SystemConfig();
-      systemConfig.setKey(key[i]);
-      systemConfig.setValue(value[i]);
+      systemConfig.setKey((String) map.get("name"));
+      systemConfig.setValue((String) map.get("value"));
       QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
       wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
       systemConfigMapper.update(systemConfig, wrapper);
@@ -100,16 +100,16 @@ public class SystemConfigService {
 
   // 判断redis是否配置了
   public boolean isRedisConfig() {
-    SystemConfig systemConfigHost = this.selectByKey("redis.host");
+    SystemConfig systemConfigHost = this.selectByKey("redis_host");
     String host = systemConfigHost.getValue();
     // port
-    SystemConfig systemConfigPort = this.selectByKey("redis.port");
+    SystemConfig systemConfigPort = this.selectByKey("redis_port");
     String port = systemConfigPort.getValue();
     // database
-    SystemConfig systemConfigDatabase = this.selectByKey("redis.database");
+    SystemConfig systemConfigDatabase = this.selectByKey("redis_database");
     String database = systemConfigDatabase.getValue();
     // timeout
-    SystemConfig systemConfigTimeout = this.selectByKey("redis.timeout");
+    SystemConfig systemConfigTimeout = this.selectByKey("redis_timeout");
     String timeout = systemConfigTimeout.getValue();
 
     return !StringUtils.isEmpty(host)

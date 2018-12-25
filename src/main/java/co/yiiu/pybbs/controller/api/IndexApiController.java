@@ -46,7 +46,7 @@ public class IndexApiController extends BaseApiController {
     // 将用户信息写session
     if (session != null) session.setAttribute("_user", user);
     // 将用户token写cookie
-    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie.name").toString(), user.getToken());
+    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
     return success(user);
   }
 
@@ -61,7 +61,7 @@ public class IndexApiController extends BaseApiController {
     // 将用户信息写session
     if (session != null) session.setAttribute("_user", user);
     // 将用户token写cookie
-    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie.name").toString(), user.getToken());
+    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
     return success(user);
   }
 

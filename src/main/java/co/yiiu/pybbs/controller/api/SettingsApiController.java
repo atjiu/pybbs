@@ -85,7 +85,7 @@ public class SettingsApiController extends BaseApiController {
   @PostMapping("/uploadAvatar")
   public Result uploadAvatar(@RequestParam("file") MultipartFile file, HttpSession session) {
     long size = file.getSize();
-    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("uploadAvatarSizeLimit").toString());
+    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_avatar_size_limit").toString());
     if (size > uploadAvatarSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadAvatarSizeLimit + "MB 以内");
     // 拿到上传后访问的url
     String url = fileUtil.upload(file, "avatar", "avatar/" + getUser().getUsername());

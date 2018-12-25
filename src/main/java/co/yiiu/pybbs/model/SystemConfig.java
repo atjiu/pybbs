@@ -26,6 +26,14 @@ public class SystemConfig implements Serializable {
   private String description;
   private Integer pid;
 
+  // 配置类型，常见的有 select, input[type=text,url,number,radio,password,email]
+  @TableField("`type`")
+  private String type;
+
+  // 特殊类型里的值，比如 radio，select 的option
+  @TableField("`option`")
+  private String option;
+
   public Integer getId() {
     return id;
   }
@@ -64,5 +72,21 @@ public class SystemConfig implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getOption() {
+    return option;
+  }
+
+  public void setOption(String option) {
+    this.option = option;
   }
 }
