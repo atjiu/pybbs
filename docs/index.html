@@ -6,19 +6,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="shortcut icon" href="https://yiiu.co/favicon.ico">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
 </head>
 <body>
   <div id="app"></div>
-  <div style="padding: 15px;">文档看了还有问题怎么办？去 <a href="https://17dev.club/" target="_blank">开发俱乐部</a> 上提问</div>
+  <script src="//unpkg.com/docsify/lib/plugins/ga.js"></script>
+  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
   <script>
     window.$docsify = {
-      name: 'pybbs文档',
+      name: '朋也社区文档',
       repo: 'tomoya92/pybbs',
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
-      search: 'auto'
+      search: 'auto',
+      ga: 'UA-98133026-3',
+      plugins: [
+        EditOnGithubPlugin.create(
+          'https://github.com/tomoya92/pybbs/blob/master/docs/'
+        ),
+        function (hook) {
+          var footer = [
+            '<hr/>',
+            '<footer>',
+            '<span>文档看了还有问题怎么办？去 <a href="https://17dev.club/" target="_blank">开发俱乐部</a> 上提问</span>',
+            '<span style="float: right;">Powered by <a href="https://github.com/docsifyjs/docsify" target="_blank">docsify</a>.</span>',
+            '</footer>'
+          ].join('');
+          hook.afterEach(function (html) {
+            return html + footer
+          });
+        },
+      ]
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>

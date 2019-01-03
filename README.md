@@ -9,7 +9,7 @@
 
 ## 文档
 
-文档地址：[]()
+[文档地址](https://tomoya92.github.io/pybbs/#/)
 
 文档使用开源工具 [docsify](https://docsify.js.org/#/quickstart) 编写
 
