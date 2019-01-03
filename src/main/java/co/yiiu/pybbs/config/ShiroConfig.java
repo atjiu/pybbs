@@ -1,8 +1,7 @@
 package co.yiiu.pybbs.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
+import co.yiiu.pybbs.config.realm.MyShiroRealm;
 import co.yiiu.pybbs.service.SystemConfigService;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
@@ -18,9 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
-import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
-import co.yiiu.pybbs.config.realm.MyShiroRealm;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -92,6 +92,7 @@ public class ShiroConfig {
 
   // 配置记住我功能
   @Bean
+  @DependsOn("mybatisPlusConfig")
   public SimpleCookie rememberMeCookie() {
     //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
     SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
@@ -102,6 +103,7 @@ public class ShiroConfig {
   }
 
   @Bean
+  @DependsOn("mybatisPlusConfig")
   public CookieRememberMeManager rememberMeManager() {
     //System.out.println("ShiroConfiguration.rememberMeManager()");
     CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();

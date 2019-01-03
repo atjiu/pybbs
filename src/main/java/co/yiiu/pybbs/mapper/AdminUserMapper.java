@@ -2,7 +2,6 @@ package co.yiiu.pybbs.mapper;
 
 import co.yiiu.pybbs.model.AdminUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;

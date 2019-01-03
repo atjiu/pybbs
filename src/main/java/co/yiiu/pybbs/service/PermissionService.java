@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +30,10 @@ public class PermissionService {
   // 根据角色id查询所有的权限
   public List<Permission> selectByRoleId(Integer roleId) {
     List<RolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
-    List<Integer> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).collect(Collectors.toList());
+    List<Integer> permissionIds = rolePermissions
+        .stream()
+        .map(RolePermission::getPermissionId)
+        .collect(Collectors.toList());
     QueryWrapper<Permission> wrapper = new QueryWrapper<>();
     wrapper.lambda()
         .in(Permission::getId, permissionIds);

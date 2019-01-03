@@ -3,19 +3,15 @@ package co.yiiu.pybbs.controller.admin;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.service.AdminUserService;
 import co.yiiu.pybbs.service.RoleService;
-import co.yiiu.pybbs.util.Result;
-import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 

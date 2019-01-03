@@ -5,6 +5,7 @@ import co.yiiu.pybbs.service.SystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +21,7 @@ import java.util.Properties;
  */
 // 这个工具类来自博客：https://www.cnblogs.com/whgk/p/6506027.html
 @Component
+@DependsOn("mybatisPlusConfig")
 public class EmailService implements BaseService<Session> {
 
   @Autowired

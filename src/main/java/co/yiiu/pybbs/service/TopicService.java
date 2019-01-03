@@ -170,9 +170,7 @@ public class TopicService {
         .eq(Topic::getUserId, userId);
     List<Topic> topics = topicMapper.selectList(wrapper);
     //删除索引
-    topics.forEach(topic -> {
-      this.deleteTopicIndex(String.valueOf(topic.getId()));
-    });
+    topics.forEach(topic -> this.deleteTopicIndex(String.valueOf(topic.getId())));
     //删除话题
     topicMapper.delete(wrapper);
   }

@@ -9,8 +9,10 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.sql.DataSource;
 
@@ -29,8 +31,16 @@ public class MybatisPlusConfig {
 //    return new PaginationInterceptor();
 //  }
 
+//  @Bean
+//  public MapperScannerConfigurer mapperScannerConfigurer() {
+//    MapperScannerConfigurer mapper = new MapperScannerConfigurer();
+//    mapper.setBasePackage("co.yiiu.pybbs.mapper");
+//    return mapper;
+//  }
+
   @Bean("mybatisSqlSession")
-  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+  @DependsOn("flywayConfig")
+  public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
     MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
     MybatisConfiguration configuration = new MybatisConfiguration();
     configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);

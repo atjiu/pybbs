@@ -2,9 +2,7 @@ package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.mapper.CollectMapper;
 import co.yiiu.pybbs.model.Collect;
-import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
-import co.yiiu.pybbs.model.TopicTag;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by tomoya.

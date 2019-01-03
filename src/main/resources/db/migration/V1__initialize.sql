@@ -10,7 +10,6 @@
 # Generation Time: 2018-12-06 03:09:53 +0000
 # ************************************************************
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -316,52 +315,53 @@ CREATE TABLE `system_config` (
   `pid` int(11) NOT NULL DEFAULT '0',
   `type` varchar(255) DEFAULT '',
   `option` varchar(255) DEFAULT NULL,
+  `reboot` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `system_config` WRITE;
 /*!40000 ALTER TABLE `system_config` DISABLE KEYS */;
 
-INSERT INTO `system_config` (`id`, `key`, `value`, `description`, `pid`, `type`, `option`)
+INSERT INTO `system_config` (`id`, `key`, `value`, `description`, `pid`, `type`, `option`, `reboot`)
 VALUES
-	(1,'admin_remember_me_max_age','30','登录后台记住我功能记住时间，单位：天',23,'number',NULL),
-	(2,'base_url','http://localhost:8080','网站部署后访问的域名，注意这个后面没有 \"/\"',23,'url',NULL),
-	(3,'comment_layer','1','评论盖楼形式显示',23,'radio',NULL),
-	(4,'cookie_domain','localhost','存cookie时用到的域名，要与网站部署后访问的域名一致',23,'text',NULL),
-	(5,'cookie_max_age','604800','cookie有效期，单位秒，默认1周',23,'number',NULL),
-	(6,'cookie_name','user_token','存cookie时用到的名称',23,'text',NULL),
-	(7,'create_comment_score','5','发布评论奖励的积分',26,'number',NULL),
-	(8,'create_topic_score','10','创建话题奖励的积分',26,'number',NULL),
-	(9,'delete_comment_score','5','删除评论要被扣除的积分',26,'number',NULL),
-	(10,'delete_topic_score','10','删除话题要被扣除的积分',26,'number',NULL),
-	(11,'intro','<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>','站点介绍',23,'text',NULL),
-	(12,'mail_host','smtp.qq.com','邮箱的smtp服务器地址',24,'text',NULL),
-	(13,'mail_password','','发送邮件的邮箱密码',24,'password',NULL),
-	(14,'mail_username','xxoo@qq.com','发送邮件的邮箱地址',24,'email',NULL),
-	(15,'name','朋也社区','站点名称',23,'text',NULL),
-	(16,'page_size','20','分页每页条数',23,'number',NULL),
-	(17,'socket_notification','0','是否开启websocket长连接获取通知数量',23,'radio',NULL),
-	(18,'static_url','http://localhost:8080/static/upload/','静态文件访问地址，主要用于上传图片的访问，注意最后有个\"/\"',23,'url',NULL),
-	(19,'up_comment_score','3','点赞评论奖励评论作者的积分',26,'number',NULL),
-	(20,'upload_avatar_size_limit','2','上传头像文件大小，单位MB，默认2MB',25,'number',NULL),
-	(21,'upload_path','/Users/hh/git/github/pybbs/static/upload/','上传文件的路径，注意最后有个\"/\"',25,'text',NULL),
-	(22,'up_topic_score','3','点赞话题奖励话题作者的积分',26,'number',NULL),
-	(23,NULL,NULL,'基础配置',0,NULL,NULL),
-	(24,NULL,NULL,'邮箱配置',0,NULL,NULL),
-	(25,NULL,NULL,'上传配置',0,NULL,NULL),
-	(26,NULL,NULL,'积分配置',0,NULL,NULL),
-	(27,NULL,NULL,'Redis配置',0,NULL,NULL),
-	(29,'redis_host','127.0.0.1','redis服务host地址',27,'text',NULL),
-	(30,'redis_port','6379','redis服务端口',27,'number',NULL),
-	(31,'redis_password','','redis服务密码',27,'password',NULL),
-	(32,'redis_timeout','2000','网站连接redis服务超时时间，单位毫秒',27,'number',NULL),
-	(33,'redis_database','0','网站连接redis服务的哪个数据库，默认0号数据库，取值范围0-15',27,'number',NULL),
-	(34,'redis_ssl','0','redis服务是否开启认证连接',27,'radio',NULL),
-	(35,NULL,NULL,'Elasticsearch配置',0,NULL,NULL),
-	(36,'elasticsearch_host','','elasticsearch服务的地址',35,'text',NULL),
-	(37,'elasticsearch_port','','elasticsearch服务的http端口',35,'number',NULL),
-	(38,'elasticsearch_index','','索引的名字',35,'text',NULL),
-	(39,'search','0','是否开启搜索功能（如果开启，需要额外启动一个ES服务，并填好ES相关的配置）',23,'radio',NULL);
+	(1, 'admin_remember_me_max_age', '30', '登录后台记住我功能记住时间，单位：天', 23, 'number', NULL, 1),
+	(2, 'base_url', 'http://localhost:8080', '网站部署后访问的域名，注意这个后面没有 \"/\"', 23, 'url', NULL, 0),
+	(3, 'comment_layer', '1', '评论盖楼形式显示', 23, 'radio', NULL, 0),
+	(4, 'cookie_domain', 'localhost', '存cookie时用到的域名，要与网站部署后访问的域名一致', 23, 'text', NULL, 0),
+	(5, 'cookie_max_age', '604800', 'cookie有效期，单位秒，默认1周', 23, 'number', NULL, 0),
+	(6, 'cookie_name', 'user_token', '存cookie时用到的名称', 23, 'text', NULL, 0),
+	(7, 'create_comment_score', '5', '发布评论奖励的积分', 26, 'number', NULL, 0),
+	(8, 'create_topic_score', '10', '创建话题奖励的积分', 26, 'number', NULL, 0),
+	(9, 'delete_comment_score', '5', '删除评论要被扣除的积分', 26, 'number', NULL, 0),
+	(10, 'delete_topic_score', '10', '删除话题要被扣除的积分', 26, 'number', NULL, 0),
+	(11, 'intro', '<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>', '站点介绍', 23, 'text', NULL, 0),
+	(12, 'mail_host', 'smtp.qq.com', '邮箱的smtp服务器地址', 24, 'text', NULL, 0),
+	(13, 'mail_password', '', '发送邮件的邮箱密码', 24, 'password', NULL, 0),
+	(14, 'mail_username', 'xxoo@qq.com', '发送邮件的邮箱地址', 24, 'email', NULL, 0),
+	(15, 'name', '朋也社区', '站点名称', 23, 'text', NULL, 0),
+	(16, 'page_size', '20', '分页每页条数', 23, 'number', NULL, 0),
+	(17, 'socket_notification', '0', '是否开启websocket长连接获取通知数量(这个功能还没有开发!!!)', 23, 'radio', NULL, 0),
+	(18, 'static_url', 'http://localhost:8080/static/upload/', '静态文件访问地址，主要用于上传图片的访问，注意最后有个\"/\"', 25, 'url', NULL, 0),
+	(19, 'up_comment_score', '3', '点赞评论奖励评论作者的积分', 26, 'number', NULL, 0),
+	(20, 'upload_avatar_size_limit', '2', '上传头像文件大小，单位MB，默认2MB', 25, 'number', NULL, 0),
+	(21, 'upload_path', '/Users/hh/git/github/pybbs/static/upload/', '上传文件的路径，注意最后有个\"/\"', 25, 'text', NULL, 0),
+	(22, 'up_topic_score', '3', '点赞话题奖励话题作者的积分', 26, 'number', NULL, 0),
+	(23, NULL, NULL, '基础配置', 0, NULL, NULL, 0),
+	(24, NULL, NULL, '邮箱配置', 0, NULL, NULL, 0),
+	(25, NULL, NULL, '上传配置', 0, NULL, NULL, 0),
+	(26, NULL, NULL, '积分配置', 0, NULL, NULL, 0),
+	(27, NULL, NULL, 'Redis配置', 0, NULL, NULL, 0),
+	(29, 'redis_host', '127.0.0.1', 'redis服务host地址', 27, 'text', NULL, 0),
+	(30, 'redis_port', '6379', 'redis服务端口', 27, 'number', NULL, 0),
+	(31, 'redis_password', '', 'redis服务密码', 27, 'password', NULL, 0),
+	(32, 'redis_timeout', '2000', '网站连接redis服务超时时间，单位毫秒', 27, 'number', NULL, 0),
+	(33, 'redis_database', '0', '网站连接redis服务的哪个数据库，默认0号数据库，取值范围0-15', 27, 'number', NULL, 0),
+	(34, 'redis_ssl', '0', 'redis服务是否开启认证连接', 27, 'radio', NULL, 0),
+	(35, NULL, NULL, 'Elasticsearch配置', 0, NULL, NULL, 0),
+	(36, 'elasticsearch_host', '', 'elasticsearch服务的地址', 35, 'text', NULL, 0),
+	(37, 'elasticsearch_port', '', 'elasticsearch服务的http端口', 35, 'number', NULL, 0),
+	(38, 'elasticsearch_index', '', '索引的名字', 35, 'text', NULL, 0),
+	(39, 'search', '0', '是否开启搜索功能（如果开启，需要额外启动一个ES服务，并填好ES相关的配置）', 23, 'radio', NULL, 0);
 
 /*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
 UNLOCK TABLES;

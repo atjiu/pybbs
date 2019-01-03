@@ -2,11 +2,10 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.service.SystemConfigService;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,8 +14,9 @@ import org.springframework.stereotype.Component;
  * https://yiiu.co
  */
 @Component
-@Order(1)
 public class ServerRunner implements CommandLineRunner {
+
+  private Logger log = LoggerFactory.getLogger(ServerRunner.class);
 
   @Autowired
   private ElasticSearchService elasticSearchService;
@@ -29,6 +29,7 @@ public class ServerRunner implements CommandLineRunner {
     if (search) {
       if (!elasticSearchService.existIndex()) {
         elasticSearchService.createIndex("topic", ElasticSearchService.topicMappingBuilder);
+        log.info("创建es索引成功!");
       }
     }
   }

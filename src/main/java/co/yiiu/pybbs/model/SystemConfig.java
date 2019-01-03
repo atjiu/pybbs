@@ -34,6 +34,10 @@ public class SystemConfig implements Serializable {
   @TableField("`option`")
   private String option;
 
+  // 修改后是否需要重启
+  @TableField("`reboot`")
+  private String reboot;
+
   public Integer getId() {
     return id;
   }
@@ -88,5 +92,13 @@ public class SystemConfig implements Serializable {
 
   public void setOption(String option) {
     this.option = option;
+  }
+
+  public String getReboot() {
+    return reboot;
+  }
+
+  public void setReboot(String reboot) {
+    this.reboot = reboot;
   }
 }

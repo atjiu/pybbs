@@ -1,8 +1,6 @@
 package co.yiiu.pybbs.controller.admin;
 
-import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.AdminUser;
-import co.yiiu.pybbs.model.Role;
 import co.yiiu.pybbs.service.AdminUserService;
 import co.yiiu.pybbs.service.PermissionService;
 import co.yiiu.pybbs.service.RoleService;

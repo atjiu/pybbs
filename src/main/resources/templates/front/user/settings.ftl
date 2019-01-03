@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading">修改密码</div>
+      <div class="panel-heading">修改邮箱</div>
       <div class="panel-body">
         <form onsubmit="return;" class="form-horizontal">
           <div class="form-group">

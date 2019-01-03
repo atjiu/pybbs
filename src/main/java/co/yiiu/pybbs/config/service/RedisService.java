@@ -5,6 +5,7 @@ import co.yiiu.pybbs.service.SystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -17,6 +18,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * https://yiiu.co
  */
 @Component
+@DependsOn("mybatisPlusConfig")
 public class RedisService implements BaseService<JedisPool> {
 
   @Autowired

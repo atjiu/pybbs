@@ -1,10 +1,6 @@
 package co.yiiu.pybbs.config;
 
-import co.yiiu.pybbs.config.realm.MyShiroRealm;
-import co.yiiu.pybbs.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.AuthorizationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

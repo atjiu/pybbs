@@ -4,7 +4,6 @@ import co.yiiu.pybbs.directive.NotificationsDirective;
 import co.yiiu.pybbs.directive.OtherTopicDirective;
 import co.yiiu.pybbs.directive.ScoreDirective;
 import co.yiiu.pybbs.directive.TopicListDirective;
-import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.util.BaseModel;
 import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 
 /**
  * Created by tomoya.
