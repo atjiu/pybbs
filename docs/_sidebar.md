@@ -5,4 +5,5 @@
 * [安装ES](/elasticsearch)
 * [配置Redis](/redis)
 * [上传配置](/upload)
+* [OAuth登录配置](/oauth)
 * [服务器发布网站](/deploy)
