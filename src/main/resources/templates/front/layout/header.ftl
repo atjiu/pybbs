@@ -36,6 +36,9 @@
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register">注册</a></li>
+          <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+            <li><a href="/oauth/github">Github登录</a></li>
+          </#if>
         </#if>
       </ul>
     </div><!-- /.navbar-collapse -->

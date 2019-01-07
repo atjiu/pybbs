@@ -55,7 +55,7 @@ public class IndexApiController extends BaseApiController {
     ApiAssert.notEmpty(password, "请输入密码");
     User user = userService.selectByUsername(username);
     ApiAssert.isNull(user, "用户名已存在");
-    user = userService.addUser(username, password);
+    user = userService.addUser(username, password, null, null, null, null);
     // 将用户信息写session
     if (session != null) session.setAttribute("_user", user);
     // 将用户token写cookie

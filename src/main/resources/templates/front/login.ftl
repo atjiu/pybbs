@@ -17,6 +17,9 @@
           </div>
           <div class="form-group">
             <button type="button" id="login_btn" class="btn btn-default">登录</button>
+            <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+              <a href="/oauth/github" class="btn btn-primary pull-right">Github登录</a>
+            </#if>
           </div>
         </form>
       </div>

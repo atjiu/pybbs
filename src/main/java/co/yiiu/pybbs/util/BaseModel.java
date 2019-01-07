@@ -102,4 +102,8 @@ public class BaseModel {
     if (StringUtils.isEmpty(upIds)) return new HashSet<>();
     return StringUtils.commaDelimitedListToSet(upIds);
   }
+
+  public boolean isEmpty(String txt) {
+    return StringUtils.isEmpty(txt);
+  }
 }

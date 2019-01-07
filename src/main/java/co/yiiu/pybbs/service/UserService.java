@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -60,14 +61,18 @@ public class UserService {
   }
 
   // 注册创建用户
-  public User addUser(String username, String password) {
+  public User addUser(String username, String password, String avatar, String email, String bio, String website) {
     String token = this.generateToken();
     User user = new User();
     user.setUsername(username);
-    user.setPassword(new BCryptPasswordEncoder().encode(password));
+    if (!StringUtils.isEmpty(password)) user.setPassword(new BCryptPasswordEncoder().encode(password));
     user.setToken(token);
     user.setInTime(new Date());
-    user.setAvatar(identicon.generator(username));
+    if (avatar == null) avatar = identicon.generator(username);
+    user.setAvatar(avatar);
+    user.setEmail(email);
+    user.setBio(bio);
+    user.setWebsite(website);
     userMapper.insert(user);
     // 再查一下，有些数据库里默认值保存后，类里还是null
     return this.selectById(user.getId());
