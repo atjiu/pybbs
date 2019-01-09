@@ -45,6 +45,7 @@ public class TopicController extends BaseController {
   public String detail(@PathVariable Integer id, Model model) {
     // 查询话题详情
     Topic topic = topicService.selectById(id);
+    Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
     // 查询话题的评论
