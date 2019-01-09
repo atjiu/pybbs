@@ -85,7 +85,6 @@ public class CodeService {
   // 发送邮件
   public boolean sendEmail(Integer userId, String email) {
     Code code = this.createCode(userId, email);
-    // 发送邮件
     return emailService.sendEmail(email, "修改邮箱验证码", "你的验证码是：" + code.getCode() + "<br>请在30分钟内使用");
   }
 

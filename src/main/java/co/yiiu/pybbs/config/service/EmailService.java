@@ -26,6 +26,7 @@ public class EmailService implements BaseService<Session> {
 
   @Autowired
   private SystemConfigService systemConfigService;
+
   private Session session;
   private Logger log = LoggerFactory.getLogger(EmailService.class);
 
@@ -87,7 +88,7 @@ public class EmailService implements BaseService<Session> {
        */
       message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
       // 2.3 主题（标题）
-      message.setSubject(title);
+      message.setSubject(title + " - " + systemConfigService.selectAllConfig().get("name").toString());
       // 2.4 正文
       //设置编码，防止发送的内容中文乱码。
       message.setContent(content, "text/html;charset=UTF-8");

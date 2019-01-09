@@ -446,7 +446,6 @@ CREATE TABLE `user` (
   `score` int(11) NOT NULL DEFAULT '0',
   `in_time` datetime NOT NULL,
   `token` varchar(255) NOT NULL DEFAULT '',
-  `github_name` varchar(255) DEFAULT NULL,
   `telegram_name` varchar(255) DEFAULT NULL,
   `email_notification` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id`),

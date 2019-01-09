@@ -1,14 +1,17 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.mapper.CollectMapper;
 import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Topic;
+import co.yiiu.pybbs.model.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +38,10 @@ public class CollectService {
   private TopicService topicService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private EmailService emailService;
+  @Autowired
+  private UserService userService;
 
   // 查询话题被多少人收藏过
   public List<Collect> selectByTopicId(Integer topicId) {
@@ -56,18 +63,25 @@ public class CollectService {
   }
 
   // 收藏话题
-  public Collect insert(Integer topicId, Integer userId) {
+  public Collect insert(Integer topicId, User user) {
     Collect collect = new Collect();
     collect.setTopicId(topicId);
-    collect.setUserId(userId);
+    collect.setUserId(user.getId());
     collect.setInTime(new Date());
     collectMapper.insert(collect);
 
     // 通知
     Topic topic = topicService.selectById(topicId);
     // 收藏自己的话题不发通知
-    if (!userId.equals(topic.getUserId())) {
-      notificationService.insert(userId, topic.getUserId(), topicId, "COLLECT", null);
+    if (!user.getId().equals(topic.getUserId())) {
+      notificationService.insert(user.getId(), topic.getUserId(), topicId, "COLLECT", null);
+      // 发送邮件通知
+      User targetUser = userService.selectById(topic.getUserId());
+      if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
+        String emailTitle = "你的话题 %s 被 %s 收藏了，快去看看吧！";
+        String emailContent = "<a href='%s/notifications' target='_blank'>传送门</a>";
+        new Thread(() -> emailService.sendEmail(targetUser.getEmail(), String.format(emailTitle, topic.getTitle(), user.getUsername()), String.format(emailContent, systemConfigService.selectAllConfig().get("base_url").toString()))).start();
+      }
     }
 
     return collect;

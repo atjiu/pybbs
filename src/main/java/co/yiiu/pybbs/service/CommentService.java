@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
@@ -34,6 +35,8 @@ public class CommentService {
   private UserService userService;
   @Autowired
   private NotificationService notificationService;
+  @Autowired
+  private EmailService emailService;
 
   // 根据话题id查询评论
   public List<Map<String, Object>> selectByTopicId(Integer topicId) {
@@ -85,11 +88,33 @@ public class CommentService {
       Comment targetComment = this.selectById(commentId);
       if (!user.getId().equals(targetComment.getUserId())) {
         notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", content);
+        // 发送邮件通知
+        User targetUser = userService.selectById(targetComment.getUserId());
+        if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
+          String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
+          String emailContent = "回复内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
+          new Thread(() -> emailService.sendEmail(
+              targetUser.getEmail(),
+              String.format(emailTitle, topic.getTitle(), user.getUsername()),
+              String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig().get("base_url").toString(), topic.getId())
+          )).start();
+        }
       }
     }
     // 给话题作者发通知
     if (!user.getId().equals(topic.getUserId())) {
       notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", content);
+      // 发送邮件通知
+      User targetUser = userService.selectById(topic.getUserId());
+      if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
+        String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
+        String emailContent = "评论内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
+        new Thread(() -> emailService.sendEmail(
+            targetUser.getEmail(),
+            String.format(emailTitle, user.getUsername(), topic.getTitle()),
+            String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig().get("base_url").toString(), topic.getId())
+        )).start();
+      }
     }
 
     // 日志 TODO
