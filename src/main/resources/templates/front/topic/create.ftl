@@ -64,6 +64,7 @@
         title: title,
         content: content,
         tags: tags,
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("创建成功", "success");

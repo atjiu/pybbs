@@ -49,7 +49,8 @@
       }
       $.post("/api/comment/update", {
         id: ${comment.id},
-        content: content
+        content: content,
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("更新成功", "success");

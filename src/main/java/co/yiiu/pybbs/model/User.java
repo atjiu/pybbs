@@ -19,7 +19,6 @@ public class User implements Serializable {
   @TableId(type = IdType.AUTO)
   private Integer id;
   private String username;
-  private String githubName;
   private String telegramName;
   private String avatar;
   @JsonIgnore
@@ -52,14 +51,6 @@ public class User implements Serializable {
 
   public void setTelegramName(String telegramName) {
     this.telegramName = telegramName;
-  }
-
-  public String getGithubName() {
-    return githubName;
-  }
-
-  public void setGithubName(String githubName) {
-    this.githubName = githubName;
   }
 
   public String getToken() {
@@ -147,7 +138,6 @@ public class User implements Serializable {
     return "User{" +
         "id=" + id +
         ", username='" + username + '\'' +
-        ", githubName='" + githubName + '\'' +
         ", telegramName='" + telegramName + '\'' +
         ", avatar='" + avatar + '\'' +
         ", password='" + password + '\'' +

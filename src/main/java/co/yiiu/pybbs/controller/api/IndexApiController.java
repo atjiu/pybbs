@@ -3,17 +3,17 @@ package co.yiiu.pybbs.controller.api;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
-import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -31,7 +31,14 @@ public class IndexApiController extends BaseApiController {
   @Autowired
   private CookieUtil cookieUtil;
   @Autowired
-  private FileUtil fileUtil;
+  private TopicService topicService;
+
+  // 首页接口
+  @GetMapping({"/", "/index"})
+  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab){
+    IPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
+    return success(page);
+  }
 
   // 处理登录的接口
   @PostMapping("/login")

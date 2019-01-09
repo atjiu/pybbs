@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class OAuthUser implements Serializable {
   // oauth帐号的登录名
   private String login;
 
+  @JsonIgnore
   private String accessToken;
 
   private Date inTime;

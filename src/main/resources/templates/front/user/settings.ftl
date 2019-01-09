@@ -15,13 +15,6 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="githubName" class="col-sm-2 control-label">Github用户名</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="githubName" name="githubName" value="${user.githubName!}"
-                     placeholder="Github用户名">
-            </div>
-          </div>
-          <div class="form-group">
             <label for="telegramName" class="col-sm-2 control-label">Telegram用户名</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="telegramName" name="telegramName" value="${user.telegramName!}"
@@ -142,22 +135,22 @@
   </div>
   <div class="col-md-3">
     <#include "../components/user_info.ftl"/>
+    <#include "../components/token.ftl"/>
   </div>
 </div>
 <script>
   $(function () {
     $("#settings_btn").click(function () {
-      var githubName = $("#githubName").val();
       var telegramName = $("#telegramName").val();
       var website = $("#website").val();
       var bio = $("#bio").val();
       var emailNotification = $("#emailNotification").is(":checked");
       $.post("/api/settings/update", {
-        githubName: githubName,
         telegramName: telegramName,
         website: website,
         bio: bio,
         emailNotification: emailNotification,
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("更新个人资料成功", "success");
@@ -200,7 +193,7 @@
     $("#sendEmailCode").on("click", function () {
       var loadingBtn = $(this).button("loading");
       var email = $("#email").val();
-      $.get("/api/settings/sendEmailCode?email=" + email, function (data) {
+      $.get("/api/settings/sendEmailCode?token=${_user.token}&email=" + email, function (data) {
         if (data.code === 200) {
           toast("发送成功", "success");
         } else {
@@ -215,6 +208,7 @@
       $.post("/api/settings/updateEmail", {
         email: email,
         code: code,
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("更改成功", "success");
@@ -242,6 +236,7 @@
       $.post("/api/settings/updatePassword", {
         oldPassword: oldPassword,
         newPassword: newPassword,
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("修改密码成功", "success");

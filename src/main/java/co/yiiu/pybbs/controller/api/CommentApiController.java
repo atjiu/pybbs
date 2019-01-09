@@ -35,7 +35,7 @@ public class CommentApiController extends BaseApiController {
     ApiAssert.notNull(topicId, "话题ID呢？");
     Topic topic = topicService.selectById(topicId);
     ApiAssert.notNull(topic, "你晚了一步，话题可能已经被删除了");
-    Comment comment = commentService.insert(content, topic, getUser(), commentId, session);
+    Comment comment = commentService.insert(content, topic, getApiUser(), commentId, session);
     return success(comment);
   }
 
@@ -63,8 +63,8 @@ public class CommentApiController extends BaseApiController {
   public Result vote(Integer id, HttpSession session) {
     Comment comment = commentService.selectById(id);
     ApiAssert.notNull(comment, "这个评论可能已经被删除了");
-    ApiAssert.notTrue(comment.getUserId().equals(getUser().getId()), "给自己评论点赞，脸皮真厚！！");
-    int voteCount = commentService.vote(comment, getUser(), session);
+    ApiAssert.notTrue(comment.getUserId().equals(getApiUser().getId()), "给自己评论点赞，脸皮真厚！！");
+    int voteCount = commentService.vote(comment, getApiUser(), session);
     return success(voteCount);
   }
 }

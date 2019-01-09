@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.interceptor.CommonInterceptor;
+import co.yiiu.pybbs.interceptor.UserApiInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private CommonInterceptor commonInterceptor;
   @Autowired
   private UserInterceptor userInterceptor;
+  @Autowired
+  private UserApiInterceptor userApiInterceptor;
 
   @Override
   protected void addViewControllers(ViewControllerRegistry registry) {
@@ -32,19 +35,27 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
   @Override
   protected void addInterceptors(InterceptorRegistry registry) {
-    // 配置全局日志拦截器
+    // 配置全局日志拦截器，用于记录用户的请求记录
     registry.addInterceptor(commonInterceptor)
         .addPathPatterns("/**");
+    // 用户拦截器，拦截用户是否登录
     registry.addInterceptor(userInterceptor)
         .addPathPatterns(
             "/settings",
             "/topic/create",
-            "/topic/edit/*",
-            "/api/topic/*",
+            "/topic/edit/*"
+        );
+    // 接口拦截器，拦截用户是否登录
+    registry.addInterceptor(userApiInterceptor)
+        .addPathPatterns(
+            "/api/topic/create",
+            "/api/topic/edit",
+            "/api/topic/delete",
+            "/api/topic/vote",
             "/api/comment/*",
             "/api/collect/*",
             "/api/settings/*",
-            "/api/notification/notRead"
+            "/api/notification/*"
         );
   }
 

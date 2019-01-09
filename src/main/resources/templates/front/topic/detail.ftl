@@ -133,7 +133,8 @@
       $.post("/api/comment/create", {
         topicId: ${topic.id},
         content: content,
-        commentId: $("#commentId").val()
+        commentId: $("#commentId").val(),
+        token: '${_user.token}',
       }, function (data) {
         if (data.code === 200) {
           toast("评论成功", "success");
@@ -156,7 +157,7 @@
       } else if (text === "取消收藏") {
         url = "/api/collect/delete";
       }
-      $.get(url, { topicId: ${topic.id} }, function(data) {
+      $.get(url + '?token=${_user.token}', { topicId: ${topic.id} }, function(data) {
         if (data.code === 200) {
           if (text === "加入收藏") {
             toast("收藏成功", "success");
@@ -175,7 +176,7 @@
     // 删除话题
     $("#deleteTopic").click(function () {
       if (confirm("确定要删除吗？这会清空跟这个话题所有相关的数据，再考虑考虑呗！！")) {
-        $.get("/api/topic/delete", {id: ${topic.id} }, function (data) {
+        $.get("/api/topic/delete", {id: ${topic.id}, token: '${_user.token}' }, function (data) {
           if (data.code === 200) {
             toast("删除成功", "success");
             setTimeout(function () {
@@ -191,7 +192,7 @@
 
   // 点赞话题
   function voteTopic(id) {
-    $.get("/api/topic/vote?id=" + id, function (data) {
+    $.get("/api/topic/vote?token=${_user.token}&id=" + id, function (data) {
       if (data.code === 200) {
         var voteTopicIcon = $("#vote_topic_icon_" + id);
         if (voteTopicIcon.hasClass("fa-thumbs-up")) {
@@ -213,7 +214,7 @@
   // 删除评论
   function deleteComment(id) {
     if(confirm("确定要删除这个评论吗？删了就没有了哦！")) {
-      $.get("/api/comment/delete?id=" + id, function (data) {
+      $.get("/api/comment/delete?token=${_user.token}&id=" + id, function (data) {
         if (data.code === 200) {
           toast("删除成功", "success");
           setTimeout(function () {

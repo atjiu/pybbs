@@ -36,11 +36,10 @@ public class SettingsApiController extends BaseApiController {
 
   // 更新用户个人信息
   @PostMapping("/update")
-  public Result update(String githubName, String telegramName, String website, String bio,
+  public Result update(String telegramName, String website, String bio,
                        @RequestParam(defaultValue = "0") Boolean emailNotification, HttpSession session) {
     // 查询当前用户的最新信息
-    User user = userService.selectById(getUser().getId());
-    user.setGithubName(githubName);
+    User user = userService.selectById(getApiUser().getId());
     user.setTelegramName(telegramName);
     user.setWebsite(website);
     user.setBio(bio);
@@ -114,6 +113,17 @@ public class SettingsApiController extends BaseApiController {
     // 将最新的用户信息更新在session里
     if (session != null) session.setAttribute("_user", user);
     return success();
+  }
+
+  // 刷新token
+  @GetMapping("/refreshToken")
+  public Result refreshToken(HttpSession session) {
+    User user = getApiUser();
+    String token = StringUtil.uuid();
+    user.setToken(token);
+    userService.update(user);
+    session.setAttribute("_user", user);
+    return success(token);
   }
 
 }

@@ -42,7 +42,7 @@
       </#list>
       <script>
         function vote(id) {
-          $.get("/api/comment/vote?id=" + id, function (data) {
+          $.get("/api/comment/vote?token=${_user.token}&id=" + id, function (data) {
             if (data.code === 200) {
               var voteIcon = $("#vote_icon_" + id);
               if (voteIcon.hasClass("fa-thumbs-up")) {

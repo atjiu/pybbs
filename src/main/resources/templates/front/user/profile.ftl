@@ -41,7 +41,7 @@
   </div>
   <div class="col-md-3">
     <div class="panel panel-panel"><p></p></div>
-    <#if user.githubName??>
+    <#if githubLogin??>
       <#include "../components/github_repos.ftl"/>
     </#if>
   </div>

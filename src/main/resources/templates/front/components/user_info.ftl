@@ -27,19 +27,12 @@
         var title = document.title;
 
         function notificationCount() {
-          $.ajax({
-            url: "/api/notification/notRead",
-            async: true,
-            cache: false,
-            type: "get",
-            dataType: "json",
-            success: function (data) {
-              if (data.code === 200 && data.detail > 0) {
-                $("#n_count").text(data.detail);
-                document.title = "(" + data.detail + ") " + title;
-              }
+          $.get("/api/notification/notRead?token=${_user.token}", function(data) {
+            if (data.code === 200 && data.detail > 0) {
+              $("#n_count").text(data.detail);
+              document.title = "(" + data.detail + ") " + title;
             }
-          });
+          })
         }
 
         notificationCount();

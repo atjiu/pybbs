@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -27,6 +28,13 @@ public class OAuthUserService {
         .eq(OAuthUser::getType, type)
         .eq(OAuthUser::getLogin, login);
     return oAuthUserMapper.selectOne(wrapper);
+  }
+
+  public List<OAuthUser> selectByUserId(Integer userId) {
+    QueryWrapper<OAuthUser> wrapper = new QueryWrapper<>();
+    wrapper.lambda()
+        .eq(OAuthUser::getUserId, userId);
+    return oAuthUserMapper.selectList(wrapper);
   }
 
   public void addOAuthUser(Integer oauthId, String type, String login, String accessToken, String bio, String email, Integer userId) {

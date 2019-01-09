@@ -4,7 +4,7 @@
   </table>
 </div>
 <script>
-  $.get("https://api.github.com/users/${user.githubName}/repos", function (data) {
+  $.get("https://api.github.com/users/${githubLogin}/repos", function (data) {
     $.each(data, function (i, v) {
       $("#repos").append("<tr>\n" +
           "      <td>\n" +
