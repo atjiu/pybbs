@@ -27,25 +27,7 @@
 
 ## 运行
 
-开发环境
-
-```
-git clone https://github.com/tomoya92/pybbs
-mvn compile
-mvn spring-boot:run
-
-# 也可以使用idea打开运行 `PybbsApplication` 类
-```
-
-部署环境
-
-```
-git clone https://github.com/tomoya92/pybbs
-mvn compile
-mvn package
-
-# 结束后，找到根目录里的 target 目录，把里面的pybbs.jar复制到你想存放的目录，运行根目录里的 start.sh 即可
-```
+还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#/getting-started)
 
 ## 反馈
 
