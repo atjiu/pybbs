@@ -29,6 +29,8 @@
 
 还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#/getting-started)
 
+**特别感谢 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 dockerfile** 
+
 ## 反馈
 
 - [开发俱乐部](https://17dev.club/)
