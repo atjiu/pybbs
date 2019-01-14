@@ -1,0 +1,33 @@
+version: '3'
+services:
+  mysql:
+    container_name: bbs-mysql
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_DATABASE: pybbs
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      TZ: Asia/Shanghai
+    expose:
+      - "3306"
+    volumes:
+      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
+      - ./mysql/mysql_data:/var/lib/mysql
+    restart: always
+
+  server:
+    container_name: bbs-server
+    build: .
+    working_dir: /app
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./:/app
+      - ~/.m2:/root/.m2
+      - ./logs:/app/logs
+    ports:
+      - "80:8080"
+    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=docker -Dmaven.test.skip=true
+    depends_on:
+      - mysql
+    restart: always
