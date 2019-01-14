@@ -1,0 +1,4 @@
+datasource_driver: com.mysql.cj.jdbc.Driver
+datasource_url: jdbc:mysql://mysql:3306/pybbs?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+datasource_username: root
+datasource_password: root
