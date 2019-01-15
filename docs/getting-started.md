@@ -25,8 +25,12 @@
 - 保证服务器有docker和docker-compose环境
 - `git clone https://github.com/tomoya92/pybbs` 或 下载最新版
 - cd pybbs进入项目
-- 运行 `docker-compose up` 命令
+- 运行 `docker-compose up -d` 命令
+- 启动后，访问 `http://localhost` 
+- 查看日志 `docker-compose logs -f server`
 
 **第一次运行会比较慢,视服务器性能和网速决定**
 
 **项目根目录下会生成 `mysql` 文件夹为数据库文件,注意谨慎操作**
+
+**这个Dockerfile是 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 万分感谢！！**
