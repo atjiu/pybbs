@@ -31,6 +31,20 @@
 
 **特别感谢 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 dockerfile** 
 
+## 手动打包
+
+```bash
+mvn clean assembly:assembly
+```
+
+打包完成后，会在项目根目录下的target目录里生成一个`pybbs.tar.gz`文件，解压运行 `sh start.sh` 即可启动论坛服务
+
+其实手动打包后生成的tar.gz文件就是github上release里最新的发布包，下载后解压内容是一样的
+
+## 测试
+
+项目测试用例还没有写
+
 ## 反馈
 
 - [开发俱乐部](https://17dev.club/)
