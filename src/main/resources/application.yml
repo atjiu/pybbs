@@ -1,13 +1,19 @@
 server:
   port: 8080
 spring:
+  profiles:
+    active: dev
+  banner:
+    location: ["classpath:banner.txt", "file:./banner.txt"]
   freemarker:
     cache: false
     settings:
       template_exception_handler: rethrow
       number_format: 0.##
-  profiles:
-    active: dev
+    template-loader-path: ["classpath:/templates/", "file:./templates/"]
+
+#  resources:
+#    static-locations: ["classpath:static/", "file:./static/"]
 
 # 配置mapper.xml位置，这个位置可以在pom.xml里配置
 mybatis-plus:

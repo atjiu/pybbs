@@ -26,11 +26,11 @@
 - `git clone https://github.com/tomoya92/pybbs` 或 下载最新版
 - cd pybbs进入项目
 - 运行 `docker-compose up -d` 命令
-- 启动后，访问 `http://localhost` 
+- 启动后，访问 `http://localhost:8080` 
 - 查看日志 `docker-compose logs -f server`
 
 **第一次运行会比较慢,视服务器性能和网速决定**
 
-**项目根目录下会生成 `mysql` 文件夹为数据库文件,注意谨慎操作**
+**项目根目录下会生成 `mysql` 文件夹为数据库文件,注意谨慎操作，另外论坛启动后，用户上传的图片和系统生成的默认头像会自动同步到根目录下的 `static` 文件夹下**
 
 **这个Dockerfile是 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 万分感谢！！**

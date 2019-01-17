@@ -14,6 +14,8 @@
 
 你下载的jar包存放在 `/opt/pybbs/pybbs.jar` 那么这里的地址就应该是 `/opt/pybbs/static/upload/` 
 
+如果你用的是docker部署的服务，那这个路径配置就是固定的 `/app/static` 了，上传的图片会自动同步到docker启动目录下的static文件夹里
+
 ### nginx静态文件映射配置方法
 
 nginx静态文件映射配置
