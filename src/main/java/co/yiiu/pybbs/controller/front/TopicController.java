@@ -4,6 +4,7 @@ import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.service.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,14 +44,14 @@ public class TopicController extends BaseController {
 
   // 话题详情
   @GetMapping("/{id}")
-  public String detail(@PathVariable Integer id, Model model) {
+  public String detail(@PathVariable Integer id, Model model, HttpServletRequest request) {
     // 查询话题详情
     Topic topic = topicService.selectById(id);
     Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
     // 查询话题的评论
-    List<Map<String, Object>> comments = commentService.selectByTopicId(id);
+    List<CommentsByTopic> comments = commentService.selectByTopicId(id);
     // 查询话题的作者信息
     User topicUser = userService.selectById(topic.getUserId());
     // 查询话题有多少收藏
@@ -60,8 +62,7 @@ public class TopicController extends BaseController {
       model.addAttribute("collect", collect);
     }
     // 话题浏览量+1
-    topic.setView(topic.getView() + 1);
-    topicService.update(topic);
+    topic = topicService.addViewCount(topic, request);
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);

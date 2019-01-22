@@ -1,19 +1,26 @@
 package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.config.service.EmailService;
+import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.model.vo.CommentsByTopic;
+import co.yiiu.pybbs.util.Constants;
+import co.yiiu.pybbs.util.JsonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.reflect.TypeToken;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -37,14 +44,27 @@ public class CommentService {
   private NotificationService notificationService;
   @Autowired
   private EmailService emailService;
+  @Autowired
+  private RedisService redisService;
 
   // 根据话题id查询评论
-  public List<Map<String, Object>> selectByTopicId(Integer topicId) {
-    List<Map<String, Object>> maps = commentMapper.selectByTopicId(topicId);
-    if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
-      maps = this.sortByLayer(maps);
+  public List<CommentsByTopic> selectByTopicId(Integer topicId) {
+    String commentsJson = redisService.getString(Constants.REDIS_COMMENTS_KEY + topicId);
+    List<CommentsByTopic> commentsByTopics;
+    if (commentsJson == null) {
+      commentsByTopics = commentMapper.selectByTopicId(topicId);
+//      BeanUtils.copyProperties(commentMapper.selectByTopicId(topicId), commentsByTopics);
+      redisService.setString(Constants.REDIS_COMMENTS_KEY + topicId, JsonUtil.objectToJson(commentsByTopics));
+    } else {
+      // 带泛型转换, 这里如果不带泛型转换，会报错
+      Type type = new TypeToken<List<CommentsByTopic>>(){}.getType();
+      commentsByTopics = JsonUtil.jsonToObject(commentsJson, type);
     }
-    return maps;
+
+    if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
+      commentsByTopics = this.sortByLayer(commentsByTopics);
+    }
+    return commentsByTopics;
   }
 
   // 删除话题时删除相关的评论
@@ -53,6 +73,8 @@ public class CommentService {
     wrapper.lambda()
         .eq(Comment::getTopicId, topicId);
     commentMapper.delete(wrapper);
+    // 删除redis缓存
+    redisService.delString(Constants.REDIS_COMMENTS_KEY + topicId);
   }
 
   // 根据用户id删除评论记录
@@ -60,6 +82,12 @@ public class CommentService {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
     wrapper.lambda()
         .eq(Comment::getUserId, userId);
+    if (redisService.isRedisConfig()) { // 如果配置了redis，则清除redis里的缓存
+      List<Comment> comments = commentMapper.selectList(wrapper);
+      comments.forEach(comment ->
+          // 删除redis缓存
+          redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId()));
+    }
     commentMapper.delete(wrapper);
   }
 
@@ -117,6 +145,9 @@ public class CommentService {
       }
     }
 
+    // 删除redis里关于当前评论话题的评论列表缓存
+    redisService.delString(Constants.REDIS_COMMENTS_KEY + topic.getId());
+
     // 日志 TODO
 
     return comment;
@@ -129,6 +160,8 @@ public class CommentService {
   // 更新评论
   public void update(Comment comment) {
     commentMapper.updateById(comment);
+    // 删除redis里的缓存
+    redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId());
   }
 
   // 对评论点赞
@@ -169,6 +202,8 @@ public class CommentService {
       user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_comment_score").toString()));
       userService.update(user);
       if (session != null) session.setAttribute("_user", user);
+      // 删除redis里的缓存
+      redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId());
       // 删除评论
       commentMapper.deleteById(id);
     }
@@ -184,25 +219,25 @@ public class CommentService {
   }
 
   // 盖楼排序
-  public List<Map<String, Object>> sortByLayer(List<Map<String, Object>> comments) {
-    List<Map<String, Object>> newComments = new ArrayList<>();
+  public List<CommentsByTopic> sortByLayer(List<CommentsByTopic> comments) {
+    List<CommentsByTopic> newComments = new ArrayList<>();
     comments.forEach(comment -> {
-      if (comment.get("commentId") == null) {
+      if (comment.getCommentId() == null) {
         newComments.add(comment);
       } else {
-        int index = this.findLastIndex(newComments, "commentId", (Integer) comment.get("commentId"));
+        int index = this.findLastIndex(newComments, "commentId", comment.getCommentId());
         if (index == -1) {
-          int upIndex = this.findLastIndex(newComments, "id", (Integer) comment.get("commentId"));
+          int upIndex = this.findLastIndex(newComments, "id", comment.getCommentId());
           if (upIndex == -1) {
             newComments.add(comment);
           } else {
-            Long layer = (Long) newComments.get(upIndex).get("layer") + 1;
-            comment.put("layer", layer);
+            int layer = newComments.get(upIndex).getLayer() + 1;
+            comment.setLayer(layer);
             newComments.add(upIndex + 1, comment);
           }
         } else {
-          Long layer = (Long) newComments.get(index).get("layer");
-          comment.put("layer", layer);
+          int layer = newComments.get(index).getLayer();
+          comment.setLayer(layer);
           newComments.add(index + 1, comment);
         }
       }
@@ -211,11 +246,17 @@ public class CommentService {
   }
 
   // 从列表里查找指定值的下标
-  private int findLastIndex(List<Map<String, Object>> newComments, String key, Integer value) {
+  private int findLastIndex(List<CommentsByTopic> newComments, String key, Integer value) {
     int index = -1;
     for (int i = 0; i < newComments.size(); i++) {
-      if (newComments.get(i).get(key) == value) {
-        index = i;
+      if (key.equals("commentId")) {
+        if (value.equals(newComments.get(i).getCommentId())) {
+          index = i;
+        }
+      } else if (key.equals("id")) {
+        if (value.equals(newComments.get(i).getId())) {
+          index = i;
+        }
       }
     }
     return index;

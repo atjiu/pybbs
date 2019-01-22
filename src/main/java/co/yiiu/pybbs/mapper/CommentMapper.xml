@@ -21,8 +21,8 @@
     order by t.in_time desc
   </select>
 
-  <select id="selectByTopicId" resultType="map">
-    select c.*, u.username, u.avatar, u.id as userId, 0 as layer
+  <select id="selectByTopicId" resultType="co.yiiu.pybbs.model.vo.CommentsByTopic">
+    select c.*, u.username, u.avatar, 0 as layer
     from comment c
     left join user u on c.user_id = u.id
     where c.topic_id = #{topicId}

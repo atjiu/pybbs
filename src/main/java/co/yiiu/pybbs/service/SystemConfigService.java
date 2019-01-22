@@ -87,30 +87,11 @@ public class SystemConfigService {
       systemConfigMapper.update(systemConfig, wrapper);
     }
     // 判断redis配置是否去除，去除了，就将RedisUtil里的jedis属性设置为null
-    if (!this.isRedisConfig()) redisService.setJedis(null);
+    if (!redisService.isRedisConfig()) redisService.setJedis(null);
     // 清除redis里关于 system_config 的缓存
     redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     // 更新SYSTEM_CONFIG
     SYSTEM_CONFIG = null;
   }
 
-  // 判断redis是否配置了
-  public boolean isRedisConfig() {
-    SystemConfig systemConfigHost = this.selectByKey("redis_host");
-    String host = systemConfigHost.getValue();
-    // port
-    SystemConfig systemConfigPort = this.selectByKey("redis_port");
-    String port = systemConfigPort.getValue();
-    // database
-    SystemConfig systemConfigDatabase = this.selectByKey("redis_database");
-    String database = systemConfigDatabase.getValue();
-    // timeout
-    SystemConfig systemConfigTimeout = this.selectByKey("redis_timeout");
-    String timeout = systemConfigTimeout.getValue();
-
-    return !StringUtils.isEmpty(host)
-        && !StringUtils.isEmpty(port)
-        && !StringUtils.isEmpty(database)
-        && !StringUtils.isEmpty(timeout);
-  }
 }

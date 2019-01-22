@@ -1,11 +1,15 @@
 package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
+import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.TopicTag;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.util.Constants;
+import co.yiiu.pybbs.util.IpUtil;
+import co.yiiu.pybbs.util.JsonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,6 +52,8 @@ public class TopicService {
   private NotificationService notificationService;
   @Autowired
   private ElasticSearchService elasticSearchService;
+  @Autowired
+  private RedisService redisService;
 
   public IPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
     IPage<Map<String, Object>> iPage = new Page<>(
@@ -112,7 +119,36 @@ public class TopicService {
 
   // 根据id查询话题
   public Topic selectById(Integer id) {
-    return topicMapper.selectById(id);
+    String topicJson = redisService.getString(Constants.REDIS_TOPIC_KEY + id);
+    if (topicJson == null) {
+      Topic topic = topicMapper.selectById(id);
+      redisService.setString(Constants.REDIS_TOPIC_KEY + id, JsonUtil.objectToJson(topic));
+      return topic;
+    } else {
+      return JsonUtil.jsonToObject(topicJson, Topic.class);
+    }
+  }
+
+  // 处理话题的访问量
+  public Topic addViewCount(Topic topic, HttpServletRequest request) {
+    String ip = IpUtil.getIpAddr(request);
+    ip = ip.replace(":", "_").replace(".", "_");
+    if (redisService.isRedisConfig()) {// 如果redis配置了，就采用缓存的形式处理访问量
+      String s = redisService.getString(String.format(Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()));
+      if (s == null) {
+        topic.setView(topic.getView() + 1);
+        this.update(topic);
+        redisService.setString(String.format(
+            Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()),
+            String.valueOf(topic.getId()),
+            Integer.parseInt(systemConfigService.selectAllConfig().get("topic_view_increase_interval").toString())
+        );
+      }
+    } else {
+      topic.setView(topic.getView() + 1);
+      this.update(topic);
+    }
+    return topic;
   }
 
   // 更新话题
@@ -120,6 +156,8 @@ public class TopicService {
     topicMapper.updateById(topic);
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    // 缓存到redis里
+    redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
   }
 
   // 更新话题
@@ -136,6 +174,8 @@ public class TopicService {
     topicTagService.insertTopicTag(topic.getId(), tagList);
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    // 缓存到redis里
+    redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
     return topic;
   }
 
@@ -159,6 +199,8 @@ public class TopicService {
     if (session != null) session.setAttribute("_user", user);
     // 删除索引
     this.deleteTopicIndex(String.valueOf(topic.getId()));
+    // 删除redis缓存
+    redisService.delString(Constants.REDIS_TOPIC_KEY + topic.getId());
     // 最后删除话题
     topicMapper.deleteById(id);
   }
@@ -169,8 +211,12 @@ public class TopicService {
     wrapper.lambda()
         .eq(Topic::getUserId, userId);
     List<Topic> topics = topicMapper.selectList(wrapper);
-    //删除索引
-    topics.forEach(topic -> this.deleteTopicIndex(String.valueOf(topic.getId())));
+    topics.forEach(topic -> {
+      // 删除redis缓存，这里放在删除索引这里，共用一个话题列表
+      redisService.delString(Constants.REDIS_TOPIC_KEY + topic.getId());
+      // 删除索引
+      this.deleteTopicIndex(String.valueOf(topic.getId()));
+    });
     //删除话题
     topicMapper.delete(wrapper);
   }
@@ -187,8 +233,8 @@ public class TopicService {
     elasticSearchService.bulkDocument("topic", sources);
   }
 
+  // 索引话题
   public void indexTopic(String id, String title, String content) {
-    // 索引话题
     if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
       Map<String, Object> source = new HashMap<>();
       source.put("title", title);
@@ -197,8 +243,8 @@ public class TopicService {
     }
   }
 
+  // 删除话题索引
   public void deleteTopicIndex(String id) {
-    // 删除话题索引
     if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
       elasticSearchService.deleteDocument("topic", id);
     }
@@ -221,6 +267,8 @@ public class TopicService {
     );
     return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
+
+  // ---------------------------- api ----------------------------
 
   public int vote(Topic topic, User user, HttpSession session) {
     String upIds = topic.getUpIds();

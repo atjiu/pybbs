@@ -1,6 +1,6 @@
 <#macro html page_title page_tab>
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"

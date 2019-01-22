@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.mapper;
 
 import co.yiiu.pybbs.model.Comment;
+import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public interface CommentMapper extends BaseMapper<Comment> {
 
-  List<Map<String, Object>> selectByTopicId(@Param("topicId") Integer topicId);
+  List<CommentsByTopic> selectByTopicId(@Param("topicId") Integer topicId);
 
   IPage<Map<String, Object>> selectByUserId(IPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
 

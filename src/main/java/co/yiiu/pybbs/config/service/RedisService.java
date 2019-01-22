@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * Created by tomoya.
@@ -55,10 +56,14 @@ public class RedisService implements BaseService<JedisPool> {
       SystemConfig systemConfigSSL = systemConfigService.selectByKey("redis_ssl");
       String ssl = systemConfigSSL.getValue();
 
-      if (StringUtils.isEmpty(host)
-          || StringUtils.isEmpty(port)
-          || StringUtils.isEmpty(database)
-          || StringUtils.isEmpty(timeout)) {
+//      if (StringUtils.isEmpty(host)
+//          || StringUtils.isEmpty(port)
+//          || StringUtils.isEmpty(database)
+//          || StringUtils.isEmpty(timeout)) {
+//        log.info("redis配置信息不全或没有配置...");
+//        return null;
+//      }
+      if (!this.isRedisConfig()) {
         log.info("redis配置信息不全或没有配置...");
         return null;
       }
@@ -85,6 +90,26 @@ public class RedisService implements BaseService<JedisPool> {
     }
   }
 
+  // 判断redis是否配置了
+  public boolean isRedisConfig() {
+    SystemConfig systemConfigHost = systemConfigService.selectByKey("redis_host");
+    String host = systemConfigHost.getValue();
+    // port
+    SystemConfig systemConfigPort = systemConfigService.selectByKey("redis_port");
+    String port = systemConfigPort.getValue();
+    // database
+    SystemConfig systemConfigDatabase = systemConfigService.selectByKey("redis_database");
+    String database = systemConfigDatabase.getValue();
+    // timeout
+    SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
+    String timeout = systemConfigTimeout.getValue();
+
+    return !StringUtils.isEmpty(host)
+        && !StringUtils.isEmpty(port)
+        && !StringUtils.isEmpty(database)
+        && !StringUtils.isEmpty(timeout);
+  }
+
   // 获取String值
   public String getString(String key) {
     JedisPool instance = this.instance();
@@ -100,6 +125,22 @@ public class RedisService implements BaseService<JedisPool> {
     if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || instance == null) return;
     Jedis jedis = instance.getResource();
     jedis.set(key, value); // 返回值成功是 OK
+    jedis.close();
+  }
+
+  /**
+   * 带有过期时间的保存数据到redis，到期自动删除
+   * @param key
+   * @param value
+   * @param expireTime 单位 秒
+   */
+  public void setString(String key, String value, int expireTime) {
+    JedisPool instance = this.instance();
+    if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || instance == null) return;
+    Jedis jedis = instance.getResource();
+    SetParams params = new SetParams();
+    params.px(expireTime * 1000);
+    jedis.set(key, value, params);
     jedis.close();
   }
 

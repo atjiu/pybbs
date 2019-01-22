@@ -1,7 +1,10 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.util.Constants;
+import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -39,13 +42,23 @@ public class UserService {
   private NotificationService notificationService;
   @Autowired
   private SystemConfigService systemConfigService;
+  @Autowired
+  private RedisService redisService;
 
   // 根据用户名查询用户，用于获取用户的信息比对密码
   public User selectByUsername(String username) {
-    QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(User::getUsername, username);
-    return userMapper.selectOne(wrapper);
+    String userJson = redisService.getString(Constants.REDIS_USER_USERNAME_KEY + username);
+    User user;
+    if (userJson == null) {
+      QueryWrapper<User> wrapper = new QueryWrapper<>();
+      wrapper.lambda()
+          .eq(User::getUsername, username);
+      user = userMapper.selectOne(wrapper);
+      redisService.setString(Constants.REDIS_USER_USERNAME_KEY + username, JsonUtil.objectToJson(user));
+    } else {
+      user = JsonUtil.jsonToObject(userJson, User.class);
+    }
+    return user;
   }
 
   // 递归生成token，防止token重复
@@ -80,14 +93,30 @@ public class UserService {
 
   // 根据用户token查询用户
   public User selectByToken(String token) {
-    QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(User::getToken, token);
-    return userMapper.selectOne(wrapper);
+    String userJson = redisService.getString(Constants.REDIS_USER_TOKEN_KEY + token);
+    User user;
+    if (userJson == null) {
+      QueryWrapper<User> wrapper = new QueryWrapper<>();
+      wrapper.lambda()
+          .eq(User::getToken, token);
+      user = userMapper.selectOne(wrapper);
+      redisService.setString(Constants.REDIS_USER_TOKEN_KEY + token, JsonUtil.objectToJson(user));
+    } else {
+      user = JsonUtil.jsonToObject(userJson, User.class);
+    }
+    return user;
   }
 
   public User selectById(Integer id) {
-    return userMapper.selectById(id);
+    String userJson = redisService.getString(Constants.REDIS_USER_ID_KEY + id);
+    User user;
+    if (userJson == null) {
+      user = userMapper.selectById(id);
+      redisService.setString(Constants.REDIS_USER_ID_KEY + id, JsonUtil.objectToJson(user));
+    } else {
+      user = JsonUtil.jsonToObject(userJson, User.class);
+    }
+    return user;
   }
 
   // 查询用户积分榜
@@ -99,8 +128,11 @@ public class UserService {
     return userMapper.selectList(wrapper);
   }
 
+  // 更新用户信息
   public void update(User user) {
     userMapper.updateById(user);
+    // 删除redis里的缓存
+    this.delRedisUser(user);
   }
 
   // ------------------------------- admin ------------------------------------------
@@ -121,7 +153,17 @@ public class UserService {
     topicService.deleteByUserId(id);
     // 删除用户发的评论
     commentService.deleteByUserId(id);
+    // 删除redis里的缓存
+    User user = this.selectById(id);
+    this.delRedisUser(user);
     // 删除用户本身
     userMapper.deleteById(id);
+  }
+
+  // 删除redis缓存
+  private void delRedisUser(User user) {
+    redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
+    redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());
+    redisService.delString(Constants.REDIS_USER_TOKEN_KEY + user.getToken());
   }
 }
