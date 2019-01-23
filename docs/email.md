@@ -1,7 +1,9 @@
-用户注册没有做邮箱验证，但用户可以在自己的设置页面添加邮箱
+User registration does not do mailbox verification, but users can add mailboxes on their own settings page.
 
-添加邮箱的时候，要发邮箱验证码，这时候就要在后台配置发邮件的邮箱配置了
+When adding a mailbox, you must send a mailbox verification code. At this time, you must configure the email 
+address configured in the background.
 
-我使用qq邮箱测试是没有问题的，具体配置方法，在后台已经内置了一些信息，稍做修改即可使用
+I use qq mailbox test is no problem, the specific configuration method, the built-in some information in the backend, 
+a little modification can be used
 
 ![](./assets/QQ20190103-154507.png)

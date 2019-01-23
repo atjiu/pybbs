@@ -1,24 +1,25 @@
-程序启动后，要配置上传文件保存路径，否则用户注册会看不到自己的头像
+After the program is started, you need to configure the path to save the uploaded file, otherwise the user will not see your avatar after registration.
 
-配置地址：启动程序 -> 登录后台 -> 系统设置
+Configure Address: Launcher -> Login Backend -> 系统设置
 
 ![](./assets/QQ20190103-155421.png)
 
-说明：
+Description:
 
-**路径一定要是绝对路径**
+**The path must be an absolute path**
 
-### 非nginx静态映射配置
+### Non-nginx static mapping configuration
 
-如果你没有使用nginx做静态文件映射，就请配置在程序启动目录下，举个例子：
+If you are not using nginx for static file mapping, please configure it in the program startup directory, for example:
 
-你下载的jar包存放在 `/opt/pybbs/pybbs.jar` 那么这里的地址就应该是 `/opt/pybbs/static/upload/` 
+The jar package you downloaded is stored in `/opt/pybbs/pybbs.jar` then the address here should be `/opt/pybbs/static/upload/`
 
-如果你用的是docker部署的服务，那这个路径配置就是固定的 `/app/static` 了，上传的图片会自动同步到docker启动目录下的static文件夹里
+If you are using the server deployed by docker, then the path configuration is fixed `/app/static`, 
+and the uploaded image will be automatically synced to the static folder in the docker startup directory.
 
-### nginx静态文件映射配置方法
+### Nginx static file mapping configuration method
 
-nginx静态文件映射配置
+Nginx static file mapping configuration
 
 ```
 server {
@@ -30,8 +31,8 @@ server {
 }
 ```
 
-那么你这个地上的配置就应该是 `/opt/cdn/static/upload/`
+Then your configuration on the ground should be `/opt/cdn/static/upload/`
 
-### 访问地址
+### Address
 
-默认给的是 `http://localhost:8080/static/upload/` 如果你的访问域名是 `http://example.com` 那这里就要换成 `http://example.com/static/upload/`
+The default is `http://localhost:8080/static/upload/`. If your access domain name is `http://example.com`, then change it to `http://example.com/static/upload/`

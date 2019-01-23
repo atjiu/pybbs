@@ -1,13 +1,13 @@
-## 未读消息个数
+## Number of unread notifications
 
-- 地址 GET `/api/notification/notRead`
-- 参数
+- Address GET `/api/notification/notRead`
+- Params
   - token
-- 返回 Result(int) // 返回未读消息条数
+- Return Result(int) // Returns the number of unread messages
 
-## 消息列表
+## Notification List
 
-- 地址 GET `/api/notification/list`
-- 参数
+- Address GET `/api/notification/list`
+- Params
   - token
-- 返回 Result(Map)
+- Return Result(Map)

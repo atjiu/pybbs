@@ -1,44 +1,57 @@
-websocket功能默认是关闭的，为啥默认不开启呢？因为这货用在论坛里有些鸡肋，原因如下
+The websocket function is turned off by default. Why is it not enabled by default? 
+Because this product is used in the forum, the reasons are as follows
 
-1. 启动论坛的同时还要启动一个websocket服务
-2. 在关闭论坛服务的时候，websocket服务还会停留一段时间，说长不长说短也不短，前后大约要1-2分钟的样子
-3. 论坛没有做无刷新页面获取数据的功能（比如pjax），所以每次访问论坛内的页面时，都会刷新页面，这会导致ws连接断开，然后等待页面加载完成后，它又开始重连
+1. Start a forum and start a websocket service.
+2. When the forum service is closed, the websocket service will stay for a while, saying that it is not too short or short, 
+    and it takes about 1-2 minutes before and after.
+3. The forum does not have the function of getting data without refreshing the page (such as pjax), 
+    so every time you visit the page in the forum, the page will be refreshed, which will cause the ws connection to be disconnected, 
+    and then wait for the page to load, it will start to reconnect.
 
-目前围绕ws开发的功能有如下
+The functions currently developed around ws are as follows
 
-- 自己的话题被收藏了，会收到通知
-- 自己的话题被评论了，会收到通知
-- 自己的评论被回复了，会收到通知
-- 进入页面后，ws会自动获取未读消息数，然后展示在页面上的Header和`document.title`上
+- Your topic is collected and you will be notified
+- Your topic is commented and will be notified
+- Your comments are replied and you will be notified
+- After entering the page, ws will automatically get the number of unread messages and then display 
+    them on Header and `document.title` on the page.
 
-效果如下
+as follows
 
 ![](./assets/7C56195B1FE6F942649D30D65416EE80.jpg)
 
-当然开启websocket服务也不是没有好处的，比如：
+Of course, opening the websocket service is not without benefits, such as:
 
-- 上图中别人回复了自己的评论就会立即收到消息
-- 发一个帖子等着别人回复，不用一直刷新页面看有没有新消息了
+- In the above picture, someone will reply to their comments and will receive a message immediately.
+- Send a post waiting for someone to reply, don't have to refresh the page all the time to see if there is any new news.
 
-后续想法：
+Follow-up ideas:
 
-- 给论坛接入pjax，让网页实现无刷新浏览内容，这样ws连接就不会断了
-- 给论坛开发一套ws主题，全站就只有一个首页，内容全靠ws服务从服务端推给前端，这个听起来很赞，实现不太好弄，相当于又重新开发一个网站了
+- Give the forum access to pjax, let the webpage implement no refresh content, so the ws connection will not be broken.
+- Develop a set of ws theme for the forum. There is only one homepage for the whole station. 
+    The content is all pushed to the front end from the server through the ws service. 
+    This sounds very good, and the implementation is not very good. It is equivalent to re-developing a website.
 
 -----
 
-如果你看了上面的说明后，还是想开启，配置如下
+If you read the above instructions, still want to open, the configuration is as follows
 
 ![](./assets/QQ20190123-103144.png)
 
-只有三个配置
+Only three configurations
 
-1. 开启功能，不多说
-2. ws服务的主机名，这个我在开发的时候用的是`http://localhost:8080`访问的论坛，所以这里就配置成了 `localhost`
-3. ws服务的端口，论坛的端口是8080，我在开发的时候这里配置成了8081，只要不跟其它服务的端口冲突就可以
+1. Turn on the function
+2. The host name of the ws service, this is the forum that I used to access the `http://localhost:8080` during development, 
+    so it is configured as `localhost` here.
+3. The port of the ws service, the port of the forum is 8080. When I was developing, it was configured as 8081, 
+    as long as it does not conflict with the ports of other services.
 
-**至于上面主机名能不能配置成其它的，我没试过，不过它既然是一套服务了，应该是可以配置成独立的域名的，而且应该还可以直接抽出成一个单独的服务，这个我没验证，有兴趣的朋友可以试一下**
+**As for the host name above can be configured as other, I have not tried, but since it is a set of services,
+    it should be able to be configured as a separate domain name, and should also be able to directly extract into a separate service, 
+    this I have not verified, interested friends can try**
+    
+Then start the system directly, note that the ws service is only valid for users who log in at the frontend.
 
-然后直接启动系统即可，注意，ws服务在前端只有登录后的用户才有效
-
-**另外有一点要说明一下，如果你在开发过程中开启了ws服务，当改了点代码，要重启一下，这中间要等待1-2分钟，不知道为啥ws服务跟论坛服务不是同时停掉的，你要是有解决办法，求告知**
+**There is another point to explain, if you open the ws service during the development process, 
+    when you change the code, you need to restart it. Wait for 1-2 minutes in the middle. 
+    I don't know if the service is not the same as the forum service. Stop, if you have a solution, please let me know**

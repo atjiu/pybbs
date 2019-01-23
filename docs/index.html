@@ -36,17 +36,29 @@
 </head>
 <body>
   <div id="app"></div>
-  <script src="//unpkg.com/docsify/lib/plugins/ga.js"></script>
   <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
   <script>
     window.$docsify = {
       name: '朋也社区文档',
       repo: 'tomoya92/pybbs',
+      loadNavbar: true,
       loadSidebar: true,
+      mergeNavbar: true,
       subMaxLevel: 2,
       auto2top: true,
-      search: 'auto',
+      search: {
+        noData: {
+          '/zh-cn/': '没有结果!',
+          '/': 'No results!'
+        },
+        paths: 'auto',
+        placeholder: {
+          '/zh-cn/': '搜索',
+          '/': 'Search'
+        }
+      },
       ga: 'UA-98133026-3',
+      homepage: '/getting-started.md',
       plugins: [
         EditOnGithubPlugin.create(
           'https://github.com/tomoya92/pybbs/blob/master/docs/'
@@ -68,5 +80,6 @@
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/ga.js"></script>
 </body>
 </html>

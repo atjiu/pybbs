@@ -1,17 +1,16 @@
-部署上线相关配置
+### Step
 
-### 步骤
+1. Buy a domain name, there are a lot of domain name providers, choose one you like to buy one.
+2. Install java and mysql
+3. Deploy according to the deployment method in [Getting Started](getting-started)
 
-1. 购买域名，域名提供商非常多，选一个自己喜欢的购买一个就可以了
-2. 去服务器运营商购买服务器，建议阿里云，购买的时候看清区域，国内做论坛 **必须要备案的** ，不过阿里云也有国外的节点，购买的时候请注意
-3. 安装java，mysql
-4. 按照 快速开始 中的部署方法部署
+### Nginx configuration
 
-### nginx配置
+If you only have one forum item on the server, you can directly change the port in the program to 80.
+If you want to toss something else, you should use nginx as the proxy forwarding request. 
+The specific configuration is as follows:
 
-如果你服务器上就只一个论坛项目，那直接将程序里的端口改成80即可，如果你还想折腾点其它的东西，那就要用到nginx做代理转发请求了，具体配置如下
-
-假如 example.com 是你的域名，程序启动端口是 8080 ，配置如下
+If example.com is your domain name, the program startup port is 8080, the configuration is as follows
 
 ```
 server {
@@ -34,12 +33,13 @@ server {
 }
 ```
 
-### frp 映射配置
+### Frp configuration
 
-关于这个配置可以参见我的一篇博客 [利用frp内网穿透实现用自家电脑发布网站(不用买服务器了)](https://tomoya92.github.io/2018/10/18/frp-tutorial/)
+See my blog about this configuration. [利用frp内网穿透实现用自家电脑发布网站(不用买服务器了)](https://tomoya92.github.io/2018/10/18/frp-tutorial/)
 
-### 配置https
+### Https configuration
 
-https强烈推荐使用 letsencrypt 配置简单，主要是免费，唯一的缺点就是要3个月续一下时间，配置参见文档：[letsencrypt结合nginx配置https备忘](https://tomoya92.github.io/2016/08/28/letsencrypt-nginx-https/)
+Https strongly recommends using letsencrypt configuration is simple, mainly free, the only drawback is to continue the time for 3 months, 
+configuration see the document: [letsencrypt结合nginx配置https备忘](https://tomoya92.github.io/2016/08/28/letsencrypt-nginx-https/)
 
-配置外网环境运气好，很快就可以搭建好，运气不好，折腾两天是常事，淡定慢慢配
+Configure the deployment environment, good luck, you can build quickly, bad luck, toss two days is a common thing, calmly slowly match

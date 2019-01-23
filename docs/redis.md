@@ -1,7 +1,7 @@
-程序也内置了redis做缓存的功能
+The program also has built-in redis for caching.
 
-配置地址：启动程序 -> 登录后台 -> 系统设置
+Configure Address: Launcher -> Login Backend -> 系统设置
 
-根据自己的环境配置上redis的信息，保存就可以用了，不用重启哦！！
+According to your environment configuration redis information, save it can be used, no need to restart! !
 
 ![](./assets/QQ20190103-154553.png)

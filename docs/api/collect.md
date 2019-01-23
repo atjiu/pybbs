@@ -1,15 +1,15 @@
-## 收藏话题
+## Collect Topic
 
-- 地址 GET `/api/collect/get`
-- 参数
+- Address GET `/api/collect/get`
+- Params
   - token
-  - topicId: 话题ID
-- 返回 Result()
+  - topicId
+- Return Result()
 
-## 取消收藏
+## Delete Collect
 
-- 地址 GET `/api/collect/delete`
-- 参数
+- Address GET `/api/collect/delete`
+- Params
   - token
-  - topicId: 话题ID
-- 返回 Result()
+  - topicId
+- Return Result()

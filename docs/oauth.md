@@ -1,25 +1,27 @@
-项目里实现了一个github登录功能，下面说一下配置方法
+A github login function is implemented in the project.
 
-申请clientId, clientSecret地址：https://github.com/settings/developers 前提要先登录github
+apply `clientId`, `clientSecret` address: https://github.com/settings/developers
 
-打开页面后，点击 `New OAuth APP` 按钮
+After opening the page, click the `New OAuth APP` button
 
 ![](./assets/QQ20190107-135811.png)
 
-填上必要的信息
+Fill in the necessary information
 
 ![](./assets/QQ20190107-140155.png)
 
-填写好之后，保存，跳转的页面上就有 clientId, clientSecret信息了，如下图
+After filling in, save, jump page has clientId, clientSecret information, as shown below
 
 ![](./assets/QQ20190107-135903.png)
 
-拷贝上图中红框内容，粘贴到网站后台系统设置页面里的 Github 配置信息里
+Copy the red box in the figure above and paste it into the Github configuration information in the backend system settings page of the website.
 
-**注意**
+**note**
 
-- 网站域名必须外网能访问，如是你要在内网测试，可以使用ngrok，frp等工具来做内网穿透，具体使用方法百度吧，网上很多
-- 回调地址格式是 网站域名+/oauth/github/callback 假如你的域名是 `http://example.com` 那么这里的回调地址就是 `http://example.com/oauth/github/callback` 不要填错了
+- The domain name of the website must be accessible to the public network. If you want to test on the internal network, 
+    you can use ngrok, frp and other tools to do intranet penetration.
+- The callback address format is the website domain name + /oauth/github/callback. If your domain name is `http://example.com` 
+    then the callback address here is `http://example.com/oauth/github/callback` 
 
-配置好之后，保存，再次回到首页，就可以看到页面 header 上就有了`Github登录`的入口了
+After configuration, save, go back to the home page, you can see the entry of `Github login` on the page header.
 

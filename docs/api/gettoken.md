@@ -1,7 +1,10 @@
-有的接口请求要求带上用户的`token`参数，这个token是在用户注册的时候自动生成的，可以在个人设置页面重新生成
+Some interface requests require the user's `token` parameter. 
+This token is automatically generated when the user registers, 
+and can be regenerated on the personal settings page.
 
-token的获取方式：
+fetch token
 
-用户登录上论坛，打开页面最上方的 设置，在页面右边可以查看到自己的token，如下图
+The user login to the forum, opens the settings at the top of the page, 
+and can view his own token on the right side of the page, as shown below.
 
 ![](../assets/QQ20190109-111822.png)

@@ -1,51 +1,51 @@
-## 更新个人信息
+## Update Settings
 
-- 地址 POST `/api/settings/update`
-- 参数
+- Address POST `/api/settings/update`
+- Params
   - token
-  - telegramName: Telegram用户名
-  - website: 个人网站
-  - bio: 个人简介
-  - emailNotification: 是否接收邮箱通知
-- 返回 Result()
+  - telegramName
+  - website
+  - bio
+  - emailNotification: Whether to receive email notifications
+- Return Result()
 
-## 发送邮箱验证码
+## Send Email Code
 
-- 地址 GET `/api/settings/sendEmailCode`
-- 参数
+- Address GET `/api/settings/sendEmailCode`
+- Params
   - token
-  - email: 邮箱地址
-  - code: 邮箱接收到网站发送的验证码
-- 返回 Result()
+  - email
+  - code: Picture verification code
+- Return Result()
 
-## 更新用户邮箱
+## Update Email
 
-- 地址 POST `/api/settings/updateEmail`
-- 参数
+- Address POST `/api/settings/updateEmail`
+- Params
   - token
-  - email: 邮箱地址
-- 返回 Result()
+  - email
+- Return Result()
 
-## 上传头像
+## Upload Avatar
 
-- 地址 POST `/api/settings/uploadAvatar`
-- 参数
+- Address POST `/api/settings/uploadAvatar`
+- Params
   - token
-  - file: 上传图片的文件对象
-- 返回 Result(String) // 上传成功后，会返回图片的访问地址
+  - file: Avatar
+- Return Result(String) // After the upload is successful, the address of the avatar will be returned.
 
-## 修改密码
+## Update Password
 
-- 地址 POST `/api/settings/updatePassword`
-- 参数
+- Address POST `/api/settings/updatePassword`
+- Params
   - token
-  - oldPassword: 旧密码
-  - newPassword: 新密码
-- 返回 Result()
+  - oldPassword
+  - newPassword
+- Return Result()
 
-## 刷新token
+## Refresh Token
 
-- 地址 GET `/api/settings/refreshToken`
-- 参数
+- Address GET `/api/settings/refreshToken`
+- Params
   - token
-- 返回 Result(String) // 返回新token 
+- Return Result(String) // Return new token

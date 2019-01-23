@@ -1,8 +1,8 @@
 ## Result
 
-接口返回对象就只有一个 `Result`
+The interface returns an object with only one `Result`
 
-这个类是在程序里自定义的，共三个属性
+This class is customized in the program, a total of three properties
 
 ```java
 public class Result {
@@ -15,23 +15,24 @@ public class Result {
 }
 ```
 
-- code : 返回时的状态值，成功：200， 失败：201
-- description: 失败时的一些描述信息放在这个属性里
-- detail: 一般放成功后的返回值，它是一个Object类型的属性，可以放任何对象
-
 ## IPage
 
-如果接口涉及到分页的话，就会返回 `Result(IPage)` 就是将查询后封装好的分页对象放在Result对象的detail属性里，再转成json返给前端
+If the interface involves pagination, it will return `Result(IPage)`, 
+which is to put the encapsulated paging object in the detail object of the Result object, 
+and then convert it to json and return it to the front end.
 
-IPage对象是MyBatis-Plus内置的一个分页对象，其中调用接口可能会用到的属性有如下几个
+The IPage object is a paging object built into MyBatis-Plus. The properties that the calling interface might use are as follows.
 
-- records: 查询出的列表对象
-- pages: 分页后的总页数
-- total: 总条数
-- current: 当前页数
-- size: 每页条数
+Properties:
 
-遗憾的是它没有像jpa那样封装两个属性 `last` `next` 这样就可以直接拿它们的值来判断是不是第一页或最后一页了
+- records
+- pages
+- total
+- current
+- size
 
-不过也可以通过 `current` 和 `pages` 来判断是第一页还是最后一页
+Unfortunately, it does not encapsulate two properties like jpa `last` `next` 
+so that you can directly use their values to determine whether it is the first or last page.
+
+However, it is also possible to judge whether it is the first page or the last page by `current` and `pages`.
 

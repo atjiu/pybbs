@@ -1,15 +1,14 @@
-用前准备工作
+### Necessary Environment
 
-### 必须要准备的环境
+1. Java environment, the project is developed with java, java runtime environment is required, version: jdk8
+2. MySQL database service, the project uses MySQL to store data, so MySQL is a must, version 5.7.x
 
-1. Java环境，项目是用java开发的，java运行环境是必须的，版本：jdk8
-2. MySQL数据库服务，项目采用MySQL存储数据，所以MySQL是必须的，版本5.7.x
-
-### 非必须环境
+### Non-essential environment
 
 1. redis
 2. elasticsearch
 
-这两个服务在下面配置中有介绍
+These two services are described in the following configuration
 
-就这两样，就可以搭建一个自己的论坛了，当然这只限于局域网内使用，如果想搭建上线，请查看下面的配置方法
+Just like these two, you can build a forum of your own, of course, this is only used in the LAN. 
+If you want to build the line, please see the configuration method below.
