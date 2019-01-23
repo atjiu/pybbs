@@ -26,6 +26,7 @@
     from comment c
     left join user u on c.user_id = u.id
     where c.topic_id = #{topicId}
+    order by c.in_time asc;
   </select>
 
   <select id="selectAllForAdmin" resultType="map">

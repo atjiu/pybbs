@@ -330,7 +330,8 @@ VALUES
 	(26, NULL, NULL, '积分配置', 0, NULL, NULL, 0),
 	(27, NULL, NULL, 'Redis配置', 0, NULL, NULL, 0),
 	(35, NULL, NULL, 'Elasticsearch配置', 0, NULL, NULL, 0),
-	(40, 'oauth_github', NULL, 'Github登录配置，<a href=\"https://github.com/settings/developers\" target=\"_blank\">申请地址</a>', 0, '', NULL, 0),
+	(40, NULL, NULL, 'Github登录配置，<a href=\"https://github.com/settings/developers\" target=\"_blank\">申请地址</a>', 0, '', NULL, 0),
+	(45, NULL, NULL, 'WebSocket，开启后可不用刷新页面接收页面消息', 0, '', NULL, 0),
 	(1, 'admin_remember_me_max_age', '30', '登录后台记住我功能记住时间，单位：天', 23, 'number', NULL, 1),
 	(2, 'base_url', 'http://localhost:8080', '网站部署后访问的域名，注意这个后面没有 \"/\"', 23, 'url', NULL, 0),
 	(3, 'comment_layer', '1', '评论盖楼形式显示', 23, 'radio', NULL, 0),
@@ -340,7 +341,6 @@ VALUES
 	(11, 'intro', '<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>', '站点介绍', 23, 'text', NULL, 0),
 	(15, 'name', '朋也社区', '站点名称', 23, 'text', NULL, 0),
 	(16, 'page_size', '20', '分页每页条数', 23, 'number', NULL, 0),
-	(17, 'socket_notification', '0', '是否开启websocket长连接获取通知数量(这个功能还没有开发!!!)', 23, 'radio', NULL, 0),
 	(39, 'search', '0', '是否开启搜索功能（如果开启，需要额外启动一个ES服务，并填好ES相关的配置）', 23, 'radio', NULL, 0),
 	(44, 'topic_view_increase_interval', '600', '同一个用户浏览同一个话题多长时间算一次浏览量，默认10分钟，单位秒（只有当配置了redis才会生效）', 23, 'number', NULL, 0),
 	(12, 'mail_host', 'smtp.qq.com', '邮箱的smtp服务器地址', 24, 'text', NULL, 0),
@@ -366,7 +366,10 @@ VALUES
 	(38, 'elasticsearch_index', '', '索引的名字', 35, 'text', NULL, 0),
 	(41, 'oauth_github_client_id', '', 'Github登录配置项ClientId', 40, 'text', NULL, 0),
 	(42, 'oauth_github_client_secret', '', 'Github登录配置项ClientSecret', 40, 'text', NULL, 0),
-	(43, 'oauth_github_callback_url', '', 'Github登录配置项回调地址', 40, 'url', NULL, 0);
+	(43, 'oauth_github_callback_url', '', 'Github登录配置项回调地址', 40, 'url', NULL, 0),
+	(17, 'websocket', '0', '是否开启websocket功能', 45, 'radio', NULL, 1),
+	(46, 'websocket_host', '', 'websocket服务的主机名，这个跟cookie的域名设置成一样的就可以了', 45, 'text', NULL, 1),
+	(47, 'websocket_port', '', 'websocket服务的端口，不能跟论坛服务端口一样，其它随便设置', 45, 'number', NULL, 1);
 
 /*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
 UNLOCK TABLES;

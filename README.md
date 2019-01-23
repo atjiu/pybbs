@@ -20,6 +20,10 @@
 - MyBatis-Plus
 - Bootstrap
 - MySQL
+- Freemarker
+- Redis
+- ElasticSearch
+- WebSocket
 
 ## 特色
 

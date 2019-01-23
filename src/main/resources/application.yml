@@ -18,3 +18,7 @@ spring:
 # 配置mapper.xml位置，这个位置可以在pom.xml里配置
 mybatis-plus:
   mapper-locations: classpath:/*Mapper.xml
+
+# websocket服务的端口号
+websocket_hostname: localhost
+websocket_port: 8081

@@ -23,23 +23,6 @@
     <div class="row">
       <span class="col-md-6"><a href="/notifications"><span id="n_count">0</span> 条未读消息</a></span>
       <span class="col-md-6 text-right">积分：<a href="/top100">${_user.score!0}</a></span>
-      <script>
-        var title = document.title;
-
-        function notificationCount() {
-          $.get("/api/notification/notRead?token=${_user.token}", function(data) {
-            if (data.code === 200 && data.detail > 0) {
-              $("#n_count").text(data.detail);
-              document.title = "(" + data.detail + ") " + title;
-            }
-          })
-        }
-
-        notificationCount();
-        // setInterval(function () {
-        //   notificationCount();
-        // }, 120000);
-      </script>
     </div>
   </div>
 </div>

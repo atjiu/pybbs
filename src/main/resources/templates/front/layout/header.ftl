@@ -29,7 +29,7 @@
       <ul class="nav navbar-nav navbar-right">
         <#--<li <#if page_tab == "api">class="active"</#if>><a href="/api">API</a></li>-->
         <#if _user??>
-          <li <#if page_tab == "notification">class="active"</#if>><a href="/notifications">通知</a></li>
+          <li <#if page_tab == "notification">class="active"</#if>><a href="/notifications">通知 <span class="badge badge-default" id="nh_count"></span></a></li>
           <li <#if page_tab == "user">class="active"</#if>><a href="/user/${_user.username}">${_user.username}</a></li>
           <li <#if page_tab == "settings">class="active"</#if>><a href="/settings">设置</a></li>
           <li><a href="javascript:if(confirm('确定要登出吗？登出了就没办法发帖回帖了哦!'))window.location.href='/logout'">登出</a></li>

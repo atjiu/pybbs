@@ -42,6 +42,10 @@
   </div>
 </div>
 <#include "footer.ftl"/>
+<#if site.websocket == "1" && _user??>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <#include "../components/websocket.ftl"/>
+</#if>
 </body>
 </html>
 </#macro>

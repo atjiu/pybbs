@@ -9,6 +9,7 @@
   - [配置Redis](/redis)
   - [上传配置](/upload)
   - [OAuth登录配置](/oauth)
+  - [WebSocket配置](/websocket)
   
 - 部署
   - [服务器发布网站](/deploy)

@@ -13,7 +13,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.reflect.TypeToken;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,10 +115,19 @@ public class CommentService {
       Comment targetComment = this.selectById(commentId);
       if (!user.getId().equals(targetComment.getUserId())) {
         notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", content);
+
+        String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
+        // 如果开启了websocket，就发网页通知
+        if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")
+            && Constants.usernameSocketIdMap.containsKey(targetComment.getUserId())) {
+          Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(targetComment.getUserId())).getClient()
+              .sendEvent("notifications", String.format(emailTitle, topic.getTitle(), user.getUsername()));
+          Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(targetComment.getUserId())).getClient()
+              .sendEvent("notification_notread", 1);
+        }
         // 发送邮件通知
         User targetUser = userService.selectById(targetComment.getUserId());
         if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
-          String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
           String emailContent = "回复内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
           new Thread(() -> emailService.sendEmail(
               targetUser.getEmail(),
@@ -133,9 +141,17 @@ public class CommentService {
     if (!user.getId().equals(topic.getUserId())) {
       notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", content);
       // 发送邮件通知
+      String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
+      // 如果开启了websocket，就发网页通知
+      if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")
+          && Constants.usernameSocketIdMap.containsKey(topic.getUserId())) {
+        Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(topic.getUserId())).getClient()
+            .sendEvent("notifications", String.format(emailTitle, user.getUsername(), topic.getTitle()));
+        Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(topic.getUserId())).getClient()
+            .sendEvent("notification_notread", 1);
+      }
       User targetUser = userService.selectById(topic.getUserId());
       if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
-        String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
         String emailContent = "评论内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
         new Thread(() -> emailService.sendEmail(
             targetUser.getEmail(),

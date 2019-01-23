@@ -32,6 +32,7 @@
     <jedis.version>3.0.0</jedis.version>
     <elasticsearch.version>6.5.3</elasticsearch.version>
     <flyway.version>5.2.3</flyway.version>
+    <netty-socketio.version>1.7.7</netty-socketio.version>
   </properties>
 
   <dependencies>
@@ -152,6 +153,14 @@
       <version>${elasticsearch.version}</version>
     </dependency>
     <!-- elasticsearch-rest end -->
+
+    <!-- netty-socketio start -->
+    <dependency>
+      <groupId>com.corundumstudio.socketio</groupId>
+      <artifactId>netty-socketio</artifactId>
+      <version>${netty-socketio.version}</version>
+    </dependency>
+    <!-- netty-socketio end -->
 
     <!-- test -->
     <dependency>
