@@ -170,6 +170,7 @@
     $("#file").change(function () {
       var fd = new FormData();
       fd.append("file", document.getElementById("file").files[0]);
+      fd.append("token", "${_user.token}");
       $.post({
         url: "/api/settings/uploadAvatar",
         data: fd,
