@@ -2,7 +2,7 @@
 <@html page_title="标签" page_tab="tags">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-body">
         <div class="row" style="overflow: hidden;">
           <#list page.records as tag>
@@ -11,7 +11,7 @@
                 <img src="${tag.icon}" width="24" class="sponsor-tag-img" alt="${tag.name}">
               </#if>
               <a href="/topic/tag/${tag.name}">
-                <span class="label label-success">${tag.name}</span>
+                <span class="label label-info">${tag.name}</span>
               </a>
               <span class="text-muted">x ${tag.topicCount}</span>
               <small class="excerpt text-muted" style="">${tag.description!}</small>
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#if _user??>
       <#include "../components/user_info.ftl"/>
     <#else>

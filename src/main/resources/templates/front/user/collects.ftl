@@ -2,7 +2,7 @@
 <@html page_title="${user.username}收藏的话题" page_tab="">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">${user.username}评论的话题</div>
       <div class="panel-body">
         <#if collects.total == 0>
@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#if _user??>
       <#include "../components/user_info.ftl"/>
     <#else>

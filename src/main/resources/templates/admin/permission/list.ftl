@@ -20,7 +20,7 @@
       <div class="box-body">
         <div class="row">
           <div class="col-md-2">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 父节点
                 <#if sec.hasPermission("permission:add")>
@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="col-md-10">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 权限管理
                 <#if sec.hasPermission("permission:add")>
@@ -107,7 +107,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
               <button type="button" onclick="savePermission()" class="btn btn-primary">保存</button>
             </div>
           </div>

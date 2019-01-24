@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-body">
     <div class="media">
       <div class="media-left">

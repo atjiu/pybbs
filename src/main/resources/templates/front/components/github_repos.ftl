@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-heading">${user.username}'s repos on GitHub</div>
   <table class="table" id="repos">
   </table>

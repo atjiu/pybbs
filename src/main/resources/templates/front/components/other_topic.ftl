@@ -1,5 +1,5 @@
 <#macro other_topic userId topicId limit>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">作者其它话题</div>
     <table class="table">
       <@tag_otherTopic userId=userId topicId=topicId limit=limit>

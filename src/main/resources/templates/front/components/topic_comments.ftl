@@ -1,7 +1,7 @@
 <#if comments?size == 0>
   <div class="nocomment-tip">目前还没有评论</div>
 <#else>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">共 ${comments?size} 条评论</div>
     <div class="panel-body">
       <#list comments as comment>

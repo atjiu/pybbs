@@ -42,13 +42,14 @@
         <exclude>application-dev.yml</exclude>
       </excludes>
     </fileSet>
-    <!-- 把项目的配置文件，打包进zip文件的config目录 -->
+    <!-- 把项目的配置文件，打包进zip文件的根目录 -->
     <fileSet>
       <directory>${project.basedir}/src/main/resources</directory>
       <outputDirectory></outputDirectory>
       <excludes>
         <exclude>assembly.xml</exclude>
         <exclude>static/upload/**</exclude>
+        <exclude>i18n/**</exclude>
       </excludes>
       <!--  <excludes>
            <exclude>**</exclude>

@@ -12,7 +12,7 @@
 <div class="container">
   <br>
   <br>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-body">
       <h1>: (</h1>
       <h3>${errorCode}</h3>

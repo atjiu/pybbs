@@ -2,7 +2,7 @@
 <@html page_title="编辑话题" page_tab="">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">编辑话题</div>
       <div class="panel-body">
         <form action="" onsubmit="return;" id="form">
@@ -20,13 +20,13 @@
             <input type="text" name="tags" id="tags" value="${tags}" class="form-control" placeholder="标签, 多个标签以 英文逗号 隔开"/>
           </div>
           <div class="form-group">
-            <button type="button" id="btn" class="btn btn-default">更新话题</button>
+            <button type="button" id="btn" class="btn btn-info">更新话题</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#include "../components/create_topic_guide.ftl"/>
   </div>
 </div>

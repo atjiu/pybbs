@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-heading">发帖提示</div>
   <div class="panel-body">
     <p>请在标题中描述内容要点。如果一件事情在标题的长度内就已经可以说清楚，那就没有必要写正文了。</p>

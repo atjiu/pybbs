@@ -1,9 +1,9 @@
 <#include "./layout/layout.ftl"/>
 <@html page_title="登录" page_tab="login">
 <div class="row">
-  <div class="col-md-3"></div>
+  <div class="col-md-3 hidden-xs"></div>
   <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">登录</div>
       <div class="panel-body">
         <form action="" onsubmit="return;" id="form">
@@ -16,7 +16,7 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="密码"/>
           </div>
           <div class="form-group">
-            <button type="button" id="login_btn" class="btn btn-default">登录</button>
+            <button type="button" id="login_btn" class="btn btn-info">登录</button>
             <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
               <a href="/oauth/github" class="btn btn-primary pull-right">Github登录</a>
             </#if>
@@ -25,7 +25,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3"></div>
+  <div class="col-md-3 hidden-xs"></div>
 </div>
 <script>
   $(function () {

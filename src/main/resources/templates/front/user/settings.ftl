@@ -2,7 +2,7 @@
 <@html page_title="设置" page_tab="settings">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">设置</div>
       <div class="panel-body">
         <br>
@@ -52,13 +52,13 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" id="settings_btn" class="btn btn-default">提交</button>
+              <button type="button" id="settings_btn" class="btn btn-info">提交</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">修改邮箱</div>
       <div class="panel-body">
         <form onsubmit="return;" class="form-horizontal">
@@ -69,7 +69,7 @@
                 <input type="email" name="email" id="email" class="form-control" value="${user.email!}"
                        placeholder="邮箱"/>
                 <span class="input-group-btn">
-                  <button type="button" id="sendEmailCode" class="btn btn-default" autocomplete="off"
+                  <button type="button" id="sendEmailCode" class="btn btn-info" autocomplete="off"
                           data-loading-text="发送中...">发送验证码</button>
                 </span>
               </div>
@@ -83,13 +83,13 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" id="settings_email_btn" class="btn btn-default">更改邮箱</button>
+              <button type="button" id="settings_email_btn" class="btn btn-info">更改邮箱</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">修改头像</div>
       <div class="panel-body">
         <form onsubmit="return;" class="form-horizontal">
@@ -108,7 +108,7 @@
         </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">修改密码</div>
       <div class="panel-body">
         <form onsubmit="return;" class="form-horizontal">
@@ -126,14 +126,14 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" id="settings_pwd_btn" class="btn btn-default">更改密码</button>
+              <button type="button" id="settings_pwd_btn" class="btn btn-info">更改密码</button>
             </div>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#include "../components/user_info.ftl"/>
     <#include "../components/token.ftl"/>
   </div>

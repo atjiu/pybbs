@@ -1,8 +1,8 @@
 <#include "../layout/layout.ftl"/>
-<@html page_title=user.username + " 的个人主页" page_tab="">
+<@html page_title=user.username + " 的个人主页" page_tab="user">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-body">
         <div class="media">
           <div class="media-left">
@@ -39,7 +39,7 @@
     <#include "../components/user_comments.ftl"/>
     <@user_comments isFooter=true/>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <div class="panel panel-panel"><p></p></div>
     <#if githubLogin??>
       <#include "../components/github_repos.ftl"/>

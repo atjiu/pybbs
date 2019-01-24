@@ -1,5 +1,5 @@
 <#macro user_comments isPaginate=false isFooter=false>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">${user.username}评论的话题</div>
     <#if comments.total == 0>
       <div class="panel-body">

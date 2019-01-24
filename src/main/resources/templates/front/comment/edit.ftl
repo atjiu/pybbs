@@ -2,19 +2,19 @@
 <@html page_title="编辑话题" page_tab="">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
       </div>
       <textarea name="content" id="content" class="form-control">${comment.content?html}</textarea>
       <div class="panel-body">
-        <button type="button" id="btn" class="btn btn-default">
+        <button type="button" id="btn" class="btn btn-info">
           <span class="glyphicon glyphicon-send"></span> 更新
         </button>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#include "../components/markdown_guide.ftl"/>
     <#include "../components/create_topic_guide.ftl"/>
   </div>

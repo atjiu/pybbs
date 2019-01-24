@@ -1,5 +1,5 @@
 <#macro score limit top100=false>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">
       积分榜
       <#if !top100>

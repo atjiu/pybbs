@@ -5,7 +5,7 @@
 
   <groupId>co.yiiu</groupId>
   <artifactId>pybbs</artifactId>
-  <version>5.0</version>
+  <version>5.1.0</version>
   <packaging>jar</packaging>
 
   <name>pybbs</name>
@@ -171,6 +171,7 @@
   </dependencies>
 
   <build>
+
     <finalName>pybbs</finalName>
 
     <resources>
@@ -204,7 +205,7 @@
             <!-- assembly描述文件位置 -->
             <descriptor>src/main/resources/assembly.xml</descriptor>
           </descriptors>
-          <!-- 打包完成后文件输出位置 这里为target/dist目录-->
+          <!-- 打包完成后文件输出位置 这里为target目录-->
           <outputDirectory>${project.build.directory}</outputDirectory>
         </configuration>
       </plugin>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-body topic-detail-header">
         <div class="media">
           <div class="media-body">
@@ -21,10 +21,10 @@
               <span id="vote_topic_count_${topic.id}">${model.getUpIds(topic.upIds)?size}</span>
               <span>•</span>
               <#if topic.top == true>
-                <span class="label label-primary">置顶</span>
+                <span class="label label-info">置顶</span>
                 <span>•</span>
               <#elseif topic.good == true>
-                <span class="label label-success">精华</span>
+                <span class="label label-info">精华</span>
                 <span>•</span>
               </#if>
               <span><a href="/user/${topicUser.username!}">${topicUser.username!}</a></span>
@@ -50,7 +50,7 @@
         ${model.formatContent(topic.content)}
         <div>
         <#list tags as tag>
-          <a href="/topic/tag/${tag.name}"><span class="label label-success">${tag.name}</span></a>
+          <a href="/topic/tag/${tag.name}"><span class="label label-info">${tag.name}</span></a>
         </#list>
         </div>
       </div>
@@ -71,7 +71,7 @@
     <#include "../components/topic_comments.ftl"/>
 
     <#if _user??>
-      <div class="panel panel-default">
+      <div class="panel panel-info">
         <div class="panel-heading">
           添加一条新评论
           <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
@@ -79,7 +79,7 @@
         <input type="hidden" name="commentId" id="commentId" value=""/>
         <textarea name="content" id="content" class="form-control" placeholder="添加一条评论，支持Markdown语法"></textarea>
         <div class="panel-body">
-          <button id="comment_btn" class="btn btn-sm btn-default">
+          <button id="comment_btn" class="btn btn-sm btn-info">
             <span class="glyphicon glyphicon-send"></span> 评论
           </button>
         </div>
@@ -96,7 +96,7 @@
       </style>
     </#if>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#include "../components/author.ftl"/>
     <#include "../components/other_topic.ftl"/>
     <@other_topic userId=topic.userId topicId=topic.id limit=7/>

@@ -2,7 +2,7 @@
 <@html page_title="首页" page_tab="index">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">搜索结果</div>
       <table class="table">
         <#list page.records as map>
@@ -15,7 +15,7 @@
       <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#if _user??>
       <#include "./components/user_info.ftl"/>
     <#else>

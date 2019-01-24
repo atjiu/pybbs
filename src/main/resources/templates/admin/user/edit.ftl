@@ -59,7 +59,7 @@
                 <input type="text" id="token" name="token" value="${user.token!}" class="form-control"
                        placeholder="Token"/>
                 <span class="input-group-btn">
-                  <button type="button" onclick="refreshToken(this)" class="btn btn-default" autocomplete="off"
+                  <button type="button" onclick="refreshToken(this)" class="btn btn-info" autocomplete="off"
                           data-loading-text="刷新中...">刷新Token</button>
                   <script>
                     function refreshToken(self) {

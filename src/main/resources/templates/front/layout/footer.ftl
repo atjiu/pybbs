@@ -1,5 +1,5 @@
 <footer>
-  <div class="container">
+  <div class="container hidden-xs">
     <p>
       更实用的Java语言开发的论坛&nbsp;|&nbsp;
       <a href="https://github.com/tomoya92/pybbs" target="_blank">开源地址</a>&nbsp;|&nbsp;
@@ -16,5 +16,8 @@
         powered by <a href="https://github.com/tomoya92/pybbs" target="_blank">pybbs</a>
       </span>
     </div>
+  </div>
+  <div class="container text-center visible-xs">
+    powered by <a href="https://github.com/tomoya92/pybbs" target="_blank">pybbs</a>
   </div>
 </footer>

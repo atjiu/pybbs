@@ -2,7 +2,7 @@
 <@html page_title="创建话题" page_tab="">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">发布话题</div>
       <div class="panel-body">
         <form action="" onsubmit="return;" id="form">
@@ -20,13 +20,13 @@
             <input type="text" name="tags" id="tags" value="${tag!}" class="form-control" placeholder="标签, 多个标签以 英文逗号 隔开"/>
           </div>
           <div class="form-group">
-            <button type="button" id="btn" class="btn btn-default">发布话题</button>
+            <button type="button" id="btn" class="btn btn-info">发布话题</button>
           </div>
         </form>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#include "../components/markdown_guide.ftl"/>
     <#include "../components/create_topic_guide.ftl"/>
   </div>

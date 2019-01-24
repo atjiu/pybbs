@@ -2,7 +2,7 @@
 <@html page_title="首页" page_tab="index">
 <div class="row">
   <div class="col-md-9">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <ul class="nav nav-pills">
           <li <#if tab=="all">class="active"</#if>><a href="/?tab=all">全部</a></li>
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 hidden-xs">
     <#if _user??>
       <#include "./components/user_info.ftl"/>
     <#else>

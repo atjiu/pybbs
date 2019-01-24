@@ -15,29 +15,29 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li <#if page_tab == "index">class="active"</#if>><a href="/">${i18n.getMessage("index")}</a></li>
-        <li <#if page_tab == "tags">class="active"</#if>><a href="/tags">${i18n.getMessage("tag")}</a></li>
+        <li <#if page_tab == "index">class="active"</#if>><a href="/"><i class="fa fa-home"></i> ${i18n.getMessage("index")}</a></li>
+        <li <#if page_tab == "tags">class="active"</#if>><a href="/tags"><i class="fa fa-tags"></i> ${i18n.getMessage("tag")}</a></li>
       </ul>
       <#if site.search == "1">
         <form class="navbar-form navbar-left" action="/search" method="get">
           <div class="form-group">
             <input type="text" name="keyword" value="${keyword!}" class="form-control" required placeholder="Search">
           </div>
-          <button type="submit" class="btn btn-default">${i18n.getMessage("search")}</button>
+          <button type="submit" class="btn btn-info">${i18n.getMessage("search")}</button>
         </form>
       </#if>
       <ul class="nav navbar-nav navbar-right">
         <#--<li <#if page_tab == "api">class="active"</#if>><a href="/api">API</a></li>-->
         <#if _user??>
-          <li <#if page_tab == "notification">class="active"</#if>><a href="/notifications">${i18n.getMessage("notification")} <span class="badge badge-default" id="nh_count"></span></a></li>
-          <li <#if page_tab == "user">class="active"</#if>><a href="/user/${_user.username}">${_user.username}</a></li>
-          <li <#if page_tab == "settings">class="active"</#if>><a href="/settings">${i18n.getMessage("setting")}</a></li>
-          <li><a href="javascript:if(confirm('确定要登出吗？登出了就没办法发帖回帖了哦!'))window.location.href='/logout'">${i18n.getMessage("logout")}</a></li>
+          <li <#if page_tab == "notification">class="active"</#if>><a href="/notifications"><i class="fa fa-envelope"></i> ${i18n.getMessage("notification")} <span class="badge badge-default" id="nh_count"></span></a></li>
+          <li <#if page_tab == "user">class="active"</#if>><a href="/user/${_user.username}"><i class="fa fa-user"></i> ${_user.username}</a></li>
+          <li <#if page_tab == "settings">class="active"</#if>><a href="/settings"><i class="fa fa-cog"></i> ${i18n.getMessage("setting")}</a></li>
+          <li><a href="javascript:if(confirm('确定要登出吗？登出了就没办法发帖回帖了哦!'))window.location.href='/logout'"><i class="fa fa-sign-out"></i> ${i18n.getMessage("logout")}</a></li>
         <#else>
-          <li <#if page_tab == "login">class="active"</#if>><a href="/login">${i18n.getMessage("login")}</a></li>
-          <li <#if page_tab == "register">class="active"</#if>><a href="/register">${i18n.getMessage("register")}</a></li>
+          <li <#if page_tab == "login">class="active"</#if>><a href="/login"><i class="fa fa-sign-in"></i> ${i18n.getMessage("login")}</a></li>
+          <li <#if page_tab == "register">class="active"</#if>><a href="/register"><i class="fa fa-sign-out"></i> ${i18n.getMessage("register")}</a></li>
           <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
-            <li><a href="/oauth/github">${i18n.getMessage("github_login")}</a></li>
+            <li><a href="/oauth/github"><i class="fa fa-github"></i> ${i18n.getMessage("github_login")}</a></li>
           </#if>
         </#if>
       </ul>

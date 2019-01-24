@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-heading">Markdown 语法参考</div>
   <div class="panel-body">
     <p>## 标题</p>

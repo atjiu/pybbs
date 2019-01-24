@@ -1,5 +1,5 @@
 <#macro user_topics isPaginate=false isFooter=false>
-  <div class="panel panel-default">
+  <div class="panel panel-info">
     <div class="panel-heading">${user.username}创建的话题</div>
     <#if topics.total == 0>
       <div class="panel-body">

@@ -15,10 +15,10 @@
             <span>•</span>
           </#if>-->
           <#if topic.top == true>
-            <span class="label label-primary">置顶</span>
+            <span class="label label-info">置顶</span>
             <span>•</span>
           <#elseif topic.good == true>
-            <span class="label label-success">精华</span>
+            <span class="label label-info">精华</span>
             <span>•</span>
           </#if>
           <span><a href="/user/${topic.username!}">${topic.username!}</a></span>
@@ -31,7 +31,7 @@
           <#if tags>
             <span>•</span>
             <#list topic.tags as tag>
-              <a href="/topic/tag/${tag.name}"><span class="label label-success">${tag.name}</span></a>
+              <a href="/topic/tag/${tag.name}"><span class="label label-info">${tag.name}</span></a>
             </#list>
           </#if>
         </p>

@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-info">
   <div class="panel-heading">
     用户Token
     <a href="javascript:;" id="refreshToken" class="pull-right">刷新Token</a>
