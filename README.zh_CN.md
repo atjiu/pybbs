@@ -24,6 +24,7 @@
 - Redis
 - ElasticSearch
 - WebSocket
+- I18N
 
 ## 特色
 

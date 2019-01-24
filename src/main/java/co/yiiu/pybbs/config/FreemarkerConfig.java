@@ -5,6 +5,7 @@ import co.yiiu.pybbs.directive.OtherTopicDirective;
 import co.yiiu.pybbs.directive.ScoreDirective;
 import co.yiiu.pybbs.directive.TopicListDirective;
 import co.yiiu.pybbs.util.BaseModel;
+import co.yiiu.pybbs.util.LocaleMessageSourceUtil;
 import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,8 @@ public class FreemarkerConfig {
   private BaseModel baseModel;
   @Autowired
   private ShiroTag shiroTag;
+  @Autowired
+  private LocaleMessageSourceUtil localeMessageSourceUtil;
 
   @PostConstruct
   public void setSharedVariable() throws TemplateModelException {
@@ -53,6 +56,7 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("tag_otherTopic", otherTopicDirective);
     configuration.setSharedVariable("tag_notifications", notificationsDirective);
     configuration.setSharedVariable("tag_score", scoreDirective);
+    configuration.setSharedVariable("i18n", localeMessageSourceUtil);
     log.info("freemarker自定义标签配置完成!");
   }
 

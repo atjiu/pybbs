@@ -8,7 +8,7 @@
                alt="User Image">
         </div>
         <div class="pull-left info">
-        <p>欢迎您, ${sec.principal!}</p>
+        <p>${i18n.getMessage("welcome")}, ${sec.principal!}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -17,7 +17,7 @@
         <li <#if page_tab=='index'>class="active"</#if>>
           <a href="/admin/index">
             <i class="fa fa-dashboard"></i>
-            <span>仪表盘</span>
+            <span>${i18n.getMessage("admin.dashboard")}</span>
           </a>
         </li>
       </#if>
@@ -25,7 +25,7 @@
         <li <#if page_tab=='topic'>class="active"</#if>>
           <a href="/admin/topic/list">
             <i class="fa fa-list"></i>
-            <span>话题列表</span>
+            <span>${i18n.getMessage("admin.topics")}</span>
           </a>
         </li>
       </#if>
@@ -33,7 +33,7 @@
         <li <#if page_tab=='comment'>class="active"</#if>>
           <a href="/admin/comment/list">
             <i class="fa fa-comment"></i>
-            <span>评论列表</span>
+            <span>${i18n.getMessage("admin.comments")}</span>
           </a>
         </li>
       </#if>
@@ -41,7 +41,7 @@
         <li <#if page_tab=='tag'>class="active"</#if>>
           <a href="/admin/tag/list">
             <i class="fa fa-tags"></i>
-            <span>标签列表</span>
+            <span>${i18n.getMessage("admin.tags")}</span>
           </a>
         </li>
       </#if>
@@ -49,14 +49,14 @@
         <li <#if page_tab=='user'>class="active"</#if>>
           <a href="/admin/user/list">
             <i class="fa fa-user"></i>
-            <span>用户列表</span>
+            <span>${i18n.getMessage("admin.users")}</span>
           </a>
         </li>
       </#if>
       <#if sec.hasPermissionOr('admin_user:list', 'role:list', 'permission:list')>
         <li class="treeview <#if page_tab?index_of("auth_") != -1>active</#if>">
           <a href="#">
-            <i class="fa fa-server"></i> <span>权限中心</span>
+            <i class="fa fa-server"></i> <span>${i18n.getMessage("admin.permission_config")}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -66,7 +66,7 @@
               <li <#if page_tab=='auth_admin_user'>class="active"</#if>>
                 <a href="/admin/admin_user/list">
                   <i class="fa fa-circle-o"></i>
-                  后台用户列表
+                  ${i18n.getMessage("admin.admin_users")}
                 </a>
               </li>
             </#if>
@@ -74,7 +74,7 @@
             <li <#if page_tab=='auth_role'>class="active"</#if>>
               <a href="/admin/role/list">
                 <i class="fa fa-circle-o"></i>
-                角色列表
+                ${i18n.getMessage("admin.roles")}
               </a>
             </li>
             </#if>
@@ -82,7 +82,7 @@
             <li <#if page_tab=='auth_permission'>class="active"</#if>>
               <a href="/admin/permission/list">
                 <i class="fa fa-circle-o"></i>
-                权限列表
+                ${i18n.getMessage("admin.permissions")}
               </a>
             </li>
             </#if>
@@ -93,14 +93,14 @@
         <li <#if page_tab=='system'>class="active"</#if>>
           <a href="/admin/system/edit">
             <i class="fa fa-cogs"></i>
-            <span>系统设置</span>
+            <span>${i18n.getMessage("admin.system_config")}</span>
           </a>
         </li>
       </#if>
       <li>
         <a href="/admin/logout">
           <i class="fa fa-sign-out"></i>
-          <span>退出</span>
+          <span>${i18n.getMessage("logout")}</span>
         </a>
       </li>
     </ul>

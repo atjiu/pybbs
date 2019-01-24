@@ -19,6 +19,7 @@ The documentation is written using the open source tool [docsify](https://docsif
 - Redis
 - ElasticSearch
 - WebSocket
+- I18N
 
 ## Feature
 
@@ -27,6 +28,7 @@ The documentation is written using the open source tool [docsify](https://docsif
 - you can configure different third-party services on the backend.
 - You can start a website service by using maven, docker, or downloading the zip package in the release.
 - Integrated flyway makes it easy to iterate on database operations
+- I18n support, so that language is not a barrier to communication
 - The document is very detailed
 
 ## Getting Started

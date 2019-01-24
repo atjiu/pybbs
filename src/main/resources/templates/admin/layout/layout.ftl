@@ -15,6 +15,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/css/AdminLTE.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/css/skins/_all-skins.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+      @media screen and (max-width: 768px) {
+        .content-header {
+          position: relative;
+          padding: 65px 15px 0 15px;
+        }
+      }
+    </style>
 
     <#--javascript-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -38,12 +46,12 @@
       }
     </script>
   </head>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-blue sidebar-mini" style="background-color: #ecf0f5;">
     <div>
     <#include "header.ftl">
     <#include "menu.ftl">
     <@menu page_tab=page_tab/>
-      <div class="content-wrapper" style="padding: 50px 0; background-color: #eee;">
+      <div class="content-wrapper" style="padding: 50px 0 40px;">
       <#nested>
       </div>
     <#include "footer.ftl"/>

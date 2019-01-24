@@ -11,6 +11,8 @@ spring:
       template_exception_handler: rethrow
       number_format: 0.##
     template-loader-path: ["classpath:/templates/", "file:./templates/"]
+  messages:
+    basename: i18n/message
 
 #  resources:
 #    static-locations: ["classpath:static/", "file:./static/"]

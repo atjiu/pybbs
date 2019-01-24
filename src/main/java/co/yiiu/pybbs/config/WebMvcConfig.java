@@ -4,11 +4,16 @@ import co.yiiu.pybbs.interceptor.CommonInterceptor;
 import co.yiiu.pybbs.interceptor.UserApiInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 /**
  * Created by tomoya.
@@ -62,5 +67,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   @Override
   protected void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/", "file:./static/");
+  }
+
+  // 配置网站默认语言
+  @Bean
+  public LocaleResolver localeResolver() {
+    SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+    sessionLocaleResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
+    return sessionLocaleResolver;
   }
 }
