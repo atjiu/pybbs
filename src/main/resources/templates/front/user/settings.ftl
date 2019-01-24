@@ -171,7 +171,7 @@
       var fd = new FormData();
       fd.append("file", document.getElementById("file").files[0]);
       $.post({
-        url: "/api/uploadAvatar",
+        url: "/api/settings/uploadAvatar",
         data: fd,
         dataType: 'json',
         processData: false,
