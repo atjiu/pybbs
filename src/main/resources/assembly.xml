@@ -81,6 +81,7 @@
     <!-- 主jar打到根目录,因为pom文件中设置主jar的依赖包目录为lib/-->
     <dependencySet>
       <outputDirectory>/</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       <includes>
         <include>${project.groupId}:${project.artifactId}</include>
       </includes>
