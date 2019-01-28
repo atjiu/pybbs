@@ -1,9 +1,6 @@
 package co.yiiu.pybbs.config;
 
-import co.yiiu.pybbs.directive.NotificationsDirective;
-import co.yiiu.pybbs.directive.OtherTopicDirective;
-import co.yiiu.pybbs.directive.ScoreDirective;
-import co.yiiu.pybbs.directive.TopicListDirective;
+import co.yiiu.pybbs.directive.*;
 import co.yiiu.pybbs.util.BaseModel;
 import co.yiiu.pybbs.util.LocaleMessageSourceUtil;
 import freemarker.template.TemplateModelException;
@@ -36,6 +33,10 @@ public class FreemarkerConfig {
   @Autowired
   private ScoreDirective scoreDirective;
   @Autowired
+  private SearchDirective searchDirective;
+  @Autowired
+  private TagsDirective tagsDirective;
+  @Autowired
   private BaseModel baseModel;
   @Autowired
   private ShiroTag shiroTag;
@@ -56,6 +57,8 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("tag_otherTopic", otherTopicDirective);
     configuration.setSharedVariable("tag_notifications", notificationsDirective);
     configuration.setSharedVariable("tag_score", scoreDirective);
+    configuration.setSharedVariable("tag_search", searchDirective);
+    configuration.setSharedVariable("tag_tags", tagsDirective);
     configuration.setSharedVariable("i18n", localeMessageSourceUtil);
     log.info("freemarker自定义标签配置完成!");
   }

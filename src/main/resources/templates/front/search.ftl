@@ -4,15 +4,17 @@
   <div class="col-md-9">
     <div class="panel panel-info">
       <div class="panel-heading">搜索结果</div>
-      <table class="table">
-        <#list page.records as map>
-          <tr>
-            <td><a href="/topic/${map.id!}" target="_blank" style="font-size: 16px;">${map.title!}</a></td>
-          </tr>
-        </#list>
-      </table>
-      <#include "./components/paginate.ftl"/>
-      <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
+      <@tag_search pageNo=pageNo keyword=keyword>
+        <table class="table">
+          <#list page.records as map>
+            <tr>
+              <td><a href="/topic/${map.id!}" target="_blank" style="font-size: 16px;">${map.title!}</a></td>
+            </tr>
+          </#list>
+        </table>
+        <#include "./components/paginate.ftl"/>
+        <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
+      </@tag_search>
     </div>
   </div>
   <div class="col-md-3 hidden-xs">

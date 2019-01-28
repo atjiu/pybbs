@@ -77,8 +77,7 @@ public class IndexController extends BaseController {
 
   @GetMapping("/tags")
   public String tags(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
-    IPage<Tag> page = tagService.selectAll(pageNo, null);
-    model.addAttribute("page", page);
+    model.addAttribute("pageNo", pageNo);
     return "front/tag/tags";
   }
 
@@ -131,14 +130,8 @@ public class IndexController extends BaseController {
   @GetMapping("/search")
   public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {
     Assert.isTrue(systemConfigService.selectAllConfig().get("search").toString().equals("1"), "网站没有启动搜索功能，联系站长问问看");
-    if (StringUtils.isEmpty(keyword)) {
-      model.addAttribute("page", new Page<>());
-    } else {
-      Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString());
-      Page<Map<String, Object>> page = elasticSearchService.searchDocument(pageNo, pageSize, keyword, "title", "content");
-      model.addAttribute("page", page);
-      model.addAttribute("keyword", keyword);
-    }
+    model.addAttribute("pageNo", pageNo);
+    model.addAttribute("keyword", keyword);
     return "front/search";
   }
 

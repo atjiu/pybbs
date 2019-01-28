@@ -50,7 +50,8 @@ public class DataSourceHelper {
       String host = uri.getHost();
       int port = uri.getPort();
       String path = uri.getPath();
-      Connection connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port, username, password);
+      String query = uri.getQuery();
+      Connection connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "?" + query, username, password);
       Statement statement = connection.createStatement();
       statement.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + path.replace("/", "") + "` DEFAULT CHARACTER SET = `utf8` COLLATE `utf8_general_ci`;");
       statement.close();
