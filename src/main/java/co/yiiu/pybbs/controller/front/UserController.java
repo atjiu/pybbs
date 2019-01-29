@@ -42,10 +42,6 @@ public class UserController extends BaseController {
     User user = userService.selectByUsername(username);
     // 查询oauth登录的用户信息
     List<OAuthUser> oAuthUsers = oAuthUserService.selectByUserId(user.getId());
-    // 查询用户的话题
-    IPage<Map<String, Object>> topics = topicService.selectByUserId(user.getId(), 1, 10);
-    // 查询用户参与的评论
-    IPage<Map<String, Object>> comments = commentService.selectByUserId(user.getId(), 1, 10);
     // 查询用户收藏的话题数
     Integer collectCount = collectService.countByUserId(user.getId());
 
@@ -56,43 +52,30 @@ public class UserController extends BaseController {
     }
 
     model.addAttribute("user", user);
+    model.addAttribute("username", username);
     model.addAttribute("oAuthUsers", oAuthUsers);
-    model.addAttribute("topics", topics);
-    model.addAttribute("comments", comments);
     model.addAttribute("collectCount", collectCount);
     return "front/user/profile";
   }
 
   @GetMapping("/{username}/topics")
   public String topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
-    // 查询用户个人信息
-    User user = userService.selectByUsername(username);
-    // 查询用户的话题
-    IPage<Map<String, Object>> topics = topicService.selectByUserId(user.getId(), pageNo, null);
-    model.addAttribute("user", user);
-    model.addAttribute("topics", topics);
+    model.addAttribute("username", username);
+    model.addAttribute("pageNo", pageNo);
     return "front/user/topics";
   }
 
   @GetMapping("/{username}/comments")
   public String comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
-    // 查询用户个人信息
-    User user = userService.selectByUsername(username);
-    // 查询用户参与的评论
-    IPage<Map<String, Object>> comments = commentService.selectByUserId(user.getId(), pageNo, null);
-    model.addAttribute("user", user);
-    model.addAttribute("comments", comments);
+    model.addAttribute("username", username);
+    model.addAttribute("pageNo", pageNo);
     return "front/user/comments";
   }
 
   @GetMapping("/{username}/collects")
   public String collects(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
-    // 查询用户个人信息
-    User user = userService.selectByUsername(username);
-    // 查询用户参与的评论
-    IPage<Map<String, Object>> collects = collectService.selectByUserId(user.getId(), pageNo, null);
-    model.addAttribute("user", user);
-    model.addAttribute("collects", collects);
+    model.addAttribute("username", username);
+    model.addAttribute("pageNo", pageNo);
     return "front/user/collects";
   }
 }

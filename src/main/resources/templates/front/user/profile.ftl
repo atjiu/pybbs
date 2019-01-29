@@ -34,10 +34,10 @@
       </#if>
     </div>
     <#include "../components/user_topics.ftl"/>
-    <@user_topics isFooter=true/>
+    <@user_topics pageNo=1 pageSize=10 username=username isFooter=true/>
 
     <#include "../components/user_comments.ftl"/>
-    <@user_comments isFooter=true/>
+    <@user_comments pageNo=1 pageSize=10 username=username isFooter=true/>
   </div>
   <div class="col-md-3 hidden-xs">
     <div class="panel panel-panel"><p></p></div>

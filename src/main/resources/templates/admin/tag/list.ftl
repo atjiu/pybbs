@@ -40,7 +40,7 @@
         <form action="/admin/tag/list" class="form-inline">
           <div class="form-group" style="margin-bottom: 10px;">
             <input type="text" name="name" value="${name!}" class="form-control" placeholder="标签名">
-            <button type="submit" class="btn btn-primary btn-xs">搜索</button>
+            <button type="submit" class="btn btn-primary btn-sm">搜索</button>
           </div>
         </form>
         <table class="table table-bordered table-striped">

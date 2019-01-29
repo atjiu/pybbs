@@ -37,6 +37,14 @@ public class FreemarkerConfig {
   @Autowired
   private TagsDirective tagsDirective;
   @Autowired
+  private UserTopicsDirective userTopicsDirective;
+  @Autowired
+  private UserCommentsDirective userCommentsDirective;
+  @Autowired
+  private UserCollectsDirective userCollectsDirective;
+  @Autowired
+  private TopicCommentsDirective topicCommentsDirective;
+  @Autowired
   private BaseModel baseModel;
   @Autowired
   private ShiroTag shiroTag;
@@ -59,6 +67,11 @@ public class FreemarkerConfig {
     configuration.setSharedVariable("tag_score", scoreDirective);
     configuration.setSharedVariable("tag_search", searchDirective);
     configuration.setSharedVariable("tag_tags", tagsDirective);
+    configuration.setSharedVariable("tag_topics", userTopicsDirective);
+    configuration.setSharedVariable("tag_comments", userCommentsDirective);
+    configuration.setSharedVariable("tag_collects", userCollectsDirective);
+    configuration.setSharedVariable("tag_topic_comments", topicCommentsDirective);
+
     configuration.setSharedVariable("i18n", localeMessageSourceUtil);
     log.info("freemarker自定义标签配置完成!");
   }

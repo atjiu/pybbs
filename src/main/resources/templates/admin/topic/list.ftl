@@ -33,7 +33,7 @@
             <input type="text" readonly id="endDate" name="endDate" value="${endDate!}"
                    class="form-control" placeholder="结束时间">
             <input type="text" name="username" value="${username!}" class="form-control" placeholder="用户名">
-            <button type="submit" class="btn btn-primary btn-xs">搜索</button>
+            <button type="submit" class="btn btn-primary btn-sm">搜索</button>
           </div>
         </form>
         <table class="table table-bordered">

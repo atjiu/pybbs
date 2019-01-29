@@ -69,6 +69,7 @@
 
     <#--评论列表-->
     <#include "../components/topic_comments.ftl"/>
+    <@topic_comments topicId=topic.id />
 
     <#if _user??>
       <div class="panel panel-info">
@@ -121,7 +122,7 @@
     </#if>
 
     $("#goTop").click(function () {
-      $(window).scrollTo({top: 0}, 1500);
+      $('html, body').animate({scrollTop: 0}, 500);
     })
 
     $("#comment_btn").click(function () {

@@ -1,18 +1,18 @@
 <#include "../layout/layout.ftl"/>
-<@html page_title="${user.username}收藏的话题" page_tab="">
+<@html page_title="${username}收藏的话题" page_tab="">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-info">
-      <div class="panel-heading">${user.username}评论的话题</div>
+      <div class="panel-heading">${username}评论的话题</div>
       <div class="panel-body">
-        <#if collects.total == 0>
-          <div class="panel-body">
+        <@tag_collects pageNo=pageNo pageSize=site.page_size username=username>
+          <#if collects.total == 0>
             暂无评论
-          </div>
-        <#else>
-          <#include "../components/topics.ftl"/>
-          <@topics page=collects/>
-        </#if>
+          <#else>
+            <#include "../components/topics.ftl"/>
+            <@topics page=collects/>
+          </#if>
+        </@tag_collects>
       </div>
     </div>
   </div>

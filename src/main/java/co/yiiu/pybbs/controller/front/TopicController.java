@@ -50,8 +50,6 @@ public class TopicController extends BaseController {
     Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
-    // 查询话题的评论
-    List<CommentsByTopic> comments = commentService.selectByTopicId(id);
     // 查询话题的作者信息
     User topicUser = userService.selectById(topic.getUserId());
     // 查询话题有多少收藏
@@ -66,7 +64,6 @@ public class TopicController extends BaseController {
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
-    model.addAttribute("comments", comments);
     model.addAttribute("topicUser", topicUser);
     model.addAttribute("collects", collects);
     return "front/topic/detail";
