@@ -27,10 +27,7 @@
         and date(t.in_time) &gt;= date_sub(curdate(), interval 7 day)
       </if>
     </where>
-    <if test="tab == 'good'">
-      order by t.in_time desc
-    </if>
-    <if test="tab == 'newest' or tab == 'noanswer'">
+    <if test="tab == 'all' or tab == 'newest' or tab == 'noanswer' or tab == 'good'">
       order by t.in_time desc
     </if>
     <if test="tab == 'hot'">
