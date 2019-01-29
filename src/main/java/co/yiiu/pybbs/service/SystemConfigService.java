@@ -93,4 +93,15 @@ public class SystemConfigService {
     SYSTEM_CONFIG = null;
   }
 
+  // 根据key更新数据
+  public void updateByKey(String key, SystemConfig systemConfig) {
+    QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(SystemConfig::getKey, key);
+    systemConfigMapper.update(systemConfig, wrapper);
+    // 清除redis里关于 system_config 的缓存
+    redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
+    // 更新SYSTEM_CONFIG
+    SYSTEM_CONFIG = null;
+  }
+
 }

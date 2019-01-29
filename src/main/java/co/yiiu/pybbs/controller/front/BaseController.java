@@ -32,7 +32,7 @@ public class BaseController {
 
   // 只针对前台页面的模板路径渲染，后台不变
   protected String render(String path) {
-    return String.format("%s/%s", systemConfigService.selectAllConfig().get("theme").toString(), path);
+    return String.format("theme/%s/%s", systemConfigService.selectAllConfig().get("theme").toString(), path);
   }
 
 }

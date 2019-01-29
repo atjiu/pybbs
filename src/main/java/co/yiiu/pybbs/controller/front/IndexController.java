@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.FileNotFoundException;
 import java.util.Locale;
 
 /**
@@ -47,6 +48,7 @@ public class IndexController extends BaseController {
   public String index(@RequestParam(defaultValue = "all") String tab, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("tab", tab);
     model.addAttribute("pageNo", pageNo);
+
     return render("index");
   }
 
