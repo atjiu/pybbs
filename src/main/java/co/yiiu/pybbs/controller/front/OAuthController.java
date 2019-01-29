@@ -88,7 +88,6 @@ public class OAuthController extends BaseController {
         "https://github.com/login/oauth/access_token?client_id="
             + clientId + "&client_secret=" + clientSecret + "&code="
             + code + "&state=" + state + "&redirect_uri=" + callback, entity, String.class);
-    System.out.println(exchange.getBody());
     Map map = JsonUtil.jsonToObject(exchange.getBody(), Map.class);
 
     String accessToken = (String) map.get("access_token");
@@ -96,7 +95,6 @@ public class OAuthController extends BaseController {
     // 拿到token后再次请求用户个人信息接口拿用户信息
     ResponseEntity<Map> userEntity = restTemplate.getForEntity("https://api.github.com/user?access_token=" + accessToken, Map.class);
     Map userEntityBody = userEntity.getBody();
-    System.out.println(userEntityBody.toString());
 
     // 拿用户信息
     String login = userEntityBody.get("login").toString();

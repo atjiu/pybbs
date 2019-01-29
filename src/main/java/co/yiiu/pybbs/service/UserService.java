@@ -166,7 +166,7 @@ public class UserService {
   }
 
   // 删除redis缓存
-  private void delRedisUser(User user) {
+  public void delRedisUser(User user) {
     redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
     redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());
     redisService.delString(Constants.REDIS_USER_TOKEN_KEY + user.getToken());

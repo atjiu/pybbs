@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.controller.front;
 
+import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.UserService;
@@ -93,10 +94,15 @@ public class IndexController extends BaseController {
   // 登出
   @GetMapping("/logout")
   public String logout(HttpSession session) {
-    // 清除session里的用户信息
-    session.removeAttribute("_user");
-    // 清除cookie里的用户token
-    cookieUtil.clearCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
+    if (session.getAttribute("_user") != null) {
+      User user = (User) session.getAttribute("_user");
+      // 清除redis里的缓存
+      userService.delRedisUser(user);
+      // 清除session里的用户信息
+      session.removeAttribute("_user");
+      // 清除cookie里的用户token
+      cookieUtil.clearCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
+    }
     return redirect("/");
   }
 
