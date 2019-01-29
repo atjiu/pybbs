@@ -28,6 +28,7 @@ public class User implements Serializable {
   private String bio;
   private Integer score;
   private Date inTime;
+  @JsonIgnore
   private String token;
   // 有消息通知是否通过邮箱收取
   private Boolean emailNotification;

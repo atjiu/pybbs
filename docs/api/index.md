@@ -12,7 +12,7 @@
 - Params
   - username
   - password
-- Return Result(User)
+- Return Result(Map)
 
 ## Register
 
@@ -20,4 +20,4 @@
 - Params
   - username
   - password
-- Return Result(User)
+- Return Result(Map)

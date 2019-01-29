@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,11 +49,7 @@ public class IndexApiController extends BaseApiController {
     User user = userService.selectByUsername(username);
     ApiAssert.notNull(user, "用户不存在");
     ApiAssert.isTrue(new BCryptPasswordEncoder().matches(password, user.getPassword()), "用户名或密码不正确");
-    // 将用户信息写session
-    if (session != null) session.setAttribute("_user", user);
-    // 将用户token写cookie
-    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
-    return success(user);
+    return this.doUserStorage(session, user);
   }
 
   // 处理注册的接口
@@ -63,11 +60,19 @@ public class IndexApiController extends BaseApiController {
     User user = userService.selectByUsername(username);
     ApiAssert.isNull(user, "用户名已存在");
     user = userService.addUser(username, password, null, null, null, null);
+    return this.doUserStorage(session, user);
+  }
+
+  // 登录成功后，处理的逻辑一样，这里提取出来封装一个方法处理
+  private Result doUserStorage(HttpSession session, User user) {
     // 将用户信息写session
     if (session != null) session.setAttribute("_user", user);
     // 将用户token写cookie
     cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
-    return success(user);
+    Map<String, Object> map = new HashMap<>();
+    map.put("user", user);
+    map.put("token", user.getToken());
+    return success(map);
   }
 
 }

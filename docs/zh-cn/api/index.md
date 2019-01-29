@@ -14,7 +14,7 @@
 - 参数
   - username: 用户名
   - password: 密码
-- 返回 Result(User)
+- 返回 Result(Map)
 
 ## 注册
 
@@ -22,4 +22,4 @@
 - 参数
   - username: 用户名
   - password: 密码
-- 返回 Result(User)
+- 返回 Result(Map)
