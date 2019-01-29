@@ -284,4 +284,9 @@ public class CommentService {
     IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
+
+  // 查询今天新增的话题数
+  public int countToday() {
+    return commentMapper.countToday();
+  }
 }

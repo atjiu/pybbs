@@ -21,4 +21,8 @@
     order by tag.topic_count desc
   </select>
 
+  <select id="countToday" resultType="integer">
+    select count(1) from tag where to_days(in_time) = to_days(now());
+  </select>
+
 </mapper>

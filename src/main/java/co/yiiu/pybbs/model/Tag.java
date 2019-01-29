@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by tomoya.
@@ -19,9 +20,14 @@ public class Tag implements Serializable {
   private String icon;
   // 当前标签下的话题个数
   private Integer topicCount;
+  private Date inTime;
 
-  public static long getSerialVersionUID() {
-    return serialVersionUID;
+  public Date getInTime() {
+    return inTime;
+  }
+
+  public void setInTime(Date inTime) {
+    this.inTime = inTime;
   }
 
   public Integer getId() {

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,6 +72,7 @@ public class TagService {
         tag = new Tag();
         tag.setName(_tag);
         tag.setTopicCount(1);
+        tag.setInTime(new Date());
         tagMapper.insert(tag);
       } else {
         tag.setTopicCount(tag.getTopicCount() + 1);
@@ -128,5 +130,10 @@ public class TagService {
       tag.setTopicCount(topicTags.size());
       this.update(tag);
     });
+  }
+
+  // 查询今天新增的标签数
+  public int countToday() {
+    return tagMapper.countToday();
   }
 }

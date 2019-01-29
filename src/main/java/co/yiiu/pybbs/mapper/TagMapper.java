@@ -15,4 +15,6 @@ import java.util.Map;
 public interface TagMapper extends BaseMapper<Tag> {
 
   IPage<Map<String, Object>> selectTopicByTagId(IPage<Map<String, Object>> iPage, @Param("tagId") Integer tagId);
+
+  int countToday();
 }

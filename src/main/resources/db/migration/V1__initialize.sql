@@ -387,6 +387,7 @@ CREATE TABLE `tag` (
   `description` varchar(1000) DEFAULT NULL,
   `icon` varchar(255) DEFAULT NULL,
   `topic_count` int(11) NOT NULL DEFAULT '0',
+  `in_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

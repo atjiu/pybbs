@@ -143,6 +143,11 @@ public class UserService {
     return userMapper.selectPage(page, null);
   }
 
+  // 查询今天新增的话题数
+  public int countToday() {
+    return userMapper.countToday();
+  }
+
   // 删除用户
   public void deleteUser(Integer id) {
     // 删除用户的通知

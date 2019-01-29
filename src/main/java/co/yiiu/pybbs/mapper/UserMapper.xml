@@ -11,4 +11,8 @@
       test_id AS testId, name, age, test_type AS testType, role, phone
   </sql>-->
 
+  <select id="countToday" resultType="integer">
+    select count(1) from user where to_days(in_time) = to_days(now());
+  </select>
+
 </mapper>

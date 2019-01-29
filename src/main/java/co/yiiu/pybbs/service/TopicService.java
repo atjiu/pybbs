@@ -268,6 +268,11 @@ public class TopicService {
     return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 
+  // 查询今天新增的话题数
+  public int countToday() {
+    return topicMapper.countToday();
+  }
+
   // ---------------------------- api ----------------------------
 
   public int vote(Topic topic, User user, HttpSession session) {

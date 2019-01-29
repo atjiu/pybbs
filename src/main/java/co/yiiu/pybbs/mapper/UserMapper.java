@@ -9,4 +9,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * https://yiiu.co
  */
 public interface UserMapper extends BaseMapper<User> {
+  int countToday();
 }

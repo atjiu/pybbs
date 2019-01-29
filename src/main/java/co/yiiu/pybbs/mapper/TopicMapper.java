@@ -32,4 +32,6 @@ public interface TopicMapper extends BaseMapper<Topic> {
       @Param("endDate") String endDate,
       @Param("username") String username
   );
+
+  int countToday();
 }

@@ -70,4 +70,9 @@
     order by t.in_time desc
   </select>
 
+  <select id="countToday" resultType="integer">
+    select count(1) from topic t
+    where to_days(t.in_time) = to_days(now());
+  </select>
+
 </mapper>

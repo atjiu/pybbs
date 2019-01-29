@@ -45,4 +45,8 @@
     order by c.in_time desc
   </select>
 
+  <select id="countToday" resultType="integer">
+    select count(1) from comment where to_days(in_time) = to_days(now());
+  </select>
+
 </mapper>

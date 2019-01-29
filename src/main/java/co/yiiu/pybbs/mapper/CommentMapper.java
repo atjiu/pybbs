@@ -26,4 +26,6 @@ public interface CommentMapper extends BaseMapper<Comment> {
       @Param("endDate") String endDate,
       @Param("username") String username
   );
+
+  int countToday();
 }
