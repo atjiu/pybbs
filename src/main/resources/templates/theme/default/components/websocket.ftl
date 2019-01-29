@@ -1,6 +1,6 @@
 <script>
-  <#if site.websocket == "1">
-    <#if _user??>
+  <#if _user??>
+    <#if site.websocket == "1">
       var documentTitle = document.title;
       var socket = io.connect('ws://${site.websocket_host}:${site.websocket_port}');
       socket.on('connect', function () {
@@ -30,22 +30,22 @@
           document.title = "(" + notReadTotalCount + ") " + documentTitle;
         }
       });
+    <#else>
+      var title = document.title;
+
+      function notificationCount() {
+        $.get("/api/notification/notRead?token=${_user.token}", function (data) {
+          if (data.code === 200 && data.detail > 0) {
+            $("#n_count").text(data.detail);
+            document.title = "(" + data.detail + ") " + title;
+          }
+        })
+      }
+
+      notificationCount();
+      // setInterval(function () {
+      //   notificationCount();
+      // }, 120000);
     </#if>
-  <#else>
-    var title = document.title;
-
-    function notificationCount() {
-      $.get("/api/notification/notRead?token=${_user.token}", function (data) {
-        if (data.code === 200 && data.detail > 0) {
-          $("#n_count").text(data.detail);
-          document.title = "(" + data.detail + ") " + title;
-        }
-      })
-    }
-
-    notificationCount();
-    // setInterval(function () {
-    //   notificationCount();
-    // }, 120000);
   </#if>
 </script>

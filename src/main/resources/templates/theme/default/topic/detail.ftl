@@ -105,10 +105,10 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>
-  var editor;
-  $(function () {
-    hljs.initHighlightingOnLoad();
-    <#if _user??>
+  <#if _user??>
+    var editor;
+    $(function () {
+      hljs.initHighlightingOnLoad();
       CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
       CodeMirror.keyMap.default["Tab"] = "indentMore";
       editor = CodeMirror.fromTextArea(document.getElementById("content"), {
@@ -119,123 +119,123 @@
         mode: 'markdown',     // Markdown模式
         lineWrapping: true,    // 自动换行
       });
-    </#if>
 
-    $("#goTop").click(function () {
-      $('html, body').animate({scrollTop: 0}, 500);
-    })
+      $("#comment_btn").click(function () {
+        var content = editor.getDoc().getValue();
+        if (!content) {
+          toast("请输入评论内容");
+          return;
+        }
+        $.post("/api/comment/create", {
+          topicId: ${topic.id},
+          content: content,
+          commentId: $("#commentId").val(),
+          token: '${_user.token}',
+        }, function (data) {
+          if (data.code === 200) {
+            toast("评论成功", "success");
+            setTimeout(function () {
+              window.location.reload();
+            }, 700);
+          } else {
+            toast(data.description);
+          }
+        })
+      })
 
-    $("#comment_btn").click(function () {
-      var content = editor.getDoc().getValue();
-      if (!content) {
-        toast("请输入评论内容");
-        return;
-      }
-      $.post("/api/comment/create", {
-        topicId: ${topic.id},
-        content: content,
-        commentId: $("#commentId").val(),
-        token: '${_user.token}',
-      }, function (data) {
+      $(".collectTopic").click(function() {
+        var _this = this;
+        var text = $(_this).text();
+        var collectCount = $("#collectCount").text();
+        var url = "";
+        if (text === "加入收藏") {
+          url = "/api/collect/get";
+        } else if (text === "取消收藏") {
+          url = "/api/collect/delete";
+        }
+        $.get(url + '?token=${_user.token}', { topicId: ${topic.id} }, function(data) {
+          if (data.code === 200) {
+            if (text === "加入收藏") {
+              toast("收藏成功", "success");
+              $(_this).text("取消收藏");
+              $("#collectCount").text(parseInt(collectCount) + 1);
+            } else if (text === "取消收藏") {
+              toast("取消收藏成功", "success");
+              $(_this).text("加入收藏");
+              $("#collectCount").text(parseInt(collectCount) - 1);
+            }
+          } else {
+            toast(data.description);
+          }
+        });
+      });
+      // 删除话题
+      $("#deleteTopic").click(function () {
+        if (confirm("确定要删除吗？这会清空跟这个话题所有相关的数据，再考虑考虑呗！！")) {
+          $.get("/api/topic/delete", {id: ${topic.id}, token: '${_user.token}' }, function (data) {
+            if (data.code === 200) {
+              toast("删除成功", "success");
+              setTimeout(function () {
+                window.location.href = "/";
+              }, 700);
+            } else {
+              toast(data.description);
+            }
+          })
+        }
+      });
+    });
+
+    // 点赞话题
+    function voteTopic(id) {
+      $.get("/api/topic/vote?token=${_user.token}&id=" + id, function (data) {
         if (data.code === 200) {
-          toast("评论成功", "success");
-          setTimeout(function () {
-            window.location.reload();
-          }, 700);
+          var voteTopicIcon = $("#vote_topic_icon_" + id);
+          if (voteTopicIcon.hasClass("fa-thumbs-up")) {
+            toast("取消点赞成功", "success");
+            voteTopicIcon.removeClass("fa-thumbs-up");
+            voteTopicIcon.addClass("fa-thumbs-o-up");
+          } else {
+            toast("点赞成功", "success");
+            voteTopicIcon.addClass("fa-thumbs-up");
+            voteTopicIcon.removeClass("fa-thumbs-o-up");
+          }
+          $("#vote_topic_count_" + id).text(data.detail);
         } else {
           toast(data.description);
         }
       })
-    })
+    }
 
-    $(".collectTopic").click(function() {
-      var _this = this;
-      var text = $(_this).text();
-      var collectCount = $("#collectCount").text();
-      var url = "";
-      if (text === "加入收藏") {
-        url = "/api/collect/get";
-      } else if (text === "取消收藏") {
-        url = "/api/collect/delete";
-      }
-      $.get(url + '?token=${_user.token}', { topicId: ${topic.id} }, function(data) {
-        if (data.code === 200) {
-          if (text === "加入收藏") {
-            toast("收藏成功", "success");
-            $(_this).text("取消收藏");
-            $("#collectCount").text(parseInt(collectCount) + 1);
-          } else if (text === "取消收藏") {
-            toast("取消收藏成功", "success");
-            $(_this).text("加入收藏");
-            $("#collectCount").text(parseInt(collectCount) - 1);
-          }
-        } else {
-          toast(data.description);
-        }
-      });
-    });
-    // 删除话题
-    $("#deleteTopic").click(function () {
-      if (confirm("确定要删除吗？这会清空跟这个话题所有相关的数据，再考虑考虑呗！！")) {
-        $.get("/api/topic/delete", {id: ${topic.id}, token: '${_user.token}' }, function (data) {
+    // 删除评论
+    function deleteComment(id) {
+      if(confirm("确定要删除这个评论吗？删了就没有了哦！")) {
+        $.get("/api/comment/delete?token=${_user.token}&id=" + id, function (data) {
           if (data.code === 200) {
             toast("删除成功", "success");
             setTimeout(function () {
-              window.location.href = "/";
+              window.location.reload();
             }, 700);
           } else {
             toast(data.description);
           }
         })
       }
-    });
-  });
-
-  // 点赞话题
-  function voteTopic(id) {
-    $.get("/api/topic/vote?token=${_user.token}&id=" + id, function (data) {
-      if (data.code === 200) {
-        var voteTopicIcon = $("#vote_topic_icon_" + id);
-        if (voteTopicIcon.hasClass("fa-thumbs-up")) {
-          toast("取消点赞成功", "success");
-          voteTopicIcon.removeClass("fa-thumbs-up");
-          voteTopicIcon.addClass("fa-thumbs-o-up");
-        } else {
-          toast("点赞成功", "success");
-          voteTopicIcon.addClass("fa-thumbs-up");
-          voteTopicIcon.removeClass("fa-thumbs-o-up");
-        }
-        $("#vote_topic_count_" + id).text(data.detail);
-      } else {
-        toast(data.description);
-      }
-    })
-  }
-
-  // 删除评论
-  function deleteComment(id) {
-    if(confirm("确定要删除这个评论吗？删了就没有了哦！")) {
-      $.get("/api/comment/delete?token=${_user.token}&id=" + id, function (data) {
-        if (data.code === 200) {
-          toast("删除成功", "success");
-          setTimeout(function () {
-            window.location.reload();
-          }, 700);
-        } else {
-          toast(data.description);
-        }
-      })
     }
-  }
-  // 回复评论
-  function commentThis(username, commentId) {
-    $("#commentId").val(commentId);
-    var oldContent = editor.getDoc().getValue();
-    if (oldContent) oldContent += '\n';
-    editor.getDoc().setValue(oldContent + "@" + username + " ");
-    editor.focus();
-    //定位到文档的最后一个字符的位置
-    editor.setCursor(editor.lineCount(), 0);
-  }
+    // 回复评论
+    function commentThis(username, commentId) {
+      $("#commentId").val(commentId);
+      var oldContent = editor.getDoc().getValue();
+      if (oldContent) oldContent += '\n';
+      editor.getDoc().setValue(oldContent + "@" + username + " ");
+      editor.focus();
+      //定位到文档的最后一个字符的位置
+      editor.setCursor(editor.lineCount(), 0);
+    }
+  </#if>
+
+  $("#goTop").click(function () {
+    $('html, body').animate({scrollTop: 0}, 500);
+  })
 </script>
 </@html>
