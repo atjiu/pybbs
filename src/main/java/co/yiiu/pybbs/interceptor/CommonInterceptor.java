@@ -61,7 +61,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-    if (!HttpUtil.isApiRequest(request)) {
+    if (!HttpUtil.isApiRequest(request) && modelAndView != null) {
       modelAndView.addObject("site", systemConfigService.selectAllConfig());
     }
   }
