@@ -40,6 +40,12 @@
                     <label for="${system.key!}1">是</label>&nbsp;&nbsp;
                     <input type="radio" id="${system.key!}0" name="${system.key!}" <#if system.value == "0">checked</#if> value="0"/>
                     <label for="${system.key!}0">否</label>
+                  <#elseif system.type == "select">
+                    <select id="${system.key!}" name="${system.key!}" class="form-control">
+                      <#list system.option?split(',') as opt>
+                        <option <#if system.value == opt>selected</#if> value="${opt}">${opt}</option>
+                      </#list>
+                    </select>
                   </#if>
                 </div>
               </#list>

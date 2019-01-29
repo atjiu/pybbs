@@ -1,4 +1,4 @@
-<#include "./layout/layout.ftl"/>
+<#include "layout/layout.ftl"/>
 <@html page_title="首页" page_tab="index">
 <div class="row">
   <div class="col-md-9">
@@ -12,16 +12,16 @@
             </tr>
           </#list>
         </table>
-        <#include "./components/paginate.ftl"/>
+        <#include "components/paginate.ftl"/>
         <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
       </@tag_search>
     </div>
   </div>
   <div class="col-md-3 hidden-xs">
     <#if _user??>
-      <#include "./components/user_info.ftl"/>
+      <#include "components/user_info.ftl"/>
     <#else>
-      <#include "./components/welcome.ftl"/>
+      <#include "components/welcome.ftl"/>
     </#if>
   </div>
 </div>

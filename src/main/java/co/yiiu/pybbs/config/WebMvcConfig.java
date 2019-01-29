@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -29,14 +28,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private UserInterceptor userInterceptor;
   @Autowired
   private UserApiInterceptor userApiInterceptor;
-
-  @Override
-  protected void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/notifications").setViewName("front/notifications");
-    registry.addViewController("/login").setViewName("front/login");
-    registry.addViewController("/register").setViewName("front/register");
-    registry.addViewController("/api").setViewName("front/api");
-  }
 
   @Override
   protected void addInterceptors(InterceptorRegistry registry) {

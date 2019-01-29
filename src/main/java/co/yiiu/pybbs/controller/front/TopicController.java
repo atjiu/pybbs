@@ -4,8 +4,10 @@ import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.model.vo.CommentsByTopic;
-import co.yiiu.pybbs.service.*;
+import co.yiiu.pybbs.service.CollectService;
+import co.yiiu.pybbs.service.TagService;
+import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +35,6 @@ public class TopicController extends BaseController {
 
   @Autowired
   private TopicService topicService;
-  @Autowired
-  private CommentService commentService;
   @Autowired
   private TagService tagService;
   @Autowired
@@ -66,13 +66,13 @@ public class TopicController extends BaseController {
     model.addAttribute("tags", tags);
     model.addAttribute("topicUser", topicUser);
     model.addAttribute("collects", collects);
-    return "front/topic/detail";
+    return render("topic/detail");
   }
 
   @GetMapping("/create")
   public String create(String tag, Model model) {
     model.addAttribute("tag", tag);
-    return "front/topic/create";
+    return render("topic/create");
   }
 
   // 编辑话题
@@ -87,7 +87,7 @@ public class TopicController extends BaseController {
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
-    return "front/topic/edit";
+    return render("topic/edit");
   }
 
   @GetMapping("/tag/{name}")
@@ -98,6 +98,6 @@ public class TopicController extends BaseController {
     IPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
     model.addAttribute("tag", tag);
     model.addAttribute("page", iPage);
-    return "front/tag/tag";
+    return render("tag/tag");
   }
 }

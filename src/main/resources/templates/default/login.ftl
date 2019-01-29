@@ -1,4 +1,4 @@
-<#include "./layout/layout.ftl"/>
+<#include "layout/layout.ftl"/>
 <@html page_title="登录" page_tab="login">
 <div class="row">
   <div class="col-md-3 hidden-xs"></div>

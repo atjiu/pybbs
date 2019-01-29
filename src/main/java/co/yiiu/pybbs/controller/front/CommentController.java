@@ -32,6 +32,6 @@ public class CommentController extends BaseController {
     Topic topic = topicService.selectById(comment.getTopicId());
     model.addAttribute("comment", comment);
     model.addAttribute("topic", topic);
-    return "front/comment/edit";
+    return render("comment/edit");
   }
 }

@@ -1,4 +1,4 @@
-<#include "./layout/layout.ftl"/>
+<#include "layout/layout.ftl"/>
 <@html page_title="注册" page_tab="register">
 <div class="row">
   <div class="col-md-3 hidden-xs"></div>

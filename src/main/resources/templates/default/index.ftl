@@ -1,4 +1,4 @@
-<#include "./layout/layout.ftl"/>
+<#include "layout/layout.ftl"/>
 <@html page_title="首页" page_tab="index">
 <div class="row">
   <div class="col-md-9">
@@ -17,7 +17,7 @@
           <#include "components/topics.ftl"/>
           <@topics page=page/>
 
-          <#include "./components/paginate.ftl"/>
+          <#include "components/paginate.ftl"/>
           <@paginate currentPage=page.current totalPage=page.pages actionUrl="/" urlParas="&tab=${tab!}"/>
         </@tag_topicList>
       </div>
@@ -25,11 +25,11 @@
   </div>
   <div class="col-md-3 hidden-xs">
     <#if _user??>
-      <#include "./components/user_info.ftl"/>
+      <#include "components/user_info.ftl"/>
     <#else>
-      <#include "./components/welcome.ftl"/>
+      <#include "components/welcome.ftl"/>
     </#if>
-    <#include "./components/score.ftl"/>
+    <#include "components/score.ftl"/>
     <@score limit=10/>
   </div>
 </div>

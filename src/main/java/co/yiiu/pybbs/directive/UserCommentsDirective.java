@@ -2,7 +2,6 @@ package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.CommentService;
-import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
 import freemarker.core.Environment;
 import freemarker.template.*;

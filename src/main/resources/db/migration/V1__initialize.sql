@@ -341,7 +341,7 @@ VALUES
 	(11, 'intro', '<h5>属于Java语言的bbs</h5><p>在这里，您可以提问，回答，分享，诉说，这是个属于Java程序员的社区，欢迎您的加入！</p>', '站点介绍', 23, 'text', NULL, 0),
 	(15, 'name', '朋也社区', '站点名称', 23, 'text', NULL, 0),
 	(16, 'page_size', '20', '分页每页条数', 23, 'number', NULL, 0),
-	(39, 'search', '0', '是否开启搜索功能（如果开启，需要额外启动一个ES服务，并填好ES相关的配置）', 23, 'radio', NULL, 0),
+	(39, 'search', '0', '是否开启搜索功能（如果开启，需要额外启动一个ES服务，并填好ES相关的配置）', 35, 'radio', NULL, 0),
 	(44, 'topic_view_increase_interval', '600', '同一个用户浏览同一个话题多长时间算一次浏览量，默认10分钟，单位秒（只有当配置了redis才会生效）', 23, 'number', NULL, 0),
 	(12, 'mail_host', 'smtp.qq.com', '邮箱的smtp服务器地址', 24, 'text', NULL, 0),
 	(13, 'mail_password', '', '发送邮件的邮箱密码', 24, 'password', NULL, 0),
@@ -369,7 +369,8 @@ VALUES
 	(43, 'oauth_github_callback_url', '', 'Github登录配置项回调地址', 40, 'url', NULL, 0),
 	(17, 'websocket', '0', '是否开启websocket功能', 45, 'radio', NULL, 1),
 	(46, 'websocket_host', '', 'websocket服务的主机名，这个跟cookie的域名设置成一样的就可以了', 45, 'text', NULL, 1),
-	(47, 'websocket_port', '', 'websocket服务的端口，不能跟论坛服务端口一样，其它随便设置', 45, 'number', NULL, 1);
+	(47, 'websocket_port', '', 'websocket服务的端口，不能跟论坛服务端口一样，其它随便设置', 45, 'number', NULL, 1),
+	(48, 'theme', 'default', '系统主题', 23, 'select', 'default', 0);
 
 /*!40000 ALTER TABLE `system_config` ENABLE KEYS */;
 UNLOCK TABLES;

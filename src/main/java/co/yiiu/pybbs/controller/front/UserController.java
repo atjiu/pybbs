@@ -2,8 +2,9 @@ package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.OAuthUser;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.*;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import co.yiiu.pybbs.service.CollectService;
+import co.yiiu.pybbs.service.OAuthUserService;
+import co.yiiu.pybbs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +27,6 @@ public class UserController extends BaseController {
 
   @Autowired
   private UserService userService;
-  @Autowired
-  private TopicService topicService;
-  @Autowired
-  private CommentService commentService;
   @Autowired
   private CollectService collectService;
   @Autowired
@@ -55,27 +51,27 @@ public class UserController extends BaseController {
     model.addAttribute("username", username);
     model.addAttribute("oAuthUsers", oAuthUsers);
     model.addAttribute("collectCount", collectCount);
-    return "front/user/profile";
+    return render("user/profile");
   }
 
   @GetMapping("/{username}/topics")
   public String topics(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("pageNo", pageNo);
-    return "front/user/topics";
+    return render("user/topics");
   }
 
   @GetMapping("/{username}/comments")
   public String comments(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("pageNo", pageNo);
-    return "front/user/comments";
+    return render("user/comments");
   }
 
   @GetMapping("/{username}/collects")
   public String collects(@PathVariable String username, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("username", username);
     model.addAttribute("pageNo", pageNo);
-    return "front/user/collects";
+    return render("user/collects");
   }
 }

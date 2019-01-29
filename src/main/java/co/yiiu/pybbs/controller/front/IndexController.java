@@ -1,15 +1,9 @@
 package co.yiiu.pybbs.controller.front;
 
-import co.yiiu.pybbs.config.service.ElasticSearchService;
-import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
-import co.yiiu.pybbs.util.StringUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -30,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by tomoya.
@@ -48,22 +41,18 @@ public class IndexController extends BaseController {
   private SystemConfigService systemConfigService;
   @Autowired
   private UserService userService;
-  @Autowired
-  private TagService tagService;
-  @Autowired
-  private ElasticSearchService elasticSearchService;
 
   // 首页
   @GetMapping({"/", "/index", "/index.html"})
   public String index(@RequestParam(defaultValue = "all") String tab, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("tab", tab);
     model.addAttribute("pageNo", pageNo);
-    return "front/index";
+    return render("index");
   }
 
   @GetMapping("/top100")
   public String top100() {
-    return "front/top100";
+    return render("top100");
   }
 
   @GetMapping("/settings")
@@ -72,13 +61,31 @@ public class IndexController extends BaseController {
     User user = (User) session.getAttribute("_user");
     user = userService.selectById(user.getId());
     model.addAttribute("user", user);
-    return "front/user/settings";
+    return render("user/settings");
   }
 
   @GetMapping("/tags")
   public String tags(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     model.addAttribute("pageNo", pageNo);
-    return "front/tag/tags";
+    return render("tag/tags");
+  }
+
+  // 登录
+  @GetMapping("/login")
+  public String login() {
+    return render("login");
+  }
+
+  // 注册
+  @GetMapping("/register")
+  public String register() {
+    return render("register");
+  }
+
+  // 通知
+  @GetMapping("/notifications")
+  public String notifications() {
+    return render("notifications");
   }
 
   // 登出
@@ -132,7 +139,7 @@ public class IndexController extends BaseController {
     Assert.isTrue(systemConfigService.selectAllConfig().get("search").toString().equals("1"), "网站没有启动搜索功能，联系站长问问看");
     model.addAttribute("pageNo", pageNo);
     model.addAttribute("keyword", keyword);
-    return "front/search";
+    return render("search");
   }
 
   // 切换语言

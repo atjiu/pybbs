@@ -1,9 +1,7 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
-import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
