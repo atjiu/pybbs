@@ -73,6 +73,8 @@ public class CollectService {
 
     // 通知
     Topic topic = topicService.selectById(topicId);
+    topic.setCollectCount(topic.getCollectCount() + 1);
+    topicService.update(topic);
     // 收藏自己的话题不发通知
     if (!user.getId().equals(topic.getUserId())) {
       notificationService.insert(user.getId(), topic.getUserId(), topicId, "COLLECT", null);
@@ -104,6 +106,10 @@ public class CollectService {
         .eq(Collect::getTopicId, topicId)
         .eq(Collect::getUserId, userId);
     collectMapper.delete(wrapper);
+    // 对话题中冗余的collectCount字段收藏数量-1
+    Topic topic = topicService.selectById(topicId);
+    topic.setCollectCount(topic.getCollectCount() - 1);
+    topicService.update(topic);
   }
 
   // 根据话题id删除收藏记录
