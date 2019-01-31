@@ -99,8 +99,8 @@ public class TagService {
   }
 
   // 查询标签列表
-  public IPage<Tag> selectAll(Integer pageNo, String name) {
-    IPage<Tag> iPage = new Page<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()));
+  public IPage<Tag> selectAll(Integer pageNo, Integer pageSize, String name) {
+    IPage<Tag> iPage = new Page<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize);
     QueryWrapper<Tag> wrapper = new QueryWrapper<>();
     // 当传进来的name不为null的时候，就根据name查询
     if (!StringUtils.isEmpty(name)) {

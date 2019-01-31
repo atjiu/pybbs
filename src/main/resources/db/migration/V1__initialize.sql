@@ -446,7 +446,7 @@ CREATE TABLE `user` (
   `username` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) DEFAULT '',
   `avatar` varchar(1000) DEFAULT NULL,
-  `email` varchar(255) DEFAULT '',
+  `email` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
   `bio` varchar(1000) DEFAULT NULL,
   `score` int(11) NOT NULL DEFAULT '0',

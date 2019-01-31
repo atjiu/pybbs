@@ -3,7 +3,10 @@
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-info">
-      <div class="panel-heading">新消息</div>
+      <div class="panel-heading">
+        新消息
+        <a id="markRead" href="javascript:markRead()" class="pull-right" style="display: none">标记已读</a>
+      </div>
       <div class="panel-body">
         <#include "components/notification.ftl"/>
         <@notification userId=_user.id read=0 limit=-1/>
@@ -25,4 +28,18 @@
     </#if>
   </div>
 </div>
+  <script>
+    $(function () {
+      if ($(".notification_0").length > 0) {
+        $("#markRead").show();
+      }
+    });
+    function markRead() {
+      $.get('/api/notification/markRead?token=${_user.token}', function (data) {
+        if (data.code === 200) {
+          window.location.reload();
+        }
+      })
+    }
+  </script>
 </@html>

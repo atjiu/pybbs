@@ -1,6 +1,6 @@
 <#macro user_comments pageNo pageSize username isPaginate=false isFooter=false>
   <div class="panel panel-info">
-    <@tag_comments username=username pageNo=pageNo pageSize=pageSize>
+    <@tag_user_comments username=username pageNo=pageNo pageSize=pageSize>
       <div class="panel-heading">${username}评论的话题</div>
       <#if comments.total == 0>
         <div class="panel-body">
@@ -37,6 +37,6 @@
           </div>
         </#if>
       </#if>
-    </@tag_comments>
+    </@tag_user_comments>
   </div>
 </#macro>

@@ -1,7 +1,7 @@
 <#macro notification userId read limit>
   <@tag_notifications userId=userId read=read limit=limit>
     <#list notifications as notification>
-      <div class="media">
+      <div class="media notification_${read}">
         <div class="media-left">
           <img src="${notification.avatar!}" class="avatar avatar-sm">
         </div>

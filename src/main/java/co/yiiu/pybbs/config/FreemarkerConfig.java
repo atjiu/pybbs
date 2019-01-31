@@ -61,15 +61,15 @@ public class FreemarkerConfig {
     log.info("freemarker全局变量配置完成!");
 
     log.info("开始配置freemarker自定义标签...");
-    configuration.setSharedVariable("tag_topicList", topicListDirective);
-    configuration.setSharedVariable("tag_otherTopic", otherTopicDirective);
+    configuration.setSharedVariable("tag_topics", topicListDirective);
+    configuration.setSharedVariable("tag_other_topic", otherTopicDirective);
     configuration.setSharedVariable("tag_notifications", notificationsDirective);
     configuration.setSharedVariable("tag_score", scoreDirective);
     configuration.setSharedVariable("tag_search", searchDirective);
     configuration.setSharedVariable("tag_tags", tagsDirective);
-    configuration.setSharedVariable("tag_topics", userTopicsDirective);
-    configuration.setSharedVariable("tag_comments", userCommentsDirective);
-    configuration.setSharedVariable("tag_collects", userCollectsDirective);
+    configuration.setSharedVariable("tag_user_topics", userTopicsDirective);
+    configuration.setSharedVariable("tag_user_comments", userCommentsDirective);
+    configuration.setSharedVariable("tag_user_collects", userCollectsDirective);
     configuration.setSharedVariable("tag_topic_comments", topicCommentsDirective);
 
     configuration.setSharedVariable("i18n", localeMessageSourceUtil);

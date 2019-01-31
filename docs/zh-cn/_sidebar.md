@@ -13,6 +13,10 @@
   
 - 部署
   - [服务器发布网站](zh-cn/deploy)
+  
+- 主题
+  - [可用主题](zh-cn/theme)
+  - [主题开发](zh-cn/theme-dev)
 
 - 接口文档
   - [获取Token](zh-cn/api/gettoken)

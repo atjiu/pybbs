@@ -29,7 +29,6 @@ public class NotificationsDirective implements TemplateDirectiveModel {
     // 如果想查询所有的消息，limit 传一个负数就可以了 比如 -1
     Integer limit = Integer.parseInt(map.get("limit").toString());
     List<Map<String, Object>> notifications = notificationService.selectByUserId(userId, read, limit);
-
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
     environment.setVariable("notifications", builder.build().wrap(notifications));
     templateDirectiveBody.render(environment.getOut());

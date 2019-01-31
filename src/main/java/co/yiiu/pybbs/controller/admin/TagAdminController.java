@@ -31,7 +31,7 @@ public class TagAdminController extends BaseAdminController {
   @GetMapping("/list")
   public String list(@RequestParam(defaultValue = "1") Integer pageNo, String name, Model model) {
     if (StringUtils.isEmpty(name)) name = null;
-    IPage<Tag> page = tagService.selectAll(pageNo, name);
+    IPage<Tag> page = tagService.selectAll(pageNo, null, name);
     model.addAttribute("page", page);
     model.addAttribute("name", name);
     return "admin/tag/list";

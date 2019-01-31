@@ -5,14 +5,14 @@
     <div class="panel panel-info">
       <div class="panel-heading">${username}评论的话题</div>
       <div class="panel-body">
-        <@tag_collects pageNo=pageNo pageSize=site.page_size username=username>
+        <@tag_user_collects pageNo=pageNo pageSize=site.page_size username=username>
           <#if collects.total == 0>
             暂无评论
           <#else>
             <#include "../components/topics.ftl"/>
             <@topics page=collects/>
           </#if>
-        </@tag_collects>
+        </@tag_user_collects>
       </div>
     </div>
   </div>

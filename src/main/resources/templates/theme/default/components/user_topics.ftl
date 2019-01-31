@@ -1,6 +1,6 @@
 <#macro user_topics pageNo pageSize username isPaginate=false isFooter=false>
   <div class="panel panel-info">
-    <@tag_topics username=username pageNo=pageNo pageSize=pageSize>
+    <@tag_user_topics username=username pageNo=pageNo pageSize=pageSize>
       <div class="panel-heading">${username}创建的话题</div>
       <#if topics.total == 0>
         <div class="panel-body">
@@ -42,6 +42,6 @@
           </div>
         </#if>
       </#if>
-    </@tag_topics>
+    </@tag_user_topics>
   </div>
 </#macro>

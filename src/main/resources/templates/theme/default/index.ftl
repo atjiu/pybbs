@@ -13,13 +13,13 @@
         </ul>
       </div>
       <div class="panel-body">
-        <@tag_topicList pageNo=pageNo tab=tab>
+        <@tag_topics pageNo=pageNo tab=tab>
           <#include "components/topics.ftl"/>
           <@topics page=page/>
 
           <#include "components/paginate.ftl"/>
           <@paginate currentPage=page.current totalPage=page.pages actionUrl="/" urlParas="&tab=${tab!}"/>
-        </@tag_topicList>
+        </@tag_topics>
       </div>
     </div>
   </div>
