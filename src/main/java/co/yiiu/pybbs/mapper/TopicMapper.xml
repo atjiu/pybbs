@@ -28,7 +28,7 @@
       </if>
     </where>
     <if test="tab == 'all' or tab == 'newest' or tab == 'noanswer' or tab == 'good'">
-      order by t.in_time desc
+      order by t.top desc, t.in_time desc
     </if>
     <if test="tab == 'hot'">
       order by t.comment_count desc, t.in_time desc
