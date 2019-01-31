@@ -5,6 +5,13 @@
   - token
 - 返回 Result(int) // 返回未读消息条数
 
+## 标记消息已读
+
+- 地址 GET `/api/notification/markRead`
+- 参数
+  - token
+- 返回 Result()
+
 ## 消息列表
 
 - 地址 GET `/api/notification/list`
