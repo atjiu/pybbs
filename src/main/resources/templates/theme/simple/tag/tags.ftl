@@ -7,7 +7,7 @@
           <#if tag.icon??>
             <img src="${tag.icon}" width="24" style="vertical-align: middle;" alt="">
           </#if>
-          <b>${tag.name}</b> X ${tag.topicCount!0}
+          <b><a href="/topic/tag/${tag.name}">${tag.name}</a></b> X ${tag.topicCount!0}
           <#if tag.description??>
             <div class="description">${tag.description}</div>
           </#if>
