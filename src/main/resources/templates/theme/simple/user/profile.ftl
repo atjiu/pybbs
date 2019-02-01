@@ -6,7 +6,7 @@
       <div style="margin-top: 10px;">
         <div style="font-size: 18px;">${user.username}</div>
         <ul style="font-size: 14px;">
-          <li>积分: ${user.score!0}</li>
+          <li>积分: <a href="/top100">${user.score!0}</a></li>
           <li>收藏话题: <a href="/user/${user.username}/collects">${collectCount!0}</a></li>
           <li>入驻时间: ${model.formatDate(user.inTime)}</li>
           <#if user.email??>
@@ -18,7 +18,7 @@
           <#if githubLogin??>
             <li>Github: <a href="https://github.com/${githubLogin}" target="_blank">${githubLogin}</a></li>
           </#if>
-          <#if user.bio??>
+          <#if user.bio?? && user.bio != "">
             <li><i>${user.bio}</i></li>
           </#if>
         </ul>
