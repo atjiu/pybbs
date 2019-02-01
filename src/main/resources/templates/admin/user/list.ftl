@@ -50,9 +50,9 @@
           </tbody>
         </table>
       </div>
-      <#include "../layout/paginate.ftl">
-      <@paginate currentPage=page.current totalPage=page.pages!1 actionUrl="/admin/user/list" urlParas=""/>
     </div>
+    <#include "../layout/paginate.ftl">
+    <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/user/list" urlParas=""/>
   </section>
 <script>
   <#if sec.hasPermission("user:delete")>

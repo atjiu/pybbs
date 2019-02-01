@@ -9,6 +9,14 @@
   - emailNotification: 是否接收邮箱通知
 - 返回 Result()
 
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## 发送邮箱验证码
 
 - 地址 GET `/api/settings/sendEmailCode`
@@ -18,6 +26,14 @@
   - code: 邮箱接收到网站发送的验证码
 - 返回 Result()
 
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## 更新用户邮箱
 
 - 地址 POST `/api/settings/updateEmail`
@@ -26,6 +42,14 @@
   - email: 邮箱地址
 - 返回 Result()
 
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## 上传头像
 
 - 地址 POST `/api/settings/uploadAvatar`
@@ -33,6 +57,14 @@
   - token
   - file: 上传图片的文件对象
 - 返回 Result(String) // 上传成功后，会返回图片的访问地址
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png"
+}
+```
 
 ## 修改密码
 
@@ -43,9 +75,25 @@
   - newPassword: 新密码
 - 返回 Result()
 
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## 刷新token
 
 - 地址 GET `/api/settings/refreshToken`
 - 参数
   - token
-- 返回 Result(String) // 返回新token 
+- 返回 Result(String) // 返回新token
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": "208bb4c1-daf1-4a32-b198-7f4db8f6d565"
+}
+```

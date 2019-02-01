@@ -9,9 +9,8 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -226,8 +225,8 @@ public class CommentService {
   }
 
   // 查询用户的评论
-  public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo,
+  public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
         pageSize == null ?
         Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
@@ -280,8 +279,8 @@ public class CommentService {
 
   // ---------------------------- admin ----------------------------
 
-  public IPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
+  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 

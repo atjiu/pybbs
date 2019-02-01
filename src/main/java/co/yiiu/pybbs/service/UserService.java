@@ -5,11 +5,11 @@ import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
+import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,7 +138,7 @@ public class UserService {
   // ------------------------------- admin ------------------------------------------
 
   public IPage<User> selectAll(Integer pageNo) {
-    Page<User> page = new Page<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
+    MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     page.setDesc("in_time");
     return userMapper.selectPage(page, null);
   }

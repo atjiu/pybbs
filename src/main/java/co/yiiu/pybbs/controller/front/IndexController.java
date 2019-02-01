@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.controller.front;
 
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.UserService;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.FileNotFoundException;
 import java.util.Locale;
 
 /**

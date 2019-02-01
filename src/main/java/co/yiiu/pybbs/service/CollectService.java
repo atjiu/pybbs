@@ -6,9 +6,8 @@ import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,8 +135,8 @@ public class CollectService {
   }
 
   // 查询用户收藏的话题
-  public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo,
+  public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
         pageSize == null ?
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );

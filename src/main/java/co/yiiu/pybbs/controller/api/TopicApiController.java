@@ -79,7 +79,7 @@ public class TopicApiController extends BaseApiController {
     ApiAssert.notEmpty(title, "请输入标题");
     String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
     Set<String> set = StringUtil.removeEmpty(strings);
-    ApiAssert.notTrue(set.size() > 5 || set.size() == 0, "请输入标签且标签最多5个");
+    ApiAssert.notTrue(set == null || set.size() > 5 || set.size() == 0, "请输入标签且标签最多5个");
     //保存话题
     // 再次将tag转成逗号隔开的字符串
     tags = StringUtils.collectionToCommaDelimitedString(set);

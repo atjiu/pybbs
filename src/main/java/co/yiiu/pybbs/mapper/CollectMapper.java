@@ -1,8 +1,8 @@
 package co.yiiu.pybbs.mapper;
 
 import co.yiiu.pybbs.model.Collect;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
@@ -14,5 +14,5 @@ import java.util.Map;
  */
 public interface CollectMapper extends BaseMapper<Collect> {
 
-  IPage<Map<String, Object>> selectByUserId(IPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
+  MyPage<Map<String, Object>> selectByUserId(MyPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
 }

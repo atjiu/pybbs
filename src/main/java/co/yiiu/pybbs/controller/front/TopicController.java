@@ -8,7 +8,7 @@ import co.yiiu.pybbs.service.CollectService;
 import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import co.yiiu.pybbs.util.MyPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,7 +95,7 @@ public class TopicController extends BaseController {
     Tag tag = tagService.selectByName(name);
     Assert.notNull(tag, "标签不存在");
     // 查询标签关联的话题
-    IPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
+    MyPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
     model.addAttribute("tag", tag);
     model.addAttribute("page", iPage);
     return render("tag/tag");

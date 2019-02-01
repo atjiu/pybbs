@@ -28,7 +28,7 @@
         <#if isPaginate>
           <div class="panel-body" style="padding: 0 15px;">
             <#include "paginate.ftl"/>
-            <@paginate currentPage=comments.current totalPage=comments.pages!1 actionUrl="/user/${username}/comments" urlParas=""/>
+            <@paginate currentPage=comments.current totalPage=comments.pages actionUrl="/user/${username}/comments" urlParas=""/>
           </div>
         </#if>
         <#if isFooter>

@@ -1,11 +1,14 @@
 package co.yiiu.pybbs.controller.api;
 
 import co.yiiu.pybbs.exception.ApiAssert;
+import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
+import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -33,11 +36,13 @@ public class IndexApiController extends BaseApiController {
   private CookieUtil cookieUtil;
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private TagService tagService;
 
   // 首页接口
   @GetMapping({"/", "/index"})
   public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab){
-    IPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
+    MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
     return success(page);
   }
 
@@ -73,6 +78,12 @@ public class IndexApiController extends BaseApiController {
     map.put("user", user);
     map.put("token", user.getToken());
     return success(map);
+  }
+
+  // 标签接口
+  @GetMapping("/tags")
+  public Result tags(@RequestParam(defaultValue = "1") Integer pageNo) {
+    return success(tagService.selectAll(pageNo, null, null));
   }
 
 }

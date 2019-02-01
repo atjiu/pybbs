@@ -5,8 +5,8 @@
 
   <#local endPage = currentPage + 2>
   <#if (endPage > totalPage)><#local endPage = totalPage></#if>
-<div class="box-footer clearfix <#if totalPage == 1>hidden-xs hidden-sm hidden-md hidden-lg</#if>">
-  <ul class="pagination pagination-sm">
+<div class="clearfix pull-right <#if totalPage == 1>hidden-xs hidden-sm hidden-md hidden-lg</#if>">
+  <ul class="pagination pagination-sm" style="margin: 0;">
     <#if (currentPage <= 3)>
       <#local startPage = 1>
     </#if>

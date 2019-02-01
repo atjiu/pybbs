@@ -10,9 +10,8 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,17 +54,17 @@ public class TopicService {
   @Autowired
   private RedisService redisService;
 
-  public IPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
-    IPage<Map<String, Object>> iPage = new Page<>(
+  public MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
+    MyPage<Map<String, Object>> page = new MyPage<>(
         pageNo,
         Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString())
     );
-    IPage<Map<String, Object>> page = topicMapper.selectAll(iPage, tab);
+    page = topicMapper.selectAll(page, tab);
     selectTags(page, topicTagService, tagService);
     return page;
   }
 
-  public void selectTags(IPage<Map<String, Object>> page, TopicTagService topicTagService, TagService tagService) {
+  public void selectTags(MyPage<Map<String, Object>> page, TopicTagService topicTagService, TagService tagService) {
     page.getRecords().forEach(map -> {
       List<TopicTag> topicTags = topicTagService.selectByTopicId((Integer) map.get("id"));
       List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
@@ -88,8 +87,8 @@ public class TopicService {
   }
 
   // 查询用户的话题
-  public IPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    IPage<Map<String, Object>> iPage = new Page<>(pageNo,
+  public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
         pageSize == null ?
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
@@ -103,6 +102,11 @@ public class TopicService {
     topic.setContent(content);
     topic.setInTime(new Date());
     topic.setUserId(user.getId());
+    topic.setTop(false);
+    topic.setGood(false);
+    topic.setView(0);
+    topic.setCollectCount(0);
+    topic.setCommentCount(0);
     topicMapper.insert(topic);
     // 增加用户积分
     user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
@@ -260,8 +264,8 @@ public class TopicService {
   }
   // ---------------------------- admin ----------------------------
 
-  public IPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
-    IPage<Map<String, Object>> iPage = new Page<>(
+  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(
         pageNo,
         Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size"))
     );

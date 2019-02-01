@@ -14,6 +14,7 @@ public class CommentsByTopic extends Comment implements Serializable {
 
   private String username;
   private String avatar;
+  // 评论的层级，直接评论话题的，layer即为0，如果回复了评论的，则当前回复的layer为评论对象的layer+1
   private Integer layer;
 
   public String getUsername() {

@@ -13,7 +13,7 @@
           </#list>
         </table>
         <#include "components/paginate.ftl"/>
-        <@paginate currentPage=page.current totalPage=page.pages!0 actionUrl="/search" urlParas="&keyword=${keyword!}"/>
+        <@paginate currentPage=page.current totalPage=page.pages actionUrl="/search" urlParas="&keyword=${keyword!}"/>
       </@tag_search>
     </div>
   </div>

@@ -61,10 +61,10 @@
           </tbody>
         </table>
       </div>
-      <#include "../layout/paginate.ftl">
-      <@paginate currentPage=page.current totalPage=page.pages!1 actionUrl="/admin/comment/list"
-        urlParas="&startDate=${startDate!}&endDate=${endDate!}&username=${username!}"/>
     </div>
+    <#include "../layout/paginate.ftl">
+    <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/comment/list"
+    urlParas="&startDate=${startDate!}&endDate=${endDate!}&username=${username!}"/>
   </section>
 <script>
   $(function () {

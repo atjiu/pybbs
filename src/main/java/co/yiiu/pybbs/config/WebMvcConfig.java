@@ -67,4 +67,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     sessionLocaleResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
     return sessionLocaleResolver;
   }
+
 }

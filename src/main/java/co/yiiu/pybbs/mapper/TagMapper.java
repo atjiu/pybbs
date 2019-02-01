@@ -1,8 +1,8 @@
 package co.yiiu.pybbs.mapper;
 
 import co.yiiu.pybbs.model.Tag;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface TagMapper extends BaseMapper<Tag> {
 
-  IPage<Map<String, Object>> selectTopicByTagId(IPage<Map<String, Object>> iPage, @Param("tagId") Integer tagId);
+  MyPage<Map<String, Object>> selectTopicByTagId(MyPage<Map<String, Object>> iPage, @Param("tagId") Integer tagId);
 
   int countToday();
 }

@@ -19,27 +19,19 @@ public class OAuthUser implements Serializable {
 
   @TableId(type = IdType.AUTO)
   private Integer id;
-
   // oauth帐号的id
   private Integer oauthId;
-
   // 帐号类型，GITHUB, QQ, WECHAT, WEIBO 等
   @TableField("`type`")
   private String type;
-
   // oauth帐号的登录名
   private String login;
-
   @JsonIgnore
   private String accessToken;
-
   private Date inTime;
-
   // 个人简介
   private String bio;
-
   private String email;
-
   // 本地用户的id
   private Integer userId;
 

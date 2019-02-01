@@ -31,13 +31,6 @@ public class MybatisPlusConfig {
 //    return new PaginationInterceptor();
 //  }
 
-//  @Bean
-//  public MapperScannerConfigurer mapperScannerConfigurer() {
-//    MapperScannerConfigurer mapper = new MapperScannerConfigurer();
-//    mapper.setBasePackage("co.yiiu.pybbs.mapper");
-//    return mapper;
-//  }
-
   @Bean("mybatisSqlSession")
   @DependsOn("flywayConfig")
   public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {

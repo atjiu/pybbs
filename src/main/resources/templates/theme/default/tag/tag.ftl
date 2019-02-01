@@ -23,7 +23,7 @@
         <@topics page=page tags=false/>
 
         <#include "../components/paginate.ftl"/>
-        <@paginate currentPage=page.current totalPage=page.pages!1 actionUrl="/topic/tag/${tag.name}"/>
+        <@paginate currentPage=page.current totalPage=page.pages actionUrl="/topic/tag/${tag.name}"/>
       </div>
     </div>
   </div>

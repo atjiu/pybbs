@@ -6,6 +6,14 @@
   - topicId
 - Return Result()
 
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## Delete Collect
 
 - Address GET `/api/collect/delete`
@@ -13,3 +21,11 @@
   - token
   - topicId
 - Return Result()
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```

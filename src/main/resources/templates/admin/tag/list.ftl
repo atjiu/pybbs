@@ -76,9 +76,9 @@
           </tbody>
         </table>
       </div>
-      <#include "../layout/paginate.ftl">
-      <@paginate currentPage=page.current totalPage=page.pages!1 actionUrl="/admin/tag/list" urlParas="&name=${name!}"/>
     </div>
+    <#include "../layout/paginate.ftl">
+    <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/tag/list" urlParas="&name=${name!}"/>
   </section>
 <script>
   <#if sec.hasPermission('tag:delete')>

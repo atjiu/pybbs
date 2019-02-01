@@ -4,8 +4,8 @@ import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.service.CommentService;
 import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ public class CommentAdminController extends BaseAdminController {
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
-    IPage<Map<String, Object>> page = commentService.selectAllForAdmin(pageNo, startDate, endDate, username);
+    MyPage<Map<String, Object>> page = commentService.selectAllForAdmin(pageNo, startDate, endDate, username);
     model.addAttribute("page", page);
     model.addAttribute("startDate", startDate);
     model.addAttribute("endDate", endDate);

@@ -24,7 +24,9 @@ public class User implements Serializable {
   @JsonIgnore
   private String password;
   private String email;
+  // 个人网站
   private String website;
+  // 个人简介
   private String bio;
   private Integer score;
   private Date inTime;

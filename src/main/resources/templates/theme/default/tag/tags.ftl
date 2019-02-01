@@ -20,7 +20,7 @@
             </#list>
           </div>
           <#include "../components/paginate.ftl"/>
-          <@paginate currentPage=page.current totalPage=page.pages!1 actionUrl="/tags"/>
+          <@paginate currentPage=page.current totalPage=page.pages actionUrl="/tags"/>
         </@tag_tags>
       </div>
     </div>

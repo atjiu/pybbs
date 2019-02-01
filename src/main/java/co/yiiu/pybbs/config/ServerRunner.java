@@ -1,7 +1,6 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
-import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.SystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 /**

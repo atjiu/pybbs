@@ -9,7 +9,7 @@
 
 ## 文档
 
-[文档地址](https://tomoya92.github.io/pybbs/#/)
+[文档地址](https://tomoya92.github.io/pybbs/#/zh-cn/)
 
 文档使用开源工具 [docsify](https://docsify.js.org/#/quickstart) 编写
 
@@ -34,7 +34,7 @@
 
 还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#/getting-started)
 
-**特别感谢 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 dockerfile** 
+**特别感谢 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 dockerfile**
 
 ## 手动打包
 

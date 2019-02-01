@@ -32,7 +32,7 @@ public class Topic implements Serializable {
   private Boolean top;
   // 加精
   private Boolean good;
-  // 点赞用户的id
+  // 点赞用户的id英文,隔开的，要计算被多少人点赞过，可以通过英文,分隔这个字符串计算数量
   private String upIds;
 
   public String getUpIds() {
