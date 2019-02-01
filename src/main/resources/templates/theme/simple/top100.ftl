@@ -5,6 +5,9 @@
     <table border="0" style="width: 100%; margin-top: 10px;">
       <#list users as user>
         <tr>
+          <td width="30">
+            <img src="${user.avatar!}" style="vertical-align: middle;" width="24" alt="">
+          </td>
           <td><a href="/user/${user.username}">${user.username}</a></td>
           <td align="right">${user.score!0}</td>
         </tr>
