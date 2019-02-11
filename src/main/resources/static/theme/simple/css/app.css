@@ -18,16 +18,16 @@ a:visited, a:hover, a:focus {
   color: #000;
 }
 
-input, button, textarea {
+input[type=text], input[type=password], input[type=email], input[type=number], button, textarea {
   border: 1px solid #000;
 }
 
-input, textarea {
+input[type=text], input[type=password], input[type=email], input[type=number], textarea {
   width: 100%;
   padding: 7px;
   resize: none;
 }
-input:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, textarea:focus {
   outline: 0;
 }
 
@@ -196,6 +196,18 @@ ol li, ul li {
 .container section .user .right {
   width: 785px;
   float: right;
+}
+.container section .user .menu {
+  position: fixed;
+}
+.container section .user .settings p {
+  margin-bottom: 5px;
+}
+.container section .user .settings input[type=text], .container section .user .settings input[type=password], .container section .user .settings input[type=email], .container section .user .settings input[type=number], .container section .user .settings textarea {
+  width: calc(100% - 14px);
+}
+.container section .user .settings button {
+  margin-top: 10px;
 }
 .container footer {
   padding: 15px;

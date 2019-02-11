@@ -14,6 +14,7 @@
         <li <#if page_tab == "create">class="active"</#if>><a href="/topic/create">创建话题</a></li>
         <li <#if page_tab == "notifications">class="active"</#if>><a href="/notifications">通知 <span id="notReadCount">0</span></a></li>
         <li <#if page_tab == "user">class="active"</#if>><a href="/user/${_user.username}">${_user.username}</a></li>
+        <li <#if page_tab == "settings">class="active"</#if>><a href="/settings">设置</a></li>
         <li><a href="javascript:if(confirm('确定要登出吗？'))location.href='/logout'">登出</a></li>
       <#else>
         <li <#if page_tab == "login">class="active"</#if>><a href="/login">登录</a></li>
