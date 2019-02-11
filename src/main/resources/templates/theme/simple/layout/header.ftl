@@ -23,15 +23,17 @@
       </#if>
     </ul>
   </header>
-  <script>
-    $.get('/api/notification/notRead?token=${_user.token}', function(data) {
-      if (data.code === 200) {
-        if (data.detail > 0) {
-          document.title = "("+data.detail+") " + document.title;
-          $("#notReadCount").text(data.detail);
-          $("#notReadCount").show();
+  <#if _user??>
+    <script>
+      $.get('/api/notification/notRead?token=${_user.token}', function(data) {
+        if (data.code === 200) {
+          if (data.detail > 0) {
+            document.title = "("+data.detail+") " + document.title;
+            $("#notReadCount").text(data.detail);
+            $("#notReadCount").show();
+          }
         }
-      }
-    })
-  </script>
+      })
+    </script>
+  </#if>
 </#macro>
