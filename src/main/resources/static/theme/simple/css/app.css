@@ -159,6 +159,15 @@ ol li, ul li {
 .container section .content pre code {
   white-space: pre-wrap;
 }
+.container section .content table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+.container section .content table td, .container section .content table th {
+  border: 1px solid #000;
+  padding: 5px;
+}
 .container section .tags {
   overflow: hidden;
 }

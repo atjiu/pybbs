@@ -199,6 +199,15 @@ ol, ul {
           white-space: pre-wrap;
         }
       }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid $text-color;
+        td, th {
+          border: 1px solid $text-color;
+          padding: 5px;
+        }
+      }
     }
 
     .tags {
