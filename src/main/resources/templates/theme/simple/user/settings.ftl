@@ -95,8 +95,16 @@
           </div>
         </fieldset>
       </form>
+      <div>
+        <p>Token: <code id="userToken">${_user.token}</code></p>
+        <div>
+          <span id="qrcode"></span>&nbsp;&nbsp;
+          <a href="javascript:;" id="refreshToken">刷新Token</a>
+        </div>
+      </div>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
   <script>
     $(function () {
       $("#settings_btn").click(function () {
@@ -198,6 +206,29 @@
           }
         })
       });
-    })
+    });
+    $("#qrcode").qrcode({
+      width: 180,
+      height: 180,
+      text: '${_user.token}'
+    });
+
+    var token = '${_user.token}';
+    $("#refreshToken").on("click", function() {
+      $.get("/api/settings/refreshToken?token=" + token, function (data) {
+        if (data.code === 200) {
+          $("#qrcode").html("");
+          $("#qrcode").qrcode({
+            width: 180,
+            height: 180,
+            text: data.detail
+          });
+          $("#userToken").text(data.detail);
+          token = data.detail;
+        } else {
+          alert("刷新token失败");
+        }
+      })
+    });
   </script>
 </@html>
