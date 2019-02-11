@@ -133,6 +133,13 @@ ol, ul {
         padding-right: 15px;
       }
     }
+
+    #notReadCount {
+      color: $text-color;
+      background-color: $text-color-reverse;
+      padding: 0 4px;
+      display: none;
+    }
   }
 
   section {

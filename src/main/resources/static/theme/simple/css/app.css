@@ -107,6 +107,12 @@ ol li, ul li {
 .container header ul:last-child li:last-child {
   padding-right: 15px;
 }
+.container header #notReadCount {
+  color: #000;
+  background-color: #fff;
+  padding: 0 4px;
+  display: none;
+}
 .container section {
   margin: 0 auto;
   width: 1000px;
@@ -196,3 +202,5 @@ ol li, ul li {
   border-top: 1px solid #000;
   text-align: center;
 }
+
+/*# sourceMappingURL=app.css.map */

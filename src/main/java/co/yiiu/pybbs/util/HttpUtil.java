@@ -12,7 +12,7 @@ import java.io.IOException;
 public class HttpUtil {
 
   public static boolean isApiRequest(HttpServletRequest request) {
-    return !request.getHeader("Accept").contains("text/html");
+    return request.getHeader("Accept") == null || !request.getHeader("Accept").contains("text/html");
   }
 
   // 根据请求接收的类型定义不同的响应方式
