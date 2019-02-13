@@ -4,7 +4,7 @@
   <div class="col-md-9">
     <div class="panel panel-info">
       <div class="panel-body">
-        <@tag_tags pageNo=pageNo>
+        <@tag_tags pageNo=pageNo pageSize=40>
           <div class="row" style="overflow: hidden;">
             <#list page.records as tag>
               <div class="col-md-3 tag-item">
