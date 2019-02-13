@@ -25,8 +25,9 @@
 - 保证服务器有docker和docker-compose环境
 - `git clone https://github.com/tomoya92/pybbs` 或 下载最新版
 - cd pybbs进入项目
-- 运行 `docker-compose up -d` 命令
+- 运行 `docker-compose up -d` 命令启动容器，-d是后台运行的意思
 - 启动后，访问 `http://localhost:8080` 
+- 关闭容器 `docker-compose down`
 - 查看日志 `docker-compose logs -f server`
 
 **第一次运行会比较慢,视服务器性能和网速决定**
