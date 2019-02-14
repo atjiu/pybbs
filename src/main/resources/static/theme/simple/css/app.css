@@ -168,6 +168,29 @@ ol li, ul li {
   border: 1px solid #000;
   padding: 5px;
 }
+.container section .content .embed-responsive {
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.container section .content .embed-responsive .embed-responsive-item,
+.container section .content .embed-responsive iframe,
+.container section .content .embed-responsive embed,
+.container section .content .embed-responsive object,
+.container section .content .embed-responsive video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+.container section .content .embed-responsive-16by9 {
+  padding-bottom: 56.25%;
+}
 .container section .tags {
   overflow: hidden;
 }
