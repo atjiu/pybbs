@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -28,6 +29,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private UserInterceptor userInterceptor;
   @Autowired
   private UserApiInterceptor userApiInterceptor;
+
+  @Override
+  protected void addCorsMappings(CorsRegistry registry) {
+    super.addCorsMappings(registry);
+    registry.addMapping("/api/**")
+        .allowedHeaders("*")
+        .allowedMethods("*")
+        .allowedOrigins("*")
+        .allowCredentials(false);
+  }
 
   @Override
   protected void addInterceptors(InterceptorRegistry registry) {
