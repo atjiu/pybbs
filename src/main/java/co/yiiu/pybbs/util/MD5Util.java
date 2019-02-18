@@ -20,18 +20,19 @@ public class MD5Util {
 
   private static Logger log = LoggerFactory.getLogger(MD5Util.class);
 
-  private final static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b',
+  private final static char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b',
       'c', 'd', 'e', 'f'};
   private static MessageDigest messagedigest = null;
 
   static {
     try {
       messagedigest = MessageDigest.getInstance("MD5");
-    } catch (NoSuchAlgorithmException nsaex) {
-      log.error(MD5Util.class.getName() + "初始化失败，MessageDigest不支持MD5Util。");
-      nsaex.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      log.error("{}初始化失败，MessageDigest不支持MD5Util, errorMessage: {}", MD5Util.class.getName(), e.getMessage());
     }
   }
+
+  private MD5Util() {}
 
   /**
    * 功能：加盐版的MD5.返回格式为MD5(密码+{盐值})
@@ -49,10 +50,10 @@ public class MD5Util {
     if (salt.equals("") || salt.length() == 0) {
       throw new IllegalArgumentException("salt不能为空");
     }
-    if ((salt.toString().lastIndexOf("{") != -1) || (salt.toString().lastIndexOf("}") != -1)) {
+    if ((salt.lastIndexOf('{') != -1) || (salt.lastIndexOf('}') != -1)) {
       throw new IllegalArgumentException("salt中不能包含 { 或者 }");
     }
-    return getMD5String(password + "{" + salt.toString() + "}");
+    return getMD5String(password + '{' + salt + '}');
   }
 
   /**
@@ -89,11 +90,11 @@ public class MD5Util {
     return bufferToHex(messagedigest.digest());
   }
 
-  private static String bufferToHex(byte bytes[]) {
+  private static String bufferToHex(byte[] bytes) {
     return bufferToHex(bytes, 0, bytes.length);
   }
 
-  private static String bufferToHex(byte bytes[], int m, int n) {
+  private static String bufferToHex(byte[] bytes, int m, int n) {
     StringBuffer stringbuffer = new StringBuffer(2 * n);
     int k = m + n;
     for (int l = m; l < k; l++) {

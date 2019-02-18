@@ -5,6 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,6 +22,8 @@ import java.util.*;
  */
 @Component
 public class BaseModel {
+
+  private Logger log = LoggerFactory.getLogger(BaseModel.class);
 
   @Autowired
   private SystemConfigService systemConfigService;
@@ -60,7 +64,7 @@ public class BaseModel {
 
   public String formatContent(String content) {
     List<String> atUsers = StringUtil.fetchAtUser(content);
-    if (atUsers != null) {
+    if (!atUsers.isEmpty()) {
       for (String atUser : atUsers) {
         content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("base_url").toString() + "/user/" + atUser.replace("@", "") + ")");
       }
@@ -71,7 +75,7 @@ public class BaseModel {
     Elements tableElements = parse.select("table");
     tableElements.forEach(element -> element.addClass("table table-bordered"));
     Elements aElements = parse.select("p");
-    if (aElements != null && aElements.size() > 0) {
+    if (!aElements.isEmpty()) {
       aElements.forEach(element -> {
         try {
           String href = element.text();
@@ -90,7 +94,7 @@ public class BaseModel {
             element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' allowfullscreen></iframe>");
           }
         } catch (MalformedURLException e) {
-          e.printStackTrace();
+          log.error(e.getMessage());
         }
       });
     }

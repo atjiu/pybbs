@@ -13,20 +13,22 @@ import java.util.regex.Pattern;
  */
 public class StringUtil {
 
+  private StringUtil() {}
+
   // email正则
-  public static final String emailRegex = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
+  public static final String EMAILREGEX = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
   // url正则
-  public static final String urlRegex = "^((https|http)?:\\/\\/)[^\\s]+";
+  public static final String URLREGEX = "^((https|http)?:\\/\\/)[^\\s]+";
   // 用户名正则
-  public static final String usernameRegex = "[a-z0-9A-Z]{2,16}";
+  public static final String USERNAMEREGEX = "[a-z0-9A-Z]{2,16}";
   // 密码正则
-  public static final String passwordRegex = "[a-z0-9A-Z]{6,32}";
+  public static final String PASSWORDREGEX = "[a-z0-9A-Z]{6,32}";
   // 生成随机字符串用到的字符数组
   private static final char[] hexDigits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
       'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
   // 生成随机长度的数字用到的数组
   private static final char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-  private static final Random random = new Random();
+  public static final Random random = new Random();
 
   public static boolean check(String text, String regex) {
     if (StringUtils.isEmpty(text)) {
@@ -103,7 +105,7 @@ public class StringUtil {
 
   // 查找评论里at的用户名
   public static List<String> fetchAtUser(String content) {
-    if (StringUtils.isEmpty(content)) return null;
+    if (StringUtils.isEmpty(content)) return Collections.emptyList();
     // 去掉 ``` ``` 包围的内容
     content = content.replaceAll("```([\\s\\S]*)```", "");
     // 去掉 ` ` 包围的内容
@@ -121,7 +123,7 @@ public class StringUtil {
 
   // 去掉数组里的空值和重复数据
   public static Set<String> removeEmpty(String[] strs) {
-    if (strs == null || strs.length == 0) return null;
+    if (strs == null || strs.length == 0) return Collections.emptySet();
     Set<String> set = new HashSet<>();
     for (String str : strs) {
       if (!StringUtils.isEmpty(str)) {

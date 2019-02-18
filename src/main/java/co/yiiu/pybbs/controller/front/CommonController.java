@@ -1,6 +1,8 @@
 package co.yiiu.pybbs.controller.front;
 
+import co.yiiu.pybbs.util.StringUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
@@ -11,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 
 /**
  * Created by tomoya.
@@ -38,15 +39,13 @@ public class CommonController extends BaseController {
    * @param resp
    * @throws IOException
    */
-  @RequestMapping("/code")
+  @GetMapping("/code")
   public void getCode(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     // 定义图像buffer
     BufferedImage buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     // Graphics2D gd = buffImg.createGraphics();
     // Graphics2D gd = (Graphics2D) buffImg.getGraphics();
     Graphics gd = buffImg.getGraphics();
-    // 创建一个随机数生成器类
-    Random random = new Random();
     // 将图像填充为白色
     gd.setColor(Color.WHITE);
     gd.fillRect(0, 0, width, height);
@@ -63,10 +62,10 @@ public class CommonController extends BaseController {
     // 随机产生20条干扰线，使图象中的认证码不易被其它程序探测到。
     gd.setColor(Color.BLACK);
     for (int i = 0; i < 20; i++) {
-      int x = random.nextInt(width);
-      int y = random.nextInt(height);
-      int xl = random.nextInt(20);
-      int yl = random.nextInt(20);
+      int x = StringUtil.random.nextInt(width);
+      int y = StringUtil.random.nextInt(height);
+      int xl = StringUtil.random.nextInt(20);
+      int yl = StringUtil.random.nextInt(20);
       gd.drawLine(x, y, x + xl, y + yl);
     }
 
@@ -77,11 +76,11 @@ public class CommonController extends BaseController {
     // 随机产生codeCount数字的验证码。
     for (int i = 0; i < codeCount; i++) {
       // 得到随机产生的验证码数字。
-      String code = String.valueOf(codeSequence[random.nextInt(29)]);
+      String code = String.valueOf(codeSequence[StringUtil.random.nextInt(29)]);
       // 产生随机的颜色分量来构造颜色值，这样输出的每位数字的颜色值都将不同。
-      red = random.nextInt(255);
-      green = random.nextInt(255);
-      blue = random.nextInt(255);
+      red = StringUtil.random.nextInt(255);
+      green = StringUtil.random.nextInt(255);
+      blue = StringUtil.random.nextInt(255);
 
       // 用随机产生的颜色将验证码绘制到图像中。
       gd.setColor(new Color(red, green, blue));

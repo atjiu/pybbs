@@ -114,7 +114,7 @@ public class IndexController extends BaseController {
 
   // 处理后台登录逻辑
   @PostMapping("/adminlogin")
-  public String adminLogin(String username, String password, String code, HttpSession session,
+  public String adminlogin(String username, String password, String code, HttpSession session,
                            @RequestParam(defaultValue = "0") Boolean rememberMe,
                            RedirectAttributes redirectAttributes) {
     String index_code = (String) session.getAttribute("index_code");
@@ -130,7 +130,6 @@ public class IndexController extends BaseController {
           subject.login(token);
         }
       } catch (AuthenticationException e) {
-        e.printStackTrace();
         log.error(e.getMessage());
         redirectAttributes.addFlashAttribute("error", "用户名或密码错误");
         redirectAttributes.addFlashAttribute("username", username);

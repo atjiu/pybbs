@@ -15,27 +15,24 @@ import java.util.TimeZone;
  */
 public class DateUtil {
 
+  private DateUtil() {}
+
   public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
   public static final String FORMAT_DATE = "yyyy-MM-dd";
+  public static final String TIME_ZONE = "GMT+8";
 
   public static String formatDateTime(Date date) {
-    if (date == null) return null;
-    SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATETIME);
-    sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-    return sdf.format(date);
+    return DateUtil.formatDateTime(date, DateUtil.FORMAT_DATETIME);
   }
 
   public static String formatDate(Date date) {
-    if (date == null) return null;
-    SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
-    sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-    return sdf.format(date);
+    return DateUtil.formatDateTime(date, DateUtil.FORMAT_DATE);
   }
 
   public static String formatDateTime(Date date, String style) {
     if (date == null) return null;
     SimpleDateFormat sdf = new SimpleDateFormat(style);
-    sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+    sdf.setTimeZone(TimeZone.getTimeZone(DateUtil.TIME_ZONE));
     return sdf.format(date);
   }
 

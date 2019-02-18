@@ -1,10 +1,10 @@
 package co.yiiu.pybbs.exception;
 
-import co.yiiu.pybbs.util.BaseModel;
 import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,8 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  @Autowired
-  private BaseModel baseModel;
+  private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   private HttpStatus getStatus(HttpServletRequest request) {
     Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -43,7 +42,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(value = Exception.class)
   public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
-    e.printStackTrace();
+    log.error(e.getMessage());
     if (!HttpUtil.isApiRequest(request)) {
       ModelAndView mav = new ModelAndView();
       mav.addObject("exception", e);
@@ -69,7 +68,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(value = ApiException.class)
   @ResponseBody
-  public Result jsonErrorHandler(ApiException e) throws Exception {
+  public Result jsonErrorHandler(ApiException e) {
     Result result = new Result();
     result.setCode(e.getCode());
     result.setDescription(e.getMessage());

@@ -124,7 +124,7 @@ public class Identicon {
 //    return "";
 //  }
 
-  public static void main(String[] args) {
-    System.out.println(new Identicon().generator());
-  }
+//  public static void main(String[] args) {
+//    System.out.println(new Identicon().generator());
+//  }
 }

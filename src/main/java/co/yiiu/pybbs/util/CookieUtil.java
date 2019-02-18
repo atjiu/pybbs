@@ -24,12 +24,13 @@ public class CookieUtil {
 
   public void setCookie(String key, String value) {
     HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
-    Cookie e = new Cookie(key, value);
-    e.setPath("/");
-    e.setMaxAge(Integer.parseInt(systemConfigService.selectAllConfig().get("cookie_max_age").toString()));
-    e.setDomain(systemConfigService.selectAllConfig().get("cookie_domain").toString());
+    Cookie cookie = new Cookie(key, value);
+    cookie.setHttpOnly(true);
+    cookie.setPath("/");
+    cookie.setMaxAge(Integer.parseInt(systemConfigService.selectAllConfig().get("cookie_max_age").toString()));
+    cookie.setDomain(systemConfigService.selectAllConfig().get("cookie_domain").toString());
     assert response != null;
-    response.addCookie(e);
+    response.addCookie(cookie);
   }
 
 
@@ -50,6 +51,7 @@ public class CookieUtil {
   public void clearCookie(String name) {
     HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
     Cookie cookie = new Cookie(name, null);
+    cookie.setHttpOnly(true);
     cookie.setMaxAge(-1);
     cookie.setDomain((String) systemConfigService.selectAllConfig().get("cookie_domain"));
     cookie.setPath("/");

@@ -54,7 +54,7 @@ public class SettingsApiController extends BaseApiController {
   @GetMapping("/sendEmailCode")
   public Result sendEmailCode(String email) {
     ApiAssert.notEmpty(email, "请输入邮箱 ");
-    ApiAssert.isTrue(StringUtil.check(email, StringUtil.emailRegex), "邮箱格式不正确");
+    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
     if (codeService.sendEmail(getUser().getId(), email)) {
       return success();
     } else {
@@ -66,7 +66,7 @@ public class SettingsApiController extends BaseApiController {
   @PostMapping("/updateEmail")
   public Result updateEmail(String email, String code, HttpSession session) {
     ApiAssert.notEmpty(email, "请输入邮箱 ");
-    ApiAssert.isTrue(StringUtil.check(email, StringUtil.emailRegex), "邮箱格式不正确");
+    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
     Code code1 = codeService.validateCode(getUser().getId(), email, code);
     if (code1 == null) return error("验证码错误");
     // 将code的状态置为已用
