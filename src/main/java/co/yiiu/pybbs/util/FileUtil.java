@@ -48,6 +48,10 @@ public class FileUtil {
       String localPath = systemConfigService.selectAllConfig().get("upload_path").toString() + customPath + "/" + fileName + suffix;
 
       // 上传文件
+      // 下面 BufferedOutputStream的构造参数是直接在参数里通过 new FileOutputStream() 的方式传入的，所以它没有对象接收
+      // 但下面只关闭了 stream 的流，这个FileOutputStream有没有关闭呢？
+      // 答案是关了，跟踪 stream.close() 源码就会发现，这货关闭的就是 OutputStream , 也就是传入的这个输出流
+      // 另外实现了AutoCloseable这个接口的流当声明流被放在 try(){} 的()里时，流用完了，程序会自动的调用这个流的close()方法
       BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(localPath)));
       stream.write(file.getBytes());
       stream.close();
