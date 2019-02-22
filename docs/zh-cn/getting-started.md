@@ -35,3 +35,43 @@
 **项目根目录下会生成 `mysql` 文件夹为数据库文件,注意谨慎操作，另外论坛启动后，用户上传的图片和系统生成的默认头像会自动同步到根目录下的 `static` 文件夹下**
 
 **这个Dockerfile是 [@zzzzbw](https://github.com/zzzzbw) 大佬帮忙开发的 万分感谢！！**
+
+## 打war包运行（不推荐）
+
+这种方式要修改代码
+
+- 首先打开 `pom.xml` 将 `<packaging>jar</packaging>` 改成 `<packaging>war</packaging>`
+- 然后在 `dependencies` 里加入一个依赖
+    ```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    ```
+- 在 `src/main/java/co/yiiu/pybbs/` 下创建一个类，名字随便启，然后将下面内容拷贝进去
+    ```java
+    package co.yiiu.pybbs;
+    
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.boot.builder.SpringApplicationBuilder;
+    import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+    
+    @SpringBootApplication
+    public class Application extends SpringBootServletInitializer {
+    
+      @Override
+      protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+      }
+    
+      public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+      }
+    }
+    ```
+- 最后运行`mvn clean assembly:assembly` 进行打包
+- 打包成功后，找到target里的`pybbs.war`，将其拷贝到tomcat下的webapps里，启动tomcat即可
+
+这种方式我测试有个静态资源问题，有兴趣的可以试着找一下解决办法，这里就不折腾了，**真的不推荐这种方式启动**
