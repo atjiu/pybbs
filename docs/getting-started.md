@@ -44,35 +44,39 @@ Modify the code in this way
 
 - First open `pom.xml` edit `<packaging>jar</packaging>` to `<packaging>war</packaging>`
 - Then add a dependency in `dependencies`
-    ```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    ```
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-tomcat</artifactId>
+  <scope>provided</scope>
+</dependency>
+```
+    
 - Create a class under `src/main/java/co/yiiu/pybbs/`, name it casually, then copy the following into it
-    ```java
-    package co.yiiu.pybbs;
+
+```java
+package co.yiiu.pybbs;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    return application.sources(Application.class);
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
+}
+```
     
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
-    import org.springframework.boot.builder.SpringApplicationBuilder;
-    import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-    
-    @SpringBootApplication
-    public class Application extends SpringBootServletInitializer {
-    
-      @Override
-      protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
-      }
-    
-      public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-      }
-    }
-    ```
 - Finally run `mvn clean assembly:assembly` to package
 - After the package is successful, find the `pybbs.war` in the target, copy it to the webapps under tomcat, and start tomcat.
 

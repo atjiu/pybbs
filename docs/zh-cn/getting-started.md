@@ -42,35 +42,39 @@
 
 - 首先打开 `pom.xml` 将 `<packaging>jar</packaging>` 改成 `<packaging>war</packaging>`
 - 然后在 `dependencies` 里加入一个依赖
-    ```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    ```
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-tomcat</artifactId>
+  <scope>provided</scope>
+</dependency>
+```
+
 - 在 `src/main/java/co/yiiu/pybbs/` 下创建一个类，名字随便启，然后将下面内容拷贝进去
-    ```java
-    package co.yiiu.pybbs;
-    
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
-    import org.springframework.boot.builder.SpringApplicationBuilder;
-    import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-    
-    @SpringBootApplication
-    public class Application extends SpringBootServletInitializer {
-    
-      @Override
-      protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
-      }
-    
-      public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-      }
-    }
-    ```
+
+```java
+package co.yiiu.pybbs;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    return application.sources(Application.class);
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
+}
+```
+
 - 最后运行`mvn clean assembly:assembly` 进行打包
 - 打包成功后，找到target里的`pybbs.war`，将其拷贝到tomcat下的webapps里，启动tomcat即可
 
