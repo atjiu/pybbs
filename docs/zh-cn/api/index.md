@@ -139,3 +139,20 @@
   }
 }
 ```
+
+## 上传头像
+
+- 地址 POST `/api/upload`
+- 参数
+  - token
+  - file: 上传图片的文件对象
+  - type: 上传图片的类型，如果上传头像请填 `avatar`，如果是发帖上传图片请填 `topic`
+- 返回 Result(String) // 上传成功后，会返回图片的访问地址
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png"
+}
+```

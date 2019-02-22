@@ -2,249 +2,189 @@ body {
   margin: 0 auto;
   width: 100%;
   min-width: 1000px;
-  overflow-x: hidden;
-}
+  overflow-x: hidden; }
 
 * {
   color: #000;
   word-break: break-word;
-  word-wrap: break-word;
-}
+  word-wrap: break-word; }
 
 a {
-  color: #000;
-}
-a:visited, a:hover, a:focus {
-  color: #000;
-}
+  color: #000; }
+  a:visited, a:hover, a:focus {
+    color: #000; }
 
-input[type=text], input[type=password], input[type=email], input[type=number], button, textarea {
-  border: 1px solid #000;
-}
+input[type='text'], input[type='password'], input[type='email'], input[type='number'], button, textarea {
+  border: 1px solid #000; }
 
-input[type=text], input[type=password], input[type=email], input[type=number], textarea {
-  width: 100%;
+input[type='text'], input[type='password'], input[type='email'], input[type='number'], textarea {
+  width: calc(100% - 14px);
   padding: 7px;
-  resize: none;
-}
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, textarea:focus {
-  outline: 0;
-}
+  resize: none; }
+  input[type='text']:focus, input[type='password']:focus, input[type='email']:focus, input[type='number']:focus, textarea:focus {
+    outline: 0; }
 
 button {
-  padding: 5px 10px;
-}
-button:focus {
-  outline: 0;
-}
+  padding: 5px 10px; }
+  button:focus {
+    outline: 0; }
 
 ol, ul {
   margin-left: 0;
-  padding-left: 25px;
-}
-ol li, ul li {
-  line-height: 1.7em;
-}
+  padding-left: 25px; }
+  ol li, ul li {
+    line-height: 1.7em; }
 
 .pull-left {
-  float: left;
-}
+  float: left; }
 
 .pull-right {
-  float: right;
-}
+  float: right; }
 
 .text-center {
-  text-align: center;
-}
+  text-align: center; }
 
 .text-right {
-  text-align: right;
-}
+  text-align: right; }
 
 .clear {
-  clear: both;
-}
+  clear: both; }
 
 .container header {
   width: 100%;
   height: 44px;
-  background-color: #000;
-}
-.container header .title {
-  font-size: 18px;
-  font-weight: 500;
-}
-.container header ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-.container header ul li {
-  float: left;
-  padding: 0 7px;
-  line-height: 44px;
-}
-.container header ul li a {
-  color: #fff;
-  text-decoration: none;
-}
-.container header ul li.active {
-  background-color: #fff;
-}
-.container header ul li.active a {
-  color: #000;
-}
-.container header ul li:first-child {
-  padding-left: 15px;
-}
-.container header ul:last-child {
-  float: right;
-}
-.container header ul:last-child li:first-child {
-  padding-left: 7px;
-}
-.container header ul:last-child li:last-child {
-  padding-right: 15px;
-}
-.container header #notReadCount {
-  color: #000;
-  background-color: #fff;
-  padding: 0 4px;
-  display: none;
-}
+  background-color: #000; }
+  .container header .title {
+    font-size: 18px;
+    font-weight: 500; }
+  .container header ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    .container header ul li {
+      float: left;
+      padding: 0 7px;
+      line-height: 44px; }
+      .container header ul li a {
+        color: #fff;
+        text-decoration: none; }
+      .container header ul li.active {
+        background-color: #fff; }
+        .container header ul li.active a {
+          color: #000; }
+    .container header ul li:first-child {
+      padding-left: 15px; }
+  .container header ul:last-child {
+    float: right; }
+    .container header ul:last-child li:first-child {
+      padding-left: 7px; }
+    .container header ul:last-child li:last-child {
+      padding-right: 15px; }
+  .container header #notReadCount {
+    color: #000;
+    background-color: #fff;
+    padding: 0 4px;
+    display: none; }
 .container section {
   margin: 0 auto;
   width: 1000px;
-  padding: 15px 0;
-}
-.container section .box {
-  margin: 0 auto;
-  border: 1px solid #000;
-}
-.container section .box .box-heading {
-  padding: 10px 15px;
-  border-bottom: 1px solid #000;
-  overflow: hidden;
-}
-.container section .box .box-footer {
-  padding: 10px 15px;
-  border-top: 1px solid #000;
-  overflow: hidden;
-}
-.container section .box .box-body {
-  padding: 15px;
-  overflow: hidden;
-}
-.container section .topics .title {
-  font-size: 18px;
-  text-decoration: none;
-}
-.container section .topics .divide {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #000;
-}
-.container section .title {
-  font-size: 22px;
-  font-weight: 500;
-}
-.container section .content img {
-  max-width: 100%;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
-.container section .content pre {
-  padding: 10px;
-  background-color: #f5f5f5;
-}
-.container section .content pre code {
-  white-space: pre-wrap;
-}
-.container section .content table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #000;
-}
-.container section .content table td, .container section .content table th {
-  border: 1px solid #000;
-  padding: 5px;
-}
-.container section .content .embed-responsive {
-  position: relative;
-  display: block;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-}
-.container section .content .embed-responsive .embed-responsive-item,
-.container section .content .embed-responsive iframe,
-.container section .content .embed-responsive embed,
-.container section .content .embed-responsive object,
-.container section .content .embed-responsive video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  border: 0;
-}
-.container section .content .embed-responsive-16by9 {
-  padding-bottom: 56.25%;
-}
-.container section .tags {
-  overflow: hidden;
-}
-.container section .tags .item {
-  float: left;
-  width: 25%;
-  height: 88px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-.container section .tags .item .description {
-  font-size: 14px;
-  margin-top: 10px;
-  overflow: hidden;
-}
-.container section .tag {
-  text-decoration: none;
-  background-color: #000;
-  color: #fff;
-  padding: 2px 8px;
-}
-.container section .comments img {
-  max-width: 100%;
-}
-.container section .comments .fa {
-  cursor: pointer;
-}
-.container section .user {
-  overflow: hidden;
-}
-.container section .user .left {
-  float: left;
-  width: 200px;
-}
-.container section .user .right {
-  width: 785px;
-  float: right;
-}
-.container section .user .menu {
-  position: fixed;
-}
-.container section .user .settings p {
-  margin-bottom: 5px;
-}
-.container section .user .settings input[type=text], .container section .user .settings input[type=password], .container section .user .settings input[type=email], .container section .user .settings input[type=number], .container section .user .settings textarea {
-  width: calc(100% - 14px);
-}
-.container section .user .settings button {
-  margin-top: 10px;
-}
+  padding: 15px 0; }
+  .container section .box {
+    margin: 0 auto;
+    border: 1px solid #000; }
+    .container section .box .box-heading {
+      padding: 10px 15px;
+      border-bottom: 1px solid #000;
+      overflow: hidden; }
+    .container section .box .box-footer {
+      padding: 10px 15px;
+      border-top: 1px solid #000;
+      overflow: hidden; }
+    .container section .box .box-body {
+      padding: 15px;
+      overflow: hidden; }
+  .container section .topics .title {
+    font-size: 18px;
+    text-decoration: none; }
+  .container section .topics .divide {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000; }
+  .container section .title {
+    font-size: 22px;
+    font-weight: 500; }
+  .container section .content img {
+    max-width: 100%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; }
+  .container section .content pre {
+    padding: 10px;
+    background-color: #f5f5f5; }
+    .container section .content pre code {
+      white-space: pre-wrap; }
+  .container section .content table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000; }
+    .container section .content table td, .container section .content table th {
+      border: 1px solid #000;
+      padding: 5px; }
+  .container section .content .embed-responsive {
+    position: relative;
+    display: block;
+    height: 0;
+    padding: 0;
+    overflow: hidden; }
+    .container section .content .embed-responsive .embed-responsive-item,
+    .container section .content .embed-responsive iframe,
+    .container section .content .embed-responsive embed,
+    .container section .content .embed-responsive object,
+    .container section .content .embed-responsive video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+      border: 0; }
+  .container section .content .embed-responsive-16by9 {
+    padding-bottom: 56.25%; }
+  .container section .tags {
+    overflow: hidden; }
+    .container section .tags .item {
+      float: left;
+      width: 25%;
+      height: 88px;
+      overflow: hidden;
+      margin-bottom: 10px; }
+      .container section .tags .item .description {
+        font-size: 14px;
+        margin-top: 10px;
+        overflow: hidden; }
+  .container section .tag {
+    text-decoration: none;
+    background-color: #000;
+    color: #fff;
+    padding: 2px 8px; }
+  .container section .comments img {
+    max-width: 100%; }
+  .container section .comments .fa {
+    cursor: pointer; }
+  .container section .user {
+    overflow: hidden; }
+    .container section .user .left {
+      float: left;
+      width: 200px; }
+    .container section .user .right {
+      width: 785px;
+      float: right; }
+    .container section .user .menu {
+      position: fixed; }
+    .container section .user .settings p {
+      margin-bottom: 5px; }
+    .container section .user .settings button {
+      margin-top: 10px; }
 .container footer {
   padding: 15px;
   border-top: 1px solid #000;
-  text-align: center;
-}
+  text-align: center; }
 
 /*# sourceMappingURL=app.css.map */

@@ -1,8 +1,9 @@
 <#include "../layout/layout.ftl"/>
 <@html page_title="编辑话题" page_tab="">
-  <div style="padding-right: 14px;">
+  <div>
     <div>
       <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
+      <a href="javascript:uploadImageBtn();" class="pull-right">上传图片</a>
     </div>
     <div style="margin-top: 10px;">
       <textarea name="content" id="content" rows="15">${comment.content?html}</textarea>
@@ -33,4 +34,5 @@
     })
   });
 </script>
+<#include "../components/upload.ftl"/>
 </@html>

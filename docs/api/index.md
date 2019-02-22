@@ -137,3 +137,20 @@
   }
 }
 ```
+
+## Upload Avatar
+
+- Address POST `/api/upload`
+- Params
+  - token
+  - file: Avatar
+  - type: upload image type, If you upload an avatar, please fill in `avatar`. If you are posting an image, please fill in `topic`.
+- Return Result(String) // After the upload is successful, the address of the avatar will be returned.
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png"
+}
+```

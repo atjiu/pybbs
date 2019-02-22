@@ -8,7 +8,12 @@
     </tr>
     <tr>
       <td valign="top">内容</td>
-      <td style="padding-right: 14px;"><textarea name="content" id="content" rows="20" placeholder="内容，支持Markdown语法"></textarea></td>
+      <td style="padding-right: 14px;">
+        <textarea name="content" id="content" rows="20" placeholder="内容，支持Markdown语法"></textarea>
+        <div>
+          <a href="javascript:uploadImageBtn();">上传图片</a>
+        </div>
+      </td>
     </tr>
     <tr>
       <td>标签</td>
@@ -51,4 +56,5 @@
       })
     }
   </script>
+  <#include "../components/upload.ftl"/>
 </@html>

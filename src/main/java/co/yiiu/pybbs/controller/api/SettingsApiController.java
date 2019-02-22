@@ -80,25 +80,6 @@ public class SettingsApiController extends BaseApiController {
     return success();
   }
 
-  // 上传头像
-  @PostMapping("/uploadAvatar")
-  public Result uploadAvatar(@RequestParam("file") MultipartFile file, HttpSession session) {
-    long size = file.getSize();
-    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_avatar_size_limit").toString());
-    if (size > uploadAvatarSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadAvatarSizeLimit + "MB 以内");
-    // 拿到上传后访问的url
-    String url = fileUtil.upload(file, "avatar", "avatar/" + getUser().getUsername());
-    if (url == null) return error("上传的文件不存在或者上传过程发生了错误，请重试一下");
-    // 查询当前用户的最新信息
-    User user = userService.selectById(getUser().getId());
-    user.setAvatar(url);
-    // 保存用户新的头像
-    userService.update(user);
-    // 将最新的用户信息更新在session里
-    if (session != null) session.setAttribute("_user", user);
-    return success(url);
-  }
-
   // 修改密码
   @PostMapping("/updatePassword")
   public Result updatePassword(String oldPassword, String newPassword, HttpSession session) {

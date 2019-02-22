@@ -75,7 +75,10 @@
       <div class="panel panel-info">
         <div class="panel-heading">
           添加一条新评论
-          <a href="javascript:;" id="goTop" class="pull-right">回到顶部</a>
+          <span class="pull-right">
+            <a href="javascript:;" id="uploadImageBtn">上传图片</a>&nbsp;|
+            <a href="javascript:;" id="goTop">回到顶部</a>
+          </span>
         </div>
         <input type="hidden" name="commentId" id="commentId" value=""/>
         <textarea name="content" id="content" class="form-control" placeholder="添加一条评论，支持Markdown语法"></textarea>
@@ -106,12 +109,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>
   <#if _user??>
-    var editor;
     $(function () {
       hljs.initHighlightingOnLoad();
       CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
       CodeMirror.keyMap.default["Tab"] = "indentMore";
-      editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+      window.editor = CodeMirror.fromTextArea(document.getElementById("content"), {
         lineNumbers: true,     // 显示行数
         indentUnit: 4,         // 缩进单位为4
         tabSize: 4,
@@ -121,7 +123,7 @@
       });
 
       $("#comment_btn").click(function () {
-        var content = editor.getDoc().getValue();
+        var content = window.editor.getDoc().getValue();
         if (!content) {
           toast("请输入评论内容");
           return;
@@ -225,12 +227,12 @@
     // 回复评论
     function commentThis(username, commentId) {
       $("#commentId").val(commentId);
-      var oldContent = editor.getDoc().getValue();
+      var oldContent = window.editor.getDoc().getValue();
       if (oldContent) oldContent += '\n';
-      editor.getDoc().setValue(oldContent + "@" + username + " ");
-      editor.focus();
+      window.editor.getDoc().setValue(oldContent + "@" + username + " ");
+      window.editor.focus();
       //定位到文档的最后一个字符的位置
-      editor.setCursor(editor.lineCount(), 0);
+      window.editor.setCursor(window.editor.lineCount(), 0);
     }
   </#if>
 
@@ -238,4 +240,5 @@
     $('html, body').animate({scrollTop: 0}, 500);
   })
 </script>
+<#include "../components/upload.ftl"/>
 </@html>

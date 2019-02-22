@@ -50,22 +50,6 @@
 }
 ```
 
-## 上传头像
-
-- 地址 POST `/api/settings/uploadAvatar`
-- 参数
-  - token
-  - file: 上传图片的文件对象
-- 返回 Result(String) // 上传成功后，会返回图片的访问地址
-
-```json
-{
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png"
-}
-```
-
 ## 修改密码
 
 - 地址 POST `/api/settings/updatePassword`

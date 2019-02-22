@@ -1,9 +1,17 @@
 package co.yiiu.pybbs.controller.front;
 
+import co.yiiu.pybbs.controller.api.BaseApiController;
+import co.yiiu.pybbs.exception.ApiAssert;
+import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.util.FileUtil;
+import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -21,7 +29,7 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("/common")
-public class CommonController extends BaseController {
+public class CommonController extends BaseApiController {
 
   private int width = 120;// 定义图片的width
   private int height = 32;// 定义图片的height
@@ -100,4 +108,5 @@ public class CommonController extends BaseController {
     ServletOutputStream sos = resp.getOutputStream();
     ImageIO.write(buffImg, "jpeg", sos);
   }
+
 }

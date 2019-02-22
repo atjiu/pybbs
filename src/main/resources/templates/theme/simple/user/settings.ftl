@@ -134,9 +134,10 @@
       $("#file").change(function () {
         var fd = new FormData();
         fd.append("file", document.getElementById("file").files[0]);
+        fd.append("type", "avatar");
         fd.append("token", "${_user.token}");
         $.post({
-          url: "/api/settings/uploadAvatar",
+          url: "/api/upload",
           data: fd,
           dataType: 'json',
           processData: false,

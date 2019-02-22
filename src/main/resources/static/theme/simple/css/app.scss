@@ -32,7 +32,7 @@ input[type='text'], input[type='password'], input[type='email'], input[type='num
 }
 
 input[type='text'], input[type='password'], input[type='email'], input[type='number'], textarea {
-  width: 100%;
+  width: calc(100% - 14px);
   padding: 7px;
   resize: none;
 
@@ -286,9 +286,6 @@ ol, ul {
       .settings {
         p {
           margin-bottom: 5px;
-        }
-        input[type='text'], input[type='password'], input[type='email'], input[type='number'], textarea {
-          width: calc(100% - 14px);
         }
         button {
           margin-top: 10px;

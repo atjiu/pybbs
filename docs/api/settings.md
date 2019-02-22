@@ -50,22 +50,6 @@
 }
 ```
 
-## Upload Avatar
-
-- Address POST `/api/settings/uploadAvatar`
-- Params
-  - token
-  - file: Avatar
-- Return Result(String) // After the upload is successful, the address of the avatar will be returned.
-
-```json
-{
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png"
-}
-```
-
 ## Update Password
 
 - Address POST `/api/settings/updatePassword`

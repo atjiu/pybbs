@@ -67,9 +67,10 @@
   </div>
   <hr>
   <#if _user??>
-    <div style="padding-right: 14px;">
+    <div>
       <div style="margin-bottom: 10px;">
         添加评论
+        <a href="javascript:uploadImageBtn();" class="pull-right">上传图片</a>
       </div>
       <input type="hidden" name="commentId" id="commentId" value=""/>
       <textarea name="content" id="content" rows="4" placeholder="添加一条评论，支持Markdown语法"></textarea>
@@ -241,4 +242,5 @@
       $('html, body').animate({scrollTop: 0}, 500);
     })
   </script>
+  <#include "../components/upload.ftl"/>
 </@html>

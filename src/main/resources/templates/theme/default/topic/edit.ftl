@@ -12,6 +12,7 @@
           </div>
           <div class="form-group">
             <label for="content">内容</label>
+            <a href="javascript:;" id="uploadImageBtn" class="pull-right">上传图片</a>
             <textarea name="content" id="content" class="form-control"
                       placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
           </div>
@@ -38,7 +39,7 @@
   $(function () {
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
     CodeMirror.keyMap.default["Tab"] = "indentMore";
-    var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+    window.editor = CodeMirror.fromTextArea(document.getElementById("content"), {
       lineNumbers: true,     // 显示行数
       indentUnit: 4,         // 缩进单位为4
       tabSize: 4,
@@ -49,7 +50,7 @@
 
     $("#btn").click(function () {
       var title = $("#title").val();
-      var content = editor.getDoc().getValue();
+      var content = window.editor.getDoc().getValue();
       var tags = $("#tags").val();
       if (!title || title.length > 120) {
         toast("请输入标题，且最大长度在120个字符以内");
@@ -75,7 +76,8 @@
           toast(data.description);
         }
       })
-    })
+    });
   })
 </script>
+<#include "../components/upload.ftl"/>
 </@html>

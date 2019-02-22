@@ -5,6 +5,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
+        <a href="javascript:;" id="uploadImageBtn" class="pull-right">上传图片</a>
       </div>
       <textarea name="content" id="content" class="form-control">${comment.content?html}</textarea>
       <div class="panel-body">
@@ -32,7 +33,7 @@
   $(function () {
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
     CodeMirror.keyMap.default["Tab"] = "indentMore";
-    var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+    window.editor = CodeMirror.fromTextArea(document.getElementById("content"), {
       lineNumbers: true,     // 显示行数
       indentUnit: 4,         // 缩进单位为4
       tabSize: 4,
@@ -42,7 +43,7 @@
     });
 
     $("#btn").click(function () {
-      var content = editor.getDoc().getValue();
+      var content = window.editor.getDoc().getValue();
       if (!content) {
         toast("请输入内容");
         return ;
@@ -64,4 +65,5 @@
     })
   });
 </script>
+<#include "../components/upload.ftl"/>
 </@html>
