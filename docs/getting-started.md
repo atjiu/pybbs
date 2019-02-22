@@ -80,4 +80,4 @@ public class Application extends SpringBootServletInitializer {
 - Finally run `mvn clean assembly:assembly` to package
 - After the package is successful, find the `pybbs.war` in the target, copy it to the webapps under tomcat, and start tomcat.
 
-**I really don't recommend this method to start **
+**I really don't recommend this method to start**
