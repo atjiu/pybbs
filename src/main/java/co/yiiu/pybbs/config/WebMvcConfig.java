@@ -51,7 +51,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
             "/settings",
             "/topic/create",
             "/topic/edit/*",
-            "/common/upload" // 上传图片路由
+            "/api/upload" // 上传图片路由
         );
     // 接口拦截器，拦截用户是否登录
     registry.addInterceptor(userApiInterceptor)
