@@ -1,6 +1,7 @@
 ## 更新个人信息
 
-- 地址 POST `/api/settings/update`
+- 地址 PUT `/api/settings`
+- 请求类型 application/json
 - 参数
   - token
   - telegramName: Telegram用户名
@@ -20,6 +21,7 @@
 ## 发送邮箱验证码
 
 - 地址 GET `/api/settings/sendEmailCode`
+- 请求类型 application/x-www-form-urlencoded
 - 参数
   - token
   - email: 邮箱地址
@@ -36,7 +38,8 @@
 
 ## 更新用户邮箱
 
-- 地址 POST `/api/settings/updateEmail`
+- 地址 PUT `/api/settings/updateEmail`
+- 请求类型 application/json
 - 参数
   - token
   - email: 邮箱地址
@@ -52,7 +55,8 @@
 
 ## 修改密码
 
-- 地址 POST `/api/settings/updatePassword`
+- 地址 PUT `/api/settings/updatePassword`
+- 请求类型 application/json
 - 参数
   - token
   - oldPassword: 旧密码
@@ -70,6 +74,7 @@
 ## 刷新token
 
 - 地址 GET `/api/settings/refreshToken`
+- 请求类型 application/x-www-form-urlencoded
 - 参数
   - token
 - 返回 Result(String) // 返回新token

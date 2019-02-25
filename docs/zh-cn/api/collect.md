@@ -1,6 +1,7 @@
 ## 收藏话题
 
-- 地址 GET `/api/collect/get`
+- 地址 POST `/api/collect/:topicId`
+- 请求类型 application/json
 - 参数
   - token
   - topicId: 话题ID
@@ -16,7 +17,8 @@
 
 ## 取消收藏
 
-- 地址 GET `/api/collect/delete`
+- 地址 DELETE `/api/collect/:topicId`
+- 请求类型 application/json
 - 参数
   - token
   - topicId: 话题ID

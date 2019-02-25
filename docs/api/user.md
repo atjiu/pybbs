@@ -1,6 +1,7 @@
 ## User Profile
 
 - Address GET `/api/user/:username`
+- Request Type application/json
 - Params
   - username
 - Return Result(Map)
@@ -87,6 +88,7 @@
 ## User Topic List
 
 - Address GET `/api/user/:username/topics`
+- Request Type application/json
 - Params
   - username
   - pageNo
@@ -141,6 +143,7 @@
 ## User Comment List
 
 - Address GET `/api/user/:username/comments`
+- Request Type application/json
 - Params
   - username
   - pageNo
@@ -190,6 +193,7 @@
 ##  User Collect List
 
 - Address GET `/api/user/:username/collects`
+- Request Type application/json
 - Params
   - username
   - pageNo

@@ -44,9 +44,7 @@ public class IndexApiController extends BaseApiController {
 
   // 首页接口
   @GetMapping({"/", "/index"})
-  public Result index(@RequestBody Map<String, String> body){
-    Integer pageNo = StringUtils.isEmpty(body.get("pageNo")) ? 1 : Integer.parseInt(body.get("pageNo"));
-    String tab = StringUtils.isEmpty(body.get("tab")) ? "all" : body.get("tab");
+  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab){
     MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
     return success(page);
   }
@@ -91,8 +89,7 @@ public class IndexApiController extends BaseApiController {
 
   // 标签接口
   @GetMapping("/tags")
-  public Result tags(@RequestBody Map<String, String> body) {
-    Integer pageNo = StringUtils.isEmpty(body.get("pageNo")) ? 1 : Integer.parseInt(body.get("pageNo"));
+  public Result tags(@RequestParam(defaultValue = "1") Integer pageNo) {
     return success(tagService.selectAll(pageNo, null, null));
   }
 

@@ -1,6 +1,7 @@
 ## 用户信息
 
 - 地址 GET `/api/user/:username`
+- 请求类型 application/json
 - 参数
   - username: 用户名
 - 返回 Result(Map)
@@ -91,6 +92,7 @@
 ## 用户话题列表
 
 - 地址 GET `/api/user/:username/topics`
+- 请求类型 application/json
 - 参数
   - username: 用户名
   - pageNo: 页数
@@ -145,6 +147,7 @@
 ## 用户评论列表
 
 - 地址 GET `/api/user/:username/comments`
+- 请求类型 application/json
 - 参数
   - username: 用户名
   - pageNo: 页数
@@ -194,6 +197,7 @@
 ## 用户收藏列表
 
 - 地址 GET `/api/user/:username/collects`
+- 请求类型 application/json
 - 参数
   - username: 用户名
   - pageNo: 页数

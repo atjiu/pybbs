@@ -1,6 +1,7 @@
 ## Update Settings
 
-- Address POST `/api/settings/update`
+- Address PUT `/api/settings`
+- Request Type application/json
 - Params
   - token
   - telegramName
@@ -20,6 +21,7 @@
 ## Send Email Code
 
 - Address GET `/api/settings/sendEmailCode`
+- Request Type application/x-www-form-urlencoded
 - Params
   - token
   - email
@@ -36,7 +38,8 @@
 
 ## Update Email
 
-- Address POST `/api/settings/updateEmail`
+- Address PUT `/api/settings/updateEmail`
+- Request Type application/json
 - Params
   - token
   - email
@@ -52,7 +55,8 @@
 
 ## Update Password
 
-- Address POST `/api/settings/updatePassword`
+- Address PUT `/api/settings/updatePassword`
+- Request Type application/json
 - Params
   - token
   - oldPassword
@@ -70,6 +74,7 @@
 ## Refresh Token
 
 - Address GET `/api/settings/refreshToken`
+- Request Type application/x-www-form-urlencoded
 - Params
   - token
 - Return Result(String) // Return new token

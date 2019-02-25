@@ -1,6 +1,7 @@
 ## Topic List
 
 - Address GET `/api/` 或者 `/api/index`
+- Request Type application/x-www-form-urlencoded
 - Params
   - pageNo
   - tab: Classification, respectively: `good` `noanswer` `hot` `newest`
@@ -50,6 +51,7 @@
 ## Login
 
 - Address POST `/api/login`
+- Request Type application/json
 - Params
   - username
   - password
@@ -80,6 +82,7 @@
 ## Register
 
 - Address POST `/api/register`
+- Request Type application/json
 - Params
   - username
   - password
@@ -110,6 +113,7 @@
 ## Tags
 
 - Address POST `/api/tags`
+- Request Type application/x-www-form-urlencoded
 - Params
   - pageNo
 - Return Result(List<Tag>)
@@ -141,6 +145,7 @@
 ## Upload Avatar
 
 - Address POST `/api/upload`
+- Request Type application/form-data
 - Params
   - token
   - file: Avatar

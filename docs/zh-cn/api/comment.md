@@ -1,6 +1,7 @@
 ## 发布评论
 
-- 地址 POST `/api/comment/create`
+- 地址 POST `/api/comment`
+- 请求类型 application/json
 - 参数
   - token
   - content: 评论的内容
@@ -26,7 +27,8 @@
 
 ## 更新评论
 
-- 地址 POST `/api/comment/update`
+- 地址 PUT `/api/comment/:id`
+- 请求类型 application/json
 - 参数
   - token
   - id: 评论的id
@@ -51,7 +53,8 @@
 
 ## 删除评论
 
-- 地址 GET `/api/comment/delete`
+- 地址 DELETE `/api/comment/:id`
+- 请求类型 application/json
 - 参数
   - token
   - id: 评论的id
@@ -67,7 +70,8 @@
 
 ## 点赞评论
 
-- 地址 GET `/api/comment/vote`
+- 地址 GET `/api/comment/:id/vote`
+- 请求类型 application/json
 - 参数
   - token
   - id: 评论的id

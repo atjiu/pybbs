@@ -1,6 +1,7 @@
 ## 未读消息个数
 
 - 地址 GET `/api/notification/notRead`
+- 请求类型 application/json
 - 参数
   - token
 - 返回 Result(int) // 返回未读消息条数
@@ -16,6 +17,7 @@
 ## 标记消息已读
 
 - 地址 GET `/api/notification/markRead`
+- 请求类型 application/json
 - 参数
   - token
 - 返回 Result()
@@ -31,6 +33,7 @@
 ## 消息列表
 
 - 地址 GET `/api/notification/list`
+- 请求类型 application/json
 - 参数
   - token
 - 返回 Result(Map)

@@ -1,6 +1,7 @@
 ## Number of unread notifications
 
 - Address GET `/api/notification/notRead`
+- Request Type application/json
 - Params
   - token
 - Return Result(int) // Returns the number of unread messages
@@ -16,6 +17,7 @@
 ## Mark Notification Read
 
 - Address GET `/api/notification/markRead`
+- Request Type application/json
 - Params
   - token
 - Return Result()
@@ -31,6 +33,7 @@
 ## Notification List
 
 - Address GET `/api/notification/list`
+- Request Type application/json
 - Params
   - token
 - Return Result(Map)

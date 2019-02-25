@@ -1,6 +1,7 @@
 ## 话题详情
 
-- 地址 GET `/api/topic/detail`
+- 地址 GET `/api/topic/:id`
+- 请求类型 application/json
 - 参数
   - token: **可不传**，传token返回值里会多一个这个话题是否被自己收藏，如果不填就没有这个对象
   - id: 话题id
@@ -103,7 +104,8 @@
 
 ## 发布话题
 
-- 地址 POST `/api/topic/create`
+- 地址 POST `/api/topic`
+- 请求类型 application/json
 - 参数
   - token
   - title: 话题标题
@@ -113,28 +115,41 @@
 
 ```json
 {
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": {
-    "id": 2,
-    "title": "title11",
-    "content": "content11",
-    "inTime": 1548999712125,
-    "modifyTime": null,
-    "userId": 1,
-    "commentCount": 0,
-    "collectCount": 0,
-    "view": 0,
-    "top": false,
-    "good": false,
-    "upIds": null
-  }
+    "code": 200,
+    "description": "SUCCESS",
+    "detail": {
+        "topic": {
+            "id": 11,
+            "title": "222",
+            "content": "",
+            "inTime": 1551063711700,
+            "modifyTime": null,
+            "userId": 1,
+            "commentCount": 0,
+            "collectCount": 0,
+            "view": 0,
+            "top": false,
+            "good": false,
+            "upIds": null
+        },
+        "tags": [
+            {
+                "id": 3,
+                "name": "22",
+                "description": null,
+                "icon": null,
+                "topicCount": 3,
+                "inTime": 1550826849000
+            }
+        ]
+    }
 }
 ```
 
 ## 编辑话题
 
-- 地址 POST `/api/topic/edit`
+- 地址 PUT `/api/topic`
+- 请求类型 application/json
 - 参数
   - token
   - id: 话题ID
@@ -145,28 +160,41 @@
 
 ```json
 {
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": {
-    "id": 2,
-    "title": "title22",
-    "content": "content22",
-    "inTime": 1548999712000,
-    "modifyTime": 1548999736555,
-    "userId": 1,
-    "commentCount": 0,
-    "collectCount": 0,
-    "view": 0,
-    "top": false,
-    "good": false,
-    "upIds": null
-  }
+    "code": 200,
+    "description": "SUCCESS",
+    "detail": {
+        "topic": {
+            "id": 11,
+            "title": "333",
+            "content": null,
+            "inTime": 1551063712000,
+            "modifyTime": 1551064039058,
+            "userId": 1,
+            "commentCount": 0,
+            "collectCount": 0,
+            "view": 0,
+            "top": false,
+            "good": false,
+            "upIds": null
+        },
+        "tags": [
+            {
+                "id": 4,
+                "name": "333",
+                "description": null,
+                "icon": null,
+                "topicCount": 1,
+                "inTime": 1551064026000
+            }
+        ]
+    }
 }
 ```
 
 ## 删除话题
 
-- 地址 GET `/api/topic/delete`
+- 地址 DELETE `/api/topic`
+- 请求类型 application/json
 - 参数
   - token
   - id: 话题ID
@@ -182,7 +210,8 @@
 
 ## 点赞话题
 
-- 地址 GET `/api/topic/vote`
+- 地址 GET `/api/topic/:id/vote`
+- 请求类型 application/json
 - 参数
   - token
   - id: 话题ID

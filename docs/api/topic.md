@@ -1,6 +1,7 @@
 ## Topic Detail
 
-- Address GET `/api/topic/detail`
+- Address GET `/api/topic/:id`
+- Request Type application/json
 - Params
   - token: **Optional**, if you pass the token, there will be one more object in the return value,
     showing that the current topic is not collected by yourself. If you do not fill it, there is no such object.
@@ -104,7 +105,8 @@
 
 ## Create Topic
 
-- Address POST `/api/topic/create`
+- Address POST `/api/topic`
+- Request Type application/json
 - Params
   - token
   - title
@@ -114,28 +116,41 @@
 
 ```json
 {
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": {
-    "id": 2,
-    "title": "title11",
-    "content": "content11",
-    "inTime": 1548999712125,
-    "modifyTime": null,
-    "userId": 1,
-    "commentCount": 0,
-    "collectCount": 0,
-    "view": 0,
-    "top": false,
-    "good": false,
-    "upIds": null
-  }
+    "code": 200,
+    "description": "SUCCESS",
+    "detail": {
+        "topic": {
+            "id": 11,
+            "title": "222",
+            "content": "",
+            "inTime": 1551063711700,
+            "modifyTime": null,
+            "userId": 1,
+            "commentCount": 0,
+            "collectCount": 0,
+            "view": 0,
+            "top": false,
+            "good": false,
+            "upIds": null
+        },
+        "tags": [
+            {
+                "id": 3,
+                "name": "22",
+                "description": null,
+                "icon": null,
+                "topicCount": 3,
+                "inTime": 1550826849000
+            }
+        ]
+    }
 }
 ```
 
 ## Edit Topic
 
-- Address POST `/api/topic/edit`
+- Address PUT `/api/topic`
+- Request Type application/json
 - Params
   - token
   - id
@@ -146,28 +161,41 @@
 
 ```json
 {
-  "code": 200,
-  "description": "SUCCESS",
-  "detail": {
-    "id": 2,
-    "title": "title22",
-    "content": "content22",
-    "inTime": 1548999712000,
-    "modifyTime": 1548999736555,
-    "userId": 1,
-    "commentCount": 0,
-    "collectCount": 0,
-    "view": 0,
-    "top": false,
-    "good": false,
-    "upIds": null
-  }
+    "code": 200,
+    "description": "SUCCESS",
+    "detail": {
+        "topic": {
+            "id": 11,
+            "title": "333",
+            "content": null,
+            "inTime": 1551063712000,
+            "modifyTime": 1551064039058,
+            "userId": 1,
+            "commentCount": 0,
+            "collectCount": 0,
+            "view": 0,
+            "top": false,
+            "good": false,
+            "upIds": null
+        },
+        "tags": [
+            {
+                "id": 4,
+                "name": "333",
+                "description": null,
+                "icon": null,
+                "topicCount": 1,
+                "inTime": 1551064026000
+            }
+        ]
+    }
 }
 ```
 
 ## Delete Topic
 
-- Address GET `/api/topic/delete`
+- Address DELETE `/api/topic`
+- Request Type application/json
 - Params
   - token
   - id
@@ -183,7 +211,8 @@
 
 ## Like Topic
 
-- Address GET `/api/topic/vote`
+- Address GET `/api/topic/:id/vote`
+- Request Type application/json
 - Params
   - token
   - id

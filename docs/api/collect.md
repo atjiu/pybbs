@@ -1,6 +1,7 @@
 ## Collect Topic
 
-- Address GET `/api/collect/get`
+- Address POST `/api/collect/:topicId`
+- Request Type application/json
 - Params
   - token
   - topicId
@@ -16,7 +17,8 @@
 
 ## Delete Collect
 
-- Address GET `/api/collect/delete`
+- Address DELETE `/api/collect/:topicId`
+- Request Type application/json
 - Params
   - token
   - topicId

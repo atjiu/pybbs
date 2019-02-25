@@ -3,6 +3,7 @@
 ## 首页列表
 
 - 地址 GET `/api/` 或者 `/api/index`
+- 请求类型 application/x-www-form-urlencoded
 - 参数
   - pageNo: 页码
   - tab: 分类，分别是 精华：`good` 无人评论：`noanswer` 热门：`hot` 最新：`newest`
@@ -52,6 +53,7 @@
 ## 登录
 
 - 地址 POST `/api/login`
+- 请求类型 application/json
 - 参数
   - username: 用户名
   - password: 密码
@@ -82,6 +84,7 @@
 ## 注册
 
 - 地址 POST `/api/register`
+- 请求类型 application/json
 - 参数
   - username: 用户名
   - password: 密码
@@ -112,6 +115,7 @@
 ## 标签
 
 - 地址 POST `/api/tags`
+- 请求类型 application/x-www-form-urlencoded
 - 参数
   - pageNo
 - 返回 Result(List<Tag>)
@@ -143,6 +147,7 @@
 ## 上传头像
 
 - 地址 POST `/api/upload`
+- 请求类型 application/form-data
 - 参数
   - token
   - file: 上传图片的文件对象

@@ -1,6 +1,7 @@
 ## Create Comment
 
-- Address POST `/api/comment/create`
+- Address POST `/api/comment`
+- Request Type application/json
 - Params
   - token
   - content
@@ -26,7 +27,8 @@
 
 ## Update Comment
 
-- Address POST `/api/comment/update`
+- Address PUT `/api/comment/:id`
+- Request Type application/json
 - Params
   - token
   - id
@@ -51,7 +53,8 @@
 
 ## Delete Comment
 
-- Address GET `/api/comment/delete`
+- Address DELETE `/api/comment/:id`
+- Request Type application/json
 - Params
   - token
   - id
@@ -67,7 +70,8 @@
 
 ## Like Comment
 
-- Address GET `/api/comment/vote`
+- Address GET `/api/comment/:id/vote`
+- Request Type application/json
 - Params
   - token
   - id
