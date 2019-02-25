@@ -40,17 +40,25 @@
         toast("请输入密码");
         return;
       }
-      $.post("/api/login", {
-        username: username,
-        password: password
-      }, function (data) {
-        if (data.code === 200) {
-          toast("登录成功", "success");
-          setTimeout(function () {
-            window.location.href = "/";
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/login',
+        type: 'post',
+        cache: false,
+        async: false,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: username,
+          password: password
+        }),
+        success: function(data) {
+          if (data.code === 200) {
+            toast("登录成功", "success");
+            setTimeout(function () {
+              window.location.href = "/";
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
       })
     })

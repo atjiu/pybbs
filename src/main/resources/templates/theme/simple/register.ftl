@@ -32,16 +32,24 @@
         return;
       }
       $(".loading").show();
-      $.post("/api/register", {
-        username: username,
-        password: password
-      }, function (data) {
-        if (data.code === 200) {
-          window.location.href = "/";
-        } else {
-          alert(data.description);
+      $.ajax({
+        url: '/api/register',
+        type: 'post',
+        cache: false,
+        async: false,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: username,
+          password: password
+        }),
+        success: function(data) {
+          if (data.code === 200) {
+            window.location.href = "/";
+          } else {
+            alert(data.description);
+          }
+          $(".loading").hide();
         }
-        $(".loading").hide();
       })
     }
   </script>

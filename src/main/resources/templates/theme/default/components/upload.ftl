@@ -14,6 +14,9 @@
       url: "/api/upload",
       data: fd,
       dataType: 'json',
+      headers: {
+        'token': '${_user.token}'
+      },
       processData: false,
       contentType: false,
       success: function (data) {

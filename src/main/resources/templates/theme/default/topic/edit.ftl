@@ -60,20 +60,30 @@
         toast("请输入标签，且最多只能填5个");
         return;
       }
-      $.post("/api/topic/edit", {
-        id: ${topic.id},
-        title: title,
-        content: content,
-        tags: tags,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          toast("更新成功", "success");
-          setTimeout(function () {
-            window.location.href = "/topic/" + data.detail.id
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/topic/${topic.id}',
+        type: 'put',
+        cache: false,
+        async: false,
+        dataType: 'json',
+        headers: {
+          "token": "${_user.token}",
+        },
+        contentType: "application/json",
+        data: JSON.stringify({
+          title: title,
+          content: content,
+          tags: tags,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            toast("更新成功", "success");
+            setTimeout(function () {
+              window.location.href = "/topic/" + data.detail.topic.id
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
       })
     });

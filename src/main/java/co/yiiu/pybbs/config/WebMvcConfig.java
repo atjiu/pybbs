@@ -1,11 +1,11 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.interceptor.CommonInterceptor;
-import co.yiiu.pybbs.interceptor.UserApiInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.FormContentFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,8 +27,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private CommonInterceptor commonInterceptor;
   @Autowired
   private UserInterceptor userInterceptor;
-  @Autowired
-  private UserApiInterceptor userApiInterceptor;
 
   @Override
   protected void addCorsMappings(CorsRegistry registry) {
@@ -53,18 +51,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
             "/topic/edit/*",
             "/api/upload" // 上传图片路由
         );
-    // 接口拦截器，拦截用户是否登录
-    registry.addInterceptor(userApiInterceptor)
-        .addPathPatterns(
-            "/api/topic/create",
-            "/api/topic/edit",
-            "/api/topic/delete",
-            "/api/topic/vote",
-            "/api/comment/*",
-            "/api/collect/*",
-            "/api/settings/*",
-            "/api/notification/*"
-        );
   }
 
   @Override
@@ -79,5 +65,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     sessionLocaleResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
     return sessionLocaleResolver;
   }
+
+  // 解析put delete请求时带的参数
+//  @Bean
+//  public FormContentFilter formContentFilter() {
+//    return new FormContentFilter();
+//  }
 
 }

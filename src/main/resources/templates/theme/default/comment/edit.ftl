@@ -48,18 +48,28 @@
         toast("请输入内容");
         return ;
       }
-      $.post("/api/comment/update", {
-        id: ${comment.id},
-        content: content,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          toast("更新成功", "success");
-          setTimeout(function () {
-            window.location.href = "/topic/${comment.topicId}";
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/comment/${comment.id}',
+        cache: false,
+        async: false,
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        data: JSON.stringify({
+          content: content,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            toast("更新成功", "success");
+            setTimeout(function () {
+              window.location.href = "/topic/${comment.topicId}";
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
       })
     })

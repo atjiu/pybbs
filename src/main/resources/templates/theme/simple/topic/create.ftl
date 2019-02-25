@@ -41,18 +41,28 @@
         return;
       }
       $(".loading").show();
-      $.post("/api/topic/create", {
-        title: title,
-        content: content,
-        tags: tags,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          window.location.href = "/topic/" + data.detail.id
-        } else {
-          alert(data.description);
+      $.ajax({
+        url: '/api/topic',
+        type: 'post',
+        cache: false,
+        async: false,
+        headers: {
+          'token': '${_user.token}'
+        },
+        contentType: 'application/json',
+        data: JSON.stringify({
+          title: title,
+          content: content,
+          tags: tags,
+        }),
+        success: function(data) {
+          if (data.code === 200) {
+            window.location.href = "/topic/" + data.detail.topic.id
+          } else {
+            alert(data.description);
+          }
+          $(".loading").hide();
         }
-        $(".loading").hide();
       })
     }
   </script>

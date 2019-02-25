@@ -35,9 +35,20 @@
       }
     });
     function markRead() {
-      $.get('/api/notification/markRead?token=${_user.token}', function (data) {
-        if (data.code === 200) {
-          window.location.reload();
+      $.ajax({
+        url: '/api/notification/markRead',
+        cache: false,
+        async: false,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            window.location.reload();
+          }
         }
       })
     }

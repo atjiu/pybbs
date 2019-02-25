@@ -133,6 +133,14 @@ public class TopicService {
     }
   }
 
+  // 根据title查询话题，防止重复话题
+  public Topic selectByTitle(String title) {
+    QueryWrapper<Topic> wrapper = new QueryWrapper<>();
+    wrapper.lambda()
+        .eq(Topic::getTitle, title);
+    return topicMapper.selectOne(wrapper);
+  }
+
   // 处理话题的访问量
   public Topic addViewCount(Topic topic, HttpServletRequest request) {
     String ip = IpUtil.getIpAddr(request);

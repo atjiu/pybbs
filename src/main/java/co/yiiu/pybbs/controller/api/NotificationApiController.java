@@ -26,12 +26,14 @@ public class NotificationApiController extends BaseApiController {
 
   @GetMapping("/notRead")
   public Result notRead() {
-    return success(notificationService.countNotRead(getApiUser().getId()));
+    User user = getApiUser();
+    return success(notificationService.countNotRead(user.getId()));
   }
 
   @GetMapping("/markRead")
   public Result markRead() {
-    notificationService.markRead(getApiUser().getId());
+    User user = getApiUser();
+    notificationService.markRead(user.getId());
     return success();
   }
 

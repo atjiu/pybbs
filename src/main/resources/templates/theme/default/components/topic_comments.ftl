@@ -45,21 +45,32 @@
           <#if _user??>
             <script>
               function vote(id) {
-                $.get("/api/comment/vote?token=${_user.token}&id=" + id, function (data) {
-                  if (data.code === 200) {
-                    var voteIcon = $("#vote_icon_" + id);
-                    if (voteIcon.hasClass("fa-thumbs-up")) {
-                      toast("取消点赞成功", "success");
-                      voteIcon.removeClass("fa-thumbs-up");
-                      voteIcon.addClass("fa-thumbs-o-up");
+                $.ajax({
+                  url: '/api/comment/' + id + '/vote',
+                  cache: false,
+                  async: false,
+                  type: 'get',
+                  dataType: 'json',
+                  contentType: 'application/json',
+                  headers: {
+                    'token': '${_user.token}'
+                  },
+                  success: function (data) {
+                    if (data.code === 200) {
+                      var voteIcon = $("#vote_icon_" + id);
+                      if (voteIcon.hasClass("fa-thumbs-up")) {
+                        toast("取消点赞成功", "success");
+                        voteIcon.removeClass("fa-thumbs-up");
+                        voteIcon.addClass("fa-thumbs-o-up");
+                      } else {
+                        toast("点赞成功", "success");
+                        voteIcon.addClass("fa-thumbs-up");
+                        voteIcon.removeClass("fa-thumbs-o-up");
+                      }
+                      $("#vote_count_" + id).text(data.detail);
                     } else {
-                      toast("点赞成功", "success");
-                      voteIcon.addClass("fa-thumbs-up");
-                      voteIcon.removeClass("fa-thumbs-o-up");
+                      toast(data.description);
                     }
-                    $("#vote_count_" + id).text(data.detail);
-                  } else {
-                    toast(data.description);
                   }
                 })
               }

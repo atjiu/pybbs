@@ -18,19 +18,30 @@
 
   var token = '${_user.token}';
   $("#refreshToken").on("click", function() {
-    $.get("/api/settings/refreshToken?token=" + token, function (data) {
-      if (data.code === 200) {
-        toast("刷新token成功", "success");
-        $("#qrcode").html("");
-        $("#qrcode").qrcode({
-          width: 180,
-          height: 180,
-          text: data.detail
-        });
-        $("#userToken").text(data.detail);
-        token = data.detail;
-      } else {
-        toast("刷新token失败");
+    $.ajax({
+      url: '/api/settings/refreshToken',
+      cache: false,
+      async: false,
+      type: 'get',
+      dataType: 'json',
+      contentType: 'application/json',
+      headers: {
+        'token': token
+      },
+      success: function (data) {
+        if (data.code === 200) {
+          toast("刷新token成功", "success");
+          $("#qrcode").html("");
+          $("#qrcode").qrcode({
+            width: 180,
+            height: 180,
+            text: data.detail
+          });
+          $("#userToken").text(data.detail);
+          token = data.detail;
+        } else {
+          toast("刷新token失败");
+        }
       }
     })
   });

@@ -12,6 +12,7 @@ import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,14 +44,18 @@ public class IndexApiController extends BaseApiController {
 
   // 首页接口
   @GetMapping({"/", "/index"})
-  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab){
+  public Result index(@RequestBody Map<String, String> body){
+    Integer pageNo = StringUtils.isEmpty(body.get("pageNo")) ? 1 : Integer.parseInt(body.get("pageNo"));
+    String tab = StringUtils.isEmpty(body.get("tab")) ? "all" : body.get("tab");
     MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
     return success(page);
   }
 
   // 处理登录的接口
   @PostMapping("/login")
-  public Result login(String username, String password, HttpSession session) {
+  public Result login(@RequestBody Map<String, String> body, HttpSession session) {
+    String username = body.get("username");
+    String password = body.get("password");
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
     User user = userService.selectByUsername(username);
@@ -61,7 +66,9 @@ public class IndexApiController extends BaseApiController {
 
   // 处理注册的接口
   @PostMapping("/register")
-  public Result register(String username, String password, HttpSession session) {
+  public Result register(@RequestBody Map<String, String> body, HttpSession session) {
+    String username = body.get("username");
+    String password = body.get("password");
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
     User user = userService.selectByUsername(username);
@@ -84,7 +91,8 @@ public class IndexApiController extends BaseApiController {
 
   // 标签接口
   @GetMapping("/tags")
-  public Result tags(@RequestParam(defaultValue = "1") Integer pageNo) {
+  public Result tags(@RequestBody Map<String, String> body) {
+    Integer pageNo = StringUtils.isEmpty(body.get("pageNo")) ? 1 : Integer.parseInt(body.get("pageNo"));
     return success(tagService.selectAll(pageNo, null, null));
   }
 
@@ -92,6 +100,7 @@ public class IndexApiController extends BaseApiController {
   @PostMapping("/upload")
   @ResponseBody
   public Result upload(@RequestParam("file") MultipartFile file, String type, HttpSession session) {
+    User user = getApiUser();
     ApiAssert.notEmpty(type, "上传图片类型不能为空");
     long size = file.getSize();
     int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_avatar_size_limit").toString());
@@ -99,18 +108,18 @@ public class IndexApiController extends BaseApiController {
     String url;
     if (type.equalsIgnoreCase("avatar")) { // 上传头像
       // 拿到上传后访问的url
-      url = fileUtil.upload(file, "avatar", "avatar/" + getUser().getUsername());
+      url = fileUtil.upload(file, "avatar", "avatar/" + user.getUsername());
       if (url != null) {
         // 查询当前用户的最新信息
-        User user = userService.selectById(getUser().getId());
-        user.setAvatar(url);
+        User user1 = userService.selectById(user.getId());
+        user1.setAvatar(url);
         // 保存用户新的头像
-        userService.update(user);
+        userService.update(user1);
         // 将最新的用户信息更新在session里
-        if (session != null) session.setAttribute("_user", user);
+        if (session != null) session.setAttribute("_user", user1);
       }
     } else if (type.equalsIgnoreCase("topic")) { // 发帖上传图片
-      url = fileUtil.upload(file, null, "topic/" + getUser().getUsername());
+      url = fileUtil.upload(file, null, "topic/" + user.getUsername());
     } else {
       return error("上传图片类型不在处理范围内");
     }

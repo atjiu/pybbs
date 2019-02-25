@@ -20,15 +20,25 @@
         alert("请输入内容");
         return ;
       }
-      $.post("/api/comment/update", {
-        id: ${comment.id},
-        content: content,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          window.location.href = "/topic/${comment.topicId}";
-        } else {
-          alert(data.description);
+      $.ajax({
+        url: '/api/comment/${comment.id}',
+        type: 'put',
+        cache: false,
+        async: false,
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          content: content,
+        }),
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            window.location.href = "/topic/${comment.topicId}";
+          } else {
+            alert(data.description);
+          }
         }
       })
     })

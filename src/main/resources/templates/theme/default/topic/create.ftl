@@ -62,19 +62,30 @@
           toast("请输入标签，且最多只能填5个");
           return;
         }
-        $.post("/api/topic/create", {
-          title: title,
-          content: content,
-          tags: tags,
-          token: '${_user.token}',
-        }, function (data) {
-          if (data.code === 200) {
-            toast("创建成功", "success");
-            setTimeout(function () {
-              window.location.href = "/topic/" + data.detail.id
-            }, 700);
-          } else {
-            toast(data.description);
+        $.ajax({
+          url: '/api/topic',
+          cache: false,
+          async: false,
+          type: 'post',
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            'token': '${_user.token}'
+          },
+          data: JSON.stringify({
+            title: title,
+            content: content,
+            tags: tags,
+          }),
+          success: function (data) {
+            if (data.code === 200) {
+              toast("创建成功", "success");
+              setTimeout(function () {
+                window.location.href = "/topic/" + data.detail.topic.id
+              }, 700);
+            } else {
+              toast(data.description);
+            }
           }
         })
       });

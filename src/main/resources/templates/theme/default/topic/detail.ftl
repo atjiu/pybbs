@@ -128,19 +128,30 @@
           toast("请输入评论内容");
           return;
         }
-        $.post("/api/comment/create", {
-          topicId: ${topic.id},
-          content: content,
-          commentId: $("#commentId").val(),
-          token: '${_user.token}',
-        }, function (data) {
-          if (data.code === 200) {
-            toast("评论成功", "success");
-            setTimeout(function () {
-              window.location.reload();
-            }, 700);
-          } else {
-            toast(data.description);
+        $.ajax({
+          url: '/api/comment',
+          type: 'post',
+          cache: false,
+          async: false,
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            topicId: '${topic.id}',
+            content: content,
+            commentId: $("#commentId").val(),
+          }),
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              toast("评论成功", "success");
+              setTimeout(function () {
+                window.location.reload();
+              }, 700);
+            } else {
+              toast(data.description);
+            }
           }
         })
       })
@@ -149,39 +160,62 @@
         var _this = this;
         var text = $(_this).text();
         var collectCount = $("#collectCount").text();
-        var url = "";
+        var type = '';
         if (text === "加入收藏") {
-          url = "/api/collect/get";
+          type = 'post';
         } else if (text === "取消收藏") {
-          url = "/api/collect/delete";
+          type = 'delete';
         }
-        $.get(url + '?token=${_user.token}', { topicId: ${topic.id} }, function(data) {
-          if (data.code === 200) {
-            if (text === "加入收藏") {
-              toast("收藏成功", "success");
-              $(_this).text("取消收藏");
-              $("#collectCount").text(parseInt(collectCount) + 1);
-            } else if (text === "取消收藏") {
-              toast("取消收藏成功", "success");
-              $(_this).text("加入收藏");
-              $("#collectCount").text(parseInt(collectCount) - 1);
+        $.ajax({
+          url: '/api/collect/${topic.id}',
+          type: type,
+          cache: false,
+          async: false,
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            "token": "${_user.token}",
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              if (text === "加入收藏") {
+                toast("收藏成功", "success");
+                $(_this).text("取消收藏");
+                $("#collectCount").text(parseInt(collectCount) + 1);
+              } else if (text === "取消收藏") {
+                toast("取消收藏成功", "success");
+                $(_this).text("加入收藏");
+                $("#collectCount").text(parseInt(collectCount) - 1);
+              }
+            } else {
+              toast(data.description);
             }
-          } else {
-            toast(data.description);
           }
-        });
+        })
       });
       // 删除话题
       $("#deleteTopic").click(function () {
         if (confirm("确定要删除吗？这会清空跟这个话题所有相关的数据，再考虑考虑呗！！")) {
-          $.get("/api/topic/delete", {id: ${topic.id}, token: '${_user.token}' }, function (data) {
-            if (data.code === 200) {
-              toast("删除成功", "success");
-              setTimeout(function () {
-                window.location.href = "/";
-              }, 700);
-            } else {
-              toast(data.description);
+          $.ajax({
+            url: '/api/topic/${topic.id}',
+            type: 'delete',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            contentType: 'application/json',
+            headers: {
+              'token': '${_user.token}'
+            },
+            data: JSON.stringify({token: '${_user.token}'}),
+            success: function(data) {
+              if (data.code === 200) {
+                toast("删除成功", "success");
+                setTimeout(function () {
+                  window.location.href = "/";
+                }, 700);
+              } else {
+                toast(data.description);
+              }
             }
           })
         }
@@ -190,21 +224,32 @@
 
     // 点赞话题
     function voteTopic(id) {
-      $.get("/api/topic/vote?token=${_user.token}&id=" + id, function (data) {
-        if (data.code === 200) {
-          var voteTopicIcon = $("#vote_topic_icon_" + id);
-          if (voteTopicIcon.hasClass("fa-thumbs-up")) {
-            toast("取消点赞成功", "success");
-            voteTopicIcon.removeClass("fa-thumbs-up");
-            voteTopicIcon.addClass("fa-thumbs-o-up");
+      $.ajax({
+        url: '/api/topic/' + id + '/vote',
+        type: 'get',
+        cache: false,
+        async: false,
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            var voteTopicIcon = $("#vote_topic_icon_" + id);
+            if (voteTopicIcon.hasClass("fa-thumbs-up")) {
+              toast("取消点赞成功", "success");
+              voteTopicIcon.removeClass("fa-thumbs-up");
+              voteTopicIcon.addClass("fa-thumbs-o-up");
+            } else {
+              toast("点赞成功", "success");
+              voteTopicIcon.addClass("fa-thumbs-up");
+              voteTopicIcon.removeClass("fa-thumbs-o-up");
+            }
+            $("#vote_topic_count_" + id).text(data.detail);
           } else {
-            toast("点赞成功", "success");
-            voteTopicIcon.addClass("fa-thumbs-up");
-            voteTopicIcon.removeClass("fa-thumbs-o-up");
+            toast(data.description);
           }
-          $("#vote_topic_count_" + id).text(data.detail);
-        } else {
-          toast(data.description);
         }
       })
     }
@@ -212,14 +257,25 @@
     // 删除评论
     function deleteComment(id) {
       if(confirm("确定要删除这个评论吗？删了就没有了哦！")) {
-        $.get("/api/comment/delete?token=${_user.token}&id=" + id, function (data) {
-          if (data.code === 200) {
-            toast("删除成功", "success");
-            setTimeout(function () {
-              window.location.reload();
-            }, 700);
-          } else {
-            toast(data.description);
+        $.ajax({
+          url: '/api/comment/' + id,
+          cache: false,
+          async: false,
+          type: 'delete',
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              toast("删除成功", "success");
+              setTimeout(function () {
+                window.location.reload();
+              }, 700);
+            } else {
+              toast(data.description);
+            }
           }
         })
       }
@@ -240,5 +296,7 @@
     $('html, body').animate({scrollTop: 0}, 500);
   })
 </script>
-<#include "../components/upload.ftl"/>
+<#if _user??>
+  <#include "../components/upload.ftl"/>
+</#if>
 </@html>

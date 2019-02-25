@@ -9,13 +9,13 @@
           <li>积分: <a href="/top100">${user.score!0}</a></li>
           <li>收藏话题: <a href="/user/${user.username}/collects">${collectCount!0}</a></li>
           <li>入驻时间: ${model.formatDate(user.inTime)}</li>
-          <#if user.email??>
+          <#if user.email?? && user.email != "">
             <li><a href="mailto:${user.email}">${user.email}</a></li>
           </#if>
-          <#if user.website??>
+          <#if user.website?? && user.website != "">
             <li><a href="${user.website}" target="_blank">${user.website}</a></li>
           </#if>
-          <#if githubLogin??>
+          <#if githubLogin?? && user.githubLogin != "">
             <li>Github: <a href="https://github.com/${githubLogin}" target="_blank">${githubLogin}</a></li>
           </#if>
           <#if user.bio?? && user.bio != "">

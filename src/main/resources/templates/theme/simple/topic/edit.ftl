@@ -4,7 +4,8 @@
   <table border=0 style="width: 100%;">
     <tr>
       <td width="40">标题</td>
-      <td style="padding-right: 14px;"><input type="text" name="title" id="title" value="${topic.title}" placeholder="标题"/></td>
+      <td style="padding-right: 14px;"><input type="text" name="title" id="title" value="${topic.title}"
+                                              placeholder="标题"/></td>
     </tr>
     <tr>
       <td valign="top">内容</td>
@@ -15,7 +16,8 @@
     </tr>
     <tr>
       <td>标签</td>
-      <td style="padding-right: 14px;"><input type="text" name="tags" id="tags" value="${tags!}" placeholder="标签, 多个标签以 英文逗号 隔开"/></td>
+      <td style="padding-right: 14px;"><input type="text" name="tags" id="tags" value="${tags!}"
+                                              placeholder="标签, 多个标签以 英文逗号 隔开"/></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -38,17 +40,27 @@
         alert("请输入标签，且最多只能填5个");
         return;
       }
-      $.post("/api/topic/edit", {
-        id: ${topic.id},
-        title: title,
-        content: content,
-        tags: tags,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          window.location.href = "/topic/" + data.detail.id
-        } else {
-          alert(data.description);
+      $.ajax({
+        url: '/api/topic/${topic.id}',
+        type: 'put',
+        cache: false,
+        async: false,
+        dataType: 'json',
+        headers: {
+          "token": "${_user.token}",
+        },
+        contentType: "application/json",
+        data: JSON.stringify({
+          title: title,
+          content: content,
+          tags: tags,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            window.location.href = "/topic/" + data.detail.topic.id
+          } else {
+            alert(data.description);
+          }
         }
       })
     }

@@ -10,7 +10,7 @@
       </ul>
     </div>
     <div class="right settings">
-      <form class="form-horizontal" onsubmit="return;" id="baseDiv">
+      <form onsubmit="return;" id="baseDiv">
         <fieldset>
           <legend>基本信息</legend>
           <div>
@@ -35,7 +35,8 @@
           </div>
           <div>
             <p>
-              <input type="checkbox" id="emailNotification" style="vertical-align: middle;" <#if user.emailNotification>checked</#if>>
+              <input type="checkbox" id="emailNotification" style="vertical-align: middle;"
+                     <#if user.emailNotification>checked</#if>>
               <label for="emailNotification">有新消息发送邮件</label>
             </p>
           </div>
@@ -45,27 +46,27 @@
         </fieldset>
       </form>
       <br>
-      <form onsubmit="return;" class="form-horizontal" id="emailDiv">
+      <form onsubmit="return;" id="emailDiv">
         <fieldset>
           <legend>修改邮箱</legend>
           <div>
             <p>邮箱</p>
             <input type="email" name="email" id="email" value="${user.email!}"
                    placeholder="邮箱"/>
-            <button type="button" id="sendEmailCode" class="btn btn-info" autocomplete="off"
-                    data-loading-text="发送中...">发送验证码</button>
+            <button type="button" id="sendEmailCode">发送验证码
+            </button>
           </div>
           <div>
             <p>验证码</p>
             <input type="text" name="code" id="code" placeholder="验证码"/>
           </div>
           <div>
-            <button type="button" id="settings_email_btn" class="btn btn-info">更改邮箱</button>
+            <button type="button" id="settings_email_btn">更改邮箱</button>
           </div>
         </fieldset>
       </form>
       <br>
-      <form onsubmit="return;" class="form-horizontal" id="avatarDiv">
+      <form onsubmit="return;" id="avatarDiv">
         <fieldset>
           <legend>修改头像</legend>
           <div>
@@ -79,7 +80,7 @@
         </fieldset>
       </form>
       <br>
-      <form onsubmit="return;" class="form-horizontal" id="passwordDiv">
+      <form onsubmit="return;" id="passwordDiv">
         <fieldset>
           <legend>修改密码</legend>
           <div>
@@ -112,17 +113,28 @@
         var website = $("#website").val();
         var bio = $("#bio").val();
         var emailNotification = $("#emailNotification").is(":checked");
-        $.post("/api/settings/update", {
-          telegramName: telegramName,
-          website: website,
-          bio: bio,
-          emailNotification: emailNotification,
-          token: '${_user.token}',
-        }, function (data) {
-          if (data.code === 200) {
-            window.location.reload();
-          } else {
-            alert(data.description);
+        $.ajax({
+          url: '/api/settings',
+          cache: false,
+          async: false,
+          type: 'put',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            telegramName: telegramName,
+            website: website,
+            bio: bio,
+            emailNotification: emailNotification,
+          }),
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              window.location.reload();
+            } else {
+              alert(data.description);
+            }
           }
         })
       });
@@ -140,6 +152,9 @@
           url: "/api/upload",
           data: fd,
           dataType: 'json',
+          headers: {
+            'token': '${_user.token}'
+          },
           processData: false,
           contentType: false,
           success: function (data) {
@@ -156,29 +171,56 @@
 
       // 更改邮箱
       $("#sendEmailCode").on("click", function () {
-        $(this).attr("disabled", true);
         var email = $("#email").val();
-        $.get("/api/settings/sendEmailCode?token=${_user.token}&email=" + email, function (data) {
-          if (data.code === 200) {
-            alert("发送成功");
-          } else {
-            alert(data.description);
+        if (!email) {
+          alert("请输入邮箱");
+          return;
+        }
+        $(this).attr("disabled", true);
+        $.ajax({
+          url: '/api/settings/sendEmailCode',
+          cache: false,
+          async: false,
+          type: 'get',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: {email: email},
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              alert("发送成功");
+            } else {
+              alert(data.description);
+            }
+            $("#sendEmailCode").attr("disabled", false);
           }
-          $("#sendEmailCode").attr("disabled", false);
         })
       })
       $("#settings_email_btn").click(function () {
         var email = $("#email").val();
         var code = $("#code").val();
-        $.post("/api/settings/updateEmail", {
-          email: email,
-          code: code,
-          token: '${_user.token}',
-        }, function (data) {
-          if (data.code === 200) {
-            window.location.reload();
-          } else {
-            alert(data.description);
+        $.ajax({
+          url: '/api/settings/updateEmail',
+          cache: false,
+          async: false,
+          type: 'put',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            email: email,
+            code: code,
+          }),
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              window.location.reload();
+            } else {
+              alert(data.description);
+            }
           }
         })
       })
@@ -195,41 +237,63 @@
           alert("请输入新密码");
           return;
         }
-        $.post("/api/settings/updatePassword", {
-          oldPassword: oldPassword,
-          newPassword: newPassword,
-          token: '${_user.token}',
-        }, function (data) {
-          if (data.code === 200) {
-            alert("修改密码成功");
-          } else {
-            alert(data.description);
+        $.ajax({
+          url: '/api/settings/updatePassword',
+          cache: false,
+          async: false,
+          type: 'put',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            oldPassword: oldPassword,
+            newPassword: newPassword,
+          }),
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              alert("修改密码成功");
+            } else {
+              alert(data.description);
+            }
           }
         })
       });
-    });
-    $("#qrcode").qrcode({
-      width: 180,
-      height: 180,
-      text: '${_user.token}'
-    });
+      $("#qrcode").qrcode({
+        width: 180,
+        height: 180,
+        text: '${_user.token}'
+      });
 
-    var token = '${_user.token}';
-    $("#refreshToken").on("click", function() {
-      $.get("/api/settings/refreshToken?token=" + token, function (data) {
-        if (data.code === 200) {
-          $("#qrcode").html("");
-          $("#qrcode").qrcode({
-            width: 180,
-            height: 180,
-            text: data.detail
-          });
-          $("#userToken").text(data.detail);
-          token = data.detail;
-        } else {
-          alert("刷新token失败");
-        }
-      })
+      var token = '${_user.token}';
+      $("#refreshToken").on("click", function () {
+        $.ajax({
+          url: '/api/settings/refreshToken',
+          cache: false,
+          async: false,
+          type: 'get',
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            'token': token
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              $("#qrcode").html("");
+              $("#qrcode").qrcode({
+                width: 180,
+                height: 180,
+                text: data.detail
+              });
+              $("#userToken").text(data.detail);
+              token = data.detail;
+            } else {
+              alert("刷新token失败");
+            }
+          }
+        })
+      });
     });
   </script>
 </@html>

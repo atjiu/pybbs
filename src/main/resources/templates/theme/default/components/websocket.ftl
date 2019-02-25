@@ -34,10 +34,21 @@
       var title = document.title;
 
       function notificationCount() {
-        $.get("/api/notification/notRead?token=${_user.token}", function (data) {
-          if (data.code === 200 && data.detail > 0) {
-            $("#n_count").text(data.detail);
-            document.title = "(" + data.detail + ") " + title;
+        $.ajax({
+          url: '/api/notification/notRead',
+          cache: false,
+          async: false,
+          type: 'get',
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200 && data.detail > 0) {
+              $("#n_count").text(data.detail);
+              document.title = "(" + data.detail + ") " + title;
+            }
           }
         })
       }

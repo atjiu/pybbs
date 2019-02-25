@@ -145,20 +145,31 @@
       var website = $("#website").val();
       var bio = $("#bio").val();
       var emailNotification = $("#emailNotification").is(":checked");
-      $.post("/api/settings/update", {
-        telegramName: telegramName,
-        website: website,
-        bio: bio,
-        emailNotification: emailNotification,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          toast("更新个人资料成功", "success");
-          setTimeout(function () {
-            window.location.reload();
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/settings',
+        cache: false,
+        async: false,
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        data: JSON.stringify({
+          telegramName: telegramName,
+          website: website,
+          bio: bio,
+          emailNotification: emailNotification,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            toast("更新个人资料成功", "success");
+            setTimeout(function () {
+              window.location.reload();
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
       })
     });
@@ -176,6 +187,9 @@
         url: "/api/upload",
         data: fd,
         dataType: 'json',
+        headers: {
+          'token': '${_user.token}'
+        },
         processData: false,
         contentType: false,
         success: function (data) {
@@ -195,30 +209,55 @@
     $("#sendEmailCode").on("click", function () {
       var loadingBtn = $(this).button("loading");
       var email = $("#email").val();
-      $.get("/api/settings/sendEmailCode?token=${_user.token}&email=" + email, function (data) {
-        if (data.code === 200) {
-          toast("发送成功", "success");
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/settings/sendEmailCode',
+        cache: false,
+        async: false,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        data: {
+          email: email,
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            toast("发送成功", "success");
+          } else {
+            toast(data.description);
+          }
+          loadingBtn.button("reset");
         }
-        loadingBtn.button("reset");
       })
     })
     $("#settings_email_btn").click(function () {
       var email = $("#email").val();
       var code = $("#code").val();
-      $.post("/api/settings/updateEmail", {
-        email: email,
-        code: code,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          toast("更改成功", "success");
-          setTimeout(function () {
-            window.location.reload();
-          }, 700);
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/settings/updateEmail',
+        cache: false,
+        async: false,
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        data: JSON.stringify({
+          email: email,
+          code: code,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            toast("更改成功", "success");
+            setTimeout(function () {
+              window.location.reload();
+            }, 700);
+          } else {
+            toast(data.description);
+          }
         }
       })
     })
@@ -235,15 +274,26 @@
         toast("请输入新密码");
         return;
       }
-      $.post("/api/settings/updatePassword", {
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-        token: '${_user.token}',
-      }, function (data) {
-        if (data.code === 200) {
-          toast("修改密码成功", "success");
-        } else {
-          toast(data.description);
+      $.ajax({
+        url: '/api/settings/updatePassword',
+        cache: false,
+        async: false,
+        type: 'put',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        data: JSON.stringify({
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        }),
+        success: function (data) {
+          if (data.code === 200) {
+            toast("修改密码成功", "success");
+          } else {
+            toast(data.description);
+          }
         }
       })
     });

@@ -25,12 +25,23 @@
   </header>
   <#if _user??>
     <script>
-      $.get('/api/notification/notRead?token=${_user.token}', function(data) {
-        if (data.code === 200) {
-          if (data.detail > 0) {
-            document.title = "("+data.detail+") " + document.title;
-            $("#notReadCount").text(data.detail);
-            $("#notReadCount").show();
+      $.ajax({
+        url: '/api/notification/notRead',
+        cache: false,
+        async: false,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            if (data.detail > 0) {
+              document.title = "("+data.detail+") " + document.title;
+              $("#notReadCount").text(data.detail);
+              $("#notReadCount").show();
+            }
           }
         }
       })
