@@ -18,6 +18,7 @@
   - [Fetch Token](api/gettoken)
   - [Request Demo](api/request-demo)
   - [Return Object](api/returnobject)
+  - [Common](api/common)
   - [Index](api/index)
   - [Topic](api/topic)
   - [Comment](api/comment)

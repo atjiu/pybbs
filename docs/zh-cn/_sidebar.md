@@ -22,6 +22,7 @@
   - [获取Token](zh-cn/api/gettoken)
   - [请求接口示例](zh-cn/api/request-demo)
   - [返回对象](zh-cn/api/returnobject)
+  - [共用](zh-cn/api/common)
   - [首页](zh-cn/api/index)
   - [话题](zh-cn/api/topic)
   - [评论](zh-cn/api/comment)
