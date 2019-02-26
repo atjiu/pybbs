@@ -40,7 +40,7 @@
     <@user_comments pageNo=1 pageSize=10 username=username isFooter=true/>
   </div>
   <div class="col-md-3 hidden-xs">
-    <div class="panel panel-panel"><p></p></div>
+    <div class="panel panel-info"><p></p></div>
     <#if githubLogin??>
       <#include "../components/github_repos.ftl"/>
     </#if>
