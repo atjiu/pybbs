@@ -22,7 +22,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
   $.get("https://api.github.com/users/${githubLogin}/repos?sort=updated", function (data) {
-    console.log(data);
     $.each(data, function (i, v) {
       $("#repos").append(
         "<li>" +
