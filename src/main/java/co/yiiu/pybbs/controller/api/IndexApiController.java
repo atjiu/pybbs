@@ -54,6 +54,10 @@ public class IndexApiController extends BaseApiController {
   public Result login(@RequestBody Map<String, String> body, HttpSession session) {
     String username = body.get("username");
     String password = body.get("password");
+    String captcha = body.get("captcha");
+    String _captcha = (String) session.getAttribute("_captcha");
+    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
     User user = userService.selectByUsername(username);
@@ -67,6 +71,10 @@ public class IndexApiController extends BaseApiController {
   public Result register(@RequestBody Map<String, String> body, HttpSession session) {
     String username = body.get("username");
     String password = body.get("password");
+    String captcha = body.get("captcha");
+    String _captcha = (String) session.getAttribute("_captcha");
+    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
     User user = userService.selectByUsername(username);
@@ -78,7 +86,10 @@ public class IndexApiController extends BaseApiController {
   // 登录成功后，处理的逻辑一样，这里提取出来封装一个方法处理
   private Result doUserStorage(HttpSession session, User user) {
     // 将用户信息写session
-    if (session != null) session.setAttribute("_user", user);
+    if (session != null) {
+      session.setAttribute("_user", user);
+      session.removeAttribute("_captcha");
+    }
     // 将用户token写cookie
     cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
     Map<String, Object> map = new HashMap<>();

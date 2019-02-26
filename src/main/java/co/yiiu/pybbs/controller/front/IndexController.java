@@ -117,8 +117,8 @@ public class IndexController extends BaseController {
   public String adminlogin(String username, String password, String code, HttpSession session,
                            @RequestParam(defaultValue = "0") Boolean rememberMe,
                            RedirectAttributes redirectAttributes) {
-    String index_code = (String) session.getAttribute("index_code");
-    if (index_code == null || StringUtils.isEmpty(code) || !index_code.equalsIgnoreCase(code)) {
+    String captcha = (String) session.getAttribute("_captcha");
+    if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
       redirectAttributes.addFlashAttribute("error", "验证码不正确");
     } else {
       try {

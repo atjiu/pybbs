@@ -58,7 +58,7 @@
           <div class="input-group">
             <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
             <span class="input-group-btn">
-            <img src="/common/code" id="changeCode"/>
+            <img style="border: 1px solid #ccc;" src="/common/captcha" id="changeCode"/>
           </span>
           </div>
         </div>
@@ -80,7 +80,7 @@
     $(function() {
       $("#changeCode").click(function () {
         var date = new Date();
-        $(this).attr("src", "/common/code?ver=" + date.getTime());
+        $(this).attr("src", "/common/captcha?ver=" + date.getTime());
       })
     });
   </script>

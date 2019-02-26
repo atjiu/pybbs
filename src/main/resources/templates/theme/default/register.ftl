@@ -16,6 +16,15 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="密码"/>
           </div>
           <div class="form-group">
+            <label for="captcha">验证码</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码"/>
+              <span class="input-group-btn">
+                <img style="border: 1px solid #ccc;" src="/common/captcha" id="changeCaptcha"/>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
             <button type="button" id="register_btn" class="btn btn-info">注册</button>
             <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
               <a href="/oauth/github" class="btn btn-primary pull-right">Github登录</a>
@@ -29,15 +38,24 @@
 </div>
 <script>
   $(function () {
+    $("#changeCaptcha").click(function () {
+      var date = new Date();
+      $(this).attr("src", "/common/captcha?ver=" + date.getTime());
+    })
     $("#register_btn").click(function() {
       var username = $("#username").val();
       var password = $("#password").val();
+      var captcha = $("#captcha").val();
       if (!username) {
         toast("请输入用户名");
         return;
       }
       if (!password) {
         toast("请输入密码");
+        return;
+      }
+      if (!captcha) {
+        toast("请输入验证码");
         return;
       }
       $.ajax({
@@ -48,7 +66,8 @@
         contentType: 'application/json',
         data: JSON.stringify({
           username: username,
-          password: password
+          password: password,
+          captcha: captcha,
         }),
         success: function(data) {
           if (data.code === 200) {

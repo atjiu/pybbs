@@ -244,7 +244,7 @@ pybbs提供了如下几个自定义标签
 | /topic/edit/{id}          | TopicController   | id               | topic, tags                                           | topic/edit.ftl                           |
 | /topic/tag/{name}         | TopicController   | name             | tag, page                                             | tag/tag.ftl                              |
 | /comment/edit/{id}        | CommentController | id               | comment, topic                                        | comment/edit.ftl                         |
-| /common/code              | CommonController  |                  |                                                       | 响应的是一张图片验证码的流               |
+| /common/captcha              | CommonController  |                  |                                                       | 响应的是一张图片验证码的流               |
 | /oauth/github             | OAuthController   |                  |                                                       | 重写向到Github授权页面，授权完成自动回调 |
 
 ## 对象包含的字段
