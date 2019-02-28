@@ -111,17 +111,16 @@ public class UserService {
     if (needActiveEmail) {
       // 发送激活邮件
       new Thread(() -> {
-        Code code = codeService.createCode(user.getId(), email);
         String title = "感谢注册%s，点击下面链接激活帐号";
-        String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=%s'>点击激活</a>";
-        emailService.sendEmail(
+        String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
+        codeService.sendEmail(
+            user.getId(),
             email,
             String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
             String.format(content,
                 systemConfigService.selectAllConfig().get("name").toString(),
                 systemConfigService.selectAllConfig().get("base_url").toString(),
-                email,
-                code.getCode()
+                email
             )
         );
       }).start();

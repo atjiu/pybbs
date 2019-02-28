@@ -4,6 +4,7 @@ import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.CodeService;
+import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
@@ -28,6 +29,8 @@ public class SettingsApiController extends BaseApiController {
   private UserService userService;
   @Autowired
   private CodeService codeService;
+  @Autowired
+  private SystemConfigService systemConfigService;
 
   // 更新用户个人信息
   @PutMapping
@@ -55,7 +58,17 @@ public class SettingsApiController extends BaseApiController {
     User user = getApiUser();
     ApiAssert.notTrue(StringUtils.isEmpty(user.getEmail()), "你的帐号还没有绑定邮箱，请先绑定邮箱");
     ApiAssert.notTrue(user.getActive(), "你的帐号当前已经是激活状态，不需要再发激活邮件了");
-    if (codeService.sendEmail(user.getId(), user.getEmail())) {
+
+    String title = "感谢注册%s，点击下面链接激活帐号";
+    String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
+
+    if (codeService.sendEmail(user.getId(), user.getEmail(),
+        String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
+        String.format(content,
+            systemConfigService.selectAllConfig().get("name").toString(),
+            systemConfigService.selectAllConfig().get("base_url").toString(),
+            user.getEmail()
+        ))) {
       return success();
     } else {
       return error("邮件发送失败，也可能是站长没有配置邮箱");
@@ -68,7 +81,9 @@ public class SettingsApiController extends BaseApiController {
     User user = getApiUser();
     ApiAssert.notEmpty(email, "请输入邮箱 ");
     ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
-    if (codeService.sendEmail(user.getId(), email)) {
+    User emailUser = userService.selectByEmail(email);
+    ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
+    if (codeService.sendEmail(user.getId(), email, "修改邮箱验证码", "你的验证码是：<code>${code}</code><br>请在30分钟内使用")) {
       return success();
     } else {
       return error("邮件发送失败，也可能是站长没有配置邮箱");

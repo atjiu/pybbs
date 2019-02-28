@@ -1,10 +1,12 @@
 package co.yiiu.pybbs.exception;
 
+import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
 
   private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+  @Autowired
+  private SystemConfigService systemConfigService;
 
   private HttpStatus getStatus(HttpServletRequest request) {
     Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -43,11 +48,13 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = Exception.class)
   public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
     log.error(e.getMessage());
+    e.printStackTrace();
     if (!HttpUtil.isApiRequest(request)) {
+      response.setCharacterEncoding("utf-8");
       ModelAndView mav = new ModelAndView();
       mav.addObject("exception", e);
       mav.addObject("errorCode", getStatus(request));
-      mav.setViewName("front/error");
+      mav.setViewName("theme/" + systemConfigService.selectAllConfig().get("theme").toString() + "/error");
       return mav;
     } else /*if (accept.contains("application/json"))*/ {
       Result result = new Result();
