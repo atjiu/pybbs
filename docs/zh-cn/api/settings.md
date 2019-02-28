@@ -18,6 +18,22 @@
 }
 ```
 
+## 发送激活邮件
+
+- 地址 GET `/api/settings/sendActiveEmail`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+  - token
+- 返回 Result()
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## 发送邮箱验证码
 
 - 地址 GET `/api/settings/sendEmailCode`

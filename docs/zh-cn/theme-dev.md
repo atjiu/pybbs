@@ -225,16 +225,17 @@ pybbs提供了如下几个自定义标签
 
 | 地址                      | 类名              | 参数             | 放在model中对象                                       | 渲染视图文件名                           |
 | ------------------------- | ----------------- | ---------------- | ----------------------------------------------------- | ---------------------------------------- |
-| /                         | IndexController   | tab, pageNo      | tab, pageNo                                           | index.ftl                                |
+| /                         | IndexController   | tab, pageNo      | tab, active, pageNo                                   | index.ftl                                |
 | /top100                   | IndexController   |                  |                                                       | top100.ftl                               |
 | /settings                 | IndexController   |                  | user                                                  | user/settings.ftl                        |
 | /tags                     | IndexController   | pageNo           | pageNo                                                | tag/tags.ftl                             |
 | /login                    | IndexController   |                  |                                                       | login.ftl                                |
 | /register                 | IndexController   |                  |                                                       | register.ftl                             |
 | /notifications            | IndexController   |                  |                                                       | notifications.ftl                        |
-| /logout                   | IndexController   |                  |                                                       | 重写向到首页                             |
+| /logout                   | IndexController   |                  |                                                       | 重定向到首页                             |
 | /search                   | IndexController   | pageNo, keyword  | pageNo, keyword                                       | search.ftl                               |
-| /changeLanguage           | IndexController   | lang: zh, cn     |                                                       | 重写向到之前页面                         |
+| /changeLanguage           | IndexController   | lang: zh, cn     |                                                       | 重定向到之前页面首页                         |
+| /active                   | IndexController   | email, code      |                                                       | 激活成功后重定向到                         |
 | /user/{username}          | UserController    | username         | githubLogin, user, username, oAuthUsers, collectCount | user/profile.ftl                         |
 | /user/{username}/topics   | UserController    | username, pageNo | username, pageNo                                      | user/topics.ftl                          |
 | /user/{username}/comments | UserController    | username, pageNo | username, pageNo                                      | user/comments.ftl                        |
@@ -244,8 +245,8 @@ pybbs提供了如下几个自定义标签
 | /topic/edit/{id}          | TopicController   | id               | topic, tags                                           | topic/edit.ftl                           |
 | /topic/tag/{name}         | TopicController   | name             | tag, page                                             | tag/tag.ftl                              |
 | /comment/edit/{id}        | CommentController | id               | comment, topic                                        | comment/edit.ftl                         |
-| /common/captcha              | CommonController  |                  |                                                       | 响应的是一张图片验证码的流               |
-| /oauth/github             | OAuthController   |                  |                                                       | 重写向到Github授权页面，授权完成自动回调 |
+| /common/captcha           | CommonController  |                  |                                                       | 响应的是一张图片验证码的流               |
+| /oauth/github             | OAuthController   |                  |                                                       | 重定向到Github授权页面，授权完成自动回调 |
 
 ## 对象包含的字段
 

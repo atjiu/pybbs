@@ -121,11 +121,7 @@ public class RedisService implements BaseService<JedisPool> {
   }
 
   public void setString(String key, String value) {
-    JedisPool instance = this.instance();
-    if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || instance == null) return;
-    Jedis jedis = instance.getResource();
-    jedis.set(key, value); // 返回值成功是 OK
-    jedis.close();
+    this.setString(key, value, 300); // 如果不指定过时时间，默认为5分钟
   }
 
   /**

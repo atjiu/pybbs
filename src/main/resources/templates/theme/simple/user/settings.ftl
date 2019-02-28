@@ -10,6 +10,7 @@
       </ul>
     </div>
     <div class="right settings">
+      <div style="margin-bottom: 15px; color: #a94442;">你的帐号还没有激活，请进入邮箱点击激活邮箱中的链接进行激活 或者 <a href="javascript:;" id="sendActiveEmail">重新发送</a> 激活链接</strong></div>
       <form onsubmit="return;" id="baseDiv">
         <fieldset>
           <legend>基本信息</legend>
@@ -169,7 +170,29 @@
         })
       });
 
-      // 更改邮箱
+      // 发送激活邮件
+      $("#sendActiveEmail").on("click", function () {
+        $.ajax({
+          url: '/api/settings/sendActiveEmail',
+          cache: false,
+          async: false,
+          type: 'get',
+          dataType: 'json',
+          contentType: 'application/json',
+          headers: {
+            'token': '${_user.token}'
+          },
+          success: function (data) {
+            if (data.code === 200) {
+              alert("发送成功");
+            } else {
+              alert(data.description);
+            }
+          }
+        })
+      })
+
+      // 发送邮箱验证码
       $("#sendEmailCode").on("click", function () {
         var email = $("#email").val();
         if (!email) {

@@ -1,6 +1,8 @@
 package co.yiiu.pybbs.controller.front;
 
+import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.service.CodeService;
 import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
@@ -41,11 +43,17 @@ public class IndexController extends BaseController {
   private SystemConfigService systemConfigService;
   @Autowired
   private UserService userService;
+  @Autowired
+  private CodeService codeService;
 
   // 首页
   @GetMapping({"/", "/index", "/index.html"})
-  public String index(@RequestParam(defaultValue = "all") String tab, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
+  public String index(@RequestParam(defaultValue = "all") String tab,
+                      @RequestParam(defaultValue = "1") Integer pageNo,
+                      Boolean active,
+                      Model model) {
     model.addAttribute("tab", tab);
+    model.addAttribute("active", active);
     model.addAttribute("pageNo", pageNo);
 
     return render("index");
@@ -157,5 +165,29 @@ public class IndexController extends BaseController {
       session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.US);
     }
     return StringUtils.isEmpty(referer) ? redirect("/") : redirect(referer);
+  }
+
+  // 激活帐号
+  @GetMapping("/active")
+  public String active(String email, String code, HttpSession session) {
+    Assert.notNull(email, "激活邮箱不能为空");
+    Assert.notNull(code, "激活码不能为空");
+    User user = (User) session.getAttribute("_user");
+    if (user == null) {
+      user = userService.selectByEmail(email);
+    } else {
+      Assert.isTrue(email.equals(user.getEmail()), "激活的邮箱跟当前用户帐号注册的邮箱不一致");
+    }
+    Assert.notNull(user, "激活的邮箱还没有注册过，请先注册");
+    Code code1 = codeService.validateCode(user.getId(), email, code);
+    Assert.notNull(code1, "激活链接失效或者激活码错误");
+    // 将code的状态置为已用
+    code1.setUsed(true);
+    codeService.update(code1);
+    // 修改当前用户的状态
+    user.setActive(true);
+    userService.update(user);
+    session.setAttribute("_user", user);
+    return redirect("/?active=true");
   }
 }

@@ -16,6 +16,10 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="密码"/>
           </div>
           <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="邮箱"/>
+          </div>
+          <div class="form-group">
             <label for="captcha">验证码</label>
             <div class="input-group">
               <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码"/>
@@ -45,6 +49,7 @@
     $("#register_btn").click(function() {
       var username = $("#username").val();
       var password = $("#password").val();
+      var email = $("#email").val();
       var captcha = $("#captcha").val();
       if (!username) {
         toast("请输入用户名");
@@ -52,6 +57,10 @@
       }
       if (!password) {
         toast("请输入密码");
+        return;
+      }
+      if (!email) {
+        toast("请输入邮箱");
         return;
       }
       if (!captcha) {
@@ -67,6 +76,7 @@
         data: JSON.stringify({
           username: username,
           password: password,
+          email: email,
           captcha: captcha,
         }),
         success: function(data) {

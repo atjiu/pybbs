@@ -21,6 +21,7 @@ public class Constants {
 
   public static final String REDIS_USER_USERNAME_KEY = "pybbs_user_username_"; // 后面还要拼上用户名
   public static final String REDIS_USER_TOKEN_KEY = "pybbs_user_token_"; // 后面还要拼上用户的token
+  public static final String REDIS_USER_EMAIL_KEY = "pybbs_user_email_"; // 后面还要拼上用户的email
   public static final String REDIS_USER_ID_KEY = "pybbs_user_id_"; // 后面还要拼上用户的id
 
   public static final String REDIS_TOPIC_VIEW_IP_ID_KEY = "pybbs_topic_view_ip_%s_topic_%s"; // 需要格式化字符串填充上ip地址跟话题id

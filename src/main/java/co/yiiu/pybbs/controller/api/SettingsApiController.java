@@ -49,6 +49,19 @@ public class SettingsApiController extends BaseApiController {
     return success();
   }
 
+  // 发送激活邮件
+  @GetMapping("/sendActiveEmail")
+  public Result sendActiveEmail() {
+    User user = getApiUser();
+    ApiAssert.notTrue(StringUtils.isEmpty(user.getEmail()), "你的帐号还没有绑定邮箱，请先绑定邮箱");
+    ApiAssert.notTrue(user.getActive(), "你的帐号当前已经是激活状态，不需要再发激活邮件了");
+    if (codeService.sendEmail(user.getId(), user.getEmail())) {
+      return success();
+    } else {
+      return error("邮件发送失败，也可能是站长没有配置邮箱");
+    }
+  }
+
   // 发送邮箱验证码
   @GetMapping("/sendEmailCode")
   public Result sendEmailCode(String email) {
@@ -78,6 +91,8 @@ public class SettingsApiController extends BaseApiController {
     // 查询当前用户的最新信息
     User user1 = userService.selectById(user.getId());
     user1.setEmail(email);
+    // 如果用户帐号还没有激活，当修改邮箱的时候自动激活帐号
+    if (!user1.getActive()) user1.setActive(true);
     userService.update(user1);
     if (session != null) session.setAttribute("_user", user1);
     return success();

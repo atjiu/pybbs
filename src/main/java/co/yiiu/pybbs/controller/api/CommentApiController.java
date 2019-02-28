@@ -32,6 +32,7 @@ public class CommentApiController extends BaseApiController {
   @PostMapping
   public Result create(@RequestBody Map<String, String> body, HttpSession session) {
     User user = getApiUser();
+    ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
     String content = body.get("content");
     Integer topicId = StringUtils.isEmpty(body.get("topicId")) ? null : Integer.parseInt(body.get("topicId"));
     Integer commentId = StringUtils.isEmpty(body.get("commentId")) ? null : Integer.parseInt(body.get("commentId"));
@@ -44,6 +45,7 @@ public class CommentApiController extends BaseApiController {
   }
 
   // 更新评论
+  // 更新操作不用判断用户是否激活过，如果没有激活的用户是没有办法评论的，所以更新操作不做帐号是否激活判断
   @PutMapping("/{id}")
   public Result update(@PathVariable Integer id, @RequestBody Map<String, String> body) {
     User user = getApiUser();

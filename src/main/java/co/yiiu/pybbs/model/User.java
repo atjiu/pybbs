@@ -34,6 +34,8 @@ public class User implements Serializable {
   private String token;
   // 有消息通知是否通过邮箱收取
   private Boolean emailNotification;
+  // 帐号是否激活
+  private Boolean active;
 
   // 有消息通知是否通过telegram收取
   // 文档上写的可以通过username跟userId发送消息，但测试结果是只能通过userId发送
@@ -134,6 +136,14 @@ public class User implements Serializable {
 
   public void setInTime(Date inTime) {
     this.inTime = inTime;
+  }
+
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   @Override

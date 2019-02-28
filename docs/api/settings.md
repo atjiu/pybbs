@@ -18,6 +18,22 @@
 }
 ```
 
+## Send Active Email
+
+- Address GET `/api/settings/sendActiveEmail`
+- Request Type application/x-www-form-urlencoded
+- Params
+  - token
+- Return Result()
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
 ## Send Email Code
 
 - Address GET `/api/settings/sendEmailCode`

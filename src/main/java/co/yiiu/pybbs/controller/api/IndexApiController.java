@@ -6,10 +6,7 @@ import co.yiiu.pybbs.service.SystemConfigService;
 import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
-import co.yiiu.pybbs.util.CookieUtil;
-import co.yiiu.pybbs.util.FileUtil;
-import co.yiiu.pybbs.util.MyPage;
-import co.yiiu.pybbs.util.Result;
+import co.yiiu.pybbs.util.*;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -71,15 +68,18 @@ public class IndexApiController extends BaseApiController {
   public Result register(@RequestBody Map<String, String> body, HttpSession session) {
     String username = body.get("username");
     String password = body.get("password");
+    String email = body.get("email");
     String captcha = body.get("captcha");
     String _captcha = (String) session.getAttribute("_captcha");
     ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
     ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
+    ApiAssert.notEmpty(email, "请输入邮箱");
+    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
     User user = userService.selectByUsername(username);
     ApiAssert.isNull(user, "用户名已存在");
-    user = userService.addUser(username, password, null, null, null, null);
+    user = userService.addUser(username, password, null, email, null, null, true);
     return this.doUserStorage(session, user);
   }
 

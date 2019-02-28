@@ -2,6 +2,12 @@
 <@html page_title="设置" page_tab="settings">
 <div class="row">
   <div class="col-md-9">
+    <#if !user.active>
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>你的帐号还没有激活，请进入邮箱点击激活邮箱中的链接进行激活 或者 <a href="javascript:;" id="sendActiveEmail">重新发送</a> 激活链接</strong>
+      </div>
+    </#if>
     <div class="panel panel-info">
       <div class="panel-heading">设置</div>
       <div class="panel-body">
@@ -204,6 +210,28 @@
         }
       })
     });
+
+    // 发送激活邮件
+    $("#sendActiveEmail").on("click", function () {
+      $.ajax({
+        url: '/api/settings/sendActiveEmail',
+        cache: false,
+        async: false,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200) {
+            toast("发送成功", "success");
+          } else {
+            toast(data.description);
+          }
+        }
+      })
+    })
 
     // 更改邮箱
     $("#sendEmailCode").on("click", function () {

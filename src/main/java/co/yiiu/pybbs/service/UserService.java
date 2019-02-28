@@ -1,11 +1,14 @@
 package co.yiiu.pybbs.service;
 
+import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.UserMapper;
+import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -44,6 +47,10 @@ public class UserService {
   private SystemConfigService systemConfigService;
   @Autowired
   private RedisService redisService;
+  @Autowired
+  private EmailService emailService;
+  @Autowired
+  private CodeService codeService;
 
   // 根据用户名查询用户，用于获取用户的信息比对密码
   public User selectByUsername(String username) {
@@ -73,8 +80,21 @@ public class UserService {
     return token;
   }
 
-  // 注册创建用户
-  public User addUser(String username, String password, String avatar, String email, String bio, String website) {
+  /**
+   * 注册创建用户
+   * @param username
+   * @param password
+   * @param avatar
+   * @param email
+   * @param bio
+   * @param website
+   * @param needActiveEmail 是否需要发送激活邮件
+   *                        新注册的用户都需要
+   *                        Github注册的用户，如果能获取到邮箱，就自动激活，如果获取不到邮箱，则是未激活状态，需要用户绑定邮箱然后发送激活邮件进行激活
+   * @return
+   */
+  public User addUser(String username, String password, String avatar, String email, String bio, String website,
+                      boolean needActiveEmail) {
     String token = this.generateToken();
     User user = new User();
     user.setUsername(username);
@@ -86,7 +106,26 @@ public class UserService {
     user.setEmail(email);
     user.setBio(bio);
     user.setWebsite(website);
+    user.setActive(false);
     userMapper.insert(user);
+    if (needActiveEmail) {
+      // 发送激活邮件
+      new Thread(() -> {
+        Code code = codeService.createCode(user.getId(), email);
+        String title = "感谢注册%s，点击下面链接激活帐号";
+        String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=%s'>点击激活</a>";
+        emailService.sendEmail(
+            email,
+            String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
+            String.format(content,
+                systemConfigService.selectAllConfig().get("name").toString(),
+                systemConfigService.selectAllConfig().get("base_url").toString(),
+                email,
+                code.getCode()
+            )
+        );
+      }).start();
+    }
     // 再查一下，有些数据库里默认值保存后，类里还是null
     return this.selectById(user.getId());
   }
@@ -101,6 +140,22 @@ public class UserService {
           .eq(User::getToken, token);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_TOKEN_KEY + token, JsonUtil.objectToJson(user));
+    } else {
+      user = JsonUtil.jsonToObject(userJson, User.class);
+    }
+    return user;
+  }
+
+  // 根据用户email查询用户
+  public User selectByEmail(String email) {
+    String userJson = redisService.getString(Constants.REDIS_USER_EMAIL_KEY + email);
+    User user;
+    if (userJson == null) {
+      QueryWrapper<User> wrapper = new QueryWrapper<>();
+      wrapper.lambda()
+          .eq(User::getEmail, email);
+      user = userMapper.selectOne(wrapper);
+      redisService.setString(Constants.REDIS_USER_EMAIL_KEY + email, JsonUtil.objectToJson(user));
     } else {
       user = JsonUtil.jsonToObject(userJson, User.class);
     }
@@ -170,5 +225,6 @@ public class UserService {
     redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
     redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());
     redisService.delString(Constants.REDIS_USER_TOKEN_KEY + user.getToken());
+    redisService.delString(Constants.REDIS_USER_EMAIL_KEY + user.getEmail());
   }
 }
