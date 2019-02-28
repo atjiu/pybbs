@@ -52,9 +52,6 @@ public class RedisService implements BaseService<JedisPool> {
       // timeout
       SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
       String timeout = systemConfigTimeout.getValue();
-      // ssl
-      SystemConfig systemConfigSSL = systemConfigService.selectByKey("redis_ssl");
-      String ssl = systemConfigSSL.getValue();
 
 //      if (StringUtils.isEmpty(host)
 //          || StringUtils.isEmpty(port)
@@ -69,18 +66,20 @@ public class RedisService implements BaseService<JedisPool> {
       }
       JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
       // 配置jedis连接池最多空闲多少个实例，源码默认 8
-      jedisPoolConfig.setMaxIdle(8);
+      jedisPoolConfig.setMaxIdle(7);
       // 配置jedis连接池最多创建多少个实例，源码默认 8
-      jedisPoolConfig.setMaxTotal(18);
+      jedisPoolConfig.setMaxTotal(20);
+      //在borrow(引入)一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
+      jedisPoolConfig.setTestOnBorrow(true);
+      //return 一个jedis实例给pool时，是否检查连接可用性（ping()）
+      jedisPoolConfig.setTestOnReturn(true);
       jedisPool = new JedisPool(
           jedisPoolConfig,
           host,
           Integer.parseInt(port),
           Integer.parseInt(timeout),
           password,
-          Integer.parseInt(database),
-          null,
-          ssl.equals("1")
+          Integer.parseInt(database)
       );
       log.info("redis连接对象获取成功...");
       return this.jedisPool;
