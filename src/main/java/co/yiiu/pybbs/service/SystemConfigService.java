@@ -78,9 +78,17 @@ public class SystemConfigService {
   // 在更新系统设置后，清一下selectAllConfig()的缓存
   public void update(List<Map<String, String>> list) {
     for (Map map: list) {
+      String key = (String) map.get("name");
+      String value = (String) map.get("value");
+      // 如果密码没有变动，则不做修改
+      if ((key.equals("mail_password") && value.equals("*******")) ||
+          (key.equals("redis_password") && value.equals("*******")) ||
+          (key.equals("oauth_github_client_secret") && value.equals("*******"))) {
+        continue;
+      }
       SystemConfig systemConfig = new SystemConfig();
-      systemConfig.setKey((String) map.get("name"));
-      systemConfig.setValue((String) map.get("value"));
+      systemConfig.setKey(key);
+      systemConfig.setValue(value);
       QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
       wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
       systemConfigMapper.update(systemConfig, wrapper);

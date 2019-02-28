@@ -84,7 +84,7 @@
             </div>
           </div>
           <!-- /.box-header -->
-          <div class="box-body">
+          <#--<div class="box-body">-->
             <div class="table-responsive">
               <table class="table no-margin">
                 <tbody>
@@ -112,7 +112,7 @@
                 </tr>
                 </tbody>
               </table>
-            </div>
+            <#--</div>-->
             <!-- /.table-responsive -->
           </div>
         </div>
