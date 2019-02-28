@@ -278,6 +278,8 @@ private Date inTime;
 private String token;
 // 有消息通知是否通过邮箱收取
 private Boolean emailNotification;
+// 帐号的激活状态
+private Boolean active;
 ```
 
 ### 话题对象 Topic
