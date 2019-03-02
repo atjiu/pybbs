@@ -112,10 +112,12 @@ public class TopicService {
     user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
-    // 保存标签
-    List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
-    // 处理标签与话题的关联
-    topicTagService.insertTopicTag(topic.getId(), tagList);
+    if (!StringUtils.isEmpty(tags)) {
+      // 保存标签
+      List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
+      // 处理标签与话题的关联
+      topicTagService.insertTopicTag(topic.getId(), tagList);
+    }
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return topic;
@@ -180,10 +182,12 @@ public class TopicService {
     topicMapper.updateById(topic);
     // 旧标签每个topicCount都-1
     tagService.reduceTopicCount(topic.getId());
-    // 保存标签
-    List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
-    // 处理标签与话题的关联
-    topicTagService.insertTopicTag(topic.getId(), tagList);
+    if (!StringUtils.isEmpty(tags)) {
+      // 保存标签
+      List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
+      // 处理标签与话题的关联
+      topicTagService.insertTopicTag(topic.getId(), tagList);
+    }
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     // 缓存到redis里

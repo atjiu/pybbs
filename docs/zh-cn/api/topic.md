@@ -110,38 +110,25 @@
   - token
   - title: 话题标题
   - content: 话题内容（可为空）
-  - tags: 标签，多个标签之间英文逗号隔开，最多5个
 - 返回 Result(Topic)
 
 ```json
 {
     "code": 200,
     "description": "SUCCESS",
-    "detail": {
-        "topic": {
-            "id": 11,
-            "title": "222",
-            "content": "",
-            "inTime": 1551063711700,
-            "modifyTime": null,
-            "userId": 1,
-            "commentCount": 0,
-            "collectCount": 0,
-            "view": 0,
-            "top": false,
-            "good": false,
-            "upIds": null
-        },
-        "tags": [
-            {
-                "id": 3,
-                "name": "22",
-                "description": null,
-                "icon": null,
-                "topicCount": 3,
-                "inTime": 1550826849000
-            }
-        ]
+    "detail":  {
+        "id": 11,
+        "title": "222",
+        "content": "",
+        "inTime": 1551063711700,
+        "modifyTime": null,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
     }
 }
 ```
@@ -155,7 +142,6 @@
   - id: 话题ID
   - title: 话题标题
   - content: 话题内容（可为空）
-  - tags: 标签，多个标签之间英文逗号隔开，最多5个
 - 返回 Result(Topic)
 
 ```json
@@ -163,30 +149,18 @@
     "code": 200,
     "description": "SUCCESS",
     "detail": {
-        "topic": {
-            "id": 11,
-            "title": "333",
-            "content": null,
-            "inTime": 1551063712000,
-            "modifyTime": 1551064039058,
-            "userId": 1,
-            "commentCount": 0,
-            "collectCount": 0,
-            "view": 0,
-            "top": false,
-            "good": false,
-            "upIds": null
-        },
-        "tags": [
-            {
-                "id": 4,
-                "name": "333",
-                "description": null,
-                "icon": null,
-                "topicCount": 1,
-                "inTime": 1551064026000
-            }
-        ]
+        "id": 11,
+        "title": "333",
+        "content": null,
+        "inTime": 1551063712000,
+        "modifyTime": 1551064039058,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
     }
 }
 ```

@@ -6,6 +6,7 @@ import co.yiiu.pybbs.model.TopicTag;
 import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,11 +55,14 @@ public class TagService {
   // 根据话题查询关联的所有标签
   public List<Tag> selectByTopicId(Integer topicId) {
     List<TopicTag> topicTags = topicTagService.selectByTopicId(topicId);
-    List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
-    QueryWrapper<Tag> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .in(Tag::getId, tagIds);
-    return tagMapper.selectList(wrapper);
+    if (!topicTags.isEmpty()) {
+      List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
+      QueryWrapper<Tag> wrapper = new QueryWrapper<>();
+      wrapper.lambda()
+          .in(Tag::getId, tagIds);
+      return tagMapper.selectList(wrapper);
+    }
+    return Lists.newArrayList();
   }
 
   // 将创建话题时填的tag处理并保存

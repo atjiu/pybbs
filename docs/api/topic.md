@@ -111,7 +111,6 @@
   - token
   - title
   - content: [Optional]
-  - tags: tags, multiple tags separated by commas, up to 5
 - Return Result(Topic)
 
 ```json
@@ -119,30 +118,18 @@
     "code": 200,
     "description": "SUCCESS",
     "detail": {
-        "topic": {
-            "id": 11,
-            "title": "222",
-            "content": "",
-            "inTime": 1551063711700,
-            "modifyTime": null,
-            "userId": 1,
-            "commentCount": 0,
-            "collectCount": 0,
-            "view": 0,
-            "top": false,
-            "good": false,
-            "upIds": null
-        },
-        "tags": [
-            {
-                "id": 3,
-                "name": "22",
-                "description": null,
-                "icon": null,
-                "topicCount": 3,
-                "inTime": 1550826849000
-            }
-        ]
+        "id": 11,
+        "title": "222",
+        "content": "",
+        "inTime": 1551063711700,
+        "modifyTime": null,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
     }
 }
 ```
@@ -156,7 +143,6 @@
   - id
   - title
   - content: [Optional]
-  - tags: tags, multiple tags separated by commas, up to 5
 - Return Result(Topic)
 
 ```json
@@ -164,30 +150,18 @@
     "code": 200,
     "description": "SUCCESS",
     "detail": {
-        "topic": {
-            "id": 11,
-            "title": "333",
-            "content": null,
-            "inTime": 1551063712000,
-            "modifyTime": 1551064039058,
-            "userId": 1,
-            "commentCount": 0,
-            "collectCount": 0,
-            "view": 0,
-            "top": false,
-            "good": false,
-            "upIds": null
-        },
-        "tags": [
-            {
-                "id": 4,
-                "name": "333",
-                "description": null,
-                "icon": null,
-                "topicCount": 1,
-                "inTime": 1551064026000
-            }
-        ]
+        "id": 11,
+        "title": "333",
+        "content": null,
+        "inTime": 1551063712000,
+        "modifyTime": 1551064039058,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
     }
 }
 ```

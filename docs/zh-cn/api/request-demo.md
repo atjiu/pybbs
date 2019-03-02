@@ -23,7 +23,7 @@ $.ajax({
   }),
   success: function(data) {
     if (data.code === 200) {
-      window.location.href = "/topic/" + data.detail.topic.id
+      window.location.href = "/topic/" + data.detail.id
     } else {
       alert(data.description);
     }

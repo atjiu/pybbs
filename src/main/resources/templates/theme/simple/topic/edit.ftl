@@ -14,11 +14,11 @@
         <div><a href="javascript:uploadImageBtn();">上传图片</a></div>
       </td>
     </tr>
-    <tr>
+    <#--<tr>
       <td>标签</td>
       <td style="padding-right: 14px;"><input type="text" name="tags" id="tags" value="${tags!}"
                                               placeholder="标签, 多个标签以 英文逗号 隔开"/></td>
-    </tr>
+    </tr>-->
     <tr>
       <td>&nbsp;</td>
       <td>
@@ -31,15 +31,15 @@
     function update() {
       var title = $("#title").val();
       var content = $("#content").val();
-      var tags = $("#tags").val();
+      // var tags = $("#tags").val();
       if (!title || title.length > 120) {
         alert("请输入标题，且最大长度在120个字符以内");
         return;
       }
-      if (!tags || tags.split(",").length > 5) {
-        alert("请输入标签，且最多只能填5个");
-        return;
-      }
+      // if (!tags || tags.split(",").length > 5) {
+      //   alert("请输入标签，且最多只能填5个");
+      //   return;
+      // }
       $.ajax({
         url: '/api/topic/${topic.id}',
         type: 'put',
@@ -53,11 +53,11 @@
         data: JSON.stringify({
           title: title,
           content: content,
-          tags: tags,
+          // tags: tags,
         }),
         success: function (data) {
           if (data.code === 200) {
-            window.location.href = "/topic/" + data.detail.topic.id
+            window.location.href = "/topic/" + data.detail.id
           } else {
             alert(data.description);
           }
