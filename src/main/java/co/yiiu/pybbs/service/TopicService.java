@@ -67,9 +67,11 @@ public class TopicService {
   public void selectTags(MyPage<Map<String, Object>> page, TopicTagService topicTagService, TagService tagService) {
     page.getRecords().forEach(map -> {
       List<TopicTag> topicTags = topicTagService.selectByTopicId((Integer) map.get("id"));
-      List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
-      List<Tag> tags = tagService.selectByIds(tagIds);
-      map.put("tags", tags);
+      if (!topicTags.isEmpty()) {
+        List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
+        List<Tag> tags = tagService.selectByIds(tagIds);
+        map.put("tags", tags);
+      }
     });
   }
 

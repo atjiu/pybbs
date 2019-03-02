@@ -28,7 +28,7 @@
           <span class="hidden-sm hidden-xs">${topic.view!0}次浏览</span>
           <span>•</span>
           <span>${model.formatDate(topic.inTime)}</span>
-          <#if tags>
+          <#if tags && topic.tags??>
             <span>•</span>
             <#list topic.tags as tag>
               <a href="/topic/tag/${tag.name}"><span class="label label-info">${tag.name}</span></a>
