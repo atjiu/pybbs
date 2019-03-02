@@ -49,6 +49,7 @@
         mode: 'markdown',     // Markdown模式
         lineWrapping: true,    // 自动换行
       });
+      window.editor.setSize('auto', '450px');
 
       $("#btn").click(function () {
         var title = $("#title").val();

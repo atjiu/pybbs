@@ -9,7 +9,7 @@
     <tr>
       <td valign="top">内容</td>
       <td style="padding-right: 14px;">
-        <textarea name="content" id="content" rows="20" placeholder="内容，支持Markdown语法"></textarea>
+        <textarea name="content" id="content" rows="25" placeholder="内容，支持Markdown语法"></textarea>
         <div>
           <a href="javascript:uploadImageBtn();">上传图片</a>
         </div>
