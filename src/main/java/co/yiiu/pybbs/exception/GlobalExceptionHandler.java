@@ -48,7 +48,6 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = Exception.class)
   public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
     log.error(e.getMessage());
-    e.printStackTrace();
     if (!HttpUtil.isApiRequest(request)) {
       response.setCharacterEncoding("utf-8");
       ModelAndView mav = new ModelAndView();
