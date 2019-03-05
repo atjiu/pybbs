@@ -98,7 +98,7 @@ public class SettingsApiController extends BaseApiController {
     String code = body.get("code");
     ApiAssert.notEmpty(email, "请输入邮箱 ");
     ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
-    Code code1 = codeService.validateCode(user.getId(), email, code);
+    Code code1 = codeService.validateCode(user.getId(), email, null, code);
     if (code1 == null) return error("验证码错误");
     // 将code的状态置为已用
     code1.setUsed(true);

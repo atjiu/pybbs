@@ -101,4 +101,18 @@ public class SystemConfig implements Serializable {
   public void setReboot(String reboot) {
     this.reboot = reboot;
   }
+
+  @Override
+  public String toString() {
+    return "SystemConfig{" +
+        "id=" + id +
+        ", key='" + key + '\'' +
+        ", value='" + value + '\'' +
+        ", description='" + description + '\'' +
+        ", pid=" + pid +
+        ", type='" + type + '\'' +
+        ", option='" + option + '\'' +
+        ", reboot='" + reboot + '\'' +
+        '}';
+  }
 }

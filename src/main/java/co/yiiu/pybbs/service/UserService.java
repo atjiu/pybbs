@@ -129,6 +129,38 @@ public class UserService {
     return this.selectById(user.getId());
   }
 
+  // 递归生成用户名，防止用户名重复
+  private String generateUsername() {
+    String username = StringUtil.randomString(6);
+    if (this.selectByUsername(username) != null) {
+      return this.generateUsername();
+    }
+    return username;
+  }
+
+  // 通过手机号登录/注册创建用户
+  public User addUserWithMobile(String mobile) {
+    // 根据手机号查询用户是否注册过
+    User user = selectByMobile(mobile);
+    if (user == null) {
+      String token = this.generateToken();
+      String username = generateUsername();
+      user = new User();
+      user.setUsername(username);
+      user.setToken(token);
+      user.setInTime(new Date());
+      user.setAvatar(identicon.generator(username));
+      user.setEmail(null);
+      user.setBio(null);
+      user.setWebsite(null);
+      user.setActive(true);
+      userMapper.insert(user);
+      // 再查一下，有些数据库里默认值保存后，类里还是null
+      return this.selectById(user.getId());
+    }
+    return user;
+  }
+
   // 根据用户token查询用户
   public User selectByToken(String token) {
     String userJson = redisService.getString(Constants.REDIS_USER_TOKEN_KEY + token);
@@ -139,6 +171,22 @@ public class UserService {
           .eq(User::getToken, token);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_TOKEN_KEY + token, JsonUtil.objectToJson(user));
+    } else {
+      user = JsonUtil.jsonToObject(userJson, User.class);
+    }
+    return user;
+  }
+
+  // 根据用户mobile查询用户
+  public User selectByMobile(String mobile) {
+    String userJson = redisService.getString(Constants.REDIS_USER_MOBILE_KEY + mobile);
+    User user;
+    if (userJson == null) {
+      QueryWrapper<User> wrapper = new QueryWrapper<>();
+      wrapper.lambda()
+          .eq(User::getMobile, mobile);
+      user = userMapper.selectOne(wrapper);
+      redisService.setString(Constants.REDIS_USER_MOBILE_KEY + mobile, JsonUtil.objectToJson(user));
     } else {
       user = JsonUtil.jsonToObject(userJson, User.class);
     }
@@ -224,6 +272,7 @@ public class UserService {
     redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
     redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());
     redisService.delString(Constants.REDIS_USER_TOKEN_KEY + user.getToken());
+    redisService.delString(Constants.REDIS_USER_MOBILE_KEY + user.getMobile());
     redisService.delString(Constants.REDIS_USER_EMAIL_KEY + user.getEmail());
   }
 }

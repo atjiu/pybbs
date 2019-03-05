@@ -24,6 +24,7 @@ public class User implements Serializable {
   @JsonIgnore
   private String password;
   private String email;
+  private String mobile;
   // 个人网站
   private String website;
   // 个人简介
@@ -146,6 +147,14 @@ public class User implements Serializable {
     this.active = active;
   }
 
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
+
   @Override
   public String toString() {
     return "User{" +
@@ -155,12 +164,14 @@ public class User implements Serializable {
         ", avatar='" + avatar + '\'' +
         ", password='" + password + '\'' +
         ", email='" + email + '\'' +
+        ", mobile='" + mobile + '\'' +
         ", website='" + website + '\'' +
         ", bio='" + bio + '\'' +
         ", score=" + score +
         ", inTime=" + inTime +
         ", token='" + token + '\'' +
         ", emailNotification=" + emailNotification +
+        ", active=" + active +
         '}';
   }
 }

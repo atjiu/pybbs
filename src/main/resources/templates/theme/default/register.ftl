@@ -30,11 +30,18 @@
           </div>
           <div class="form-group">
             <button type="button" id="register_btn" class="btn btn-info">注册</button>
-            <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
-              <a href="/oauth/github" class="btn btn-primary pull-right">Github登录</a>
-            </#if>
           </div>
         </form>
+        <#if (!model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!))
+        || (!model.isEmpty(site.sms_access_key_id!) && !model.isEmpty(site.sms_secret!))>
+          <hr>
+        </#if>
+        <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+          <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
+        </#if>
+        <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+          <button class="btn btn-primary btn-block" id="mobile_login"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册</button>
+        </#if>
       </div>
     </div>
   </div>

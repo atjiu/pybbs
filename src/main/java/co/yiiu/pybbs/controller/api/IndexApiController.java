@@ -1,11 +1,10 @@
 package co.yiiu.pybbs.controller.api;
 
+import co.yiiu.pybbs.config.service.SmsService;
 import co.yiiu.pybbs.exception.ApiAssert;
+import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.TagService;
-import co.yiiu.pybbs.service.TopicService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.*;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,8 @@ public class IndexApiController extends BaseApiController {
   private TagService tagService;
   @Autowired
   private FileUtil fileUtil;
+  @Autowired
+  private CodeService codeService;
 
   // 首页接口
   @GetMapping({"/", "/index"})
@@ -83,6 +84,38 @@ public class IndexApiController extends BaseApiController {
     ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
     user = userService.addUser(username, password, null, email, null, null, true);
     return this.doUserStorage(session, user);
+  }
+
+  // 发送手机验证码
+  @GetMapping("/sms_code")
+  public Result sms_code(String captcha, String mobile, HttpSession session) {
+    String _captcha = (String) session.getAttribute("_captcha");
+    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+    ApiAssert.notEmpty(mobile, "请输入手机号");
+    boolean b = codeService.sendSms(mobile);
+    if (!b) {
+      return error("短信发送失败或者站长没有配置短信服务");
+    } else {
+      return success();
+    }
+  }
+
+  // 手机号+验证码登录
+  @PostMapping("/mobile_login")
+  public Result mobile_login(@RequestBody Map<String, String> body, HttpSession session) {
+    String mobile = body.get("mobile");
+    String code = body.get("code");
+    String captcha = body.get("captcha");
+    String _captcha = (String) session.getAttribute("_captcha");
+    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
+    ApiAssert.notEmpty(mobile, "请输入手机号");
+    ApiAssert.isTrue(StringUtil.check(mobile, StringUtil.MOBILEREGEX), "请输入正确的手机号");
+    ApiAssert.notEmpty(code, "请输入手机验证码");
+    Code validateCode = codeService.validateCode(null, null, mobile, code);
+    ApiAssert.notTrue(validateCode == null, "手机验证码错误");
+    User user = userService.addUserWithMobile(mobile);
+    return doUserStorage(session, user);
   }
 
   // 登录成功后，处理的逻辑一样，这里提取出来封装一个方法处理

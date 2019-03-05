@@ -179,7 +179,7 @@ public class IndexController extends BaseController {
       Assert.isTrue(email.equals(user.getEmail()), "激活的邮箱跟当前用户帐号注册的邮箱不一致");
     }
     Assert.notNull(user, "激活的邮箱还没有注册过，请先注册");
-    Code code1 = codeService.validateCode(user.getId(), email, code);
+    Code code1 = codeService.validateCode(user.getId(), email, null, code);
     Assert.notNull(code1, "激活链接失效或者激活码错误");
     // 将code的状态置为已用
     code1.setUsed(true);

@@ -25,6 +25,8 @@ public class Code implements Serializable {
   private Date expireTime;
   // 要修改的邮箱
   private String email;
+  // 手机号
+  private String mobile;
   // 是否使用过
   private Boolean used;
 
@@ -74,6 +76,14 @@ public class Code implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
   }
 
   public Boolean getUsed() {
