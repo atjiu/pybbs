@@ -55,6 +55,7 @@
 - Params
   - username
   - password
+  - captcha
 - Return Result(Map)
 
 ```json
@@ -86,6 +87,8 @@
 - Params
   - username
   - password
+  - email
+  - captcha
 - Return Result(Map)
 
 ```json

@@ -57,6 +57,7 @@
 - 参数
   - username: 用户名
   - password: 密码
+  - captcha: 图片验证码
 - 返回 Result(Map)
 
 ```json
@@ -88,6 +89,8 @@
 - 参数
   - username: 用户名
   - password: 密码
+  - email: 邮箱地址
+  - captcha: 图片验证码
 - 返回 Result(Map)
 
 ```json
