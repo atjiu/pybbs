@@ -36,7 +36,7 @@
         <#else>
           <li <#if page_tab == "login">class="active"</#if>><a href="/login"><i class="fa fa-sign-in"></i> ${i18n.getMessage("login")}</a></li>
           <li <#if page_tab == "register">class="active"</#if>><a href="/register"><i class="fa fa-sign-out"></i> ${i18n.getMessage("register")}</a></li>
-          <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+          <#if !model.isEmpty(site.oauth_github_client_id!)>
             <li><a href="/oauth/github"><i class="fa fa-github"></i> ${i18n.getMessage("github_login")}</a></li>
           </#if>
         </#if>

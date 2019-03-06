@@ -30,17 +30,13 @@
            data-original-title="手机号登录系统会判断手机号是否注册过，如果没有注册过，会创建帐号"></i>
       </div>
     </form>
-    <#if (!model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!))
-    || (!model.isEmpty(site.sms_access_key_id!) && !model.isEmpty(site.sms_secret!))>
+    <#if !model.isEmpty(site.oauth_github_client_id!) || !model.isEmpty(site.sms_access_key_id!)>
       <hr>
     </#if>
-    <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
-      <a href="/oauth/github" class="btn btn-success btn-block"><i
-                class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
+    <#if !model.isEmpty(site.oauth_github_client_id!)>
+      <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
     </#if>
-    <#--<#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>-->
     <a class="btn btn-primary btn-block" id="local_login_btn" onclick="local_login_btn()"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;帐号登录/注册</a>
-    <#--</#if>-->
   </div>
 </div>
 <script>
