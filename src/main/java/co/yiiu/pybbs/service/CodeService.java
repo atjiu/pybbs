@@ -32,7 +32,7 @@ public class CodeService {
 
   // 递归生成code，防止code重复
   private String generateToken() {
-    String _code = StringUtil.randomString(6);
+    String _code = StringUtil.randomNumber(6);
     Code code = this.selectByCode(_code);
     if (code != null) {
       return this.generateToken();
@@ -71,7 +71,7 @@ public class CodeService {
       code.setUserId(userId);
       code.setCode(_code);
       code.setEmail(email);
-      code.setEmail(mobile);
+      code.setMobile(mobile);
       code.setInTime(new Date());
       code.setExpireTime(DateUtil.getMinuteAfter(new Date(), 30));
       codeMapper.insert(code);

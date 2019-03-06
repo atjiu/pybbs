@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-md-3 hidden-xs"></div>
   <div class="col-md-6">
-    <div class="panel panel-info">
+    <div class="panel panel-info" id="local_register_div">
       <div class="panel-heading">注册</div>
       <div class="panel-body">
         <form action="" onsubmit="return;" id="form">
@@ -24,7 +24,7 @@
             <div class="input-group">
               <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码"/>
               <span class="input-group-btn">
-                <img style="border: 1px solid #ccc;" src="/common/captcha" id="changeCaptcha"/>
+                <img style="border: 1px solid #ccc;" src="" class="captcha" id="changeCaptcha"/>
               </span>
             </div>
           </div>
@@ -32,27 +32,31 @@
             <button type="button" id="register_btn" class="btn btn-info">注册</button>
           </div>
         </form>
-        <#if (!model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!))
-        || (!model.isEmpty(site.sms_access_key_id!) && !model.isEmpty(site.sms_secret!))>
+        <#if !model.isEmpty(site.oauth_github_client_id!) || !model.isEmpty(site.sms_access_key_id!)>
           <hr>
         </#if>
-        <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
+        <#if !model.isEmpty(site.oauth_github_client_id!)>
           <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
         </#if>
-        <#if !model.isEmpty(site.oauth_github_client_id!) && !model.isEmpty(site.oauth_github_client_secret!)>
-          <button class="btn btn-primary btn-block" id="mobile_login"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册</button>
+        <#if !model.isEmpty(site.sms_access_key_id!)>
+          <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
+          </button>
         </#if>
       </div>
     </div>
+    <#include "./components/mobile_login.ftl"/>
   </div>
   <div class="col-md-3 hidden-xs"></div>
 </div>
 <script>
   $(function () {
-    $("#changeCaptcha").click(function () {
-      var date = new Date();
-      $(this).attr("src", "/common/captcha?ver=" + date.getTime());
-    })
+    $(".captcha").attr('src', "/common/captcha?ver=" + new Date().getTime());
+    $(".captcha").click(function () {
+      $(".captcha").each(function () {
+        var date = new Date();
+        $(this).attr("src", "/common/captcha?ver=" + date.getTime());
+      });
+    });
     $("#register_btn").click(function() {
       var username = $("#username").val();
       var password = $("#password").val();
@@ -97,7 +101,11 @@
           }
         }
       })
-    })
+    });
+    $("#mobile_login_btn").click(function () {
+      $("#local_register_div").addClass("hidden");
+      $("#mobile_login_div").removeClass("hidden");
+    });
   })
 </script>
 </@html>

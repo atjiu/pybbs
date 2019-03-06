@@ -115,6 +115,56 @@
 }
 ```
 
+## 发送手机验证码
+
+- 地址 GET `/api/send_code`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+  - mobile: 手机号
+  - captcha: 图片验证码
+- 返回 Result(Map)
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
+## 手机号+验证码登录/注册
+
+- 地址 POST `/api/mobile_login`
+- 请求类型 application/json
+- 参数
+  - mobile: 手机号
+  - code: 手机验证码
+  - captcha: 图片验证码
+- 返回 Result(Map)
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 2,
+      "username": "test",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+      "email": null,
+      "mobile": "13111111111",
+      "website": null,
+      "bio": null,
+      "score": 0,
+      "inTime": 1548992486000,
+      "emailNotification": false
+    },
+    "token": "b7ee4a41-48d9-4185-9ab7-bcd202719ded"
+  }
+}
+```
+
 ## 标签
 
 - 地址 POST `/api/tags`

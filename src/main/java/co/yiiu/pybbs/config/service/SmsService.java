@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.config.service;
 
+import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.service.CodeService;
 import co.yiiu.pybbs.service.SystemConfigService;
@@ -61,7 +62,7 @@ public class SmsService {
     try {
       if (StringUtils.isEmpty(mobile)) return false;
       // 获取连接
-      this.instance();
+      if (this.instance() == null) return false;
       // 构建请求体
       CommonRequest request = new CommonRequest();
       //request.setProtocol(ProtocolType.HTTPS);

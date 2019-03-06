@@ -113,6 +113,56 @@
 }
 ```
 
+## Send Sms Code
+
+- Address GET `/api/send_code`
+- Request Type application/x-www-form-urlencoded
+- Params
+  - mobile
+  - captcha
+- Return Result(Map)
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+```
+
+## Mobile+Code to login/register
+
+- Address POST `/api/mobile_login`
+- Request Type application/json
+- Params
+  - mobile
+  - code: mobile code
+  - captcha
+- Return Result(Map)
+
+```json
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 2,
+      "username": "test",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+      "email": null,
+      "mobile": "13111111111",
+      "website": null,
+      "bio": null,
+      "score": 0,
+      "inTime": 1548992486000,
+      "emailNotification": false
+    },
+    "token": "b7ee4a41-48d9-4185-9ab7-bcd202719ded"
+  }
+}
+```
+
 ## Tags
 
 - Address POST `/api/tags`

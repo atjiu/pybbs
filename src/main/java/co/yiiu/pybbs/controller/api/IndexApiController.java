@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.controller.api;
 
+import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.SmsService;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
@@ -39,6 +40,8 @@ public class IndexApiController extends BaseApiController {
   private FileUtil fileUtil;
   @Autowired
   private CodeService codeService;
+  @Autowired
+  private EmailService emailService;
 
   // 首页接口
   @GetMapping({"/", "/index"})
@@ -91,7 +94,9 @@ public class IndexApiController extends BaseApiController {
   public Result sms_code(String captcha, String mobile, HttpSession session) {
     String _captcha = (String) session.getAttribute("_captcha");
     ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
     ApiAssert.notEmpty(mobile, "请输入手机号");
+    ApiAssert.isTrue(StringUtil.check(mobile, StringUtil.MOBILEREGEX), "请输入正确的手机号");
     boolean b = codeService.sendSms(mobile);
     if (!b) {
       return error("短信发送失败或者站长没有配置短信服务");
@@ -117,6 +122,20 @@ public class IndexApiController extends BaseApiController {
     User user = userService.addUserWithMobile(mobile);
     return doUserStorage(session, user);
   }
+
+  // 忘记密码要通过发送邮件来重置密码
+  // 让我再想想怎么实现这个功能比较好
+  @PostMapping("/forget_password")
+//  public Result forget_password(@RequestBody Map<String, String> body, HttpSession session) {
+//    String email = body.get("email");
+//    String captcha = body.get("captcha");
+//    String _captcha = (String) session.getAttribute("_captcha");
+//    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+//    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
+//    ApiAssert.notEmpty(email, "请输入邮箱");
+//    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
+//    emailService.send
+//  }
 
   // 登录成功后，处理的逻辑一样，这里提取出来封装一个方法处理
   private Result doUserStorage(HttpSession session, User user) {

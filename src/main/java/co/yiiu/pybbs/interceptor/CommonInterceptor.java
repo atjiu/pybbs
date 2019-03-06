@@ -62,7 +62,13 @@ public class CommonInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
     if (!HttpUtil.isApiRequest(request) && modelAndView != null) {
-      modelAndView.addObject("site", systemConfigService.selectAllConfig());
+      Map map = systemConfigService.selectAllConfig();
+      // 去掉一些密码参数，防止页面上获取造成不安全
+      map.remove("sms_secret");
+      map.remove("mail_password");
+      map.remove("redis_password");
+      map.remove("oauth_github_client_secret");
+      modelAndView.addObject("site", map);
     }
   }
 
