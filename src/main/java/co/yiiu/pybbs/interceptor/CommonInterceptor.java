@@ -8,6 +8,7 @@ import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -62,13 +64,9 @@ public class CommonInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
     if (!HttpUtil.isApiRequest(request) && modelAndView != null) {
-      Map map = systemConfigService.selectAllConfig();
-      // 去掉一些密码参数，防止页面上获取造成不安全
-      map.remove("sms_secret");
-      map.remove("mail_password");
-      map.remove("redis_password");
-      map.remove("oauth_github_client_secret");
-      modelAndView.addObject("site", map);
+      // TODO 这地方有安全隐患，通过这个设置，就可以在页面上获取到system_config表里的所有数据了，如果有人恶意往页面里加入一些代码，就可以拿到一些不可告人的东西。。
+      // 后面啥时候想起来了，再收拾它
+      modelAndView.addObject("site", systemConfigService.selectAllConfig());
     }
   }
 
