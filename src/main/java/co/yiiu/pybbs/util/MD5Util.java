@@ -32,7 +32,8 @@ public class MD5Util {
     }
   }
 
-  private MD5Util() {}
+  private MD5Util() {
+  }
 
   /**
    * 功能：加盐版的MD5.返回格式为MD5(密码+{盐值})

@@ -122,7 +122,7 @@ public class MyPage<T> extends Page<T> {
 
   public Page<T> setAscs(List<String> ascs) {
     if (CollectionUtils.isNotEmpty(ascs)) {
-      this.ascs = (String[])ascs.toArray(new String[0]);
+      this.ascs = (String[]) ascs.toArray(new String[0]);
     }
 
     return this;
@@ -139,7 +139,7 @@ public class MyPage<T> extends Page<T> {
 
   public Page<T> setDescs(List<String> descs) {
     if (CollectionUtils.isNotEmpty(descs)) {
-      this.descs = (String[])descs.toArray(new String[0]);
+      this.descs = (String[]) descs.toArray(new String[0]);
     }
 
     return this;

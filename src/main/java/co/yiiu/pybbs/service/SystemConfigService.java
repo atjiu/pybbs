@@ -14,7 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by tomoya.
@@ -78,7 +77,7 @@ public class SystemConfigService {
 
   // 在更新系统设置后，清一下selectAllConfig()的缓存
   public void update(List<Map<String, String>> list) {
-    for (Map map: list) {
+    for (Map map : list) {
       String key = (String) map.get("name");
       String value = (String) map.get("value");
       // 如果密码没有变动，则不做修改

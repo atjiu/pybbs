@@ -11,7 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Constants {
 
-  private Constants() {}
+  private Constants() {
+  }
 
   public static final String REDIS_SYSTEM_CONFIG_KEY = "pybbs_system_config";
 

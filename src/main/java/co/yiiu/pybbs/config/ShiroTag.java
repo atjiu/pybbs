@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 public class ShiroTag {
 
   // 判断当前用户是否已经登录认证过
-  public boolean isAuthenticated(){
+  public boolean isAuthenticated() {
     return SecurityUtils.getSubject().isAuthenticated();
   }
 

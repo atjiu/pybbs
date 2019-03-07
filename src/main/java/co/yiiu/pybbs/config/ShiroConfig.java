@@ -43,7 +43,7 @@ public class ShiroConfig {
     ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
     shiroFilterFactoryBean.setSecurityManager(securityManager);
     //拦截器.
-    Map<String,String> map = new HashMap<>();
+    Map<String, String> map = new HashMap<>();
     // 配置不会被拦截的链接 顺序判断  相关静态资源
     map.put("/static/**", "anon");
 

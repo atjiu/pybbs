@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
  */
 public class StringUtil {
 
-  private StringUtil() {}
+  private StringUtil() {
+  }
 
   // 手机号正则
   public static final String MOBILEREGEX = "^1[0-9]{10}";

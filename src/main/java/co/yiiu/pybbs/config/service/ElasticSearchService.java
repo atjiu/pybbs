@@ -57,21 +57,21 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
     try {
       topicMappingBuilder = JsonXContent.contentBuilder()
           .startObject()
-            .startObject("properties")
+          .startObject("properties")
 //              .startObject("id")
 //                .field("type", "integer")
 //              .endObject()
-              .startObject("title")
-                .field("type", "text")
-                .field("analyzer", "ik_max_word")
-                .field("index", "true")
-              .endObject()
-              .startObject("content")
-                .field("type", "text")
-                .field("analyzer", "ik_max_word")
-                .field("index", "true")
-              .endObject()
-            .endObject()
+          .startObject("title")
+          .field("type", "text")
+          .field("analyzer", "ik_max_word")
+          .field("index", "true")
+          .endObject()
+          .startObject("content")
+          .field("type", "text")
+          .field("analyzer", "ik_max_word")
+          .field("index", "true")
+          .endObject()
+          .endObject()
           .endObject();
     } catch (IOException e) {
       e.printStackTrace();
@@ -191,7 +191,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
       BulkRequest requests = new BulkRequest();
       Iterator<String> it = sources.keySet().iterator();
       int count = 0;
-      while(it.hasNext()) {
+      while (it.hasNext()) {
         count++;
         String next = it.next();
         IndexRequest request = new IndexRequest(name, type, next);
@@ -215,7 +215,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
       if (this.instance() == null) return;
       BulkRequest requests = new BulkRequest();
       int count = 0;
-      for (Integer id: ids) {
+      for (Integer id : ids) {
         count++;
         DeleteRequest request = new DeleteRequest(name, type, String.valueOf(id));
         requests.add(request);

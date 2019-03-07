@@ -28,7 +28,7 @@ public class UserAdminController extends BaseAdminController {
   // 前台用户管理
   @RequiresPermissions("user:list")
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model){
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     IPage<User> iPage = userService.selectAll(pageNo);
     model.addAttribute("page", iPage);
     return "admin/user/list";

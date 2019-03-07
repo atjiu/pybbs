@@ -1,7 +1,6 @@
 package co.yiiu.pybbs.controller.api;
 
 import co.yiiu.pybbs.config.service.EmailService;
-import co.yiiu.pybbs.config.service.SmsService;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
@@ -45,7 +44,7 @@ public class IndexApiController extends BaseApiController {
 
   // 首页接口
   @GetMapping({"/", "/index"})
-  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab){
+  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab) {
     MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
     return success(page);
   }

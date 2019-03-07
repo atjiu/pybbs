@@ -55,7 +55,8 @@ public class CommentService {
       redisService.setString(Constants.REDIS_COMMENTS_KEY + topicId, JsonUtil.objectToJson(commentsByTopics));
     } else {
       // 带泛型转换, 这里如果不带泛型转换，会报错
-      Type type = new TypeToken<List<CommentsByTopic>>(){}.getType();
+      Type type = new TypeToken<List<CommentsByTopic>>() {
+      }.getType();
       commentsByTopics = JsonUtil.jsonToObject(commentsJson, type);
     }
 
@@ -228,7 +229,7 @@ public class CommentService {
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
         pageSize == null ?
-        Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
+            Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
     return commentMapper.selectByUserId(iPage, userId);
   }

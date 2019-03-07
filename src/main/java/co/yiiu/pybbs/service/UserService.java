@@ -3,7 +3,6 @@ package co.yiiu.pybbs.service;
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.UserMapper;
-import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
@@ -82,6 +81,7 @@ public class UserService {
 
   /**
    * 注册创建用户
+   *
    * @param username
    * @param password
    * @param avatar

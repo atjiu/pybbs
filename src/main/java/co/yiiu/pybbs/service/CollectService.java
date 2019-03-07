@@ -118,6 +118,7 @@ public class CollectService {
         .eq(Collect::getTopicId, topicId);
     collectMapper.delete(wrapper);
   }
+
   // 根据用户id删除收藏记录
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();

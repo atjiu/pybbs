@@ -28,8 +28,9 @@ public class FileUtil {
 
   /**
    * 上传文件
-   * @param file 要上传的文件对象
-   * @param fileName 文件名，可以为空，为空的话，就生成一串uuid代替文件名
+   *
+   * @param file       要上传的文件对象
+   * @param fileName   文件名，可以为空，为空的话，就生成一串uuid代替文件名
    * @param customPath 自定义存放路径，这个地址是跟在数据库里配置的路径后面的，
    *                   格式类似 avatar/admin 前后没有 / 前面表示头像，后面是用户的昵称，举例，如果将用户头像全都放在一个文件夹里，这里可以直接传个 avatar
    * @return
