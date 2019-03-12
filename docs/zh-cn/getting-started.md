@@ -79,3 +79,9 @@ public class Application extends SpringBootServletInitializer {
 - 打包成功后，找到target里的`pybbs.war`，将其拷贝到tomcat下的webapps里，启动tomcat即可
 
 这种方式我测试有个静态资源问题，有兴趣的可以试着找一下解决办法，这里就不折腾了，**真的不推荐这种方式启动**
+
+PS：我之前测试说静态资源有问题的，是因为没有带上项目名，把pybbs文件夹里的内容解压到ROOT里就没有这问题了
+
+---
+
+**自己实在部署不好，朋也也可以代劳，不过是有偿的哦**

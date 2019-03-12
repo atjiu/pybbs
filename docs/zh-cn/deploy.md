@@ -43,3 +43,7 @@ server {
 https强烈推荐使用 letsencrypt 配置简单，主要是免费，唯一的缺点就是要3个月续一下时间，配置参见文档：[letsencrypt结合nginx配置https备忘](https://tomoya92.github.io/2016/08/28/letsencrypt-nginx-https/)
 
 配置外网环境运气好，很快就可以搭建好，运气不好，折腾两天是常事，淡定慢慢配
+
+--- 
+
+**自己实在部署不好，朋也也可以代劳，不过是有偿的哦**
