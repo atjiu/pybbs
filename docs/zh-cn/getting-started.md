@@ -9,6 +9,8 @@
 - 找到`co.yiiu.pybbs.PybbsApplication`类，直接运行main方法即可启动
 - 浏览器运行 `http://localhost:8080` , 后台地址 `http://localhost:8080/adminlogin` 后台用户名 admin 密码 123123
 
+如果要自己打包，可使用命令：`mvn clean assembly:assembly` 进行打包，不要尝试使用其它方式打包
+
 ## 非开发人员搭建
 
 - 首先保证你服务器上配置好了 java 环境，版本 jdk1.8 和 MySQL服务器，版本 5.7.x 其它可选环境配置参见 [网站准备工作](zh-cn/ready)
