@@ -1,4 +1,5 @@
 - 开始
+  - [用前必读](zh-cn/qa)
   - [准备工作](zh-cn/ready)
   - [快速开始](zh-cn/getting-started)
   
