@@ -27,3 +27,9 @@
 如果不想用github上我提供的 release 里的包，可以自行打包，不过打包要注意，我配置了`assembly` 打包，请使用下面的命令进行打包
 
 `mvn clean assembly:assembly`
+
+## 启动时报错 `No timezone mapping entry for 'GMT 8'`
+
+这是MySQL时区的问题，只在windows上有问题，我本机测试是把数据源里url链接后面的 `&serverTimezone=GMT%2B8` 删了就可以了，不过也有用户反馈这种方法不行
+
+那就换成另一种写法 `&serverTimezone=Asia/Shanghai` 也是可以的
