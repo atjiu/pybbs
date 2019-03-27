@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +125,7 @@ public class IndexController extends BaseController {
   @PostMapping("/adminlogin")
   public String adminlogin(String username, String password, String code, HttpSession session,
                            @RequestParam(defaultValue = "0") Boolean rememberMe,
-                           RedirectAttributes redirectAttributes) {
+                           HttpServletRequest request, RedirectAttributes redirectAttributes) {
     String captcha = (String) session.getAttribute("_captcha");
     if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
       redirectAttributes.addFlashAttribute("error", "验证码不正确");
@@ -144,7 +145,8 @@ public class IndexController extends BaseController {
         return redirect("/adminlogin");
       }
     }
-    return redirect("/admin/index");
+    String url = WebUtils.getSavedRequest(request) == null ? "/admin/index": WebUtils.getSavedRequest(request).getRequestUrl();
+    return redirect(url);
   }
 
   @GetMapping("/search")
