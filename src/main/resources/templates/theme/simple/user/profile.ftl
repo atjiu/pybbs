@@ -15,7 +15,7 @@
           <#if user.website?? && user.website != "">
             <li><a href="${user.website}" target="_blank">${user.website}</a></li>
           </#if>
-          <#if githubLogin?? && user.githubLogin != "">
+          <#if user.githubName?? && user.githubName != "">
             <li>Github: <a href="https://github.com/${githubLogin}" target="_blank">${githubLogin}</a></li>
           </#if>
           <#if user.bio?? && user.bio != "">

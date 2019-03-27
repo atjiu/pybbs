@@ -1,6 +1,7 @@
-<script>
-  <#if _user??>
-    <#if site.websocket == "1">
+<#if _user??>
+<#if site.websocket == "1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <script>
       var documentTitle = document.title;
       var socket = io.connect('ws://${site.websocket_host}:${site.websocket_port}');
       socket.on('connect', function () {
@@ -30,7 +31,9 @@
           document.title = "(" + notReadTotalCount + ") " + documentTitle;
         }
       });
-    <#else>
+    </script>
+  <#else>
+    <script>
       var title = document.title;
 
       function notificationCount() {
@@ -58,5 +61,5 @@
       //   notificationCount();
       // }, 120000);
     </#if>
-  </#if>
-</script>
+  </script>
+</#if>
