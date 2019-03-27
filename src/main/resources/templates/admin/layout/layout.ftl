@@ -22,6 +22,10 @@
           position: relative;
           padding: 65px 15px 0 15px;
         }
+        .content {
+          overflow: hidden!important;
+          padding-bottom: 25px!important;
+        }
       }
     </style>
 
