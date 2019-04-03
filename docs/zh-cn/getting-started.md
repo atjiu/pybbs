@@ -20,6 +20,7 @@
 - 关闭服务运行 `sh shutdown.sh` 
 - 查看启动日志 `tail -200f log.file`
 - 查看服务是否启动 `ps -ef|grep pybbs` 如果有pybbs的进程，就说明服务启动了
+- 浏览器运行 `http://localhost:8080` , 后台地址 `http://localhost:8080/adminlogin` 后台用户名 admin 密码 123123
 - 网站的其它配置，参见文档
 
 ## docker运行
@@ -28,7 +29,7 @@
 - `git clone https://github.com/tomoya92/pybbs` 或 下载最新版
 - cd pybbs进入项目
 - 运行 `docker-compose up -d` 命令启动容器，-d是后台运行的意思
-- 启动后，访问 `http://localhost:8080` 
+- 浏览器运行 `http://localhost:8080` , 后台地址 `http://localhost:8080/adminlogin` 后台用户名 admin 密码 123123
 - 关闭容器 `docker-compose down`
 - 查看日志 `docker-compose logs -f server`
 
@@ -79,6 +80,7 @@ public class Application extends SpringBootServletInitializer {
 
 - 最后运行`mvn clean assembly:assembly` 进行打包
 - 打包成功后，找到target里的`pybbs.war`，将其拷贝到tomcat下的webapps里，启动tomcat即可
+- 浏览器运行 `http://localhost:8080` , 后台地址 `http://localhost:8080/adminlogin` 后台用户名 admin 密码 123123
 
 这种方式我测试有个静态资源问题，有兴趣的可以试着找一下解决办法，这里就不折腾了，**真的不推荐这种方式启动**
 
