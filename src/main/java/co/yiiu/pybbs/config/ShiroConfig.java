@@ -62,6 +62,13 @@ public class ShiroConfig {
     //未授权界面;
     shiroFilterFactoryBean.setUnauthorizedUrl("/error");
     shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+
+//    Map<String, Filter> filters = new HashMap<>();
+//    filters.put("anon", new AnonymousFilter());
+//    filters.put("authc", new FormAuthenticationFilter());
+//    filters.put("logout", new LogoutFilter());
+//    shiroFilterFactoryBean.setFilters(filters);
+
     return shiroFilterFactoryBean;
   }
 

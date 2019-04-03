@@ -28,6 +28,12 @@
 
 `mvn clean assembly:assembly`
 
+## redis配置失败
+
+redis请不要开启auth，程序内集成的代码没有支持auth的配置
+
+如果你非要支持auth选项，可以自行修改源码，源码类名是 `RedisService.java`
+
 ## 启动时报错 `No timezone mapping entry for 'GMT 8'`
 
 这是MySQL时区的问题，只在windows上有问题，我本机测试是把数据源里url链接后面的 `&serverTimezone=GMT%2B8` 删了就可以了，不过也有用户反馈这种方法不行
