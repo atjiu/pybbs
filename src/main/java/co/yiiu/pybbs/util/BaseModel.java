@@ -63,6 +63,8 @@ public class BaseModel {
   }
 
   public String formatContent(String content) {
+    // 先对内容进行过滤
+    content = SensitiveWordUtil.replaceSensitiveWord(content, "*", SensitiveWordUtil.MinMatchType);
     List<String> atUsers = StringUtil.fetchAtUser(content);
     if (!atUsers.isEmpty()) {
       for (String atUser : atUsers) {

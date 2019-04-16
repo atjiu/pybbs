@@ -10,6 +10,7 @@ import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by tomoya.
@@ -51,7 +53,10 @@ public class CommentService {
     List<CommentsByTopic> commentsByTopics;
     if (commentsJson == null) {
       commentsByTopics = commentMapper.selectByTopicId(topicId);
-//      BeanUtils.copyProperties(commentMapper.selectByTopicId(topicId), commentsByTopics);
+      // 对评论内容进行过滤，然后再写入redis
+      for (CommentsByTopic commentsByTopic : commentsByTopics) {
+        commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*", SensitiveWordUtil.MinMatchType));
+      }
       redisService.setString(Constants.REDIS_COMMENTS_KEY + topicId, JsonUtil.objectToJson(commentsByTopics));
     } else {
       // 带泛型转换, 这里如果不带泛型转换，会报错

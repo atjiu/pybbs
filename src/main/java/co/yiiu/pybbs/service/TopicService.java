@@ -7,10 +7,7 @@ import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.TopicTag;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.util.Constants;
-import co.yiiu.pybbs.util.IpUtil;
-import co.yiiu.pybbs.util.JsonUtil;
-import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -130,6 +127,8 @@ public class TopicService {
     String topicJson = redisService.getString(Constants.REDIS_TOPIC_KEY + id);
     if (topicJson == null) {
       Topic topic = topicMapper.selectById(id);
+      // 对敏感词进行过滤
+      topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
       redisService.setString(Constants.REDIS_TOPIC_KEY + id, JsonUtil.objectToJson(topic));
       return topic;
     } else {
