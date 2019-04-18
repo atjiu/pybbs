@@ -45,6 +45,14 @@
           </a>
         </li>
       </#if>
+      <#if sec.hasPermission('sensitive_word:list')>
+        <li <#if page_tab=='sensitive_word'>class="active"</#if>>
+          <a href="/admin/sensitive_word/list">
+            <i class="fa fa-filter"></i>
+            <span>${i18n.getMessage("admin.sensitive_word")}</span>
+          </a>
+        </li>
+      </#if>
       <#if sec.hasPermission('user:list')>
         <li <#if page_tab=='user'>class="active"</#if>>
           <a href="/admin/user/list">

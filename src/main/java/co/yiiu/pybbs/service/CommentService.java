@@ -236,7 +236,12 @@ public class CommentService {
         pageSize == null ?
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
-    return commentMapper.selectByUserId(iPage, userId);
+    MyPage<Map<String, Object>> page = commentMapper.selectByUserId(iPage, userId);
+    for (Map<String, Object> map : page.getRecords()) {
+      Object content = map.get("content");
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+    }
+    return page;
   }
 
   // 盖楼排序

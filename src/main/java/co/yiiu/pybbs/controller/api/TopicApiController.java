@@ -60,6 +60,7 @@ public class TopicApiController extends BaseApiController {
     }
     // 话题浏览量+1
     topic = topicService.addViewCount(topic, request);
+    topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
 
     map.put("topic", topic);
     map.put("tags", tags);
@@ -86,6 +87,7 @@ public class TopicApiController extends BaseApiController {
     // 再次将tag转成逗号隔开的字符串
 //    tags = StringUtils.collectionToCommaDelimitedString(set);
     Topic topic = topicService.insertTopic(title, content, null, user, session);
+    topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(topic);
   }
 
@@ -106,6 +108,7 @@ public class TopicApiController extends BaseApiController {
     // 再次将tag转成逗号隔开的字符串
 //    tags = StringUtils.collectionToCommaDelimitedString(set);
     topic = topicService.updateTopic(topic, title, content, null);
+    topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(topic);
   }
 

@@ -9,6 +9,7 @@ import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.service.UserService;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -63,8 +63,6 @@ public class BaseModel {
   }
 
   public String formatContent(String content) {
-    // 先对内容进行过滤
-    content = SensitiveWordUtil.replaceSensitiveWord(content, "*", SensitiveWordUtil.MinMatchType);
     List<String> atUsers = StringUtil.fetchAtUser(content);
     if (!atUsers.isEmpty()) {
       for (String atUser : atUsers) {
@@ -72,6 +70,9 @@ public class BaseModel {
       }
     }
     content = MarkdownUtil.render(content);
+    // 先对内容进行过滤
+    content = SensitiveWordUtil.replaceSensitiveWord(content, "*", SensitiveWordUtil.MinMatchType);
+    // 解析内容里的视频链接
     content = Jsoup.clean(content, Whitelist.relaxed().addTags("code", "pre").addAttributes("code", "class"));
     Document parse = Jsoup.parse(content);
     Elements tableElements = parse.select("table");

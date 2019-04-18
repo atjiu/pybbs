@@ -91,7 +91,12 @@ public class TopicService {
         pageSize == null ?
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
-    return topicMapper.selectByUserId(iPage, userId);
+    MyPage<Map<String, Object>> page = topicMapper.selectByUserId(iPage, userId);
+    for (Map<String, Object> map : page.getRecords()) {
+      Object content = map.get("content");
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+    }
+    return page;
   }
 
   // 保存话题
@@ -127,8 +132,6 @@ public class TopicService {
     String topicJson = redisService.getString(Constants.REDIS_TOPIC_KEY + id);
     if (topicJson == null) {
       Topic topic = topicMapper.selectById(id);
-      // 对敏感词进行过滤
-      topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
       redisService.setString(Constants.REDIS_TOPIC_KEY + id, JsonUtil.objectToJson(topic));
       return topic;
     } else {

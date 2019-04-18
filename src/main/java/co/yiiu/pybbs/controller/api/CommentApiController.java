@@ -7,6 +7,7 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.CommentService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.util.Result;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class CommentApiController extends BaseApiController {
     Topic topic = topicService.selectById(topicId);
     ApiAssert.notNull(topic, "你晚了一步，话题可能已经被删除了");
     Comment comment = commentService.insert(content, topic, user, commentId, session);
+    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(comment);
   }
 
@@ -57,6 +59,7 @@ public class CommentApiController extends BaseApiController {
     ApiAssert.isTrue(comment.getUserId().equals(user.getId()), "请给你的权限让你编辑别人的评论？");
     comment.setContent(content);
     commentService.update(comment);
+    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(comment);
   }
 

@@ -7,6 +7,7 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -137,12 +138,16 @@ public class CollectService {
 
   // 查询用户收藏的话题
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
+    MyPage<Map<String, Object>> page = new MyPage<>(pageNo,
         pageSize == null ?
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
-    iPage = collectMapper.selectByUserId(iPage, userId);
-    topicService.selectTags(iPage, topicTagService, tagService);
-    return iPage;
+    page = collectMapper.selectByUserId(page, userId);
+    for (Map<String, Object> map : page.getRecords()) {
+      Object content = map.get("content");
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+    }
+    topicService.selectTags(page, topicTagService, tagService);
+    return page;
   }
 }

@@ -2,6 +2,7 @@ package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SensitiveWord;
 import co.yiiu.pybbs.service.SensitiveWordService;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -31,5 +32,6 @@ public class SensitiveWordFilterService {
     for (SensitiveWord sensitiveWord : sensitiveWords) {
       sensitiveWordSet.add(sensitiveWord.getWord());
     }
+    SensitiveWordUtil.init(sensitiveWordSet);
   }
 }
