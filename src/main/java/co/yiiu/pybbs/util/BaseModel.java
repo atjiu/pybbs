@@ -63,6 +63,7 @@ public class BaseModel {
   }
 
   public String formatContent(String content) {
+    if (StringUtils.isEmpty(content)) return "";
     List<String> atUsers = StringUtil.fetchAtUser(content);
     if (!atUsers.isEmpty()) {
       for (String atUser : atUsers) {
