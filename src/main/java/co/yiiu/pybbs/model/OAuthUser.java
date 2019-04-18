@@ -34,6 +34,13 @@ public class OAuthUser implements Serializable {
   private String email;
   // 本地用户的id
   private Integer userId;
+  // 刷新token
+  private String refreshToken;
+  // 只微信里有这个字段，联合登录id
+  private String unionId;
+  // token过期时间，这里用的是String来存的，用时转换一下即可
+  // 为啥要用String，因为String可以很方便的转其它类型..
+  private String expiresIn;
 
   public Integer getId() {
     return id;
@@ -105,5 +112,29 @@ public class OAuthUser implements Serializable {
 
   public void setUserId(Integer userId) {
     this.userId = userId;
+  }
+
+  public String getRefreshToken() {
+    return refreshToken;
+  }
+
+  public void setRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
+
+  public String getUnionId() {
+    return unionId;
+  }
+
+  public void setUnionId(String unionId) {
+    this.unionId = unionId;
+  }
+
+  public String getExpiresIn() {
+    return expiresIn;
+  }
+
+  public void setExpiresIn(String expiresIn) {
+    this.expiresIn = expiresIn;
   }
 }

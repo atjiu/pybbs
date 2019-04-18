@@ -32,15 +32,19 @@
             <button type="button" id="register_btn" class="btn btn-info">注册</button>
           </div>
         </form>
-        <#if !model.isEmpty(site.oauth_github_client_id!) || !model.isEmpty(site.sms_access_key_id!)>
+        <#if !model.isEmpty(site.oauth_github_client_id!)
+           || !model.isEmpty(site.sms_access_key_id!)
+           || !model.isEmpty(site.oauth_wechat_client_id!)>
           <hr>
         </#if>
         <#if !model.isEmpty(site.oauth_github_client_id!)>
           <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
         </#if>
+        <#if !model.isEmpty(site.oauth_wechat_client_id!)>
+          <a href="/oauth/wechat" class="btn btn-success btn-block"><i class="fa fa-wechat"></i>&nbsp;&nbsp;通过微信登录/注册</a>
+        </#if>
         <#if !model.isEmpty(site.sms_access_key_id!)>
-          <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
-          </button>
+          <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册</button>
         </#if>
       </div>
     </div>

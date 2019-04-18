@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -111,11 +112,95 @@ public class OAuthController extends BaseController {
       if (userService.selectByUsername(login) != null) username = login + githubId;
       // 先创建user，然后再创建oauthUser
       user = userService.addUser(username, null, avatar_url, email, bio, blog, StringUtils.isEmpty(email));
-      oAuthUserService.addOAuthUser(Integer.parseInt(githubId), "GITHUB", login, accessToken, bio, email, user.getId());
+      oAuthUserService.addOAuthUser(Integer.parseInt(githubId), "GITHUB", login, accessToken, bio, email, user.getId(),
+          null, null, null);
     } else {
       user = userService.selectById(oAuthUser.getUserId());
       oAuthUser.setEmail(email);
       oAuthUser.setBio(bio);
+      oAuthUser.setAccessToken(accessToken);
+      oAuthUserService.update(oAuthUser);
+    }
+
+    // 将用户信息写session
+    session.setAttribute("_user", user);
+    // 将用户token写cookie
+    cookieUtil.setCookie(systemConfigService.selectAllConfig().get("cookie_name").toString(), user.getToken());
+
+    return redirect("/");
+  }
+
+  // 使用wechat联合登录
+  @GetMapping("/wechat")
+  public String wechat(HttpSession session) {
+    String appId = (String) systemConfigService.selectAllConfig().get("oauth_wechat_client_id");
+    String appSecret = (String) systemConfigService.selectAllConfig().get("oauth_wechat_client_secret");
+    String callback = (String) systemConfigService.selectAllConfig().get("oauth_wechat_callback_url");
+
+    String state = StringUtil.randomString(4).toUpperCase();
+    session.setAttribute("wechat_state", state);
+
+    Assert.isTrue(!StringUtils.isEmpty(appId)
+        && !StringUtils.isEmpty(appSecret)
+        && !StringUtils.isEmpty(callback), "微信登录还没有相关配置，联系站长吧！");
+
+    return redirect("https://open.weixin.qq.com/connect/qrconnect?appid="
+        + appId + "&redirect_uri=" + callback + "&response_type=code&scope=snsapi_login&state=" + state);
+  }
+
+  // wechat联合登录后的回调
+  @GetMapping("/wechat/callback")
+  public String wechat_callback(@RequestParam String code, @RequestParam String state, HttpSession session) throws UnsupportedEncodingException {
+    String wechat_state = (String) session.getAttribute("wechat_state");
+    Assert.isTrue(state.equals(wechat_state), "非法请求");
+
+    String appId = (String) systemConfigService.selectAllConfig().get("oauth_wechat_client_id");
+    String appSecret = (String) systemConfigService.selectAllConfig().get("oauth_wechat_client_secret");
+    String callback = (String) systemConfigService.selectAllConfig().get("oauth_wechat_callback_url");
+
+    Assert.isTrue(!StringUtils.isEmpty(appId)
+        && !StringUtils.isEmpty(appSecret)
+        && !StringUtils.isEmpty(callback), "微信登录还没有相关配置，联系站长吧！");
+
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+
+    // 请求获取token接口，拿token
+    ResponseEntity<String> exchange = restTemplate.getForEntity(
+        "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+            + appId + "&secret=" + appSecret + "&code="
+            + code + "&grant_type=authorization_code", String.class);
+
+    Map accessTokenMap = JsonUtil.jsonToObject(exchange.getBody(), Map.class);
+    String accessToken = (String) accessTokenMap.get("access_token");
+    String refreshToken = (String) accessTokenMap.get("refresh_token");
+    String unionId = (String) accessTokenMap.get("unionid");
+    String openId = (String) accessTokenMap.get("openid");
+    String expiresIn = accessTokenMap.get("expires_in").toString();
+
+    // 拿到token后再次请求用户个人信息接口拿用户信息
+    ResponseEntity<String> userEntity = restTemplate.getForEntity("https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&access_token="
+        + accessToken + "&openid=" + openId, String.class);
+    String entityBody = userEntity.getBody();
+    // 转码，微信编码用的是 ISO-8859-1, 要转成UTF-8 中文才正常
+    entityBody = new String(entityBody.getBytes("ISO-8859-1"), "UTF-8");
+    Map userEntityBody = JsonUtil.jsonToObject(entityBody, Map.class);
+
+    // 拿用户信息
+    String nickname = userEntityBody.get("nickname").toString();
+    String avatar = userEntityBody.get("headimgurl").toString();
+
+    OAuthUser oAuthUser = oAuthUserService.selectByTypeAndLogin("WECHAT", nickname);
+    User user;
+    if (oAuthUser == null) {
+      String username = nickname;
+      if (userService.selectByUsername(nickname) != null) username = nickname + "_" + StringUtil.randomNumber(4);
+      // 先创建user，然后再创建oauthUser
+      user = userService.addUser(username, null, avatar, null, null, null, false);
+      oAuthUserService.addOAuthUser(null, "WECHAT", nickname, accessToken, null, null, user.getId(), refreshToken,
+          unionId, openId);
+    } else {
+      user = userService.selectById(oAuthUser.getUserId());
       oAuthUser.setAccessToken(accessToken);
       oAuthUserService.update(oAuthUser);
     }

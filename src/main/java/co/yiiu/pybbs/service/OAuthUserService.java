@@ -37,7 +37,8 @@ public class OAuthUserService {
     return oAuthUserMapper.selectList(wrapper);
   }
 
-  public void addOAuthUser(Integer oauthId, String type, String login, String accessToken, String bio, String email, Integer userId) {
+  public void addOAuthUser(Integer oauthId, String type, String login, String accessToken, String bio, String email,
+                           Integer userId, String refreshToken, String unionId, String openId) {
     OAuthUser oAuthUser = new OAuthUser();
     oAuthUser.setOauthId(oauthId);
     oAuthUser.setType(type);
