@@ -10,6 +10,7 @@
   - [配置Redis](zh-cn/redis)
   - [上传配置](zh-cn/upload)
   - [OAuth登录配置](zh-cn/oauth)
+  - [短信验证码登录配置](zh-cn/sms)
   - [WebSocket配置](zh-cn/websocket)
   
 - 部署

@@ -61,6 +61,9 @@ mvn clean assembly:assembly
 
 ## 贡献
 
+- 感谢 [@sunkaifei](https://github.com/sunkaifei) 提供的阿里云短信验证码登录要用到的 `key` `secret`
+- 感谢 [@gdhua](https://github.com/gdhua) 提供的微信联合登录要用到的 `appid` `appsecret`
+
 欢迎大家提 issues 及 pr
 
 ## 其它版本

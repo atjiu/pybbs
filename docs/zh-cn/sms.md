@@ -1,0 +1,18 @@
+在群友提供的阿里云短信的key, secret及模板的帮助下，朋也社区也有了短信验证码登录的功能了，配置如下
+
+登录 http://aliyun.com ，打开 https://dysms.console.aliyun.com/dysms.htm?spm=5176.8195934.1283918..623230c9cuQEpk#/domestic/text/sign 链接
+
+配置 `签名` `模板` `区域`
+
+然后在 https://usercenter.console.aliyun.com/?spm=5176.12207334.0.0.8dae1cbeSq0lnd#/manage/ak 这个页面拿到 `key` `secret`
+
+最后配置在项目后台的系统设置里，刷新登录页面，就会有手机号登录的按钮出现
+
+![](../assets/QQ20190418-153321.png)
+
+**注意**
+
+- 短信服务目前只支持阿里云短信服务
+- 申请模板的时候，动态内容的变量名是 `${code}` 请不要写成其它的
+
+**感谢 [@sunkaifei](https://github.com/sunkaifei) 提供的阿里云短信验证码登录要用到的 `key` `secret`**

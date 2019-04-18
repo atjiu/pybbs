@@ -33,6 +33,7 @@ public class SmsService {
   private IAcsClient client;
   private String signName;
   private String templateCode;
+  private String regionId;
 
   private SmsService() {
   }
@@ -43,13 +44,15 @@ public class SmsService {
     String secret = (String) systemConfigService.selectAllConfig().get("sms_secret");
     signName = (String) systemConfigService.selectAllConfig().get("sms_sign_name");
     templateCode = (String) systemConfigService.selectAllConfig().get("sms_template_code");
+    regionId = (String) systemConfigService.selectAllConfig().get("sms_region_id");
     if (StringUtils.isEmpty(accessKeyId)
         || StringUtils.isEmpty(secret)
         || StringUtils.isEmpty(signName)
-        || StringUtils.isEmpty(templateCode)) {
+        || StringUtils.isEmpty(templateCode)
+        || StringUtils.isEmpty(regionId)) {
       return null;
     }
-    DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, secret);
+    DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, secret);
     IAcsClient client = new DefaultAcsClient(profile);
     this.client = client;
     return client;
@@ -68,7 +71,7 @@ public class SmsService {
       request.setDomain("dysmsapi.aliyuncs.com");
       request.setVersion("2017-05-25");
       request.setAction("SendSms");
-      request.putQueryParameter("RegionId", "cn-hangzhou");
+      request.putQueryParameter("RegionId", regionId);
       request.putQueryParameter("PhoneNumbers", mobile);
       request.putQueryParameter("SignName", signName);
       request.putQueryParameter("TemplateCode", templateCode);
