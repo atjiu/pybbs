@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>pybbs文档</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="description" content="Description">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="shortcut icon" href="https://yiiu.co/favicon.ico">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
   <style>
     img {
       /*border: 4px solid #999999;*/
       /*border-radius: 4px;*/
-      box-shadow:0px 1px 4px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
-      webkit-box-shadow:0px 1px 4px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
-      moz-box-shadow:0px 1px 4px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
-      o-box-shadow:0px 1px 4px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+      webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+      moz-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+      o-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     }
-    img:after,img:before {
+
+    img:after, img:before {
       content: " ";
       background: #f00; /*为了让大家看清楚，先设置一个颜色红色*/
       position: absolute;
@@ -33,52 +35,59 @@
       z-index: -1;
     }
   </style>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-2721745535033061",
+      enable_page_level_ads: true
+    });
+  </script>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
-  <script>
-    window.$docsify = {
-      name: '朋也社区文档',
-      repo: 'tomoya92/pybbs',
-      loadNavbar: true,
-      loadSidebar: true,
-      mergeNavbar: true,
-      subMaxLevel: 3,
-      auto2top: true,
-      search: {
-        noData: {
-          '/zh-cn/': '没有结果!',
-          '/': 'No results!'
-        },
-        paths: 'auto',
-        placeholder: {
-          '/zh-cn/': '搜索',
-          '/': 'Search'
-        }
+<div id="app"></div>
+<script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
+<script>
+  window.$docsify = {
+    name: '朋也社区文档',
+    repo: 'tomoya92/pybbs',
+    loadNavbar: true,
+    loadSidebar: true,
+    mergeNavbar: true,
+    subMaxLevel: 3,
+    auto2top: true,
+    search: {
+      noData: {
+        '/zh-cn/': '没有结果!',
+        '/': 'No results!'
       },
-      ga: 'UA-98133026-3',
-      plugins: [
-        EditOnGithubPlugin.create(
-          'https://github.com/tomoya92/pybbs/blob/master/docs/'
-        ),
-        function (hook) {
-          var footer = [
-            '<hr/>',
-            '<footer>',
-            '<span>文档看了还有问题怎么办？去 <a href="https://17dev.club/" target="_blank">开发俱乐部</a> 上提问</span>',
-            '<span style="float: right;">Powered by <a href="https://github.com/docsifyjs/docsify" target="_blank">docsify</a>.</span>',
-            '</footer>'
-          ].join('');
-          hook.afterEach(function (html) {
-            return html + footer
-          });
-        },
-      ]
-    }
-  </script>
-  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/ga.js"></script>
+      paths: 'auto',
+      placeholder: {
+        '/zh-cn/': '搜索',
+        '/': 'Search'
+      }
+    },
+    ga: 'UA-98133026-3',
+    plugins: [
+      EditOnGithubPlugin.create(
+        'https://github.com/tomoya92/pybbs/blob/master/docs/'
+      ),
+      function (hook) {
+        var footer = [
+          '<hr/>',
+          '<footer>',
+          '<span>文档看了还有问题怎么办？去 <a href="https://17dev.club/" target="_blank">开发俱乐部</a> 上提问</span>',
+          '<span style="float: right;">Powered by <a href="https://github.com/docsifyjs/docsify" target="_blank">docsify</a>.</span>',
+          '</footer>'
+        ].join('');
+        hook.afterEach(function (html) {
+          return html + footer
+        });
+      },
+    ]
+  }
+</script>
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/ga.js"></script>
 </body>
 </html>
