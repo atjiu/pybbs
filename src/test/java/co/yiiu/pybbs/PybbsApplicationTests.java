@@ -16,12 +16,6 @@ public class PybbsApplicationTests {
 
   @Test
   public void contextLoads() {
-
-    identicon.generator("殷雷雷");
-    identicon.generator("maodou0217");
-    identicon.generator("abc");
-    identicon.generator("mywaya");
-    identicon.generator("tomoya");
   }
 
 }

@@ -2,7 +2,7 @@
 
 ## Document
 
-[Document](https://tomoya92.github.io/pybbs/#/)
+[Document](https://tomoya92.github.io/pybbs/)
 
 The documentation is written using the open source tool [docsify](https://docsify.js.org/#/quickstart)
 
@@ -31,7 +31,7 @@ The documentation is written using the open source tool [docsify](https://docsif
 
 ## Getting Started
 
-[Getting Started Document](https://tomoya92.github.io/pybbs/#/getting-started)
+[Getting Started Document](https://tomoya92.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
 
 **Special thanks to github user [@zzzzbw](https://github.com/zzzzbw) for helping to develop dockerfile**
 

@@ -11,9 +11,7 @@
 
 ## 文档
 
-[文档地址](https://tomoya92.github.io/pybbs/#/zh-cn/)
-
-文档使用开源工具 [docsify](https://docsify.js.org/#/quickstart) 编写
+[文档地址](https://tomoya92.github.io/pybbs/)
 
 ## 技术栈
 
@@ -34,7 +32,7 @@
 
 ## 运行
 
-还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#/getting-started)
+还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
 
 
 ## 手动打包
