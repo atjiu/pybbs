@@ -16,11 +16,11 @@
               <textarea name="content" id="content" class="form-control"
                         placeholder="内容，支持Markdown语法"></textarea>
             </div>
-            <#--<div class="form-group">
-              <label for="tags">标签</label>
-              <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
-                     placeholder="标签, 多个标签以 英文逗号 隔开"/>
-            </div>-->
+          <#--<div class="form-group">
+            <label for="tags">标签</label>
+            <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
+                   placeholder="标签, 多个标签以 英文逗号 隔开"/>
+          </div>-->
             <div class="form-group">
               <button type="button" id="btn" class="btn btn-info">发布话题</button>
             </div>
@@ -33,10 +33,10 @@
       <#include "../components/create_topic_guide.ftl"/>
     </div>
   </div>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/placeholder.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
+  <script src="/static/theme/default/js/codemirror.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
   <script>
     $(function () {
       CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";

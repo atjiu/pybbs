@@ -20,15 +20,15 @@
     <#include "../components/create_topic_guide.ftl"/>
   </div>
 </div>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
 <style>
   .CodeMirror {
     border-top: 0;
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/placeholder.min.js"></script>
+<script src="/static/theme/default/js/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
 <script>
   $(function () {
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
@@ -46,7 +46,7 @@
       var content = window.editor.getDoc().getValue();
       if (!content) {
         toast("请输入内容");
-        return ;
+        return;
       }
       $.ajax({
         url: '/api/comment/${comment.id}',
@@ -75,5 +75,5 @@
     })
   });
 </script>
-<#include "../components/upload.ftl"/>
+  <#include "../components/upload.ftl"/>
 </@html>

@@ -29,15 +29,15 @@
       </div>
     </div>
   </section>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
 <style>
   .CodeMirror {
     border: 1px solid #ddd;
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/placeholder.min.js"></script>
+<script src="/static/theme/default/js/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
 <script>
   $(function () {
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
@@ -55,7 +55,7 @@
       var content = editor.getDoc().getValue();
       if (!content) {
         toast("请输入内容");
-        return ;
+        return;
       }
       $.post("/admin/comment/edit", {
         id: ${comment.id},

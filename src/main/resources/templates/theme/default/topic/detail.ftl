@@ -13,10 +13,11 @@
             <p class="gray">
               <#if _user??>
                 <i id="vote_topic_icon_${topic.id}" style="font-size: 18px;"
-                class="fa <#if model.getUpIds(topic.upIds)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
-                                  onclick="voteTopic('${topic.id}')"></i>
+                   class="fa <#if model.getUpIds(topic.upIds)?seq_contains('${_user.id}')> fa-thumbs-up <#else> fa-thumbs-o-up </#if>"
+                   onclick="voteTopic('${topic.id}')"></i>
               <#else>
-                <i id="vote_topic_icon_${topic.id}" style="font-size: 18px;" class="fa fa-thumbs-o-up" onclick="voteTopic('${topic.id}')"></i>
+                <i id="vote_topic_icon_${topic.id}" style="font-size: 18px;" class="fa fa-thumbs-o-up"
+                   onclick="voteTopic('${topic.id}')"></i>
               </#if>
               <span id="vote_topic_count_${topic.id}">${model.getUpIds(topic.upIds)?size}</span>
               <span>•</span>
@@ -67,7 +68,7 @@
       </#if>
     </div>
 
-    <#--评论列表-->
+  <#--评论列表-->
     <#include "../components/topic_comments.ftl"/>
     <@topic_comments topicId=topic.id />
 
@@ -88,10 +89,10 @@
           </button>
         </div>
       </div>
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css" rel="stylesheet">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/markdown/markdown.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/placeholder.min.js"></script>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
+      <script src="/static/theme/default/js/codemirror.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
       <style>
         .CodeMirror {
           border-top: 0;
@@ -108,7 +109,7 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>
-  <#if _user??>
+    <#if _user??>
     $(function () {
       hljs.initHighlightingOnLoad();
       CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
@@ -122,12 +123,17 @@
         lineWrapping: true,    // 自动换行
       });
 
+      window.editor.on("update", function (instance) {
+        console.log(instance);
+      })
+
       $("#comment_btn").click(function () {
         var content = window.editor.getDoc().getValue();
         if (!content) {
           toast("请输入评论内容");
           return;
         }
+        a, b, c, d, e, f, g
         $.ajax({
           url: '/api/comment',
           type: 'post',
@@ -156,7 +162,7 @@
         })
       })
 
-      $(".collectTopic").click(function() {
+      $(".collectTopic").click(function () {
         var _this = this;
         var text = $(_this).text();
         var collectCount = $("#collectCount").text();
@@ -207,7 +213,7 @@
               'token': '${_user.token}'
             },
             data: JSON.stringify({token: '${_user.token}'}),
-            success: function(data) {
+            success: function (data) {
               if (data.code === 200) {
                 toast("删除成功", "success");
                 setTimeout(function () {
@@ -256,7 +262,7 @@
 
     // 删除评论
     function deleteComment(id) {
-      if(confirm("确定要删除这个评论吗？删了就没有了哦！")) {
+      if (confirm("确定要删除这个评论吗？删了就没有了哦！")) {
         $.ajax({
           url: '/api/comment/' + id,
           cache: false,
@@ -290,13 +296,13 @@
       //定位到文档的最后一个字符的位置
       window.editor.setCursor(window.editor.lineCount(), 0);
     }
-  </#if>
+    </#if>
 
   $("#goTop").click(function () {
     $('html, body').animate({scrollTop: 0}, 500);
   })
 </script>
-<#if _user??>
-  <#include "../components/upload.ftl"/>
-</#if>
+  <#if _user??>
+    <#include "../components/upload.ftl"/>
+  </#if>
 </@html>
