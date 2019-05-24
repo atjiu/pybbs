@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -59,7 +60,9 @@ public class CodeService {
     }
     lambda.eq(Code::getUsed, false);
     lambda.gt(Code::getExpireTime, new Date());
-    return codeMapper.selectOne(wrapper);
+    List<Code> codes = codeMapper.selectList(wrapper);
+    if (codes.isEmpty()) return null;
+    return codes.get(0);
   }
 
   // 创建一条验证码记录
