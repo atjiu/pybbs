@@ -49,10 +49,8 @@ public class IndexController extends BaseController {
 
   // 首页
   @GetMapping({"/", "/index", "/index.html"})
-  public String index(@RequestParam(defaultValue = "all") String tab,
-                      @RequestParam(defaultValue = "1") Integer pageNo,
-                      Boolean active,
-                      Model model) {
+  public String index(@RequestParam(defaultValue = "all") String tab, @RequestParam(defaultValue = "1") Integer
+      pageNo, Boolean active, Model model) {
     model.addAttribute("tab", tab);
     model.addAttribute("active", active);
     model.addAttribute("pageNo", pageNo);
@@ -117,15 +115,14 @@ public class IndexController extends BaseController {
   @GetMapping("/adminlogin")
   public String adminlogin() {
     Subject subject = SecurityUtils.getSubject();
-    if (subject.isAuthenticated()) return redirect("/admin/index");
+    if (subject.isAuthenticated() || subject.isRemembered()) return redirect("/admin/index");
     return "admin/login";
   }
 
   // 处理后台登录逻辑
   @PostMapping("/adminlogin")
-  public String adminlogin(String username, String password, String code, HttpSession session,
-                           @RequestParam(defaultValue = "0") Boolean rememberMe,
-                           HttpServletRequest request, RedirectAttributes redirectAttributes) {
+  public String adminlogin(String username, String password, String code, HttpSession session, @RequestParam
+      (defaultValue = "0") Boolean rememberMe, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     String captcha = (String) session.getAttribute("_captcha");
     if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
       redirectAttributes.addFlashAttribute("error", "验证码不正确");
@@ -145,7 +142,8 @@ public class IndexController extends BaseController {
         return redirect("/adminlogin");
       }
     }
-    String url = WebUtils.getSavedRequest(request) == null ? "/admin/index": WebUtils.getSavedRequest(request).getRequestUrl();
+    String url = WebUtils.getSavedRequest(request) == null ? "/admin/index" : WebUtils.getSavedRequest(request)
+        .getRequestUrl();
     return redirect(url);
   }
 
