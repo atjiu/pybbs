@@ -69,12 +69,14 @@
 <script>
   $(function () {
     $("#startDate").datepicker({
+      language: 'zh-CN',
       autoclose: true,
       format: 'yyyy-mm-dd',
       todayBtn: true,
       todayHighlight: true,
     });
     $("#endDate").datepicker({
+      language: 'zh-CN',
       autoclose: true,
       format: 'yyyy-mm-dd',
       todayBtn: true,
