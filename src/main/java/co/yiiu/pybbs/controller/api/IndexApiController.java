@@ -41,11 +41,13 @@ public class IndexApiController extends BaseApiController {
 
   // 首页接口
   @GetMapping({"/", "/index"})
-  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String tab) {
+  public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String
+      tab) {
     MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
     for (Map<String, Object> map : page.getRecords()) {
       Object content = map.get("content");
-      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content
+          .toString(), "*", SensitiveWordUtil.MinMatchType));
     }
     return success(page);
   }
@@ -80,6 +82,7 @@ public class IndexApiController extends BaseApiController {
     ApiAssert.notEmpty(username, "请输入用户名");
     ApiAssert.notEmpty(password, "请输入密码");
     ApiAssert.notEmpty(email, "请输入邮箱");
+    ApiAssert.isTrue(StringUtil.check(username, StringUtil.USERNAMEREGEX), "用户名只能为a-z,A-Z,0-9组合且2-16位");
     ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
     User user = userService.selectByUsername(username);
     ApiAssert.isNull(user, "用户名已存在");
@@ -126,16 +129,16 @@ public class IndexApiController extends BaseApiController {
   // 忘记密码要通过发送邮件来重置密码
   // 让我再想想怎么实现这个功能比较好
   @PostMapping("/forget_password")
-//  public Result forget_password(@RequestBody Map<String, String> body, HttpSession session) {
-//    String email = body.get("email");
-//    String captcha = body.get("captcha");
-//    String _captcha = (String) session.getAttribute("_captcha");
-//    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
-//    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
-//    ApiAssert.notEmpty(email, "请输入邮箱");
-//    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
-//    emailService.send
-//  }
+  //  public Result forget_password(@RequestBody Map<String, String> body, HttpSession session) {
+  //    String email = body.get("email");
+  //    String captcha = body.get("captcha");
+  //    String _captcha = (String) session.getAttribute("_captcha");
+  //    ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
+  //    ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
+  //    ApiAssert.notEmpty(email, "请输入邮箱");
+  //    ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
+  //    emailService.send
+  //  }
 
   // 登录成功后，处理的逻辑一样，这里提取出来封装一个方法处理
   private Result doUserStorage(HttpSession session, User user) {
@@ -165,7 +168,8 @@ public class IndexApiController extends BaseApiController {
     User user = getApiUser();
     ApiAssert.notEmpty(type, "上传图片类型不能为空");
     long size = file.getSize();
-    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_avatar_size_limit").toString());
+    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get
+        ("upload_avatar_size_limit").toString());
     if (size > uploadAvatarSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadAvatarSizeLimit + "MB 以内");
     String url;
     if (type.equalsIgnoreCase("avatar")) { // 上传头像
