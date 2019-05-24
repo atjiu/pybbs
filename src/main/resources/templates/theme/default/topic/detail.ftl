@@ -129,7 +129,6 @@
           toast("请输入评论内容");
           return;
         }
-        a, b, c, d, e, f, g
         $.ajax({
           url: '/api/comment',
           type: 'post',
