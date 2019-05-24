@@ -123,10 +123,6 @@
         lineWrapping: true,    // 自动换行
       });
 
-      window.editor.on("update", function (instance) {
-        console.log(instance);
-      })
-
       $("#comment_btn").click(function () {
         var content = window.editor.getDoc().getValue();
         if (!content) {
