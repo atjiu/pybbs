@@ -51,6 +51,7 @@ public class DataSourceHelper {
       connection.close();
     } catch (URISyntaxException | ClassNotFoundException | SQLException e) {
       log.error(e.getMessage());
+      log.error("创建数据库失败!");
     }
   }
 }

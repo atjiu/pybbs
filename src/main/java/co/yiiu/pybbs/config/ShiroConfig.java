@@ -91,8 +91,8 @@ public class ShiroConfig {
   //加入注解的使用，不加入这个注解不生效
   @Bean
   public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")
-                                                                                       SecurityManager
-                                                                                       securityManager) {
+                                                                                     SecurityManager
+                                                                                     securityManager) {
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
     authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
     return authorizationAttributeSourceAdvisor;
