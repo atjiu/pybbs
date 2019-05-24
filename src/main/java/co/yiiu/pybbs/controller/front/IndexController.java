@@ -115,7 +115,7 @@ public class IndexController extends BaseController {
   @GetMapping("/adminlogin")
   public String adminlogin() {
     Subject subject = SecurityUtils.getSubject();
-    if (subject.isAuthenticated() || subject.isRemembered()) return redirect("/admin/index");
+    if (subject.isAuthenticated()) return redirect("/admin/index");
     return "admin/login";
   }
 

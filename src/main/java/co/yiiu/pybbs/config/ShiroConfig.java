@@ -7,6 +7,7 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +40,7 @@ public class ShiroConfig {
   private SystemConfigService systemConfigService;
 
   @Bean
-  public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+  public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager securityManager) {
     log.info("开始配置shiroFilter...");
     ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
     shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -63,11 +65,8 @@ public class ShiroConfig {
     shiroFilterFactoryBean.setUnauthorizedUrl("/error");
     shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
-//    Map<String, Filter> filters = new HashMap<>();
-//    filters.put("anon", new AnonymousFilter());
-//    filters.put("authc", new FormAuthenticationFilter());
-//    filters.put("logout", new LogoutFilter());
-//    shiroFilterFactoryBean.setFilters(filters);
+    //    Map<String, Filter> filters = new HashMap<>();
+    //    shiroFilterFactoryBean.setFilters(filters);
 
     return shiroFilterFactoryBean;
   }
@@ -80,7 +79,7 @@ public class ShiroConfig {
   }
 
   // 安全管理器配置
-  @Bean
+  @Bean(name = "securityManager")
   public SecurityManager securityManager() {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     myShiroRealm.setCredentialsMatcher(myCredentialsMatcher());
@@ -91,7 +90,9 @@ public class ShiroConfig {
 
   //加入注解的使用，不加入这个注解不生效
   @Bean
-  public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
+  public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")
+                                                                                       SecurityManager
+                                                                                       securityManager) {
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
     authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
     return authorizationAttributeSourceAdvisor;
@@ -104,7 +105,8 @@ public class ShiroConfig {
     //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
     SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
     // 记住我cookie生效时间 单位秒
-    int adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get("admin_remember_me_max_age").toString());
+    int adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get
+        ("admin_remember_me_max_age").toString());
     simpleCookie.setMaxAge(adminRememberMeMaxAge * 24 * 60 * 60);
     return simpleCookie;
   }
@@ -118,6 +120,14 @@ public class ShiroConfig {
     //rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
     cookieRememberMeManager.setCipherKey(Base64.encode("pybbs is the best!".getBytes()));
     return cookieRememberMeManager;
+  }
+
+  @Bean
+  public FormAuthenticationFilter formAuthenticationFilter() {
+    FormAuthenticationFilter formAuthenticationFilter = new FormAuthenticationFilter();
+    //对应前端的checkbox的name = rememberMe
+    formAuthenticationFilter.setRememberMeParam("rememberMe");
+    return formAuthenticationFilter;
   }
 
   @Bean
