@@ -1310,20 +1310,27 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect2">
 <h3 id="开启websocket"><a class="anchor" href="#开启websocket"></a>开启WebSocket</h3>
 <div class="paragraph">
-<p><strong>websocket功能默认是关闭的，为啥默认不开启呢？因为这货用在论坛里有些鸡肋，原因如下</strong></p>
+<p>重新更新了一下websocket的实现，换成了javax.websocket包下的类实现，没有了之间的关闭服务还要等会的问题了</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>启动论坛的同时还要启动一个websocket服务</p>
-</li>
-<li>
-<p>在关闭论坛服务的时候，websocket服务还会停留一段时间，说长不长说短也不短，前后大约要1-2分钟的样子</p>
-</li>
-<li>
-<p>论坛没有做无刷新页面获取数据的功能（比如pjax），所以每次访问论坛内的页面时，都会刷新页面，这会导致ws连接断开，然后等待页面加载完成后，它又开始重连</p>
-</li>
-</ol>
+<div class="paragraph">
+<p>而且页面上也不用再多引入一个socket.io的js了，纯原生的js实现</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>注意，因为网站是服务端渲染的，所以每次请求页面都会刷新，websocket也会重连，这就有点蛋疼了</p>
+</div>
+<div class="paragraph">
+<p>不过也不是没办法, 可以给网站加上pjax支持，也可以将这个功能用在纯js渲染的网站上，很显然这两个功能pybbs都还没有</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>目前围绕ws开发的功能有如下</p>
@@ -1363,19 +1370,6 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>后续想法：</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>给论坛接入pjax，让网页实现无刷新浏览内容，这样ws连接就不会断了</p>
-</li>
-<li>
-<p>给论坛开发一套ws主题，全站就只有一个首页，内容全靠ws服务从服务端推给前端，这个听起来很赞，实现不太好弄，相当于又重新开发一个网站了</p>
-</li>
-</ul>
-</div>
 <hr>
 <div class="paragraph">
 <p>如果你看了上面的说明后，还是想开启，配置如下</p>
@@ -1384,7 +1378,7 @@ table.CodeRay td.code>pre{padding:0}
 <p><span class="image"><img src="./images/QQ20190123-103144.png" alt="QQ20190123-103144"></span></p>
 </div>
 <div class="paragraph">
-<p>只有三个配置</p>
+<p>只有两个配置</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1392,30 +1386,12 @@ table.CodeRay td.code>pre{padding:0}
 <p>开启功能，不多说</p>
 </li>
 <li>
-<p>ws服务的主机名，这个我在开发的时候用的是`http://localhost:8080`访问的论坛，所以这里就配置成了 <code>localhost</code></p>
-</li>
-<li>
-<p>ws服务的端口，论坛的端口是8080，我在开发的时候这里配置成了8081，只要不跟其它服务的端口冲突就可以</p>
+<p>ws连接地址，协议是 <code>ws</code> 或者 <code>wss</code>(如果你网站访问用的是https，那这个就应该是wss)，其它跟上面配置的网站访问域名一样</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>至于上面主机名能不能配置成其它的，我没试过，不过它既然是一套服务了，应该是可以配置成独立的域名的，而且应该还可以直接抽出成一个单独的服务，这个我没验证，有兴趣的朋友可以试一下</strong></p>
-</div>
-<div class="paragraph">
 <p>然后直接启动系统即可，注意，ws服务在前端只有登录后的用户才有效</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<strong>另外有一点要说明一下，如果你在开发过程中开启了ws服务，当改了点代码，要重启一下，这中间要等待1-2分钟，不知道为啥ws服务跟论坛服务不是同时停掉的，你要是有解决办法，求告知</strong>
-</td>
-</tr>
-</table>
 </div>
 </div>
 <div class="sect2">

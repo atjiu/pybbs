@@ -129,6 +129,8 @@
           toast("请输入评论内容");
           return;
         }
+        var _this = this;
+        $(_this).button("loading");
         $.ajax({
           url: '/api/comment',
           type: 'post',
@@ -152,6 +154,7 @@
               }, 700);
             } else {
               toast(data.description);
+              $(_this).button("reset");
             }
           }
         })

@@ -2,26 +2,24 @@ package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.RedisService;
+import co.yiiu.pybbs.config.websocket.MyWebSocket;
 import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
-import co.yiiu.pybbs.util.Constants;
-import co.yiiu.pybbs.util.JsonUtil;
-import co.yiiu.pybbs.util.MyPage;
-import co.yiiu.pybbs.util.SensitiveWordUtil;
+import co.yiiu.pybbs.util.*;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.google.common.reflect.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by tomoya.
@@ -31,6 +29,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class CommentService {
+
+  private Logger log = LoggerFactory.getLogger(CommentService.class);
 
   @Autowired
   private CommentMapper commentMapper;
@@ -55,14 +55,14 @@ public class CommentService {
       commentsByTopics = commentMapper.selectByTopicId(topicId);
       // 对评论内容进行过滤，然后再写入redis
       for (CommentsByTopic commentsByTopic : commentsByTopics) {
-        commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*", SensitiveWordUtil.MinMatchType));
+        commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*",
+            SensitiveWordUtil.MinMatchType));
       }
       redisService.setString(Constants.REDIS_COMMENTS_KEY + topicId, JsonUtil.objectToJson(commentsByTopics));
     } else {
       // 带泛型转换, 这里如果不带泛型转换，会报错
-      Type type = new TypeToken<List<CommentsByTopic>>() {
-      }.getType();
-      commentsByTopics = JsonUtil.jsonToObject(commentsJson, type);
+      commentsByTopics = JsonUtil.jsonToObject(commentsJson, new TypeReference<List<CommentsByTopic>>() {
+      });
     }
 
     if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
@@ -74,8 +74,7 @@ public class CommentService {
   // 删除话题时删除相关的评论
   public void deleteByTopicId(Integer topicId) {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(Comment::getTopicId, topicId);
+    wrapper.lambda().eq(Comment::getTopicId, topicId);
     commentMapper.delete(wrapper);
     // 删除redis缓存
     redisService.delString(Constants.REDIS_COMMENTS_KEY + topicId);
@@ -84,8 +83,7 @@ public class CommentService {
   // 根据用户id删除评论记录
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(Comment::getUserId, userId);
+    wrapper.lambda().eq(Comment::getUserId, userId);
     if (redisService.isRedisConfig()) { // 如果配置了redis，则清除redis里的缓存
       List<Comment> comments = commentMapper.selectList(wrapper);
       comments.forEach(comment ->
@@ -110,7 +108,8 @@ public class CommentService {
     topicService.update(topic);
 
     // 增加用户积分
-    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_comment_score").toString()));
+    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get
+        ("create_comment_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
 
@@ -123,22 +122,18 @@ public class CommentService {
 
         String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
         // 如果开启了websocket，就发网页通知
-        if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")
-            && Constants.usernameSocketIdMap.containsKey(targetComment.getUserId())) {
-          Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(targetComment.getUserId())).getClient()
-              .sendEvent("notifications", String.format(emailTitle, topic.getTitle(), user.getUsername()));
-          Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(targetComment.getUserId())).getClient()
-              .sendEvent("notification_notread", 1);
+        if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")) {
+          MyWebSocket.emit(targetComment.getUserId(), new Message("notifications", String.format(emailTitle, topic
+              .getTitle(), user.getUsername())));
+          MyWebSocket.emit(targetComment.getUserId(), new Message("notification_notread", 1));
         }
         // 发送邮件通知
         User targetUser = userService.selectById(targetComment.getUserId());
         if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
           String emailContent = "回复内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
-          new Thread(() -> emailService.sendEmail(
-              targetUser.getEmail(),
-              String.format(emailTitle, topic.getTitle(), user.getUsername()),
-              String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig().get("base_url").toString(), topic.getId())
-          )).start();
+          new Thread(() -> emailService.sendEmail(targetUser.getEmail(), String.format(emailTitle, topic.getTitle(),
+              user.getUsername()), String.format(emailContent, comment.getContent(), systemConfigService
+              .selectAllConfig().get("base_url").toString(), topic.getId()))).start();
         }
       }
     }
@@ -148,21 +143,17 @@ public class CommentService {
       // 发送邮件通知
       String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
       // 如果开启了websocket，就发网页通知
-      if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")
-          && Constants.usernameSocketIdMap.containsKey(topic.getUserId())) {
-        Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(topic.getUserId())).getClient()
-            .sendEvent("notifications", String.format(emailTitle, user.getUsername(), topic.getTitle()));
-        Constants.websocketUserMap.get(Constants.usernameSocketIdMap.get(topic.getUserId())).getClient()
-            .sendEvent("notification_notread", 1);
+      if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")) {
+        MyWebSocket.emit(topic.getUserId(), new Message("notifications", String.format(emailTitle, user.getUsername()
+            , topic.getTitle())));
+        MyWebSocket.emit(topic.getUserId(), new Message("notification_notread", 1));
       }
       User targetUser = userService.selectById(topic.getUserId());
       if (!StringUtils.isEmpty(targetUser.getEmail()) && targetUser.getEmailNotification()) {
         String emailContent = "评论内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
-        new Thread(() -> emailService.sendEmail(
-            targetUser.getEmail(),
-            String.format(emailTitle, user.getUsername(), topic.getTitle()),
-            String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig().get("base_url").toString(), topic.getId())
-        )).start();
+        new Thread(() -> emailService.sendEmail(targetUser.getEmail(), String.format(emailTitle, user.getUsername(),
+            topic.getTitle()), String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig
+            ().get("base_url").toString(), topic.getId()))).start();
       }
     }
 
@@ -220,7 +211,8 @@ public class CommentService {
       topicService.update(topic);
       // 减去用户积分
       User user = userService.selectById(comment.getUserId());
-      user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_comment_score").toString()));
+      user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get
+          ("delete_comment_score").toString()));
       userService.update(user);
       if (session != null) session.setAttribute("_user", user);
       // 删除redis里的缓存
@@ -232,14 +224,13 @@ public class CommentService {
 
   // 查询用户的评论
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
-        pageSize == null ?
-            Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
-    );
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService
+        .selectAllConfig().get("page_size").toString()) : pageSize);
     MyPage<Map<String, Object>> page = commentMapper.selectByUserId(iPage, userId);
     for (Map<String, Object> map : page.getRecords()) {
       Object content = map.get("content");
-      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content
+          .toString(), "*", SensitiveWordUtil.MinMatchType));
     }
     return page;
   }
@@ -290,8 +281,10 @@ public class CommentService {
 
   // ---------------------------- admin ----------------------------
 
-  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
-    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
+  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String
+      username) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService
+        .selectAllConfig().get("page_size")));
     return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 

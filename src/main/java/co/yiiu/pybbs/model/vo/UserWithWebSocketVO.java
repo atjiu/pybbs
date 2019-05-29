@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.model.vo;
 
-import com.corundumstudio.socketio.SocketIOClient;
 
 import java.io.Serializable;
 
@@ -9,17 +8,17 @@ import java.io.Serializable;
  * Copyright (c) 2018, All Rights Reserved.
  * https://yiiu.co
  */
-public class UserWithSocketIOClient implements Serializable {
+public class UserWithWebSocketVO implements Serializable {
 
+  private static final long serialVersionUID = -8327007303087296114L;
   private String username;
   private Integer userId;
-  private SocketIOClient client;
 
-  public Integer getUserId() {
-    return userId;
+  public UserWithWebSocketVO() {
   }
 
-  public void setUserId(Integer userId) {
+  public UserWithWebSocketVO(String username, Integer userId) {
+    this.username = username;
     this.userId = userId;
   }
 
@@ -31,11 +30,12 @@ public class UserWithSocketIOClient implements Serializable {
     this.username = username;
   }
 
-  public SocketIOClient getClient() {
-    return client;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setClient(SocketIOClient client) {
-    this.client = client;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
+
 }

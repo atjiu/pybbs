@@ -42,7 +42,8 @@ public class CommentApiController extends BaseApiController {
     Topic topic = topicService.selectById(topicId);
     ApiAssert.notNull(topic, "你晚了一步，话题可能已经被删除了");
     Comment comment = commentService.insert(content, topic, user, commentId, session);
-    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil.MinMatchType));
+    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil
+        .MinMatchType));
     return success(comment);
   }
 
@@ -59,7 +60,8 @@ public class CommentApiController extends BaseApiController {
     ApiAssert.isTrue(comment.getUserId().equals(user.getId()), "请给你的权限让你编辑别人的评论？");
     comment.setContent(content);
     commentService.update(comment);
-    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil.MinMatchType));
+    comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil
+        .MinMatchType));
     return success(comment);
   }
 

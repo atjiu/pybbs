@@ -60,6 +60,8 @@
       //   toast("请输入标签，且最多只能填5个");
       //   return;
       // }
+      var _this = this;
+      $(_this).button("loading");
       $.ajax({
         url: '/api/topic/${topic.id}',
         type: 'put',
@@ -83,6 +85,7 @@
             }, 700);
           } else {
             toast(data.description);
+            $(_this).button("reset");
           }
         }
       })

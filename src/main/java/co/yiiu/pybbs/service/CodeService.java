@@ -43,8 +43,7 @@ public class CodeService {
 
   public Code selectByCode(String _code) {
     QueryWrapper<Code> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(Code::getCode, _code);
+    wrapper.lambda().eq(Code::getCode, _code);
     return codeMapper.selectOne(wrapper);
   }
 
