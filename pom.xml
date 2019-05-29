@@ -165,14 +165,6 @@
     </dependency>
     <!-- elasticsearch-rest end -->
 
-    <!-- netty-socketio start -->
-    <dependency>
-      <groupId>com.corundumstudio.socketio</groupId>
-      <artifactId>netty-socketio</artifactId>
-      <version>${netty-socketio.version}</version>
-    </dependency>
-    <!-- netty-socketio end -->
-
     <!-- aliyun sms start -->
     <dependency>
       <groupId>com.aliyun</groupId>
