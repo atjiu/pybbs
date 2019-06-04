@@ -22,11 +22,8 @@ public class FlywayConfig {
   @PostConstruct
   @DependsOn("dataSourceHelper")
   public void migrate() {
-    Flyway flyway = Flyway.configure()
-        .dataSource(dataSource)
-        .locations("classpath:db/migration", "filesystem:db/migration")
-        .baselineOnMigrate(true)
-        .load();
+    Flyway flyway = Flyway.configure().dataSource(dataSource).locations("classpath:db/migration",
+        "filesystem:db/migration").baselineOnMigrate(true).load();
     flyway.migrate();
   }
 

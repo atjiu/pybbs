@@ -12,7 +12,8 @@ import java.util.Locale;
  * Copyright (c) 2018, All Rights Reserved.
  * https://yiiu.co
  */
-// 这个工具类代码来自 https://github.com/zl736732419/spring-boot-i18n/blob/master/src/main/java/com/zheng/utils/LocaleMessageSourceUtil.java
+// 这个工具类代码来自 https://github.com/zl736732419/spring-boot-i18n/blob/master/src/main/java/com/zheng/utils
+// /LocaleMessageSourceUtil.java
 @Component
 public class LocaleMessageSourceUtil {
 

@@ -25,25 +25,25 @@ import java.util.Map;
 public class IndexApiController extends BaseApiController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
   private CookieUtil cookieUtil;
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
   private FileUtil fileUtil;
   @Autowired
-  private CodeService codeService;
+  private ICodeService codeService;
 
   // 首页接口
   @GetMapping({"/", "/index"})
   public Result index(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "all") String
       tab) {
-    MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);
+    MyPage<Map<String, Object>> page = ITopicService.selectAll(pageNo, tab);
     for (Map<String, Object> map : page.getRecords()) {
       Object content = map.get("content");
       map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content

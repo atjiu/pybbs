@@ -2,7 +2,7 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
 import co.yiiu.pybbs.config.realm.MyShiroRealm;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -37,7 +37,7 @@ public class ShiroConfig {
   @Autowired
   private MyShiroRealm myShiroRealm;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   @Bean
   public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager securityManager) {
@@ -91,8 +91,8 @@ public class ShiroConfig {
   //加入注解的使用，不加入这个注解不生效
   @Bean
   public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")
-                                                                                     SecurityManager
-                                                                                     securityManager) {
+                                                                                       SecurityManager
+                                                                                       securityManager) {
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
     authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
     return authorizationAttributeSourceAdvisor;

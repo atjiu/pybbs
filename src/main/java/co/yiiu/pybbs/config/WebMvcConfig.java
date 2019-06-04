@@ -30,26 +30,17 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   @Override
   protected void addCorsMappings(CorsRegistry registry) {
     super.addCorsMappings(registry);
-    registry.addMapping("/api/**")
-        .allowedHeaders("*")
-        .allowedMethods("*")
-        .allowedOrigins("*")
-        .allowCredentials(false);
+    registry.addMapping("/api/**").allowedHeaders("*").allowedMethods("*").allowedOrigins("*").allowCredentials(false);
   }
 
   @Override
   protected void addInterceptors(InterceptorRegistry registry) {
     // 配置全局日志拦截器，用于记录用户的请求记录
-    registry.addInterceptor(commonInterceptor)
-        .addPathPatterns("/**");
+    registry.addInterceptor(commonInterceptor).addPathPatterns("/**");
     // 用户拦截器，拦截用户是否登录
-    registry.addInterceptor(userInterceptor)
-        .addPathPatterns(
-            "/settings",
-            "/topic/create",
-            "/topic/edit/*",
-            "/api/upload" // 上传图片路由
-        );
+    registry.addInterceptor(userInterceptor).addPathPatterns("/settings", "/topic/create", "/topic/edit/*",
+        "/api/upload" // 上传图片路由
+    );
   }
 
   @Override
@@ -66,9 +57,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   }
 
   // 解析put delete请求时带的参数
-//  @Bean
-//  public FormContentFilter formContentFilter() {
-//    return new FormContentFilter();
-//  }
+  //  @Bean
+  //  public FormContentFilter formContentFilter() {
+  //    return new FormContentFilter();
+  //  }
 
 }

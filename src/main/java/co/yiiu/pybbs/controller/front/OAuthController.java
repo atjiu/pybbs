@@ -2,9 +2,9 @@ package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.OAuthUser;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.OAuthUserService;
-import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.IOAuthUserService;
+import co.yiiu.pybbs.service.ISystemConfigService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.StringUtil;
@@ -36,11 +36,11 @@ import java.util.Map;
 public class OAuthController extends BaseController {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private OAuthUserService oAuthUserService;
+  private IOAuthUserService oAuthUserService;
   @Autowired
   private CookieUtil cookieUtil;
 
@@ -54,12 +54,11 @@ public class OAuthController extends BaseController {
     String state = StringUtil.randomString(4).toUpperCase();
     session.setAttribute("github_state", state);
 
-    Assert.isTrue(!StringUtils.isEmpty(clientId)
-        && !StringUtils.isEmpty(clientSecret)
-        && !StringUtils.isEmpty(callback), "Github登录还没有相关配置，联系站长吧！");
+    Assert.isTrue(!StringUtils.isEmpty(clientId) && !StringUtils.isEmpty(clientSecret) && !StringUtils.isEmpty
+        (callback), "Github登录还没有相关配置，联系站长吧！");
 
-    return redirect("https://github.com/login/oauth/authorize?client_id="
-        + clientId + "&redirect_uri=" + callback + "&scope=user&state=" + state);
+    return redirect("https://github.com/login/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + callback +
+        "&scope=user&state=" + state);
   }
 
   // github联合登录后的回调
@@ -72,29 +71,28 @@ public class OAuthController extends BaseController {
     String clientSecret = (String) systemConfigService.selectAllConfig().get("oauth_github_client_secret");
     String callback = (String) systemConfigService.selectAllConfig().get("oauth_github_callback_url");
 
-    Assert.isTrue(!StringUtils.isEmpty(clientId)
-        && !StringUtils.isEmpty(clientSecret)
-        && !StringUtils.isEmpty(callback), "Github登录还没有相关配置，联系站长吧！");
+    Assert.isTrue(!StringUtils.isEmpty(clientId) && !StringUtils.isEmpty(clientSecret) && !StringUtils.isEmpty
+        (callback), "Github登录还没有相关配置，联系站长吧！");
 
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
-//    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    //    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
     // 封闭获取token请求的参数
     HttpEntity entity = new HttpEntity(headers);
 
     // 请求获取token接口，拿token
-    ResponseEntity<String> exchange = restTemplate.postForEntity(
-        "https://github.com/login/oauth/access_token?client_id="
-            + clientId + "&client_secret=" + clientSecret + "&code="
-            + code + "&state=" + state + "&redirect_uri=" + callback, entity, String.class);
+    ResponseEntity<String> exchange = restTemplate.postForEntity("https://github" + "" + "" + "" + "" + "" +
+        ".com/login/oauth/access_token?client_id=" + clientId + "&client_secret=" + clientSecret + "&code=" + code +
+        "&state=" + state + "&redirect_uri=" + callback, entity, String.class);
     Map map = JsonUtil.jsonToObject(exchange.getBody(), Map.class);
 
     String accessToken = (String) map.get("access_token");
 
     // 拿到token后再次请求用户个人信息接口拿用户信息
-    ResponseEntity<Map> userEntity = restTemplate.getForEntity("https://api.github.com/user?access_token=" + accessToken, Map.class);
+    ResponseEntity<Map> userEntity = restTemplate.getForEntity("https://api.github.com/user?access_token=" +
+        accessToken, Map.class);
     Map userEntityBody = userEntity.getBody();
 
     // 拿用户信息
@@ -112,8 +110,8 @@ public class OAuthController extends BaseController {
       if (userService.selectByUsername(login) != null) username = login + githubId;
       // 先创建user，然后再创建oauthUser
       user = userService.addUser(username, null, avatar_url, email, bio, blog, StringUtils.isEmpty(email));
-      oAuthUserService.addOAuthUser(Integer.parseInt(githubId), "GITHUB", login, accessToken, bio, email, user.getId(),
-          null, null, null);
+      oAuthUserService.addOAuthUser(Integer.parseInt(githubId), "GITHUB", login, accessToken, bio, email, user.getId
+          (), null, null, null);
     } else {
       user = userService.selectById(oAuthUser.getUserId());
       oAuthUser.setEmail(email);
@@ -140,17 +138,17 @@ public class OAuthController extends BaseController {
     String state = StringUtil.randomString(4).toUpperCase();
     session.setAttribute("wechat_state", state);
 
-    Assert.isTrue(!StringUtils.isEmpty(appId)
-        && !StringUtils.isEmpty(appSecret)
-        && !StringUtils.isEmpty(callback), "微信登录还没有相关配置，联系站长吧！");
+    Assert.isTrue(!StringUtils.isEmpty(appId) && !StringUtils.isEmpty(appSecret) && !StringUtils.isEmpty(callback),
+        "微信登录还没有相关配置，联系站长吧！");
 
-    return redirect("https://open.weixin.qq.com/connect/qrconnect?appid="
-        + appId + "&redirect_uri=" + callback + "&response_type=code&scope=snsapi_login&state=" + state);
+    return redirect("https://open.weixin.qq.com/connect/qrconnect?appid=" + appId + "&redirect_uri=" + callback +
+        "&response_type=code&scope=snsapi_login&state=" + state);
   }
 
   // wechat联合登录后的回调
   @GetMapping("/wechat/callback")
-  public String wechat_callback(@RequestParam String code, @RequestParam String state, HttpSession session) throws UnsupportedEncodingException {
+  public String wechat_callback(@RequestParam String code, @RequestParam String state, HttpSession session) throws
+      UnsupportedEncodingException {
     String wechat_state = (String) session.getAttribute("wechat_state");
     Assert.isTrue(state.equals(wechat_state), "非法请求");
 
@@ -158,18 +156,16 @@ public class OAuthController extends BaseController {
     String appSecret = (String) systemConfigService.selectAllConfig().get("oauth_wechat_client_secret");
     String callback = (String) systemConfigService.selectAllConfig().get("oauth_wechat_callback_url");
 
-    Assert.isTrue(!StringUtils.isEmpty(appId)
-        && !StringUtils.isEmpty(appSecret)
-        && !StringUtils.isEmpty(callback), "微信登录还没有相关配置，联系站长吧！");
+    Assert.isTrue(!StringUtils.isEmpty(appId) && !StringUtils.isEmpty(appSecret) && !StringUtils.isEmpty(callback),
+        "微信登录还没有相关配置，联系站长吧！");
 
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
 
     // 请求获取token接口，拿token
-    ResponseEntity<String> exchange = restTemplate.getForEntity(
-        "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-            + appId + "&secret=" + appSecret + "&code="
-            + code + "&grant_type=authorization_code", String.class);
+    ResponseEntity<String> exchange = restTemplate.getForEntity("https://api.weixin.qq" + "" + "" + "" + "" + "" +
+        ".com/sns/oauth2/access_token?appid=" + appId + "&secret=" + appSecret + "&code=" + code +
+        "&grant_type=authorization_code", String.class);
 
     Map accessTokenMap = JsonUtil.jsonToObject(exchange.getBody(), Map.class);
     String accessToken = (String) accessTokenMap.get("access_token");
@@ -179,8 +175,8 @@ public class OAuthController extends BaseController {
     String expiresIn = accessTokenMap.get("expires_in").toString();
 
     // 拿到token后再次请求用户个人信息接口拿用户信息
-    ResponseEntity<String> userEntity = restTemplate.getForEntity("https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&access_token="
-        + accessToken + "&openid=" + openId, String.class);
+    ResponseEntity<String> userEntity = restTemplate.getForEntity("https://api.weixin.qq" + "" + "" + "" + "" + "" +
+        ".com/sns/userinfo?lang=zh_CN&access_token=" + accessToken + "&openid=" + openId, String.class);
     String entityBody = userEntity.getBody();
     // 转码，微信编码用的是 ISO-8859-1, 要转成UTF-8 中文才正常
     entityBody = new String(entityBody.getBytes("ISO-8859-1"), "UTF-8");

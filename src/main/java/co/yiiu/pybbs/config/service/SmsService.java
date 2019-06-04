@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.config.service;
 
-import co.yiiu.pybbs.service.CodeService;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ICodeService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.JsonUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -26,9 +26,9 @@ public class SmsService {
   private Logger log = LoggerFactory.getLogger(SmsService.class);
 
   @Autowired
-  private CodeService codeService;
+  private ICodeService codeService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   private IAcsClient client;
   private String signName;
@@ -45,11 +45,8 @@ public class SmsService {
     signName = (String) systemConfigService.selectAllConfig().get("sms_sign_name");
     templateCode = (String) systemConfigService.selectAllConfig().get("sms_template_code");
     regionId = (String) systemConfigService.selectAllConfig().get("sms_region_id");
-    if (StringUtils.isEmpty(accessKeyId)
-        || StringUtils.isEmpty(secret)
-        || StringUtils.isEmpty(signName)
-        || StringUtils.isEmpty(templateCode)
-        || StringUtils.isEmpty(regionId)) {
+    if (StringUtils.isEmpty(accessKeyId) || StringUtils.isEmpty(secret) || StringUtils.isEmpty(signName) ||
+        StringUtils.isEmpty(templateCode) || StringUtils.isEmpty(regionId)) {
       return null;
     }
     DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, secret);

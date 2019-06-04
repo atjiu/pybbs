@@ -3,9 +3,9 @@ package co.yiiu.pybbs.controller.api;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CodeService;
-import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICodeService;
+import co.yiiu.pybbs.service.ISystemConfigService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
@@ -26,11 +26,11 @@ import java.util.Map;
 public class SettingsApiController extends BaseApiController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private CodeService codeService;
+  private ICodeService codeService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   // 更新用户个人信息
   @PutMapping
@@ -62,13 +62,9 @@ public class SettingsApiController extends BaseApiController {
     String title = "感谢注册%s，点击下面链接激活帐号";
     String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
 
-    if (codeService.sendEmail(user.getId(), user.getEmail(),
-        String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
-        String.format(content,
-            systemConfigService.selectAllConfig().get("name").toString(),
-            systemConfigService.selectAllConfig().get("base_url").toString(),
-            user.getEmail()
-        ))) {
+    if (codeService.sendEmail(user.getId(), user.getEmail(), String.format(title, systemConfigService.selectAllConfig
+        ().get("base_url").toString()), String.format(content, systemConfigService.selectAllConfig().get("name")
+        .toString(), systemConfigService.selectAllConfig().get("base_url").toString(), user.getEmail()))) {
       return success();
     } else {
       return error("邮件发送失败，也可能是站长没有配置邮箱");

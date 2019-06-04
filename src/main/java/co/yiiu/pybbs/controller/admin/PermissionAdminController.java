@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Permission;
-import co.yiiu.pybbs.service.PermissionService;
+import co.yiiu.pybbs.service.IPermissionService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 public class PermissionAdminController extends BaseAdminController {
 
   @Autowired
-  private PermissionService permissionService;
+  private IPermissionService permissionService;
 
   @RequiresPermissions("permission:list")
   @GetMapping("/list")

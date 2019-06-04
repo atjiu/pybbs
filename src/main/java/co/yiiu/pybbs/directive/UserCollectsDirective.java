@@ -1,8 +1,8 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CollectService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICollectService;
+import co.yiiu.pybbs.service.IUserService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +20,19 @@ import java.util.Map;
 public class UserCollectsDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     String username = String.valueOf(map.get("username"));
     Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
     User user = userService.selectByUsername(username);
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
-    environment.setVariable("collects", builder.build().wrap(collectService.selectByUserId(user.getId(), pageNo, null)));
+    environment.setVariable("collects", builder.build().wrap(collectService.selectByUserId(user.getId(), pageNo,
+        null)));
     templateDirectiveBody.render(environment.getOut());
   }
 }

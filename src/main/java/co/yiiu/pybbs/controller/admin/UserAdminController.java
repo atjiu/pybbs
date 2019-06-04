@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserAdminController extends BaseAdminController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   // 前台用户管理
   @RequiresPermissions("user:list")

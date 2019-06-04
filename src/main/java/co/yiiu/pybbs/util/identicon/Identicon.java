@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util.identicon;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.HashUtil;
 import co.yiiu.pybbs.util.MD5Util;
 import co.yiiu.pybbs.util.StringUtil;
@@ -35,7 +35,7 @@ public class Identicon {
 
   private IBaseGenartor genartor;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   public Identicon() {
     this.genartor = new MyGenerator();
@@ -46,7 +46,7 @@ public class Identicon {
 
     boolean[][] array = genartor.getBooleanValueArray(hash);
 
-//        int ratio = DoubleMath.roundToInt(size / 5.0, RoundingMode.HALF_UP);
+    //        int ratio = DoubleMath.roundToInt(size / 5.0, RoundingMode.HALF_UP);
     int ratio = size / 6;
 
     BufferedImage identicon = new BufferedImage(ratio * 6, ratio * 6, BufferedImage.TYPE_INT_ARGB);
@@ -97,7 +97,8 @@ public class Identicon {
     try {
       File file = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath);
       if (!file.exists()) file.mkdirs();
-      File file1 = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath + fileName);
+      File file1 = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath +
+          fileName);
       if (!file1.exists()) file1.createNewFile();
       ImageIO.write(image, "PNG", file1);
       return systemConfigService.selectAllConfig().get("static_url").toString() + userAvatarPath + fileName;
@@ -107,24 +108,25 @@ public class Identicon {
     return null;
   }
 
-//  public String saveFileToQiniu(byte[] data) {
-//    try {
-//      //构造一个带指定Zone对象的配置类
-//      Configuration cfg = new Configuration(Zone.zone2());
-//      //...其他参数参考类注释
-//      UploadManager uploadManager = new UploadManager(cfg);
-//      Auth auth = Auth.create(siteConfig.getUpload().getQiniu().getAccessKey(), siteConfig.getUpload().getQiniu().getSecretKey());
-//      String uploadToken = auth.uploadToken(siteConfig.getUpload().getQiniu().getBucket());
-//      Response response = uploadManager.put(data, null, uploadToken, null, null, true);
-//      DefaultPutRet defaultPutRet = JsonUtil.jsonToObject(response.bodyString(), DefaultPutRet.class);
-//      return siteConfig.getUpload().getQiniu().getDomain() + defaultPutRet.key;
-//    } catch (QiniuException e) {
-//      log.error(e.getLocalizedMessage());
-//    }
-//    return "";
-//  }
+  //  public String saveFileToQiniu(byte[] data) {
+  //    try {
+  //      //构造一个带指定Zone对象的配置类
+  //      Configuration cfg = new Configuration(Zone.zone2());
+  //      //...其他参数参考类注释
+  //      UploadManager uploadManager = new UploadManager(cfg);
+  //      Auth auth = Auth.create(siteConfig.getUpload().getQiniu().getAccessKey(), siteConfig.getUpload().getQiniu()
+  // .getSecretKey());
+  //      String uploadToken = auth.uploadToken(siteConfig.getUpload().getQiniu().getBucket());
+  //      Response response = uploadManager.put(data, null, uploadToken, null, null, true);
+  //      DefaultPutRet defaultPutRet = JsonUtil.jsonToObject(response.bodyString(), DefaultPutRet.class);
+  //      return siteConfig.getUpload().getQiniu().getDomain() + defaultPutRet.key;
+  //    } catch (QiniuException e) {
+  //      log.error(e.getLocalizedMessage());
+  //    }
+  //    return "";
+  //  }
 
-//  public static void main(String[] args) {
-//    System.out.println(new Identicon().generator());
-//  }
+  //  public static void main(String[] args) {
+  //    System.out.println(new Identicon().generator());
+  //  }
 }

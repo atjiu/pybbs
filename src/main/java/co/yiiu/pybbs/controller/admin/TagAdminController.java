@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Tag;
-import co.yiiu.pybbs.service.TagService;
+import co.yiiu.pybbs.service.ITagService;
 import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class TagAdminController extends BaseAdminController {
 
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
   private FileUtil fileUtil;
 

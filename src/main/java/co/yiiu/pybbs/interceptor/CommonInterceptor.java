@@ -1,8 +1,8 @@
 package co.yiiu.pybbs.interceptor;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ISystemConfigService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.IpUtil;
@@ -29,11 +29,11 @@ public class CommonInterceptor implements HandlerInterceptor {
 
   private Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
   private CookieUtil cookieUtil;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -60,7 +60,8 @@ public class CommonInterceptor implements HandlerInterceptor {
   }
 
   @Override
-  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView
+      modelAndView) {
     if (!HttpUtil.isApiRequest(request) && modelAndView != null) {
       // TODO 这地方有安全隐患，通过这个设置，就可以在页面上获取到system_config表里的所有数据了，如果有人恶意往页面里加入一些代码，就可以拿到一些不可告人的东西。。
       // 后面啥时候想起来了，再收拾它

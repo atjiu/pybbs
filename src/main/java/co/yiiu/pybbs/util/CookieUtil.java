@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -20,10 +20,11 @@ import java.util.Objects;
 public class CookieUtil {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   public void setCookie(String key, String value) {
-    HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
+    HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+        .getRequestAttributes())).getResponse();
     Cookie cookie = new Cookie(key, value);
     cookie.setHttpOnly(true);
     cookie.setPath("/");
@@ -35,7 +36,8 @@ public class CookieUtil {
 
 
   public String getCookie(String name) {
-    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+        .getRequestAttributes())).getRequest();
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie c : cookies) {
@@ -49,7 +51,8 @@ public class CookieUtil {
 
   // 清除cookie
   public void clearCookie(String name) {
-    HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
+    HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+        .getRequestAttributes())).getResponse();
     Cookie cookie = new Cookie(name, null);
     cookie.setHttpOnly(true);
     cookie.setMaxAge(-1);

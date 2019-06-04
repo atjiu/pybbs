@@ -16,11 +16,8 @@ import java.util.Map;
  */
 public interface NotificationMapper extends BaseMapper<Notification> {
 
-  List<Map<String, Object>> selectByUserId(
-      @Param("userId") Integer userId,
-      @Param("read") Boolean read,
-      @Param("limit") Integer limit
-  );
+  List<Map<String, Object>> selectByUserId(@Param("userId") Integer userId, @Param("read") Boolean read, @Param
+      ("limit") Integer limit);
 
   // 查询未读消息数量
   @Select("select count(1) from notification where target_user_id = #{userId} and `read` = false")

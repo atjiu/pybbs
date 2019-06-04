@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class FileUtil {
   private Logger log = LoggerFactory.getLogger(FileUtil.class);
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   /**
    * 上传文件
@@ -46,7 +46,8 @@ public class FileUtil {
       if (!savePath.exists()) savePath.mkdirs();
 
       // 给上传的路径拼上文件名与后缀
-      String localPath = systemConfigService.selectAllConfig().get("upload_path").toString() + customPath + "/" + fileName + suffix;
+      String localPath = systemConfigService.selectAllConfig().get("upload_path").toString() + customPath + "/" +
+          fileName + suffix;
 
       // 上传文件
       // 下面 BufferedOutputStream的构造参数是直接在参数里通过 new FileOutputStream() 的方式传入的，所以它没有对象接收
@@ -58,7 +59,8 @@ public class FileUtil {
       stream.close();
 
       // 上传成功后返回访问路径
-      return systemConfigService.selectAllConfig().get("static_url").toString() + customPath + "/" + fileName + suffix + "?v=" + StringUtil.randomNumber(1);
+      return systemConfigService.selectAllConfig().get("static_url").toString() + customPath + "/" + fileName +
+          suffix + "?v=" + StringUtil.randomNumber(1);
     } catch (IOException e) {
       log.error(e.getMessage());
       return null;

@@ -4,12 +4,11 @@ import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CollectService;
-import co.yiiu.pybbs.service.TagService;
-import co.yiiu.pybbs.service.TopicService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICollectService;
+import co.yiiu.pybbs.service.ITagService;
+import co.yiiu.pybbs.service.ITopicService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.MyPage;
-import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,19 +34,19 @@ import java.util.stream.Collectors;
 public class TopicController extends BaseController {
 
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
 
   // 话题详情
   @GetMapping("/{id}")
   public String detail(@PathVariable Integer id, Model model, HttpServletRequest request) {
     // 查询话题详情
-    Topic topic = topicService.selectById(id);
+    Topic topic = ITopicService.selectById(id);
     Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
@@ -61,7 +60,7 @@ public class TopicController extends BaseController {
       model.addAttribute("collect", collect);
     }
     // 话题浏览量+1
-    topic = topicService.addViewCount(topic, request);
+    topic = ITopicService.addViewCount(topic, request);
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
@@ -79,12 +78,13 @@ public class TopicController extends BaseController {
   // 编辑话题
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable Integer id, Model model) {
-    Topic topic = topicService.selectById(id);
+    Topic topic = ITopicService.selectById(id);
     Assert.isTrue(topic.getUserId().equals(getUser().getId()), "谁给你的权限修改别人的话题的？");
     // 查询话题的标签
     List<Tag> tagList = tagService.selectByTopicId(id);
     // 将标签集合转成逗号隔开的字符串
-    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors.toList()));
+    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors
+        .toList()));
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);

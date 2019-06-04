@@ -2,9 +2,9 @@ package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.Code;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CodeService;
-import co.yiiu.pybbs.service.SystemConfigService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICodeService;
+import co.yiiu.pybbs.service.ISystemConfigService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -41,11 +41,11 @@ public class IndexController extends BaseController {
   @Autowired
   private CookieUtil cookieUtil;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private CodeService codeService;
+  private ICodeService codeService;
 
   // 首页
   @GetMapping({"/", "/index", "/index.html"})

@@ -104,15 +104,8 @@ public class SystemConfig implements Serializable {
 
   @Override
   public String toString() {
-    return "SystemConfig{" +
-        "id=" + id +
-        ", key='" + key + '\'' +
-        ", value='" + value + '\'' +
-        ", description='" + description + '\'' +
-        ", pid=" + pid +
-        ", type='" + type + '\'' +
-        ", option='" + option + '\'' +
-        ", reboot='" + reboot + '\'' +
-        '}';
+    return "SystemConfig{" + "id=" + id + ", key='" + key + '\'' + ", value='" + value + '\'' + ", description='" +
+        description + '\'' + ", pid=" + pid + ", type='" + type + '\'' + ", option='" + option + '\'' + ", reboot='"
+        + reboot + '\'' + '}';
   }
 }

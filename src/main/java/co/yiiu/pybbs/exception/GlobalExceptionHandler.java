@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.exception;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.Result;
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
   private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   private HttpStatus getStatus(HttpServletRequest request) {
     Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
@@ -46,9 +46,10 @@ public class GlobalExceptionHandler {
    * @throws Exception
    */
   @ExceptionHandler(value = Exception.class)
-  public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
+  public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e)
+      throws Exception {
     // 当报错了，又不知道啥错的时候，把下面这行代码打开，就可以看到报错的堆信息了
-     e.printStackTrace();
+    e.printStackTrace();
     log.error(e.getMessage());
     if (!HttpUtil.isApiRequest(request)) {
       response.setCharacterEncoding("utf-8");

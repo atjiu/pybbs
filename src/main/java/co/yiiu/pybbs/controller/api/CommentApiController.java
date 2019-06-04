@@ -4,8 +4,8 @@ import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CommentService;
-import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.service.ICommentService;
+import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ import java.util.Map;
 public class CommentApiController extends BaseApiController {
 
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
 
   // 创建评论
   @PostMapping
@@ -39,7 +39,7 @@ public class CommentApiController extends BaseApiController {
     Integer commentId = StringUtils.isEmpty(body.get("commentId")) ? null : Integer.parseInt(body.get("commentId"));
     ApiAssert.notEmpty(content, "请输入评论内容");
     ApiAssert.notNull(topicId, "话题ID呢？");
-    Topic topic = topicService.selectById(topicId);
+    Topic topic = ITopicService.selectById(topicId);
     ApiAssert.notNull(topic, "你晚了一步，话题可能已经被删除了");
     Comment comment = commentService.insert(content, topic, user, commentId, session);
     comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil

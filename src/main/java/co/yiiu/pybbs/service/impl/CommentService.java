@@ -1,4 +1,4 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.RedisService;
@@ -8,6 +8,7 @@ import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
+import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.*;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,26 +29,27 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class CommentService {
+public class CommentService implements ICommentService {
 
   private Logger log = LoggerFactory.getLogger(CommentService.class);
 
   @Autowired
   private CommentMapper commentMapper;
   @Autowired
-  private TopicService topicService;
+  private ITopicService topicService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
   @Autowired
   private EmailService emailService;
   @Autowired
   private RedisService redisService;
 
   // 根据话题id查询评论
+  @Override
   public List<CommentsByTopic> selectByTopicId(Integer topicId) {
     String commentsJson = redisService.getString(Constants.REDIS_COMMENTS_KEY + topicId);
     List<CommentsByTopic> commentsByTopics;
@@ -72,6 +74,7 @@ public class CommentService {
   }
 
   // 删除话题时删除相关的评论
+  @Override
   public void deleteByTopicId(Integer topicId) {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Comment::getTopicId, topicId);
@@ -81,6 +84,7 @@ public class CommentService {
   }
 
   // 根据用户id删除评论记录
+  @Override
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Comment::getUserId, userId);
@@ -94,6 +98,7 @@ public class CommentService {
   }
 
   // 保存评论
+  @Override
   public Comment insert(String content, Topic topic, User user, Integer commentId, HttpSession session) {
     Comment comment = new Comment();
     comment.setCommentId(commentId);
@@ -165,11 +170,13 @@ public class CommentService {
     return comment;
   }
 
+  @Override
   public Comment selectById(Integer id) {
     return commentMapper.selectById(id);
   }
 
   // 更新评论
+  @Override
   public void update(Comment comment) {
     commentMapper.updateById(comment);
     // 删除redis里的缓存
@@ -177,6 +184,7 @@ public class CommentService {
   }
 
   // 对评论点赞
+  @Override
   public int vote(Comment comment, User user, HttpSession session) {
     String upIds = comment.getUpIds();
     // 将点赞用户id的字符串转成集合
@@ -202,6 +210,7 @@ public class CommentService {
   }
 
   // 删除评论
+  @Override
   public void delete(Integer id, HttpSession session) {
     Comment comment = this.selectById(id);
     if (comment != null) {
@@ -223,6 +232,7 @@ public class CommentService {
   }
 
   // 查询用户的评论
+  @Override
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService
         .selectAllConfig().get("page_size").toString()) : pageSize);
@@ -236,6 +246,7 @@ public class CommentService {
   }
 
   // 盖楼排序
+  @Override
   public List<CommentsByTopic> sortByLayer(List<CommentsByTopic> comments) {
     List<CommentsByTopic> newComments = new ArrayList<>();
     comments.forEach(comment -> {
@@ -281,6 +292,7 @@ public class CommentService {
 
   // ---------------------------- admin ----------------------------
 
+  @Override
   public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String
       username) {
     MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService
@@ -289,6 +301,7 @@ public class CommentService {
   }
 
   // 查询今天新增的话题数
+  @Override
   public int countToday() {
     return commentMapper.countToday();
   }

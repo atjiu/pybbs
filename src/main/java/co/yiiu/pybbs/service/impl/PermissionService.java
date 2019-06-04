@@ -1,8 +1,10 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.mapper.PermissionMapper;
 import co.yiiu.pybbs.model.Permission;
 import co.yiiu.pybbs.model.RolePermission;
+import co.yiiu.pybbs.service.IPermissionService;
+import co.yiiu.pybbs.service.IRolePermissionService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,33 +22,33 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class PermissionService {
+public class PermissionService implements IPermissionService {
 
   @Autowired
   private PermissionMapper permissionMapper;
   @Autowired
-  private RolePermissionService rolePermissionService;
+  private IRolePermissionService rolePermissionService;
 
   // 根据角色id查询所有的权限
+  @Override
   public List<Permission> selectByRoleId(Integer roleId) {
     List<RolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
-    List<Integer> permissionIds = rolePermissions
-        .stream()
-        .map(RolePermission::getPermissionId)
-        .collect(Collectors.toList());
+    List<Integer> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).collect(Collectors
+        .toList());
     QueryWrapper<Permission> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .in(Permission::getId, permissionIds);
+    wrapper.lambda().in(Permission::getId, permissionIds);
     return permissionMapper.selectList(wrapper);
   }
 
   // 根据父节点查询子节点
+  @Override
   public List<Permission> selectByPid(Integer pid) {
     QueryWrapper<Permission> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Permission::getPid, pid);
     return permissionMapper.selectList(wrapper);
   }
 
+  @Override
   public Map<String, List<Permission>> selectAll() {
     Map<String, List<Permission>> map = new LinkedHashMap<>();
     // 先查父节点
@@ -56,16 +58,19 @@ public class PermissionService {
     return map;
   }
 
+  @Override
   public Permission insert(Permission permission) {
     permissionMapper.insert(permission);
     return permission;
   }
 
+  @Override
   public Permission update(Permission permission) {
     permissionMapper.updateById(permission);
     return permission;
   }
 
+  @Override
   public void delete(Integer id) {
     Permission permission = permissionMapper.selectById(id);
     // 如果是父节点的话，要把所有子节点下的所有关联角色的记录都删了，否则会报错

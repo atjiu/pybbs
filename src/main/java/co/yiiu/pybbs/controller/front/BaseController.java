@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,14 +18,15 @@ import java.util.Objects;
 public class BaseController {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   protected String redirect(String path) {
     return "redirect:" + path;
   }
 
   protected User getUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+        .getRequestAttributes())).getRequest();
     HttpSession session = request.getSession();
     return (User) session.getAttribute("_user");
   }

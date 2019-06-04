@@ -22,19 +22,12 @@ import java.util.Map;
 public class MarkdownUtil {
 
   public static String render(String content) {
-    List<Extension> extensions = Arrays.asList(
-        AutolinkExtension.create(),
-        TablesExtension.create());
+    List<Extension> extensions = Arrays.asList(AutolinkExtension.create(), TablesExtension.create());
 
-    Parser parser = Parser.builder()
-        .extensions(extensions)
-        .build();
+    Parser parser = Parser.builder().extensions(extensions).build();
     // 回车一次就可以实现换行
-    HtmlRenderer renderer = HtmlRenderer.builder()
-        .softbreak("<br/>")
-        .attributeProviderFactory(context -> new MyAttributeProvider())
-        .extensions(extensions)
-        .build();
+    HtmlRenderer renderer = HtmlRenderer.builder().softbreak("<br/>").attributeProviderFactory(context -> new
+        MyAttributeProvider()).extensions(extensions).build();
     Node document = parser.parse(content == null ? "" : content);
     return renderer.render(document);
   }

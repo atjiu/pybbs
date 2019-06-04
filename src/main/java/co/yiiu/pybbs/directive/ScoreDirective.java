@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.IUserService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class ScoreDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     Integer limit = Integer.parseInt(map.get("limit").toString());
     if (limit > 100) limit = 100;
     List<User> users = userService.selectTop(limit);

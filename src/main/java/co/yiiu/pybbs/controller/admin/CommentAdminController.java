@@ -2,8 +2,8 @@ package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
-import co.yiiu.pybbs.service.CommentService;
-import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.service.ICommentService;
+import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,14 +25,14 @@ import java.util.Map;
 public class CommentAdminController extends BaseAdminController {
 
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
 
   @RequiresPermissions("comment:list")
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String username,
-                     Model model) {
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
+      username, Model model) {
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
@@ -48,7 +48,7 @@ public class CommentAdminController extends BaseAdminController {
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
     Comment comment = commentService.selectById(id);
-    Topic topic = topicService.selectById(comment.getTopicId());
+    Topic topic = ITopicService.selectById(comment.getTopicId());
     model.addAttribute("comment", comment);
     model.addAttribute("topic", topic);
     return "admin/comment/edit";

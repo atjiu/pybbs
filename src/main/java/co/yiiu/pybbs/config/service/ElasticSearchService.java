@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SystemConfig;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class ElasticSearchService implements BaseService<RestHighLevelClient> {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   private Logger log = LoggerFactory.getLogger(ElasticSearchService.class);
   private RestHighLevelClient client;
   // 索引名
@@ -55,24 +55,13 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
 
   static {
     try {
-      topicMappingBuilder = JsonXContent.contentBuilder()
-          .startObject()
-          .startObject("properties")
-//              .startObject("id")
-//                .field("type", "integer")
-//              .endObject()
-          .startObject("title")
-          .field("type", "text")
-          .field("analyzer", "ik_max_word")
-          .field("index", "true")
-          .endObject()
-          .startObject("content")
-          .field("type", "text")
-          .field("analyzer", "ik_max_word")
-          .field("index", "true")
-          .endObject()
-          .endObject()
-          .endObject();
+      topicMappingBuilder = JsonXContent.contentBuilder().startObject().startObject("properties")
+          //              .startObject("id")
+          //                .field("type", "integer")
+          //              .endObject()
+          .startObject("title").field("type", "text").field("analyzer", "ik_max_word").field("index", "true")
+          .endObject().startObject("content").field("type", "text").field("analyzer", "ik_max_word").field("index",
+              "true").endObject().endObject().endObject();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -91,9 +80,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
       name = systemConfigName.getValue();
 
       if (StringUtils.isEmpty(host) || StringUtils.isEmpty(port)) return null;
-      client = new RestHighLevelClient(
-          RestClient.builder(
-              new HttpHost(host, Integer.parseInt(port), "http")));
+      client = new RestHighLevelClient(RestClient.builder(new HttpHost(host, Integer.parseInt(port), "http")));
       // 判断索引是否存在，不存在创建
       if (!this.existIndex()) this.createIndex("topic", topicMappingBuilder);
       return client;
@@ -108,9 +95,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
     try {
       if (this.instance() == null) return false;
       CreateIndexRequest request = new CreateIndexRequest(name);
-      request.settings(Settings.builder()
-          .put("index.number_of_shards", 1)
-          .put("index.number_of_shards", 5));
+      request.settings(Settings.builder().put("index.number_of_shards", 1).put("index.number_of_shards", 5));
       if (mappingBuilder != null) request.mapping(type, mappingBuilder);
       CreateIndexResponse response = this.client.indices().create(request, RequestOptions.DEFAULT);
       return response.isAcknowledged();
@@ -252,13 +237,12 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
       // 总条数
       long totalCount = response.getHits().getTotalHits();
       // 结果集
-      List<Map<String, Object>> records = Arrays.stream(response.getHits().getHits())
-          .map(hit -> {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", hit.getId());
-            map.putAll(hit.getSourceAsMap());
-            return map;
-          }).collect(Collectors.toList());
+      List<Map<String, Object>> records = Arrays.stream(response.getHits().getHits()).map(hit -> {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", hit.getId());
+        map.putAll(hit.getSourceAsMap());
+        return map;
+      }).collect(Collectors.toList());
       Page<Map<String, Object>> page = new Page<>(pageNo, pageSize);
       page.setTotal(totalCount);
       page.setRecords(records);

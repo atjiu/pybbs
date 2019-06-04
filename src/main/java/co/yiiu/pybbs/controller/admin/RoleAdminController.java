@@ -1,9 +1,9 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.AdminUser;
-import co.yiiu.pybbs.service.AdminUserService;
-import co.yiiu.pybbs.service.PermissionService;
-import co.yiiu.pybbs.service.RoleService;
+import co.yiiu.pybbs.service.IAdminUserService;
+import co.yiiu.pybbs.service.IPermissionService;
+import co.yiiu.pybbs.service.IRoleService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 public class RoleAdminController extends BaseAdminController {
 
   @Autowired
-  private RoleService roleService;
+  private IRoleService roleService;
   @Autowired
-  private PermissionService permissionService;
+  private IPermissionService permissionService;
   @Autowired
-  private AdminUserService adminUserService;
+  private IAdminUserService adminUserService;
 
   @RequiresPermissions("role:list")
   @GetMapping("/list")

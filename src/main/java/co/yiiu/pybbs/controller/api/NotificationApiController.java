@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.api;
 
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.NotificationService;
+import co.yiiu.pybbs.service.INotificationService;
 import co.yiiu.pybbs.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class NotificationApiController extends BaseApiController {
 
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
 
   @GetMapping("/notRead")
   public Result notRead() {

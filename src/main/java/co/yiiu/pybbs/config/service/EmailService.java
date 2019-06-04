@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SystemConfig;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Properties;
 public class EmailService implements BaseService<Session> {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   private Session session;
   private Logger log = LoggerFactory.getLogger(EmailService.class);

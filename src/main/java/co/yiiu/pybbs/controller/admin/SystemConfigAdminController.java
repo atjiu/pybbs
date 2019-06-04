@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.controller.admin;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class SystemConfigAdminController extends BaseAdminController {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   @RequiresPermissions("system:edit")
   @GetMapping("/edit")

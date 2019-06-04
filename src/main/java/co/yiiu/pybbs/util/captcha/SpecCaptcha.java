@@ -67,9 +67,7 @@ public class SpecCaptcha extends Captcha {
         color = null;
       }
       g.setFont(font);
-      int h = height - ((height - font.getSize()) >> 1),
-          w = width / len,
-          size = w - font.getSize() + 1;
+      int h = height - ((height - font.getSize()) >> 1), w = width / len, size = w - font.getSize() + 1;
       /* 画字符串 */
       for (int i = 0; i < len; i++) {
         ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);// 指定透明度

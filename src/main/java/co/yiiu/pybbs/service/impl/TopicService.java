@@ -1,12 +1,12 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
-import co.yiiu.pybbs.model.TopicTag;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jsoup.Jsoup;
@@ -28,56 +28,43 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
-public class TopicService {
+public class TopicService implements ITopicService {
 
   @Autowired
   private TopicMapper topicMapper;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
-  private TopicTagService topicTagService;
+  private ITopicTagService topicTagService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
   @Autowired
   private ElasticSearchService elasticSearchService;
   @Autowired
   private RedisService redisService;
 
+  @Override
   public MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
-    MyPage<Map<String, Object>> page = new MyPage<>(
-        pageNo,
-        Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString())
-    );
+    MyPage<Map<String, Object>> page = new MyPage<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig()
+        .get("page_size").toString()));
     page = topicMapper.selectAll(page, tab);
-    selectTags(page, topicTagService, tagService);
+    tagService.selectTagsByTopicId(page);
     return page;
   }
 
-  public void selectTags(MyPage<Map<String, Object>> page, TopicTagService topicTagService, TagService tagService) {
-    page.getRecords().forEach(map -> {
-      List<TopicTag> topicTags = topicTagService.selectByTopicId((Integer) map.get("id"));
-      if (!topicTags.isEmpty()) {
-        List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
-        List<Tag> tags = tagService.selectByIds(tagIds);
-        map.put("tags", tags);
-      }
-    });
-  }
-
   // 查询话题作者其它的话题
+  @Override
   public List<Topic> selectAuthorOtherTopic(Integer userId, Integer topicId, Integer limit) {
     QueryWrapper<Topic> wrapper = new QueryWrapper<>();
-    wrapper
-        .eq("user_id", userId)
-        .orderByDesc("in_time");
+    wrapper.eq("user_id", userId).orderByDesc("in_time");
     if (topicId != null) {
       wrapper.lambda().ne(Topic::getId, topicId);
     }
@@ -86,20 +73,21 @@ public class TopicService {
   }
 
   // 查询用户的话题
+  @Override
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
-    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
-        pageSize == null ?
-            Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
-    );
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService
+        .selectAllConfig().get("page_size").toString()) : pageSize);
     MyPage<Map<String, Object>> page = topicMapper.selectByUserId(iPage, userId);
     for (Map<String, Object> map : page.getRecords()) {
       Object content = map.get("content");
-      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content.toString(), "*", SensitiveWordUtil.MinMatchType));
+      map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content
+          .toString(), "*", SensitiveWordUtil.MinMatchType));
     }
     return page;
   }
 
   // 保存话题
+  @Override
   public Topic insertTopic(String title, String content, String tags, User user, HttpSession session) {
     Topic topic = new Topic();
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
@@ -113,7 +101,8 @@ public class TopicService {
     topic.setCommentCount(0);
     topicMapper.insert(topic);
     // 增加用户积分
-    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
+    user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score")
+        .toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
     if (!StringUtils.isEmpty(tags)) {
@@ -128,6 +117,7 @@ public class TopicService {
   }
 
   // 根据id查询话题
+  @Override
   public Topic selectById(Integer id) {
     String topicJson = redisService.getString(Constants.REDIS_TOPIC_KEY + id);
     if (topicJson == null) {
@@ -140,14 +130,15 @@ public class TopicService {
   }
 
   // 根据title查询话题，防止重复话题
+  @Override
   public Topic selectByTitle(String title) {
     QueryWrapper<Topic> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(Topic::getTitle, title);
+    wrapper.lambda().eq(Topic::getTitle, title);
     return topicMapper.selectOne(wrapper);
   }
 
   // 处理话题的访问量
+  @Override
   public Topic addViewCount(Topic topic, HttpServletRequest request) {
     String ip = IpUtil.getIpAddr(request);
     ip = ip.replace(":", "_").replace(".", "_");
@@ -156,11 +147,9 @@ public class TopicService {
       if (s == null) {
         topic.setView(topic.getView() + 1);
         this.update(topic);
-        redisService.setString(String.format(
-            Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()),
-            String.valueOf(topic.getId()),
-            Integer.parseInt(systemConfigService.selectAllConfig().get("topic_view_increase_interval").toString())
-        );
+        redisService.setString(String.format(Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()), String.valueOf
+            (topic.getId()), Integer.parseInt(systemConfigService.selectAllConfig().get
+            ("topic_view_increase_interval").toString()));
       }
     } else {
       topic.setView(topic.getView() + 1);
@@ -170,6 +159,7 @@ public class TopicService {
   }
 
   // 更新话题
+  @Override
   public void update(Topic topic) {
     topicMapper.updateById(topic);
     // 索引话题
@@ -179,6 +169,7 @@ public class TopicService {
   }
 
   // 更新话题
+  @Override
   public Topic updateTopic(Topic topic, String title, String content, String tags) {
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setContent(content);
@@ -200,6 +191,7 @@ public class TopicService {
   }
 
   // 删除话题
+  @Override
   public void delete(Topic topic, HttpSession session) {
     Integer id = topic.getId();
     // 删除相关通知
@@ -214,7 +206,8 @@ public class TopicService {
     topicTagService.deleteByTopicId(id);
     // 减去用户积分
     User user = userService.selectById(topic.getUserId());
-    user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_topic_score").toString()));
+    user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_topic_score")
+        .toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
     // 删除索引
@@ -226,10 +219,10 @@ public class TopicService {
   }
 
   // 根据用户id删除帖子
+  @Override
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Topic> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .eq(Topic::getUserId, userId);
+    wrapper.lambda().eq(Topic::getUserId, userId);
     List<Topic> topics = topicMapper.selectList(wrapper);
     topics.forEach(topic -> {
       // 删除redis缓存，这里放在删除索引这里，共用一个话题列表
@@ -242,9 +235,11 @@ public class TopicService {
   }
 
   // 索引全部话题
+  @Override
   public void indexAllTopic() {
     List<Topic> topics = topicMapper.selectList(null);
-    Map<String, Map<String, Object>> sources = topics.stream().collect(Collectors.toMap(key -> String.valueOf(key.getId()), value -> {
+    Map<String, Map<String, Object>> sources = topics.stream().collect(Collectors.toMap(key -> String.valueOf(key
+        .getId()), value -> {
       Map<String, Object> map = new HashMap<>();
       map.put("title", value.getTitle());
       map.put("content", value.getContent());
@@ -254,6 +249,7 @@ public class TopicService {
   }
 
   // 索引话题
+  @Override
   public void indexTopic(String id, String title, String content) {
     if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
       Map<String, Object> source = new HashMap<>();
@@ -264,6 +260,7 @@ public class TopicService {
   }
 
   // 删除话题索引
+  @Override
   public void deleteTopicIndex(String id) {
     if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
       elasticSearchService.deleteDocument("topic", id);
@@ -271,6 +268,7 @@ public class TopicService {
   }
 
   // 删除所有话题索引
+  @Override
   public void deleteAllTopicIndex() {
     if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
       List<Topic> topics = topicMapper.selectList(null);
@@ -280,21 +278,23 @@ public class TopicService {
   }
   // ---------------------------- admin ----------------------------
 
-  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
-    MyPage<Map<String, Object>> iPage = new MyPage<>(
-        pageNo,
-        Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size"))
-    );
+  @Override
+  public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String
+      username) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService
+        .selectAllConfig().get("page_size")));
     return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 
   // 查询今天新增的话题数
+  @Override
   public int countToday() {
     return topicMapper.countToday();
   }
 
   // ---------------------------- api ----------------------------
 
+  @Override
   public int vote(Topic topic, User user, HttpSession session) {
     String upIds = topic.getUpIds();
     // 将点赞用户id的字符串转成集合

@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.SensitiveWord;
-import co.yiiu.pybbs.service.SensitiveWordService;
+import co.yiiu.pybbs.service.ISensitiveWordService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -29,7 +29,7 @@ public class SensitiveWordAdminController extends BaseAdminController {
   private Logger log = LoggerFactory.getLogger(SensitiveWordAdminController.class);
 
   @Autowired
-  private SensitiveWordService sensitiveWordService;
+  private ISensitiveWordService sensitiveWordService;
 
   @RequiresPermissions("sensitive_word:list")
   @GetMapping("/list")
@@ -85,7 +85,7 @@ public class SensitiveWordAdminController extends BaseAdminController {
       }
       return success();
     } catch (IOException e) {
-//      e.printStackTrace();
+      //      e.printStackTrace();
       log.error(e.getMessage());
       return error(e.getMessage());
     }

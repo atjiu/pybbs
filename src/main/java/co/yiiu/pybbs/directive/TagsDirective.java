@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.model.Tag;
-import co.yiiu.pybbs.service.TagService;
+import co.yiiu.pybbs.service.ITagService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class TagsDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
     Integer pageSize = Integer.parseInt(map.get("pageSize").toString());
     IPage<Tag> page = tagService.selectAll(pageNo, pageSize, null);

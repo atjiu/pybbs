@@ -3,7 +3,7 @@ package co.yiiu.pybbs.controller.api;
 import co.yiiu.pybbs.controller.front.BaseController;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -21,7 +21,7 @@ import java.util.Objects;
 public class BaseApiController extends BaseController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   protected Result success() {
     return success(null);
@@ -50,9 +50,10 @@ public class BaseApiController extends BaseController {
   // 接口路由从request里拿token，通过请求UserService获取用户的信息
   // required: boolean 判断是否必须要token，因为有的接口token是非必须的，但如果传了token就可以多返回一些信息
   protected User getApiUser(boolean required) {
-    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+        .getRequestAttributes())).getRequest();
     String token = request.getHeader("token");
-//    String token = request.getParameter("token");
+    //    String token = request.getParameter("token");
     if (required) { // token必须要
       // 判断token是否存在，不存在要抛异常
       ApiAssert.notEmpty(token, "token不能为空");

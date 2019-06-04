@@ -3,9 +3,9 @@ package co.yiiu.pybbs.config.realm;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.model.Permission;
 import co.yiiu.pybbs.model.Role;
-import co.yiiu.pybbs.service.AdminUserService;
-import co.yiiu.pybbs.service.PermissionService;
-import co.yiiu.pybbs.service.RoleService;
+import co.yiiu.pybbs.service.IAdminUserService;
+import co.yiiu.pybbs.service.IPermissionService;
+import co.yiiu.pybbs.service.IRoleService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -30,11 +30,11 @@ public class MyShiroRealm extends AuthorizingRealm {
   private Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
 
   @Autowired
-  private AdminUserService adminUserService;
+  private IAdminUserService adminUserService;
   @Autowired
-  private RoleService roleService;
+  private IRoleService roleService;
   @Autowired
-  private PermissionService permissionService;
+  private IPermissionService permissionService;
 
   // 用户权限配置
   @Override

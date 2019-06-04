@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -21,13 +21,13 @@ import java.util.Map;
 public class SearchDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
   private ElasticSearchService elasticSearchService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     Page<Map<String, Object>> page = new Page<>();
     String keyword = String.valueOf(map.get("keyword"));
     Integer pageNo = Integer.parseInt(map.get("pageNo").toString());

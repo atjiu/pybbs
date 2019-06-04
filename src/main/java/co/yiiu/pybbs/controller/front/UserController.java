@@ -2,9 +2,9 @@ package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.OAuthUser;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CollectService;
-import co.yiiu.pybbs.service.OAuthUserService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICollectService;
+import co.yiiu.pybbs.service.IOAuthUserService;
+import co.yiiu.pybbs.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 public class UserController extends BaseController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
   @Autowired
-  private OAuthUserService oAuthUserService;
+  private IOAuthUserService oAuthUserService;
 
   @GetMapping("/{username}")
   public String profile(@PathVariable String username, Model model) {
@@ -42,7 +42,8 @@ public class UserController extends BaseController {
     Integer collectCount = collectService.countByUserId(user.getId());
 
     // 找出oauth登录里有没有github，有的话把github的login提取出来
-    List<String> logins = oAuthUsers.stream().filter(oAuthUser -> oAuthUser.getType().equals("GITHUB")).map(OAuthUser::getLogin).collect(Collectors.toList());
+    List<String> logins = oAuthUsers.stream().filter(oAuthUser -> oAuthUser.getType().equals("GITHUB")).map
+        (OAuthUser::getLogin).collect(Collectors.toList());
     if (logins.size() > 0) {
       model.addAttribute("githubLogin", logins.get(0));
     }

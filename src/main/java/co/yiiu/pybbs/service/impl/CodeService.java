@@ -1,9 +1,10 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.SmsService;
 import co.yiiu.pybbs.mapper.CodeMapper;
 import co.yiiu.pybbs.model.Code;
+import co.yiiu.pybbs.service.ICodeService;
 import co.yiiu.pybbs.util.DateUtil;
 import co.yiiu.pybbs.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class CodeService {
+public class CodeService implements ICodeService {
 
   @Autowired
   private CodeMapper codeMapper;
@@ -41,6 +42,7 @@ public class CodeService {
     return _code;
   }
 
+  @Override
   public Code selectByCode(String _code) {
     QueryWrapper<Code> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Code::getCode, _code);
@@ -48,6 +50,7 @@ public class CodeService {
   }
 
   // 查询没有用过的code
+  @Override
   public Code selectNotUsedCode(Integer userId, String email, String mobile) {
     QueryWrapper<Code> wrapper = new QueryWrapper<>();
     LambdaQueryWrapper<Code> lambda = wrapper.lambda();
@@ -65,6 +68,7 @@ public class CodeService {
   }
 
   // 创建一条验证码记录
+  @Override
   public Code createCode(Integer userId, String email, String mobile) {
     Code code = this.selectNotUsedCode(userId, email, mobile);
     if (code == null) {
@@ -82,6 +86,7 @@ public class CodeService {
   }
 
   // 验证邮箱验证码
+  @Override
   public Code validateCode(Integer userId, String email, String mobile, String _code) {
     QueryWrapper<Code> wrapper = new QueryWrapper<>();
     LambdaQueryWrapper<Code> lambda = wrapper.lambda();
@@ -98,18 +103,21 @@ public class CodeService {
   }
 
   // 发送邮件
+  @Override
   public boolean sendEmail(Integer userId, String email, String title, String content) {
     Code code = this.createCode(userId, email, null);
     return emailService.sendEmail(email, title, content.replace("${code}", code.getCode()));
   }
 
   // 发送短信
+  @Override
   public boolean sendSms(String mobile) {
     // 生成code
     Code code = this.createCode(null, null, mobile);
     return smsService.sendSms(mobile, code.getCode());
   }
 
+  @Override
   public void update(Code code) {
     codeMapper.updateById(code);
   }

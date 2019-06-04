@@ -1,8 +1,10 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.mapper.RoleMapper;
 import co.yiiu.pybbs.model.Role;
 import co.yiiu.pybbs.model.RolePermission;
+import co.yiiu.pybbs.service.IRolePermissionService;
+import co.yiiu.pybbs.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +18,24 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class RoleService {
+public class RoleService implements IRoleService {
 
   @Autowired
   private RoleMapper roleMapper;
   @Autowired
-  private RolePermissionService rolePermissionService;
+  private IRolePermissionService rolePermissionService;
 
+  @Override
   public Role selectById(Integer roleId) {
     return roleMapper.selectById(roleId);
   }
 
+  @Override
   public List<Role> selectAll() {
     return roleMapper.selectList(null);
   }
 
+  @Override
   public void insert(String name, Integer[] permissionIds) {
     Role role = new Role();
     role.setName(name);
@@ -38,6 +43,7 @@ public class RoleService {
     insertRolePermissions(role, permissionIds);
   }
 
+  @Override
   public void update(Integer id, String name, Integer[] permissionIds) {
     // 更新role
     Role role = this.selectById(id);
@@ -58,6 +64,7 @@ public class RoleService {
     }
   }
 
+  @Override
   public void delete(Integer id) {
     // 删除关联关系
     rolePermissionService.deleteByRoleId(id);

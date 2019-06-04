@@ -2,8 +2,8 @@ package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
-import co.yiiu.pybbs.service.TagService;
-import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.service.ITagService;
+import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,18 +27,18 @@ import java.util.stream.Collectors;
 public class TopicAdminController extends BaseAdminController {
 
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
 
   @RequiresPermissions("topic:list")
   @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate,
-                     String username, Model model) {
+  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
+      username, Model model) {
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
-    MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username);
+    MyPage<Map<String, Object>> page = ITopicService.selectAllForAdmin(pageNo, startDate, endDate, username);
     model.addAttribute("page", page);
     model.addAttribute("startDate", startDate);
     model.addAttribute("endDate", endDate);
@@ -49,10 +49,11 @@ public class TopicAdminController extends BaseAdminController {
   @RequiresPermissions("topic:edit")
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
-    model.addAttribute("topic", topicService.selectById(id));
+    model.addAttribute("topic", ITopicService.selectById(id));
     // 将标签集合转成逗号隔开的字符串
     List<Tag> tagList = tagService.selectByTopicId(id);
-    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors.toList()));
+    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors
+        .toList()));
     model.addAttribute("tags", tags);
     return "admin/topic/edit";
   }
@@ -61,8 +62,8 @@ public class TopicAdminController extends BaseAdminController {
   @PostMapping("edit")
   @ResponseBody
   public Result update(Integer id, String title, String content, String tags) {
-    Topic topic = topicService.selectById(id);
-    topicService.updateTopic(topic, title, content, tags);
+    Topic topic = ITopicService.selectById(id);
+    ITopicService.updateTopic(topic, title, content, tags);
     return success();
   }
 
@@ -70,9 +71,9 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/good")
   @ResponseBody
   public Result good(Integer id) {
-    Topic topic = topicService.selectById(id);
+    Topic topic = ITopicService.selectById(id);
     topic.setGood(!topic.getGood());
-    topicService.update(topic);
+    ITopicService.update(topic);
     return success();
   }
 
@@ -80,9 +81,9 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/top")
   @ResponseBody
   public Result top(Integer id) {
-    Topic topic = topicService.selectById(id);
+    Topic topic = ITopicService.selectById(id);
     topic.setTop(!topic.getTop());
-    topicService.update(topic);
+    ITopicService.update(topic);
     return success();
   }
 
@@ -90,8 +91,8 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete")
   @ResponseBody
   public Result delete(Integer id) {
-    Topic topic = topicService.selectById(id);
-    topicService.delete(topic, null);
+    Topic topic = ITopicService.selectById(id);
+    ITopicService.delete(topic, null);
     return success();
   }
 
@@ -99,8 +100,8 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/index")
   @ResponseBody
   public Result index(Integer id) {
-    Topic topic = topicService.selectById(id);
-    topicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    Topic topic = ITopicService.selectById(id);
+    ITopicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return success();
   }
 
@@ -108,7 +109,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/index_all")
   @ResponseBody
   public Result index_all() {
-    topicService.indexAllTopic();
+    ITopicService.indexAllTopic();
     return success();
   }
 
@@ -116,7 +117,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_index")
   @ResponseBody
   public Result delete_index(String id) { // ajax传过来的id，这用String接收，不用再转一次了
-    topicService.deleteTopicIndex(id);
+    ITopicService.deleteTopicIndex(id);
     return success();
   }
 
@@ -124,7 +125,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_all_index")
   @ResponseBody
   public Result delete_all_index() {
-    topicService.deleteAllTopicIndex();
+    ITopicService.deleteAllTopicIndex();
     return success();
   }
 }

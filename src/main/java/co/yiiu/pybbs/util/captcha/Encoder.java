@@ -89,25 +89,8 @@ public class Encoder {
   int cur_accum = 0;
   int cur_bits = 0;
 
-  int masks[] =
-      {
-          0x0000,
-          0x0001,
-          0x0003,
-          0x0007,
-          0x000F,
-          0x001F,
-          0x003F,
-          0x007F,
-          0x00FF,
-          0x01FF,
-          0x03FF,
-          0x07FF,
-          0x0FFF,
-          0x1FFF,
-          0x3FFF,
-          0x7FFF,
-          0xFFFF};
+  int masks[] = {0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF, 0x03FF, 0x07FF,
+      0x0FFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF};
 
   // Number of characters so far in this 'packet'
   int a_count;
@@ -127,8 +110,7 @@ public class Encoder {
   // characters, flush the packet to disk.
   void char_out(byte c, OutputStream outs) throws IOException {
     accum[a_count++] = c;
-    if (a_count >= 254)
-      flush_char(outs);
+    if (a_count >= 254) flush_char(outs);
   }
 
   // Clear out the hash table
@@ -194,11 +176,9 @@ public class Encoder {
       } else if (htab[i] >= 0) // non-empty slot
       {
         disp = hsize_reg - i; // secondary hash (after G. Knott)
-        if (i == 0)
-          disp = 1;
+        if (i == 0) disp = 1;
         do {
-          if ((i -= disp) < 0)
-            i += hsize_reg;
+          if ((i -= disp) < 0) i += hsize_reg;
 
           if (htab[i] == fcode) {
             ent = codetab[i];
@@ -211,8 +191,7 @@ public class Encoder {
       if (free_ent < maxmaxcode) {
         codetab[i] = free_ent++; // code -> hashtable
         htab[i] = fcode;
-      } else
-        cl_block(outs);
+      } else cl_block(outs);
     }
     // Put out the final code.
     output(ent, outs);
@@ -248,8 +227,7 @@ public class Encoder {
   // Return the next pixel from the image
   //----------------------------------------------------------------------------
   private int nextPixel() {
-    if (remaining == 0)
-      return EOF;
+    if (remaining == 0) return EOF;
 
     --remaining;
 
@@ -261,10 +239,8 @@ public class Encoder {
   void output(int code, OutputStream outs) throws IOException {
     cur_accum &= masks[cur_bits];
 
-    if (cur_bits > 0)
-      cur_accum |= (code << cur_bits);
-    else
-      cur_accum = code;
+    if (cur_bits > 0) cur_accum |= (code << cur_bits);
+    else cur_accum = code;
 
     cur_bits += n_bits;
 
@@ -282,10 +258,8 @@ public class Encoder {
         clear_flg = false;
       } else {
         ++n_bits;
-        if (n_bits == maxbits)
-          maxcode = maxmaxcode;
-        else
-          maxcode = MAXCODE(n_bits);
+        if (n_bits == maxbits) maxcode = maxmaxcode;
+        else maxcode = MAXCODE(n_bits);
       }
     }
 

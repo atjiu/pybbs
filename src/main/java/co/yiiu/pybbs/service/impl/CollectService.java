@@ -1,4 +1,4 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.websocket.MyWebSocket;
@@ -6,6 +6,7 @@ import co.yiiu.pybbs.mapper.CollectMapper;
 import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.Message;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
@@ -26,26 +27,27 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class CollectService {
+public class CollectService implements ICollectService {
 
   @Autowired
   private CollectMapper collectMapper;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
   TopicTagService topicTagService;
   @Autowired
-  private TopicService topicService;
+  private ITopicService topicService;
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
   @Autowired
   private EmailService emailService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   // 查询话题被多少人收藏过
+  @Override
   public List<Collect> selectByTopicId(Integer topicId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getTopicId, topicId);
@@ -53,6 +55,7 @@ public class CollectService {
   }
 
   // 查询用户是否收藏过某个话题
+  @Override
   public Collect selectByTopicIdAndUserId(Integer topicId, Integer userId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getTopicId, topicId).eq(Collect::getUserId, userId);
@@ -62,6 +65,7 @@ public class CollectService {
   }
 
   // 收藏话题
+  @Override
   public Collect insert(Integer topicId, User user) {
     Collect collect = new Collect();
     collect.setTopicId(topicId);
@@ -96,6 +100,7 @@ public class CollectService {
   }
 
   // 删除（取消）收藏
+  @Override
   public void delete(Integer topicId, Integer userId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getTopicId, topicId).eq(Collect::getUserId, userId);
@@ -107,6 +112,7 @@ public class CollectService {
   }
 
   // 根据话题id删除收藏记录
+  @Override
   public void deleteByTopicId(Integer topicId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getTopicId, topicId);
@@ -114,6 +120,7 @@ public class CollectService {
   }
 
   // 根据用户id删除收藏记录
+  @Override
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getUserId, userId);
@@ -121,6 +128,7 @@ public class CollectService {
   }
 
   // 查询用户收藏的话题数
+  @Override
   public int countByUserId(Integer userId) {
     QueryWrapper<Collect> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Collect::getUserId, userId);
@@ -128,6 +136,7 @@ public class CollectService {
   }
 
   // 查询用户收藏的话题
+  @Override
   public MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize) {
     MyPage<Map<String, Object>> page = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService
         .selectAllConfig().get("page_size").toString()) : pageSize);
@@ -137,7 +146,7 @@ public class CollectService {
       map.put("content", StringUtils.isEmpty(content) ? null : SensitiveWordUtil.replaceSensitiveWord(content
           .toString(), "*", SensitiveWordUtil.MinMatchType));
     }
-    topicService.selectTags(page, topicTagService, tagService);
+    tagService.selectTagsByTopicId(page);
     return page;
   }
 }

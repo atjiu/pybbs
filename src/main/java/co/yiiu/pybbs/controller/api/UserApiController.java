@@ -22,15 +22,15 @@ import java.util.Map;
 public class UserApiController extends BaseApiController {
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
   @Autowired
-  private OAuthUserService oAuthUserService;
+  private IOAuthUserService oAuthUserService;
 
   // 用户的个人信息
   @GetMapping("/{username}")
@@ -40,7 +40,7 @@ public class UserApiController extends BaseApiController {
     // 查询oauth登录的用户信息
     List<OAuthUser> oAuthUsers = oAuthUserService.selectByUserId(user.getId());
     // 查询用户的话题
-    MyPage<Map<String, Object>> topics = topicService.selectByUserId(user.getId(), 1, 10);
+    MyPage<Map<String, Object>> topics = ITopicService.selectByUserId(user.getId(), 1, 10);
     // 查询用户参与的评论
     MyPage<Map<String, Object>> comments = commentService.selectByUserId(user.getId(), 1, 10);
     // 查询用户收藏的话题数
@@ -61,7 +61,7 @@ public class UserApiController extends BaseApiController {
     // 查询用户个人信息
     User user = userService.selectByUsername(username);
     // 查询用户的话题
-    MyPage<Map<String, Object>> topics = topicService.selectByUserId(user.getId(), pageNo, null);
+    MyPage<Map<String, Object>> topics = ITopicService.selectByUserId(user.getId(), pageNo, null);
     Map<String, Object> map = new HashMap<>();
     map.put("user", user);
     map.put("topics", topics);

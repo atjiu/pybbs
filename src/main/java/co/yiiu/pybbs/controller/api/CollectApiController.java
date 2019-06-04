@@ -3,7 +3,7 @@ package co.yiiu.pybbs.controller.api;
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.service.CollectService;
+import co.yiiu.pybbs.service.ICollectService;
 import co.yiiu.pybbs.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class CollectApiController extends BaseApiController {
 
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
 
   // 收藏话题
   @PostMapping("/{topicId}")

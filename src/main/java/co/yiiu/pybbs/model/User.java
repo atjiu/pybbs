@@ -157,21 +157,9 @@ public class User implements Serializable {
 
   @Override
   public String toString() {
-    return "User{" +
-        "id=" + id +
-        ", username='" + username + '\'' +
-        ", telegramName='" + telegramName + '\'' +
-        ", avatar='" + avatar + '\'' +
-        ", password='" + password + '\'' +
-        ", email='" + email + '\'' +
-        ", mobile='" + mobile + '\'' +
-        ", website='" + website + '\'' +
-        ", bio='" + bio + '\'' +
-        ", score=" + score +
-        ", inTime=" + inTime +
-        ", token='" + token + '\'' +
-        ", emailNotification=" + emailNotification +
-        ", active=" + active +
-        '}';
+    return "User{" + "id=" + id + ", username='" + username + '\'' + ", telegramName='" + telegramName + '\'' + ", "
+        + "avatar='" + avatar + '\'' + ", password='" + password + '\'' + ", email='" + email + '\'' + ", mobile='" +
+        mobile + '\'' + ", website='" + website + '\'' + ", bio='" + bio + '\'' + ", score=" + score + ", inTime=" +
+        inTime + ", token='" + token + '\'' + ", emailNotification=" + emailNotification + ", active=" + active + '}';
   }
 }

@@ -1,9 +1,10 @@
-package co.yiiu.pybbs.service;
+package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.Constants;
 import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.MyPage;
@@ -28,37 +29,37 @@ import java.util.UUID;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService implements IUserService {
 
   @Autowired
   private UserMapper userMapper;
   @Autowired
-  private CollectService collectService;
+  private ICollectService collectService;
   @Autowired
-  private TopicService topicService;
+  private ITopicService topicService;
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
   private Identicon identicon;
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
   private RedisService redisService;
   @Autowired
   private EmailService emailService;
   @Autowired
-  private CodeService codeService;
+  private ICodeService codeService;
 
   // 根据用户名查询用户，用于获取用户的信息比对密码
+  @Override
   public User selectByUsername(String username) {
     String userJson = redisService.getString(Constants.REDIS_USER_USERNAME_KEY + username);
     User user;
     if (userJson == null) {
       QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda()
-          .eq(User::getUsername, username);
+      wrapper.lambda().eq(User::getUsername, username);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_USERNAME_KEY + username, JsonUtil.objectToJson(user));
     } else {
@@ -93,6 +94,7 @@ public class UserService {
    *                        Github注册的用户，如果能获取到邮箱，就自动激活，如果获取不到邮箱，则是未激活状态，需要用户绑定邮箱然后发送激活邮件进行激活
    * @return
    */
+  @Override
   public User addUser(String username, String password, String avatar, String email, String bio, String website,
                       boolean needActiveEmail) {
     String token = this.generateToken();
@@ -113,16 +115,9 @@ public class UserService {
       new Thread(() -> {
         String title = "感谢注册%s，点击下面链接激活帐号";
         String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
-        codeService.sendEmail(
-            user.getId(),
-            email,
-            String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
-            String.format(content,
-                systemConfigService.selectAllConfig().get("name").toString(),
-                systemConfigService.selectAllConfig().get("base_url").toString(),
-                email
-            )
-        );
+        codeService.sendEmail(user.getId(), email, String.format(title, systemConfigService.selectAllConfig().get
+            ("base_url").toString()), String.format(content, systemConfigService.selectAllConfig().get("name")
+            .toString(), systemConfigService.selectAllConfig().get("base_url").toString(), email));
       }).start();
     }
     // 再查一下，有些数据库里默认值保存后，类里还是null
@@ -139,6 +134,7 @@ public class UserService {
   }
 
   // 通过手机号登录/注册创建用户
+  @Override
   public User addUserWithMobile(String mobile) {
     // 根据手机号查询用户是否注册过
     User user = selectByMobile(mobile);
@@ -162,13 +158,13 @@ public class UserService {
   }
 
   // 根据用户token查询用户
+  @Override
   public User selectByToken(String token) {
     String userJson = redisService.getString(Constants.REDIS_USER_TOKEN_KEY + token);
     User user;
     if (userJson == null) {
       QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda()
-          .eq(User::getToken, token);
+      wrapper.lambda().eq(User::getToken, token);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_TOKEN_KEY + token, JsonUtil.objectToJson(user));
     } else {
@@ -178,13 +174,13 @@ public class UserService {
   }
 
   // 根据用户mobile查询用户
+  @Override
   public User selectByMobile(String mobile) {
     String userJson = redisService.getString(Constants.REDIS_USER_MOBILE_KEY + mobile);
     User user;
     if (userJson == null) {
       QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda()
-          .eq(User::getMobile, mobile);
+      wrapper.lambda().eq(User::getMobile, mobile);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_MOBILE_KEY + mobile, JsonUtil.objectToJson(user));
     } else {
@@ -194,13 +190,13 @@ public class UserService {
   }
 
   // 根据用户email查询用户
+  @Override
   public User selectByEmail(String email) {
     String userJson = redisService.getString(Constants.REDIS_USER_EMAIL_KEY + email);
     User user;
     if (userJson == null) {
       QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda()
-          .eq(User::getEmail, email);
+      wrapper.lambda().eq(User::getEmail, email);
       user = userMapper.selectOne(wrapper);
       redisService.setString(Constants.REDIS_USER_EMAIL_KEY + email, JsonUtil.objectToJson(user));
     } else {
@@ -209,6 +205,7 @@ public class UserService {
     return user;
   }
 
+  @Override
   public User selectById(Integer id) {
     String userJson = redisService.getString(Constants.REDIS_USER_ID_KEY + id);
     User user;
@@ -222,15 +219,15 @@ public class UserService {
   }
 
   // 查询用户积分榜
+  @Override
   public List<User> selectTop(Integer limit) {
     QueryWrapper<User> wrapper = new QueryWrapper<>();
-    wrapper
-        .orderByDesc("score")
-        .last("limit " + limit);
+    wrapper.orderByDesc("score").last("limit " + limit);
     return userMapper.selectList(wrapper);
   }
 
   // 更新用户信息
+  @Override
   public void update(User user) {
     userMapper.updateById(user);
     // 删除redis里的缓存
@@ -239,18 +236,22 @@ public class UserService {
 
   // ------------------------------- admin ------------------------------------------
 
+  @Override
   public IPage<User> selectAll(Integer pageNo) {
-    MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
+    MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get
+        ("page_size")));
     page.setDesc("in_time");
     return userMapper.selectPage(page, null);
   }
 
   // 查询今天新增的话题数
+  @Override
   public int countToday() {
     return userMapper.countToday();
   }
 
   // 删除用户
+  @Override
   public void deleteUser(Integer id) {
     // 删除用户的通知
     notificationService.deleteByUserId(id);
@@ -268,6 +269,7 @@ public class UserService {
   }
 
   // 删除redis缓存
+  @Override
   public void delRedisUser(User user) {
     redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
     redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());

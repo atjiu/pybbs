@@ -2,7 +2,7 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.model.SystemConfig;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ServerRunner implements CommandLineRunner {
   @Autowired
   private ElasticSearchService elasticSearchService;
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   @Autowired
   private Environment environment;
 

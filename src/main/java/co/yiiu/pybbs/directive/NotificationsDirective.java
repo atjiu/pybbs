@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.directive;
 
-import co.yiiu.pybbs.service.NotificationService;
+import co.yiiu.pybbs.service.INotificationService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import java.util.Map;
 public class NotificationsDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private NotificationService notificationService;
+  private INotificationService notificationService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     Integer userId = Integer.parseInt(map.get("userId").toString());
     Boolean read = Integer.parseInt(map.get("read").toString()) == 1;
     // 如果想查询所有的消息，limit 传一个负数就可以了 比如 -1

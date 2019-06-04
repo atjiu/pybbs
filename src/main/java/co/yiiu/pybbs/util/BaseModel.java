@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util;
 
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
@@ -26,7 +26,7 @@ public class BaseModel {
   private Logger log = LoggerFactory.getLogger(BaseModel.class);
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
 
   private static final long MINUTE = 60 * 1000;
   private static final long HOUR = 60 * MINUTE;
@@ -67,7 +67,8 @@ public class BaseModel {
     List<String> atUsers = StringUtil.fetchAtUser(content);
     if (!atUsers.isEmpty()) {
       for (String atUser : atUsers) {
-        content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("base_url").toString() + "/user/" + atUser.replace("@", "") + ")");
+        content = content.replace(atUser, "[" + atUser + "](" + systemConfigService.selectAllConfig().get("base_url")
+            .toString() + "/user/" + atUser.replace("@", "") + ")");
       }
     }
     content = MarkdownUtil.render(content);
@@ -89,13 +90,16 @@ public class BaseModel {
             Map<String, Object> querys = StringUtil.formatParams(query);
             element.text("");
             element.addClass("embed-responsive embed-responsive-16by9");
-            element.append("<iframe class='embedded_video' src='https://www.youtube.com/embed/" + querys.get("v") + "' frameborder='0' allowfullscreen></iframe>");
+            element.append("<iframe class='embedded_video' src='https://www.youtube.com/embed/" + querys.get("v") +
+                "' frameborder='0' allowfullscreen></iframe>");
           } else if (href.contains("//v.youku.com/v_show/")) {
             element.text("");
             URL aUrl = new URL(href);
-            String _href = "https://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace(".html", "");
+            String _href = "https://player.youku.com/embed/" + aUrl.getPath().replace("/v_show/id_", "").replace("" +
+                ".html", "");
             element.addClass("embedded_video_wrapper");
-            element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' allowfullscreen></iframe>");
+            element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' " +
+                "allowfullscreen></iframe>");
           }
         } catch (MalformedURLException e) {
           log.error(e.getMessage());

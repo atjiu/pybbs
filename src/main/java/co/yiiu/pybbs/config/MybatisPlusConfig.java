@@ -26,10 +26,10 @@ import javax.sql.DataSource;
 public class MybatisPlusConfig {
 
   // 配置分页插件
-//  @Bean
-//  public PaginationInterceptor paginationInterceptor() {
-//    return new PaginationInterceptor();
-//  }
+  //  @Bean
+  //  public PaginationInterceptor paginationInterceptor() {
+  //    return new PaginationInterceptor();
+  //  }
 
   @Bean("mybatisSqlSession")
   @DependsOn("flywayConfig")

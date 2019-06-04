@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.directive;
 
 import co.yiiu.pybbs.model.Topic;
-import co.yiiu.pybbs.service.TopicService;
+import co.yiiu.pybbs.service.ITopicService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +20,15 @@ import java.util.Map;
 public class OtherTopicDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
-                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+      templateDirectiveBody) throws TemplateException, IOException {
     Integer userId = Integer.parseInt(map.get("userId").toString());
     Integer topicId = Integer.parseInt(map.get("topicId").toString());
     Integer limit = Integer.parseInt(map.get("limit").toString());
-    List<Topic> topics = topicService.selectAuthorOtherTopic(userId, topicId, limit);
+    List<Topic> topics = ITopicService.selectAuthorOtherTopic(userId, topicId, limit);
 
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
     environment.setVariable("topics", builder.build().wrap(topics));

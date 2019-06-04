@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SensitiveWord;
-import co.yiiu.pybbs.service.SensitiveWordService;
+import co.yiiu.pybbs.service.ISensitiveWordService;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -22,7 +22,7 @@ import java.util.Set;
 public class SensitiveWordFilterService {
 
   @Autowired
-  private SensitiveWordService sensitiveWordService;
+  private ISensitiveWordService sensitiveWordService;
 
   // 初始化过滤器
   @PostConstruct

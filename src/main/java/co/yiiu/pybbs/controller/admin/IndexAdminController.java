@@ -1,9 +1,9 @@
 package co.yiiu.pybbs.controller.admin;
 
-import co.yiiu.pybbs.service.CommentService;
-import co.yiiu.pybbs.service.TagService;
-import co.yiiu.pybbs.service.TopicService;
-import co.yiiu.pybbs.service.UserService;
+import co.yiiu.pybbs.service.ICommentService;
+import co.yiiu.pybbs.service.ITagService;
+import co.yiiu.pybbs.service.ITopicService;
+import co.yiiu.pybbs.service.IUserService;
 import com.sun.management.OperatingSystemMXBean;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +24,19 @@ import java.lang.management.ManagementFactory;
 public class IndexAdminController extends BaseAdminController {
 
   @Autowired
-  private TopicService topicService;
+  private ITopicService ITopicService;
   @Autowired
-  private TagService tagService;
+  private ITagService tagService;
   @Autowired
-  private CommentService commentService;
+  private ICommentService commentService;
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @RequiresAuthentication
   @GetMapping({"/", "/index"})
   public String index(Model model) {
     // 查询当天新增话题
-    model.addAttribute("topic_count", topicService.countToday());
+    model.addAttribute("topic_count", ITopicService.countToday());
     // 查询当天新增标签
     model.addAttribute("tag_count", tagService.countToday());
     // 查询当天新增评论
@@ -49,8 +49,7 @@ public class IndexAdminController extends BaseAdminController {
 
     // 内存
     int kb = 1024;
-    OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory
-        .getOperatingSystemMXBean();
+    OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
     // 总的物理内存
     long totalMemorySize = osmxb.getTotalPhysicalMemorySize() / kb;
     //已使用的物理内存

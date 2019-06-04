@@ -1,7 +1,7 @@
 package co.yiiu.pybbs.config.service;
 
 import co.yiiu.pybbs.model.SystemConfig;
-import co.yiiu.pybbs.service.SystemConfigService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import redis.clients.jedis.params.SetParams;
 public class RedisService implements BaseService<JedisPool> {
 
   @Autowired
-  private SystemConfigService systemConfigService;
+  private ISystemConfigService systemConfigService;
   private JedisPool jedisPool;
   private Logger log = LoggerFactory.getLogger(RedisService.class);
 
@@ -53,13 +53,13 @@ public class RedisService implements BaseService<JedisPool> {
       SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
       String timeout = systemConfigTimeout.getValue();
 
-//      if (StringUtils.isEmpty(host)
-//          || StringUtils.isEmpty(port)
-//          || StringUtils.isEmpty(database)
-//          || StringUtils.isEmpty(timeout)) {
-//        log.info("redis配置信息不全或没有配置...");
-//        return null;
-//      }
+      //      if (StringUtils.isEmpty(host)
+      //          || StringUtils.isEmpty(port)
+      //          || StringUtils.isEmpty(database)
+      //          || StringUtils.isEmpty(timeout)) {
+      //        log.info("redis配置信息不全或没有配置...");
+      //        return null;
+      //      }
       if (!this.isRedisConfig()) {
         log.info("redis配置信息不全或没有配置...");
         return null;
@@ -73,14 +73,8 @@ public class RedisService implements BaseService<JedisPool> {
       jedisPoolConfig.setTestOnBorrow(true);
       //return 一个jedis实例给pool时，是否检查连接可用性（ping()）
       jedisPoolConfig.setTestOnReturn(true);
-      jedisPool = new JedisPool(
-          jedisPoolConfig,
-          host,
-          Integer.parseInt(port),
-          Integer.parseInt(timeout),
-          password,
-          Integer.parseInt(database)
-      );
+      jedisPool = new JedisPool(jedisPoolConfig, host, Integer.parseInt(port), Integer.parseInt(timeout), password,
+          Integer.parseInt(database));
       log.info("redis连接对象获取成功...");
       return this.jedisPool;
     } catch (Exception e) {
@@ -103,10 +97,8 @@ public class RedisService implements BaseService<JedisPool> {
     SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
     String timeout = systemConfigTimeout.getValue();
 
-    return !StringUtils.isEmpty(host)
-        && !StringUtils.isEmpty(port)
-        && !StringUtils.isEmpty(database)
-        && !StringUtils.isEmpty(timeout);
+    return !StringUtils.isEmpty(host) && !StringUtils.isEmpty(port) && !StringUtils.isEmpty(database) && !StringUtils
+        .isEmpty(timeout);
   }
 
   // 获取String值

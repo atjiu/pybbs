@@ -299,10 +299,7 @@ public class GifEncoder {
     // map image pixels to new palette
     int k = 0;
     for (int i = 0; i < nPix; i++) {
-      int index =
-          nq.map(pixels[k++] & 0xff,
-              pixels[k++] & 0xff,
-              pixels[k++] & 0xff);
+      int index = nq.map(pixels[k++] & 0xff, pixels[k++] & 0xff, pixels[k++] & 0xff);
       usedEntry[index] = true;
       indexedPixels[i] = (byte) index;
     }
@@ -348,12 +345,9 @@ public class GifEncoder {
     int w = image.getWidth();
     int h = image.getHeight();
     int type = image.getType();
-    if ((w != width)
-        || (h != height)
-        || (type != BufferedImage.TYPE_3BYTE_BGR)) {
+    if ((w != width) || (h != height) || (type != BufferedImage.TYPE_3BYTE_BGR)) {
       // create new image with right size/format
-      BufferedImage temp =
-          new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+      BufferedImage temp = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
       Graphics2D g = temp.createGraphics();
       g.drawImage(image, 0, 0, null);
       image = temp;
