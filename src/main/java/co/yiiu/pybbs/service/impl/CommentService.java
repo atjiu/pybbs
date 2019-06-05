@@ -1,7 +1,6 @@
 package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.config.websocket.MyWebSocket;
 import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
@@ -9,8 +8,9 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.service.*;
-import co.yiiu.pybbs.util.*;
-import com.alibaba.fastjson.TypeReference;
+import co.yiiu.pybbs.util.Message;
+import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by tomoya.
@@ -45,28 +48,17 @@ public class CommentService implements ICommentService {
   private INotificationService notificationService;
   @Autowired
   private EmailService emailService;
-  @Autowired
-  private RedisService redisService;
 
   // 根据话题id查询评论
   @Override
   public List<CommentsByTopic> selectByTopicId(Integer topicId) {
-    String commentsJson = redisService.getString(Constants.REDIS_COMMENTS_KEY + topicId);
-    List<CommentsByTopic> commentsByTopics;
-    if (commentsJson == null) {
-      commentsByTopics = commentMapper.selectByTopicId(topicId);
-      // 对评论内容进行过滤，然后再写入redis
-      for (CommentsByTopic commentsByTopic : commentsByTopics) {
-        commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*",
-            SensitiveWordUtil.MinMatchType));
-      }
-      redisService.setString(Constants.REDIS_COMMENTS_KEY + topicId, JsonUtil.objectToJson(commentsByTopics));
-    } else {
-      // 带泛型转换, 这里如果不带泛型转换，会报错
-      commentsByTopics = JsonUtil.jsonToObject(commentsJson, new TypeReference<List<CommentsByTopic>>() {
-      });
+    List<CommentsByTopic> commentsByTopics = commentMapper.selectByTopicId(topicId);
+    // 对评论内容进行过滤，然后再写入redis
+    for (CommentsByTopic commentsByTopic : commentsByTopics) {
+      commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*",
+          SensitiveWordUtil.MinMatchType));
     }
-
+    // 盖楼显示评论
     if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
       commentsByTopics = this.sortByLayer(commentsByTopics);
     }
@@ -79,8 +71,6 @@ public class CommentService implements ICommentService {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Comment::getTopicId, topicId);
     commentMapper.delete(wrapper);
-    // 删除redis缓存
-    redisService.delString(Constants.REDIS_COMMENTS_KEY + topicId);
   }
 
   // 根据用户id删除评论记录
@@ -88,29 +78,17 @@ public class CommentService implements ICommentService {
   public void deleteByUserId(Integer userId) {
     QueryWrapper<Comment> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(Comment::getUserId, userId);
-    if (redisService.isRedisConfig()) { // 如果配置了redis，则清除redis里的缓存
-      List<Comment> comments = commentMapper.selectList(wrapper);
-      comments.forEach(comment ->
-          // 删除redis缓存
-          redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId()));
-    }
     commentMapper.delete(wrapper);
   }
 
   // 保存评论
   @Override
-  public Comment insert(String content, Topic topic, User user, Integer commentId, HttpSession session) {
-    Comment comment = new Comment();
-    comment.setCommentId(commentId);
-    comment.setContent(content);
-    comment.setInTime(new Date());
-    comment.setTopicId(topic.getId());
-    comment.setUserId(user.getId());
+  public Comment insert(Comment comment, Topic topic, User user, HttpSession session) {
     commentMapper.insert(comment);
 
     // 话题的评论数+1
     topic.setCommentCount(topic.getCommentCount() + 1);
-    topicService.update(topic);
+    topicService.update(topic, null);
 
     // 增加用户积分
     user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get
@@ -120,10 +98,11 @@ public class CommentService implements ICommentService {
 
     // 通知
     // 给评论的作者发通知
-    if (commentId != null) {
-      Comment targetComment = this.selectById(commentId);
+    if (comment.getCommentId() != null) {
+      Comment targetComment = this.selectById(comment.getCommentId());
       if (!user.getId().equals(targetComment.getUserId())) {
-        notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", content);
+        notificationService.insert(user.getId(), targetComment.getUserId(), topic.getId(), "REPLY", comment
+            .getContent());
 
         String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
         // 如果开启了websocket，就发网页通知
@@ -144,7 +123,7 @@ public class CommentService implements ICommentService {
     }
     // 给话题作者发通知
     if (!user.getId().equals(topic.getUserId())) {
-      notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", content);
+      notificationService.insert(user.getId(), topic.getUserId(), topic.getId(), "COMMENT", comment.getContent());
       // 发送邮件通知
       String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
       // 如果开启了websocket，就发网页通知
@@ -162,9 +141,6 @@ public class CommentService implements ICommentService {
       }
     }
 
-    // 删除redis里关于当前评论话题的评论列表缓存
-    redisService.delString(Constants.REDIS_COMMENTS_KEY + topic.getId());
-
     // 日志 TODO
 
     return comment;
@@ -179,8 +155,6 @@ public class CommentService implements ICommentService {
   @Override
   public void update(Comment comment) {
     commentMapper.updateById(comment);
-    // 删除redis里的缓存
-    redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId());
   }
 
   // 对评论点赞
@@ -211,23 +185,20 @@ public class CommentService implements ICommentService {
 
   // 删除评论
   @Override
-  public void delete(Integer id, HttpSession session) {
-    Comment comment = this.selectById(id);
+  public void delete(Comment comment, HttpSession session) {
     if (comment != null) {
       // 话题评论数-1
       Topic topic = topicService.selectById(comment.getTopicId());
       topic.setCommentCount(topic.getCommentCount() - 1);
-      topicService.update(topic);
+      topicService.update(topic, null);
       // 减去用户积分
       User user = userService.selectById(comment.getUserId());
       user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get
           ("delete_comment_score").toString()));
       userService.update(user);
       if (session != null) session.setAttribute("_user", user);
-      // 删除redis里的缓存
-      redisService.delString(Constants.REDIS_COMMENTS_KEY + comment.getTopicId());
       // 删除评论
-      commentMapper.deleteById(id);
+      commentMapper.deleteById(comment.getId());
     }
   }
 

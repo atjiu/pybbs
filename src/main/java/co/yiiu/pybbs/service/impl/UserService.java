@@ -1,12 +1,9 @@
 package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
-import co.yiiu.pybbs.util.Constants;
-import co.yiiu.pybbs.util.JsonUtil;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
@@ -46,8 +43,6 @@ public class UserService implements IUserService {
   @Autowired
   private ISystemConfigService systemConfigService;
   @Autowired
-  private RedisService redisService;
-  @Autowired
   private EmailService emailService;
   @Autowired
   private ICodeService codeService;
@@ -55,17 +50,9 @@ public class UserService implements IUserService {
   // 根据用户名查询用户，用于获取用户的信息比对密码
   @Override
   public User selectByUsername(String username) {
-    String userJson = redisService.getString(Constants.REDIS_USER_USERNAME_KEY + username);
-    User user;
-    if (userJson == null) {
-      QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda().eq(User::getUsername, username);
-      user = userMapper.selectOne(wrapper);
-      redisService.setString(Constants.REDIS_USER_USERNAME_KEY + username, JsonUtil.objectToJson(user));
-    } else {
-      user = JsonUtil.jsonToObject(userJson, User.class);
-    }
-    return user;
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(User::getUsername, username);
+    return userMapper.selectOne(wrapper);
   }
 
   // 递归生成token，防止token重复
@@ -160,62 +147,30 @@ public class UserService implements IUserService {
   // 根据用户token查询用户
   @Override
   public User selectByToken(String token) {
-    String userJson = redisService.getString(Constants.REDIS_USER_TOKEN_KEY + token);
-    User user;
-    if (userJson == null) {
-      QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda().eq(User::getToken, token);
-      user = userMapper.selectOne(wrapper);
-      redisService.setString(Constants.REDIS_USER_TOKEN_KEY + token, JsonUtil.objectToJson(user));
-    } else {
-      user = JsonUtil.jsonToObject(userJson, User.class);
-    }
-    return user;
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(User::getToken, token);
+    return userMapper.selectOne(wrapper);
   }
 
   // 根据用户mobile查询用户
   @Override
   public User selectByMobile(String mobile) {
-    String userJson = redisService.getString(Constants.REDIS_USER_MOBILE_KEY + mobile);
-    User user;
-    if (userJson == null) {
-      QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda().eq(User::getMobile, mobile);
-      user = userMapper.selectOne(wrapper);
-      redisService.setString(Constants.REDIS_USER_MOBILE_KEY + mobile, JsonUtil.objectToJson(user));
-    } else {
-      user = JsonUtil.jsonToObject(userJson, User.class);
-    }
-    return user;
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(User::getMobile, mobile);
+    return userMapper.selectOne(wrapper);
   }
 
   // 根据用户email查询用户
   @Override
   public User selectByEmail(String email) {
-    String userJson = redisService.getString(Constants.REDIS_USER_EMAIL_KEY + email);
-    User user;
-    if (userJson == null) {
-      QueryWrapper<User> wrapper = new QueryWrapper<>();
-      wrapper.lambda().eq(User::getEmail, email);
-      user = userMapper.selectOne(wrapper);
-      redisService.setString(Constants.REDIS_USER_EMAIL_KEY + email, JsonUtil.objectToJson(user));
-    } else {
-      user = JsonUtil.jsonToObject(userJson, User.class);
-    }
-    return user;
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    wrapper.lambda().eq(User::getEmail, email);
+    return userMapper.selectOne(wrapper);
   }
 
   @Override
   public User selectById(Integer id) {
-    String userJson = redisService.getString(Constants.REDIS_USER_ID_KEY + id);
-    User user;
-    if (userJson == null) {
-      user = userMapper.selectById(id);
-      redisService.setString(Constants.REDIS_USER_ID_KEY + id, JsonUtil.objectToJson(user));
-    } else {
-      user = JsonUtil.jsonToObject(userJson, User.class);
-    }
-    return user;
+    return userMapper.selectById(id);
   }
 
   // 查询用户积分榜
@@ -271,10 +226,6 @@ public class UserService implements IUserService {
   // 删除redis缓存
   @Override
   public void delRedisUser(User user) {
-    redisService.delString(Constants.REDIS_USER_ID_KEY + user.getId());
-    redisService.delString(Constants.REDIS_USER_USERNAME_KEY + user.getUsername());
-    redisService.delString(Constants.REDIS_USER_TOKEN_KEY + user.getToken());
-    redisService.delString(Constants.REDIS_USER_MOBILE_KEY + user.getMobile());
-    redisService.delString(Constants.REDIS_USER_EMAIL_KEY + user.getEmail());
+
   }
 }

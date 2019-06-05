@@ -20,7 +20,7 @@ import java.util.Map;
 public class OtherTopicDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
 
   @Override
   public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
@@ -28,7 +28,7 @@ public class OtherTopicDirective implements TemplateDirectiveModel {
     Integer userId = Integer.parseInt(map.get("userId").toString());
     Integer topicId = Integer.parseInt(map.get("topicId").toString());
     Integer limit = Integer.parseInt(map.get("limit").toString());
-    List<Topic> topics = ITopicService.selectAuthorOtherTopic(userId, topicId, limit);
+    List<Topic> topics = topicService.selectAuthorOtherTopic(userId, topicId, limit);
 
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
     environment.setVariable("topics", builder.build().wrap(topics));

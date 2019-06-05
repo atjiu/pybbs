@@ -1,13 +1,13 @@
 package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
-import co.yiiu.pybbs.util.*;
+import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,14 +47,13 @@ public class TopicService implements ITopicService {
   private INotificationService notificationService;
   @Autowired
   private ElasticSearchService elasticSearchService;
-  @Autowired
-  private RedisService redisService;
 
   @Override
   public MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {
     MyPage<Map<String, Object>> page = new MyPage<>(pageNo, Integer.parseInt(systemConfigService.selectAllConfig()
         .get("page_size").toString()));
     page = topicMapper.selectAll(page, tab);
+    // 查询话题的标签
     tagService.selectTagsByTopicId(page);
     return page;
   }
@@ -88,7 +86,7 @@ public class TopicService implements ITopicService {
 
   // 保存话题
   @Override
-  public Topic insertTopic(String title, String content, String tags, User user, HttpSession session) {
+  public Topic insert(String title, String content, String tags, User user, HttpSession session) {
     Topic topic = new Topic();
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setContent(content);
@@ -119,14 +117,7 @@ public class TopicService implements ITopicService {
   // 根据id查询话题
   @Override
   public Topic selectById(Integer id) {
-    String topicJson = redisService.getString(Constants.REDIS_TOPIC_KEY + id);
-    if (topicJson == null) {
-      Topic topic = topicMapper.selectById(id);
-      redisService.setString(Constants.REDIS_TOPIC_KEY + id, JsonUtil.objectToJson(topic));
-      return topic;
-    } else {
-      return JsonUtil.jsonToObject(topicJson, Topic.class);
-    }
+    return topicMapper.selectById(id);
   }
 
   // 根据title查询话题，防止重复话题
@@ -139,55 +130,29 @@ public class TopicService implements ITopicService {
 
   // 处理话题的访问量
   @Override
-  public Topic addViewCount(Topic topic, HttpServletRequest request) {
-    String ip = IpUtil.getIpAddr(request);
-    ip = ip.replace(":", "_").replace(".", "_");
-    if (redisService.isRedisConfig()) {// 如果redis配置了，就采用缓存的形式处理访问量
-      String s = redisService.getString(String.format(Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()));
-      if (s == null) {
-        topic.setView(topic.getView() + 1);
-        this.update(topic);
-        redisService.setString(String.format(Constants.REDIS_TOPIC_VIEW_IP_ID_KEY, ip, topic.getId()), String.valueOf
-            (topic.getId()), Integer.parseInt(systemConfigService.selectAllConfig().get
-            ("topic_view_increase_interval").toString()));
-      }
-    } else {
-      topic.setView(topic.getView() + 1);
-      this.update(topic);
-    }
+  public Topic updateViewCount(Topic topic, String ip) {
+    topic.setView(topic.getView() + 1);
+    this.update(topic, null);
     return topic;
   }
 
   // 更新话题
   @Override
-  public void update(Topic topic) {
+  public void update(Topic topic, String tags) {
     topicMapper.updateById(topic);
-    // 索引话题
-    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
-    // 缓存到redis里
-    redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
-  }
-
-  // 更新话题
-  @Override
-  public Topic updateTopic(Topic topic, String title, String content, String tags) {
-    topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
-    topic.setContent(content);
-    topic.setModifyTime(new Date());
-    topicMapper.updateById(topic);
-    // 旧标签每个topicCount都-1
-    tagService.reduceTopicCount(topic.getId());
+    // 处理标签
     if (!StringUtils.isEmpty(tags)) {
-      // 保存标签
-      List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
-      // 处理标签与话题的关联
-      topicTagService.insertTopicTag(topic.getId(), tagList);
+      // 旧标签每个topicCount都-1
+      tagService.reduceTopicCount(topic.getId());
+      if (!StringUtils.isEmpty(tags)) {
+        // 保存标签
+        List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
+        // 处理标签与话题的关联
+        topicTagService.insertTopicTag(topic.getId(), tagList);
+      }
     }
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
-    // 缓存到redis里
-    redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
-    return topic;
   }
 
   // 删除话题
@@ -212,8 +177,6 @@ public class TopicService implements ITopicService {
     if (session != null) session.setAttribute("_user", user);
     // 删除索引
     this.deleteTopicIndex(String.valueOf(topic.getId()));
-    // 删除redis缓存
-    redisService.delString(Constants.REDIS_TOPIC_KEY + topic.getId());
     // 最后删除话题
     topicMapper.deleteById(id);
   }
@@ -225,8 +188,6 @@ public class TopicService implements ITopicService {
     wrapper.lambda().eq(Topic::getUserId, userId);
     List<Topic> topics = topicMapper.selectList(wrapper);
     topics.forEach(topic -> {
-      // 删除redis缓存，这里放在删除索引这里，共用一个话题列表
-      redisService.delString(Constants.REDIS_TOPIC_KEY + topic.getId());
       // 删除索引
       this.deleteTopicIndex(String.valueOf(topic.getId()));
     });
@@ -311,7 +272,7 @@ public class TopicService implements ITopicService {
     // 再把这些id按逗号隔开组成字符串
     topic.setUpIds(StringUtils.collectionToCommaDelimitedString(strings));
     // 更新评论
-    this.update(topic);
+    this.update(topic, null);
     // 增加用户积分
     user.setScore(userScore);
     userService.update(user);

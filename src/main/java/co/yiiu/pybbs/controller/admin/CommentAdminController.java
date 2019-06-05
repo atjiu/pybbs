@@ -27,7 +27,7 @@ public class CommentAdminController extends BaseAdminController {
   @Autowired
   private ICommentService commentService;
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
 
   @RequiresPermissions("comment:list")
   @GetMapping("/list")
@@ -48,7 +48,7 @@ public class CommentAdminController extends BaseAdminController {
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
     Comment comment = commentService.selectById(id);
-    Topic topic = ITopicService.selectById(comment.getTopicId());
+    Topic topic = topicService.selectById(comment.getTopicId());
     model.addAttribute("comment", comment);
     model.addAttribute("topic", topic);
     return "admin/comment/edit";
@@ -68,7 +68,8 @@ public class CommentAdminController extends BaseAdminController {
   @GetMapping("/delete")
   @ResponseBody
   public Result delete(Integer id) {
-    commentService.delete(id, null);
+    Comment comment = commentService.selectById(id);
+    commentService.delete(comment, null);
     return success();
   }
 }

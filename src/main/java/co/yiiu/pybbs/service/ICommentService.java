@@ -26,7 +26,7 @@ public interface ICommentService {
   void deleteByUserId(Integer userId);
 
   // 保存评论
-  Comment insert(String content, Topic topic, User user, Integer commentId, HttpSession session);
+  Comment insert(Comment comment, Topic topic, User user, HttpSession session);
 
   Comment selectById(Integer id);
 
@@ -37,7 +37,7 @@ public interface ICommentService {
   int vote(Comment comment, User user, HttpSession session);
 
   // 删除评论
-  void delete(Integer id, HttpSession session);
+  void delete(Comment comment, HttpSession session);
 
   // 查询用户的评论
   MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);

@@ -1,11 +1,8 @@
 package co.yiiu.pybbs.service.impl;
 
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
-import co.yiiu.pybbs.util.Constants;
-import co.yiiu.pybbs.util.JsonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,24 +24,14 @@ public class SystemConfigService implements ISystemConfigService {
 
   @Autowired
   private SystemConfigMapper systemConfigMapper;
-  @Autowired
-  private RedisService redisService;
 
   private static Map SYSTEM_CONFIG;
 
   @Override
   public Map selectAllConfig() {
-    if (SYSTEM_CONFIG != null) return SYSTEM_CONFIG;
-    String system_config = redisService.getString(Constants.REDIS_SYSTEM_CONFIG_KEY);
-    if (system_config != null) {
-      SYSTEM_CONFIG = JsonUtil.jsonToObject(system_config, Map.class);
-    } else {
-      List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
-      SYSTEM_CONFIG = systemConfigs.stream().filter(systemConfig -> systemConfig.getPid() != 0).collect(Collectors
-          .toMap(SystemConfig::getKey, SystemConfig::getValue));
-      // 将查询出来的数据放到redis里缓存下来（如果redis可用的话）
-      redisService.setString(Constants.REDIS_SYSTEM_CONFIG_KEY, JsonUtil.objectToJson(SYSTEM_CONFIG));
-    }
+    List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
+    SYSTEM_CONFIG = systemConfigs.stream().filter(systemConfig -> systemConfig.getPid() != 0).collect(Collectors
+        .toMap(SystemConfig::getKey, SystemConfig::getValue));
     return SYSTEM_CONFIG;
   }
 
@@ -90,10 +77,6 @@ public class SystemConfigService implements ISystemConfigService {
       wrapper.lambda().eq(SystemConfig::getKey, systemConfig.getKey());
       systemConfigMapper.update(systemConfig, wrapper);
     }
-    // 判断redis配置是否去除，去除了，就将RedisUtil里的jedis属性设置为null
-    if (!redisService.isRedisConfig()) redisService.setJedis(null);
-    // 清除redis里关于 system_config 的缓存
-    redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     // 更新SYSTEM_CONFIG
     SYSTEM_CONFIG = null;
   }
@@ -104,8 +87,6 @@ public class SystemConfigService implements ISystemConfigService {
     QueryWrapper<SystemConfig> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(SystemConfig::getKey, key);
     systemConfigMapper.update(systemConfig, wrapper);
-    // 清除redis里关于 system_config 的缓存
-    redisService.delString(Constants.REDIS_SYSTEM_CONFIG_KEY);
     // 更新SYSTEM_CONFIG
     SYSTEM_CONFIG = null;
   }

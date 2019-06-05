@@ -23,13 +23,13 @@ public class CommentController extends BaseController {
   @Autowired
   private ICommentService commentService;
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
 
   // 编辑评论
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable Integer id, Model model) {
     Comment comment = commentService.selectById(id);
-    Topic topic = ITopicService.selectById(comment.getTopicId());
+    Topic topic = topicService.selectById(comment.getTopicId());
     model.addAttribute("comment", comment);
     model.addAttribute("topic", topic);
     return render("comment/edit");

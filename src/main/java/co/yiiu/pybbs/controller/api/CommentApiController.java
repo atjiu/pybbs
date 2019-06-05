@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class CommentApiController extends BaseApiController {
   @Autowired
   private ICommentService commentService;
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
 
   // 创建评论
   @PostMapping
@@ -39,9 +40,17 @@ public class CommentApiController extends BaseApiController {
     Integer commentId = StringUtils.isEmpty(body.get("commentId")) ? null : Integer.parseInt(body.get("commentId"));
     ApiAssert.notEmpty(content, "请输入评论内容");
     ApiAssert.notNull(topicId, "话题ID呢？");
-    Topic topic = ITopicService.selectById(topicId);
+    Topic topic = topicService.selectById(topicId);
     ApiAssert.notNull(topic, "你晚了一步，话题可能已经被删除了");
-    Comment comment = commentService.insert(content, topic, user, commentId, session);
+    // 组装comment对象
+    Comment comment = new Comment();
+    comment.setCommentId(commentId);
+    comment.setContent(content);
+    comment.setInTime(new Date());
+    comment.setTopicId(topic.getId());
+    comment.setUserId(user.getId());
+    comment = commentService.insert(comment, topic, user, session);
+    // 过滤评论内容
     comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil
         .MinMatchType));
     return success(comment);
@@ -72,7 +81,7 @@ public class CommentApiController extends BaseApiController {
     Comment comment = commentService.selectById(id);
     ApiAssert.notNull(comment, "这个评论可能已经被删除了，多发点对别人有帮助的评论吧");
     ApiAssert.isTrue(comment.getUserId().equals(user.getId()), "请给你的权限让你删除别人的评论？");
-    commentService.delete(id, session);
+    commentService.delete(comment, session);
     return success();
   }
 

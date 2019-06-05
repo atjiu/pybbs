@@ -53,13 +53,6 @@ public class RedisService implements BaseService<JedisPool> {
       SystemConfig systemConfigTimeout = systemConfigService.selectByKey("redis_timeout");
       String timeout = systemConfigTimeout.getValue();
 
-      //      if (StringUtils.isEmpty(host)
-      //          || StringUtils.isEmpty(port)
-      //          || StringUtils.isEmpty(database)
-      //          || StringUtils.isEmpty(timeout)) {
-      //        log.info("redis配置信息不全或没有配置...");
-      //        return null;
-      //      }
       if (!this.isRedisConfig()) {
         log.info("redis配置信息不全或没有配置...");
         return null;
@@ -140,6 +133,6 @@ public class RedisService implements BaseService<JedisPool> {
     jedis.close();
   }
 
-  // TODO 后面会补充获取 list, map 等方法
+  // TODO 后面有需要会补充获取 list, map 等方法
 
 }

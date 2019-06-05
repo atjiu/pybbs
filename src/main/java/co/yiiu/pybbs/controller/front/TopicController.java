@@ -8,6 +8,7 @@ import co.yiiu.pybbs.service.ICollectService;
 import co.yiiu.pybbs.service.ITagService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.service.IUserService;
+import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.MyPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 public class TopicController extends BaseController {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
   @Autowired
   private ITagService tagService;
   @Autowired
@@ -46,7 +47,7 @@ public class TopicController extends BaseController {
   @GetMapping("/{id}")
   public String detail(@PathVariable Integer id, Model model, HttpServletRequest request) {
     // 查询话题详情
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
@@ -60,7 +61,9 @@ public class TopicController extends BaseController {
       model.addAttribute("collect", collect);
     }
     // 话题浏览量+1
-    topic = ITopicService.addViewCount(topic, request);
+    String ip = IpUtil.getIpAddr(request);
+    ip = ip.replace(":", "_").replace(".", "_");
+    topic = topicService.updateViewCount(topic, ip);
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
@@ -78,7 +81,7 @@ public class TopicController extends BaseController {
   // 编辑话题
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable Integer id, Model model) {
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     Assert.isTrue(topic.getUserId().equals(getUser().getId()), "谁给你的权限修改别人的话题的？");
     // 查询话题的标签
     List<Tag> tagList = tagService.selectByTopicId(id);

@@ -7,13 +7,17 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.service.*;
+import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +32,7 @@ import java.util.Map;
 public class TopicApiController extends BaseApiController {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
   @Autowired
   private ITagService tagService;
   @Autowired
@@ -43,7 +47,7 @@ public class TopicApiController extends BaseApiController {
   public Result detail(@PathVariable Integer id, HttpServletRequest request) {
     Map<String, Object> map = new HashMap<>();
     // 查询话题详情
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     // 查询话题关联的标签
     List<Tag> tags = tagService.selectByTopicId(id);
     // 查询话题的评论
@@ -59,7 +63,9 @@ public class TopicApiController extends BaseApiController {
       map.put("collect", collect);
     }
     // 话题浏览量+1
-    topic = ITopicService.addViewCount(topic, request);
+    String ip = IpUtil.getIpAddr(request);
+    ip = ip.replace(":", "_").replace(".", "_");
+    topic = topicService.updateViewCount(topic, ip);
     topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
 
     map.put("topic", topic);
@@ -79,14 +85,14 @@ public class TopicApiController extends BaseApiController {
     String content = body.get("content");
     //    String tags = body.get("tags");
     ApiAssert.notEmpty(title, "请输入标题");
-    ApiAssert.isNull(ITopicService.selectByTitle(title), "话题标题重复");
+    ApiAssert.isNull(topicService.selectByTitle(title), "话题标题重复");
     //    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
     //    Set<String> set = StringUtil.removeEmpty(strings);
     //    ApiAssert.notTrue(set.isEmpty() || set.size() > 5, "请输入标签且标签最多5个");
     // 保存话题
     // 再次将tag转成逗号隔开的字符串
     //    tags = StringUtils.collectionToCommaDelimitedString(set);
-    Topic topic = ITopicService.insertTopic(title, content, null, user, session);
+    Topic topic = topicService.insert(title, content, null, user, session);
     topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(topic);
   }
@@ -97,17 +103,14 @@ public class TopicApiController extends BaseApiController {
     User user = getApiUser();
     String title = body.get("title");
     String content = body.get("content");
-    //    String tags = body.get("tags");
     ApiAssert.notEmpty(title, "请输入标题");
-    //    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
-    //    Set<String> set = StringUtil.removeEmpty(strings);
-    //    ApiAssert.notTrue(set.isEmpty() || set.size() > 5, "请输入标签且标签最多5个");
     // 更新话题
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限修改别人的话题的？");
-    // 再次将tag转成逗号隔开的字符串
-    //    tags = StringUtils.collectionToCommaDelimitedString(set);
-    topic = ITopicService.updateTopic(topic, title, content, null);
+    topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
+    topic.setContent(content);
+    topic.setModifyTime(new Date());
+    topicService.update(topic, null);
     topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(topic);
   }
@@ -116,19 +119,19 @@ public class TopicApiController extends BaseApiController {
   @DeleteMapping("{id}")
   public Result delete(@PathVariable Integer id, HttpSession session) {
     User user = getApiUser();
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限删除别人的话题的？");
-    ITopicService.delete(topic, session);
+    topicService.delete(topic, session);
     return success();
   }
 
   @GetMapping("/{id}/vote")
   public Result vote(@PathVariable Integer id, HttpSession session) {
     User user = getApiUser();
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     ApiAssert.notNull(topic, "这个话题可能已经被删除了");
     ApiAssert.notTrue(topic.getUserId().equals(user.getId()), "给自己话题点赞，脸皮真厚！！");
-    int voteCount = ITopicService.vote(topic, getApiUser(), session);
+    int voteCount = topicService.vote(topic, getApiUser(), session);
     return success(voteCount);
   }
 }

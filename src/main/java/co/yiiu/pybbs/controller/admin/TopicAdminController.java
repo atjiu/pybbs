@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class TopicAdminController extends BaseAdminController {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
   @Autowired
   private ITagService tagService;
 
@@ -38,7 +39,7 @@ public class TopicAdminController extends BaseAdminController {
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
-    MyPage<Map<String, Object>> page = ITopicService.selectAllForAdmin(pageNo, startDate, endDate, username);
+    MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username);
     model.addAttribute("page", page);
     model.addAttribute("startDate", startDate);
     model.addAttribute("endDate", endDate);
@@ -49,7 +50,7 @@ public class TopicAdminController extends BaseAdminController {
   @RequiresPermissions("topic:edit")
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
-    model.addAttribute("topic", ITopicService.selectById(id));
+    model.addAttribute("topic", topicService.selectById(id));
     // 将标签集合转成逗号隔开的字符串
     List<Tag> tagList = tagService.selectByTopicId(id);
     String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors
@@ -62,8 +63,11 @@ public class TopicAdminController extends BaseAdminController {
   @PostMapping("edit")
   @ResponseBody
   public Result update(Integer id, String title, String content, String tags) {
-    Topic topic = ITopicService.selectById(id);
-    ITopicService.updateTopic(topic, title, content, tags);
+    Topic topic = topicService.selectById(id);
+    topic.setTitle(title);
+    topic.setContent(content);
+    topic.setModifyTime(new Date());
+    topicService.update(topic, tags);
     return success();
   }
 
@@ -71,9 +75,9 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/good")
   @ResponseBody
   public Result good(Integer id) {
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     topic.setGood(!topic.getGood());
-    ITopicService.update(topic);
+    topicService.update(topic, null);
     return success();
   }
 
@@ -81,9 +85,9 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/top")
   @ResponseBody
   public Result top(Integer id) {
-    Topic topic = ITopicService.selectById(id);
+    Topic topic = topicService.selectById(id);
     topic.setTop(!topic.getTop());
-    ITopicService.update(topic);
+    topicService.update(topic, null);
     return success();
   }
 
@@ -91,8 +95,8 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete")
   @ResponseBody
   public Result delete(Integer id) {
-    Topic topic = ITopicService.selectById(id);
-    ITopicService.delete(topic, null);
+    Topic topic = topicService.selectById(id);
+    topicService.delete(topic, null);
     return success();
   }
 
@@ -100,8 +104,8 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/index")
   @ResponseBody
   public Result index(Integer id) {
-    Topic topic = ITopicService.selectById(id);
-    ITopicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    Topic topic = topicService.selectById(id);
+    topicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return success();
   }
 
@@ -109,7 +113,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/index_all")
   @ResponseBody
   public Result index_all() {
-    ITopicService.indexAllTopic();
+    topicService.indexAllTopic();
     return success();
   }
 
@@ -117,7 +121,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_index")
   @ResponseBody
   public Result delete_index(String id) { // ajax传过来的id，这用String接收，不用再转一次了
-    ITopicService.deleteTopicIndex(id);
+    topicService.deleteTopicIndex(id);
     return success();
   }
 
@@ -125,7 +129,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_all_index")
   @ResponseBody
   public Result delete_all_index() {
-    ITopicService.deleteAllTopicIndex();
+    topicService.deleteAllTopicIndex();
     return success();
   }
 }

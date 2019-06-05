@@ -24,7 +24,7 @@ import java.lang.management.ManagementFactory;
 public class IndexAdminController extends BaseAdminController {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
   @Autowired
   private ITagService tagService;
   @Autowired
@@ -36,7 +36,7 @@ public class IndexAdminController extends BaseAdminController {
   @GetMapping({"/", "/index"})
   public String index(Model model) {
     // 查询当天新增话题
-    model.addAttribute("topic_count", ITopicService.countToday());
+    model.addAttribute("topic_count", topicService.countToday());
     // 查询当天新增标签
     model.addAttribute("tag_count", tagService.countToday());
     // 查询当天新增评论

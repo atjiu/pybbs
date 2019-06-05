@@ -20,7 +20,7 @@ import java.util.Map;
 public class UserTopicsDirective implements TemplateDirectiveModel {
 
   @Autowired
-  private ITopicService ITopicService;
+  private ITopicService topicService;
   @Autowired
   private IUserService userService;
 
@@ -32,7 +32,7 @@ public class UserTopicsDirective implements TemplateDirectiveModel {
     Integer pageSize = map.get("pageSize") == null ? null : Integer.parseInt(map.get("pageSize").toString());
     User user = userService.selectByUsername(username);
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
-    environment.setVariable("topics", builder.build().wrap(ITopicService.selectByUserId(user.getId(), pageNo,
+    environment.setVariable("topics", builder.build().wrap(topicService.selectByUserId(user.getId(), pageNo,
         pageSize)));
     templateDirectiveBody.render(environment.getOut());
   }

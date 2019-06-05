@@ -4,7 +4,6 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.MyPage;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import java.util.Map;
  * https://yiiu.co
  */
 public interface ITopicService {
+  // 分页查询话题
   MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab);
 
   // 查询话题作者其它的话题
@@ -24,7 +24,7 @@ public interface ITopicService {
   MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);
 
   // 保存话题
-  Topic insertTopic(String title, String content, String tags, User user, HttpSession session);
+  Topic insert(String title, String content, String tags, User user, HttpSession session);
 
   // 根据id查询话题
   Topic selectById(Integer id);
@@ -33,13 +33,10 @@ public interface ITopicService {
   Topic selectByTitle(String title);
 
   // 处理话题的访问量
-  Topic addViewCount(Topic topic, HttpServletRequest request);
+  Topic updateViewCount(Topic topic, String ip);
 
   // 更新话题
-  void update(Topic topic);
-
-  // 更新话题
-  Topic updateTopic(Topic topic, String title, String content, String tags);
+  void update(Topic topic, String tags);
 
   // 删除话题
   void delete(Topic topic, HttpSession session);
