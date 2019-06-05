@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,10 +56,6 @@ public class CommentService implements ICommentService {
     for (CommentsByTopic commentsByTopic : commentsByTopics) {
       commentsByTopic.setContent(SensitiveWordUtil.replaceSensitiveWord(commentsByTopic.getContent(), "*",
           SensitiveWordUtil.MinMatchType));
-    }
-    // 盖楼显示评论
-    if (Integer.parseInt(systemConfigService.selectAllConfig().get("comment_layer").toString()) == 1) {
-      commentsByTopics = this.sortByLayer(commentsByTopics);
     }
     return commentsByTopics;
   }
@@ -214,51 +209,6 @@ public class CommentService implements ICommentService {
           .toString(), "*", SensitiveWordUtil.MinMatchType));
     }
     return page;
-  }
-
-  // 盖楼排序
-  @Override
-  public List<CommentsByTopic> sortByLayer(List<CommentsByTopic> comments) {
-    List<CommentsByTopic> newComments = new ArrayList<>();
-    comments.forEach(comment -> {
-      if (comment.getCommentId() == null) {
-        newComments.add(comment);
-      } else {
-        int index = this.findLastIndex(newComments, "commentId", comment.getCommentId());
-        if (index == -1) {
-          int upIndex = this.findLastIndex(newComments, "id", comment.getCommentId());
-          if (upIndex == -1) {
-            newComments.add(comment);
-          } else {
-            int layer = newComments.get(upIndex).getLayer() + 1;
-            comment.setLayer(layer);
-            newComments.add(upIndex + 1, comment);
-          }
-        } else {
-          int layer = newComments.get(index).getLayer();
-          comment.setLayer(layer);
-          newComments.add(index + 1, comment);
-        }
-      }
-    });
-    return newComments;
-  }
-
-  // 从列表里查找指定值的下标
-  private int findLastIndex(List<CommentsByTopic> newComments, String key, Integer value) {
-    int index = -1;
-    for (int i = 0; i < newComments.size(); i++) {
-      if (key.equals("commentId")) {
-        if (value.equals(newComments.get(i).getCommentId())) {
-          index = i;
-        }
-      } else if (key.equals("id")) {
-        if (value.equals(newComments.get(i).getId())) {
-          index = i;
-        }
-      }
-    }
-    return index;
   }
 
   // ---------------------------- admin ----------------------------
