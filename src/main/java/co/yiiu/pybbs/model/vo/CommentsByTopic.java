@@ -10,6 +10,7 @@ import java.io.Serializable;
  * https://yiiu.co
  */
 public class CommentsByTopic extends Comment implements Serializable {
+  private static final long serialVersionUID = 8082073760910701836L;
   // 话题下面的评论列表单个对象的数据结构
 
   private String username;
