@@ -2,6 +2,11 @@
 
 朋也开发的插件都在这个plugins目录里，这里放的都是源码，如果想用的话，可以自己通过mvn打包然后使用，用法如下
 
+当前目录中的插件
+
+- comment-layer-plugin: 对话题评论进行盖楼排序
+- redis-cache-plugin: 对部分查询提供redis缓存
+
 == 原理
 
 [TIP]
