@@ -1,8 +1,9 @@
 package co.yiiu.pybbs.config;
 
+import co.yiiu.pybbs.util.SpringContextUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -17,24 +18,28 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-  @Value("${datasource_driver}")
-  private String driver;
-  @Value("${datasource_url}")
-  private String url;
-  @Value("${datasource_username}")
-  private String username;
-  @Value("${datasource_password}")
-  private String password;
+  @Autowired
+  private SiteConfig siteConfig;
+
+  //  @Value("${datasource_driver}")
+  //  private String driver;
+  //  @Value("${datasource_url}")
+  //  private String url;
+  //  @Value("${datasource_username}")
+  //  private String username;
+  //  @Value("${datasource_password}")
+  //  private String password;
 
   private HikariDataSource dataSource;
 
   public HikariDataSource instance() {
+    if (siteConfig == null) siteConfig = SpringContextUtil.getBean(SiteConfig.class);
     if (dataSource != null) return dataSource;
     HikariConfig config = new HikariConfig();
-    config.setDriverClassName(driver);
-    config.setJdbcUrl(url);
-    config.setUsername(username);
-    config.setPassword(password);
+    config.setDriverClassName(siteConfig.getDatasource_driver());
+    config.setJdbcUrl(siteConfig.getDatasource_url());
+    config.setUsername(siteConfig.getDatasource_username());
+    config.setPassword(siteConfig.getDatasource_password());
     config.addDataSourceProperty("cachePrepStmts", true);
     config.addDataSourceProperty("prepStmtCacheSize", 500);
     config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);

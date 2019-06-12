@@ -1,8 +1,9 @@
 package co.yiiu.pybbs.config;
 
+import co.yiiu.pybbs.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -23,32 +24,33 @@ public class DataSourceHelper {
 
   private Logger log = LoggerFactory.getLogger(DataSourceHelper.class);
 
-  @Value("${datasource_driver}")
-  private String driver;
+  @Autowired
+  private SiteConfig siteConfig;
 
-  @Value("${datasource_url}")
-  private String url;
-
-  @Value("${datasource_username}")
-  private String username;
-
-  @Value("${datasource_password}")
-  private String password;
+  //  @Value("${datasource_driver}")
+  //  private String driver;
+  //  @Value("${datasource_url}")
+  //  private String url;
+  //  @Value("${datasource_username}")
+  //  private String username;
+  //  @Value("${datasource_password}")
+  //  private String password;
 
   @PostConstruct
   public void init() {
+    if (siteConfig == null) siteConfig = SpringContextUtil.getBean(SiteConfig.class);
     try {
-      Class.forName(driver);
-      URI uri = new URI(url.replace("jdbc:", ""));
+      Class.forName(siteConfig.getDatasource_driver());
+      URI uri = new URI(siteConfig.getDatasource_url().replace("jdbc:", ""));
       String host = uri.getHost();
       int port = uri.getPort();
       String path = uri.getPath();
       String query = uri.getQuery();
       Connection connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "?" + query,
-          username, password);
+          siteConfig.getDatasource_username(), siteConfig.getDatasource_password());
       Statement statement = connection.createStatement();
-      statement.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + path.replace("/", "") + "` DEFAULT CHARACTER SET = " +
-          "" + "`utf8` COLLATE `utf8_general_ci`;");
+      statement.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + path.replace("/", "") + "` DEFAULT CHARACTER SET = "
+          + "" + "`utf8` COLLATE `utf8_general_ci`;");
       statement.close();
       connection.close();
     } catch (URISyntaxException | ClassNotFoundException | SQLException e) {

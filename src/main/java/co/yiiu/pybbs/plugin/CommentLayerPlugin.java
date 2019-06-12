@@ -9,15 +9,21 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by tomoya.
+ * Copyright (c) 2018, All Rights Reserved.
+ * https://yiiu.co
+ */
 @Component
 @Aspect
 public class CommentLayerPlugin {
 
   @Around("co.yiiu.pybbs.hook.CommentServiceHook.selectByTopicId()")
   public Object selectByTopicId(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-    List<CommentsByTopic> commentsByTopics = (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
+    List<CommentsByTopic> newComments =
+        (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
     // 盖楼显示评论
-    return this.sortByLayer(commentsByTopics);
+    return this.sortByLayer(newComments);
   }
 
   // 从列表里查找指定值的下标
