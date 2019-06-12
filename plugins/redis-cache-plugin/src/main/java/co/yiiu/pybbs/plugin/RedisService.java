@@ -1,5 +1,6 @@
-package co.yiiu.pybbs.config.service;
+package co.yiiu.pybbs.plugin;
 
+import co.yiiu.pybbs.config.service.BaseService;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
@@ -31,7 +32,6 @@ public class RedisService implements BaseService<JedisPool> {
     this.jedisPool = jedisPool;
   }
 
-  @Override
   public JedisPool instance() {
     try {
       if (this.jedisPool != null) return this.jedisPool;

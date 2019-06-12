@@ -1,0 +1,60 @@
+== pybbs插件
+
+朋也开发的插件都在这个plugins目录里，这里放的都是源码，如果想用的话，可以自己通过mvn打包然后使用，用法如下
+
+== 原理
+
+[TIP]
+====
+首先你要知道spring的切面编程思想，其次要会用aop
+
+在插件里也可以使用pybbs里已经开发好的service以及mapper
+====
+
+插件的实现原理是使用spring的aop切面编程思想实现的，pybbs里提供了service包下几乎所有service方法的切入点
+
+开发插件就是围绕着这些切入点来实现的功能，这样做可以做到对系统实现0侵入
+
+具体用法可能参见当前目录下的插件写法
+
+== 打包
+
+项目是纯maven项目，所以打包也是用的mvn命令打的
+
+[source,bash]
+----
+mvn clean package
+----
+
+[TIP]
+====
+注意不要将pybbs给打到jar包里了，在引入信赖的时候 `scope` 请配置成 `provided`
+====
+
+== 使用
+
+目前还在测试阶段，文档没有更新，这里简单介绍一下用法
+
+1. 将pybbs主项目打包，命令 `mvn clean package`
+2. 将打包好的pybbs.jar拷贝到你想放的目录下，比如 `/opt/pybbs/`
+3. 在`/opt/pybbs/`目录下创建一个文件夹 `plugins`
+4. 将插件打包好后的jar包拷贝到 `plugins` 目录中
+5. 启动项目使用命令 `java -Dloader.path=./plugins -jar pybbs.jar`
+
+运行浏览器，打开 http://localhost:8080/ 即可
+
+== 开发插件
+
+规范
+
+1. 插件名要以 `-plugin` 结尾，如 `xxx-plugin`
+2. 插件包名必须为 `co.yiiu.pybbs.plugin`
+3. 插件打包必须要使用jdk8编译
+4. 附上插件说明，越详细越好
+
+== 注意
+
+[TIP]
+====
+插件功能目前还处在测试阶段，请不要更新master分支的代码去部署线上服务
+====

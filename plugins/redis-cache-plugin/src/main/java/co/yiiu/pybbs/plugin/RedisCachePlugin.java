@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.plugin;
 
-import co.yiiu.pybbs.config.service.RedisService;
 import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;

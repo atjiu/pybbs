@@ -219,8 +219,15 @@
           <layout>ZIP</layout>
         </configuration>
       </plugin>
+      <!-- 打包发布时，跳过单元测试 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 
 </project>
