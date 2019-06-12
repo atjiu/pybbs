@@ -57,6 +57,43 @@ mvn clean package
 3. 插件打包必须要使用jdk8编译
 4. 附上插件说明，越详细越好
 
+首先下载pybbs项目，将`pom.xml`里的下面代码注释掉
+
+[source,xml]
+----
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+        <layout>ZIP</layout>
+    </configuration>
+</plugin>
+----
+
+然后运行命令 `mvn clean install` 将pybbs安装到本地maven库，这样在插件里就可以通过下面信赖引入了
+
+[source,xml]
+----
+<dependency>
+    <groupId>co.yiiu</groupId>
+    <artifactId>pybbs</artifactId>
+    <version>5.2.1</version>
+    <scope>provided</scope>
+</dependency>
+----
+
+然后就可以开发了
+
+== 测试
+
+测试插件功能
+
+首先将插件项目通过 `mvn clean install` 安装到本地
+
+然后在pybbs项目里的pom.xml里引入插件
+
+最后启动pybbs，即可测试插件功能了
+
 == 注意
 
 [TIP]
