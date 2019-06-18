@@ -102,9 +102,10 @@ public class UserService implements IUserService {
       new Thread(() -> {
         String title = "感谢注册%s，点击下面链接激活帐号";
         String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
-        codeService.sendEmail(user.getId(), email, String.format(title, systemConfigService.selectAllConfig().get
-            ("base_url").toString()), String.format(content, systemConfigService.selectAllConfig().get("name")
-            .toString(), systemConfigService.selectAllConfig().get("base_url").toString(), email));
+        codeService.sendEmail(user.getId(), email, String.format(title, systemConfigService.selectAllConfig().get(
+            "base_url").toString()), String.format(content,
+            systemConfigService.selectAllConfig().get("name").toString(), systemConfigService.selectAllConfig().get(
+                "base_url").toString(), email));
       }).start();
     }
     // 再查一下，有些数据库里默认值保存后，类里还是null
@@ -192,11 +193,15 @@ public class UserService implements IUserService {
   // ------------------------------- admin ------------------------------------------
 
   @Override
-  public IPage<User> selectAll(Integer pageNo) {
-    MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get
-        ("page_size")));
+  public IPage<User> selectAll(Integer pageNo, String username) {
+    MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get(
+        "page_size")));
     page.setDesc("in_time");
-    return userMapper.selectPage(page, null);
+    QueryWrapper<User> wrapper = new QueryWrapper<>();
+    if (!StringUtils.isEmpty(username)) {
+      wrapper.lambda().eq(User::getUsername, username);
+    }
+    return userMapper.selectPage(page, wrapper);
   }
 
   // 查询今天新增的话题数

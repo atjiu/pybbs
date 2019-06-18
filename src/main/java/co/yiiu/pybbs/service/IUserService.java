@@ -14,8 +14,8 @@ public interface IUserService {
   // 根据用户名查询用户，用于获取用户的信息比对密码
   User selectByUsername(String username);
 
-  User addUser(String username, String password, String avatar, String email, String bio, String website, boolean
-      needActiveEmail);
+  User addUser(String username, String password, String avatar, String email, String bio, String website,
+               boolean needActiveEmail);
 
   // 通过手机号登录/注册创建用户
   User addUserWithMobile(String mobile);
@@ -37,7 +37,7 @@ public interface IUserService {
   // 更新用户信息
   void update(User user);
 
-  IPage<User> selectAll(Integer pageNo);
+  IPage<User> selectAll(Integer pageNo, String username);
 
   // 查询今天新增的话题数
   int countToday();
