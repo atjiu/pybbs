@@ -22,8 +22,8 @@ public class TopicListDirective implements TemplateDirectiveModel {
   private ITopicService topicService;
 
   @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
-      templateDirectiveBody) throws TemplateException, IOException {
+  public void execute(Environment environment, Map map, TemplateModel[] templateModels,
+                      TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
     String tab = map.get("tab").toString();
     MyPage<Map<String, Object>> page = topicService.selectAll(pageNo, tab);

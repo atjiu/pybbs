@@ -1,11 +1,11 @@
 <#include "layout/layout.ftl"/>
 <@html page_title="登录" page_tab="login">
   <div class="row">
-    <div class="col-md-3 hidden-xs"></div>
+    <div class="col-md-3 d-none d-md-block"></div>
     <div class="col-md-6">
-      <div class="panel panel-info" id="local_login_div">
-        <div class="panel-heading">登录</div>
-        <div class="panel-body">
+      <div class="card" id="local_login_div">
+        <div class="card-header">登录</div>
+        <div class="card-body">
           <form action="" onsubmit="return;">
             <div class="form-group">
               <label for="username">用户名</label>
@@ -19,37 +19,37 @@
               <label for="captcha">验证码</label>
               <div class="input-group">
                 <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码"/>
-                <span class="input-group-btn">
+                <span class="input-group-append">
                   <img style="border: 1px solid #ccc;" src="" class="captcha" id="changeCaptcha"/>
                 </span>
               </div>
             </div>
             <div class="form-group">
               <button type="button" id="login_btn" class="btn btn-info">登录</button>
-              <#--<a href="javascript:;" id="forget_password_href" class="pull-right">忘记密码?</a>-->
+                <#--<a href="javascript:;" id="forget_password_href" class="pull-right">忘记密码?</a>-->
             </div>
           </form>
-          <#if !model.isEmpty(site.oauth_github_client_id!)
-              || !model.isEmpty(site.sms_access_key_id!)
-              || !model.isEmpty(site.oauth_wechat_client_id!)>
-            <hr>
-          </#if>
-          <#if !model.isEmpty(site.oauth_github_client_id!)>
-            <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
-          </#if>
-          <#if !model.isEmpty(site.oauth_wechat_client_id!)>
-            <a href="/oauth/wechat" class="btn btn-success btn-block"><i class="fa fa-wechat"></i>&nbsp;&nbsp;通过微信登录/注册</a>
-          </#if>
-          <#if !model.isEmpty(site.sms_access_key_id!)>
-            <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
-            </button>
-          </#if>
+            <#if !model.isEmpty(site.oauth_github_client_id!)
+            || !model.isEmpty(site.sms_access_key_id!)
+            || !model.isEmpty(site.oauth_wechat_client_id!)>
+              <hr>
+            </#if>
+            <#if !model.isEmpty(site.oauth_github_client_id!)>
+              <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
+            </#if>
+            <#if !model.isEmpty(site.oauth_wechat_client_id!)>
+              <a href="/oauth/wechat" class="btn btn-success btn-block"><i class="fa fa-wechat"></i>&nbsp;&nbsp;通过微信登录/注册</a>
+            </#if>
+            <#if !model.isEmpty(site.sms_access_key_id!)>
+              <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
+              </button>
+            </#if>
         </div>
       </div>
-      <#include "./components/mobile_login.ftl"/>
-      <#include "./components/forget_password.ftl"/>
+        <#include "./components/mobile_login.ftl"/>
+        <#include "./components/forget_password.ftl"/>
     </div>
-    <div class="col-md-3 hidden-xs"></div>
+    <div class="col-md-3 d-none d-md-block"></div>
   </div>
   <script>
     $(function () {
@@ -65,15 +65,15 @@
         var password = $("#password").val();
         var captcha = $("#captcha").val();
         if (!username) {
-          toast("请输入用户名");
+          err('请输入用户名');
           return;
         }
         if (!password) {
-          toast("请输入密码");
+          err('请输入密码');
           return;
         }
         if (!captcha) {
-          toast("请输入验证码");
+          err('请输入验证码');
           return;
         }
         $.ajax({
@@ -89,12 +89,12 @@
           }),
           success: function (data) {
             if (data.code === 200) {
-              toast("登录成功", "success");
+              suc("登录成功");
               setTimeout(function () {
                 window.location.href = "/";
               }, 700);
             } else {
-              toast(data.description);
+              err(data.description);
             }
           }
         })

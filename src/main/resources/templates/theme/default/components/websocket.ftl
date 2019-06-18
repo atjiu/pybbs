@@ -1,5 +1,5 @@
 <#if _user??>
-  <#if site.websocket == "1">
+<#if site.websocket == "1">
   <script>
     if (window.WebSocket) {
       var documentTitle = document.title;
@@ -23,10 +23,10 @@
       socket.onmessage = function (event) {
         var data = JSON.parse(event.data);
         if (data.type === 'bind') {
-          // toast('ws与当前登录用户绑定成功', 'success');
+          // suc('ws与当前登录用户绑定成功');
           console.log("ws与当前登录用户绑定成功");
         } else if (data.type === 'notifications') {
-          toast(data.payload, 'success');
+          suc(data.payload);
         } else if (data.type === 'notification_notread') {
           var n_count = $("#n_count");
           var nh_count = $("#nh_count");
@@ -46,34 +46,34 @@
 
     }
   </script>
-  <#else>
-    <script>
-      var title = document.title;
+<#else>
+  <script>
+    var title = document.title;
 
-      function notificationCount() {
-        $.ajax({
-          url: '/api/notification/notRead',
-          cache: false,
-          async: false,
-          type: 'get',
-          dataType: 'json',
-          contentType: 'application/json',
-          headers: {
-            'token': '${_user.token}'
-          },
-          success: function (data) {
-            if (data.code === 200 && data.detail > 0) {
-              $("#n_count").text(data.detail);
-              document.title = "(" + data.detail + ") " + title;
-            }
+    function notificationCount() {
+      $.ajax({
+        url: '/api/notification/notRead',
+        cache: false,
+        async: false,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {
+          'token': '${_user.token}'
+        },
+        success: function (data) {
+          if (data.code === 200 && data.detail > 0) {
+            $("#n_count").text(data.detail);
+            document.title = "(" + data.detail + ") " + title;
           }
-        })
-      }
+        }
+      })
+    }
 
-      notificationCount();
-      // setInterval(function () {
-      //   notificationCount();
-      // }, 120000);
-  </#if>
+    notificationCount();
+    // setInterval(function () {
+    //   notificationCount();
+    // }, 120000);
+    </#if>
   </script>
 </#if>

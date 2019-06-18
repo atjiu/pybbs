@@ -27,15 +27,6 @@ public class DataSourceHelper {
   @Autowired
   private SiteConfig siteConfig;
 
-  //  @Value("${datasource_driver}")
-  //  private String driver;
-  //  @Value("${datasource_url}")
-  //  private String url;
-  //  @Value("${datasource_username}")
-  //  private String username;
-  //  @Value("${datasource_password}")
-  //  private String password;
-
   @PostConstruct
   public void init() {
     if (siteConfig == null) siteConfig = SpringContextUtil.getBean(SiteConfig.class);

@@ -2,9 +2,9 @@
 <@html page_title="创建话题" page_tab="">
   <div class="row">
     <div class="col-md-9">
-      <div class="panel panel-info">
-        <div class="panel-heading">发布话题</div>
-        <div class="panel-body">
+      <div class="card">
+        <div class="card-header">发布话题</div>
+        <div class="card-body">
           <form action="" onsubmit="return;" id="form">
             <div class="form-group">
               <label for="title">标题</label>
@@ -16,11 +16,11 @@
               <textarea name="content" id="content" class="form-control"
                         placeholder="内容，支持Markdown语法"></textarea>
             </div>
-          <#--<div class="form-group">
-            <label for="tags">标签</label>
-            <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
-                   placeholder="标签, 多个标签以 英文逗号 隔开"/>
-          </div>-->
+              <#--<div class="form-group">
+                <label for="tags">标签</label>
+                <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
+                       placeholder="标签, 多个标签以 英文逗号 隔开"/>
+              </div>-->
             <div class="form-group">
               <button type="button" id="btn" class="btn btn-info">发布话题</button>
             </div>
@@ -29,8 +29,8 @@
       </div>
     </div>
     <div class="col-md-3 hidden-xs">
-      <#include "../components/markdown_guide.ftl"/>
-      <#include "../components/create_topic_guide.ftl"/>
+        <#include "../components/markdown_guide.ftl"/>
+        <#include "../components/create_topic_guide.ftl"/>
     </div>
   </div>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
@@ -56,11 +56,11 @@
         var content = window.editor.getDoc().getValue();
         // var tags = $("#tags").val();
         if (!title || title.length > 120) {
-          toast("请输入标题，且最大长度在120个字符以内");
+          err("请输入标题，且最大长度在120个字符以内");
           return;
         }
         // if (!tags || tags.split(",").length > 5) {
-        //   toast("请输入标签，且最多只能填5个");
+        //   err("请输入标签，且最多只能填5个");
         //   return;
         // }
         var _this = this;
@@ -82,12 +82,12 @@
           }),
           success: function (data) {
             if (data.code === 200) {
-              toast("创建成功", "success");
+              suc("创建成功");
               setTimeout(function () {
                 window.location.href = "/topic/" + data.detail.id
               }, 700);
             } else {
-              toast(data.description);
+              err(data.description);
               $(_this).button("reset");
             }
           }
@@ -95,5 +95,5 @@
       });
     });
   </script>
-  <#include "../components/upload.ftl"/>
+    <#include "../components/upload.ftl"/>
 </@html>

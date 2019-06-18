@@ -1,5 +1,5 @@
 <form onsubmit="return;" id="uploadImageForm">
-  <input type="file" class="hidden" id="uploadImageFileEle"/>
+  <input type="file" class="d-none" id="uploadImageFileEle"/>
 </form>
 <script>
   $("#uploadImageBtn").click(function () {
@@ -21,7 +21,7 @@
       contentType: false,
       success: function (data) {
         if (data.code === 200) {
-          toast("上传成功", "success");
+          suc("上传成功");
           var oldContent = window.editor.getDoc().getValue();
           if (oldContent) oldContent += '\n\n';
           window.editor.getDoc().setValue(oldContent + "![image](" + data.detail + ")");
@@ -30,7 +30,7 @@
           window.editor.setCursor(window.editor.lineCount(), 0);
           $("#uploadImageForm")[0].reset();
         } else {
-          toast(data.description);
+          err(data.description);
         }
       }
     })

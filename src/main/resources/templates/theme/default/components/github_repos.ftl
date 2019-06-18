@@ -1,5 +1,5 @@
-<div class="panel panel-info">
-  <div class="panel-heading">${user.username}'s repos on GitHub</div>
+<div class="card">
+  <div class="card-header">${user.username}'s repos on GitHub</div>
   <ul id="repos"></ul>
 </div>
 <style>
