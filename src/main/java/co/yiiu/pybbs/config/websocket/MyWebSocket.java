@@ -1,7 +1,10 @@
 package co.yiiu.pybbs.config.websocket;
 
 import co.yiiu.pybbs.model.vo.UserWithWebSocketVO;
+import co.yiiu.pybbs.service.INotificationService;
+import co.yiiu.pybbs.service.impl.NotificationService;
 import co.yiiu.pybbs.util.Message;
+import co.yiiu.pybbs.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -50,6 +53,9 @@ public class MyWebSocket {
         case "bind":
           bind(message, session);
           break;
+        case "notReadCount":
+          fetchNotReadCount(message, session);
+          break;
         default:
           break;
       }
@@ -71,10 +77,20 @@ public class MyWebSocket {
     }
   }
 
+  // 获取用户的未读消息数
+  private static void fetchNotReadCount(Message message, Session session) {
+    try {
+      INotificationService notificationService = SpringContextUtil.getBean(NotificationService.class);
+      long countNotRead = notificationService.countNotRead(MyWebSocket.webSockets.get(session).getUserId());
+      session.getBasicRemote().sendObject(new Message("notification_notread", countNotRead));
+    } catch (IOException | EncodeException e) {
+      log.error("发送ws消息失败, 异常信息: {}", e.getMessage());
+    }
+  }
+
   // 提供一个方法用于根据用户id查询session
   private static Session selectSessionByUserId(Integer userId) {
-    return webSockets.entrySet().stream().filter(x -> x.getValue().getUserId().equals(userId)).map(Map.Entry::getKey)
-        .findFirst().orElse(null);
+    return webSockets.entrySet().stream().filter(x -> x.getValue().getUserId().equals(userId)).map(Map.Entry::getKey).findFirst().orElse(null);
   }
 
   public static void emit(Integer userId, Message message) {
@@ -85,4 +101,5 @@ public class MyWebSocket {
       log.error("发送ws消息失败, 异常信息：{}", e.getMessage());
     }
   }
+
 }

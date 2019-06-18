@@ -25,8 +25,10 @@
         if (data.type === 'bind') {
           // suc('ws与当前登录用户绑定成功');
           console.log("ws与当前登录用户绑定成功");
+          // 绑定成功后找server要当前未读消息数量
+          emit('notReadCount', {});
         } else if (data.type === 'notifications') {
-          suc(data.payload);
+          tip(data.payload);
         } else if (data.type === 'notification_notread') {
           var n_count = $("#n_count");
           var nh_count = $("#nh_count");

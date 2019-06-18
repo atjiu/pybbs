@@ -5,3 +5,7 @@ function suc(msg) {
 function err(msg) {
   layer.msg(msg, {icon: 2, anim: 6, offset: 't'});
 }
+
+function tip(msg) {
+  layer.msg(msg, {offset: 't'});
+}
