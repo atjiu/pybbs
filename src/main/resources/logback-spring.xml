@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>
+        %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{20}) - %cyan(%msg%n)
+      </pattern>
+    </layout>
+  </appender>
+  <appender name="console_debug" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>
+        %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{20}) - %cyan(%msg%n)
+      </pattern>
+    </layout>
+  </appender>
+  <appender name="console_error" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>
+        %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{20}) - %cyan(%msg%n)
+      </pattern>
+    </layout>
+  </appender>
+  <appender name="infoFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- test -->
+    <File>./logs/log.log</File>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{20} - %msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>./logs/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="errorFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- test -->
+    <File>./logs/error.log</File>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{20} - %msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>./logs/error.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>1GB</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <logger name="jdbc.sqltiming" level="DEBUG"/>
+  <logger name="com.ibatis" level="DEBUG"/>
+  <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+  <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
+  <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+  <logger name="java.sql.Connection" level="DEBUG"/>
+  <logger name="java.sql.Statement" level="DEBUG"/>
+  <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+  <root level="info" additivity="true">
+    <appender-ref ref="console"/>
+    <!--<appender-ref ref="console_debug" />-->
+    <appender-ref ref="console_error"/>
+    <appender-ref ref="infoFileAppender"/>
+    <appender-ref ref="errorFileAppender"/>
+  </root>
+</configuration>
