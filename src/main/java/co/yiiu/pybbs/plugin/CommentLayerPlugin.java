@@ -1,9 +1,11 @@
 package co.yiiu.pybbs.plugin;
 
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
+import co.yiiu.pybbs.service.impl.SystemConfigService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,12 +20,18 @@ import java.util.List;
 @Aspect
 public class CommentLayerPlugin {
 
+  @Autowired
+  private SystemConfigService systemConfigService;
+
   @Around("co.yiiu.pybbs.hook.CommentServiceHook.selectByTopicId()")
   public Object selectByTopicId(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     List<CommentsByTopic> newComments =
         (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
-    // 盖楼显示评论
-    return this.sortByLayer(newComments);
+    if (systemConfigService.selectAllConfig().get("comment_layer").equals("1")) {
+      // 盖楼显示评论
+      return this.sortByLayer(newComments);
+    }
+    return newComments;
   }
 
   // 从列表里查找指定值的下标
