@@ -14,6 +14,9 @@ import java.util.Map;
  * https://yiiu.co
  */
 public interface ITopicService {
+  // 搜索
+  MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword);
+
   // 分页查询话题
   MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab);
 

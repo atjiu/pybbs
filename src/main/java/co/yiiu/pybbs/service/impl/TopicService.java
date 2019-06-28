@@ -1,10 +1,10 @@
 package co.yiiu.pybbs.service.impl;
 
-import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
+import co.yiiu.pybbs.plugin.ElasticSearchService;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -38,15 +39,26 @@ public class TopicService implements ITopicService {
   @Autowired
   private ITagService tagService;
   @Autowired
+  @Lazy
   private ICollectService collectService;
   @Autowired
+  @Lazy
   private ICommentService commentService;
   @Autowired
+  @Lazy
   private IUserService userService;
   @Autowired
   private INotificationService notificationService;
   @Autowired
   private ElasticSearchService elasticSearchService;
+
+  @Override
+  public MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword) {
+    if (pageSize == null)
+      pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString());
+    MyPage<Map<String, Object>> page = new MyPage<>(pageNo, pageSize);
+    return topicMapper.search(page, keyword);
+  }
 
   @Override
   public MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab) {

@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.service.impl;
 
-import co.yiiu.pybbs.config.service.EmailService;
 import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
@@ -11,6 +10,7 @@ import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -31,10 +31,13 @@ public class UserService implements IUserService {
   @Autowired
   private UserMapper userMapper;
   @Autowired
+  @Lazy
   private ICollectService collectService;
   @Autowired
+  @Lazy
   private ITopicService topicService;
   @Autowired
+  @Lazy
   private ICommentService commentService;
   @Autowired
   private Identicon identicon;
@@ -42,8 +45,6 @@ public class UserService implements IUserService {
   private INotificationService notificationService;
   @Autowired
   private ISystemConfigService systemConfigService;
-  @Autowired
-  private EmailService emailService;
   @Autowired
   private ICodeService codeService;
 

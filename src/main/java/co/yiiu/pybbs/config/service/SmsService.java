@@ -1,6 +1,5 @@
 package co.yiiu.pybbs.config.service;
 
-import co.yiiu.pybbs.service.ICodeService;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.JsonUtil;
 import com.aliyuncs.CommonRequest;
@@ -25,8 +24,6 @@ public class SmsService {
 
   private Logger log = LoggerFactory.getLogger(SmsService.class);
 
-  @Autowired
-  private ICodeService codeService;
   @Autowired
   private ISystemConfigService systemConfigService;
 

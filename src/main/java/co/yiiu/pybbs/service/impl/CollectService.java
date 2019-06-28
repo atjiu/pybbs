@@ -12,6 +12,7 @@ import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -36,14 +37,14 @@ public class CollectService implements ICollectService {
   @Autowired
   private ITagService tagService;
   @Autowired
-  TopicTagService topicTagService;
-  @Autowired
+  @Lazy
   private ITopicService topicService;
   @Autowired
   private INotificationService notificationService;
   @Autowired
   private EmailService emailService;
   @Autowired
+  @Lazy
   private IUserService userService;
 
   // 查询话题被多少人收藏过

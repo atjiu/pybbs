@@ -24,4 +24,6 @@ public interface TopicMapper extends BaseMapper<Topic> {
       startDate, @Param("endDate") String endDate, @Param("username") String username);
 
   int countToday();
+
+  MyPage<Map<String, Object>> search(MyPage<Map<String, Object>> iPage, @Param("keyword") String keyword);
 }

@@ -9,6 +9,10 @@ import org.aspectj.lang.annotation.Pointcut;
  */
 public class TopicServiceHook {
 
+  @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.search(..))")
+  public void search() {
+  }
+
   @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.selectAuthorOtherTopic(..))")
   public void selectAuthorOtherTopic() {
   }

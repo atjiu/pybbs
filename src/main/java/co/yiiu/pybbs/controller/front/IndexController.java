@@ -149,7 +149,6 @@ public class IndexController extends BaseController {
 
   @GetMapping("/search")
   public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {
-    Assert.isTrue(systemConfigService.selectAllConfig().get("search").toString().equals("1"), "网站没有启动搜索功能，联系站长问问看");
     model.addAttribute("pageNo", pageNo);
     model.addAttribute("keyword", keyword);
     return render("search");

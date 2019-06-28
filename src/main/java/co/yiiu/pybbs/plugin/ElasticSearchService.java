@@ -1,7 +1,9 @@
-package co.yiiu.pybbs.config.service;
+package co.yiiu.pybbs.plugin;
 
+import co.yiiu.pybbs.config.service.BaseService;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
+import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -225,9 +227,9 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
    * @param fields   要查询的字段，可以为多个
    * @return 分页对象 {@link Page}
    */
-  public Page<Map<String, Object>> searchDocument(Integer pageNo, Integer pageSize, String keyword, String... fields) {
+  public MyPage<Map<String, Object>> searchDocument(Integer pageNo, Integer pageSize, String keyword, String... fields) {
     try {
-      if (this.instance() == null) return new Page<>();
+      if (this.instance() == null) return new MyPage<>();
       SearchRequest request = new SearchRequest(name);
       SearchSourceBuilder builder = new SearchSourceBuilder();
       builder.query(QueryBuilders.multiMatchQuery(keyword, fields));
@@ -243,13 +245,13 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
         map.putAll(hit.getSourceAsMap());
         return map;
       }).collect(Collectors.toList());
-      Page<Map<String, Object>> page = new Page<>(pageNo, pageSize);
+      MyPage<Map<String, Object>> page = new MyPage<>(pageNo, pageSize);
       page.setTotal(totalCount);
       page.setRecords(records);
       return page;
     } catch (IOException e) {
       log.error(e.getMessage());
-      return new Page<>();
+      return new MyPage<>();
     }
   }
 }
