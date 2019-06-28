@@ -6,6 +6,7 @@
 
 - comment-layer-plugin: 对话题评论进行盖楼排序
 - redis-cache-plugin: 对部分查询提供redis缓存
+- theme-simple-plugin: simple主题
 
 == 原理
 
@@ -52,10 +53,11 @@ mvn clean package
 
 规范
 
-1. 插件名要以 `-plugin` 结尾，如 `xxx-plugin`
-2. 插件包名必须为 `co.yiiu.pybbs.plugin`
-3. 插件打包必须要使用jdk8编译
-4. 附上插件说明，越详细越好
+1. 插件名要以 `-plugin` 结尾，如 `xxx-plugin`，例如 `redis-cache-plugin`
+2. 如果是主题插件，要以 `theme` 开头，以 `-plugin` 结尾，例如 `theme-simple-plugin`
+3. 插件包名必须为 `co.yiiu.pybbs.plugin` （主题插件除外）
+4. 插件打包必须要使用jdk8编译
+5. 附上插件说明，越详细越好
 
 首先下载pybbs项目，将`pom.xml`里的下面代码注释掉
 
@@ -83,6 +85,18 @@ mvn clean package
 ----
 
 然后就可以开发了
+
+== 开发主题
+
+主题也可以当成插件被加载，当前目录下的 `theme-simple-plugin` 就是一个主题插件，通过 `mvn clean package` 将其打成jar包，按照上面使用方法中启动项目也是可以加载的
+
+开发很简单
+
+1. 创建maven项目
+2. 在 `src/main/resources/templates/theme/xxx` 下开发主题文件，其中 xxx 就是主题的名字（文件夹不存在，自行创建）
+3. 静态资源文件放在 `src/main/resources/static/theme/xxx` 其中 xxx 就是主题的名字（文件夹不存在，自行创建）
+
+开发好之后，打包即可
 
 == 测试
 
