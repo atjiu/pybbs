@@ -38,10 +38,10 @@
 ## 手动打包
 
 ```bash
-mvn clean assembly:assembly
+mvn clean package
 ```
 
-打包完成后，会在项目根目录下的target目录里生成一个`pybbs.tar.gz`文件，解压运行 `sh start.sh` 即可启动论坛服务
+打包完成后，会在项目根目录下的target目录里生成一个`pybbs.jar`文件，解压运行 `java -jar pybbs.jar` 即可启动论坛服务
 
 其实手动打包后生成的tar.gz文件就是github上release里最新的发布包，下载后解压内容是一样的
 
