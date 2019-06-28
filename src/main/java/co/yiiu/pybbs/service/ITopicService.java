@@ -57,7 +57,7 @@ public interface ITopicService {
   void deleteTopicIndex(String id);
 
   // 删除所有话题索引
-  void deleteAllTopicIndex();
+  void batchDeleteIndex();
 
   MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username);
 

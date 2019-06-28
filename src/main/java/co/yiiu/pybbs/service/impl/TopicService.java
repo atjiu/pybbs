@@ -4,7 +4,6 @@ import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
-import co.yiiu.pybbs.plugin.ElasticSearchService;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
@@ -18,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by tomoya.
@@ -49,8 +50,6 @@ public class TopicService implements ITopicService {
   private IUserService userService;
   @Autowired
   private INotificationService notificationService;
-  @Autowired
-  private ElasticSearchService elasticSearchService;
 
   @Override
   public MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword) {
@@ -210,44 +209,22 @@ public class TopicService implements ITopicService {
   // 索引全部话题
   @Override
   public void indexAllTopic() {
-    List<Topic> topics = topicMapper.selectList(null);
-    Map<String, Map<String, Object>> sources = topics.stream().collect(Collectors.toMap(key -> String.valueOf(key
-        .getId()), value -> {
-      Map<String, Object> map = new HashMap<>();
-      map.put("title", value.getTitle());
-      map.put("content", value.getContent());
-      return map;
-    }));
-    elasticSearchService.bulkDocument("topic", sources);
+
   }
 
   // 索引话题
   @Override
   public void indexTopic(String id, String title, String content) {
-    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
-      Map<String, Object> source = new HashMap<>();
-      source.put("title", title);
-      source.put("content", content);
-      elasticSearchService.createDocument("topic", id, source);
-    }
   }
 
   // 删除话题索引
   @Override
   public void deleteTopicIndex(String id) {
-    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
-      elasticSearchService.deleteDocument("topic", id);
-    }
   }
 
   // 删除所有话题索引
   @Override
-  public void deleteAllTopicIndex() {
-    if (systemConfigService.selectAllConfig().get("search").toString().equals("1")) {
-      List<Topic> topics = topicMapper.selectList(null);
-      List<Integer> ids = topics.stream().map(Topic::getId).collect(Collectors.toList());
-      elasticSearchService.bulkDeleteDocument("topic", ids);
-    }
+  public void batchDeleteIndex() {
   }
   // ---------------------------- admin ----------------------------
 

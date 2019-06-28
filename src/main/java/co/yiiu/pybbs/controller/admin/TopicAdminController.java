@@ -129,7 +129,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_all_index")
   @ResponseBody
   public Result delete_all_index() {
-    topicService.deleteAllTopicIndex();
+    topicService.batchDeleteIndex();
     return success();
   }
 }
