@@ -2,6 +2,7 @@ package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
+import co.yiiu.pybbs.service.IIndexedService;
 import co.yiiu.pybbs.service.ITagService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
@@ -31,6 +32,8 @@ public class TopicAdminController extends BaseAdminController {
   private ITopicService topicService;
   @Autowired
   private ITagService tagService;
+  @Autowired
+  private IIndexedService indexedService;
 
   @RequiresPermissions("topic:list")
   @GetMapping("/list")
@@ -105,7 +108,7 @@ public class TopicAdminController extends BaseAdminController {
   @ResponseBody
   public Result index(Integer id) {
     Topic topic = topicService.selectById(id);
-    topicService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    indexedService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return success();
   }
 
@@ -113,7 +116,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/index_all")
   @ResponseBody
   public Result index_all() {
-    topicService.indexAllTopic();
+    indexedService.indexAllTopic();
     return success();
   }
 
@@ -121,7 +124,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_index")
   @ResponseBody
   public Result delete_index(String id) { // ajax传过来的id，这用String接收，不用再转一次了
-    topicService.deleteTopicIndex(id);
+    indexedService.deleteTopicIndex(id);
     return success();
   }
 
@@ -129,7 +132,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/delete_all_index")
   @ResponseBody
   public Result delete_all_index() {
-    topicService.batchDeleteIndex();
+    indexedService.batchDeleteIndex();
     return success();
   }
 }

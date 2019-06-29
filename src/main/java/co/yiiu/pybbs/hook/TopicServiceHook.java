@@ -53,20 +53,4 @@ public class TopicServiceHook {
   public void updateViewCount() {
   }
 
-  @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.indexAllTopic(..))")
-  public void indexAllTopic() {
-  }
-
-  @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.indexTopic(..))")
-  public void indexTopic() {
-  }
-
-  @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.deleteTopicIndex(..))")
-  public void deleteTopicIndex() {
-  }
-
-  @Pointcut("execution(public * co.yiiu.pybbs.service.ITopicService.batchDeleteIndex(..))")
-  public void batchDeleteIndex() {
-  }
-
 }

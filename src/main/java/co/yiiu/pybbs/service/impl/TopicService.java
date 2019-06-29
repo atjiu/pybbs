@@ -50,6 +50,8 @@ public class TopicService implements ITopicService {
   private IUserService userService;
   @Autowired
   private INotificationService notificationService;
+  @Autowired
+  private IndexedService indexedService;
 
   @Override
   public MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword) {
@@ -105,7 +107,7 @@ public class TopicService implements ITopicService {
     topic.setUserId(user.getId());
     topic.setTop(false);
     topic.setGood(false);
-    topic.setView(0);
+    topic.setView(1);
     topic.setCollectCount(0);
     topic.setCommentCount(0);
     topicMapper.insert(topic);
@@ -121,7 +123,7 @@ public class TopicService implements ITopicService {
       topicTagService.insertTopicTag(topic.getId(), tagList);
     }
     // 索引话题
-    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    indexedService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return topic;
   }
 
@@ -163,7 +165,7 @@ public class TopicService implements ITopicService {
       }
     }
     // 索引话题
-    indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
+    indexedService.indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
   }
 
   // 删除话题
@@ -187,7 +189,7 @@ public class TopicService implements ITopicService {
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
     // 删除索引
-    this.deleteTopicIndex(String.valueOf(topic.getId()));
+    indexedService.deleteTopicIndex(String.valueOf(topic.getId()));
     // 最后删除话题
     topicMapper.deleteById(id);
   }
@@ -200,32 +202,12 @@ public class TopicService implements ITopicService {
     List<Topic> topics = topicMapper.selectList(wrapper);
     topics.forEach(topic -> {
       // 删除索引
-      this.deleteTopicIndex(String.valueOf(topic.getId()));
+      indexedService.deleteTopicIndex(String.valueOf(topic.getId()));
     });
     //删除话题
     topicMapper.delete(wrapper);
   }
 
-  // 索引全部话题
-  @Override
-  public void indexAllTopic() {
-
-  }
-
-  // 索引话题
-  @Override
-  public void indexTopic(String id, String title, String content) {
-  }
-
-  // 删除话题索引
-  @Override
-  public void deleteTopicIndex(String id) {
-  }
-
-  // 删除所有话题索引
-  @Override
-  public void batchDeleteIndex() {
-  }
   // ---------------------------- admin ----------------------------
 
   @Override

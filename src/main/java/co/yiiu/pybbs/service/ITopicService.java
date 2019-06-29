@@ -47,18 +47,6 @@ public interface ITopicService {
   // 根据用户id删除帖子
   void deleteByUserId(Integer userId);
 
-  // 索引全部话题
-  void indexAllTopic();
-
-  // 索引话题
-  void indexTopic(String id, String title, String content);
-
-  // 删除话题索引
-  void deleteTopicIndex(String id);
-
-  // 删除所有话题索引
-  void batchDeleteIndex();
-
   MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username);
 
   // 查询今天新增的话题数

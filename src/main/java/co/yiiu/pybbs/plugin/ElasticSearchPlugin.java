@@ -36,7 +36,7 @@ public class ElasticSearchPlugin {
     return elasticSearchService.searchDocument((Integer) args[0], (Integer) args[1], (String) args[2], "title", "content");
   }
 
-  @After("co.yiiu.pybbs.hook.TopicServiceHook.indexAllTopic()")
+  @After("co.yiiu.pybbs.hook.IndexedServiceHook.indexAllTopic()")
   public void indexAllTopic() {
     if (elasticSearchService.instance() != null) {
       List<Topic> topics = topicMapper.selectList(null);
@@ -51,7 +51,7 @@ public class ElasticSearchPlugin {
     }
   }
 
-  @After("co.yiiu.pybbs.hook.TopicServiceHook.indexTopic()")
+  @After("co.yiiu.pybbs.hook.IndexedServiceHook.indexTopic()")
   public void indexTopic(JoinPoint joinPoint) {
     if (elasticSearchService.instance() != null) {
       Object[] args = joinPoint.getArgs();
@@ -62,14 +62,14 @@ public class ElasticSearchPlugin {
     }
   }
 
-  @After("co.yiiu.pybbs.hook.TopicServiceHook.deleteTopicIndex()")
+  @After("co.yiiu.pybbs.hook.IndexedServiceHook.deleteTopicIndex()")
   public void deleteTopicIndex(JoinPoint joinPoint) {
     if (elasticSearchService.instance() != null) {
       elasticSearchService.deleteDocument("topic", (String) joinPoint.getArgs()[0]);
     }
   }
 
-  @After("co.yiiu.pybbs.hook.TopicServiceHook.batchDeleteIndex()")
+  @After("co.yiiu.pybbs.hook.IndexedServiceHook.batchDeleteIndex()")
   public void batchDeleteIndex(JoinPoint joinPoint) {
     if (elasticSearchService.instance() != null) {
       List<Topic> topics = topicMapper.selectList(null);
