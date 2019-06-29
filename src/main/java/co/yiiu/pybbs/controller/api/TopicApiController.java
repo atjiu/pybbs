@@ -83,6 +83,7 @@ public class TopicApiController extends BaseApiController {
     ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
     String title = body.get("title");
     String content = body.get("content");
+    String tag = body.get("tag");
     //    String tags = body.get("tags");
     ApiAssert.notEmpty(title, "请输入标题");
     ApiAssert.isNull(topicService.selectByTitle(title), "话题标题重复");
@@ -92,7 +93,7 @@ public class TopicApiController extends BaseApiController {
     // 保存话题
     // 再次将tag转成逗号隔开的字符串
     //    tags = StringUtils.collectionToCommaDelimitedString(set);
-    Topic topic = topicService.insert(title, content, null, user, session);
+    Topic topic = topicService.insert(title, content, tag, user, session);
     topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
     return success(topic);
   }

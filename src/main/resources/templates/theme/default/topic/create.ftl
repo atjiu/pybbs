@@ -21,6 +21,7 @@
                 <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
                        placeholder="标签, 多个标签以 英文逗号 隔开"/>
               </div>-->
+            <input type="hidden" name="tag" id="tag" value="${tag!}"/>
             <div class="form-group">
               <button type="button" id="btn" class="btn btn-info">发布话题</button>
             </div>
@@ -53,6 +54,7 @@
 
       $("#btn").click(function () {
         var title = $("#title").val();
+        var tag = $("#tag").val();
         var content = window.editor.getDoc().getValue();
         // var tags = $("#tags").val();
         if (!title || title.length > 120) {
@@ -78,6 +80,7 @@
           data: JSON.stringify({
             title: title,
             content: content,
+            tag: tag,
             // tags: tags,
           }),
           success: function (data) {
