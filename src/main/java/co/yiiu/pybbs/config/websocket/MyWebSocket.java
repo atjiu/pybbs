@@ -14,6 +14,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by tomoya.
@@ -27,21 +28,21 @@ public class MyWebSocket {
   private static Logger log = LoggerFactory.getLogger(MyWebSocket.class);
 
   //在线人数
-  private static int online = 0;
+  private static AtomicInteger online = new AtomicInteger(0);
   //所有的对象，用于群发
   public static Map<Session, UserWithWebSocketVO> webSockets = new ConcurrentHashMap<>();
 
   //建立连接
   @OnOpen
   public void onOpen(Session session) {
-    online++;
+    online.incrementAndGet();
     webSockets.put(session, new UserWithWebSocketVO());
   }
 
   //连接关闭
   @OnClose
   public void onClose(Session session) {
-    online--;
+    online.decrementAndGet();
     webSockets.remove(session);
   }
 
