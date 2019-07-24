@@ -36,7 +36,7 @@
         </div>
       </div>
         <#if topic?has_next>
-          <div class="divide mt-2 mb-2"></div>
+          <div class="divide mt-3 mb-3"></div>
         </#if>
     </#list>
 </#macro>

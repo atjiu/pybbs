@@ -6,7 +6,7 @@
     <#local endPage = currentPage + 2>
     <#if (endPage > totalPage)><#local endPage = totalPage></#if>
     <#if totalPage &gt; 1 && showdivide == "yes">
-      <div class="divide mt-2 mb-2"></div>
+      <div class="divide mt-3 mb-3"></div>
     </#if>
   <nav class="Page navigation">
     <ul class="pagination mb-0 <#if totalPage == 1>d-none</#if>">

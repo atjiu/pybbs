@@ -3,6 +3,10 @@ body {
   background-color: #fff;
 }
 
+a, a:hover {
+  color: #333;
+}
+
 .CodeMirror {
   font-family: "Microsoft YaHei UI", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   border: 1px solid #ddd;
@@ -18,8 +22,9 @@ body {
 }
 
 .title {
+  font-size: 1.1rem;
   font-weight: 500;
-  padding-bottom: 5px
+  padding-bottom: .5rem;
 }
 
 .title a:visited {
@@ -34,19 +39,23 @@ body {
 
 .avatar {
   border-radius: 4px;
+  width: 48px;
   max-width: 48px;
   vertical-align: middle;
 }
 
 .avatar-sm {
+  width: 24px;
   max-width: 24px;
 }
 
 .avatar-lg {
+  width: 64px;
   max-width: 64px;
 }
 
 .gray {
+  font-size: .9rem;
   color: #999
 }
 
@@ -199,4 +208,16 @@ body {
     padding: 10px 15px;
   }
 
+}
+
+.comments .media {
+  margin-top: 1rem;
+}
+
+.comments .media:first-child {
+  margin-top: 0;
+}
+
+.welcome p:last-child {
+  margin-bottom: 0;
 }
