@@ -108,7 +108,7 @@ public class TopicApiController extends BaseApiController {
     // 更新话题
     Topic topic = topicService.selectById(id);
     ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限修改别人的话题的？");
-    topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
+    topic.setTitle(Jsoup.clean(title, Whitelist.none().addTags("video")));
     topic.setContent(content);
     topic.setModifyTime(new Date());
     topicService.update(topic, null);

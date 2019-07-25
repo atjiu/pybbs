@@ -166,11 +166,16 @@ public class IndexApiController extends BaseApiController {
   @ResponseBody
   public Result upload(@RequestParam("file") MultipartFile file, String type, HttpSession session) {
     User user = getApiUser();
-    ApiAssert.notEmpty(type, "上传图片类型不能为空");
+    ApiAssert.notEmpty(type, "上传文件类型不能为空");
     long size = file.getSize();
-    int uploadAvatarSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get
-        ("upload_avatar_size_limit").toString());
-    if (size > uploadAvatarSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadAvatarSizeLimit + "MB 以内");
+    // 根据不同上传类型，对文件大小做校验
+    if (type.equalsIgnoreCase("video")) {
+      int uploadVideoSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_video_size_limit").toString());
+      if (size > uploadVideoSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadVideoSizeLimit + "MB 以内");
+    } else {
+      int uploadImageSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_image_size_limit").toString());
+      if (size > uploadImageSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadImageSizeLimit + "MB 以内");
+    }
     String url;
     if (type.equalsIgnoreCase("avatar")) { // 上传头像
       // 拿到上传后访问的url
@@ -186,6 +191,8 @@ public class IndexApiController extends BaseApiController {
       }
     } else if (type.equalsIgnoreCase("topic")) { // 发帖上传图片
       url = fileUtil.upload(file, null, "topic/" + user.getUsername());
+    } else if (type.equalsIgnoreCase("video")) { // 视频上传
+      url = fileUtil.upload(file, null, "video/" + user.getUsername());
     } else {
       return error("上传图片类型不在处理范围内");
     }

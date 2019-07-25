@@ -13,6 +13,11 @@ spring:
     template-loader-path: ["classpath:/templates/", "file:./templates/"]
   messages:
     basename: i18n/message
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
 
 #  resources:
 #    static-locations: ["classpath:static/", "file:./static/"]

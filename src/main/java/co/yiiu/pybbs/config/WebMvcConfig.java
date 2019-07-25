@@ -2,6 +2,7 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.interceptor.CommonInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
+import co.yiiu.pybbs.service.impl.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
   private CommonInterceptor commonInterceptor;
   @Autowired
   private UserInterceptor userInterceptor;
+  @Autowired
+  private SystemConfigService systemConfigService;
 
   @Override
   protected void addCorsMappings(CorsRegistry registry) {
