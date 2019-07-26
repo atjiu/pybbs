@@ -642,6 +642,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="sect2">
 <h3 id="发帖或者评论有emoji时提交失败"><a class="anchor" href="#发帖或者评论有emoji时提交失败"></a>发帖或者评论有emoji时提交失败</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+错误信息: <code><mark>#</mark> Error updating database. Cause: java.sql.SQLException: Incorrect string value: '\xF0\x9F\x98\x82' for column 'content' at row 1</code>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>mysql默认不支持emoji，要手动配置一下，让它支持就可以了，方法如下</p>
 </div>
@@ -670,7 +682,7 @@ init_connect='SET NAMES utf8mb4'</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-26 12:58:43 +08:00
+Last updated 2019-07-26 13:05:53 +08:00
 </div>
 </div>
 </body>
