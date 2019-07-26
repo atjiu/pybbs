@@ -640,10 +640,37 @@ table.CodeRay td.code>pre{padding:0}
 <p>如果你非要支持auth选项，可以自行修改源码，源码类名是 <code>RedisService.java</code></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="发帖或者评论有emoji时提交失败"><a class="anchor" href="#发帖或者评论有emoji时提交失败"></a>发帖或者评论有emoji时提交失败</h3>
+<div class="paragraph">
+<p>mysql默认不支持emoji，要手动配置一下，让它支持就可以了，方法如下</p>
+</div>
+<div class="paragraph">
+<p>修改mysql的配置文件，ubuntu的配置文件在 <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code>，其它系统的配置文件自己找一下</p>
+</div>
+<div class="paragraph">
+<p>打开找到 [mysqld] 在下面加上</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="conf">[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init_connect='SET NAMES utf8mb4'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>加好后保存，然后重启mysql服务</p>
+</div>
+<div class="paragraph">
+<p>接着把pybbs的表内字段有可能会出现emoji的字段的编码都改成 <code>utf8mb4_unicode_ci</code> 这个类型，再发帖就没问题了</p>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-25 11:34:52 +08:00
+Last updated 2019-07-26 12:58:43 +08:00
 </div>
 </div>
 </body>
