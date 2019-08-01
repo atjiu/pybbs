@@ -5,7 +5,10 @@
       <div class="card">
         <div class="card-header">
           <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
-          <a href="javascript:;" id="uploadImageBtn" class="pull-right">上传图片</a>
+          <span class="pull-right">
+            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
+            <a href="javascript:uploadFile('video');">上传视频</a>
+          </span>
         </div>
         <textarea name="content" id="content" class="form-control">${comment.content?html}</textarea>
         <div class="card-body">

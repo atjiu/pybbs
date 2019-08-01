@@ -77,7 +77,8 @@
             <div class="card-header">
               添加一条新评论
               <span class="pull-right">
-            <a href="javascript:;" id="uploadImageBtn">上传图片</a>&nbsp;|
+            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
+            <a href="javascript:uploadFile('video');">上传视频</a>&nbsp;|
             <a href="javascript:;" id="goTop">回到顶部</a>
           </span>
             </div>
@@ -93,7 +94,7 @@
           <script src="/static/theme/default/js/codemirror.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
           <script
-              src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
+                  src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
           <style>
             .CodeMirror {
               border-top: 0;

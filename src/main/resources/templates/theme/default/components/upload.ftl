@@ -30,12 +30,12 @@
         if (data.code === 200) {
           suc("上传成功");
           var oldContent = window.editor.getDoc().getValue();
-          if (oldContent) oldContent += '\n\n';
+          // if (oldContent) oldContent += '\n\n';
           var insertContent = "";
           if (type === "topic") {
-            insertContent = "![image](" + data.detail + ")"
+            insertContent = "![image](" + data.detail + ")\n\n"
           } else if (type === "video") {
-            insertContent = "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + data.detail + "' type='video/mp4'></video>";
+            insertContent = "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + data.detail + "' type='video/mp4'></video>\n\n";
           }
           window.editor.getDoc().setValue(oldContent + insertContent);
           window.editor.focus();

@@ -16,14 +16,14 @@
                   </#if>
               </div>
                 <#if notification.content??>
-                  <div class="payload">
+                  <div class="payload mt-3">
                       ${model.formatContent(notification.content)}
                   </div>
                 </#if>
             </div>
           </div>
             <#if notification_has_next>
-              <div class="divide"></div>
+              <div class="divide mt-3 mb-3"></div>
             </#if>
         </#list>
     </@tag_notifications>

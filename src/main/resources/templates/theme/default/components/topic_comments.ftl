@@ -34,9 +34,9 @@
                             <#if _user??>
                                 <#if _user.id == comment.userId>
                                   <a href="/comment/edit/${comment.id}"><span
-                                            class="glyphicon glyphicon-edit"></span></a>
+                                            class="fa fa-pencil-square-o"></span></a>
                                   <a href="javascript:;" onclick="deleteComment(${comment.id})">
-                                    <span class="glyphicon glyphicon-trash"></span>
+                                    <span class="fa fa-trash-o"></span>
                                   </a>
                                 </#if>
                               <i class="fa fa-reply" onclick="commentThis('${comment.username}', '${comment.id}')"></i>
