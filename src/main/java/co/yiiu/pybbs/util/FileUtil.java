@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.util;
 
+import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by tomoya.
@@ -41,6 +43,7 @@ public class FileUtil {
 
       if (StringUtils.isEmpty(fileName)) fileName = StringUtil.uuid();
       String suffix = "." + file.getContentType().split("/")[1];
+      ApiAssert.isTrue(Arrays.asList(".jpg", ".png", ".gif", ".jpeg", ".mp4").contains(suffix.toLowerCase()), "文件格式不正确");
       // 如果存放目录不存在，则创建
       File savePath = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + customPath);
       if (!savePath.exists()) savePath.mkdirs();

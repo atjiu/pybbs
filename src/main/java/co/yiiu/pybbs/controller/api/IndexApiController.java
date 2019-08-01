@@ -166,6 +166,7 @@ public class IndexApiController extends BaseApiController {
   @ResponseBody
   public Result upload(@RequestParam("file") MultipartFile file, String type, HttpSession session) {
     User user = getApiUser();
+    ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
     ApiAssert.notEmpty(type, "上传文件类型不能为空");
     long size = file.getSize();
     // 根据不同上传类型，对文件大小做校验
