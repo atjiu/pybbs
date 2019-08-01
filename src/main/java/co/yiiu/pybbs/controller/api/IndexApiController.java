@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tomoya.
@@ -164,40 +163,64 @@ public class IndexApiController extends BaseApiController {
   // 上传图片
   @PostMapping("/upload")
   @ResponseBody
-  public Result upload(@RequestParam("file") MultipartFile file, String type, HttpSession session) {
+  public Result upload(@RequestParam("file") MultipartFile[] files, String type, HttpSession session) {
     User user = getApiUser();
     ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
     ApiAssert.notEmpty(type, "上传文件类型不能为空");
-    long size = file.getSize();
-    // 根据不同上传类型，对文件大小做校验
-    if (type.equalsIgnoreCase("video")) {
-      int uploadVideoSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_video_size_limit").toString());
-      if (size > uploadVideoSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadVideoSizeLimit + "MB 以内");
-    } else {
-      int uploadImageSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_image_size_limit").toString());
-      if (size > uploadImageSizeLimit * 1024 * 1024) return error("文件太大了，请上传文件大小在 " + uploadImageSizeLimit + "MB 以内");
-    }
-    String url;
-    if (type.equalsIgnoreCase("avatar")) { // 上传头像
-      // 拿到上传后访问的url
-      url = fileUtil.upload(file, "avatar", "avatar/" + user.getUsername());
-      if (url != null) {
-        // 查询当前用户的最新信息
-        User user1 = userService.selectById(user.getId());
-        user1.setAvatar(url);
-        // 保存用户新的头像
-        userService.update(user1);
-        // 将最新的用户信息更新在session里
-        if (session != null) session.setAttribute("_user", user1);
+    Map<String, Object> map = new HashMap<>();
+    List<String> urls = new ArrayList<>();
+    List<String> errors = new ArrayList<>();
+    for (int i = 0; i < files.length; i++) {
+      MultipartFile file = files[i];
+      String suffix = "." + file.getContentType().split("/")[1];
+      if (!Arrays.asList(".jpg", ".png", ".gif", ".jpeg", ".mp4").contains(suffix.toLowerCase())) {
+        errors.add("第[" + (i + 1) + "]个文件异常: " + "文件格式不正确");
+        continue;
       }
-    } else if (type.equalsIgnoreCase("topic")) { // 发帖上传图片
-      url = fileUtil.upload(file, null, "topic/" + user.getUsername());
-    } else if (type.equalsIgnoreCase("video")) { // 视频上传
-      url = fileUtil.upload(file, null, "video/" + user.getUsername());
-    } else {
-      return error("上传图片类型不在处理范围内");
+      long size = file.getSize();
+      // 根据不同上传类型，对文件大小做校验
+      if (type.equalsIgnoreCase("video")) {
+        int uploadVideoSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_video_size_limit").toString());
+        if (size > uploadVideoSizeLimit * 1024 * 1024) {
+          errors.add("第[" + (i + 1) + "]个文件异常: " + "文件太大了，请上传文件大小在 " + uploadVideoSizeLimit + "MB 以内");
+          continue;
+        }
+      } else {
+        int uploadImageSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_image_size_limit").toString());
+        if (size > uploadImageSizeLimit * 1024 * 1024) {
+          errors.add("第[" + (i + 1) + "]个文件异常: " + "文件太大了，请上传文件大小在 " + uploadImageSizeLimit + "MB 以内");
+          continue;
+        }
+      }
+      String url = null;
+      if (type.equalsIgnoreCase("avatar")) { // 上传头像
+        // 拿到上传后访问的url
+        url = fileUtil.upload(file, "avatar", "avatar/" + user.getUsername());
+        if (url != null) {
+          // 查询当前用户的最新信息
+          User user1 = userService.selectById(user.getId());
+          user1.setAvatar(url);
+          // 保存用户新的头像
+          userService.update(user1);
+          // 将最新的用户信息更新在session里
+          if (session != null) session.setAttribute("_user", user1);
+        }
+      } else if (type.equalsIgnoreCase("topic")) { // 发帖上传图片
+        url = fileUtil.upload(file, null, "topic/" + user.getUsername());
+      } else if (type.equalsIgnoreCase("video")) { // 视频上传
+        url = fileUtil.upload(file, null, "video/" + user.getUsername());
+      } else {
+        errors.add("第[" + (i + 1) + "]个文件异常: " + "上传图片类型不在处理范围内");
+        continue;
+      }
+      if (url == null) {
+        errors.add("第[" + (i + 1) + "]个文件异常: " + "上传的文件不存在或者上传过程发生了错误");
+        continue;
+      }
+      urls.add(url);
     }
-    if (url == null) return error("上传的文件不存在或者上传过程发生了错误，请重试一下");
-    return success(url);
+    map.put("urls", urls);
+    map.put("errors", errors);
+    return success(map);
   }
 }
