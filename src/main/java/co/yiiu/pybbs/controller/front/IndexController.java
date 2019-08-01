@@ -7,10 +7,7 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -120,32 +115,32 @@ public class IndexController extends BaseController {
   }
 
   // 处理后台登录逻辑
-  @PostMapping("/adminlogin")
-  public String adminlogin(String username, String password, String code, HttpSession session, @RequestParam
-      (defaultValue = "0") Boolean rememberMe, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-    String captcha = (String) session.getAttribute("_captcha");
-    if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
-      redirectAttributes.addFlashAttribute("error", "验证码不正确");
-    } else {
-      try {
-        // 添加用户认证信息
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.isAuthenticated()) {
-          UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-          //进行验证，这里可以捕获异常，然后返回对应信息
-          subject.login(token);
-        }
-      } catch (AuthenticationException e) {
-        log.error(e.getMessage());
-        redirectAttributes.addFlashAttribute("error", "用户名或密码错误");
-        redirectAttributes.addFlashAttribute("username", username);
-        return redirect("/adminlogin");
-      }
-    }
-    String url = WebUtils.getSavedRequest(request) == null ? "/admin/index" : WebUtils.getSavedRequest(request)
-        .getRequestUrl();
-    return redirect(url);
-  }
+//  @PostMapping("/adminlogin")
+//  public String adminlogin(String username, String password, String code, HttpSession session, @RequestParam
+//      (defaultValue = "0") Boolean rememberMe, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+//    String captcha = (String) session.getAttribute("_captcha");
+//    if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
+//      redirectAttributes.addFlashAttribute("error", "验证码不正确");
+//    } else {
+//      try {
+//        // 添加用户认证信息
+//        Subject subject = SecurityUtils.getSubject();
+//        if (!subject.isAuthenticated()) {
+//          UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+//          //进行验证，这里可以捕获异常，然后返回对应信息
+//          subject.login(token);
+//        }
+//      } catch (AuthenticationException e) {
+//        log.error(e.getMessage());
+//        redirectAttributes.addFlashAttribute("error", "用户名或密码错误");
+//        redirectAttributes.addFlashAttribute("username", username);
+//        return redirect("/adminlogin");
+//      }
+//    }
+//    String url = WebUtils.getSavedRequest(request) == null ? "/admin/index" : WebUtils.getSavedRequest(request)
+//        .getRequestUrl();
+//    return redirect(url);
+//  }
 
   @GetMapping("/search")
   public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {

@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
+import co.yiiu.pybbs.config.realm.MyShiroFilter;
 import co.yiiu.pybbs.config.realm.MyShiroRealm;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.apache.shiro.codec.Base64;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,11 @@ public class ShiroConfig {
     log.info("开始配置shiroFilter...");
     ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
     shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+    Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+    filterMap.put("myShiroFilter", new MyShiroFilter());
+    shiroFilterFactoryBean.setFilters(filterMap);
+
     //拦截器.
     Map<String, String> map = new HashMap<>();
     // 配置不会被拦截的链接 顺序判断  相关静态资源
@@ -56,6 +63,7 @@ public class ShiroConfig {
 
     //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
     map.put("/admin/**", "authc");
+    map.put("/adminlogin", "myShiroFilter");
     // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
     shiroFilterFactoryBean.setLoginUrl("/adminlogin");
     // 登录成功后要跳转的链接
@@ -91,8 +99,8 @@ public class ShiroConfig {
   //加入注解的使用，不加入这个注解不生效
   @Bean
   public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")
-                                                                                       SecurityManager
-                                                                                       securityManager) {
+                                                                                     SecurityManager
+                                                                                     securityManager) {
     AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
     authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
     return authorizationAttributeSourceAdvisor;
