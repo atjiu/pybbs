@@ -884,7 +884,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>token</p>
 </li>
 <li>
-<p>file: 上传图片的文件对象</p>
+<p>file: 上传图片的文件对象，支持多个文件, 多个文件就在formData里多次添加 <code>formData.append("file", file);</code></p>
 </li>
 <li>
 <p>type: 上传图片的类型，如果上传头像请填 <code>avatar</code>，如果是发帖上传图片请填 <code>topic</code>，如果是视频请填 <code>video</code></p>
@@ -902,7 +902,10 @@ table.CodeRay td.code>pre{padding:0}
 <pre class="CodeRay highlight"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">code</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">SUCCESS</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/static/upload/avatar/tomoya/avatar.png</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">errors</span><span class="delimiter">&quot;</span></span>: [],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">urls</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/static/upload/avatar/tomoya/avatar.png</span><span class="delimiter">&quot;</span></span>]
+  }
 }</code></pre>
 </div>
 </div>
@@ -2215,7 +2218,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-25 11:19:30 +08:00
+Last updated 2019-08-01 20:50:28 +08:00
 </div>
 </div>
 </body>

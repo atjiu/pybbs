@@ -508,7 +508,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">朋也</span><br>
 <span id="email" class="email">&lt;<a href="mailto:py2qiuse@gmail.com">py2qiuse@gmail.com</a>&gt;</span><br>
-<span id="revdate">2019-07-25</span>
+<span id="revdate">2019-07-27</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -2991,7 +2991,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>token</p>
 </li>
 <li>
-<p>file: 上传图片的文件对象</p>
+<p>file: 上传图片的文件对象，支持多个文件, 多个文件就在formData里多次添加 <code>formData.append("file", file);</code></p>
 </li>
 <li>
 <p>type: 上传图片的类型，如果上传头像请填 <code>avatar</code>，如果是发帖上传图片请填 <code>topic</code>，如果是视频请填 <code>video</code></p>
@@ -3009,7 +3009,10 @@ table.CodeRay td.code>pre{padding:0}
 <pre class="CodeRay highlight"><code data-lang="json">{
   <span class="key"><span class="delimiter">&quot;</span><span class="content">code</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">SUCCESS</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/static/upload/avatar/tomoya/avatar.png</span><span class="delimiter">&quot;</span></span>
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">errors</span><span class="delimiter">&quot;</span></span>: [],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">urls</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/static/upload/avatar/tomoya/avatar.png</span><span class="delimiter">&quot;</span></span>]
+  }
 }</code></pre>
 </div>
 </div>
@@ -4461,6 +4464,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="sect2">
 <h3 id="发帖或者评论有emoji时提交失败"><a class="anchor" href="#发帖或者评论有emoji时提交失败"></a>发帖或者评论有emoji时提交失败</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+错误信息: <code>### Error updating database. Cause: java.sql.SQLException: Incorrect string value: '\xF0\x9F\x98\x82' for column 'content' at row 1</code>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>mysql默认不支持emoji，要手动配置一下，让它支持就可以了，方法如下</p>
 </div>
@@ -4491,7 +4506,7 @@ init_connect='SET NAMES utf8mb4'</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-25 11:25:55 +08:00
+Last updated 2019-07-27 22:42:08 +08:00
 </div>
 </div>
 </body>
