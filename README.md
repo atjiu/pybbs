@@ -96,7 +96,7 @@ mvn clean package
 ![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png)
 ![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png)
 
-**如果觉得这个项目对你有帮助，欢迎捐赠！**
+**如果觉得这个项目对你有帮助，欢迎捐赠！** [捐赠列表](https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0)
 
 ## License
 
