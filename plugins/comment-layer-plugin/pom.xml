@@ -13,6 +13,7 @@
       <groupId>co.yiiu</groupId>
       <artifactId>pybbs</artifactId>
       <version>5.2.1</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
