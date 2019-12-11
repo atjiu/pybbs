@@ -2,51 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.pybbs.mapper.CommentMapper">
 
-  <!--<resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.Topic">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-  </resultMap>-->
+    <!--<resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.Topic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+    </resultMap>-->
 
-  <!-- 通用查询结果列
-  <sql id="Base_Column_List">
-      test_id AS testId, name, age, test_type AS testType, role, phone
-  </sql>-->
+    <!-- 通用查询结果列
+    <sql id="Base_Column_List">
+        test_id AS testId, name, age, test_type AS testType, role, phone
+    </sql>-->
 
-  <select id="selectByUserId" resultType="map">
-    select c.*, u.username as topicUsername, uu.username as commentUsername, t.title, t.id as topicId
-    from comment c
-    left join topic t on t.id = c.topic_id
-    left join user u on t.user_id = u.id
-    left join user uu on c.user_id = uu.id
-    where c.user_id = #{userId}
-    order by t.in_time desc
-  </select>
+    <select id="selectByUserId" resultType="map">
+        select c.*, u.username as topicUsername, uu.username as commentUsername, t.title, t.id as topicId
+        from comment c
+                 left join topic t on t.id = c.topic_id
+                 left join user u on t.user_id = u.id
+                 left join user uu on c.user_id = uu.id
+        where c.user_id = #{userId}
+        order by t.in_time desc
+    </select>
 
-  <select id="selectByTopicId" resultType="co.yiiu.pybbs.model.vo.CommentsByTopic">
-    select c.*, u.username, u.avatar, 0 as layer
-    from comment c
-    left join user u on c.user_id = u.id
-    where c.topic_id = #{topicId}
-    order by c.in_time asc;
-  </select>
+    <select id="selectByTopicId" resultType="co.yiiu.pybbs.model.vo.CommentsByTopic">
+        select c.*, u.username, u.avatar, 0 as layer
+        from comment c
+                 left join user u on c.user_id = u.id
+        where c.topic_id = #{topicId}
+        order by c.in_time asc;
+    </select>
 
-  <select id="selectAllForAdmin" resultType="map">
-    select c.*, t.title, t.id as topicId, u.username
-    from comment c
-    left join topic t on c.topic_id = t.id
-    left join user u on u.id = c.user_id
-    <where>
-      <if test="startDate != null and endDate != null">
-        c.in_time between #{startDate} and #{endDate}
-      </if>
-      <if test="username != null">
-        and u.username = #{username}
-      </if>
-    </where>
-    order by c.in_time desc
-  </select>
+    <select id="selectAllForAdmin" resultType="map">
+        select c.*, t.title, t.id as topicId, u.username
+        from comment c
+        left join topic t on c.topic_id = t.id
+        left join user u on u.id = c.user_id
+        <where>
+            <if test="startDate != null and endDate != null">
+                c.in_time between #{startDate} and #{endDate}
+            </if>
+            <if test="username != null">
+                and u.username = #{username}
+            </if>
+        </where>
+        order by c.in_time desc
+    </select>
 
-  <select id="countToday" resultType="integer">
-    select count(1) from comment where to_days(in_time) = to_days(now());
-  </select>
+    <select id="countToday" resultType="integer">
+        select count(1)
+        from comment
+        where to_days(in_time) = to_days(now());
+    </select>
 
 </mapper>

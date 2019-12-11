@@ -22,61 +22,61 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/user")
 public class UserAdminController extends BaseAdminController {
 
-  @Autowired
-  private IUserService userService;
+    @Autowired
+    private IUserService userService;
 
-  // 前台用户管理
-  @RequiresPermissions("user:list")
-  @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, Model model) {
-    IPage<User> iPage = userService.selectAll(pageNo, username);
-    model.addAttribute("page", iPage);
-    model.addAttribute("username", username);
-    return "admin/user/list";
-  }
-
-  // 编辑用户
-  @RequiresPermissions("user:edit")
-  @GetMapping("/edit")
-  public String edit(Integer id, Model model) {
-    model.addAttribute("user", userService.selectById(id));
-    return "admin/user/edit";
-  }
-
-  // 保存编辑后的用户信息
-  @RequiresPermissions("user:edit")
-  @PostMapping("/edit")
-  @ResponseBody
-  public Result update(User user) {
-    // 如果密码不为空，给加密一下再保存
-    if (!StringUtils.isEmpty(user.getPassword())) {
-      user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-    } else {
-      user.setPassword(null);
+    // 前台用户管理
+    @RequiresPermissions("user:list")
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, Model model) {
+        IPage<User> iPage = userService.selectAll(pageNo, username);
+        model.addAttribute("page", iPage);
+        model.addAttribute("username", username);
+        return "admin/user/list";
     }
-    // 如果邮件接收通知没有勾选，user对象里的属性就是null，手动设置成false
-    if (user.getEmailNotification() == null) user.setEmailNotification(false);
-    userService.update(user);
-    return success();
-  }
 
-  // 删除用户
-  @RequiresPermissions("user:delete")
-  @GetMapping("/delete")
-  @ResponseBody
-  public Result delete(Integer id) {
-    userService.deleteUser(id);
-    return success();
-  }
+    // 编辑用户
+    @RequiresPermissions("user:edit")
+    @GetMapping("/edit")
+    public String edit(Integer id, Model model) {
+        model.addAttribute("user", userService.selectById(id));
+        return "admin/user/edit";
+    }
 
-  // 刷新token
-  @RequiresPermissions("user:refresh_token")
-  @GetMapping("/refreshToken")
-  @ResponseBody
-  public Result refreshToken(Integer id) {
-    User user = userService.selectById(id);
-    user.setToken(StringUtil.uuid());
-    userService.update(user);
-    return success(user);
-  }
+    // 保存编辑后的用户信息
+    @RequiresPermissions("user:edit")
+    @PostMapping("/edit")
+    @ResponseBody
+    public Result update(User user) {
+        // 如果密码不为空，给加密一下再保存
+        if (!StringUtils.isEmpty(user.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        } else {
+            user.setPassword(null);
+        }
+        // 如果邮件接收通知没有勾选，user对象里的属性就是null，手动设置成false
+        if (user.getEmailNotification() == null) user.setEmailNotification(false);
+        userService.update(user);
+        return success();
+    }
+
+    // 删除用户
+    @RequiresPermissions("user:delete")
+    @GetMapping("/delete")
+    @ResponseBody
+    public Result delete(Integer id) {
+        userService.deleteUser(id);
+        return success();
+    }
+
+    // 刷新token
+    @RequiresPermissions("user:refresh_token")
+    @GetMapping("/refreshToken")
+    @ResponseBody
+    public Result refreshToken(Integer id) {
+        User user = userService.selectById(id);
+        user.setToken(StringUtil.uuid());
+        userService.update(user);
+        return success(user);
+    }
 }

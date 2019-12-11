@@ -14,5 +14,5 @@ import java.util.Map;
  */
 public interface CollectMapper extends BaseMapper<Collect> {
 
-  MyPage<Map<String, Object>> selectByUserId(MyPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
+    MyPage<Map<String, Object>> selectByUserId(MyPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
 }

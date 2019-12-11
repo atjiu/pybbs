@@ -24,63 +24,63 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-  @Autowired
-  private ISystemConfigService systemConfigService;
+    @Autowired
+    private ISystemConfigService systemConfigService;
 
-  private HttpStatus getStatus(HttpServletRequest request) {
-    Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-    if (statusCode == null) {
-      return HttpStatus.INTERNAL_SERVER_ERROR;
+    private HttpStatus getStatus(HttpServletRequest request) {
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        if (statusCode == null) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return HttpStatus.valueOf(statusCode);
     }
-    return HttpStatus.valueOf(statusCode);
-  }
 
-  /**
-   * 错误页面统一处理
-   *
-   * @param request
-   * @param e
-   * @return
-   * @throws Exception
-   */
-  @ExceptionHandler(value = Exception.class)
-  public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e)
-      throws Exception {
-    // 当报错了，又不知道啥错的时候，把下面这行代码打开，就可以看到报错的堆信息了
-    e.printStackTrace();
-    log.error(e.getMessage());
-    if (!HttpUtil.isApiRequest(request)) {
-      response.setCharacterEncoding("utf-8");
-      ModelAndView mav = new ModelAndView();
-      mav.addObject("exception", e);
-      mav.addObject("errorCode", getStatus(request));
-      mav.setViewName("theme/" + systemConfigService.selectAllConfig().get("theme").toString() + "/error");
-      return mav;
-    } else /*if (accept.contains("application/json"))*/ {
-      Result result = new Result();
-      result.setCode(201);
-      result.setDescription(e.getMessage());
-      response.setContentType("application/json;charset=utf-8");
-      response.getWriter().write(JsonUtil.objectToJson(result));
+    /**
+     * 错误页面统一处理
+     *
+     * @param request
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @ExceptionHandler(value = Exception.class)
+    public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e)
+            throws Exception {
+        // 当报错了，又不知道啥错的时候，把下面这行代码打开，就可以看到报错的堆信息了
+        e.printStackTrace();
+        log.error(e.getMessage());
+        if (!HttpUtil.isApiRequest(request)) {
+            response.setCharacterEncoding("utf-8");
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("exception", e);
+            mav.addObject("errorCode", getStatus(request));
+            mav.setViewName("theme/" + systemConfigService.selectAllConfig().get("theme").toString() + "/error");
+            return mav;
+        } else /*if (accept.contains("application/json"))*/ {
+            Result result = new Result();
+            result.setCode(201);
+            result.setDescription(e.getMessage());
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(JsonUtil.objectToJson(result));
+        }
+        return null;
     }
-    return null;
-  }
 
-  /**
-   * 接口错误统一处理
-   *
-   * @param e
-   * @return
-   * @throws Exception
-   */
-  @ExceptionHandler(value = ApiException.class)
-  @ResponseBody
-  public Result jsonErrorHandler(ApiException e) {
-    Result result = new Result();
-    result.setCode(e.getCode());
-    result.setDescription(e.getMessage());
-    return result;
-  }
+    /**
+     * 接口错误统一处理
+     *
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @ExceptionHandler(value = ApiException.class)
+    @ResponseBody
+    public Result jsonErrorHandler(ApiException e) {
+        Result result = new Result();
+        result.setCode(e.getCode());
+        result.setDescription(e.getMessage());
+        return result;
+    }
 }

@@ -10,12 +10,12 @@ import java.util.List;
  * https://yiiu.co
  */
 public interface IOAuthUserService {
-  OAuthUser selectByTypeAndLogin(String type, String login);
+    OAuthUser selectByTypeAndLogin(String type, String login);
 
-  List<OAuthUser> selectByUserId(Integer userId);
+    List<OAuthUser> selectByUserId(Integer userId);
 
-  void addOAuthUser(Integer oauthId, String type, String login, String accessToken, String bio, String email, Integer
-      userId, String refreshToken, String unionId, String openId);
+    void addOAuthUser(Integer oauthId, String type, String login, String accessToken, String bio, String email, Integer
+            userId, String refreshToken, String unionId, String openId);
 
-  void update(OAuthUser oAuthUser);
+    void update(OAuthUser oAuthUser);
 }

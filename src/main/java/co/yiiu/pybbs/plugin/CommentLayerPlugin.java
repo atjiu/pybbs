@@ -20,61 +20,61 @@ import java.util.List;
 @Aspect
 public class CommentLayerPlugin {
 
-  @Autowired
-  private SystemConfigService systemConfigService;
+    @Autowired
+    private SystemConfigService systemConfigService;
 
-  @Around("co.yiiu.pybbs.hook.CommentServiceHook.selectByTopicId()")
-  public Object selectByTopicId(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-    List<CommentsByTopic> newComments =
-        (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
-    if (systemConfigService.selectAllConfig().get("comment_layer").equals("1")) {
-      // 盖楼显示评论
-      return this.sortByLayer(newComments);
+    @Around("co.yiiu.pybbs.hook.CommentServiceHook.selectByTopicId()")
+    public Object selectByTopicId(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        List<CommentsByTopic> newComments =
+                (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
+        if (systemConfigService.selectAllConfig().get("comment_layer").equals("1")) {
+            // 盖楼显示评论
+            return this.sortByLayer(newComments);
+        }
+        return newComments;
     }
-    return newComments;
-  }
 
-  // 从列表里查找指定值的下标
-  private int findLastIndex(List<CommentsByTopic> newComments, String key, Integer value) {
-    int index = -1;
-    for (int i = 0; i < newComments.size(); i++) {
-      if (key.equals("commentId")) {
-        if (value.equals(newComments.get(i).getCommentId())) {
-          index = i;
+    // 从列表里查找指定值的下标
+    private int findLastIndex(List<CommentsByTopic> newComments, String key, Integer value) {
+        int index = -1;
+        for (int i = 0; i < newComments.size(); i++) {
+            if (key.equals("commentId")) {
+                if (value.equals(newComments.get(i).getCommentId())) {
+                    index = i;
+                }
+            } else if (key.equals("id")) {
+                if (value.equals(newComments.get(i).getId())) {
+                    index = i;
+                }
+            }
         }
-      } else if (key.equals("id")) {
-        if (value.equals(newComments.get(i).getId())) {
-          index = i;
-        }
-      }
+        return index;
     }
-    return index;
-  }
 
-  // 盖楼排序
-  private List<CommentsByTopic> sortByLayer(List<CommentsByTopic> comments) {
-    List<CommentsByTopic> newComments = new ArrayList<>();
-    comments.forEach(comment -> {
-      if (comment.getCommentId() == null) {
-        newComments.add(comment);
-      } else {
-        int index = this.findLastIndex(newComments, "commentId", comment.getCommentId());
-        if (index == -1) {
-          int upIndex = this.findLastIndex(newComments, "id", comment.getCommentId());
-          if (upIndex == -1) {
-            newComments.add(comment);
-          } else {
-            int layer = newComments.get(upIndex).getLayer() + 1;
-            comment.setLayer(layer);
-            newComments.add(upIndex + 1, comment);
-          }
-        } else {
-          int layer = newComments.get(index).getLayer();
-          comment.setLayer(layer);
-          newComments.add(index + 1, comment);
-        }
-      }
-    });
-    return newComments;
-  }
+    // 盖楼排序
+    private List<CommentsByTopic> sortByLayer(List<CommentsByTopic> comments) {
+        List<CommentsByTopic> newComments = new ArrayList<>();
+        comments.forEach(comment -> {
+            if (comment.getCommentId() == null) {
+                newComments.add(comment);
+            } else {
+                int index = this.findLastIndex(newComments, "commentId", comment.getCommentId());
+                if (index == -1) {
+                    int upIndex = this.findLastIndex(newComments, "id", comment.getCommentId());
+                    if (upIndex == -1) {
+                        newComments.add(comment);
+                    } else {
+                        int layer = newComments.get(upIndex).getLayer() + 1;
+                        comment.setLayer(layer);
+                        newComments.add(upIndex + 1, comment);
+                    }
+                } else {
+                    int layer = newComments.get(index).getLayer();
+                    comment.setLayer(layer);
+                    newComments.add(index + 1, comment);
+                }
+            }
+        });
+        return newComments;
+    }
 }

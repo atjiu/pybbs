@@ -17,23 +17,23 @@ import java.util.Objects;
  */
 public class BaseController {
 
-  @Autowired
-  private ISystemConfigService systemConfigService;
+    @Autowired
+    private ISystemConfigService systemConfigService;
 
-  protected String redirect(String path) {
-    return "redirect:" + path;
-  }
+    protected String redirect(String path) {
+        return "redirect:" + path;
+    }
 
-  protected User getUser() {
-    HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
-        .getRequestAttributes())).getRequest();
-    HttpSession session = request.getSession();
-    return (User) session.getAttribute("_user");
-  }
+    protected User getUser() {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+                .getRequestAttributes())).getRequest();
+        HttpSession session = request.getSession();
+        return (User) session.getAttribute("_user");
+    }
 
-  // 只针对前台页面的模板路径渲染，后台不变
-  protected String render(String path) {
-    return String.format("theme/%s/%s", systemConfigService.selectAllConfig().get("theme").toString(), path);
-  }
+    // 只针对前台页面的模板路径渲染，后台不变
+    protected String render(String path) {
+        return String.format("theme/%s/%s", systemConfigService.selectAllConfig().get("theme").toString(), path);
+    }
 
 }

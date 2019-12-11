@@ -14,9 +14,9 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @EnableWebSocket
 public class WebSocketConfig {
 
-  @Bean
-  public ServerEndpointExporter serverEndpoint() {
-    return new ServerEndpointExporter();
-  }
+    @Bean
+    public ServerEndpointExporter serverEndpoint() {
+        return new ServerEndpointExporter();
+    }
 
 }

@@ -20,21 +20,21 @@ import java.util.Map;
 @RequestMapping("/admin/system")
 public class SystemConfigAdminController extends BaseAdminController {
 
-  @Autowired
-  private ISystemConfigService systemConfigService;
+    @Autowired
+    private ISystemConfigService systemConfigService;
 
-  @RequiresPermissions("system:edit")
-  @GetMapping("/edit")
-  public String edit(Model model) {
-    model.addAttribute("systems", systemConfigService.selectAll());
-    return "admin/system/edit";
-  }
+    @RequiresPermissions("system:edit")
+    @GetMapping("/edit")
+    public String edit(Model model) {
+        model.addAttribute("systems", systemConfigService.selectAll());
+        return "admin/system/edit";
+    }
 
-  @RequiresPermissions("system:edit")
-  @PostMapping("/edit")
-  @ResponseBody
-  public Result edit(@RequestBody List<Map<String, String>> list) {
-    systemConfigService.update(list);
-    return success();
-  }
+    @RequiresPermissions("system:edit")
+    @PostMapping("/edit")
+    @ResponseBody
+    public Result edit(@RequestBody List<Map<String, String>> list) {
+        systemConfigService.update(list);
+        return success();
+    }
 }

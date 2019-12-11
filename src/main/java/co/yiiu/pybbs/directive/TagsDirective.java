@@ -19,18 +19,18 @@ import java.util.Map;
 @Component
 public class TagsDirective implements TemplateDirectiveModel {
 
-  @Autowired
-  private ITagService tagService;
+    @Autowired
+    private ITagService tagService;
 
-  @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
-      templateDirectiveBody) throws TemplateException, IOException {
-    Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
-    Integer pageSize = Integer.parseInt(map.get("pageSize").toString());
-    IPage<Tag> page = tagService.selectAll(pageNo, pageSize, null);
+    @Override
+    public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+            templateDirectiveBody) throws TemplateException, IOException {
+        Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
+        Integer pageSize = Integer.parseInt(map.get("pageSize").toString());
+        IPage<Tag> page = tagService.selectAll(pageNo, pageSize, null);
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
-    environment.setVariable("page", builder.build().wrap(page));
-    templateDirectiveBody.render(environment.getOut());
-  }
+        DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
+        environment.setVariable("page", builder.build().wrap(page));
+        templateDirectiveBody.render(environment.getOut());
+    }
 }

@@ -21,17 +21,17 @@ import java.util.Set;
 @DependsOn("mybatisPlusConfig")
 public class SensitiveWordFilterService {
 
-  @Autowired
-  private ISensitiveWordService sensitiveWordService;
+    @Autowired
+    private ISensitiveWordService sensitiveWordService;
 
-  // 初始化过滤器
-  @PostConstruct
-  public void init() {
-    List<SensitiveWord> sensitiveWords = sensitiveWordService.selectAll();
-    Set<String> sensitiveWordSet = new HashSet<>();
-    for (SensitiveWord sensitiveWord : sensitiveWords) {
-      sensitiveWordSet.add(sensitiveWord.getWord());
+    // 初始化过滤器
+    @PostConstruct
+    public void init() {
+        List<SensitiveWord> sensitiveWords = sensitiveWordService.selectAll();
+        Set<String> sensitiveWordSet = new HashSet<>();
+        for (SensitiveWord sensitiveWord : sensitiveWords) {
+            sensitiveWordSet.add(sensitiveWord.getWord());
+        }
+        SensitiveWordUtil.init(sensitiveWordSet);
     }
-    SensitiveWordUtil.init(sensitiveWordSet);
-  }
 }

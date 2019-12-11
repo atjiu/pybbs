@@ -11,21 +11,21 @@ import org.springframework.util.StringUtils;
  */
 public class JsonUtil {
 
-  // 对象转json
-  public static String objectToJson(Object object) {
-    if (object == null) return null;
-    return JSON.toJSONString(object);
-  }
+    // 对象转json
+    public static String objectToJson(Object object) {
+        if (object == null) return null;
+        return JSON.toJSONString(object);
+    }
 
-  // json转对象
-  public static <T> T jsonToObject(String json, Class<T> object) {
-    if (StringUtils.isEmpty(json)) return null;
-    return JSON.parseObject(json, object);
-  }
+    // json转对象
+    public static <T> T jsonToObject(String json, Class<T> object) {
+        if (StringUtils.isEmpty(json)) return null;
+        return JSON.parseObject(json, object);
+    }
 
-  // 带泛型的json转对象
-  public static <T> T jsonToObject(String json, TypeReference<T> type) {
-    if (StringUtils.isEmpty(json)) return null;
-    return JSON.parseObject(json, type.getType());
-  }
+    // 带泛型的json转对象
+    public static <T> T jsonToObject(String json, TypeReference<T> type) {
+        if (StringUtils.isEmpty(json)) return null;
+        return JSON.parseObject(json, type.getType());
+    }
 }

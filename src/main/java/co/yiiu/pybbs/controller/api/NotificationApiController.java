@@ -21,33 +21,33 @@ import java.util.Map;
 @RequestMapping("/api/notification")
 public class NotificationApiController extends BaseApiController {
 
-  @Autowired
-  private INotificationService notificationService;
+    @Autowired
+    private INotificationService notificationService;
 
-  @GetMapping("/notRead")
-  public Result notRead() {
-    User user = getApiUser();
-    return success(notificationService.countNotRead(user.getId()));
-  }
+    @GetMapping("/notRead")
+    public Result notRead() {
+        User user = getApiUser();
+        return success(notificationService.countNotRead(user.getId()));
+    }
 
-  @GetMapping("/markRead")
-  public Result markRead() {
-    User user = getApiUser();
-    notificationService.markRead(user.getId());
-    return success();
-  }
+    @GetMapping("/markRead")
+    public Result markRead() {
+        User user = getApiUser();
+        notificationService.markRead(user.getId());
+        return success();
+    }
 
-  // 通知列表
-  @GetMapping("/list")
-  public Result list() {
-    User user = getApiUser();
-    // 未读消息列表
-    List<Map<String, Object>> notReadNotifications = notificationService.selectByUserId(user.getId(), false, 20);
-    // 已读消息列表
-    List<Map<String, Object>> readNotifications = notificationService.selectByUserId(user.getId(), true, 20);
-    Map<String, Object> map = new HashMap<>();
-    map.put("notRead", notReadNotifications);
-    map.put("read", readNotifications);
-    return success(map);
-  }
+    // 通知列表
+    @GetMapping("/list")
+    public Result list() {
+        User user = getApiUser();
+        // 未读消息列表
+        List<Map<String, Object>> notReadNotifications = notificationService.selectByUserId(user.getId(), false, 20);
+        // 已读消息列表
+        List<Map<String, Object>> readNotifications = notificationService.selectByUserId(user.getId(), true, 20);
+        Map<String, Object> map = new HashMap<>();
+        map.put("notRead", notReadNotifications);
+        map.put("read", readNotifications);
+        return success(map);
+    }
 }

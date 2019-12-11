@@ -22,29 +22,29 @@ import javax.servlet.http.HttpSession;
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
-  @Autowired
-  private CookieUtil cookieUtil;
-  @Autowired
-  private ISystemConfigService systemConfigService;
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private CookieUtil cookieUtil;
+    @Autowired
+    private ISystemConfigService systemConfigService;
+    @Autowired
+    private UserService userService;
 
-  @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    HttpSession session = request.getSession();
-    User user = (User) session.getAttribute("_user");
-    if (user == null) {
-      String token = cookieUtil.getCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
-      if (!StringUtils.isEmpty(token)) {
-        user = userService.selectByToken(token);
-        session.setAttribute("_user", user);
-      }
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("_user");
+        if (user == null) {
+            String token = cookieUtil.getCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());
+            if (!StringUtils.isEmpty(token)) {
+                user = userService.selectByToken(token);
+                session.setAttribute("_user", user);
+            }
+        }
+        if (user == null) {
+            HttpUtil.responseWrite(request, response);
+            return false;
+        } else {
+            return true;
+        }
     }
-    if (user == null) {
-      HttpUtil.responseWrite(request, response);
-      return false;
-    } else {
-      return true;
-    }
-  }
 }

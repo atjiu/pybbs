@@ -24,55 +24,55 @@ import java.util.Properties;
 @DependsOn("mybatisPlusConfig")
 public class EmailService implements BaseService<Session> {
 
-  @Autowired
-  private ISystemConfigService systemConfigService;
+    @Autowired
+    private ISystemConfigService systemConfigService;
 
-  private Session session;
-  private Logger log = LoggerFactory.getLogger(EmailService.class);
+    private Session session;
+    private Logger log = LoggerFactory.getLogger(EmailService.class);
 
-  @Override
-  public Session instance() {
-    // 如果session已经存在了，就不执行了，直接返回对象
-    if (session != null) return session;
-    // session为空，判断系统是否配置了邮箱相关的参数，配置了继续，没配置白白
-    SystemConfig systemConfigHost = systemConfigService.selectByKey("mail_host");
-    String host = systemConfigHost.getValue();
-    SystemConfig systemConfigUsername = systemConfigService.selectByKey("mail_username");
-    String username = systemConfigUsername.getValue();
-    SystemConfig systemConfigPassword = systemConfigService.selectByKey("mail_password");
-    String password = systemConfigPassword.getValue();
-    if (StringUtils.isEmpty(host) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return null;
-    Properties properties = new Properties();
-    properties.setProperty("mail.host", host);
-    //是否进行权限验证。
-    properties.setProperty("mail.smtp.auth", "true");
-    //0.2确定权限（账号和密码）
-    Authenticator authenticator = new Authenticator() {
-      @Override
-      protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(username, password);
-      }
-    };
-    //1 获得连接
+    @Override
+    public Session instance() {
+        // 如果session已经存在了，就不执行了，直接返回对象
+        if (session != null) return session;
+        // session为空，判断系统是否配置了邮箱相关的参数，配置了继续，没配置白白
+        SystemConfig systemConfigHost = systemConfigService.selectByKey("mail_host");
+        String host = systemConfigHost.getValue();
+        SystemConfig systemConfigUsername = systemConfigService.selectByKey("mail_username");
+        String username = systemConfigUsername.getValue();
+        SystemConfig systemConfigPassword = systemConfigService.selectByKey("mail_password");
+        String password = systemConfigPassword.getValue();
+        if (StringUtils.isEmpty(host) || StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) return null;
+        Properties properties = new Properties();
+        properties.setProperty("mail.host", host);
+        //是否进行权限验证。
+        properties.setProperty("mail.smtp.auth", "true");
+        //0.2确定权限（账号和密码）
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        };
+        //1 获得连接
     /*
       props：包含配置信息的对象，Properties类型
               配置邮箱服务器地址、配置是否进行权限验证(帐号密码验证)等
       authenticator：确定权限(帐号和密码)
       所以就要在上面构建这两个对象。
      */
-    this.session = Session.getDefaultInstance(properties, authenticator);
-    return this.session;
-  }
+        this.session = Session.getDefaultInstance(properties, authenticator);
+        return this.session;
+    }
 
-  public boolean sendEmail(String email, String title, String content) {
-    // 先判断session是否初始化了，没配置直接失败
-    if (this.instance() == null) return false;
-    try {
-      //2 创建消息
-      Message message = new MimeMessage(this.session);
-      String from = systemConfigService.selectAllConfig().get("mail_username").toString();
-      // 2.1 发件人 xxx@163.com 我们自己的邮箱地址，就是名称
-      message.setFrom(new InternetAddress(from));
+    public boolean sendEmail(String email, String title, String content) {
+        // 先判断session是否初始化了，没配置直接失败
+        if (this.instance() == null) return false;
+        try {
+            //2 创建消息
+            Message message = new MimeMessage(this.session);
+            String from = systemConfigService.selectAllConfig().get("mail_username").toString();
+            // 2.1 发件人 xxx@163.com 我们自己的邮箱地址，就是名称
+            message.setFrom(new InternetAddress(from));
       /*
         2.2 收件人
           第一个参数：
@@ -86,18 +86,18 @@ public class EmailService implements BaseService<Session> {
             收件人的地址，或者是一个Address[]，用来装抄送或者暗送人的名单。或者用来群发。可以是相同邮箱服务器的，也可以是不同的
             这里我们发送给我们的qq邮箱
        */
-      message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-      // 2.3 主题（标题）
-      message.setSubject(title + " - " + systemConfigService.selectAllConfig().get("name").toString());
-      // 2.4 正文
-      //设置编码，防止发送的内容中文乱码。
-      message.setContent(content, "text/html;charset=UTF-8");
-      //3发送消息
-      Transport.send(message);
-      return true;
-    } catch (MessagingException e) {
-      log.error(e.getMessage());
-      return false;
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            // 2.3 主题（标题）
+            message.setSubject(title + " - " + systemConfigService.selectAllConfig().get("name").toString());
+            // 2.4 正文
+            //设置编码，防止发送的内容中文乱码。
+            message.setContent(content, "text/html;charset=UTF-8");
+            //3发送消息
+            Transport.send(message);
+            return true;
+        } catch (MessagingException e) {
+            log.error(e.getMessage());
+            return false;
+        }
     }
-  }
 }

@@ -2,25 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yiiu.pybbs.mapper.NotificationMapper">
 
-  <!--<resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.User">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-  </resultMap>-->
+    <!--<resultMap id="BaseResultMap" type="co.yiiu.pybbs.model.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+    </resultMap>-->
 
-  <!-- 通用查询结果列
-  <sql id="Base_Column_List">
-      test_id AS testId, name, age, test_type AS testType, role, phone
-  </sql>-->
+    <!-- 通用查询结果列
+    <sql id="Base_Column_List">
+        test_id AS testId, name, age, test_type AS testType, role, phone
+    </sql>-->
 
-  <select id="selectByUserId" resultType="map">
-    select n.*, uu.username, uu.avatar, t.title, t.id as topicId
-    from notification n
-    left join user u on u.id = n.target_user_id
-    left join user uu on uu.id = n.user_id
-    left join topic t on t.id = n.topic_id
-    where n.target_user_id = #{userId} and n.`read` = #{read}
-    <if test="limit &gt; 0">
-      limit #{limit}
-    </if>
-  </select>
+    <select id="selectByUserId" resultType="map">
+        select n.*, uu.username, uu.avatar, t.title, t.id as topicId
+        from notification n
+        left join user u on u.id = n.target_user_id
+        left join user uu on uu.id = n.user_id
+        left join topic t on t.id = n.topic_id
+        where n.target_user_id = #{userId} and n.`read` = #{read}
+        <if test="limit &gt; 0">
+            limit #{limit}
+        </if>
+    </select>
 
 </mapper>

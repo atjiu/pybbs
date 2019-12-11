@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServerRunner implements CommandLineRunner {
 
-  private Logger log = LoggerFactory.getLogger(ServerRunner.class);
+    private Logger log = LoggerFactory.getLogger(ServerRunner.class);
 
-  @Override
-  public void run(String... args) {
-  }
+    @Override
+    public void run(String... args) {
+    }
 }

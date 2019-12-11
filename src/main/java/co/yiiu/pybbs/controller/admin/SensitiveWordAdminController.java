@@ -26,68 +26,68 @@ import java.io.IOException;
 @RequestMapping("/admin/sensitive_word")
 public class SensitiveWordAdminController extends BaseAdminController {
 
-  private Logger log = LoggerFactory.getLogger(SensitiveWordAdminController.class);
+    private Logger log = LoggerFactory.getLogger(SensitiveWordAdminController.class);
 
-  @Autowired
-  private ISensitiveWordService sensitiveWordService;
+    @Autowired
+    private ISensitiveWordService sensitiveWordService;
 
-  @RequiresPermissions("sensitive_word:list")
-  @GetMapping("/list")
-  public String list(@RequestParam(defaultValue = "1") Integer pageNo, String word, Model model) {
-    model.addAttribute("page", sensitiveWordService.page(pageNo, word));
-    model.addAttribute("word", word);
-    return "admin/sensitive_word/list";
-  }
-
-  @RequiresPermissions("sensitive_word:add")
-  @PostMapping("/add")
-  @ResponseBody
-  public Result add(String word) {
-    SensitiveWord sensitiveWord = new SensitiveWord();
-    sensitiveWord.setWord(word);
-    sensitiveWordService.save(sensitiveWord);
-    return success();
-  }
-
-  @RequiresPermissions("sensitive_word:edit")
-  @PostMapping("/edit")
-  @ResponseBody
-  public Result edit(Integer id, String word) {
-    sensitiveWordService.updateWordById(id, word);
-    return success();
-  }
-
-  @RequiresPermissions("sensitive_word:delete")
-  @GetMapping("/delete")
-  @ResponseBody
-  public Result delete(Integer id) {
-    sensitiveWordService.deleteById(id);
-    return success();
-  }
-
-  @RequiresPermissions("sensitive_word:import")
-  @PostMapping("import")
-  @ResponseBody
-  public Result _import(@RequestParam("file") MultipartFile file) {
-    try {
-      HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
-      HSSFSheet worksheet = workbook.getSheetAt(0);
-      int i = 0;
-      while (i <= worksheet.getLastRowNum()) {
-        HSSFRow row = worksheet.getRow(i++);
-        String word = row.getCell(0).getStringCellValue();
-        SensitiveWord sensitiveWord = sensitiveWordService.selectByWord(word);
-        if (sensitiveWord == null) {
-          sensitiveWord = new SensitiveWord();
-          sensitiveWord.setWord(word);
-          sensitiveWordService.save(sensitiveWord);
-        }
-      }
-      return success();
-    } catch (IOException e) {
-      //      e.printStackTrace();
-      log.error(e.getMessage());
-      return error(e.getMessage());
+    @RequiresPermissions("sensitive_word:list")
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String word, Model model) {
+        model.addAttribute("page", sensitiveWordService.page(pageNo, word));
+        model.addAttribute("word", word);
+        return "admin/sensitive_word/list";
     }
-  }
+
+    @RequiresPermissions("sensitive_word:add")
+    @PostMapping("/add")
+    @ResponseBody
+    public Result add(String word) {
+        SensitiveWord sensitiveWord = new SensitiveWord();
+        sensitiveWord.setWord(word);
+        sensitiveWordService.save(sensitiveWord);
+        return success();
+    }
+
+    @RequiresPermissions("sensitive_word:edit")
+    @PostMapping("/edit")
+    @ResponseBody
+    public Result edit(Integer id, String word) {
+        sensitiveWordService.updateWordById(id, word);
+        return success();
+    }
+
+    @RequiresPermissions("sensitive_word:delete")
+    @GetMapping("/delete")
+    @ResponseBody
+    public Result delete(Integer id) {
+        sensitiveWordService.deleteById(id);
+        return success();
+    }
+
+    @RequiresPermissions("sensitive_word:import")
+    @PostMapping("import")
+    @ResponseBody
+    public Result _import(@RequestParam("file") MultipartFile file) {
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
+            HSSFSheet worksheet = workbook.getSheetAt(0);
+            int i = 0;
+            while (i <= worksheet.getLastRowNum()) {
+                HSSFRow row = worksheet.getRow(i++);
+                String word = row.getCell(0).getStringCellValue();
+                SensitiveWord sensitiveWord = sensitiveWordService.selectByWord(word);
+                if (sensitiveWord == null) {
+                    sensitiveWord = new SensitiveWord();
+                    sensitiveWord.setWord(word);
+                    sensitiveWordService.save(sensitiveWord);
+                }
+            }
+            return success();
+        } catch (IOException e) {
+            //      e.printStackTrace();
+            log.error(e.getMessage());
+            return error(e.getMessage());
+        }
+    }
 }

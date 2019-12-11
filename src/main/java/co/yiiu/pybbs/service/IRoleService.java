@@ -10,13 +10,13 @@ import java.util.List;
  * https://yiiu.co
  */
 public interface IRoleService {
-  Role selectById(Integer roleId);
+    Role selectById(Integer roleId);
 
-  List<Role> selectAll();
+    List<Role> selectAll();
 
-  void insert(String name, Integer[] permissionIds);
+    void insert(String name, Integer[] permissionIds);
 
-  void update(Integer id, String name, Integer[] permissionIds);
+    void update(Integer id, String name, Integer[] permissionIds);
 
-  void delete(Integer id);
+    void delete(Integer id);
 }

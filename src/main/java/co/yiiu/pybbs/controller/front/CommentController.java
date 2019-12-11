@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/comment")
 public class CommentController extends BaseController {
 
-  @Autowired
-  private ICommentService commentService;
-  @Autowired
-  private ITopicService topicService;
+    @Autowired
+    private ICommentService commentService;
+    @Autowired
+    private ITopicService topicService;
 
-  // 编辑评论
-  @GetMapping("/edit/{id}")
-  public String edit(@PathVariable Integer id, Model model) {
-    Comment comment = commentService.selectById(id);
-    Topic topic = topicService.selectById(comment.getTopicId());
-    model.addAttribute("comment", comment);
-    model.addAttribute("topic", topic);
-    return render("comment/edit");
-  }
+    // 编辑评论
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        Comment comment = commentService.selectById(id);
+        Topic topic = topicService.selectById(comment.getTopicId());
+        model.addAttribute("comment", comment);
+        model.addAttribute("topic", topic);
+        return render("comment/edit");
+    }
 }

@@ -20,25 +20,25 @@ import java.util.Map;
 @Component
 public class SearchDirective implements TemplateDirectiveModel {
 
-  @Autowired
-  private ISystemConfigService systemConfigService;
-  @Autowired
-  private ITopicService topicService;
+    @Autowired
+    private ISystemConfigService systemConfigService;
+    @Autowired
+    private ITopicService topicService;
 
-  @Override
-  public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
-      templateDirectiveBody) throws TemplateException, IOException {
-    Page<Map<String, Object>> page = new Page<>();
-    String keyword = String.valueOf(map.get("keyword"));
-    Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
-    if (!StringUtils.isEmpty(keyword)) {
-      Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString());
+    @Override
+    public void execute(Environment environment, Map map, TemplateModel[] templateModels, TemplateDirectiveBody
+            templateDirectiveBody) throws TemplateException, IOException {
+        Page<Map<String, Object>> page = new Page<>();
+        String keyword = String.valueOf(map.get("keyword"));
+        Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
+        if (!StringUtils.isEmpty(keyword)) {
+            Integer pageSize = Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString());
 //      page = elasticSearchService.searchDocument(pageNo, pageSize, keyword, "title", "content");
-      page = topicService.search(pageNo, pageSize, keyword);
-    }
+            page = topicService.search(pageNo, pageSize, keyword);
+        }
 
-    DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
-    environment.setVariable("page", builder.build().wrap(page));
-    templateDirectiveBody.render(environment.getOut());
-  }
+        DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
+        environment.setVariable("page", builder.build().wrap(page));
+        templateDirectiveBody.render(environment.getOut());
+    }
 }

@@ -16,15 +16,15 @@ import javax.sql.DataSource;
 @Configuration
 public class FlywayConfig {
 
-  @Autowired
-  private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-  @PostConstruct
-  @DependsOn("dataSourceHelper")
-  public void migrate() {
-    Flyway flyway = Flyway.configure().dataSource(dataSource).locations("classpath:db/migration",
-        "filesystem:db/migration").baselineOnMigrate(true).load();
-    flyway.migrate();
-  }
+    @PostConstruct
+    @DependsOn("dataSourceHelper")
+    public void migrate() {
+        Flyway flyway = Flyway.configure().dataSource(dataSource).locations("classpath:db/migration",
+                "filesystem:db/migration").baselineOnMigrate(true).load();
+        flyway.migrate();
+    }
 
 }

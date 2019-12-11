@@ -11,17 +11,17 @@ import java.util.List;
  * https://yiiu.co
  */
 public interface ISensitiveWordService {
-  void save(SensitiveWord sensitiveWord);
+    void save(SensitiveWord sensitiveWord);
 
-  void update(SensitiveWord sensitiveWord);
+    void update(SensitiveWord sensitiveWord);
 
-  List<SensitiveWord> selectAll();
+    List<SensitiveWord> selectAll();
 
-  void deleteById(Integer id);
+    void deleteById(Integer id);
 
-  IPage<SensitiveWord> page(Integer pageNo, String word);
+    IPage<SensitiveWord> page(Integer pageNo, String word);
 
-  void updateWordById(Integer id, String word);
+    void updateWordById(Integer id, String word);
 
-  SensitiveWord selectByWord(String word);
+    SensitiveWord selectByWord(String word);
 }

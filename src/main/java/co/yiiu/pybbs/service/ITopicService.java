@@ -14,43 +14,43 @@ import java.util.Map;
  * https://yiiu.co
  */
 public interface ITopicService {
-  // 搜索
-  MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword);
+    // 搜索
+    MyPage<Map<String, Object>> search(Integer pageNo, Integer pageSize, String keyword);
 
-  // 分页查询话题
-  MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab);
+    // 分页查询话题
+    MyPage<Map<String, Object>> selectAll(Integer pageNo, String tab);
 
-  // 查询话题作者其它的话题
-  List<Topic> selectAuthorOtherTopic(Integer userId, Integer topicId, Integer limit);
+    // 查询话题作者其它的话题
+    List<Topic> selectAuthorOtherTopic(Integer userId, Integer topicId, Integer limit);
 
-  // 查询用户的话题
-  MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);
+    // 查询用户的话题
+    MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);
 
-  // 保存话题
-  Topic insert(String title, String content, String tags, User user, HttpSession session);
+    // 保存话题
+    Topic insert(String title, String content, String tags, User user, HttpSession session);
 
-  // 根据id查询话题
-  Topic selectById(Integer id);
+    // 根据id查询话题
+    Topic selectById(Integer id);
 
-  // 根据title查询话题，防止重复话题
-  Topic selectByTitle(String title);
+    // 根据title查询话题，防止重复话题
+    Topic selectByTitle(String title);
 
-  // 处理话题的访问量
-  Topic updateViewCount(Topic topic, String ip);
+    // 处理话题的访问量
+    Topic updateViewCount(Topic topic, String ip);
 
-  // 更新话题
-  void update(Topic topic, String tags);
+    // 更新话题
+    void update(Topic topic, String tags);
 
-  // 删除话题
-  void delete(Topic topic, HttpSession session);
+    // 删除话题
+    void delete(Topic topic, HttpSession session);
 
-  // 根据用户id删除帖子
-  void deleteByUserId(Integer userId);
+    // 根据用户id删除帖子
+    void deleteByUserId(Integer userId);
 
-  MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username);
+    MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username);
 
-  // 查询今天新增的话题数
-  int countToday();
+    // 查询今天新增的话题数
+    int countToday();
 
-  int vote(Topic topic, User user, HttpSession session);
+    int vote(Topic topic, User user, HttpSession session);
 }

@@ -20,13 +20,13 @@ import java.io.IOException;
 @RequestMapping("/common")
 public class CommonController extends BaseApiController {
 
-  // gif 验证码
-  @GetMapping("/captcha")
-  public void captcha(HttpServletResponse response, HttpSession session) throws IOException {
-    Captcha captcha = new GifCaptcha();
-    captcha.out(response.getOutputStream());
-    String text = captcha.text();
-    session.setAttribute("_captcha", text);
-  }
+    // gif 验证码
+    @GetMapping("/captcha")
+    public void captcha(HttpServletResponse response, HttpSession session) throws IOException {
+        Captcha captcha = new GifCaptcha();
+        captcha.out(response.getOutputStream());
+        String text = captcha.text();
+        session.setAttribute("_captcha", text);
+    }
 
 }

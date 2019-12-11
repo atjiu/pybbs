@@ -13,5 +13,5 @@ import java.util.Map;
  */
 public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
-  List<Map<String, Object>> selectAll();
+    List<Map<String, Object>> selectAll();
 }
