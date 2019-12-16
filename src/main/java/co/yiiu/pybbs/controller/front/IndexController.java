@@ -76,12 +76,16 @@ public class IndexController extends BaseController {
     // 登录
     @GetMapping("/login")
     public String login() {
+        User user = getUser();
+        if (user != null) return redirect("/");
         return render("login");
     }
 
     // 注册
     @GetMapping("/register")
     public String register() {
+        User user = getUser();
+        if (user != null) return redirect("/");
         return render("register");
     }
 
