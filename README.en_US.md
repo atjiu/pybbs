@@ -53,7 +53,6 @@ Project test cases have not been written yet!
 
 - [开发俱乐部](https://17dev.club/)
 - [issues](https://github.com/tomoya92/pybbs/issues)
-- QQ group：`419343003`
 
 *Please clearly describe the problem recurring steps when asking questions*
 
