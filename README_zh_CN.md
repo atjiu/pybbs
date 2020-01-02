@@ -60,7 +60,6 @@
 - 到 [http://bbs.tomoya.cn](http://bbs.tomoya.cn) 上提问答
 - 在Github上提 [Issues](https://github.com/tomoya92/pybbs/issues)
 - 提问题的时候请将问题重现步骤描述清楚
-- 加QQ群：`419343003`
 
 ## 其它版本
 
