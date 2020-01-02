@@ -57,7 +57,6 @@ site:
 
 - [开发俱乐部](https://17dev.club/)
 - [issues](https://github.com/tomoya92/pybbs/issues)
-- QQ群：`419343003`
 
 *提问题的时候请将问题重现步骤描述清楚*
 
