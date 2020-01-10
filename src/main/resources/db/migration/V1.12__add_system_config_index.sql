@@ -1,0 +1,1 @@
+CREATE INDEX `system_config_key` on `system_config`(`key`);
