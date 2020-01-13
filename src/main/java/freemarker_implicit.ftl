@@ -1,6 +1,0 @@
-[#ftl]
-[#-- @implicitly included --]
-[#-- @ftlvariable name="sec" type="co.yiiu.pybbs.config.ShiroTag" --]
-[#-- @ftlvariable name="model" type="co.yiiu.pybbs.util.BaseModel" --]
-[#-- @ftlvariable name="page" type="co.yiiu.pybbs.util.MyPage" --]
-[#-- @ftlvariable name="i18n" type="co.yiiu.pybbs.util.LocaleMessageSourceUtil" --]
