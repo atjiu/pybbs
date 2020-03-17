@@ -101,6 +101,7 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`id`),
   KEY `topic_id` (`topic_id`),
   KEY `user_id` (`user_id`),
+  KEY `comment_in_time` (`in_time`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
