@@ -144,7 +144,8 @@ CREATE TABLE `permission` (
   `pid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `value` (`value`)
+  UNIQUE KEY `value` (`value`),
+  KEY `permission_pid` (`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `permission` WRITE;
