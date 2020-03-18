@@ -48,7 +48,7 @@
     <select id="countToday" resultType="integer">
         select count(1)
         from comment
-        where to_days(in_time) = to_days(now());
+        where in_time between curdate() and date_add(curdate(), interval 1 day)
     </select>
 
 </mapper>

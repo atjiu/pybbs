@@ -73,7 +73,7 @@
     <select id="countToday" resultType="integer">
         select count(1)
         from topic t
-        where to_days(t.in_time) = to_days(now());
+        where t.in_time between curdate() and date_add(curdate(), interval 1 day)
     </select>
 
     <select id="search" resultType="map">
