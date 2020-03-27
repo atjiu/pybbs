@@ -30,6 +30,20 @@
 
 没啥特色，跟3.0相比，也就在后台里加了个系统设置的配置，可以配置一些3.0版本在 application.yml 里配置的东西，后面还会有增加
 
+放几张网站的截图
+
+**简洁的首页列表**
+
+![](./snapshot/1.png)
+
+**帖子详情页**
+
+![](./snapshot/2.png)
+
+**支持这么多网站的视频链接解析**
+
+![](./snapshot/3.png)
+
 ## 运行
 
 还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
@@ -93,8 +107,8 @@ mvn clean package
 
 ## 捐赠
 
-![image](https://cloud.githubusercontent.com/assets/6915570/18000010/9283d530-6bae-11e6-8c34-cd27060b9074.png)
-![image](https://cloud.githubusercontent.com/assets/6915570/17999995/7c2a4db4-6bae-11e6-891c-4b6bc4f00f4b.png)
+![image](./snapshot/alipay.png)
+![image](./snapshot/wechat.png)
 
 **如果觉得这个项目对你有帮助，欢迎捐赠！** [捐赠列表](https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0)
 
