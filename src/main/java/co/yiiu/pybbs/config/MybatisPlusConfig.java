@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.extension.MybatisMapWrapperFactory;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -54,6 +55,7 @@ public class MybatisPlusConfig {
         // 然后尝试把分页插件设置进去，启动项目，问题解决
         // 官方文档太简陋，坑新手呀！！！！！！
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        paginationInterceptor.setSqlParser(new JsqlParserCountOptimize());
         sqlSessionFactory.setPlugins(new Interceptor[]{paginationInterceptor});
 
         return sqlSessionFactory.getObject();
