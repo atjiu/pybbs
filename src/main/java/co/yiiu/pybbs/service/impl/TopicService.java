@@ -212,10 +212,10 @@ public class TopicService implements ITopicService {
 
     @Override
     public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String
-            username) {
+            username, String orderBy, String order) {
         MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService
                 .selectAllConfig().get("page_size")));
-        return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
+        return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username, orderBy, order);
     }
 
     // 查询今天新增的话题数

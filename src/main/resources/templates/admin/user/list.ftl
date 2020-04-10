@@ -22,6 +22,18 @@
                     <div class="form-group" style="margin-bottom: 10px;">
                         <input type="text" id="username" name="username" value="${username!}" class="form-control"
                                placeholder="用户名">
+                        <select type="text" id="orderBy" name="orderBy" value="${orderBy!}" class="form-control"
+                                placeholder="排序方式">
+                            <option value="">排序方式</option>
+                            <option value="score">积分</option>
+                            <option value="in_time">时间</option>
+                        </select>
+                        <select type="text" id="order" name="order" value="${order!}" class="form-control"
+                                placeholder="顺序">
+                            <option value="">降/升序</option>
+                            <option value="desc">降序</option>
+                            <option value="asc">升序</option>
+                        </select>
                         <button type="submit" class="btn btn-primary btn-sm">搜索</button>
                     </div>
                 </form>
@@ -59,9 +71,14 @@
             </div>
         </div>
         <#include "../layout/paginate.ftl">
-        <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/user/list" urlParas=""/>
+        <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/user/list" urlParas="&orderBy=${orderBy!}&order=${order!}"/>
     </section>
     <script>
+        $(function(){
+            $("#orderBy").val("${orderBy!}");
+            $("#order").val("${order!}");
+        });
+
         <#if sec.hasPermission("user:delete")>
 
         function deleteUser(id) {

@@ -28,10 +28,12 @@ public class UserAdminController extends BaseAdminController {
     // 前台用户管理
     @RequiresPermissions("user:list")
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, Model model) {
-        IPage<User> iPage = userService.selectAll(pageNo, username);
+    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, String orderBy, String order, Model model) {
+        IPage<User> iPage = userService.selectAll(pageNo, username, orderBy, order);
         model.addAttribute("page", iPage);
         model.addAttribute("username", username);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("order", order);
         return "admin/user/list";
     }
 

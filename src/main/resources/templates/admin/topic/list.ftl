@@ -29,10 +29,22 @@
                 <form action="/admin/topic/list" class="form-inline">
                     <div class="form-group" style="margin-bottom: 10px;">
                         <input type="text" readonly id="startDate" name="startDate" value="${startDate!}"
-                               class="form-control" placeholder="开始时间">
+                                class="form-control" placeholder="开始时间">
                         <input type="text" readonly id="endDate" name="endDate" value="${endDate!}"
-                               class="form-control" placeholder="结束时间">
+                                class="form-control" placeholder="结束时间">
                         <input type="text" name="username" value="${username!}" class="form-control" placeholder="用户名">
+                        <select type="text" id="orderBy" name="orderBy" value="${orderBy!}" class="form-control" placeholder="排序方式">
+                            <option value="">排序方式</option>
+                            <option value="in_time">时间</option>
+                            <option value="comment_count">评论次数</option>
+                            <option value="collect_count">收藏次数</option>
+                            <option value="view">阅读量</option>
+                        </select>
+                        <select type="text" id="order" name="order" value="${order!}" class="form-control" placeholder="顺序">
+                            <option value="">降/升序</option>
+                            <option value="desc">降序</option>
+                            <option value="asc">升序</option>
+                        </select>
                         <button type="submit" class="btn btn-primary btn-sm">搜索</button>
                     </div>
                 </form>
@@ -43,6 +55,8 @@
                         <th>标题</th>
                         <th>用户</th>
                         <th>评论数</th>
+                        <th>收藏数</th>
+                        <th>阅读量</th>
                         <th>状态</th>
                         <th>时间</th>
                         <th>操作</th>
@@ -55,6 +69,8 @@
                             <td><a href="/topic/${topic.id}" target="_blank">${topic.title}</a></td>
                             <td><a href="/user/${topic.username}" target="_blank">${topic.username}</a></td>
                             <td>${topic.commentCount}</td>
+                            <td>${topic.collectCount}</td>
+                            <td>${topic.view}</td>
                             <td>
                                 <#if topic.top>
                                     置顶
@@ -111,7 +127,7 @@
         </div>
         <#include "../layout/paginate.ftl">
         <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/topic/list"
-        urlParas="&startDate=${startDate!}&endDate=${endDate!}&username=${username!}"/>
+        urlParas="&startDate=${startDate!}&endDate=${endDate!}&username=${username!}&orderBy=${orderBy!}&order=${order!}"/>
     </section>
     <script>
         $(function () {
@@ -129,6 +145,8 @@
                 todayBtn: true,
                 todayHighlight: true,
             });
+            $("#orderBy").val("${orderBy!}");
+            $("#order").val("${order!}");
         });
         <#if sec.hasPermissionOr("topic:top", "topic:good", "topic:delete")>
 

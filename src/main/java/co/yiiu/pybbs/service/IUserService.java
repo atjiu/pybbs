@@ -37,7 +37,7 @@ public interface IUserService {
     // 更新用户信息
     void update(User user);
 
-    IPage<User> selectAll(Integer pageNo, String username);
+    IPage<User> selectAll(Integer pageNo, String username, String orderBy, String order);
 
     // 查询今天新增的话题数
     int countToday();

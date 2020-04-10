@@ -67,7 +67,26 @@
                 and u.username = #{username}
             </if>
         </where>
-        order by t.in_time desc
+        order by t.
+        <choose>
+            <when test="orderBy == null">
+                in_time desc
+            </when>
+            <otherwise>
+                ${orderBy}
+                <choose>
+                    <when test="order == null">desc</when>
+                    <otherwise>${order}</otherwise>
+                </choose>
+                <if test="orderBy != 'in_time'">
+                    , t.in_time
+                    <choose>
+                        <when test="order == null">desc</when>
+                        <otherwise>${order}</otherwise>
+                    </choose>
+                </if>
+            </otherwise>
+        </choose>
     </select>
 
     <select id="countToday" resultType="integer">

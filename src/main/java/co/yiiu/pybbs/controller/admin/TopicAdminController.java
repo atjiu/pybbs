@@ -38,15 +38,19 @@ public class TopicAdminController extends BaseAdminController {
     @RequiresPermissions("topic:list")
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
-            username, Model model) {
+            username, String orderBy, String order, Model model) {
         if (StringUtils.isEmpty(startDate)) startDate = null;
         if (StringUtils.isEmpty(endDate)) endDate = null;
         if (StringUtils.isEmpty(username)) username = null;
-        MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username);
+        if (StringUtils.isEmpty(orderBy)) orderBy = null;
+        if (StringUtils.isEmpty(order)) order = null;
+        MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username, orderBy, order);
         model.addAttribute("page", page);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("username", username);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("order", order);
         return "admin/topic/list";
     }
 

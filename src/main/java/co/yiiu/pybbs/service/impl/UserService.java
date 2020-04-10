@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -194,15 +195,36 @@ public class UserService implements IUserService {
     // ------------------------------- admin ------------------------------------------
 
     @Override
-    public IPage<User> selectAll(Integer pageNo, String username) {
+    public IPage<User> selectAll(Integer pageNo, String username, String orderBy, String order) {
         MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get(
                 "page_size")));
-        page.setDesc("in_time");
+        setPageSortOrder(page, orderBy, order);
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(username)) {
             wrapper.lambda().eq(User::getUsername, username);
         }
         return userMapper.selectPage(page, wrapper);
+    }
+
+    private void setPageSortOrder(MyPage<User> page, String orderBy, String order) {
+        if (StringUtils.isEmpty(orderBy)) {
+            //默认按时间降序排序
+            page.setDesc("in_time");
+        }
+        else {
+            List<String> list = new ArrayList<String>();
+            list.add(orderBy);
+            if (!orderBy.equals("in_time")) {
+                list.add("in_time"); //以in_time作为排序的第二权重
+            }
+
+            if (StringUtils.isEmpty(order) || order.equals("desc")) { //默认按降序排序
+                page.setDescs(list);
+            }
+            else {
+                page.setAscs(list);
+            }
+        }
     }
 
     // 查询今天新增的话题数

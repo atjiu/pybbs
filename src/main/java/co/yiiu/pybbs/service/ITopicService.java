@@ -47,7 +47,7 @@ public interface ITopicService {
     // 根据用户id删除帖子
     void deleteByUserId(Integer userId);
 
-    MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username);
+    MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username, String sortType, String sortOrder);
 
     // 查询今天新增的话题数
     int countToday();

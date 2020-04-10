@@ -21,7 +21,8 @@ public interface TopicMapper extends BaseMapper<Topic> {
     MyPage<Map<String, Object>> selectByUserId(MyPage<Map<String, Object>> iPage, @Param("userId") Integer userId);
 
     MyPage<Map<String, Object>> selectAllForAdmin(MyPage<Map<String, Object>> iPage, @Param("startDate") String
-            startDate, @Param("endDate") String endDate, @Param("username") String username);
+            startDate, @Param("endDate") String endDate, @Param("username") String username, @Param("orderBy") String
+            orderBy, @Param("order") String order);
 
     int countToday();
 
