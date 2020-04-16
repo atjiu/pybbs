@@ -5,7 +5,7 @@ import co.yiiu.pybbs.service.ITagService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.service.IUserService;
 import com.sun.management.OperatingSystemMXBean;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +32,7 @@ public class IndexAdminController extends BaseAdminController {
     @Autowired
     private IUserService userService;
 
-    @RequiresAuthentication
+    @RequiresUser
     @GetMapping({"/", "/index"})
     public String index(Model model) {
         // 查询当天新增话题
