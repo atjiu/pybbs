@@ -1,7 +1,6 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
-import co.yiiu.pybbs.config.realm.MyShiroFilter;
 import co.yiiu.pybbs.config.realm.MyShiroRealm;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.apache.shiro.codec.Base64;
@@ -48,7 +47,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
-        filterMap.put("myShiroFilter", new MyShiroFilter());
+//        filterMap.put("myShiroFilter", new MyShiroFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         //拦截器.
@@ -74,7 +73,7 @@ public class ShiroConfig {
         map.put("/admin/topic/**", "user");
         map.put("/admin/user/**", "user");
 
-        map.put("/adminlogin", "myShiroFilter");
+//        map.put("/adminlogin", "myShiroFilter");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/adminlogin");
         // 登录成功后要跳转的链接
