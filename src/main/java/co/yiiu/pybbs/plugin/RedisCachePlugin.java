@@ -70,6 +70,14 @@ public class RedisCachePlugin {
         }
     }
 
+    @Around("co.yiiu.pybbs.hook.TopicServiceHook.vote()")
+    public Object voteTopic(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        // 点赞后删除redis内缓存的topic数据
+        Topic topic = (Topic) proceedingJoinPoint.getArgs()[0];
+        redisService.delString(String.format(RedisKeys.REDIS_TOPIC_KEY, topic.getId()));
+        return proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
+    }
+
     @After("co.yiiu.pybbs.hook.TopicServiceHook.update()")
     public void topicUpdate(JoinPoint joinPoint) {
         Topic topic = (Topic) joinPoint.getArgs()[0];
@@ -112,6 +120,13 @@ public class RedisCachePlugin {
     public void commentDelete(JoinPoint joinPoint) {
         Comment comment = (Comment) joinPoint.getArgs()[0];
         redisService.delString(String.format(RedisKeys.REDIS_COMMENTS_KEY, comment.getTopicId()));
+    }
+
+    @Around("co.yiiu.pybbs.hook.CommentServiceHook.vote()")
+    public Object voteComment(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        Comment comment = (Comment) proceedingJoinPoint.getArgs()[0];
+        redisService.delString(String.format(RedisKeys.REDIS_COMMENTS_KEY, comment.getTopicId()));
+        return proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
     }
 
     // ---------- comment cache end ----------
