@@ -120,8 +120,6 @@ public class IndexController extends BaseController {
     // 登录后台
     @GetMapping("/adminlogin")
     public String adminlogin(HttpServletRequest request) {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isRemembered() || subject.isAuthenticated()) return redirect("/admin/index");
         return "admin/login";
     }
 
