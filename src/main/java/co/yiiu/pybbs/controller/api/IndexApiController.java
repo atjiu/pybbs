@@ -2,6 +2,7 @@ package co.yiiu.pybbs.controller.api;
 
 import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Code;
+import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.*;
@@ -49,6 +50,21 @@ public class IndexApiController extends BaseApiController {
                     .toString(), "*", SensitiveWordUtil.MinMatchType));
         }
         return success(page);
+    }
+
+    // 根据标签名返回标签下话题
+    @GetMapping("/tag/{name}")
+    public Result topicsByTagName(@RequestParam(defaultValue = "1") Integer pageNo, @PathVariable String name) {
+        Tag tag = tagService.selectByName(name);
+        if (tag == null) {
+            return error("标签不存在");
+        } else {
+            MyPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
+            Map<String, Object> result = new HashMap<>();
+            result.put("tag", tag);
+            result.put("page", iPage);
+            return success(result);
+        }
     }
 
     // 处理登录的接口
@@ -127,7 +143,7 @@ public class IndexApiController extends BaseApiController {
 
     // 忘记密码要通过发送邮件来重置密码
     // 让我再想想怎么实现这个功能比较好
-    @PostMapping("/forget_password")
+    // @PostMapping("/forget_password")
     //  public Result forget_password(@RequestBody Map<String, String> body, HttpSession session) {
     //    String email = body.get("email");
     //    String captcha = body.get("captcha");
