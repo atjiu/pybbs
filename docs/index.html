@@ -604,6 +604,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#首页-发送手机验证码">首页 - 发送手机验证码</a></li>
 <li><a href="#首页-手机号-验证码登录-注册">首页 - 手机号+验证码登录/注册</a></li>
 <li><a href="#首页-标签">首页 - 标签</a></li>
+<li><a href="#首页-标签查话题列表">首页 - 标签查话题列表</a></li>
 <li><a href="#首页-上传文件-图片-视频">首页 - 上传文件（图片，视频）</a></li>
 <li><a href="#话题-话题详情">话题 - 话题详情</a></li>
 <li><a href="#话题-发布话题">话题 - 发布话题</a></li>
@@ -2880,6 +2881,78 @@ table.CodeRay td.code>pre{padding:0}
     <span class="key"><span class="delimiter">&quot;</span><span class="content">current</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">searchCount</span><span class="delimiter">&quot;</span></span>: <span class="value">true</span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">pages</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="首页-标签查话题列表"><a class="anchor" href="#首页-标签查话题列表"></a>首页 - 标签查话题列表</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>地址 POST <code>/api/tag/:name</code></p>
+</li>
+<li>
+<p>请求类型 application/x-www-form-urlencoded</p>
+</li>
+<li>
+<p>参数</p>
+<div class="ulist">
+<ul>
+<li>
+<p>pageNo</p>
+</li>
+<li>
+<p>name 标签名</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>返回 Result(IPage&lt;Map&gt;)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">code</span><span class="delimiter">&quot;</span></span>: <span class="integer">200</span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">SUCCESS</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">detail</span><span class="delimiter">&quot;</span></span>: {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">tag</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="integer">17</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">朋也社区</span><span class="delimiter">&quot;</span></span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">icon</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">topicCount</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">inTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1551036349000</span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">page</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">records</span><span class="delimiter">&quot;</span></span>: [
+        {
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">collectCount</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">avatar</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">https://avatars3.githubusercontent.com/u/6915570?s=460&amp;v=4</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">网站的接口全换成restful风格的了，欢迎大家来测bug</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">userId</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">good</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">commentCount</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">inTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1551036349000</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">view</span><span class="delimiter">&quot;</span></span>: <span class="integer">236</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">modifyTime</span><span class="delimiter">&quot;</span></span>: <span class="integer">1555529685000</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">top</span><span class="delimiter">&quot;</span></span>: <span class="value">false</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">upIds</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">23,99</span><span class="delimiter">&quot;</span></span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="integer">15</span>,
+          <span class="key"><span class="delimiter">&quot;</span><span class="content">username</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">tomoya92</span><span class="delimiter">&quot;</span></span>
+        }
+      ],
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">total</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">size</span><span class="delimiter">&quot;</span></span>: <span class="integer">20</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">current</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">searchCount</span><span class="delimiter">&quot;</span></span>: <span class="value">true</span>,
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">pages</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>
+    }
   }
 }</code></pre>
 </div>
