@@ -67,7 +67,7 @@
                     </li>
                     <#if !model.isEmpty(site.oauth_github_client_id!)>
                         <li class="nav-item">
-                            <a href="/oauth/github" class="nav-link">
+                            <a href="/oauth/redirect/github" class="nav-link">
                                 <i class="fa fa-github"></i> ${i18n.getMessage("github_login")}
                             </a>
                         </li>
