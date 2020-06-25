@@ -60,18 +60,6 @@
                             <i class="fa fa-sign-in"></i> ${i18n.getMessage("login")}
                         </a>
                     </li>
-                    <li class="nav-item <#if page_tab == "register">active</#if>">
-                        <a href="/register" class="nav-link">
-                            <i class="fa fa-sign-out"></i> ${i18n.getMessage("register")}
-                        </a>
-                    </li>
-                    <#if !model.isEmpty(site.oauth_github_client_id!)>
-                        <li class="nav-item">
-                            <a href="/oauth/redirect/github" class="nav-link">
-                                <i class="fa fa-github"></i> ${i18n.getMessage("github_login")}
-                            </a>
-                        </li>
-                    </#if>
                 </#if>
             </ul>
         </div>
