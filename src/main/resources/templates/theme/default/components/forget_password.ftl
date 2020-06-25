@@ -17,23 +17,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <button type="button" id="email_forget_password" onclick="email_forget_password()" class="btn btn-info">
-                    找回密码
+                <button type="button" id="email_forget_password" onclick="email_forget_password()" class="btn btn-dark btn-block">
+                    找回密码<i class="fa fa-question-circle ml-1" data-toggle="tooltip" data-placement="right" title=""
+                           data-original-title="手机号登录系统会判断手机号是否注册过，如果没有注册过，会创建帐号"></i>
                 </button>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title=""
-                   data-original-title="手机号登录系统会判断手机号是否注册过，如果没有注册过，会创建帐号"></i>
+            </div>
+            <div class="form-group">
+                已有社区帐号？<a href="/login" class="text-primary">${i18n.getMessage("login")}</a>
             </div>
         </form>
-        <#if !model.isEmpty(site.oauth_github_client_id!) || !model.isEmpty(site.sms_access_key_id!)>
-            <hr>
-        </#if>
-        <#if !model.isEmpty(site.oauth_github_client_id!)>
-            <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
-        </#if>
-        <#if !model.isEmpty(site.sms_access_key_id!)>
-            <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
-            </button>
-        </#if>
     </div>
 </div>
 <script>
@@ -69,11 +61,5 @@
                 }
             }
         });
-    }
-
-    function local_login_btn() {
-        $("#email_forget_password_div").addClass("hidden");
-        $("#mobile_login_div").addClass("hidden");
-        $("#local_login_div").removeClass("hidden");
     }
 </script>
