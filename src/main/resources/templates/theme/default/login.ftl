@@ -25,8 +25,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" id="login_btn" class="btn btn-info">登录</button>
-                            <#--<a href="javascript:;" id="forget_password_href" class="pull-right">忘记密码?</a>-->
+                            <a href="javascript:;;" id="login_btn" class="btn btn-dark btn-block">${i18n.getMessage("login")}</a>
+                        </div>
+                        <div class="form-group">
+<#--                            <a href="javascript:;" id="forget_password_href" class="text-primary">${i18n.getMessage("forget_password")}</a>-->
+<#--                            |-->
+                            没有社区账号？<a href="/register" class="text-primary">${i18n.getMessage("register")}</a>
                         </div>
                     </form>
                     <@tag_social_list>
@@ -34,16 +38,16 @@
                             <hr>
                         </#if>
                         <div class="social">
-                            社会化登录：
                             <#if socialList??>
                                 <#list socialList as social>
-                                    <a href="/oauth/redirect/${social}" style="text-decoration: none;">
-                                        <img src="https://cdn.jsdelivr.net/gh/justauth/justauth-oauth-logo@1.1/${social}.png" alt="${social}授权登录" title="一键${social}授权登录" width="22" height="22">
+                                    <a href="/oauth/redirect/${social}" class="btn btn-light btn-block">
+                                        <img src="https://cdn.jsdelivr.net/gh/justauth/justauth-oauth-logo@1.1/${social}.png" alt="${social}授权登录" width="15" height="15">
+                                        通过 ${social?cap_first} 登录/注册
                                     </a>
                                 </#list>
                             </#if>
                             <#if !model.isEmpty(site.sms_access_key_id!)>
-                                <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
+                                <button class="btn btn-light btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
                                 </button>
                             </#if>
                         </div>
@@ -105,14 +109,14 @@
                 })
             });
             $("#mobile_login_btn").click(function () {
-                $("#email_forget_password_div").addClass("hidden");
-                $("#local_login_div").addClass("hidden");
-                $("#mobile_login_div").removeClass("hidden");
+                $("#email_forget_password_div").addClass("d-none");
+                $("#local_login_div").addClass("d-none");
+                $("#mobile_login_div").removeClass("d-none");
             });
             $("#forget_password_href").click(function () {
-                $("#email_forget_password_div").removeClass("hidden");
-                $("#local_login_div").addClass("hidden");
-                $("#mobile_login_div").addClass("hidden");
+                $("#email_forget_password_div").removeClass("d-none");
+                $("#local_login_div").addClass("d-none");
+                $("#mobile_login_div").addClass("d-none");
             })
         })
     </script>

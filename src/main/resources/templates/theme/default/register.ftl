@@ -29,24 +29,31 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" id="register_btn" class="btn btn-info">注册</button>
+                            <button type="button" id="register_btn" class="btn btn-dark btn-block">注册</button>
+                        </div>
+                        <div class="form-group">
+                            已有社区帐号？<a href="/login" class="text-primary">${i18n.getMessage("login")}</a>
                         </div>
                     </form>
-                    <#if !model.isEmpty(site.oauth_github_client_id!)
-                    || !model.isEmpty(site.sms_access_key_id!)
-                    || !model.isEmpty(site.oauth_wechat_client_id!)>
-                        <hr>
-                    </#if>
-                    <#if !model.isEmpty(site.oauth_github_client_id!)>
-                        <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
-                    </#if>
-                    <#if !model.isEmpty(site.oauth_wechat_client_id!)>
-                        <a href="/oauth/wechat" class="btn btn-success btn-block"><i class="fa fa-wechat"></i>&nbsp;&nbsp;通过微信登录/注册</a>
-                    </#if>
-                    <#if !model.isEmpty(site.sms_access_key_id!)>
-                        <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
-                        </button>
-                    </#if>
+                    <@tag_social_list>
+                        <#if socialList?? ||!model.isEmpty(site.sms_access_key_id!) >
+                            <hr>
+                        </#if>
+                        <div class="social">
+                            <#if socialList??>
+                                <#list socialList as social>
+                                    <a href="/oauth/redirect/${social}" class="btn btn-light btn-block">
+                                        <img src="https://cdn.jsdelivr.net/gh/justauth/justauth-oauth-logo@1.1/${social}.png" alt="${social}授权登录" width="15" height="15">
+                                        通过 ${social?cap_first} 登录/注册
+                                    </a>
+                                </#list>
+                            </#if>
+                            <#if !model.isEmpty(site.sms_access_key_id!)>
+                                <button class="btn btn-light btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
+                                </button>
+                            </#if>
+                        </div>
+                    </@tag_social_list>
                 </div>
             </div>
             <#include "./components/mobile_login.ftl"/>
@@ -108,8 +115,8 @@
                 })
             });
             $("#mobile_login_btn").click(function () {
-                $("#local_register_div").addClass("hidden");
-                $("#mobile_login_div").removeClass("hidden");
+                $("#local_register_div").addClass("d-none");
+                $("#mobile_login_div").removeClass("d-none");
             });
         })
     </script>
