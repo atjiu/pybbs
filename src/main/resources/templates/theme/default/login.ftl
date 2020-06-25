@@ -29,21 +29,26 @@
                             <#--<a href="javascript:;" id="forget_password_href" class="pull-right">忘记密码?</a>-->
                         </div>
                     </form>
-                    <#if !model.isEmpty(site.oauth_github_client_id!)
-                    || !model.isEmpty(site.sms_access_key_id!)
-                    || !model.isEmpty(site.oauth_wechat_client_id!)>
-                        <hr>
-                    </#if>
-                    <#if !model.isEmpty(site.oauth_github_client_id!)>
-                        <a href="/oauth/github" class="btn btn-success btn-block"><i class="fa fa-github"></i>&nbsp;&nbsp;通过Github登录/注册</a>
-                    </#if>
-                    <#if !model.isEmpty(site.oauth_wechat_client_id!)>
-                        <a href="/oauth/wechat" class="btn btn-success btn-block"><i class="fa fa-wechat"></i>&nbsp;&nbsp;通过微信登录/注册</a>
-                    </#if>
-                    <#if !model.isEmpty(site.sms_access_key_id!)>
-                        <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
-                        </button>
-                    </#if>
+                    <@tag_social_list>
+                        <#if socialList?? ||!model.isEmpty(site.sms_access_key_id!) >
+                            <hr>
+                        </#if>
+                        <div class="social">
+                            社会化登录：
+                            <#if socialList??>
+                                <#list socialList as social>
+                                    <a href="/oauth/redirect/${social}" style="text-decoration: none;">
+                                        <img src="https://cdn.jsdelivr.net/gh/justauth/justauth-oauth-logo@1.1/${social}.png" alt="${social}授权登录" title="一键${social}授权登录" width="22" height="22">
+                                    </a>
+                                </#list>
+                            </#if>
+                            <#if !model.isEmpty(site.sms_access_key_id!)>
+                                <button class="btn btn-primary btn-block" id="mobile_login_btn"><i class="fa fa-mobile"></i>&nbsp;&nbsp;通过手机号登录/注册
+                                </button>
+                            </#if>
+                        </div>
+                    </@tag_social_list>
+
                 </div>
             </div>
             <#include "./components/mobile_login.ftl"/>
