@@ -45,6 +45,8 @@ public class FreemarkerConfig {
     @Autowired
     private TopicCommentsDirective topicCommentsDirective;
     @Autowired
+    private SocialDirective socialDirective;
+    @Autowired
     private BaseModel baseModel;
     @Autowired
     private ShiroTag shiroTag;
@@ -71,6 +73,7 @@ public class FreemarkerConfig {
         configuration.setSharedVariable("tag_user_comments", userCommentsDirective);
         configuration.setSharedVariable("tag_user_collects", userCollectsDirective);
         configuration.setSharedVariable("tag_topic_comments", topicCommentsDirective);
+        configuration.setSharedVariable("tag_social_list", socialDirective);
 
         configuration.setSharedVariable("i18n", localeMessageSourceUtil);
         log.info("freemarker自定义标签配置完成!");

@@ -1175,7 +1175,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>刷新登录页面即可出现相应按钮</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src="./images/login.png" alt="login"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>注意</strong></p>
@@ -1203,7 +1203,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>总共三个参数，都配置在`朋也社区`后台设置页面里`微信登录`区域，然后刷新登录页面，就有微信登录按钮了！！</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src="./images/login.png" alt="login"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>感谢 <a href="https://github.com/gdhua">@gdhua</a> 提供的微信联合登录要用到的 <code>appid</code> <code>appsecret</code></strong></p>
@@ -1227,7 +1227,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>最后配置在项目后台的系统设置里，刷新登录页面，就会有手机号登录的按钮出现</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src="./images/login.png" alt="login"></span></p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -2231,11 +2231,11 @@ table.CodeRay td.code>pre{padding:0}
 <td class="tableblock halign-left valign-top"><p class="tableblock">响应的是一张图片验证码的流</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">/oauth/github</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/oauth/redirect/<code>{platform}</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">OAuthController</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">重定向到Github授权页面，授权完成自动回调</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">重定向到指定的平台授权页面，授权完成自动回调。目前支持的平台有：github、gitee、weibo、oschina和wechat</p></td>
 </tr>
 </tbody>
 </table>
