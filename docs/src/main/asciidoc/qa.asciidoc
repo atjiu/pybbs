@@ -1,0 +1,96 @@
+// tag::main[]
+
+=== 数据库在哪？
+
+启动项目只需要配置好数据源连接地址，用户名，密码，其它都不用管，如果数据源连接信息都配置的对，启动还是报错，请查看你配置的MySQL用户是否有创建数据库以及表和对表的CRUD的权限
+
+=== 发帖技巧
+
+- default主题的编辑器用的是 codemirror 实现的，可以对代码进行高亮，也可以通过 shift+tab/tab 进行缩进
+- 上传图片，上传视频都有相应的链接，点一下就可以了
+- 对视频网站的链接解析，目前支持了 `youtube` `bilibili` `qq` `youku` 四个网站的视频链接，直接把视频网页的链接拷贝过来贴在编辑器里即可，当渲染详情页的时候服务器会自动解析
+
+=== 上传的图片为啥不显示
+
+*说明*
+
+- 后台配置的静态资源`static`文件夹路径要跟程序启动的jar文件在一个目录内且同级请不要配置在其它地方，如果是用nginx映射的静态资源文件夹则没有这限制
+- windows下的路径要么是 `\\` 要么是 `/` 请不要用windows自带的一个 `\` 做路径，程序不认，会导致上传失败
+
+首先这是个只会在用IDEA开发启动时出现的问题，原因是IDEA在启动SpringBoot项目的时候会把项目中的 `resources` 加载到内存里，pybbs中的`static`文件夹在resources里
+
+所以项目启动之后，再上传到`static`文件夹里的文件就不会被idea自动加载了，这时候只需要在idea里build一下项目即可，不用重启
+
+=== 上传的视频格式有哪些
+
+因为html标签中的 video 标签默认支持 mp4 格式，所以我在default主题里的上传组件里限制了上传视频文件的类型为 `mp4` ，同时对图片的格式也做了限制 `png,jpg,gif`
+
+=== 上传视频报413错误
+
+这是nginx报的错，需要对nginx配置一下 `client_max_body_size`
+
+```
+location / {
+    root   html;
+    index  index.html index.htm;
+    client_max_body_size    20m; # 限20MB大小
+}
+```
+
+不过在程序的后台也有配置大小，那个配置会在controller里做校验，超出的话，会返回一个文件过大的信息
+
+=== 后台用户名密码是多少？
+
+快速开始文档里有
+
+=== 启动项目时报错
+
+[IMPORTANT]
+错误信息: `java.lang.IllegalStateException: Failed to execute CommandLineRunner`
+
+这个错误一般是主题文件夹没有找到的错，可以参考一下这篇文章，如果是一样的错就对了 https://17dev.club/article/5c98adb7bbe14024b9e067b3[https://17dev.club/article/5c98adb7bbe14024b9e067b3]
+
+如果你是按照文档上的`快速开始`来启动的，就不会出现这个问题，开发环境加载的是`resources/templates`下的主题文件夹，正式环境加载的是 `./templates/theme`
+
+所以解决这个问题的方法就是区分开你是正式环境还是部署环境启动的
+
+---
+
+[IMPORTANT]
+错误信息: `No timezone mapping entry for 'GMT 8'`
+
+这是MySQL时区的问题，只在windows上有问题，我本机测试是把数据源里url链接后面的 `&serverTimezone=GMT%2B8` 删了就可以了，不过也有用户反馈这种方法不行
+
+那就换成另一种写法 `&serverTimezone=Asia/Shanghai` 也是可以的
+
+=== redis配置失败
+
+redis请不要开启auth，程序内集成的代码没有支持auth的配置
+
+如果你非要支持auth选项，可以自行修改源码，源码类名是 `RedisService.java`
+
+=== 发帖或者评论有emoji时提交失败
+
+[IMPORTANT]
+错误信息: `### Error updating database. Cause: java.sql.SQLException: Incorrect string value: '\xF0\x9F\x98\x82' for column 'content' at row 1`
+
+mysql默认不支持emoji，要手动配置一下，让它支持就可以了，方法如下
+
+修改mysql的配置文件，ubuntu的配置文件在 `/etc/mysql/mysql.conf.d/mysqld.cnf`，其它系统的配置文件自己找一下
+
+打开找到 [mysqld] 在下面加上
+
+[source,conf]
+----
+[mysqld]
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init_connect='SET NAMES utf8mb4'
+----
+
+加好后保存，然后重启mysql服务
+
+接着把pybbs的表内字段有可能会出现emoji的字段的编码都改成 `utf8mb4_unicode_ci` 这个类型，再发帖就没问题了
+
+// end::main[]

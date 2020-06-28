@@ -1,0 +1,1096 @@
+// tag::main[]
+
+=== 图片验证码
+
+- 地址 POST `/common/captcha`
+- 参数
+** 无
+- 返回 GIF图片
+
+响应是一张GIF动态图片，如下图
+
+image:captcha.gif[]
+
+首页接口分别有以下几个
+
+=== 首页 - 首页列表
+
+- 地址 GET `/api/` 或者 `/api/index`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** pageNo: 页码
+** tab: 分类，分别是 精华：`good` 无人评论：`noanswer` 热门：`hot` 最新：`newest`
+- 返回 Result(IPage<Map>)
+
+[source,json]
+----
+{
+  "code":200,
+  "description":"SUCCESS",
+  "detail":{
+    "records":[
+      {
+        "collectCount":0,
+        "avatar":"http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+        "title":"我是一个话题标题",
+        "userId":1,
+        "good":false,
+        "content":"我是话题内容\n\n我还支持Markdown语法哦\n\n![](https://avatars3.githubusercontent.com/u/6915570?s=460&v=4)\n\n- 无序列表1\n- 无序列表2\n- 无序列表3\n\n1. 有序列表1\n2. 有序列表2\n3. 有序列表3\n\n| Column A | Column B | Column C |\n| -------- | -------- | -------- |\n| A1       | B1       | C1       |\n| A2       | B2       | C2       |\n| A3       | B3       | C3       |\n\n[开发俱乐部](https://17dev.club/)",
+        "commentCount":0,
+        "tags":[
+          {
+            "id":1,
+            "name":"一个标签",
+            "description":null,
+            "icon":null,
+            "topicCount":1,
+            "inTime":1548992281000
+          }
+        ],
+        "inTime":1548992281000,
+        "view":2,
+        "modifyTime":1548992296000,
+        "top":false,
+        "id":1,
+        "username":"tomoya"
+      }
+    ],
+    "total":1,
+    "size":20,
+    "current":1,
+    "searchCount":true,
+    "pages":1
+  }
+}
+----
+
+=== 首页 - 登录
+
+- 地址 POST `/api/login`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+** password: 密码
+** captcha: 图片验证码
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": null,
+      "website": null,
+      "bio": null,
+      "score": 10,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    },
+    "token": "208bb4c1-daf1-4a32-b198-7f4db8f6d565"
+  }
+}
+----
+
+=== 首页 - 注册
+
+- 地址 POST `/api/register`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+** password: 密码
+** email: 邮箱地址
+** captcha: 图片验证码
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 2,
+      "username": "test",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+      "email": null,
+      "website": null,
+      "bio": null,
+      "score": 0,
+      "inTime": 1548992486000,
+      "emailNotification": false
+    },
+    "token": "b7ee4a41-48d9-4185-9ab7-bcd202719ded"
+  }
+}
+----
+
+=== 首页 - 发送手机验证码
+
+- 地址 GET `/api/send_code`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** mobile: 手机号
+** captcha: 图片验证码
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 首页 - 手机号+验证码登录/注册
+
+- 地址 POST `/api/mobile_login`
+- 请求类型 application/json
+- 参数
+** mobile: 手机号
+** code: 手机验证码
+** captcha: 图片验证码
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 2,
+      "username": "test",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+      "email": null,
+      "mobile": "13111111111",
+      "website": null,
+      "bio": null,
+      "score": 0,
+      "inTime": 1548992486000,
+      "emailNotification": false
+    },
+    "token": "b7ee4a41-48d9-4185-9ab7-bcd202719ded"
+  }
+}
+----
+
+=== 首页 - 标签
+
+- 地址 POST `/api/tags`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** pageNo
+- 返回 Result(List<Tag>)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "records": [
+      {
+        "id": 1,
+        "name": "一个标签",
+        "description": "标签描述，解释一下标签让人能更明白它的意思",
+        "icon": "http://spring.io/img/homepage/icon-spring-boot.svg",
+        "topicCount": 1,
+        "inTime": 1548992281000
+      }
+    ],
+    "total": 1,
+    "size": 20,
+    "current": 1,
+    "searchCount": true,
+    "pages": 1
+  }
+}
+----
+
+=== 首页 - 标签查话题列表
+
+- 地址 POST `/api/tag/:name`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** pageNo
+** name 标签名
+- 返回 Result(IPage<Map>)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "tag": {
+      "id": 17,
+      "name": "朋也社区",
+      "description": null,
+      "icon": null,
+      "topicCount": 3,
+      "inTime": 1551036349000
+    },
+    "page": {
+      "records": [
+        {
+          "collectCount": 1,
+          "avatar": "https://avatars3.githubusercontent.com/u/6915570?s=460&v=4",
+          "title": "网站的接口全换成restful风格的了，欢迎大家来测bug",
+          "userId": 1,
+          "good": false,
+          "content": "",
+          "commentCount": 1,
+          "inTime": 1551036349000,
+          "view": 236,
+          "modifyTime": 1555529685000,
+          "top": false,
+          "upIds": "23,99",
+          "id": 15,
+          "username": "tomoya92"
+        }
+      ],
+      "total": 3,
+      "size": 20,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    }
+  }
+}
+----
+
+=== 首页 - 上传文件（图片，视频）
+
+- 地址 POST `/api/upload`
+- 请求类型 application/form-data
+- 参数
+** token
+** file: 上传图片的文件对象，支持多个文件, 多个文件就在formData里多次添加 `formData.append("file", file);`
+** type: 上传图片的类型，如果上传头像请填 `avatar`，如果是发帖上传图片请填 `topic`，如果是视频请填 `video`
+- 返回 Result(String) // 上传成功后，会返回图片的访问地址
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "errors": [],
+    "urls": ["http://localhost:8080/static/upload/avatar/tomoya/avatar.png"]
+  }
+}
+----
+
+=== 话题 - 话题详情
+
+- 地址 GET `/api/topic/:id`
+- 请求类型 application/json
+- 参数
+** token: **可不传**，传token返回值里会多一个这个话题是否被自己收藏，如果不填就没有这个对象
+** id: 话题id
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "comments": [
+      {
+        "id": 1,
+        "topicId": 1,
+        "userId": 1,
+        "content": "modify_comment_content",
+        "inTime": 1548992961000,
+        "commentId": null,
+        "upIds": "2",
+        "username": "tomoya",
+        "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+        "layer": 0
+      },
+      {
+        "id": 5,
+        "topicId": 1,
+        "userId": 2,
+        "content": "@tomoya 我是第三条评论",
+        "inTime": 1548993369000,
+        "commentId": 1,
+        "upIds": null,
+        "username": "test",
+        "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+        "layer": 1
+      },
+      {
+        "id": 4,
+        "topicId": 1,
+        "userId": 2,
+        "content": "我是第二条评论",
+        "inTime": 1548993303000,
+        "commentId": null,
+        "upIds": null,
+        "username": "test",
+        "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+        "layer": 0
+      }
+    ],
+    "topic": {
+      "id": 1,
+      "title": "我是一个话题标题",
+      "content": "我是话题内容\n\n我还支持Markdown语法哦\n\n![](https://avatars3.githubusercontent.com/u/6915570?s=460&v=4)\n\n- 无序列表1\n- 无序列表2\n- 无序列表3\n\n1. 有序列表1\n2. 有序列表2\n3. 有序列表3\n\n| Column A | Column B | Column C |\n| -------- | -------- | -------- |\n| A1       | B1       | C1       |\n| A2       | B2       | C2       |\n| A3       | B3       | C3       |\n\n[开发俱乐部](https://17dev.club/)",
+      "inTime": 1548992281000,
+      "modifyTime": 1548992296000,
+      "userId": 1,
+      "commentCount": 4,
+      "collectCount": 1,
+      "view": 13,
+      "top": false,
+      "good": false,
+      "upIds": null
+    },
+    "topicUser": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": null,
+      "website": null,
+      "bio": null,
+      "score": 20,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    },
+    "collect": {
+      "topicId": 1,
+      "userId": 2,
+      "inTime": 1548999420000
+    },
+    "collects": [
+      {
+        "topicId": 1,
+        "userId": 2,
+        "inTime": 1548999420000
+      }
+    ],
+    "tags": [
+      {
+        "id": 1,
+        "name": "一个标签",
+        "description": "标签描述，解释一下标签让人能更明白它的意思",
+        "icon": "http://spring.io/img/homepage/icon-spring-boot.svg",
+        "topicCount": 1,
+        "inTime": 1548992281000
+      }
+    ]
+  }
+}
+----
+
+=== 话题 - 发布话题
+
+- 地址 POST `/api/topic`
+- 请求类型 application/json
+- 参数
+** token
+** title: 话题标题
+** content: 话题内容（可为空）
+- 返回 Result(Topic)
+
+[source,json]
+----
+{
+    "code": 200,
+    "description": "SUCCESS",
+    "detail":  {
+        "id": 11,
+        "title": "222",
+        "content": "",
+        "inTime": 1551063711700,
+        "modifyTime": null,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
+    }
+}
+----
+
+=== 话题 - 编辑话题
+
+- 地址 PUT `/api/topic`
+- 请求类型 application/json
+- 参数
+** token
+** id: 话题ID
+** title: 话题标题
+** content: 话题内容（可为空）
+- 返回 Result(Topic)
+
+[source,json]
+----
+{
+    "code": 200,
+    "description": "SUCCESS",
+    "detail": {
+        "id": 11,
+        "title": "333",
+        "content": null,
+        "inTime": 1551063712000,
+        "modifyTime": 1551064039058,
+        "userId": 1,
+        "commentCount": 0,
+        "collectCount": 0,
+        "view": 0,
+        "top": false,
+        "good": false,
+        "upIds": null
+    }
+}
+----
+
+=== 话题 - 删除话题
+
+- 地址 DELETE `/api/topic`
+- 请求类型 application/json
+- 参数
+** token
+** id: 话题ID
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 话题 - 点赞话题
+
+- 地址 GET `/api/topic/:id/vote`
+- 请求类型 application/json
+- 参数
+** token
+** id: 话题ID
+- 返回 Result(int) 返回点赞后当前话题的总赞数
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": 1
+}
+----
+
+=== 评论 - 发布评论
+
+- 地址 POST `/api/comment`
+- 请求类型 application/json
+- 参数
+** token
+** content: 评论的内容
+** topicId: 评论的话题ID
+** commentId: 回复评论的对象（盖楼评论的上级评论id）
+- 返回 Result(Comment)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "id": 1,
+    "topicId": 1,
+    "userId": 1,
+    "content": "我是一个评论",
+    "inTime": 1548992997521,
+    "commentId": null,
+    "upIds": null
+  }
+}
+----
+
+=== 评论 - 更新评论
+
+- 地址 PUT `/api/comment/:id`
+- 请求类型 application/json
+- 参数
+** token
+** id: 评论的id
+** content: 评论的内容
+- 返回 Result(Comment)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "id": 1,
+    "topicId": 1,
+    "userId": 1,
+    "content": "我是更新后的评论",
+    "inTime": 1548993059477,
+    "commentId": null,
+    "upIds": null
+  }
+}
+----
+
+=== 评论 - 删除评论
+
+- 地址 DELETE `/api/comment/:id`
+- 请求类型 application/json
+- 参数
+** token
+** id: 评论的id
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 评论 - 点赞评论
+
+- 地址 GET `/api/comment/:id/vote`
+- 请求类型 application/json
+- 参数
+** token
+** id: 评论的id
+- 返回 Result(int) 返回点赞后当前评论的总赞数
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": 1
+}
+----
+
+=== 收藏 - 收藏话题
+
+- 地址 POST `/api/collect/:topicId`
+- 请求类型 application/json
+- 参数
+** token
+** topicId: 话题ID
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 收藏 - 取消收藏
+
+- 地址 DELETE `/api/collect/:topicId`
+- 请求类型 application/json
+- 参数
+** token
+** topicId: 话题ID
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 通知 - 未读消息个数
+
+- 地址 GET `/api/notification/notRead`
+- 请求类型 application/json
+- 参数
+** token
+- 返回 Result(int) // 返回未读消息条数
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": 1
+}
+----
+
+=== 通知 - 标记消息已读
+
+- 地址 GET `/api/notification/markRead`
+- 请求类型 application/json
+- 参数
+** token
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+----
+
+=== 通知 - 消息列表
+
+- 地址 GET `/api/notification/list`
+- 请求类型 application/json
+- 参数
+** token
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "read": [
+      {
+        "inTime": 1548993303000,
+        "topicId": 1,
+        "read": true,
+        "action": "COMMENT",
+        "targetUserId": 1,
+        "id": 1,
+        "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+        "title": "我是一个话题标题",
+        "userId": 2,
+        "content": "我是第二条评论",
+        "username": "test"
+      }
+    ],
+    "notRead": [
+      {
+        "inTime": 1548993369000,
+        "topicId": 1,
+        "read": false,
+        "action": "REPLY",
+        "targetUserId": 1,
+        "id": 2,
+        "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+        "title": "我是一个话题标题",
+        "userId": 2,
+        "content": "@tomoya 我是第三条评论",
+        "username": "test"
+      },
+      {
+        "inTime": 1548993369000,
+        "topicId": 1,
+        "read": false,
+        "action": "COMMENT",
+        "targetUserId": 1,
+        "id": 3,
+        "avatar": "http://localhost:8080/static/upload/avatar/test/avatar.png",
+        "title": "我是一个话题标题",
+        "userId": 2,
+        "content": "@tomoya 我是第三条评论",
+        "username": "test"
+      }
+    ]
+  }
+}
+----
+
+=== 用户 - 用户信息
+
+- 地址 GET `/api/user/:username`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+- 返回 Result(Map)
+** 用户信息
+** 话题列表（7条）
+** 评论列表（7条）
+** 收藏条数
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "oAuthUsers": [
+      {
+        "id": 1,
+        "oauthId": 6915570,
+        "type": "GITHUB",
+        "login": "tomoya92",
+        "inTime": 1548734221000,
+        "bio": "hello world",
+        "email": "py2qiuse@gmail.com",
+        "userId": 1
+      }
+    ],
+    "comments": {
+      "records": [
+        {
+          "inTime": 1548992961000,
+          "topicId": 1,
+          "commentUsername": "tomoya",
+          "upIds": "2",
+          "id": 1,
+          "topicUsername": "tomoya",
+          "title": "我是一个话题标题",
+          "userId": 1,
+          "content": "modify_comment_content"
+        }
+      ],
+      "total": 1,
+      "size": 10,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    },
+    "topics": {
+      "records": [
+        {
+          "collectCount": 2,
+          "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+          "title": "我是一个话题标题",
+          "userId": 1,
+          "good": false,
+          "content": "我是话题内容\n\n我还支持Markdown语法哦\n\n![](https://avatars3.githubusercontent.com/u/6915570?s=460&v=4)\n\n- 无序列表1\n- 无序列表2\n- 无序列表3\n\n1. 有序列表1\n2. 有序列表2\n3. 有序列表3\n\n| Column A | Column B | Column C |\n| -------- | -------- | -------- |\n| A1       | B1       | C1       |\n| A2       | B2       | C2       |\n| A3       | B3       | C3       |\n\n[开发俱乐部](https://17dev.club/)",
+          "commentCount": 4,
+          "inTime": 1548992281000,
+          "view": 20,
+          "modifyTime": 1548992296000,
+          "top": false,
+          "upIds": "2",
+          "id": 1,
+          "username": "tomoya"
+        }
+      ],
+      "total": 1,
+      "size": 10,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    },
+    "collectCount": 1,
+    "user": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": "py2qiuse@gmail.com",
+      "website": "https://17dev.club/",
+      "bio": "hello world",
+      "score": 20,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    }
+  }
+}
+----
+
+=== 用户 - 用户话题列表
+
+- 地址 GET `/api/user/:username/topics`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+** pageNo: 页数
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "topics": {
+      "records": [
+        {
+          "collectCount": 2,
+          "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+          "title": "我是一个话题标题",
+          "userId": 1,
+          "good": false,
+          "content": "我是话题内容\n\n我还支持Markdown语法哦\n\n![](https://avatars3.githubusercontent.com/u/6915570?s=460&v=4)\n\n- 无序列表1\n- 无序列表2\n- 无序列表3\n\n1. 有序列表1\n2. 有序列表2\n3. 有序列表3\n\n| Column A | Column B | Column C |\n| -------- | -------- | -------- |\n| A1       | B1       | C1       |\n| A2       | B2       | C2       |\n| A3       | B3       | C3       |\n\n[开发俱乐部](https://17dev.club/)",
+          "commentCount": 4,
+          "inTime": 1548992281000,
+          "view": 20,
+          "modifyTime": 1548992296000,
+          "top": false,
+          "upIds": "2",
+          "id": 1,
+          "username": "tomoya"
+        }
+      ],
+      "total": 1,
+      "size": 20,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    },
+    "user": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": "py2qiuse@gmail.com",
+      "website": "https://17dev.club/",
+      "bio": "hello world",
+      "score": 20,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    }
+  }
+}
+----
+
+=== 用户 - 用户评论列表
+
+- 地址 GET `/api/user/:username/comments`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+** pageNo: 页数
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "comments": {
+      "records": [
+        {
+          "inTime": 1548992961000,
+          "topicId": 1,
+          "commentUsername": "tomoya",
+          "upIds": "2",
+          "id": 1,
+          "topicUsername": "tomoya",
+          "title": "我是一个话题标题",
+          "userId": 1,
+          "content": "modify_comment_content"
+        }
+      ],
+      "total": 1,
+      "size": 20,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    },
+    "user": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": "py2qiuse@gmail.com",
+      "website": "https://17dev.club/",
+      "bio": "hello world",
+      "score": 20,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    }
+  }
+}
+----
+
+=== 用户 - 用户收藏列表
+
+- 地址 GET `/api/user/:username/collects`
+- 请求类型 application/json
+- 参数
+** username: 用户名
+** pageNo: 页数
+- 返回 Result(Map)
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": {
+    "user": {
+      "id": 1,
+      "username": "tomoya",
+      "telegramName": null,
+      "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+      "email": "py2qiuse@gmail.com",
+      "website": "https://17dev.club/",
+      "bio": "hello world",
+      "score": 20,
+      "inTime": 1548992041000,
+      "emailNotification": false
+    },
+    "collects": {
+      "records": [
+        {
+          "collectCount": 2,
+          "avatar": "http://localhost:8080/static/upload/avatar/tomoya/avatar.png",
+          "title": "我是一个话题标题",
+          "userId": 1,
+          "good": false,
+          "content": "我是话题内容\n\n我还支持Markdown语法哦\n\n![](https://avatars3.githubusercontent.com/u/6915570?s=460&v=4)\n\n- 无序列表1\n- 无序列表2\n- 无序列表3\n\n1. 有序列表1\n2. 有序列表2\n3. 有序列表3\n\n| Column A | Column B | Column C |\n| -------- | -------- | -------- |\n| A1       | B1       | C1       |\n| A2       | B2       | C2       |\n| A3       | B3       | C3       |\n\n[开发俱乐部](https://17dev.club/)",
+          "commentCount": 4,
+          "tags": [
+            {
+              "id": 1,
+              "name": "一个标签",
+              "description": "标签描述，解释一下标签让人能更明白它的意思",
+              "icon": "http://spring.io/img/homepage/icon-spring-boot.svg",
+              "topicCount": 1,
+              "inTime": 1548992281000
+            }
+          ],
+          "inTime": 1548992281000,
+          "view": 20,
+          "modifyTime": 1548992296000,
+          "top": false,
+          "upIds": "2",
+          "id": 1,
+          "username": "tomoya"
+        }
+      ],
+      "total": 1,
+      "size": 20,
+      "current": 1,
+      "searchCount": true,
+      "pages": 1
+    }
+  }
+}
+----
+
+=== 设置 - 更新个人信息
+
+- 地址 PUT `/api/settings`
+- 请求类型 application/json
+- 参数
+** token
+** telegramName: Telegram用户名
+** website: 个人网站
+** bio: 个人简介
+** emailNotification: 是否接收邮箱通知
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 设置 - 发送激活邮件
+
+- 地址 GET `/api/settings/sendActiveEmail`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** token
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 设置 - 发送邮箱验证码
+
+- 地址 GET `/api/settings/sendEmailCode`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** token
+** email: 邮箱地址
+** code: 邮箱接收到网站发送的验证码
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 设置 - 更新用户邮箱
+
+- 地址 PUT `/api/settings/updateEmail`
+- 请求类型 application/json
+- 参数
+** token
+** email: 邮箱地址
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 设置 - 修改密码
+
+- 地址 PUT `/api/settings/updatePassword`
+- 请求类型 application/json
+- 参数
+** token
+** oldPassword: 旧密码
+** newPassword: 新密码
+- 返回 Result()
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": null
+}
+----
+
+=== 设置 - 刷新token
+
+- 地址 GET `/api/settings/refreshToken`
+- 请求类型 application/x-www-form-urlencoded
+- 参数
+** token
+- 返回 Result(String) // 返回新token
+
+[source,json]
+----
+{
+  "code": 200,
+  "description": "SUCCESS",
+  "detail": "208bb4c1-daf1-4a32-b198-7f4db8f6d565"
+}
+----
+
+// end::main[]

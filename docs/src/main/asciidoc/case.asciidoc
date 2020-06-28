@@ -1,0 +1,9 @@
+// tag::main[]
+
+欢迎大家提交使用pybbs部署的网站地址, 可以通过邮件我告知 py2qiuse@gmail.com
+
+|===
+| 版本 | 域名
+|===
+
+// end::main[]
