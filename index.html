@@ -5,7 +5,6 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<meta name="author" content="朋也">
 <title>朋也社区文档</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
@@ -505,144 +504,113 @@ table.CodeRay td.code>pre{padding:0}
 <body class="article toc2 toc-left">
 <div id="header">
 <h1>朋也社区文档</h1>
-<div class="details">
-<span id="author" class="author">朋也</span><br>
-<span id="email" class="email">&lt;<a href="mailto:py2qiuse@gmail.com">py2qiuse@gmail.com</a>&gt;</span><br>
-<span id="revdate">2020-06-28</span>
-</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#简介">简介</a>
+<li><a href="#_简介">1. 简介</a>
 <ul class="sectlevel2">
-<li><a href="#为什么使用它">为什么使用它？</a></li>
-<li><a href="#使用朋也社区收费吗">使用朋也社区收费吗？</a></li>
-<li><a href="#使用过程中碰到问题怎么办">使用过程中碰到问题怎么办？</a></li>
+<li><a href="#_为什么使用它">1.1. 为什么使用它？</a></li>
+<li><a href="#_使用朋也社区收费吗">1.2. 使用朋也社区收费吗？</a></li>
+<li><a href="#_使用过程中碰到问题怎么办">1.3. 使用过程中碰到问题怎么办？</a></li>
 </ul>
 </li>
-<li><a href="#快速开始">快速开始</a>
+<li><a href="#_快速开始">2. 快速开始</a>
 <ul class="sectlevel2">
-<li><a href="#准备环境-必须">准备环境[必须]</a></li>
-<li><a href="#准备环境-非必须">准备环境[非必须]</a></li>
-<li><a href="#开发人员搭建">开发人员搭建</a></li>
-<li><a href="#非开发人员搭建">非开发人员搭建</a></li>
-<li><a href="#docker运行">docker运行</a></li>
+<li><a href="#_准备环境_必须">2.1. 准备环境[必须]</a></li>
+<li><a href="#_准备环境_非必须">2.2. 准备环境[非必须]</a></li>
+<li><a href="#_开发人员搭建">2.3. 开发人员搭建</a></li>
+<li><a href="#_非开发人员搭建">2.4. 非开发人员搭建</a></li>
+<li><a href="#_docker运行">2.5. docker运行</a></li>
 </ul>
 </li>
-<li><a href="#朋也社区案例">朋也社区案例</a></li>
-<li><a href="#系统配置">系统配置</a>
+<li><a href="#_朋也社区案例">3. 朋也社区案例</a></li>
+<li><a href="#_系统配置">4. 系统配置</a>
 <ul class="sectlevel2">
-<li><a href="#基本配置">基本配置</a></li>
-<li><a href="#邮箱配置">邮箱配置</a></li>
-<li><a href="#elasticsearch配置">ElasticSearch配置</a></li>
-<li><a href="#redis配置">Redis配置</a></li>
-<li><a href="#上传配置">上传配置</a></li>
-<li><a href="#非nginx静态映射配置">非nginx静态映射配置</a></li>
-<li><a href="#nginx静态文件映射配置方法">nginx静态文件映射配置方法</a></li>
-<li><a href="#静态文件访问地址">静态文件访问地址</a></li>
-<li><a href="#github登录配置方法">Github登录配置方法</a></li>
-<li><a href="#微信登录配置方法">微信登录配置方法</a></li>
-<li><a href="#短信验证码登录-注册">短信验证码登录/注册</a></li>
-<li><a href="#开启websocket">开启WebSocket</a></li>
-<li><a href="#内置主题">内置主题</a></li>
-<li><a href="#更换主题">更换主题</a></li>
+<li><a href="#_基本配置">4.1. 基本配置</a></li>
+<li><a href="#_elasticsearch配置">4.2. ElasticSearch配置</a></li>
+<li><a href="#_redis配置">4.3. Redis配置</a></li>
+<li><a href="#_上传配置">4.4. 上传配置</a></li>
+<li><a href="#_非nginx静态映射配置">4.5. 非nginx静态映射配置</a></li>
+<li><a href="#_nginx静态文件映射配置方法">4.6. nginx静态文件映射配置方法</a></li>
+<li><a href="#_静态文件访问地址">4.7. 静态文件访问地址</a></li>
+<li><a href="#_github登录配置方法">4.8. Github登录配置方法</a></li>
+<li><a href="#_微信登录配置方法">4.9. 微信登录配置方法</a></li>
+<li><a href="#_短信验证码登录_注册">4.10. 短信验证码登录/注册</a></li>
+<li><a href="#_开启websocket">4.11. 开启WebSocket</a></li>
+<li><a href="#_内置主题">4.12. 内置主题</a></li>
+<li><a href="#_更换主题">4.13. 更换主题</a></li>
 </ul>
 </li>
-<li><a href="#公网部署">公网部署</a>
+<li><a href="#_公网部署">5. 公网部署</a>
 <ul class="sectlevel2">
-<li><a href="#部署步骤">部署步骤</a></li>
-<li><a href="#nginx配置">nginx配置</a></li>
-<li><a href="#frp映射配置">frp映射配置</a></li>
-<li><a href="#配置https">配置https</a></li>
+<li><a href="#_部署步骤">5.1. 部署步骤</a></li>
+<li><a href="#_nginx配置">5.2. nginx配置</a></li>
+<li><a href="#_frp映射配置">5.3. frp映射配置</a></li>
+<li><a href="#_配置https">5.4. 配置https</a></li>
 </ul>
 </li>
-<li><a href="#主题开发">主题开发</a>
+<li><a href="#_主题开发">6. 主题开发</a>
 <ul class="sectlevel2">
-<li><a href="#主题目录">主题目录</a></li>
-<li><a href="#全局对象">全局对象</a>
-<ul class="sectlevel3">
-<li><a href="#model对象内的方法">model对象内的方法</a></li>
-<li><a href="#site对象中的属性">site对象中的属性</a></li>
-<li><a href="#i18n对象中的属性">i18n对象中的属性</a></li>
+<li><a href="#_主题目录">6.1. 主题目录</a></li>
+<li><a href="#_全局对象">6.2. 全局对象</a></li>
+<li><a href="#_freemarker自定义标签">6.3. Freemarker自定义标签</a></li>
+<li><a href="#_自定义标签使用">6.4. 自定义标签使用</a></li>
+<li><a href="#_路由渲染可获取对象">6.5. 路由渲染可获取对象</a></li>
+<li><a href="#_对象包含的字段">6.6. 对象包含的字段</a></li>
 </ul>
 </li>
-<li><a href="#freemarker自定义标签">Freemarker自定义标签</a>
-<ul class="sectlevel3">
-<li><a href="#标签-tag_topics-对象中的map包含的字段">标签 tag_topics 对象中的Map包含的字段</a></li>
-<li><a href="#标签-tag_notifications-对象中的map包含的字段">标签 tag_notifications 对象中的Map包含的字段</a></li>
-<li><a href="#标签-tag_search-对象中的map包含的字段">标签 tag_search 对象中的Map包含的字段</a></li>
-<li><a href="#标签-tag_user_topics-对象中的map包含的字段">标签 tag_user_topics 对象中的Map包含的字段</a></li>
-<li><a href="#标签-tag_user_comments-对象中的map包含的字段">标签 tag_user_comments 对象中的Map包含的字段</a></li>
-<li><a href="#标签-tag_user_collects-对象中的map包含的字段">标签 tag_user_collects 对象中的Map包含的字段</a></li>
-</ul>
-</li>
-<li><a href="#自定义标签使用">自定义标签使用</a></li>
-<li><a href="#路由渲染可获取对象">路由渲染可获取对象</a></li>
-<li><a href="#对象包含的字段">对象包含的字段</a>
-<ul class="sectlevel3">
-<li><a href="#分页对象-page">分页对象 Page</a></li>
-<li><a href="#用户对象-user">用户对象 User</a></li>
-<li><a href="#话题对象-topic">话题对象 Topic</a></li>
-<li><a href="#评论对象-comment">评论对象 Comment</a></li>
-<li><a href="#评论-盖楼-对象-commentsbytopic">评论(盖楼)对象 CommentsByTopic</a></li>
-<li><a href="#通知对象-notification">通知对象 Notification</a></li>
-<li><a href="#授权登录对象-oauthuser">授权登录对象 OAuthUser</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#接口文档">接口文档</a>
+<li><a href="#_接口文档">7. 接口文档</a>
 <ul class="sectlevel2">
-<li><a href="#获取token">获取token</a></li>
-<li><a href="#请求接口示例">请求接口示例</a></li>
-<li><a href="#接口返回对象">接口返回对象</a></li>
-<li><a href="#接口返回分页对象">接口返回分页对象</a></li>
-<li><a href="#图片验证码">图片验证码</a></li>
-<li><a href="#首页-首页列表">首页 - 首页列表</a></li>
-<li><a href="#首页-登录">首页 - 登录</a></li>
-<li><a href="#首页-注册">首页 - 注册</a></li>
-<li><a href="#首页-发送手机验证码">首页 - 发送手机验证码</a></li>
-<li><a href="#首页-手机号-验证码登录-注册">首页 - 手机号+验证码登录/注册</a></li>
-<li><a href="#首页-标签">首页 - 标签</a></li>
-<li><a href="#首页-标签查话题列表">首页 - 标签查话题列表</a></li>
-<li><a href="#首页-上传文件-图片-视频">首页 - 上传文件（图片，视频）</a></li>
-<li><a href="#话题-话题详情">话题 - 话题详情</a></li>
-<li><a href="#话题-发布话题">话题 - 发布话题</a></li>
-<li><a href="#话题-编辑话题">话题 - 编辑话题</a></li>
-<li><a href="#话题-删除话题">话题 - 删除话题</a></li>
-<li><a href="#话题-点赞话题">话题 - 点赞话题</a></li>
-<li><a href="#评论-发布评论">评论 - 发布评论</a></li>
-<li><a href="#评论-更新评论">评论 - 更新评论</a></li>
-<li><a href="#评论-删除评论">评论 - 删除评论</a></li>
-<li><a href="#评论-点赞评论">评论 - 点赞评论</a></li>
-<li><a href="#收藏-收藏话题">收藏 - 收藏话题</a></li>
-<li><a href="#收藏-取消收藏">收藏 - 取消收藏</a></li>
-<li><a href="#通知-未读消息个数">通知 - 未读消息个数</a></li>
-<li><a href="#通知-标记消息已读">通知 - 标记消息已读</a></li>
-<li><a href="#通知-消息列表">通知 - 消息列表</a></li>
-<li><a href="#用户-用户信息">用户 - 用户信息</a></li>
-<li><a href="#用户-用户话题列表">用户 - 用户话题列表</a></li>
-<li><a href="#用户-用户评论列表">用户 - 用户评论列表</a></li>
-<li><a href="#用户-用户收藏列表">用户 - 用户收藏列表</a></li>
-<li><a href="#设置-更新个人信息">设置 - 更新个人信息</a></li>
-<li><a href="#设置-发送激活邮件">设置 - 发送激活邮件</a></li>
-<li><a href="#设置-发送邮箱验证码">设置 - 发送邮箱验证码</a></li>
-<li><a href="#设置-更新用户邮箱">设置 - 更新用户邮箱</a></li>
-<li><a href="#设置-修改密码">设置 - 修改密码</a></li>
-<li><a href="#设置-刷新token">设置 - 刷新token</a></li>
+<li><a href="#_获取token">7.1. 获取token</a></li>
+<li><a href="#_请求接口示例">7.2. 请求接口示例</a></li>
+<li><a href="#_接口返回对象">7.3. 接口返回对象</a></li>
+<li><a href="#_接口返回分页对象">7.4. 接口返回分页对象</a></li>
+<li><a href="#_图片验证码">7.5. 图片验证码</a></li>
+<li><a href="#_首页_首页列表">7.6. 首页 - 首页列表</a></li>
+<li><a href="#_首页_登录">7.7. 首页 - 登录</a></li>
+<li><a href="#_首页_注册">7.8. 首页 - 注册</a></li>
+<li><a href="#_首页_发送手机验证码">7.9. 首页 - 发送手机验证码</a></li>
+<li><a href="#_首页_手机号_验证码登录_注册">7.10. 首页 - 手机号+验证码登录/注册</a></li>
+<li><a href="#_首页_标签">7.11. 首页 - 标签</a></li>
+<li><a href="#_首页_标签查话题列表">7.12. 首页 - 标签查话题列表</a></li>
+<li><a href="#_首页_上传文件_图片_视频">7.13. 首页 - 上传文件（图片，视频）</a></li>
+<li><a href="#_话题_话题详情">7.14. 话题 - 话题详情</a></li>
+<li><a href="#_话题_发布话题">7.15. 话题 - 发布话题</a></li>
+<li><a href="#_话题_编辑话题">7.16. 话题 - 编辑话题</a></li>
+<li><a href="#_话题_删除话题">7.17. 话题 - 删除话题</a></li>
+<li><a href="#_话题_点赞话题">7.18. 话题 - 点赞话题</a></li>
+<li><a href="#_评论_发布评论">7.19. 评论 - 发布评论</a></li>
+<li><a href="#_评论_更新评论">7.20. 评论 - 更新评论</a></li>
+<li><a href="#_评论_删除评论">7.21. 评论 - 删除评论</a></li>
+<li><a href="#_评论_点赞评论">7.22. 评论 - 点赞评论</a></li>
+<li><a href="#_收藏_收藏话题">7.23. 收藏 - 收藏话题</a></li>
+<li><a href="#_收藏_取消收藏">7.24. 收藏 - 取消收藏</a></li>
+<li><a href="#_通知_未读消息个数">7.25. 通知 - 未读消息个数</a></li>
+<li><a href="#_通知_标记消息已读">7.26. 通知 - 标记消息已读</a></li>
+<li><a href="#_通知_消息列表">7.27. 通知 - 消息列表</a></li>
+<li><a href="#_用户_用户信息">7.28. 用户 - 用户信息</a></li>
+<li><a href="#_用户_用户话题列表">7.29. 用户 - 用户话题列表</a></li>
+<li><a href="#_用户_用户评论列表">7.30. 用户 - 用户评论列表</a></li>
+<li><a href="#_用户_用户收藏列表">7.31. 用户 - 用户收藏列表</a></li>
+<li><a href="#_设置_更新个人信息">7.32. 设置 - 更新个人信息</a></li>
+<li><a href="#_设置_发送激活邮件">7.33. 设置 - 发送激活邮件</a></li>
+<li><a href="#_设置_发送邮箱验证码">7.34. 设置 - 发送邮箱验证码</a></li>
+<li><a href="#_设置_更新用户邮箱">7.35. 设置 - 更新用户邮箱</a></li>
+<li><a href="#_设置_修改密码">7.36. 设置 - 修改密码</a></li>
+<li><a href="#_设置_刷新token">7.37. 设置 - 刷新token</a></li>
 </ul>
 </li>
-<li><a href="#q-a">Q&amp;A</a>
+<li><a href="#_q_a">8. Q&amp;A</a>
 <ul class="sectlevel2">
-<li><a href="#数据库在哪">数据库在哪？</a></li>
-<li><a href="#发帖技巧">发帖技巧</a></li>
-<li><a href="#上传的图片为啥不显示">上传的图片为啥不显示</a></li>
-<li><a href="#上传的视频格式有哪些">上传的视频格式有哪些</a></li>
-<li><a href="#上传视频报413错误">上传视频报413错误</a></li>
-<li><a href="#后台用户名密码是多少">后台用户名密码是多少？</a></li>
-<li><a href="#启动项目时报错">启动项目时报错</a></li>
-<li><a href="#redis配置失败">redis配置失败</a></li>
-<li><a href="#发帖或者评论有emoji时提交失败">发帖或者评论有emoji时提交失败</a></li>
+<li><a href="#_数据库在哪">8.1. 数据库在哪？</a></li>
+<li><a href="#_发帖技巧">8.2. 发帖技巧</a></li>
+<li><a href="#_上传的图片为啥不显示">8.3. 上传的图片为啥不显示</a></li>
+<li><a href="#_上传的视频格式有哪些">8.4. 上传的视频格式有哪些</a></li>
+<li><a href="#_上传视频报413错误">8.5. 上传视频报413错误</a></li>
+<li><a href="#_后台用户名密码是多少">8.6. 后台用户名密码是多少？</a></li>
+<li><a href="#_启动项目时报错">8.7. 启动项目时报错</a></li>
+<li><a href="#_redis配置失败">8.8. redis配置失败</a></li>
+<li><a href="#_发帖或者评论有emoji时提交失败">8.9. 发帖或者评论有emoji时提交失败</a></li>
 </ul>
 </li>
 </ul>
@@ -650,22 +618,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="简介"><a class="anchor" href="#简介"></a>简介</h2>
+<h2 id="_简介">1. 简介</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="为什么使用它"><a class="anchor" href="#为什么使用它"></a>为什么使用它？</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-为高度定制化而生的论坛, 内置了异常强大的功能, 使用主流Java web开发框架(SpringBoot)开发, 更方便你进行二次开发, 还在犹豫什么, 用就是了
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>为高度定制化而生的论坛, 内置了异常强大的功能, 使用主流Java web开发框架(SpringBoot)开发, 更方便你进行二次开发, 还在犹豫什么, 用就是了</p>
 </div>
+<div class="sect2">
+<h3 id="_为什么使用它">1.1. 为什么使用它？</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -690,7 +649,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="使用朋也社区收费吗"><a class="anchor" href="#使用朋也社区收费吗"></a>使用朋也社区收费吗？</h3>
+<h3 id="_使用朋也社区收费吗">1.2. 使用朋也社区收费吗？</h3>
 <div class="paragraph">
 <p>开源协议是 <code>GNU AGPLv3</code></p>
 </div>
@@ -723,20 +682,23 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="使用过程中碰到问题怎么办"><a class="anchor" href="#使用过程中碰到问题怎么办"></a>使用过程中碰到问题怎么办？</h3>
+<h3 id="_使用过程中碰到问题怎么办">1.3. 使用过程中碰到问题怎么办？</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>往下翻, 仔细查看Q&amp;A</p>
+<p>一定要仔细看文档，基本上能碰到的问题我都在文档中说明了</p>
 </li>
 <li>
-<p>去 <a href="https://17dev.club">开发俱乐部</a> 上提问，这个网站是朋也自行搭建的，目的是提供一个无嘲讽的学习编程的环境 <strong>推荐&radic;</strong></p>
+<p>往下翻, 仔细查看Q&amp;A</p>
 </li>
 <li>
 <p>去Github Issue上提问，我每天都会打开Github，看到有消息立即就会回复</p>
 </li>
 <li>
-<p>QQ群 1048094312</p>
+<p>QQ群 1048094312 <a href="https://jq.qq.com/?_wv=1027&amp;k=nGLY4QmH">点击链接加入群聊【朋也社区 - 问与答】</a></p>
+</li>
+<li>
+<p>去 <a href="https://17dev.club">开发俱乐部</a> 上提问，这个网站是朋也自行搭建的，目的是提供一个无嘲讽的学习编程的环境</p>
 </li>
 </ol>
 </div>
@@ -744,10 +706,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="快速开始"><a class="anchor" href="#快速开始"></a>快速开始</h2>
+<h2 id="_快速开始">2. 快速开始</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="准备环境-必须"><a class="anchor" href="#准备环境-必须"></a>准备环境[必须]</h3>
+<h3 id="_准备环境_必须">2.1. 准备环境[必须]</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -760,7 +722,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="准备环境-非必须"><a class="anchor" href="#准备环境-非必须"></a>准备环境[非必须]</h3>
+<h3 id="_准备环境_非必须">2.2. 准备环境[非必须]</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -779,7 +741,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="开发人员搭建"><a class="anchor" href="#开发人员搭建"></a>开发人员搭建</h3>
+<h3 id="_开发人员搭建">2.3. 开发人员搭建</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -798,7 +760,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>找到`co.yiiu.pybbs.PybbsApplication`类，直接运行main方法即可启动</p>
 </li>
 <li>
-<p>浏览器运行 <code>http://localhost:8080</code> , 后台地址 <code>http://localhost:8080/adminlogin</code> 后台用户名 admin 密码 123123</p>
+<p>浏览器运行 <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code> , 后台地址 <code><a href="http://localhost:8080/adminlogin" class="bare">http://localhost:8080/adminlogin</a></code> 后台用户名 admin 密码 123123</p>
 </li>
 </ul>
 </div>
@@ -816,7 +778,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="非开发人员搭建"><a class="anchor" href="#非开发人员搭建"></a>非开发人员搭建</h3>
+<h3 id="_非开发人员搭建">2.4. 非开发人员搭建</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -841,7 +803,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>查看服务是否启动 <code>ps -ef|grep pybbs</code> 如果有pybbs的进程，就说明服务启动了</p>
 </li>
 <li>
-<p>浏览器运行 <code>http://localhost:8080</code> , 后台地址 <code>http://localhost:8080/adminlogin</code> 后台用户名 admin 密码 123123</p>
+<p>浏览器运行 <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code> , 后台地址 <code><a href="http://localhost:8080/adminlogin" class="bare">http://localhost:8080/adminlogin</a></code> 后台用户名 admin 密码 123123</p>
 </li>
 <li>
 <p>网站的其它配置，参见文档</p>
@@ -850,14 +812,14 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="docker运行"><a class="anchor" href="#docker运行"></a>docker运行</h3>
+<h3 id="_docker运行">2.5. docker运行</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>保证服务器有docker和docker-compose环境</p>
 </li>
 <li>
-<p><code>git clone https://github.com/tomoya92/pybbs</code> 或 下载最新版</p>
+<p><code>git clone <a href="https://github.com/tomoya92/pybbs" class="bare">https://github.com/tomoya92/pybbs</a></code> 或 下载最新版</p>
 </li>
 <li>
 <p>cd pybbs进入项目</p>
@@ -866,7 +828,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>运行 <code>docker-compose up -d</code> 命令启动容器，-d是后台运行的意思</p>
 </li>
 <li>
-<p>浏览器运行 <code>http://localhost:8080</code> , 后台地址 <code>http://localhost:8080/adminlogin</code> 后台用户名 admin 密码 123123</p>
+<p>浏览器运行 <code><a href="http://localhost:8080" class="bare">http://localhost:8080</a></code> , 后台地址 <code><a href="http://localhost:8080/adminlogin" class="bare">http://localhost:8080/adminlogin</a></code> 后台用户名 admin 密码 123123</p>
 </li>
 <li>
 <p>关闭容器 <code>docker-compose down</code></p>
@@ -901,10 +863,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="朋也社区案例"><a class="anchor" href="#朋也社区案例"></a>朋也社区案例</h2>
+<h2 id="_朋也社区案例">3. 朋也社区案例</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>欢迎大家提交使用pybbs部署的网站地址, 可以通过邮件我告知 <a href="mailto:py2qiuse@gmail.com">py2qiuse@gmail.com</a></p>
+<p>欢迎大家提交使用pybbs部署的网站地址, 可以给我发邮件告知 <a href="mailto:py2qiuse@gmail.com">py2qiuse@gmail.com</a></p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -921,10 +883,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="系统配置"><a class="anchor" href="#系统配置"></a>系统配置</h2>
+<h2 id="_系统配置">4. 系统配置</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="基本配置"><a class="anchor" href="#基本配置"></a>基本配置</h3>
+<h3 id="_基本配置">4.1. 基本配置</h3>
 <div class="paragraph">
 <p>这版的配置相对其它版本的配置要简单的多，唯一要配置的就是数据库相关的配置了(如果你的数据库用户名是root 密码是空的，数据库又是跟程序在一个机器上，那就不需要配置)</p>
 </div>
@@ -953,16 +915,16 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>关于其它的配置，启动程序 &#8594; 访问后台 &#8594; 系统设置  如图</p>
+<p>关于其它的配置，启动程序 &#8594; 访问后台 &#8594; 系统设置 如图</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/2019-01-03T07-26-04.441Z.png" alt="2019-01-03T07-26-04.441Z"></span></p>
+<p><span class="image"><img src=".//images/2019-01-03T07-26-04.441Z.png" alt="2019-01-03T07-26-04.441Z"></span></p>
 </div>
 <div class="paragraph">
 <p>有几个地方是必须要修改的，如下图中红框中的配置</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190103-155656.png" alt="QQ20190103-155656"></span></p>
+<p><span class="image"><img src=".//images/QQ20190103-155656.png" alt="QQ20190103-155656"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>注意:</strong></p>
@@ -970,7 +932,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>网站的访问域名如果为 <code>http://example.com</code> 那么 <code>网站部署后访问的域名，注意这个后面没有 "/"</code> 这个说明下的内容就应该替换成 <code>http://example.com</code></p>
+<p>网站的访问域名如果为 <code><a href="http://example.com" class="bare">http://example.com</a></code> 那么 <code>网站部署后访问的域名，注意这个后面没有 "/"</code> 这个说明下的内容就应该替换成 <code><a href="http://example.com" class="bare">http://example.com</a></code></p>
 </li>
 <li>
 <p>第一步配置好域名后，cookie 的域名设置也要做相应的修改，否则用户登录的记录没法保存下来，在 <code>存cookie时用到的域名，要与网站部署后访问的域名一致</code> 这个说明下将 <code>localhost</code> 替换成 <code>example.com</code> 即可</p>
@@ -981,11 +943,9 @@ table.CodeRay td.code>pre{padding:0}
 </ol>
 </div>
 <div class="paragraph">
-<p>其它的配置根据自己环境做相应的修改即可</p>
+<p>其它的配置根据自己环境做相应的修改即可
+=== 邮箱配置</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="邮箱配置"><a class="anchor" href="#邮箱配置"></a>邮箱配置</h3>
 <div class="paragraph">
 <p>用户注册没有做邮箱验证，但用户可以在自己的设置页面添加邮箱</p>
 </div>
@@ -1015,24 +975,24 @@ table.CodeRay td.code>pre{padding:0}
 <p>登录qq邮件 mail.qq.com ，然后打开设置 &#8594; 帐户 往下翻，找到 <code>POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务</code></p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/TIM20190417185246.png" alt="TIM20190417185246"></span></p>
+<p><span class="image"><img src=".//images/TIM20190417185246.png" alt="TIM20190417185246"></span></p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/TIM20190417185315.png" alt="TIM20190417185315"></span></p>
+<p><span class="image"><img src=".//images/TIM20190417185315.png" alt="TIM20190417185315"></span></p>
 </div>
 <div class="paragraph">
 <p>点击 <code>生成授权码</code> 然后用手机扫描授权（直接使用手机qq的扫描功能就可以了），成功后，会有一个授权码，这个就是邮件的密码了</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/TIM20190417185600.png" alt="TIM20190417185600"></span></p>
+<p><span class="image"><img src=".//images/TIM20190417185600.png" alt="TIM20190417185600"></span></p>
 </div>
 <hr>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190103-154507.png" alt="QQ20190103-154507"></span></p>
+<p><span class="image"><img src=".//images/QQ20190103-154507.png" alt="QQ20190103-154507"></span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="elasticsearch配置"><a class="anchor" href="#elasticsearch配置"></a>ElasticSearch配置</h3>
+<h3 id="_elasticsearch配置">4.2. ElasticSearch配置</h3>
 <div class="paragraph">
 <p>程序内置了elasticsearch功能，不过要增加相应的配置才能用</p>
 </div>
@@ -1045,7 +1005,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>下载elasticsearch,版本建议 6.5.3 我用的就是这个版本做的开发的</p>
 </li>
 <li>
-<p>安装ik分词插件，如果你懂命令行操作,可以执行这条命令 <code>cd elasticsearch-6.5.3/bin &amp;&amp; ./elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip</code></p>
+<p>安装ik分词插件，如果你懂命令行操作,可以执行这条命令 <code>cd elasticsearch-6.5.3/bin &amp;&amp; ./elasticsearch-plugin install <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip" class="bare">https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip</a></code></p>
 </li>
 <li>
 <p>启动程序，进入后台，打开系统设置</p>
@@ -1059,17 +1019,17 @@ table.CodeRay td.code>pre{padding:0}
 <p>打开搜索功能的开关</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190103-135005.png" alt="QQ20190103-135005"></span></p>
+<p><span class="image"><img src=".//images/QQ20190103-135005.png" alt="QQ20190103-135005"></span></p>
 </div>
 <div class="paragraph">
 <p>配置ES的连接(连接信息根据自己环境做相应的修改，不一定是图上所示的配置)</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190103-135046.png" alt="QQ20190103-135046"></span></p>
+<p><span class="image"><img src=".//images/QQ20190103-135046.png" alt="QQ20190103-135046"></span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="redis配置"><a class="anchor" href="#redis配置"></a>Redis配置</h3>
+<h3 id="_redis配置">4.3. Redis配置</h3>
 <div class="paragraph">
 <p>程序也内置了redis做缓存的功能</p>
 </div>
@@ -1080,11 +1040,11 @@ table.CodeRay td.code>pre{padding:0}
 <p>根据自己的环境配置上redis的信息，保存就可以用了，不用重启哦！！</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190103-154553.png" alt="QQ20190103-154553"></span></p>
+<p><span class="image"><img src=".//images/QQ20190103-154553.png" alt="QQ20190103-154553"></span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传配置"><a class="anchor" href="#上传配置"></a>上传配置</h3>
+<h3 id="_上传配置">4.4. 上传配置</h3>
 <div class="paragraph">
 <p>程序启动后，要配置上传文件保存路径，否则用户注册会看不到自己的头像</p>
 </div>
@@ -1092,7 +1052,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>配置地址：启动程序 &#8594; 登录后台 &#8594; 系统设置</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190725-111655.png" alt="QQ20190725-111655"></span></p>
+<p><span class="image"><img src=".//images/QQ20190725-111655.png" alt="QQ20190725-111655"></span></p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1108,7 +1068,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="非nginx静态映射配置"><a class="anchor" href="#非nginx静态映射配置"></a>非nginx静态映射配置</h3>
+<h3 id="_非nginx静态映射配置">4.5. 非nginx静态映射配置</h3>
 <div class="paragraph">
 <p>如果你没有使用nginx做静态文件映射，就请配置在程序启动目录下，举个例子：</p>
 </div>
@@ -1120,7 +1080,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="nginx静态文件映射配置方法"><a class="anchor" href="#nginx静态文件映射配置方法"></a>nginx静态文件映射配置方法</h3>
+<h3 id="_nginx静态文件映射配置方法">4.6. nginx静态文件映射配置方法</h3>
 <div class="paragraph">
 <p>nginx静态文件映射配置</p>
 </div>
@@ -1140,13 +1100,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="静态文件访问地址"><a class="anchor" href="#静态文件访问地址"></a>静态文件访问地址</h3>
+<h3 id="_静态文件访问地址">4.7. 静态文件访问地址</h3>
 <div class="paragraph">
-<p>默认给的是 <code>http://localhost:8080/static/upload/</code> 如果你的访问域名是 <code>http://example.com</code> 那这里就要换成 <code>http://example.com/static/upload/</code></p>
+<p>默认给的是 <code><a href="http://localhost:8080/static/upload/" class="bare">http://localhost:8080/static/upload/</a></code> 如果你的访问域名是 <code><a href="http://example.com" class="bare">http://example.com</a></code> 那这里就要换成 <code><a href="http://example.com/static/upload/" class="bare">http://example.com/static/upload/</a></code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="github登录配置方法"><a class="anchor" href="#github登录配置方法"></a>Github登录配置方法</h3>
+<h3 id="_github登录配置方法">4.8. Github登录配置方法</h3>
 <div class="paragraph">
 <p>申请clientId, clientSecret地址：https://github.com/settings/developers 前提要先登录github</p>
 </div>
@@ -1154,19 +1114,19 @@ table.CodeRay td.code>pre{padding:0}
 <p>打开页面后，点击 <code>New OAuth APP</code> 按钮</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190107-135811.png" alt="QQ20190107-135811"></span></p>
+<p><span class="image"><img src=".//images/QQ20190107-135811.png" alt="QQ20190107-135811"></span></p>
 </div>
 <div class="paragraph">
 <p>填上必要的信息</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190107-140155.png" alt="QQ20190107-140155"></span></p>
+<p><span class="image"><img src=".//images/QQ20190107-140155.png" alt="QQ20190107-140155"></span></p>
 </div>
 <div class="paragraph">
 <p>填写好之后，保存，跳转的页面上就有 clientId, clientSecret信息了，如下图</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190107-135903.png" alt="QQ20190107-135903"></span></p>
+<p><span class="image"><img src=".//images/QQ20190107-135903.png" alt="QQ20190107-135903"></span></p>
 </div>
 <div class="paragraph">
 <p>拷贝上图中红框内容，粘贴到网站后台系统设置页面里的 Github 配置信息里</p>
@@ -1175,7 +1135,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>刷新登录页面即可出现相应按钮</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src=".//images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>注意</strong></p>
@@ -1186,7 +1146,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>网站域名必须外网能访问，如是你要在内网测试，可以使用ngrok，frp等工具来做内网穿透，具体使用方法百度吧，网上很多</p>
 </li>
 <li>
-<p>回调地址格式是 网站域名+/oauth/github/callback 假如你的域名是 <code>http://example.com</code> 那么这里的回调地址就是 <code>http://example.com/oauth/github/callback</code> 不要填错了</p>
+<p>回调地址格式是 网站域名+/oauth/github/callback 假如你的域名是 <code><a href="http://example.com" class="bare">http://example.com</a></code> 那么这里的回调地址就是 <code><a href="http://example.com/oauth/github/callback" class="bare">http://example.com/oauth/github/callback</a></code> 不要填错了</p>
 </li>
 </ul>
 </div>
@@ -1195,7 +1155,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="微信登录配置方法"><a class="anchor" href="#微信登录配置方法"></a>微信登录配置方法</h3>
+<h3 id="_微信登录配置方法">4.9. 微信登录配置方法</h3>
 <div class="paragraph">
 <p>注册开放平台 <a href="http://open.weixin.qq.com" class="bare">http://open.weixin.qq.com</a> 然后创建web应用，跟着步骤一步一步来就可以了，最后可以拿到 <code>appid</code> <code>appsecret</code> 加上在创建应用的时候填上的 <code>callback</code></p>
 </div>
@@ -1203,14 +1163,14 @@ table.CodeRay td.code>pre{padding:0}
 <p>总共三个参数，都配置在`朋也社区`后台设置页面里`微信登录`区域，然后刷新登录页面，就有微信登录按钮了！！</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src=".//images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>感谢 <a href="https://github.com/gdhua">@gdhua</a> 提供的微信联合登录要用到的 <code>appid</code> <code>appsecret</code></strong></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="短信验证码登录-注册"><a class="anchor" href="#短信验证码登录-注册"></a>短信验证码登录/注册</h3>
+<h3 id="_短信验证码登录_注册">4.10. 短信验证码登录/注册</h3>
 <div class="paragraph">
 <p>在群友提供的阿里云短信的key, secret及模板的帮助下，朋也社区也有了短信验证码登录的功能了，配置如下</p>
 </div>
@@ -1227,7 +1187,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>最后配置在项目后台的系统设置里，刷新登录页面，就会有手机号登录的按钮出现</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
+<p><span class="image"><img src=".//images/QQ20190418-153321.png" alt="QQ20190418-153321"></span></p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1251,7 +1211,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="开启websocket"><a class="anchor" href="#开启websocket"></a>开启WebSocket</h3>
+<h3 id="_开启websocket">4.11. 开启WebSocket</h3>
 <div class="paragraph">
 <p>重新更新了一下websocket的实现，换成了javax.websocket包下的类实现，没有了之间的关闭服务还要等会的问题了</p>
 </div>
@@ -1298,7 +1258,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>效果如下</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/7C56195B1FE6F942649D30D65416EE80.jpg" alt="7C56195B1FE6F942649D30D65416EE80"></span></p>
+<p><span class="image"><img src=".//images/7C56195B1FE6F942649D30D65416EE80.jpg" alt="7C56195B1FE6F942649D30D65416EE80"></span></p>
 </div>
 <div class="paragraph">
 <p>当然开启websocket服务也不是没有好处的，比如：</p>
@@ -1318,7 +1278,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>如果你看了上面的说明后，还是想开启，配置如下</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190123-103144.png" alt="QQ20190123-103144"></span></p>
+<p><span class="image"><img src=".//images/QQ20190123-103144.png" alt="QQ20190123-103144"></span></p>
 </div>
 <div class="paragraph">
 <p>只有两个配置</p>
@@ -1338,7 +1298,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="内置主题"><a class="anchor" href="#内置主题"></a>内置主题</h3>
+<h3 id="_内置主题">4.12. 内置主题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1351,12 +1311,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="更换主题"><a class="anchor" href="#更换主题"></a>更换主题</h3>
+<h3 id="_更换主题">4.13. 更换主题</h3>
 <div class="paragraph">
 <p>启动后，登录后台，可进行选择使用哪套，选择后保存，立即生效</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190131-173707.png" alt="QQ20190131-173707"></span></p>
+<p><span class="image"><img src=".//images/QQ20190131-173707.png" alt="QQ20190131-173707"></span></p>
 </div>
 <div class="paragraph">
 <p>想体验的，可以在体验环境上修改查看</p>
@@ -1368,10 +1328,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="公网部署"><a class="anchor" href="#公网部署"></a>公网部署</h2>
+<h2 id="_公网部署">5. 公网部署</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="部署步骤"><a class="anchor" href="#部署步骤"></a>部署步骤</h3>
+<h3 id="_部署步骤">5.1. 部署步骤</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1390,7 +1350,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="nginx配置"><a class="anchor" href="#nginx配置"></a>nginx配置</h3>
+<h3 id="_nginx配置">5.2. nginx配置</h3>
 <div class="paragraph">
 <p>如果你服务器上就只一个论坛项目，那直接将程序里的端口改成80即可，如果你还想折腾点其它的东西，那就要用到nginx做代理转发请求了，具体配置如下</p>
 </div>
@@ -1421,13 +1381,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="frp映射配置"><a class="anchor" href="#frp映射配置"></a>frp映射配置</h3>
+<h3 id="_frp映射配置">5.3. frp映射配置</h3>
 <div class="paragraph">
 <p>关于这个配置可以参见我的一篇博客 <a href="https://tomoya92.github.io/2018/10/18/frp-tutorial/">利用frp内网穿透实现用自家电脑发布网站(不用买服务器了)</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="配置https"><a class="anchor" href="#配置https"></a>配置https</h3>
+<h3 id="_配置https">5.4. 配置https</h3>
 <div class="paragraph">
 <p>https强烈推荐使用 letsencrypt 配置简单，主要是免费，唯一的缺点就是要3个月续一下时间，配置参见文档: <a href="https://tomoya92.github.io/2016/08/28/letsencrypt-nginx-https/">letsencrypt结合nginx配置https备忘</a></p>
 </div>
@@ -1450,7 +1410,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="主题开发"><a class="anchor" href="#主题开发"></a>主题开发</h2>
+<h2 id="_主题开发">6. 主题开发</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>开发主题，首先要会使用freemarker模板引擎, 因为pybbs的页面用的就是freemarker模式</strong></p>
@@ -1472,7 +1432,7 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 <div class="sect2">
-<h3 id="主题目录"><a class="anchor" href="#主题目录"></a>主题目录</h3>
+<h3 id="_主题目录">6.1. 主题目录</h3>
 <div class="paragraph">
 <p>主题必备目录有以下几个</p>
 </div>
@@ -1523,7 +1483,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="全局对象"><a class="anchor" href="#全局对象"></a>全局对象</h3>
+<h3 id="_全局对象">6.2. 全局对象</h3>
 <div class="paragraph">
 <p>通俗点说就是在所有页面里都能取到的数据的对象，有如下几个</p>
 </div>
@@ -1558,7 +1518,7 @@ table.CodeRay td.code>pre{padding:0}
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="model对象内的方法"><a class="anchor" href="#model对象内的方法"></a>model对象内的方法</h4>
+<h4 id="_model对象内的方法">6.2.1. model对象内的方法</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> formatDate(<span class="predefined-type">Date</span> date);
@@ -1569,7 +1529,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="site对象中的属性"><a class="anchor" href="#site对象中的属性"></a>site对象中的属性</h4>
+<h4 id="_site对象中的属性">6.2.2. site对象中的属性</h4>
 <div class="paragraph">
 <p>在页面里取site里的属性方法 <code>${site.name!}</code></p>
 </div>
@@ -1748,7 +1708,7 @@ table.CodeRay td.code>pre{padding:0}
 </table>
 </div>
 <div class="sect3">
-<h4 id="i18n对象中的属性"><a class="anchor" href="#i18n对象中的属性"></a>i18n对象中的属性</h4>
+<h4 id="_i18n对象中的属性">6.2.3. i18n对象中的属性</h4>
 <div class="paragraph">
 <p>在页面中获取的方法是 <code>${i18n.getMessage("index")}</code></p>
 </div>
@@ -1849,7 +1809,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="freemarker自定义标签"><a class="anchor" href="#freemarker自定义标签"></a>Freemarker自定义标签</h3>
+<h3 id="_freemarker自定义标签">6.3. Freemarker自定义标签</h3>
 <div class="paragraph">
 <p>pybbs提供了如下几个自定义标签</p>
 </div>
@@ -1935,7 +1895,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>在标签返回对象里有一些不是定义的model里的对象，而是Map封装的对象，这些map里都有啥呢？</p>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_topics-对象中的map包含的字段"><a class="anchor" href="#标签-tag_topics-对象中的map包含的字段"></a>标签 tag_topics 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_topics_对象中的map包含的字段">6.3.1. 标签 tag_topics 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1951,7 +1911,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_notifications-对象中的map包含的字段"><a class="anchor" href="#标签-tag_notifications-对象中的map包含的字段"></a>标签 tag_notifications 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_notifications_对象中的map包含的字段">6.3.2. 标签 tag_notifications 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1973,7 +1933,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_search-对象中的map包含的字段"><a class="anchor" href="#标签-tag_search-对象中的map包含的字段"></a>标签 tag_search 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_search_对象中的map包含的字段">6.3.3. 标签 tag_search 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1989,7 +1949,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_user_topics-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_topics-对象中的map包含的字段"></a>标签 tag_user_topics 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_user_topics_对象中的map包含的字段">6.3.4. 标签 tag_user_topics 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2005,7 +1965,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_user_comments-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_comments-对象中的map包含的字段"></a>标签 tag_user_comments 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_user_comments_对象中的map包含的字段">6.3.5. 标签 tag_user_comments 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2027,7 +1987,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="标签-tag_user_collects-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_collects-对象中的map包含的字段"></a>标签 tag_user_collects 对象中的Map包含的字段</h4>
+<h4 id="_标签_tag_user_collects_对象中的map包含的字段">6.3.6. 标签 tag_user_collects 对象中的Map包含的字段</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2044,7 +2004,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="自定义标签使用"><a class="anchor" href="#自定义标签使用"></a>自定义标签使用</h3>
+<h3 id="_自定义标签使用">6.4. 自定义标签使用</h3>
 <div class="paragraph">
 <p>自定义标签用法很简单，不会用的话，可以参考已经存在的主题里的用法，下面说一下首页的 tag_topics 标签的用法</p>
 </div>
@@ -2064,7 +2024,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="路由渲染可获取对象"><a class="anchor" href="#路由渲染可获取对象"></a>路由渲染可获取对象</h3>
+<h3 id="_路由渲染可获取对象">6.5. 路由渲染可获取对象</h3>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 20%;">
@@ -2241,9 +2201,9 @@ table.CodeRay td.code>pre{padding:0}
 </table>
 </div>
 <div class="sect2">
-<h3 id="对象包含的字段"><a class="anchor" href="#对象包含的字段"></a>对象包含的字段</h3>
+<h3 id="_对象包含的字段">6.6. 对象包含的字段</h3>
 <div class="sect3">
-<h4 id="分页对象-page"><a class="anchor" href="#分页对象-page"></a>分页对象 Page</h4>
+<h4 id="_分页对象_page">6.6.1. 分页对象 Page</h4>
 <div class="paragraph">
 <p>这个对象是Mybatis-Plus里封装的，常用字段有以下几个</p>
 </div>
@@ -2268,7 +2228,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="用户对象-user"><a class="anchor" href="#用户对象-user"></a>用户对象 User</h4>
+<h4 id="_用户对象_user">6.6.2. 用户对象 User</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -2292,7 +2252,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="话题对象-topic"><a class="anchor" href="#话题对象-topic"></a>话题对象 Topic</h4>
+<h4 id="_话题对象_topic">6.6.3. 话题对象 Topic</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -2317,7 +2277,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="评论对象-comment"><a class="anchor" href="#评论对象-comment"></a>评论对象 Comment</h4>
+<h4 id="_评论对象_comment">6.6.4. 评论对象 Comment</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -2332,7 +2292,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="评论-盖楼-对象-commentsbytopic"><a class="anchor" href="#评论-盖楼-对象-commentsbytopic"></a>评论(盖楼)对象 CommentsByTopic</h4>
+<h4 id="_评论_盖楼_对象_commentsbytopic">6.6.5. 评论(盖楼)对象 CommentsByTopic</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 话题下面的评论列表单个对象的数据结构</span>
@@ -2347,7 +2307,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="通知对象-notification"><a class="anchor" href="#通知对象-notification"></a>通知对象 Notification</h4>
+<h4 id="_通知对象_notification">6.6.6. 通知对象 Notification</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -2365,7 +2325,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect3">
-<h4 id="授权登录对象-oauthuser"><a class="anchor" href="#授权登录对象-oauthuser"></a>授权登录对象 OAuthUser</h4>
+<h4 id="_授权登录对象_oauthuser">6.6.7. 授权登录对象 OAuthUser</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -2389,12 +2349,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="接口文档"><a class="anchor" href="#接口文档"></a>接口文档</h2>
+<h2 id="_接口文档">7. 接口文档</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="获取token"><a class="anchor" href="#获取token"></a>获取token</h3>
+<h3 id="_获取token">7.1. 获取token</h3>
 <div class="paragraph">
-<p><strong>系统默认开启了cors访问，任何源都可以访问 <code>/api/**</code> 下的资源，如果想关闭的话，可以通过修改源码的方式关闭，源码位置 <code>co.yiiu.pybbs.config.WebMvcConfig</code></strong></p>
+<p><strong>系统默认开启了cors访问，任何源都可以访问 <code>/api/</strong>*</code> 下的资源，如果想关闭的话，可以通过修改源码的方式关闭，源码位置 <code>co.yiiu.pybbs.config.WebMvcConfig</code>*</p>
 </div>
 <div class="paragraph">
 <p>有的接口请求要求带上用户的`token`参数，这个token是在用户注册的时候自动生成的，可以在个人设置页面重新生成</p>
@@ -2406,11 +2366,11 @@ table.CodeRay td.code>pre{padding:0}
 <p>用户登录上论坛，打开页面最上方的 设置，在页面右边可以查看到自己的token，如下图</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/QQ20190109-111822.png" alt="QQ20190109-111822"></span></p>
+<p><span class="image"><img src=".//images/QQ20190109-111822.png" alt="QQ20190109-111822"></span></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="请求接口示例"><a class="anchor" href="#请求接口示例"></a>请求接口示例</h3>
+<h3 id="_请求接口示例">7.2. 请求接口示例</h3>
 <div class="paragraph">
 <p>pybbs上的接口风格已经全都换成`RESTFUL`风格的了，调用方式也有了相应的调整</p>
 </div>
@@ -2458,7 +2418,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="接口返回对象"><a class="anchor" href="#接口返回对象"></a>接口返回对象</h3>
+<h3 id="_接口返回对象">7.3. 接口返回对象</h3>
 <div class="paragraph">
 <p>接口返回对象就只有一个 <code>Result</code></p>
 </div>
@@ -2492,7 +2452,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="接口返回分页对象"><a class="anchor" href="#接口返回分页对象"></a>接口返回分页对象</h3>
+<h3 id="_接口返回分页对象">7.4. 接口返回分页对象</h3>
 <div class="paragraph">
 <p>如果接口涉及到分页的话，就会返回 <code>Result(IPage)</code> 就是将查询后封装好的分页对象放在Result对象的detail属性里，再转成json返给前端</p>
 </div>
@@ -2526,7 +2486,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="图片验证码"><a class="anchor" href="#图片验证码"></a>图片验证码</h3>
+<h3 id="_图片验证码">7.5. 图片验证码</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2551,14 +2511,14 @@ table.CodeRay td.code>pre{padding:0}
 <p>响应是一张GIF动态图片，如下图</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./images/captcha.gif" alt="captcha"></span></p>
+<p><span class="image"><img src=".//images/captcha.gif" alt="captcha"></span></p>
 </div>
 <div class="paragraph">
 <p>首页接口分别有以下几个</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-首页列表"><a class="anchor" href="#首页-首页列表"></a>首页 - 首页列表</h3>
+<h3 id="_首页_首页列表">7.6. 首页 - 首页列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2629,7 +2589,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-登录"><a class="anchor" href="#首页-登录"></a>首页 - 登录</h3>
+<h3 id="_首页_登录">7.7. 首页 - 登录</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2684,7 +2644,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-注册"><a class="anchor" href="#首页-注册"></a>首页 - 注册</h3>
+<h3 id="_首页_注册">7.8. 首页 - 注册</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2742,7 +2702,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-发送手机验证码"><a class="anchor" href="#首页-发送手机验证码"></a>首页 - 发送手机验证码</h3>
+<h3 id="_首页_发送手机验证码">7.9. 首页 - 发送手机验证码</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2780,7 +2740,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-手机号-验证码登录-注册"><a class="anchor" href="#首页-手机号-验证码登录-注册"></a>首页 - 手机号+验证码登录/注册</h3>
+<h3 id="_首页_手机号_验证码登录_注册">7.10. 首页 - 手机号+验证码登录/注册</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2836,7 +2796,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-标签"><a class="anchor" href="#首页-标签"></a>首页 - 标签</h3>
+<h3 id="_首页_标签">7.11. 首页 - 标签</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2887,7 +2847,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-标签查话题列表"><a class="anchor" href="#首页-标签查话题列表"></a>首页 - 标签查话题列表</h3>
+<h3 id="_首页_标签查话题列表">7.12. 首页 - 标签查话题列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2959,7 +2919,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="首页-上传文件-图片-视频"><a class="anchor" href="#首页-上传文件-图片-视频"></a>首页 - 上传文件（图片，视频）</h3>
+<h3 id="_首页_上传文件_图片_视频">7.13. 首页 - 上传文件（图片，视频）</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3003,7 +2963,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="话题-话题详情"><a class="anchor" href="#话题-话题详情"></a>话题 - 话题详情</h3>
+<h3 id="_话题_话题详情">7.14. 话题 - 话题详情</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3128,7 +3088,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="话题-发布话题"><a class="anchor" href="#话题-发布话题"></a>话题 - 发布话题</h3>
+<h3 id="_话题_发布话题">7.15. 话题 - 发布话题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3182,7 +3142,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="话题-编辑话题"><a class="anchor" href="#话题-编辑话题"></a>话题 - 编辑话题</h3>
+<h3 id="_话题_编辑话题">7.16. 话题 - 编辑话题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3239,7 +3199,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="话题-删除话题"><a class="anchor" href="#话题-删除话题"></a>话题 - 删除话题</h3>
+<h3 id="_话题_删除话题">7.17. 话题 - 删除话题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3277,7 +3237,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="话题-点赞话题"><a class="anchor" href="#话题-点赞话题"></a>话题 - 点赞话题</h3>
+<h3 id="_话题_点赞话题">7.18. 话题 - 点赞话题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3315,7 +3275,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="评论-发布评论"><a class="anchor" href="#评论-发布评论"></a>评论 - 发布评论</h3>
+<h3 id="_评论_发布评论">7.19. 评论 - 发布评论</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3367,7 +3327,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="评论-更新评论"><a class="anchor" href="#评论-更新评论"></a>评论 - 更新评论</h3>
+<h3 id="_评论_更新评论">7.20. 评论 - 更新评论</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3416,7 +3376,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="评论-删除评论"><a class="anchor" href="#评论-删除评论"></a>评论 - 删除评论</h3>
+<h3 id="_评论_删除评论">7.21. 评论 - 删除评论</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3454,7 +3414,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="评论-点赞评论"><a class="anchor" href="#评论-点赞评论"></a>评论 - 点赞评论</h3>
+<h3 id="_评论_点赞评论">7.22. 评论 - 点赞评论</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3492,7 +3452,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="收藏-收藏话题"><a class="anchor" href="#收藏-收藏话题"></a>收藏 - 收藏话题</h3>
+<h3 id="_收藏_收藏话题">7.23. 收藏 - 收藏话题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3530,7 +3490,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="收藏-取消收藏"><a class="anchor" href="#收藏-取消收藏"></a>收藏 - 取消收藏</h3>
+<h3 id="_收藏_取消收藏">7.24. 收藏 - 取消收藏</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3568,7 +3528,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="通知-未读消息个数"><a class="anchor" href="#通知-未读消息个数"></a>通知 - 未读消息个数</h3>
+<h3 id="_通知_未读消息个数">7.25. 通知 - 未读消息个数</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3603,7 +3563,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="通知-标记消息已读"><a class="anchor" href="#通知-标记消息已读"></a>通知 - 标记消息已读</h3>
+<h3 id="_通知_标记消息已读">7.26. 通知 - 标记消息已读</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3637,7 +3597,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="通知-消息列表"><a class="anchor" href="#通知-消息列表"></a>通知 - 消息列表</h3>
+<h3 id="_通知_消息列表">7.27. 通知 - 消息列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3716,7 +3676,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="用户-用户信息"><a class="anchor" href="#用户-用户信息"></a>用户 - 用户信息</h3>
+<h3 id="_用户_用户信息">7.28. 用户 - 用户信息</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3838,7 +3798,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="用户-用户话题列表"><a class="anchor" href="#用户-用户话题列表"></a>用户 - 用户话题列表</h3>
+<h3 id="_用户_用户话题列表">7.29. 用户 - 用户话题列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3914,7 +3874,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="用户-用户评论列表"><a class="anchor" href="#用户-用户评论列表"></a>用户 - 用户评论列表</h3>
+<h3 id="_用户_用户评论列表">7.30. 用户 - 用户评论列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3985,7 +3945,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="用户-用户收藏列表"><a class="anchor" href="#用户-用户收藏列表"></a>用户 - 用户收藏列表</h3>
+<h3 id="_用户_用户收藏列表">7.31. 用户 - 用户收藏列表</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4071,7 +4031,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-更新个人信息"><a class="anchor" href="#设置-更新个人信息"></a>设置 - 更新个人信息</h3>
+<h3 id="_设置_更新个人信息">7.32. 设置 - 更新个人信息</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4118,7 +4078,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-发送激活邮件"><a class="anchor" href="#设置-发送激活邮件"></a>设置 - 发送激活邮件</h3>
+<h3 id="_设置_发送激活邮件">7.33. 设置 - 发送激活邮件</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4153,7 +4113,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-发送邮箱验证码"><a class="anchor" href="#设置-发送邮箱验证码"></a>设置 - 发送邮箱验证码</h3>
+<h3 id="_设置_发送邮箱验证码">7.34. 设置 - 发送邮箱验证码</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4194,7 +4154,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-更新用户邮箱"><a class="anchor" href="#设置-更新用户邮箱"></a>设置 - 更新用户邮箱</h3>
+<h3 id="_设置_更新用户邮箱">7.35. 设置 - 更新用户邮箱</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4232,7 +4192,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-修改密码"><a class="anchor" href="#设置-修改密码"></a>设置 - 修改密码</h3>
+<h3 id="_设置_修改密码">7.36. 设置 - 修改密码</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4273,7 +4233,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="设置-刷新token"><a class="anchor" href="#设置-刷新token"></a>设置 - 刷新token</h3>
+<h3 id="_设置_刷新token">7.37. 设置 - 刷新token</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4310,16 +4270,16 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="q-a"><a class="anchor" href="#q-a"></a>Q&amp;A</h2>
+<h2 id="_q_a">8. Q&amp;A</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="数据库在哪"><a class="anchor" href="#数据库在哪"></a>数据库在哪？</h3>
+<h3 id="_数据库在哪">8.1. 数据库在哪？</h3>
 <div class="paragraph">
 <p>启动项目只需要配置好数据源连接地址，用户名，密码，其它都不用管，如果数据源连接信息都配置的对，启动还是报错，请查看你配置的MySQL用户是否有创建数据库以及表和对表的CRUD的权限</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="发帖技巧"><a class="anchor" href="#发帖技巧"></a>发帖技巧</h3>
+<h3 id="_发帖技巧">8.2. 发帖技巧</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -4335,7 +4295,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传的图片为啥不显示"><a class="anchor" href="#上传的图片为啥不显示"></a>上传的图片为啥不显示</h3>
+<h3 id="_上传的图片为啥不显示">8.3. 上传的图片为啥不显示</h3>
 <div class="paragraph">
 <p><strong>说明</strong></p>
 </div>
@@ -4357,13 +4317,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传的视频格式有哪些"><a class="anchor" href="#上传的视频格式有哪些"></a>上传的视频格式有哪些</h3>
+<h3 id="_上传的视频格式有哪些">8.4. 上传的视频格式有哪些</h3>
 <div class="paragraph">
 <p>因为html标签中的 video 标签默认支持 mp4 格式，所以我在default主题里的上传组件里限制了上传视频文件的类型为 <code>mp4</code> ，同时对图片的格式也做了限制 <code>png,jpg,gif</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传视频报413错误"><a class="anchor" href="#上传视频报413错误"></a>上传视频报413错误</h3>
+<h3 id="_上传视频报413错误">8.5. 上传视频报413错误</h3>
 <div class="paragraph">
 <p>这是nginx报的错，需要对nginx配置一下 <code>client_max_body_size</code></p>
 </div>
@@ -4381,13 +4341,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="后台用户名密码是多少"><a class="anchor" href="#后台用户名密码是多少"></a>后台用户名密码是多少？</h3>
+<h3 id="_后台用户名密码是多少">8.6. 后台用户名密码是多少？</h3>
 <div class="paragraph">
 <p>快速开始文档里有</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="启动项目时报错"><a class="anchor" href="#启动项目时报错"></a>启动项目时报错</h3>
+<h3 id="_启动项目时报错">8.7. 启动项目时报错</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -4430,7 +4390,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="redis配置失败"><a class="anchor" href="#redis配置失败"></a>redis配置失败</h3>
+<h3 id="_redis配置失败">8.8. redis配置失败</h3>
 <div class="paragraph">
 <p>redis请不要开启auth，程序内集成的代码没有支持auth的配置</p>
 </div>
@@ -4439,7 +4399,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="发帖或者评论有emoji时提交失败"><a class="anchor" href="#发帖或者评论有emoji时提交失败"></a>发帖或者评论有emoji时提交失败</h3>
+<h3 id="_发帖或者评论有emoji时提交失败">8.9. 发帖或者评论有emoji时提交失败</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -4447,7 +4407,7 @@ table.CodeRay td.code>pre{padding:0}
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-错误信息: <code>### Error updating database. Cause: java.sql.SQLException: Incorrect string value: '\xF0\x9F\x98\x82' for column 'content' at row 1</code>
+错误信息: <code><mark>#</mark> Error updating database. Cause: java.sql.SQLException: Incorrect string value: '\xF0\x9F\x98\x82' for column 'content' at row 1</code>
 </td>
 </tr>
 </table>
@@ -4482,7 +4442,7 @@ init_connect='SET NAMES utf8mb4'</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-28 07:19:43 +00:00
+Last updated 2020-07-02 03:45:39 +00:00
 </div>
 </div>
 </body>

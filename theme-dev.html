@@ -501,8 +501,44 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_主题目录">1. 主题目录</a></li>
+<li><a href="#_全局对象">2. 全局对象</a>
+<ul class="sectlevel2">
+<li><a href="#_model对象内的方法">2.1. model对象内的方法</a></li>
+<li><a href="#_site对象中的属性">2.2. site对象中的属性</a></li>
+<li><a href="#_i18n对象中的属性">2.3. i18n对象中的属性</a></li>
+</ul>
+</li>
+<li><a href="#_freemarker自定义标签">3. Freemarker自定义标签</a>
+<ul class="sectlevel2">
+<li><a href="#_标签_tag_topics_对象中的map包含的字段">3.1. 标签 tag_topics 对象中的Map包含的字段</a></li>
+<li><a href="#_标签_tag_notifications_对象中的map包含的字段">3.2. 标签 tag_notifications 对象中的Map包含的字段</a></li>
+<li><a href="#_标签_tag_search_对象中的map包含的字段">3.3. 标签 tag_search 对象中的Map包含的字段</a></li>
+<li><a href="#_标签_tag_user_topics_对象中的map包含的字段">3.4. 标签 tag_user_topics 对象中的Map包含的字段</a></li>
+<li><a href="#_标签_tag_user_comments_对象中的map包含的字段">3.5. 标签 tag_user_comments 对象中的Map包含的字段</a></li>
+<li><a href="#_标签_tag_user_collects_对象中的map包含的字段">3.6. 标签 tag_user_collects 对象中的Map包含的字段</a></li>
+</ul>
+</li>
+<li><a href="#_自定义标签使用">4. 自定义标签使用</a></li>
+<li><a href="#_路由渲染可获取对象">5. 路由渲染可获取对象</a></li>
+<li><a href="#_对象包含的字段">6. 对象包含的字段</a>
+<ul class="sectlevel2">
+<li><a href="#_分页对象_page">6.1. 分页对象 Page</a></li>
+<li><a href="#_用户对象_user">6.2. 用户对象 User</a></li>
+<li><a href="#_话题对象_topic">6.3. 话题对象 Topic</a></li>
+<li><a href="#_评论对象_comment">6.4. 评论对象 Comment</a></li>
+<li><a href="#_评论_盖楼_对象_commentsbytopic">6.5. 评论(盖楼)对象 CommentsByTopic</a></li>
+<li><a href="#_通知对象_notification">6.6. 通知对象 Notification</a></li>
+<li><a href="#_授权登录对象_oauthuser">6.7. 授权登录对象 OAuthUser</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="paragraph">
@@ -524,8 +560,9 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="主题目录"><a class="anchor" href="#主题目录"></a>主题目录</h3>
+<div class="sect1">
+<h2 id="_主题目录">1. 主题目录</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>主题必备目录有以下几个</p>
 </div>
@@ -575,8 +612,10 @@ table.CodeRay td.code>pre{padding:0}
 <p>如果你习惯封装，可以跟default主题里一样，把通用的代码块封装成component，放在一个文件夹里（比如 default主题里的组件文件夹就是 components 当然这个不是必须的）</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="全局对象"><a class="anchor" href="#全局对象"></a>全局对象</h3>
+</div>
+<div class="sect1">
+<h2 id="_全局对象">2. 全局对象</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>通俗点说就是在所有页面里都能取到的数据的对象，有如下几个</p>
 </div>
@@ -610,8 +649,8 @@ table.CodeRay td.code>pre{padding:0}
 </tr>
 </tbody>
 </table>
-<div class="sect3">
-<h4 id="model对象内的方法"><a class="anchor" href="#model对象内的方法"></a>model对象内的方法</h4>
+<div class="sect2">
+<h3 id="_model对象内的方法">2.1. model对象内的方法</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> formatDate(<span class="predefined-type">Date</span> date);
@@ -621,8 +660,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="site对象中的属性"><a class="anchor" href="#site对象中的属性"></a>site对象中的属性</h4>
+<div class="sect2">
+<h3 id="_site对象中的属性">2.2. site对象中的属性</h3>
 <div class="paragraph">
 <p>在页面里取site里的属性方法 <code>${site.name!}</code></p>
 </div>
@@ -800,8 +839,8 @@ table.CodeRay td.code>pre{padding:0}
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="i18n对象中的属性"><a class="anchor" href="#i18n对象中的属性"></a>i18n对象中的属性</h4>
+<div class="sect2">
+<h3 id="_i18n对象中的属性">2.3. i18n对象中的属性</h3>
 <div class="paragraph">
 <p>在页面中获取的方法是 <code>${i18n.getMessage("index")}</code></p>
 </div>
@@ -901,8 +940,10 @@ table.CodeRay td.code>pre{padding:0}
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="freemarker自定义标签"><a class="anchor" href="#freemarker自定义标签"></a>Freemarker自定义标签</h3>
+</div>
+<div class="sect1">
+<h2 id="_freemarker自定义标签">3. Freemarker自定义标签</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>pybbs提供了如下几个自定义标签</p>
 </div>
@@ -987,8 +1028,8 @@ table.CodeRay td.code>pre{padding:0}
 <div class="paragraph">
 <p>在标签返回对象里有一些不是定义的model里的对象，而是Map封装的对象，这些map里都有啥呢？</p>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_topics-对象中的map包含的字段"><a class="anchor" href="#标签-tag_topics-对象中的map包含的字段"></a>标签 tag_topics 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_topics_对象中的map包含的字段">3.1. 标签 tag_topics 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1003,8 +1044,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_notifications-对象中的map包含的字段"><a class="anchor" href="#标签-tag_notifications-对象中的map包含的字段"></a>标签 tag_notifications 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_notifications_对象中的map包含的字段">3.2. 标签 tag_notifications 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1025,8 +1066,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_search-对象中的map包含的字段"><a class="anchor" href="#标签-tag_search-对象中的map包含的字段"></a>标签 tag_search 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_search_对象中的map包含的字段">3.3. 标签 tag_search 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1041,8 +1082,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_user_topics-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_topics-对象中的map包含的字段"></a>标签 tag_user_topics 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_user_topics_对象中的map包含的字段">3.4. 标签 tag_user_topics 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1057,8 +1098,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_user_comments-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_comments-对象中的map包含的字段"></a>标签 tag_user_comments 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_user_comments_对象中的map包含的字段">3.5. 标签 tag_user_comments 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1079,8 +1120,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="标签-tag_user_collects-对象中的map包含的字段"><a class="anchor" href="#标签-tag_user_collects-对象中的map包含的字段"></a>标签 tag_user_collects 对象中的Map包含的字段</h4>
+<div class="sect2">
+<h3 id="_标签_tag_user_collects_对象中的map包含的字段">3.6. 标签 tag_user_collects 对象中的Map包含的字段</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1096,8 +1137,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="自定义标签使用"><a class="anchor" href="#自定义标签使用"></a>自定义标签使用</h3>
+</div>
+<div class="sect1">
+<h2 id="_自定义标签使用">4. 自定义标签使用</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>自定义标签用法很简单，不会用的话，可以参考已经存在的主题里的用法，下面说一下首页的 tag_topics 标签的用法</p>
 </div>
@@ -1116,8 +1159,10 @@ table.CodeRay td.code>pre{padding:0}
 <p>至于标签里返回的对象都是什么东西，下面介绍，先说说每个路由渲染的页面里都能取出什么东西吧</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="路由渲染可获取对象"><a class="anchor" href="#路由渲染可获取对象"></a>路由渲染可获取对象</h3>
+</div>
+<div class="sect1">
+<h2 id="_路由渲染可获取对象">5. 路由渲染可获取对象</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 20%;">
@@ -1293,10 +1338,12 @@ table.CodeRay td.code>pre{padding:0}
 </tbody>
 </table>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_对象包含的字段">6. 对象包含的字段</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="对象包含的字段"><a class="anchor" href="#对象包含的字段"></a>对象包含的字段</h3>
-<div class="sect3">
-<h4 id="分页对象-page"><a class="anchor" href="#分页对象-page"></a>分页对象 Page</h4>
+<h3 id="_分页对象_page">6.1. 分页对象 Page</h3>
 <div class="paragraph">
 <p>这个对象是Mybatis-Plus里封装的，常用字段有以下几个</p>
 </div>
@@ -1320,8 +1367,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="用户对象-user"><a class="anchor" href="#用户对象-user"></a>用户对象 User</h4>
+<div class="sect2">
+<h3 id="_用户对象_user">6.2. 用户对象 User</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -1344,8 +1391,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="话题对象-topic"><a class="anchor" href="#话题对象-topic"></a>话题对象 Topic</h4>
+<div class="sect2">
+<h3 id="_话题对象_topic">6.3. 话题对象 Topic</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -1369,8 +1416,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="评论对象-comment"><a class="anchor" href="#评论对象-comment"></a>评论对象 Comment</h4>
+<div class="sect2">
+<h3 id="_评论对象_comment">6.4. 评论对象 Comment</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -1384,8 +1431,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="评论-盖楼-对象-commentsbytopic"><a class="anchor" href="#评论-盖楼-对象-commentsbytopic"></a>评论(盖楼)对象 CommentsByTopic</h4>
+<div class="sect2">
+<h3 id="_评论_盖楼_对象_commentsbytopic">6.5. 评论(盖楼)对象 CommentsByTopic</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 话题下面的评论列表单个对象的数据结构</span>
@@ -1399,8 +1446,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="通知对象-notification"><a class="anchor" href="#通知对象-notification"></a>通知对象 Notification</h4>
+<div class="sect2">
+<h3 id="_通知对象_notification">6.6. 通知对象 Notification</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -1417,8 +1464,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="授权登录对象-oauthuser"><a class="anchor" href="#授权登录对象-oauthuser"></a>授权登录对象 OAuthUser</h4>
+<div class="sect2">
+<h3 id="_授权登录对象_oauthuser">6.7. 授权登录对象 OAuthUser</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="predefined-type">Integer</span> id;
@@ -1440,9 +1487,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-28 07:19:43 +00:00
+Last updated 2020-07-02 03:45:39 +00:00
 </div>
 </div>
 </body>

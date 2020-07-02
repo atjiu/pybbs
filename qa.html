@@ -501,18 +501,32 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel2">
+<li><a href="#_数据库在哪">1. 数据库在哪？</a></li>
+<li><a href="#_发帖技巧">2. 发帖技巧</a></li>
+<li><a href="#_上传的图片为啥不显示">3. 上传的图片为啥不显示</a></li>
+<li><a href="#_上传的视频格式有哪些">4. 上传的视频格式有哪些</a></li>
+<li><a href="#_上传视频报413错误">5. 上传视频报413错误</a></li>
+<li><a href="#_后台用户名密码是多少">6. 后台用户名密码是多少？</a></li>
+<li><a href="#_启动项目时报错">7. 启动项目时报错</a></li>
+<li><a href="#_redis配置失败">8. redis配置失败</a></li>
+<li><a href="#_发帖或者评论有emoji时提交失败">9. 发帖或者评论有emoji时提交失败</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect2">
-<h3 id="数据库在哪"><a class="anchor" href="#数据库在哪"></a>数据库在哪？</h3>
+<h3 id="_数据库在哪">1. 数据库在哪？</h3>
 <div class="paragraph">
 <p>启动项目只需要配置好数据源连接地址，用户名，密码，其它都不用管，如果数据源连接信息都配置的对，启动还是报错，请查看你配置的MySQL用户是否有创建数据库以及表和对表的CRUD的权限</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="发帖技巧"><a class="anchor" href="#发帖技巧"></a>发帖技巧</h3>
+<h3 id="_发帖技巧">2. 发帖技巧</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -528,7 +542,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传的图片为啥不显示"><a class="anchor" href="#上传的图片为啥不显示"></a>上传的图片为啥不显示</h3>
+<h3 id="_上传的图片为啥不显示">3. 上传的图片为啥不显示</h3>
 <div class="paragraph">
 <p><strong>说明</strong></p>
 </div>
@@ -550,13 +564,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传的视频格式有哪些"><a class="anchor" href="#上传的视频格式有哪些"></a>上传的视频格式有哪些</h3>
+<h3 id="_上传的视频格式有哪些">4. 上传的视频格式有哪些</h3>
 <div class="paragraph">
 <p>因为html标签中的 video 标签默认支持 mp4 格式，所以我在default主题里的上传组件里限制了上传视频文件的类型为 <code>mp4</code> ，同时对图片的格式也做了限制 <code>png,jpg,gif</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="上传视频报413错误"><a class="anchor" href="#上传视频报413错误"></a>上传视频报413错误</h3>
+<h3 id="_上传视频报413错误">5. 上传视频报413错误</h3>
 <div class="paragraph">
 <p>这是nginx报的错，需要对nginx配置一下 <code>client_max_body_size</code></p>
 </div>
@@ -574,13 +588,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="后台用户名密码是多少"><a class="anchor" href="#后台用户名密码是多少"></a>后台用户名密码是多少？</h3>
+<h3 id="_后台用户名密码是多少">6. 后台用户名密码是多少？</h3>
 <div class="paragraph">
 <p>快速开始文档里有</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="启动项目时报错"><a class="anchor" href="#启动项目时报错"></a>启动项目时报错</h3>
+<h3 id="_启动项目时报错">7. 启动项目时报错</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -623,7 +637,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="redis配置失败"><a class="anchor" href="#redis配置失败"></a>redis配置失败</h3>
+<h3 id="_redis配置失败">8. redis配置失败</h3>
 <div class="paragraph">
 <p>redis请不要开启auth，程序内集成的代码没有支持auth的配置</p>
 </div>
@@ -632,7 +646,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="发帖或者评论有emoji时提交失败"><a class="anchor" href="#发帖或者评论有emoji时提交失败"></a>发帖或者评论有emoji时提交失败</h3>
+<h3 id="_发帖或者评论有emoji时提交失败">9. 发帖或者评论有emoji时提交失败</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -673,7 +687,7 @@ init_connect='SET NAMES utf8mb4'</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-28 07:19:43 +00:00
+Last updated 2020-07-02 03:45:39 +00:00
 </div>
 </div>
 </body>

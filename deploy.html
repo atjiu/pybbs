@@ -501,12 +501,22 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_部署步骤">1. 部署步骤</a></li>
+<li><a href="#_nginx配置">2. nginx配置</a></li>
+<li><a href="#_frp映射配置">3. frp映射配置</a></li>
+<li><a href="#_配置https">4. 配置https</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div class="sect2">
-<h3 id="部署步骤"><a class="anchor" href="#部署步骤"></a>部署步骤</h3>
+<div class="sect1">
+<h2 id="_部署步骤">1. 部署步骤</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -524,8 +534,10 @@ table.CodeRay td.code>pre{padding:0}
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="nginx配置"><a class="anchor" href="#nginx配置"></a>nginx配置</h3>
+</div>
+<div class="sect1">
+<h2 id="_nginx配置">2. nginx配置</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>如果你服务器上就只一个论坛项目，那直接将程序里的端口改成80即可，如果你还想折腾点其它的东西，那就要用到nginx做代理转发请求了，具体配置如下</p>
 </div>
@@ -555,14 +567,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="frp映射配置"><a class="anchor" href="#frp映射配置"></a>frp映射配置</h3>
+</div>
+<div class="sect1">
+<h2 id="_frp映射配置">3. frp映射配置</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>关于这个配置可以参见我的一篇博客 <a href="https://tomoya92.github.io/2018/10/18/frp-tutorial/">利用frp内网穿透实现用自家电脑发布网站(不用买服务器了)</a></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="配置https"><a class="anchor" href="#配置https"></a>配置https</h3>
+</div>
+<div class="sect1">
+<h2 id="_配置https">4. 配置https</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>https强烈推荐使用 letsencrypt 配置简单，主要是免费，唯一的缺点就是要3个月续一下时间，配置参见文档: <a href="https://tomoya92.github.io/2016/08/28/letsencrypt-nginx-https/">letsencrypt结合nginx配置https备忘</a></p>
 </div>
@@ -583,9 +599,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-06-28 07:19:43 +00:00
+Last updated 2020-07-02 03:45:39 +00:00
 </div>
 </div>
 </body>
