@@ -10,7 +10,7 @@
 
 主题必备目录有以下几个
 
-[source]
+[source,indent=0]
 ----
 simple
 ├── comment
@@ -21,7 +21,7 @@ simple
 
 必备的文件有如下
 
-[source]
+[source,indent=0]
 ----
 simple
 ├── comment
@@ -67,7 +67,7 @@ simple
 
 === model对象内的方法
 
-[source,java]
+[source,java,indent=0]
 ----
 String formatDate(Date date);
 String formatContent(String content);
@@ -219,7 +219,7 @@ pybbs提供了如下几个自定义标签
 
 自定义标签用法很简单，不会用的话，可以参考已经存在的主题里的用法，下面说一下首页的 tag_topics 标签的用法
 
-[source,html]
+[source,html,indent=0]
 ----
 <@tag_topics pageNo=pageNo tab=tab>
   // tag_topics 里的两个参数都是从controller里传过来的
@@ -275,7 +275,7 @@ pybbs提供了如下几个自定义标签
 
 === 用户对象 User
 
-[source,java]
+[source,java,indent=0]
 ----
 private Integer id;
 private String username;
@@ -298,7 +298,7 @@ private Boolean active;
 
 === 话题对象 Topic
 
-[source,java]
+[source,java,indent=0]
 ----
 private Integer id;
 private String title;
@@ -322,7 +322,7 @@ private String upIds;
 
 === 评论对象 Comment
 
-[source,java]
+[source,java,indent=0]
 ----
 private Integer id;
 private Integer topicId;
@@ -336,7 +336,7 @@ private String upIds;
 
 === 评论(盖楼)对象 CommentsByTopic
 
-[source,java]
+[source,java,indent=0]
 ----
 // 话题下面的评论列表单个对象的数据结构
 public class CommentsByTopic extends Comment implements Serializable {
@@ -350,7 +350,7 @@ public class CommentsByTopic extends Comment implements Serializable {
 
 === 通知对象 Notification
 
-[source,java]
+[source,java,indent=0]
 ----
 private Integer id;
 private Integer topicId;
@@ -367,7 +367,7 @@ private Boolean read;
 
 === 授权登录对象 OAuthUser
 
-[source,java]
+[source,java,indent=0]
 ----
 private Integer id;
 // oauth帐号的id

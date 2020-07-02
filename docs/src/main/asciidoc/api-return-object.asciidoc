@@ -4,7 +4,7 @@
 
 这个类是在程序里自定义的，共三个属性
 
-[source,java]
+[source,java,indent=0]
 ----
 public class Result {
 

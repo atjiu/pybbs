@@ -78,7 +78,7 @@ mysql默认不支持emoji，要手动配置一下，让它支持就可以了，�
 
 打开找到 [mysqld] 在下面加上
 
-[source,conf]
+[source,conf,indent=0]
 ----
 [mysqld]
 character-set-client-handshake = FALSE

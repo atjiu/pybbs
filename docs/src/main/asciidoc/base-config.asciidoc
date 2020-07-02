@@ -8,7 +8,7 @@
 - `src/main/resources/application-prod.yml` 部署时的配置文件
 - `src/main/resources/application-docker.yml` 通过docker启动时的配置文件
 
-[source,yml]
+[source,yml,indent=0]
 ----
 datasource_driver: com.mysql.cj.jdbc.Driver
 datasource_url: jdbc:mysql://localhost:3306/pybbs?useSSL=false&characterEncoding=utf8

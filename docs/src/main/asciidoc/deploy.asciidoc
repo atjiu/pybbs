@@ -11,7 +11,7 @@
 
 假如 example.com 是你的域名，程序启动端口是 8080 ，配置如下
 
-[source,nginx]
+[source,nginx,indent=0]
 ----
 server {
   server_name example.com;

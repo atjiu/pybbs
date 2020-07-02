@@ -21,7 +21,7 @@ image:./images/QQ20190725-111655.png[]
 
 nginx静态文件映射配置
 
-[source]
+[source,indent=0]
 ----
 server {
   #...

@@ -8,7 +8,7 @@ pybbs上的接口风格已经全都换成`RESTFUL`风格的了，调用方式也
 
 下面给一个发帖的jQuery调用示例:
 
-[source,js]
+[source,js,indent=0]
 ----
 $.ajax({
   url: '/api/topic',

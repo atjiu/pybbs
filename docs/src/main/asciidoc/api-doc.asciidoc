@@ -20,7 +20,7 @@ image:./images/captcha.gif[]
 ** tab: 分类，分别是 精华：`good` 无人评论：`noanswer` 热门：`hot` 最新：`newest`
 - 返回 Result(IPage<Map>)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code":200,
@@ -72,7 +72,7 @@ image:./images/captcha.gif[]
 ** captcha: 图片验证码
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -106,7 +106,7 @@ image:./images/captcha.gif[]
 ** captcha: 图片验证码
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -138,7 +138,7 @@ image:./images/captcha.gif[]
 ** captcha: 图片验证码
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -157,7 +157,7 @@ image:./images/captcha.gif[]
 ** captcha: 图片验证码
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -189,7 +189,7 @@ image:./images/captcha.gif[]
 ** pageNo
 - 返回 Result(List<Tag>)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -223,7 +223,7 @@ image:./images/captcha.gif[]
 ** name 标签名
 - 返回 Result(IPage<Map>)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -276,7 +276,7 @@ image:./images/captcha.gif[]
 ** type: 上传图片的类型，如果上传头像请填 `avatar`，如果是发帖上传图片请填 `topic`，如果是视频请填 `video`
 - 返回 Result(String) // 上传成功后，会返回图片的访问地址
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -297,7 +297,7 @@ image:./images/captcha.gif[]
 ** id: 话题id
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -403,7 +403,7 @@ image:./images/captcha.gif[]
 ** content: 话题内容（可为空）
 - 返回 Result(Topic)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
     "code": 200,
@@ -436,7 +436,7 @@ image:./images/captcha.gif[]
 ** content: 话题内容（可为空）
 - 返回 Result(Topic)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
     "code": 200,
@@ -467,7 +467,7 @@ image:./images/captcha.gif[]
 ** id: 话题ID
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -485,7 +485,7 @@ image:./images/captcha.gif[]
 ** id: 话题ID
 - 返回 Result(int) 返回点赞后当前话题的总赞数
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -505,7 +505,7 @@ image:./images/captcha.gif[]
 ** commentId: 回复评论的对象（盖楼评论的上级评论id）
 - 返回 Result(Comment)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -532,7 +532,7 @@ image:./images/captcha.gif[]
 ** content: 评论的内容
 - 返回 Result(Comment)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -558,7 +558,7 @@ image:./images/captcha.gif[]
 ** id: 评论的id
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -576,7 +576,7 @@ image:./images/captcha.gif[]
 ** id: 评论的id
 - 返回 Result(int) 返回点赞后当前评论的总赞数
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -594,7 +594,7 @@ image:./images/captcha.gif[]
 ** topicId: 话题ID
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -612,7 +612,7 @@ image:./images/captcha.gif[]
 ** topicId: 话题ID
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -629,7 +629,7 @@ image:./images/captcha.gif[]
 ** token
 - 返回 Result(int) // 返回未读消息条数
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -646,12 +646,13 @@ image:./images/captcha.gif[]
 ** token
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
   "description": "SUCCESS",
   "detail": null
+}
 ----
 
 === 通知 - 消息列表
@@ -662,7 +663,7 @@ image:./images/captcha.gif[]
 ** token
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -727,7 +728,7 @@ image:./images/captcha.gif[]
 ** 评论列表（7条）
 ** 收藏条数
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -816,7 +817,7 @@ image:./images/captcha.gif[]
 ** pageNo: 页数
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -872,7 +873,7 @@ image:./images/captcha.gif[]
 ** pageNo: 页数
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -923,7 +924,7 @@ image:./images/captcha.gif[]
 ** pageNo: 页数
 - 返回 Result(Map)
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -992,7 +993,7 @@ image:./images/captcha.gif[]
 ** emailNotification: 是否接收邮箱通知
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -1009,7 +1010,7 @@ image:./images/captcha.gif[]
 ** token
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -1028,7 +1029,7 @@ image:./images/captcha.gif[]
 ** code: 邮箱接收到网站发送的验证码
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -1046,7 +1047,7 @@ image:./images/captcha.gif[]
 ** email: 邮箱地址
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -1065,7 +1066,7 @@ image:./images/captcha.gif[]
 ** newPassword: 新密码
 - 返回 Result()
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
@@ -1082,7 +1083,7 @@ image:./images/captcha.gif[]
 ** token
 - 返回 Result(String) // 返回新token
 
-[source,json]
+[source,json,indent=0]
 ----
 {
   "code": 200,
