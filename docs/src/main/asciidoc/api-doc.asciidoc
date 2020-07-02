@@ -1,5 +1,3 @@
-// tag::main[]
-
 === 图片验证码
 
 - 地址 POST `/common/captcha`
@@ -9,7 +7,7 @@
 
 响应是一张GIF动态图片，如下图
 
-image:captcha.gif[]
+image:./images/captcha.gif[]
 
 首页接口分别有以下几个
 
@@ -1093,4 +1091,4 @@ image:captcha.gif[]
 }
 ----
 
-// end::main[]
+

@@ -1,26 +1,24 @@
-// tag::main[]
-
 === Github登录配置方法
 
 申请clientId, clientSecret地址：https://github.com/settings/developers 前提要先登录github
 
 打开页面后，点击 `New OAuth APP` 按钮
 
-image:QQ20190107-135811.png[]
+image:./images/QQ20190107-135811.png[]
 
 填上必要的信息
 
-image:QQ20190107-140155.png[]
+image:./images/QQ20190107-140155.png[]
 
 填写好之后，保存，跳转的页面上就有 clientId, clientSecret信息了，如下图
 
-image:QQ20190107-135903.png[]
+image:./images/QQ20190107-135903.png[]
 
 拷贝上图中红框内容，粘贴到网站后台系统设置页面里的 Github 配置信息里
 
 刷新登录页面即可出现相应按钮
 
-image:QQ20190418-153321.png[]
+image:./images/QQ20190418-153321.png[]
 
 *注意*
 
@@ -35,8 +33,8 @@ image:QQ20190418-153321.png[]
 
 总共三个参数，都配置在`朋也社区`后台设置页面里`微信登录`区域，然后刷新登录页面，就有微信登录按钮了！！
 
-image:QQ20190418-153321.png[]
+image:./images/QQ20190418-153321.png[]
 
 *感谢 https://github.com/gdhua[@gdhua] 提供的微信联合登录要用到的 `appid` `appsecret`*
 
-// end::main[]
+

@@ -1,5 +1,3 @@
-// tag::main[]
-
 === 开发人员搭建
 
 - git clone https://github.com/tomoya92/pybbs
@@ -43,4 +41,4 @@
 [TIP]
 *自己实在部署不好，朋也也可以代劳，不过是有偿的哦*
 
-// end::main[]
+

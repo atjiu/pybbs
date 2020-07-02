@@ -1,5 +1,3 @@
-// tag::main[]
-
 === 获取token
 
 *系统默认开启了cors访问，任何源都可以访问 `/api/**` 下的资源，如果想关闭的话，可以通过修改源码的方式关闭，源码位置 `co.yiiu.pybbs.config.WebMvcConfig`*
@@ -10,6 +8,6 @@ token的获取方式：
 
 用户登录上论坛，打开页面最上方的 设置，在页面右边可以查看到自己的token，如下图
 
-image:QQ20190109-111822.png[]
+image:./images/QQ20190109-111822.png[]
 
-// end::main[]
+

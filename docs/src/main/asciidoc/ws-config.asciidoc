@@ -1,5 +1,3 @@
-// tag::main[]
-
 === 开启WebSocket
 
 重新更新了一下websocket的实现，换成了javax.websocket包下的类实现，没有了之间的关闭服务还要等会的问题了
@@ -22,7 +20,7 @@
 
 效果如下
 
-image:7C56195B1FE6F942649D30D65416EE80.jpg[]
+image:./images/7C56195B1FE6F942649D30D65416EE80.jpg[]
 
 当然开启websocket服务也不是没有好处的，比如：
 
@@ -33,7 +31,7 @@ image:7C56195B1FE6F942649D30D65416EE80.jpg[]
 
 如果你看了上面的说明后，还是想开启，配置如下
 
-image:QQ20190123-103144.png[]
+image:./images/QQ20190123-103144.png[]
 
 只有两个配置
 
@@ -42,4 +40,4 @@ image:QQ20190123-103144.png[]
 
 然后直接启动系统即可，注意，ws服务在前端只有登录后的用户才有效
 
-// end::main[]
+

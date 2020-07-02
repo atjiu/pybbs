@@ -1,60 +1,54 @@
-朋也社区文档
-=====
-朋也社区文档
+= 朋也社区文档
+
 :Author:    朋也
 :Email:     <py2qiuse@gmail.com>
 :Date:      2019
 :Revision:  1.0
-:doctype: book
 :revdate: {docdate}
-:sectanchors:
-:xrefstyle: full
-:anchor:
-:toc: left
 :toclevels: 3
 :sectnumlevels: 5
 
 == 简介
 
-include::introduction.asciidoc[tags=main]
+include::introduction.asciidoc[leveloffset=+1]
 
 == 快速开始
 
-include::ready.asciidoc[tags=main]
-include::getting-started.asciidoc[tags=main]
+include::ready.asciidoc[]
+include::getting-started.asciidoc[]
 
 == 朋也社区案例
 
-include::case.asciidoc[tags=main]
+include::case.asciidoc[]
 
 == 系统配置
 
-include::base-config.asciidoc[tags=main]
-include::email-config.asciidoc[tags=main]
-include::es-config.asciidoc[tags=main]
-include::redis-config.asciidoc[tags=main]
-include::upload-config.asciidoc[tags=main]
-include::oauth-config.asciidoc[tags=main]
-include::sms-config.asciidoc[tags=main]
-include::ws-config.asciidoc[tags=main]
-include::theme.asciidoc[tags=main]
+include::base-config.asciidoc[]
+include::email-config.asciidoc[]
+include::es-config.asciidoc[]
+include::redis-config.asciidoc[]
+include::upload-config.asciidoc[]
+include::oauth-config.asciidoc[]
+include::sms-config.asciidoc[]
+include::ws-config.asciidoc[]
+include::theme.asciidoc[]
 
 == 公网部署
 
-include::deploy.asciidoc[tags=main]
+include::deploy.asciidoc[leveloffset=+1]
 
 == 主题开发
 
-include::theme-dev.asciidoc[tags=main]
+include::theme-dev.asciidoc[leveloffset=+1]
 
 == 接口文档
 
-include::api-gettoken.asciidoc[tags=main]
-include::api-request-demo.asciidoc[tags=main]
-include::api-return-object.asciidoc[tags=main]
-include::api-doc.asciidoc[tags=main]
+include::api-gettoken.asciidoc[]
+include::api-request-demo.asciidoc[]
+include::api-return-object.asciidoc[]
+include::api-doc.asciidoc[]
 
 == Q&A
 
-include::qa.asciidoc[tags=main]
+include::qa.asciidoc[]
 

@@ -1,5 +1,3 @@
-// tag::main[]
-
 === 邮箱配置
 
 用户注册没有做邮箱验证，但用户可以在自己的设置页面添加邮箱
@@ -17,17 +15,17 @@
 
 登录qq邮件 mail.qq.com ，然后打开设置 -> 帐户 往下翻，找到 `POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务`
 
-image:TIM20190417185246.png[]
+image:./images/TIM20190417185246.png[]
 
-image:TIM20190417185315.png[]
+image:./images/TIM20190417185315.png[]
 
 点击 `生成授权码` 然后用手机扫描授权（直接使用手机qq的扫描功能就可以了），成功后，会有一个授权码，这个就是邮件的密码了
 
-image:TIM20190417185600.png[]
+image:./images/TIM20190417185600.png[]
 
 ---
 
-image:QQ20190103-154507.png[]
+image:./images/QQ20190103-154507.png[]
 
 
-// end::main[]
+
