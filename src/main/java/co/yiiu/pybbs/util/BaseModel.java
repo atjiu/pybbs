@@ -104,7 +104,7 @@ public class BaseModel {
                         element.addClass("embed-responsive embed-responsive-16by9");
                         element.append("<iframe class='embedded_video' src='" + _href + "' frameborder='0' " +
                                 "allowfullscreen></iframe>");
-                    } else if (href.contains("//www.bilibili.com/video/av")) {
+                    } else if (href.contains("//www.bilibili.com/video/")) {
                         element.text("");
                         URL aUrl = new URL(href);
                         String _href = "//player.bilibili.com/player.html?aid=" + aUrl.getPath().replace("/video/av", "");

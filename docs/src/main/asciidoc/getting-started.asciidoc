@@ -12,6 +12,9 @@
 
 === 非开发人员搭建
 
+[WARNING]
+release里打的包可能不是最新的
+
 - 首先保证你服务器上配置好了 java 环境，版本 jdk1.8 和 MySQL服务器，版本 5.7.x 其它可选环境配置参见 [网站准备工作](zh-cn/ready)
 - 然后下载最新的一键启动压缩包，下载地址：https://github.com/tomoya92/pybbs/releases
 - 解压, 修改解压出来的文件夹里的 `application-prod.yml` 文件，只需要修改一个地方，就是数据库的连接信息，[配置方法](zh-cn/base)
