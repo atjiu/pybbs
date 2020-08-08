@@ -80,7 +80,7 @@ public class BaseModel {
                 .addAttributes("video", "class", "controls")
                 .addAttributes("source", "src", "type")
         );
-        Document parse = Jsoup.parse(content);
+        Document parse = Jsoup.parse(content, "", Parser.xmlParser());
         Elements tableElements = parse.select("table");
         tableElements.forEach(element -> element.addClass("table table-bordered"));
         Elements aElements = parse.select("p");
