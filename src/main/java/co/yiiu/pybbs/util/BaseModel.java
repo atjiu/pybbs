@@ -3,6 +3,7 @@ package co.yiiu.pybbs.util;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
