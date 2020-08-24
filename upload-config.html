@@ -532,7 +532,12 @@ table.CodeRay td.code>pre{padding:0}
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-<strong>路径一定要是绝对路径</strong>
+<div class="paragraph">
+<p><strong>路径一定要是绝对路径</strong></p>
+</div>
+<div class="paragraph">
+<p>看到这还配置不好？请查看 <a href="https://tomoya92.github.io/pybbs/#_%E9%9D%9Enginx%E9%9D%99%E6%80%81%E6%98%A0%E5%B0%84%E9%85%8D%E7%BD%AE">非nginx静态映射配置</a></p>
+</div>
 </td>
 </tr>
 </table>
@@ -548,6 +553,50 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="paragraph">
 <p>如果你用的是docker部署的服务，那这个路径配置就是固定的 <code>/app/static</code> 了，上传的图片会自动同步到docker启动目录下的static文件夹里</p>
+</div>
+<div class="paragraph">
+<p>举例：</p>
+</div>
+<div class="paragraph">
+<p>idea启动服务配置如下</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>windows: 假如项目文件夹在 D:/pybbs。那么静态文件访问地址不要变，上传文件路径修改为 D:/pybbs/static/upload/</p>
+</li>
+<li>
+<p>macos/linux: 假如项目文件夹在 /Users/xxx/pybbs (其中xxx是你的系统用户名) 那么静态文件访问地址不要变，上传文件路径修改为 /Users/xxx/pybbs/static/upload/</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>jar包启动配置如下</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>windows: 假如项目文件夹在 D:/pybbs jar包在 D:/pybbs/pybbs.jar 那么静态文件访问地址不要变，上传文件路径修改为 D:/pybbs/static/upload/</p>
+</li>
+<li>
+<p>macos/linux: 假如项目文件夹在 /Users/xxx/pybbs (其中xxx是你的系统用户名)，jar包在 /Users/xxx/pybbs/pybbs.jar 那么静态文件访问地址不要变，上传文件路径修改为 /Users/xxx/pybbs/static/upload/</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>如果你是idea启动的话，上传完图片后，看不到图片的话，重启一下服务。</strong></p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<strong>如果看到这还不会配置，请不要使用pybbs了，它不适合你，谢谢!</strong>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -579,7 +628,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-24 07:36:59 +00:00
+Last updated 2020-08-24 09:42:00 +00:00
 </div>
 </div>
 </body>
