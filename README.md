@@ -13,6 +13,10 @@
 
 [文档地址](https://tomoya92.github.io/pybbs/)
 
+文档地址打不开看这里（需要电脑上配置好maven环境）
+
+下载项目，进入到docs文件夹里，然后运行 `mvn clean compile` 运行完成后，在 `docs/target/generated-docs` 里会生成一堆的html文件，用浏览器打开 `index.html` 即可查看
+
 ## 技术栈
 
 - Spring-Boot
