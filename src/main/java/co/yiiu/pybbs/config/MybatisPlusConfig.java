@@ -54,9 +54,9 @@ public class MybatisPlusConfig {
         // 逐个去上面两个配置类里找，还真在MybatisSqlSessionFactoryBean类里找到了，有个plugins的字段，类型正是 Interceptor
         // 然后尝试把分页插件设置进去，启动项目，问题解决
         // 官方文档太简陋，坑新手呀！！！！！！
-        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        paginationInterceptor.setSqlParser(new JsqlParserCountOptimize());
-        sqlSessionFactory.setPlugins(new Interceptor[]{paginationInterceptor});
+        // PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        // paginationInterceptor.setSqlParser(new JsqlParserCountOptimize());
+        // sqlSessionFactory.setPlugins(new Interceptor[]{paginationInterceptor});
 
         return sqlSessionFactory.getObject();
     }

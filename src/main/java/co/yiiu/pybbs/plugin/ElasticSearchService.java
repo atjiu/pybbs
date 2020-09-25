@@ -237,7 +237,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
             request.source(builder);
             SearchResponse response = client.search(request, RequestOptions.DEFAULT);
             // 总条数
-            long totalCount = response.getHits().getTotalHits();
+            long totalCount = response.getHits().getTotalHits().value;
             // 结果集
             List<Map<String, Object>> records = Arrays.stream(response.getHits().getHits()).map(hit -> {
                 Map<String, Object> map = new HashMap<>();
