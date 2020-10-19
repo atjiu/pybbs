@@ -56,7 +56,7 @@
             $.ajax({
                 url: '/api/notification/notRead',
                 cache: false,
-                async: false,
+                async: true,
                 type: 'get',
                 dataType: 'json',
                 contentType: 'application/json',
