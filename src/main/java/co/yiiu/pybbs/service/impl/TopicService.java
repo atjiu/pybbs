@@ -203,6 +203,15 @@ public class TopicService implements ITopicService {
         topics.forEach(topic -> {
             // 删除索引
             indexedService.deleteTopicIndex(String.valueOf(topic.getId()));
+            // 删除话题相关联的评论
+            commentService.deleteByTopicId(topic.getId());
+            // 删除被收藏的话题记录
+            collectService.deleteByTopicId(topic.getId());
+            // 删除关联标签及标签统计数据
+            // 旧标签每个topicCount都-1
+            tagService.reduceTopicCount(topic.getId());
+            // 删除话题关联的标签中间表数据
+            topicTagService.deleteByTopicId(topic.getId());
         });
         //删除话题
         topicMapper.delete(wrapper);

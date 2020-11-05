@@ -26,4 +26,7 @@ public interface ICodeService {
     boolean sendSms(String mobile);
 
     void update(Code code);
+
+    // 根据用户id删除评论记录
+    void deleteByUserId(Integer userId);
 }

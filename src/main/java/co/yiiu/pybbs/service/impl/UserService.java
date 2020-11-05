@@ -218,10 +218,12 @@ public class UserService implements IUserService {
         notificationService.deleteByUserId(id);
         // 删除用户的收藏
         collectService.deleteByUserId(id);
-        // 删除用户发的帖子
-        topicService.deleteByUserId(id);
         // 删除用户发的评论
         commentService.deleteByUserId(id);
+        // 删除用户发的帖子
+        topicService.deleteByUserId(id);
+        // 删除与用户相关的code记录
+        codeService.deleteByUserId(id);
         // 删除redis里的缓存
         User user = this.selectById(id);
         this.delRedisUser(user);

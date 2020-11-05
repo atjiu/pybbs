@@ -121,4 +121,12 @@ public class CodeService implements ICodeService {
     public void update(Code code) {
         codeMapper.updateById(code);
     }
+
+    // 根据用户id删除评论记录
+    @Override
+    public void deleteByUserId(Integer userId) {
+        QueryWrapper<Code> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Code::getUserId, userId);
+        codeMapper.delete(wrapper);
+    }
 }
