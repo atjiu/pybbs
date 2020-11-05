@@ -50,7 +50,7 @@
     <select id="selectByUserId" resultType="map">
         select t.*, u.username, u.avatar
         from topic t
-                 left join user u on t.user_id = u.id
+        left join user u on t.user_id = u.id
         where t.user_id = #{userId}
         order by t.in_time desc
     </select>
@@ -80,7 +80,7 @@
         select t.id, t.title, t.content
         from topic t
         <where>
-            t.title like '%${keyword}%' or t.content like '%${keyword}%'
+            t.title like concat(concat('%',#{keyword}),'%') or t.content like concat(concat('%',#{keyword}),'%')
         </where>
         order by t.in_time desc
     </select>

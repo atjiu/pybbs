@@ -57,13 +57,24 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
 
     static {
         try {
-            topicMappingBuilder = JsonXContent.contentBuilder().startObject().startObject("properties")
-                    //              .startObject("id")
-                    //                .field("type", "integer")
-                    //              .endObject()
-                    .startObject("title").field("type", "text").field("analyzer", "ik_max_word").field("index", "true")
-                    .endObject().startObject("content").field("type", "text").field("analyzer", "ik_max_word").field("index",
-                            "true").endObject().endObject().endObject();
+            topicMappingBuilder = JsonXContent.contentBuilder()
+                    .startObject()
+                    .startObject("properties")
+                    // .startObject("id")
+                    // .field("type", "integer")
+                    // .endObject()
+                    .startObject("title")
+                    .field("type", "text")
+                    .field("analyzer", "ik_max_word")
+                    .field("index", "true")
+                    .endObject()
+                    .startObject("content")
+                    .field("type", "text")
+                    .field("analyzer", "ik_max_word")
+                    .field("index", "true")
+                    .endObject()
+                    .endObject()
+                    .endObject();
         } catch (IOException e) {
             e.printStackTrace();
         }
