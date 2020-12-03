@@ -2,4 +2,6 @@
 
 |===
 | 版本 | 域名
+
+| master  | http://bbs.dudu-auto.com/
 |===
