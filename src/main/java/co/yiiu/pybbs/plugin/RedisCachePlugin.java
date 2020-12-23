@@ -7,7 +7,6 @@ import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.JsonUtil;
-import com.alibaba.fastjson.TypeReference;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -15,8 +14,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by tomoya.
@@ -95,8 +92,7 @@ public class RedisCachePlugin {
         String commentsJson = redisService.getString(String.format(RedisKeys.REDIS_COMMENTS_KEY, topicId));
         if (commentsJson != null) {
             // 带泛型转换, 这里如果不带泛型转换，会报错
-            return JsonUtil.jsonToObject(commentsJson, new TypeReference<List<CommentsByTopic>>() {
-            });
+            return JsonUtil.jsonToListObject(commentsJson, CommentsByTopic.class);
         } else {
             Object returnValue = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
             redisService.setString(String.format(RedisKeys.REDIS_COMMENTS_KEY, topicId), JsonUtil.objectToJson(returnValue));

@@ -1,8 +1,12 @@
 package co.yiiu.pybbs.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -11,21 +15,35 @@ import org.springframework.util.StringUtils;
  */
 public class JsonUtil {
 
-    // 对象转json
-    public static String objectToJson(Object object) {
-        if (object == null) return null;
-        return JSON.toJSONString(object);
+    private final static Logger log = LoggerFactory.getLogger(JsonUtil.class);
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    public static <T> List<T> jsonToListObject(String json, Class<T> clazz) {
+        try {
+            TypeFactory typeFactory = objectMapper.getTypeFactory();
+            return objectMapper.readValue(json, typeFactory.constructCollectionType(List.class, clazz));
+        } catch (JsonProcessingException e) {
+            log.error("json to list error: {}", e.getMessage());
+            return null;
+        }
     }
 
-    // json转对象
-    public static <T> T jsonToObject(String json, Class<T> object) {
-        if (StringUtils.isEmpty(json)) return null;
-        return JSON.parseObject(json, object);
+    public static <T> T jsonToObject(String json, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            log.error("json to object error: {}", e.getMessage());
+            return null;
+        }
     }
 
-    // 带泛型的json转对象
-    public static <T> T jsonToObject(String json, TypeReference<T> type) {
-        if (StringUtils.isEmpty(json)) return null;
-        return JSON.parseObject(json, type.getType());
+    public static String objectToJson(Object obj) {
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            log.error("object to json string error: {}", e.getMessage());
+            return null;
+        }
     }
 }
