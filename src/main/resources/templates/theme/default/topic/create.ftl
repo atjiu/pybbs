@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header">发布话题</div>
                 <div class="card-body">
-                    <form action="" onsubmit="return;" id="form">
+                    <form action="" onsubmit="return false;" id="form" method="post">
                         <div class="form-group">
                             <label for="title">标题</label>
                             <input type="text" name="title" id="title" class="form-control" placeholder="标题"/>
