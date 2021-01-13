@@ -149,7 +149,7 @@
                         commentId: $("#commentId").val(),
                     }),
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     success: function (data) {
                         if (data.code === 200) {
@@ -183,7 +183,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        "token": "${_user.token}",
+                        "token": "${_user.token!}",
                     },
                     success: function (data) {
                         if (data.code === 200) {
@@ -213,9 +213,9 @@
                         dataType: 'json',
                         contentType: 'application/json',
                         headers: {
-                            'token': '${_user.token}'
+                            'token': '${_user.token!}'
                         },
-                        data: JSON.stringify({token: '${_user.token}'}),
+                        data: JSON.stringify({token: '${_user.token!}'}),
                         success: function (data) {
                             if (data.code === 200) {
                                 suc("删除成功");
@@ -241,7 +241,7 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 headers: {
-                    'token': '${_user.token}'
+                    'token': '${_user.token!}'
                 },
                 success: function (data) {
                     if (data.code === 200) {
@@ -274,7 +274,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     success: function (data) {
                         if (data.code === 200) {

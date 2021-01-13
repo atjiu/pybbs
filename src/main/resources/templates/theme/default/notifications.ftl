@@ -44,7 +44,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 headers: {
-                    'token': '${_user.token}'
+                    'token': '${_user.token!}'
                 },
                 success: function (data) {
                     if (data.code === 200) {

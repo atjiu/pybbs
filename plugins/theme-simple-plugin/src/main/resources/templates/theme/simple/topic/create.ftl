@@ -48,7 +48,7 @@
                 cache: false,
                 async: false,
                 headers: {
-                    'token': '${_user.token}'
+                    'token': '${_user.token!}'
                 },
                 contentType: 'application/json',
                 data: JSON.stringify({

@@ -59,13 +59,13 @@
             fd.append("file", ele.files[i]);
         }
         fd.append("type", type);
-        fd.append("token", "${_user.token}");
+        fd.append("token", "${_user.token!}");
         $.post({
             url: "/api/upload",
             data: fd,
             dataType: 'json',
             headers: {
-                'token': '${_user.token}'
+                'token': '${_user.token!}'
             },
             processData: false,
             contentType: false,

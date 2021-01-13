@@ -169,7 +169,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     data: JSON.stringify({
                         telegramName: telegramName,
@@ -198,13 +198,13 @@
                 var fd = new FormData();
                 fd.append("file", document.getElementById("file").files[0]);
                 fd.append("type", "avatar");
-                fd.append("token", "${_user.token}");
+                fd.append("token", "${_user.token!}");
                 $.post({
                     url: "/api/upload",
                     data: fd,
                     dataType: 'json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     processData: false,
                     contentType: false,
@@ -235,7 +235,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     success: function (data) {
                         if (data.code === 200) {
@@ -259,7 +259,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     data: {
                         email: email,
@@ -285,7 +285,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     data: JSON.stringify({
                         email: email,
@@ -324,7 +324,7 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     headers: {
-                        'token': '${_user.token}'
+                        'token': '${_user.token!}'
                     },
                     data: JSON.stringify({
                         oldPassword: oldPassword,

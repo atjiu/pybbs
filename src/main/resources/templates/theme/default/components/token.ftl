@@ -4,7 +4,7 @@
         <a href="javascript:;" id="refreshToken" class="pull-right">刷新Token</a>
     </div>
     <div class="card-body">
-        <p>Token：<code id="userToken">${_user.token}</code></p>
+        <p>Token：<code id="userToken">${_user.token!}</code></p>
         <div id="qrcode" class="text-center"></div>
     </div>
 </div>
@@ -13,10 +13,10 @@
     $("#qrcode").qrcode({
         width: 180,
         height: 180,
-        text: '${_user.token}'
+        text: '${_user.token!}'
     });
 
-    var token = '${_user.token}';
+    var token = '${_user.token!}';
     $("#refreshToken").on("click", function () {
         $.ajax({
             url: '/api/settings/refreshToken',

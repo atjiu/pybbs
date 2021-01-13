@@ -14,13 +14,13 @@
         var type = $("#type").val();
         fd.append("file", document.getElementById("uploadImageFileEle").files[0]);
         fd.append("type", type);
-        fd.append("token", "${_user.token}");
+        fd.append("token", "${_user.token!}");
         $.post({
             url: "/api/upload",
             data: fd,
             dataType: 'json',
             headers: {
-                'token': '${_user.token}'
+                'token': '${_user.token!}'
             },
             processData: false,
             contentType: false,
