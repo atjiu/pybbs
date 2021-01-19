@@ -109,6 +109,11 @@
                     type: 'post',
                     dataType: 'json',
                     data: JSON.stringify($("#form").serializeArray()),
+                    complete: function (xmlHttp) {
+                        if (xmlHttp.status === 500) {
+                            location.href = "/adminlogin";
+                        }
+                    },
                     success: function (data) {
                         if (data.code === 200) {
                             toast("成功", "success");
