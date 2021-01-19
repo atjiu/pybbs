@@ -4,6 +4,7 @@ import co.yiiu.pybbs.mapper.UserMapper;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SpringContextUtil;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
@@ -187,16 +188,15 @@ public class UserService implements IUserService {
     @Override
     public void update(User user) {
         userMapper.updateById(user);
-        // 删除redis里的缓存
-        this.delRedisUser(user);
+        // 同类调用不走spring管理，无法使用aop编程调用
+        SpringContextUtil.getBean(UserService.class).delRedisUser(user);
     }
 
     // ------------------------------- admin ------------------------------------------
 
     @Override
     public IPage<User> selectAll(Integer pageNo, String username) {
-        MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get(
-                "page_size")));
+        MyPage<User> page = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
         page.setDesc("in_time");
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(username)) {
@@ -226,7 +226,7 @@ public class UserService implements IUserService {
         codeService.deleteByUserId(id);
         // 删除redis里的缓存
         User user = this.selectById(id);
-        this.delRedisUser(user);
+        SpringContextUtil.getBean(UserService.class).delRedisUser(user);
         // 删除用户本身
         userMapper.deleteById(id);
     }

@@ -42,8 +42,7 @@
                         <div class="form-group row">
                             <label for="bio" class="col-sm-2 control-label">个人简介</label>
                             <div class="col-sm-10">
-              <textarea name="bio" id="bio" rows="3" class="form-control"
-                        placeholder="个人简介">${user.bio!?html}</textarea>
+                                <textarea name="bio" id="bio" rows="3" class="form-control" placeholder="个人简介">${user.bio!?html}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -78,13 +77,10 @@
                             <label for="email" class="col-sm-2 control-label">邮箱</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <input type="email" name="email" id="email" class="form-control"
-                                           value="${user.email!}"
-                                           placeholder="邮箱"/>
+                                    <input type="email" name="email" id="email" class="form-control" value="${user.email!}" placeholder="邮箱"/>
                                     <span class="input-group-append">
-                  <button type="button" id="sendEmailCode" class="btn btn-info" autocomplete="off"
-                          data-loading-text="发送中...">发送验证码</button>
-                </span>
+                                        <button type="button" id="sendEmailCode" class="btn btn-info" autocomplete="off" data-loading-text="发送中...">发送验证码</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -111,8 +107,7 @@
                             <div class="col-sm-10">
                                 <img src="${user.avatar!}" class="avatar avatar-lg" alt="avatar"/>&nbsp;&nbsp;
                                 <img src="${user.avatar!}" class="avatar" style="vertical-align: bottom" alt="avatar"/>&nbsp;&nbsp;
-                                <img src="${user.avatar!}" class="avatar avatar-sm" style="vertical-align: bottom"
-                                     alt="avatar"/>
+                                <img src="${user.avatar!}" class="avatar avatar-sm" style="vertical-align: bottom" alt="avatar"/>
                             </div>
                             <div class="offset-sm-2 col-sm-10" style="margin-top: 10px;">
                                 <a href="javascript:;" id="selectAvatar">上传新头像</a>
@@ -129,15 +124,13 @@
                         <div class="form-group row">
                             <label for="oldPassword" class="col-sm-2 control-label">旧密码</label>
                             <div class="col-sm-10">
-                                <input type="password" name="oldPassword" id="oldPassword" class="form-control"
-                                       placeholder="旧密码"/>
+                                <input type="password" name="oldPassword" id="oldPassword" class="form-control" placeholder="旧密码"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="newPassword" class="col-sm-2 control-label">新密码</label>
                             <div class="col-sm-10">
-                                <input type="password" name="newPassword" id="newPassword" class="form-control"
-                                       placeholder="新密码"/>
+                                <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="新密码"/>
                             </div>
                         </div>
                         <div class="form-group row">

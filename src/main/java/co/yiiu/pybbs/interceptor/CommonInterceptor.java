@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class CommonInterceptor implements HandlerInterceptor {
 
-    private Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
+    private final Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
     @Autowired
     private IUserService userService;
     @Autowired

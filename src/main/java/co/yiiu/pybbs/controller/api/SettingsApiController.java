@@ -34,7 +34,7 @@ public class SettingsApiController extends BaseApiController {
 
     // 更新用户个人信息
     @PutMapping
-    public Result update(@RequestBody Map<String, String> body, HttpSession session) {
+    public Result update(@RequestBody Map<String, String> body) {
         User user = getApiUser();
         String telegramName = body.get("telegramName");
         String website = body.get("website");
@@ -47,8 +47,6 @@ public class SettingsApiController extends BaseApiController {
         user1.setBio(bio);
         user1.setEmailNotification(emailNotification);
         userService.update(user1);
-        //更新session里用户信息
-        if (session != null) session.setAttribute("_user", user1);
         return success();
     }
 
@@ -62,9 +60,13 @@ public class SettingsApiController extends BaseApiController {
         String title = "感谢注册%s，点击下面链接激活帐号";
         String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
 
-        if (codeService.sendEmail(user.getId(), user.getEmail(), String.format(title, systemConfigService.selectAllConfig
-                ().get("base_url").toString()), String.format(content, systemConfigService.selectAllConfig().get("name")
-                .toString(), systemConfigService.selectAllConfig().get("base_url").toString(), user.getEmail()))) {
+        if (codeService.sendEmail(
+                user.getId(),
+                user.getEmail(),
+                String.format(title, systemConfigService.selectAllConfig().get("base_url").toString()),
+                String.format(content, systemConfigService.selectAllConfig().get("name").toString(),
+                        systemConfigService.selectAllConfig().get("base_url").toString(),
+                        user.getEmail()))) {
             return success();
         } else {
             return error("邮件发送失败，也可能是站长没有配置邮箱");
@@ -105,13 +107,16 @@ public class SettingsApiController extends BaseApiController {
         // 如果用户帐号还没有激活，当修改邮箱的时候自动激活帐号
         if (!user1.getActive()) user1.setActive(true);
         userService.update(user1);
-        if (session != null) session.setAttribute("_user", user1);
+        // 更新session中的用户信息
+        User _user = getUser();
+        _user.setEmail(email);
+        session.setAttribute("_user", _user);
         return success();
     }
 
     // 修改密码
     @PutMapping("/updatePassword")
-    public Result updatePassword(@RequestBody Map<String, String> body, HttpSession session) {
+    public Result updatePassword(@RequestBody Map<String, String> body) {
         User user = getApiUser();
         String oldPassword = body.get("oldPassword");
         String newPassword = body.get("newPassword");
@@ -123,8 +128,6 @@ public class SettingsApiController extends BaseApiController {
         User user1 = userService.selectById(user.getId());
         user1.setPassword(new BCryptPasswordEncoder().encode(newPassword));
         userService.update(user1);
-        // 将最新的用户信息更新在session里
-        if (session != null) session.setAttribute("_user", user1);
         return success();
     }
 
@@ -135,7 +138,10 @@ public class SettingsApiController extends BaseApiController {
         String token = StringUtil.uuid();
         user.setToken(token);
         userService.update(user);
-        session.setAttribute("_user", user);
+        // 更新session中的用户信息
+        User _user = getUser();
+        _user.setToken(token);
+        session.setAttribute("_user", _user);
         return success(token);
     }
 

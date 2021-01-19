@@ -68,8 +68,7 @@ public class IndexController extends BaseController {
     @GetMapping("/settings")
     public String settings(HttpSession session, Model model) {
         // 再查一遍，保证数据的最新
-        User user = (User) session.getAttribute("_user");
-        user = userService.selectById(user.getId());
+        User user = userService.selectById(getUser().getId());
         model.addAttribute("user", user);
         return render("user/settings");
     }

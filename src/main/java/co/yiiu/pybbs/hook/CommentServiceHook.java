@@ -13,20 +13,8 @@ public class CommentServiceHook {
     public void selectByTopicId() {
     }
 
-    @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.deleteByTopicId(..))")
-    public void deleteByTopicId() {
-    }
-
-    @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.deleteByUserId(..))")
-    public void deleteByUserId() {
-    }
-
     @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.insert(..))")
     public void insert() {
-    }
-
-    @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.selectById(..))")
-    public void selectById() {
     }
 
     @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.update(..))")
@@ -39,10 +27,6 @@ public class CommentServiceHook {
 
     @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.delete(..))")
     public void delete() {
-    }
-
-    @Pointcut("execution(public * co.yiiu.pybbs.service.ICommentService.selectByUserId(..))")
-    public void selectByUserId() {
     }
 
 }
