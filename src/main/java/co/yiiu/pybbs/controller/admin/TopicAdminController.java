@@ -99,7 +99,7 @@ public class TopicAdminController extends BaseAdminController {
     @ResponseBody
     public Result delete(Integer id) {
         Topic topic = topicService.selectById(id);
-        topicService.delete(topic, null);
+        topicService.delete(topic);
         return success();
     }
 

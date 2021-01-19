@@ -4,7 +4,6 @@ import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.util.MyPage;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public interface ITopicService {
     MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);
 
     // 保存话题
-    Topic insert(String title, String content, String tags, User user, HttpSession session);
+    Topic insert(String title, String content, String tags, User user);
 
     // 根据id查询话题
     Topic selectById(Integer id);
@@ -42,7 +41,7 @@ public interface ITopicService {
     void update(Topic topic, String tags);
 
     // 删除话题
-    void delete(Topic topic, HttpSession session);
+    void delete(Topic topic);
 
     // 根据用户id删除帖子
     void deleteByUserId(Integer userId);
@@ -52,5 +51,5 @@ public interface ITopicService {
     // 查询今天新增的话题数
     int countToday();
 
-    int vote(Topic topic, User user, HttpSession session);
+    int vote(Topic topic, User user);
 }

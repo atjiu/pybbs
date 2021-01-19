@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +77,7 @@ public class TopicApiController extends BaseApiController {
 
     // 保存话题
     @PostMapping
-    public Result create(@RequestBody Map<String, String> body, HttpSession session) {
+    public Result create(@RequestBody Map<String, String> body) {
         User user = getApiUser();
         ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         String title = body.get("title");
@@ -93,7 +92,7 @@ public class TopicApiController extends BaseApiController {
         // 保存话题
         // 再次将tag转成逗号隔开的字符串
         //    tags = StringUtils.collectionToCommaDelimitedString(set);
-        Topic topic = topicService.insert(title, content, tag, user, session);
+        Topic topic = topicService.insert(title, content, tag, user);
         topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
         return success(topic);
     }
@@ -118,21 +117,21 @@ public class TopicApiController extends BaseApiController {
 
     // 删除话题
     @DeleteMapping("{id}")
-    public Result delete(@PathVariable Integer id, HttpSession session) {
+    public Result delete(@PathVariable Integer id) {
         User user = getApiUser();
         Topic topic = topicService.selectById(id);
         ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限删除别人的话题的？");
-        topicService.delete(topic, session);
+        topicService.delete(topic);
         return success();
     }
 
     @GetMapping("/{id}/vote")
-    public Result vote(@PathVariable Integer id, HttpSession session) {
+    public Result vote(@PathVariable Integer id) {
         User user = getApiUser();
         Topic topic = topicService.selectById(id);
         ApiAssert.notNull(topic, "这个话题可能已经被删除了");
         ApiAssert.notTrue(topic.getUserId().equals(user.getId()), "给自己话题点赞，脸皮真厚！！");
-        int voteCount = topicService.vote(topic, getApiUser(), session);
+        int voteCount = topicService.vote(topic, getApiUser());
         return success(voteCount);
     }
 }

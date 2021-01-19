@@ -6,7 +6,6 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.util.MyPage;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public interface ICommentService {
     void deleteByUserId(Integer userId);
 
     // 保存评论
-    Comment insert(Comment comment, Topic topic, User user, HttpSession session);
+    Comment insert(Comment comment, Topic topic, User user);
 
     Comment selectById(Integer id);
 
@@ -34,10 +33,10 @@ public interface ICommentService {
     void update(Comment comment);
 
     // 对评论点赞
-    int vote(Comment comment, User user, HttpSession session);
+    int vote(Comment comment, User user);
 
     // 删除评论
-    void delete(Comment comment, HttpSession session);
+    void delete(Comment comment);
 
     // 查询用户的评论
     MyPage<Map<String, Object>> selectByUserId(Integer userId, Integer pageNo, Integer pageSize);

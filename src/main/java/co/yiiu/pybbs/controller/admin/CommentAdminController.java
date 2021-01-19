@@ -69,7 +69,7 @@ public class CommentAdminController extends BaseAdminController {
     @ResponseBody
     public Result delete(Integer id) {
         Comment comment = commentService.selectById(id);
-        commentService.delete(comment, null);
+        commentService.delete(comment);
         return success();
     }
 }

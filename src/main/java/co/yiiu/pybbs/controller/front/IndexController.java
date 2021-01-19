@@ -104,8 +104,8 @@ public class IndexController extends BaseController {
     // 登出
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        if (session.getAttribute("_user") != null) {
-            User user = (User) session.getAttribute("_user");
+        User user = getUser();
+        if (user != null) {
             // 清除redis里的缓存
             userService.delRedisUser(user);
             // 清除session里的用户信息
@@ -188,10 +188,10 @@ public class IndexController extends BaseController {
 
     // 激活帐号
     @GetMapping("/active")
-    public String active(String email, String code, HttpSession session) {
+    public String active(String email, String code) {
         Assert.notNull(email, "激活邮箱不能为空");
         Assert.notNull(code, "激活码不能为空");
-        User user = (User) session.getAttribute("_user");
+        User user = getUser();
         if (user == null) {
             user = userService.selectByEmail(email);
         } else {
@@ -206,7 +206,6 @@ public class IndexController extends BaseController {
         // 修改当前用户的状态
         user.setActive(true);
         userService.update(user);
-        session.setAttribute("_user", user);
         return redirect("/?active=true");
     }
 }

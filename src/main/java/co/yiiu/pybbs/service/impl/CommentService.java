@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +33,7 @@ import java.util.Set;
 @Transactional
 public class CommentService implements ICommentService {
 
-    private Logger log = LoggerFactory.getLogger(CommentService.class);
+    private final Logger log = LoggerFactory.getLogger(CommentService.class);
 
     @Autowired
     private CommentMapper commentMapper;
@@ -81,7 +80,7 @@ public class CommentService implements ICommentService {
 
     // 保存评论
     @Override
-    public Comment insert(Comment comment, Topic topic, User user, HttpSession session) {
+    public Comment insert(Comment comment, Topic topic, User user) {
         commentMapper.insert(comment);
 
         // 话题的评论数+1
@@ -92,7 +91,6 @@ public class CommentService implements ICommentService {
         user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get
                 ("create_comment_score").toString()));
         userService.update(user);
-        if (session != null) session.setAttribute("_user", user);
 
         // 通知
         // 给评论的作者发通知
@@ -157,7 +155,7 @@ public class CommentService implements ICommentService {
 
     // 对评论点赞
     @Override
-    public int vote(Comment comment, User user, HttpSession session) {
+    public int vote(Comment comment, User user) {
         String upIds = comment.getUpIds();
         // 将点赞用户id的字符串转成集合
         Set<String> strings = StringUtils.commaDelimitedListToSet(upIds);
@@ -177,13 +175,12 @@ public class CommentService implements ICommentService {
         // 增加用户积分
         user.setScore(userScore);
         userService.update(user);
-        if (session != null) session.setAttribute("_user", user);
         return strings.size();
     }
 
     // 删除评论
     @Override
-    public void delete(Comment comment, HttpSession session) {
+    public void delete(Comment comment) {
         if (comment != null) {
             // 话题评论数-1
             Topic topic = topicService.selectById(comment.getTopicId());
@@ -194,7 +191,6 @@ public class CommentService implements ICommentService {
             user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get
                     ("delete_comment_score").toString()));
             userService.update(user);
-            if (session != null) session.setAttribute("_user", user);
             // 删除评论
             commentMapper.deleteById(comment.getId());
         }
@@ -217,10 +213,8 @@ public class CommentService implements ICommentService {
     // ---------------------------- admin ----------------------------
 
     @Override
-    public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String
-            username) {
-        MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService
-                .selectAllConfig().get("page_size")));
+    public MyPage<Map<String, Object>> selectAllForAdmin(Integer pageNo, String startDate, String endDate, String username) {
+        MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
         return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
     }
 

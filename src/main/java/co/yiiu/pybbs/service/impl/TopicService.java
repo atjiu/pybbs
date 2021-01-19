@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +98,7 @@ public class TopicService implements ITopicService {
 
     // 保存话题
     @Override
-    public Topic insert(String title, String content, String tags, User user, HttpSession session) {
+    public Topic insert(String title, String content, String tags, User user) {
         Topic topic = new Topic();
         topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
         topic.setContent(content);
@@ -112,10 +111,8 @@ public class TopicService implements ITopicService {
         topic.setCommentCount(0);
         topicMapper.insert(topic);
         // 增加用户积分
-        user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score")
-                .toString()));
+        user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
         userService.update(user);
-        if (session != null) session.setAttribute("_user", user);
         if (!StringUtils.isEmpty(tags)) {
             // 保存标签
             List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
@@ -170,7 +167,7 @@ public class TopicService implements ITopicService {
 
     // 删除话题
     @Override
-    public void delete(Topic topic, HttpSession session) {
+    public void delete(Topic topic) {
         Integer id = topic.getId();
         // 删除相关通知
         notificationService.deleteByTopicId(id);
@@ -187,7 +184,6 @@ public class TopicService implements ITopicService {
         user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_topic_score")
                 .toString()));
         userService.update(user);
-        if (session != null) session.setAttribute("_user", user);
         // 删除索引
         indexedService.deleteTopicIndex(String.valueOf(topic.getId()));
         // 最后删除话题
@@ -236,7 +232,7 @@ public class TopicService implements ITopicService {
     // ---------------------------- api ----------------------------
 
     @Override
-    public int vote(Topic topic, User user, HttpSession session) {
+    public int vote(Topic topic, User user) {
         String upIds = topic.getUpIds();
         // 将点赞用户id的字符串转成集合
         Set<String> strings = StringUtils.commaDelimitedListToSet(upIds);
@@ -256,7 +252,6 @@ public class TopicService implements ITopicService {
         // 增加用户积分
         user.setScore(userScore);
         userService.update(user);
-        if (session != null) session.setAttribute("_user", user);
         return strings.size();
     }
 

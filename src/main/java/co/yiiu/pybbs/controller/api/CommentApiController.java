@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
 
@@ -32,7 +31,7 @@ public class CommentApiController extends BaseApiController {
 
     // 创建评论
     @PostMapping
-    public Result create(@RequestBody Map<String, String> body, HttpSession session) {
+    public Result create(@RequestBody Map<String, String> body) {
         User user = getApiUser();
         ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         String content = body.get("content");
@@ -49,7 +48,7 @@ public class CommentApiController extends BaseApiController {
         comment.setInTime(new Date());
         comment.setTopicId(topic.getId());
         comment.setUserId(user.getId());
-        comment = commentService.insert(comment, topic, user, session);
+        comment = commentService.insert(comment, topic, user);
         // 过滤评论内容
         comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil
                 .MinMatchType));
@@ -76,23 +75,23 @@ public class CommentApiController extends BaseApiController {
 
     // 删除评论
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Integer id, HttpSession session) {
+    public Result delete(@PathVariable Integer id) {
         User user = getApiUser();
         Comment comment = commentService.selectById(id);
         ApiAssert.notNull(comment, "这个评论可能已经被删除了，多发点对别人有帮助的评论吧");
         ApiAssert.isTrue(comment.getUserId().equals(user.getId()), "请给你的权限让你删除别人的评论？");
-        commentService.delete(comment, session);
+        commentService.delete(comment);
         return success();
     }
 
     // 点赞评论
     @GetMapping("/{id}/vote")
-    public Result vote(@PathVariable Integer id, HttpSession session) {
+    public Result vote(@PathVariable Integer id) {
         User user = getApiUser();
         Comment comment = commentService.selectById(id);
         ApiAssert.notNull(comment, "这个评论可能已经被删除了");
         ApiAssert.notTrue(comment.getUserId().equals(user.getId()), "给自己评论点赞，脸皮真厚！！");
-        int voteCount = commentService.vote(comment, user, session);
+        int voteCount = commentService.vote(comment, user);
         return success(voteCount);
     }
 }
