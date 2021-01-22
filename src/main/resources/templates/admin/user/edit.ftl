@@ -71,9 +71,10 @@
                     function refreshToken(self) {
                         $(self).button("loading");
                         $.get("/admin/user/refreshToken?id=${user.id}", function (data) {
+                            console.log(data)
                             if (data.code === 200) {
                                 toast("成功", "success");
-                                $("#token").val(data.detail.token);
+                                $("#token").val(data.detail);
                             } else {
                                 toast(data.description);
                             }

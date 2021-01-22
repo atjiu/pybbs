@@ -38,7 +38,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         // 配置全局日志拦截器，用于记录用户的请求记录
         registry.addInterceptor(commonInterceptor).addPathPatterns("/**");
         // 用户拦截器，拦截用户是否登录
-        registry.addInterceptor(userInterceptor).addPathPatterns("/settings/*", "/topic/create", "/topic/edit/*");
+        registry.addInterceptor(userInterceptor).addPathPatterns("/settings", "/settings/*", "/topic/create", "/topic/edit/*");
     }
 
     @Override

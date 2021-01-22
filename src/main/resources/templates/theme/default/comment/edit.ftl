@@ -51,30 +51,16 @@
                     err("请输入内容");
                     return;
                 }
-                $.ajax({
-                    url: '/api/comment/${comment.id}',
-                    cache: false,
-                    async: false,
-                    type: 'put',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: JSON.stringify({
-                        content: content,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("更新成功");
-                            setTimeout(function () {
-                                window.location.href = "/topic/${comment.topicId}";
-                            }, 700);
-                        } else {
-                            err(data.description);
-                        }
+                req("put", "/api/comment/${comment.id}", {content}, '${_user.token!}', function (data) {
+                    if (data.code === 200) {
+                        suc("更新成功");
+                        setTimeout(function () {
+                            window.location.href = "/topic/${comment.topicId}";
+                        }, 700);
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             })
         });
     </script>

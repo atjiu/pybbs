@@ -14,9 +14,9 @@
                         <div class="form-group">
                             <label for="content">内容</label>
                             <span class="pull-right">
-                <a href="javascript:uploadFile('topic')">上传图片</a>&nbsp;
-                <a href="javascript:uploadFile('video')">上传视频</a>
-              </span>
+                                <a href="javascript:uploadFile('topic')">上传图片</a>&nbsp;
+                                <a href="javascript:uploadFile('video')">上传视频</a>
+                            </span>
                             <textarea name="content" id="content" class="form-control"
                                       placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
                         </div>
@@ -66,33 +66,20 @@
                 // }
                 var _this = this;
                 $(_this).button("loading");
-                $.ajax({
-                    url: '/api/topic/${topic.id}',
-                    type: 'put',
-                    cache: false,
-                    async: false,
-                    dataType: 'json',
-                    headers: {
-                        "token": "${_user.token!}",
-                    },
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        title: title,
-                        content: content,
-                        // tags: tags,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("更新成功");
-                            setTimeout(function () {
-                                window.location.href = "/topic/" + data.detail.id
-                            }, 700);
-                        } else {
-                            err(data.description);
-                            $(_this).button("reset");
-                        }
+                req("put", "/api/topic/${topic.id}", {
+                    title: title,
+                    content: content
+                }, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("更新成功");
+                        setTimeout(function () {
+                            window.location.href = "/topic/" + data.detail.id
+                        }, 700);
+                    } else {
+                        err(data.description);
+                        $(_this).button("reset");
                     }
-                })
+                });
             });
         })
     </script>

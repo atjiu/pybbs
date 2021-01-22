@@ -8,6 +8,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -21,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,32 +46,29 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
-//        filterMap.put("myShiroFilter", new MyShiroFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);
-
         //拦截器.
         Map<String, String> map = new HashMap<>();
+
         // 配置不会被拦截的链接 顺序判断  相关静态资源
-        map.put("/static/**", "anon");
+        map.put("/static/**", DefaultFilter.anon.name());
 
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        map.put("/admin/logout", "logout");
+        map.put("/adminlogout", DefaultFilter.logout.name());
 
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
 
-        //<!-- authc:所有url都必须认证通过才可以访问; user: 表示rememberMe后就可以访问 anon:所有url都都可以匿名访问-->
-        map.put("/admin/permission/**", "authc");
-        map.put("/admin/role/**", "authc");
-        map.put("/admin/system/**", "authc");
-        map.put("/admin/admin_user/**", "authc");
+        //<!-- authc:所有url都必须认证通过才可以访问; user: 表示rememberMe后就可以访问 anon:所有url都都可以匿名访问 {@link org.apache.shiro.web.filter.mgt.DefaultFilter}-->
+        map.put("/admin/permission/**", DefaultFilter.perms.name());
+        map.put("/admin/role/**", DefaultFilter.perms.name());
+        map.put("/admin/system/**", DefaultFilter.perms.name());
+        map.put("/admin/admin_user/**", DefaultFilter.perms.name());
 
-        map.put("/admin/index", "user");
-        map.put("/admin/comment/**", "user");
-        map.put("/admin/sensitive_word/**", "user");
-        map.put("/admin/tag/**", "user");
-        map.put("/admin/topic/**", "user");
-        map.put("/admin/user/**", "user");
+        map.put("/admin/**", DefaultFilter.user.name());
+//        map.put("/admin/comment/**", "user");
+//        map.put("/admin/sensitive_word/**", "user");
+//        map.put("/admin/tag/**", "user");
+//        map.put("/admin/topic/**", "user");
+//        map.put("/admin/user/**", "user");
 
 //        map.put("/adminlogin", "myShiroFilter");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面

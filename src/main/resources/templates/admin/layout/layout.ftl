@@ -56,6 +56,16 @@
                     position: 'top-right', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
                 });
             }
+
+            jQuery.ajaxSetup({
+                complete: function (xmlHttp) {
+                    if (/^4\d+?/.test(xmlHttp.status)) {
+                        if (confirm("登录信息过期，请重新登录")) {
+                            window.location.href = "/adminlogin";
+                        }
+                    }
+                }
+            })
         </script>
     </head>
     <body class="hold-transition skin-blue sidebar-mini" style="background-color: #ecf0f5;">

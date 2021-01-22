@@ -205,6 +205,10 @@ public class UserService implements IUserService {
         return userMapper.selectPage(page, wrapper);
     }
 
+    public User selectByIdNoCatch(Integer id) {
+        return userMapper.selectById(id);
+    }
+
     // 查询今天新增的话题数
     @Override
     public int countToday() {

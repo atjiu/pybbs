@@ -70,34 +70,22 @@
                 // }
                 var _this = this;
                 $(_this).button("loading");
-                $.ajax({
-                    url: '/api/topic',
-                    cache: false,
-                    async: false,
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: JSON.stringify({
-                        title: title,
-                        content: content,
-                        tag: tag,
-                        // tags: tags,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("创建成功");
-                            setTimeout(function () {
-                                window.location.href = "/topic/" + data.detail.id
-                            }, 700);
-                        } else {
-                            err(data.description);
-                            $(_this).button("reset");
-                        }
+                req("post", "/api/topic", {
+                    title: title,
+                    content: content,
+                    tag: tag,
+                    // tags: tags,
+                }, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("创建成功");
+                        setTimeout(function () {
+                            window.location.href = "/topic/" + data.detail.id
+                        }, 700);
+                    } else {
+                        err(data.description);
+                        $(_this).button("reset");
                     }
-                })
+                });
             });
         });
     </script>

@@ -37,17 +37,17 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="javascript:;"><b>ADMIN</b>${site.name}</a>
+        <a href="javascript:;"><b>ADMIN</b>${site.name!}</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">${site.name} 管理平台登录</p>
+        <p class="login-box-msg">${site.name!} 管理平台登录</p>
         <#if error??>
-            <div class="text-red">${error}</div>
+            <div class="text-red">${error!}</div>
         </#if>
         <form id="form" action="/adminlogin" method="post">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+                <input type="text" class="form-control" id="username" name="username" value="${username!}" placeholder="用户名">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -58,8 +58,8 @@
                 <div class="input-group">
                     <input type="text" class="form-control" id="code" name="code" placeholder="验证码"/>
                     <span class="input-group-btn">
-            <img style="border: 1px solid #ccc;" src="/common/captcha" id="changeCode"/>
-          </span>
+                        <img style="border: 1px solid #ccc;" src="/common/captcha" id="changeCode"/>
+                    </span>
                 </div>
             </div>
             <div class="row">
@@ -68,8 +68,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fa fa-adminUser"></i> 登录
-                    </button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fa fa-adminUser"></i> 登录</button>
                 </div>
                 <!-- /.col -->
             </div>

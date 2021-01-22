@@ -53,23 +53,12 @@
         var title = document.title;
 
         function notificationCount() {
-            $.ajax({
-                url: '/api/notification/notRead',
-                cache: false,
-                async: true,
-                type: 'get',
-                dataType: 'json',
-                contentType: 'application/json',
-                headers: {
-                    'token': '${_user.token!}'
-                },
-                success: function (data) {
-                    if (data.code === 200 && data.detail > 0) {
-                        $("#n_count").text(data.detail);
-                        document.title = "(" + data.detail + ") " + title;
-                    }
+            req("get", "/api/notification/notRead", "${_user.token!}", function (data) {
+                if (data.code === 200 && data.detail > 0) {
+                    $("#n_count").text(data.detail);
+                    document.title = "(" + data.detail + ") " + title;
                 }
-            })
+            });
         }
 
         notificationCount();

@@ -36,22 +36,11 @@
         });
 
         function markRead() {
-            $.ajax({
-                url: '/api/notification/markRead',
-                cache: false,
-                async: false,
-                type: 'get',
-                dataType: 'json',
-                contentType: 'application/json',
-                headers: {
-                    'token': '${_user.token!}'
-                },
-                success: function (data) {
-                    if (data.code === 200) {
-                        window.location.reload();
-                    }
+            req("get", "/api/notification/markRead", '${_user.token!}', function (data) {
+                if (data.code === 200) {
+                    window.location.reload();
                 }
-            })
+            });
         }
     </script>
 </@html>

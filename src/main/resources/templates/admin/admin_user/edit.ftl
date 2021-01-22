@@ -72,11 +72,6 @@
                         password: password,
                         roleId: roleId
                     },
-                    complete: function (xmlHttp) {
-                        if (xmlHttp.status === 500) {
-                            location.href = "/adminlogin";
-                        }
-                    },
                     success: function (data) {
                         if (data.code === 200) {
                             toast('修改成功');

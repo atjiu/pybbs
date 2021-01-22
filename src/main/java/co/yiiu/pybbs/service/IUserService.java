@@ -39,6 +39,8 @@ public interface IUserService {
 
     IPage<User> selectAll(Integer pageNo, String username);
 
+    User selectByIdNoCatch(Integer id);
+
     // 查询今天新增的话题数
     int countToday();
 

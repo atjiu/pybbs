@@ -21,7 +21,7 @@
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
-    $.get("https://api.github.com/users/${githubLogin}/repos?sort=updated", function (data) {
+    req("get", "https://api.github.com/users/${githubLogin}/repos?sort=updated", function (data) {
         $.each(data, function (i, v) {
             $("#repos").append(
                 "<li>" +
@@ -30,6 +30,6 @@
                 "  <p>" + v.language + " • <i class=\"fa fa-star\"></i>" + v.stargazers_count + " • Updated " + moment(v.updated_at).fromNow() + "</p>" +
                 "</li>"
             );
-        })
-    })
+        });
+    });
 </script>

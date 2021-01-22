@@ -40,25 +40,17 @@
             err("请输入验证码");
             return;
         }
-        $.ajax({
-            url: '/api/forget_password',
-            type: 'post',
-            cache: false,
-            async: false,
-            contentType: 'application/json',
-            data: JSON.stringify({
-                email: email,
-                captcha: captcha,
-            }),
-            success: function (data) {
-                if (data.code === 200) {
-                    suc("邮件发送成功");
-                    setTimeout(function () {
-                        window.location.href = "/";
-                    }, 700);
-                } else {
-                    err(data.description);
-                }
+        req("post", "/api/forget_password", {
+            email: email,
+            captcha: captcha,
+        }, function (data) {
+            if (data.code === 200) {
+                suc("邮件发送成功");
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 700);
+            } else {
+                err(data.description);
             }
         });
     }

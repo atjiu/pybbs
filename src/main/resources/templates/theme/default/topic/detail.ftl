@@ -78,10 +78,10 @@
                     <div class="card-header">
                         添加一条新评论
                         <span class="pull-right">
-            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
-            <a href="javascript:uploadFile('video');">上传视频</a>&nbsp;|
-            <a href="javascript:;" id="goTop">回到顶部</a>
-          </span>
+                            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
+                            <a href="javascript:uploadFile('video');">上传视频</a>&nbsp;|
+                            <a href="javascript:;" id="goTop">回到顶部</a>
+                        </span>
                     </div>
                     <input type="hidden" name="commentId" id="commentId" value=""/>
                     <textarea name="content" id="content" class="form-control"
@@ -136,33 +136,21 @@
                 }
                 var _this = this;
                 $(_this).button("loading");
-                $.ajax({
-                    url: '/api/comment',
-                    type: 'post',
-                    cache: false,
-                    async: false,
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        topicId: '${topic.id}',
-                        content: content,
-                        commentId: $("#commentId").val(),
-                    }),
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("评论成功");
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 700);
-                        } else {
-                            err(data.description);
-                            $(_this).button("reset");
-                        }
+                req("post", "/api/comment", {
+                    topicId: '${topic.id}',
+                    content: content,
+                    commentId: $("#commentId").val(),
+                }, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("评论成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 700);
+                    } else {
+                        err(data.description);
+                        $(_this).button("reset");
                     }
-                })
+                });
             })
 
             $(".collectTopic").click(function () {
@@ -175,118 +163,73 @@
                 } else if (text === "取消收藏") {
                     type = 'delete';
                 }
-                $.ajax({
-                    url: '/api/collect/${topic.id}',
-                    type: type,
-                    cache: false,
-                    async: false,
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        "token": "${_user.token!}",
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            if (text === "加入收藏") {
-                                suc("收藏成功");
-                                $(_this).text("取消收藏");
-                                $("#collectCount").text(parseInt(collectCount) + 1);
-                            } else if (text === "取消收藏") {
-                                suc("取消收藏成功");
-                                $(_this).text("加入收藏");
-                                $("#collectCount").text(parseInt(collectCount) - 1);
-                            }
-                        } else {
-                            err(data.description);
+                req(type, "/api/collect/${topic.id}", "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        if (text === "加入收藏") {
+                            suc("收藏成功");
+                            $(_this).text("取消收藏");
+                            $("#collectCount").text(parseInt(collectCount) + 1);
+                        } else if (text === "取消收藏") {
+                            suc("取消收藏成功");
+                            $(_this).text("加入收藏");
+                            $("#collectCount").text(parseInt(collectCount) - 1);
                         }
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             });
             // 删除话题
             $("#deleteTopic").click(function () {
                 if (confirm("确定要删除吗？这会清空跟这个话题所有相关的数据，再考虑考虑呗！！")) {
-                    $.ajax({
-                        url: '/api/topic/${topic.id}',
-                        type: 'delete',
-                        cache: false,
-                        async: false,
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        headers: {
-                            'token': '${_user.token!}'
-                        },
-                        data: JSON.stringify({token: '${_user.token!}'}),
-                        success: function (data) {
-                            if (data.code === 200) {
-                                suc("删除成功");
-                                setTimeout(function () {
-                                    window.location.href = "/";
-                                }, 700);
-                            } else {
-                                err(data.description);
-                            }
+                    req("delete", "/api/topic/${topic.id}", "${_user.token!}", function (data) {
+                        if (data.code === 200) {
+                            suc("删除成功");
+                            setTimeout(function () {
+                                window.location.href = "/";
+                            }, 700);
+                        } else {
+                            err(data.description);
                         }
-                    })
+                    });
                 }
             });
         });
 
         // 点赞话题
         function voteTopic(id) {
-            $.ajax({
-                url: '/api/topic/' + id + '/vote',
-                type: 'get',
-                cache: false,
-                async: false,
-                contentType: 'application/json',
-                dataType: 'json',
-                headers: {
-                    'token': '${_user.token!}'
-                },
-                success: function (data) {
-                    if (data.code === 200) {
-                        var voteTopicIcon = $("#vote_topic_icon_" + id);
-                        if (voteTopicIcon.hasClass("fa-thumbs-up")) {
-                            suc("取消点赞成功");
-                            voteTopicIcon.removeClass("fa-thumbs-up");
-                            voteTopicIcon.addClass("fa-thumbs-o-up");
-                        } else {
-                            suc("点赞成功");
-                            voteTopicIcon.addClass("fa-thumbs-up");
-                            voteTopicIcon.removeClass("fa-thumbs-o-up");
-                        }
-                        $("#vote_topic_count_" + id).text(data.detail);
+            req("get", "api/topic" + id + "/vote", "${_user.token!}", function (data) {
+                if (data.code === 200) {
+                    var voteTopicIcon = $("#vote_topic_icon_" + id);
+                    if (voteTopicIcon.hasClass("fa-thumbs-up")) {
+                        suc("取消点赞成功");
+                        voteTopicIcon.removeClass("fa-thumbs-up");
+                        voteTopicIcon.addClass("fa-thumbs-o-up");
                     } else {
-                        err(data.description);
+                        suc("点赞成功");
+                        voteTopicIcon.addClass("fa-thumbs-up");
+                        voteTopicIcon.removeClass("fa-thumbs-o-up");
                     }
+                    $("#vote_topic_count_" + id).text(data.detail);
+                } else {
+                    err(data.description);
                 }
-            })
+            });
         }
 
         // 删除评论
         function deleteComment(id) {
             if (confirm("确定要删除这个评论吗？删了就没有了哦！")) {
-                $.ajax({
-                    url: '/api/comment/' + id,
-                    cache: false,
-                    async: false,
-                    type: 'delete',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("删除成功");
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 700);
-                        } else {
-                            err(data.description);
-                        }
+                req("delete", "/api/comment/" + id, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("删除成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 700);
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             }
         }
 

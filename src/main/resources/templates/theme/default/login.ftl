@@ -20,16 +20,16 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码"/>
                                 <span class="input-group-append">
-                  <img style="border: 1px solid #ccc;" src="" class="captcha" id="changeCaptcha"/>
-                </span>
+                                    <img style="border: 1px solid #ccc;" src="" class="captcha" id="changeCaptcha"/>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
                             <a href="javascript:;;" id="login_btn" class="btn btn-dark btn-block">${i18n.getMessage("login")}</a>
                         </div>
                         <div class="form-group">
-<#--                            <a href="javascript:;" id="forget_password_href" class="text-primary">${i18n.getMessage("forget_password")}</a>-->
-<#--                            |-->
+                            <#--                            <a href="javascript:;" id="forget_password_href" class="text-primary">${i18n.getMessage("forget_password")}</a>-->
+                            <#--                            |-->
                             没有社区账号？<a href="/register" class="text-primary">${i18n.getMessage("register")}</a>
                         </div>
                     </form>
@@ -85,28 +85,20 @@
                     err('请输入验证码');
                     return;
                 }
-                $.ajax({
-                    url: '/api/login',
-                    type: 'post',
-                    cache: false,
-                    async: false,
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        username: username,
-                        password: password,
-                        captcha: captcha,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("登录成功");
-                            setTimeout(function () {
-                                window.location.href = "/";
-                            }, 700);
-                        } else {
-                            err(data.description);
-                        }
+                req("post", "/api/login", {
+                    username: username,
+                    password: password,
+                    captcha: captcha,
+                }, function (data) {
+                    if (data.code === 200) {
+                        suc("登录成功");
+                        setTimeout(function () {
+                            window.location.href = "/";
+                        }, 700);
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             });
             $("#mobile_login_btn").click(function () {
                 $("#email_forget_password_div").addClass("d-none");

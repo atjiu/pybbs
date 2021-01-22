@@ -24,7 +24,8 @@ public class HttpUtil {
     public static void responseWrite(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!HttpUtil.isApiRequest(request)) {
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().write("<script>alert('请先登录!');window.history.go(-1);</script>");
+            response.sendRedirect("/login");
+//            response.getWriter().write("<script>alert('请先登录!');window.history.go(-1);</script>");
         } else /*if (accept.contains("application/json"))*/ {
             response.setContentType("application/json;charset=utf-8");
             Result result = new Result();

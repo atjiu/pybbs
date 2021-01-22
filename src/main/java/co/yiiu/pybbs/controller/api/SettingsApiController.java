@@ -34,7 +34,7 @@ public class SettingsApiController extends BaseApiController {
 
     // 更新用户个人信息
     @PutMapping
-    public Result update(@RequestBody Map<String, String> body) {
+    public Result update(@RequestBody Map<String, String> body, HttpSession session) {
         User user = getApiUser();
         String telegramName = body.get("telegramName");
         String website = body.get("website");
@@ -47,6 +47,12 @@ public class SettingsApiController extends BaseApiController {
         user1.setBio(bio);
         user1.setEmailNotification(emailNotification);
         userService.update(user1);
+
+        User user2 = getUser();
+        if (user2 != null) {
+            user2.setBio(bio);
+            session.setAttribute("_user", user2);
+        }
         return success();
     }
 

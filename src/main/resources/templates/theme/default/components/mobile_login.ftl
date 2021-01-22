@@ -46,7 +46,8 @@
                     </#list>
                 </#if>
                 <button class="btn btn-light btn-block" id="local_login_btn" onclick="local_login_btn()"><i
-                            class="fa fa-sign-in"></i>&nbsp;&nbsp;帐号登录/注册</button>
+                            class="fa fa-sign-in"></i>&nbsp;&nbsp;帐号登录/注册
+                </button>
             </div>
         </@tag_social_list>
     </div>
@@ -69,34 +70,26 @@
         }
         if (count < 60) return;
         $("#send_sms_code_btn").attr('disabled', true);
-        $.ajax({
-            url: '/api/sms_code',
-            type: 'get',
-            cache: false,
-            async: false,
-            // contentType: 'application/json',
-            data: {
-                mobile: mobile,
-                captcha: captcha,
-            },
-            success: function (data) {
-                if (data.code === 200) {
-                    var interval = setInterval(function () {
-                        $("#send_sms_code_btn").text(count-- + 's');
-                        if (count <= 0) {
-                            count = 60;
-                            $("#send_sms_code_btn").attr('disabled', false);
-                            $("#send_sms_code_btn").text('获取验证码');
-                            clearInterval(interval);
-                        }
-                    }, 1000);
-                    suc("发送成功");
-                } else {
-                    $("#send_sms_code_btn").attr('disabled', false);
-                    err(data.description);
-                }
-                $(".captcha").click();
+        req("get", "/api/sms_code", {
+            mobile: mobile,
+            captcha: captcha,
+        }, function (data) {
+            if (data.code === 200) {
+                var interval = setInterval(function () {
+                    $("#send_sms_code_btn").text(count-- + 's');
+                    if (count <= 0) {
+                        count = 60;
+                        $("#send_sms_code_btn").attr('disabled', false);
+                        $("#send_sms_code_btn").text('获取验证码');
+                        clearInterval(interval);
+                    }
+                }, 1000);
+                suc("发送成功");
+            } else {
+                $("#send_sms_code_btn").attr('disabled', false);
+                err(data.description);
             }
+            $(".captcha").click();
         });
     }
 
@@ -116,26 +109,18 @@
             err("请输入验证码");
             return;
         }
-        $.ajax({
-            url: '/api/mobile_login',
-            type: 'post',
-            cache: false,
-            async: false,
-            contentType: 'application/json',
-            data: JSON.stringify({
-                mobile: mobile,
-                code: code,
-                captcha: captcha,
-            }),
-            success: function (data) {
-                if (data.code === 200) {
-                    suc("登录成功");
-                    setTimeout(function () {
-                        window.location.href = "/";
-                    }, 700);
-                } else {
-                    err(data.description);
-                }
+        req("post", "/api/mobile_login", {
+            mobile: mobile,
+            code: code,
+            captcha: captcha,
+        }, function (data) {
+            if (data.code === 200) {
+                suc("登录成功");
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 700);
+            } else {
+                err(data.description);
             }
         });
     }

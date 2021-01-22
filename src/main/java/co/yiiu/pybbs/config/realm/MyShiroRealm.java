@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Component
 public class MyShiroRealm extends AuthorizingRealm {
 
-    private Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
+    private final Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
 
     @Autowired
     private IAdminUserService adminUserService;

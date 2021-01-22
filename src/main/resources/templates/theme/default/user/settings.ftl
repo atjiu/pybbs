@@ -154,33 +154,21 @@
                 var website = $("#website").val();
                 var bio = $("#bio").val();
                 var emailNotification = $("#emailNotification").is(":checked");
-                $.ajax({
-                    url: '/api/settings',
-                    cache: false,
-                    async: false,
-                    type: 'put',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: JSON.stringify({
-                        telegramName: telegramName,
-                        website: website,
-                        bio: bio,
-                        emailNotification: emailNotification,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("更新个人资料成功");
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 700);
-                        } else {
-                            err(data.description);
-                        }
+                req("put", "/api/settings", {
+                    telegramName: telegramName,
+                    website: website,
+                    bio: bio,
+                    emailNotification: emailNotification,
+                }, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("更新个人资料成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 700);
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             });
 
             // 上传头像
@@ -220,81 +208,41 @@
 
             // 发送激活邮件
             $("#sendActiveEmail").on("click", function () {
-                $.ajax({
-                    url: '/api/settings/sendActiveEmail',
-                    cache: false,
-                    async: false,
-                    type: 'get',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("发送成功");
-                        } else {
-                            err(data.description);
-                        }
+                req("get", "/api/settings/sendActiveEmail", "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("发送成功");
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             })
 
             // 更改邮箱
             $("#sendEmailCode").on("click", function () {
                 var loadingBtn = $(this).button("loading");
                 var email = $("#email").val();
-                $.ajax({
-                    url: '/api/settings/sendEmailCode',
-                    cache: false,
-                    async: false,
-                    type: 'get',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: {
-                        email: email,
-                    },
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("发送成功");
-                        } else {
-                            err(data.description);
-                        }
-                        loadingBtn.button("reset");
+                req("get", "/api/settings/sendEmailCode", {email}, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("发送成功");
+                    } else {
+                        err(data.description);
                     }
-                })
+                    loadingBtn.button("reset");
+                });
             })
             $("#settings_email_btn").click(function () {
                 var email = $("#email").val();
                 var code = $("#code").val();
-                $.ajax({
-                    url: '/api/settings/updateEmail',
-                    cache: false,
-                    async: false,
-                    type: 'put',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: JSON.stringify({
-                        email: email,
-                        code: code,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("更改成功");
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 700);
-                        } else {
-                            err(data.description);
-                        }
+                req("put", "/api/settings/updateEmail", {email, code}, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("更改成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 700);
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             })
 
             // 更改密码
@@ -309,28 +257,13 @@
                     err("请输入新密码");
                     return;
                 }
-                $.ajax({
-                    url: '/api/settings/updatePassword',
-                    cache: false,
-                    async: false,
-                    type: 'put',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
-                    data: JSON.stringify({
-                        oldPassword: oldPassword,
-                        newPassword: newPassword,
-                    }),
-                    success: function (data) {
-                        if (data.code === 200) {
-                            suc("修改密码成功");
-                        } else {
-                            err(data.description);
-                        }
+                req("put", "/api/settings/updatePassword", {oldPassword, newPassword}, "${_user.token!}", function (data) {
+                    if (data.code === 200) {
+                        suc("修改密码成功");
+                    } else {
+                        err(data.description);
                     }
-                })
+                });
             });
         })
     </script>

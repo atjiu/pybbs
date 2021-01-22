@@ -4,7 +4,7 @@
             <ul class="sidebar-menu">
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/img/user2-160x160.jpg"
+                        <img src="https://avatars0.githubusercontent.com/u/6915570"
                              class="img-circle"
                              alt="User Image">
                     </div>
@@ -107,7 +107,7 @@
                     </li>
                 </#if>
                 <li>
-                    <a href="/admin/logout">
+                    <a href="/adminlogout">
                         <i class="fa fa-sign-out"></i>
                         <span>${i18n.getMessage("logout")}</span>
                     </a>
