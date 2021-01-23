@@ -107,7 +107,7 @@
                     </li>
                 </#if>
                 <li>
-                    <a href="/adminlogout">
+                    <a href="/admin/logout">
                         <i class="fa fa-sign-out"></i>
                         <span>${i18n.getMessage("logout")}</span>
                     </a>

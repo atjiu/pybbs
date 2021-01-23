@@ -45,7 +45,7 @@
         <#if error??>
             <div class="text-red">${error!}</div>
         </#if>
-        <form id="form" action="/adminlogin" method="post">
+        <form id="form" action="/admin/login" method="post">
             <div class="form-group has-feedback">
                 <input type="text" class="form-control" id="username" name="username" value="${username!}" placeholder="用户名">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

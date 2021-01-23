@@ -89,8 +89,9 @@ public class IndexAdminController extends BaseAdminController {
     }
 
     // 处理后台登录逻辑
-    @PostMapping("/adminlogin")
-    public String adminlogin(String username, String password, String code, HttpSession session, @RequestParam(defaultValue = "0") Boolean rememberMe,
+    @PostMapping("/admin/login")
+    public String adminlogin(String username, String password, String code, HttpSession session,
+                             @RequestParam(defaultValue = "0") Boolean rememberMe,
                              HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String url = WebUtils.getSavedRequest(request) == null ? "/admin/index" : WebUtils.getSavedRequest(request).getRequestUrl();
         String captcha = (String) session.getAttribute("_captcha");
@@ -133,5 +134,11 @@ public class IndexAdminController extends BaseAdminController {
             }
         }
         return redirect(url);
+    }
+
+    @GetMapping("/admin/logout")
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return redirect("/adminlogin");
     }
 }

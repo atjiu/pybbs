@@ -4,11 +4,9 @@ import co.yiiu.pybbs.config.realm.MyCredentialsMatcher;
 import co.yiiu.pybbs.config.realm.MyShiroRealm;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.apache.shiro.codec.Base64;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -16,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +30,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    private Logger log = LoggerFactory.getLogger(ShiroConfig.class);
+    private final Logger log = LoggerFactory.getLogger(ShiroConfig.class);
 
     @Autowired
     private MyShiroRealm myShiroRealm;
@@ -41,36 +38,37 @@ public class ShiroConfig {
     private ISystemConfigService systemConfigService;
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager defaultWebSecurityManager) {
         log.info("开始配置shiroFilter...");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
 
         //拦截器.
         Map<String, String> map = new HashMap<>();
 
         // 配置不会被拦截的链接 顺序判断  相关静态资源
-        map.put("/static/**", DefaultFilter.anon.name());
-
-        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        map.put("/adminlogout", DefaultFilter.logout.name());
+        map.put("/static/**", "anon");
+        // 登录验证的地址不能跟打开页面的地址一样，否则shiro是先验证用户名密码，失败了才会验证验证码
+        map.put("/admin/login", "anon");
+        map.put("/admin/logout", "anon");
 
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
 
         //<!-- authc:所有url都必须认证通过才可以访问; user: 表示rememberMe后就可以访问 anon:所有url都都可以匿名访问 {@link org.apache.shiro.web.filter.mgt.DefaultFilter}-->
-        map.put("/admin/permission/**", DefaultFilter.perms.name());
-        map.put("/admin/role/**", DefaultFilter.perms.name());
-        map.put("/admin/system/**", DefaultFilter.perms.name());
-        map.put("/admin/admin_user/**", DefaultFilter.perms.name());
+        map.put("/admin/permission/**", "perms");
+        map.put("/admin/role/**", "perms");
+        map.put("/admin/system/**", "perms");
+        map.put("/admin/admin_user/**", "perms");
 
-        map.put("/admin/**", DefaultFilter.user.name());
+        map.put("/admin/**", "user");
 //        map.put("/admin/comment/**", "user");
 //        map.put("/admin/sensitive_word/**", "user");
 //        map.put("/admin/tag/**", "user");
 //        map.put("/admin/topic/**", "user");
 //        map.put("/admin/user/**", "user");
 
-//        map.put("/adminlogin", "myShiroFilter");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/adminlogin");
         // 登录成功后要跳转的链接
@@ -78,10 +76,6 @@ public class ShiroConfig {
 
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/adminlogin");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
-
-        //    Map<String, Filter> filters = new HashMap<>();
-        //    shiroFilterFactoryBean.setFilters(filters);
 
         return shiroFilterFactoryBean;
     }
@@ -94,8 +88,8 @@ public class ShiroConfig {
     }
 
     // 安全管理器配置
-    @Bean(name = "securityManager")
-    public SecurityManager securityManager() {
+    @Bean
+    public DefaultWebSecurityManager defaultWebSecurityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         myShiroRealm.setCredentialsMatcher(myCredentialsMatcher());
         securityManager.setRealm(myShiroRealm);
@@ -105,11 +99,9 @@ public class ShiroConfig {
 
     //加入注解的使用，不加入这个注解不生效
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager")
-                                                                                           SecurityManager
-                                                                                           securityManager) {
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager defaultWebSecurityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        authorizationAttributeSourceAdvisor.setSecurityManager(defaultWebSecurityManager);
         return authorizationAttributeSourceAdvisor;
     }
 
@@ -120,8 +112,7 @@ public class ShiroConfig {
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         // 记住我cookie生效时间 单位秒
-        int adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get
-                ("admin_remember_me_max_age").toString());
+        int adminRememberMeMaxAge = Integer.parseInt(systemConfigService.selectAllConfig().get("admin_remember_me_max_age").toString());
         simpleCookie.setMaxAge(adminRememberMeMaxAge * 24 * 60 * 60);
         return simpleCookie;
     }
