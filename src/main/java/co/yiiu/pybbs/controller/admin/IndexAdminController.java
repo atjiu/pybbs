@@ -141,4 +141,9 @@ public class IndexAdminController extends BaseAdminController {
         SecurityUtils.getSubject().logout();
         return redirect("/adminlogin");
     }
+
+    @GetMapping("/admin/no_auth")
+    public String noAuth() {
+        return redirect("/adminlogin");
+    }
 }

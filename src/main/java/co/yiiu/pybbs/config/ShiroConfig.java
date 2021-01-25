@@ -51,6 +51,7 @@ public class ShiroConfig {
         // 登录验证的地址不能跟打开页面的地址一样，否则shiro是先验证用户名密码，失败了才会验证验证码
         map.put("/admin/login", "anon");
         map.put("/admin/logout", "anon");
+        map.put("/admin/no_auth", "anon");
 
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
 
@@ -75,7 +76,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/admin/index");
 
         //未授权界面;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/adminlogin");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/no_auth");
 
         return shiroFilterFactoryBean;
     }
