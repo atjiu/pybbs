@@ -10,12 +10,12 @@ import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,26 +30,26 @@ import java.util.Set;
 @Transactional
 public class TopicService implements ITopicService {
 
-    @Autowired
+    @Resource
     private TopicMapper topicMapper;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private ITopicTagService topicTagService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     @Lazy
     private ICollectService collectService;
-    @Autowired
+    @Resource
     @Lazy
     private ICommentService commentService;
-    @Autowired
+    @Resource
     @Lazy
     private IUserService userService;
-    @Autowired
+    @Resource
     private INotificationService notificationService;
-    @Autowired
+    @Resource
     private IndexedService indexedService;
 
     @Override

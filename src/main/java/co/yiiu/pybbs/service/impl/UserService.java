@@ -10,12 +10,12 @@ import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -29,24 +29,24 @@ import java.util.UUID;
 @Transactional
 public class UserService implements IUserService {
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
-    @Autowired
+    @Resource
     @Lazy
     private ICollectService collectService;
-    @Autowired
+    @Resource
     @Lazy
     private ITopicService topicService;
-    @Autowired
+    @Resource
     @Lazy
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private Identicon identicon;
-    @Autowired
+    @Resource
     private INotificationService notificationService;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private ICodeService codeService;
 
     // 根据用户名查询用户，用于获取用户的信息比对密码

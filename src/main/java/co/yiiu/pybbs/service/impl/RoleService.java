@@ -5,10 +5,10 @@ import co.yiiu.pybbs.model.Role;
 import co.yiiu.pybbs.model.RolePermission;
 import co.yiiu.pybbs.service.IRolePermissionService;
 import co.yiiu.pybbs.service.IRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,9 +20,9 @@ import java.util.List;
 @Transactional
 public class RoleService implements IRoleService {
 
-    @Autowired
+    @Resource
     private RoleMapper roleMapper;
-    @Autowired
+    @Resource
     private IRolePermissionService rolePermissionService;
 
     @Override

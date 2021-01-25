@@ -4,9 +4,9 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import freemarker.core.Environment;
 import freemarker.template.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 @Component
 public class TopicListDirective implements TemplateDirectiveModel {
 
-    @Autowired
+    @Resource
     private ITopicService topicService;
 
     @Override

@@ -4,10 +4,10 @@ import co.yiiu.pybbs.mapper.AdminUserMapper;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.service.IAdminUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 @Transactional
 public class AdminUserService implements IAdminUserService {
 
-    @Autowired
+    @Resource
     private AdminUserMapper adminUserMapper;
 
     // 根据用户名查询用户

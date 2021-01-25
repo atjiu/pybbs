@@ -12,8 +12,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -24,11 +25,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class RedisCachePlugin {
 
-    @Autowired
+    @Resource
     private RedisService redisService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     // ---------- topic cache start ----------

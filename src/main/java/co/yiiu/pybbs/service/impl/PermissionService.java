@@ -6,10 +6,10 @@ import co.yiiu.pybbs.model.RolePermission;
 import co.yiiu.pybbs.service.IPermissionService;
 import co.yiiu.pybbs.service.IRolePermissionService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class PermissionService implements IPermissionService {
 
-    @Autowired
+    @Resource
     private PermissionMapper permissionMapper;
-    @Autowired
+    @Resource
     private IRolePermissionService rolePermissionService;
 
     // 根据角色id查询所有的权限

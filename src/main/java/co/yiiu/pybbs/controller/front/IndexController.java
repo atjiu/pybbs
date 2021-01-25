@@ -8,7 +8,6 @@ import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
@@ -31,13 +31,13 @@ public class IndexController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(IndexController.class);
 
-    @Autowired
+    @Resource
     private CookieUtil cookieUtil;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ICodeService codeService;
 
     // 首页

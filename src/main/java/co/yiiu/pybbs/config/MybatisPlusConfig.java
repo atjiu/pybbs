@@ -64,7 +64,7 @@ public class MybatisPlusConfig {
   /*
   有群友分享了下面这种配置方法，说也可以实现分页和下划线转骆峰，我没试过，放这备忘吧！
 
-  @Autowired
+  @Resource
   private MybatisPlusProperties mybatisPlusProperties;
 
   @Bean

@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util.identicon.generator.impl;
 
-import co.yiiu.pybbs.util.identicon.generator.IBaseGenartor;
+import co.yiiu.pybbs.util.identicon.generator.IBaseGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.math.DoubleMath;
 import org.springframework.util.StringUtils;
@@ -14,7 +14,7 @@ import java.util.Random;
  * Date: 15/1/10
  * Time: 下午2:44
  */
-public class DefaultGenerator implements IBaseGenartor {
+public class DefaultGenerator implements IBaseGenerator {
     private String hash;
     private boolean[][] booleanValueArray;
     private Random random = new Random();

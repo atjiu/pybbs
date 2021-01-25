@@ -4,15 +4,15 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.HashUtil;
 import co.yiiu.pybbs.util.MD5Util;
 import co.yiiu.pybbs.util.StringUtil;
-import co.yiiu.pybbs.util.identicon.generator.IBaseGenartor;
+import co.yiiu.pybbs.util.identicon.generator.IBaseGenerator;
 import co.yiiu.pybbs.util.identicon.generator.impl.MyGenerator;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -31,20 +31,20 @@ import java.util.Base64;
 @Component
 public class Identicon {
 
-    private Logger log = LoggerFactory.getLogger(Identicon.class);
+    private final Logger log = LoggerFactory.getLogger(Identicon.class);
 
-    private IBaseGenartor genartor;
-    @Autowired
+    private final IBaseGenerator generator;
+    @Resource
     private ISystemConfigService systemConfigService;
 
     public Identicon() {
-        this.genartor = new MyGenerator();
+        this.generator = new MyGenerator();
     }
 
     public BufferedImage create(String hash, int size) {
         Preconditions.checkArgument(size > 0 && !StringUtils.isEmpty(hash));
 
-        boolean[][] array = genartor.getBooleanValueArray(hash);
+        boolean[][] array = generator.getBooleanValueArray(hash);
 
         //        int ratio = DoubleMath.roundToInt(size / 5.0, RoundingMode.HALF_UP);
         int ratio = size / 6;
@@ -52,10 +52,10 @@ public class Identicon {
         BufferedImage identicon = new BufferedImage(ratio * 6, ratio * 6, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = identicon.getGraphics();
 
-        graphics.setColor(genartor.getBackgroundColor()); // 背景色
+        graphics.setColor(generator.getBackgroundColor()); // 背景色
         graphics.fillRect(0, 0, identicon.getWidth(), identicon.getHeight());
 
-        graphics.setColor(genartor.getForegroundColor()); // 图案前景色
+        graphics.setColor(generator.getForegroundColor()); // 图案前景色
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (array[i][j]) {
@@ -97,8 +97,7 @@ public class Identicon {
         try {
             File file = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath);
             if (!file.exists()) file.mkdirs();
-            File file1 = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath +
-                    fileName);
+            File file1 = new File(systemConfigService.selectAllConfig().get("upload_path").toString() + userAvatarPath + fileName);
             if (!file1.exists()) file1.createNewFile();
             ImageIO.write(image, "PNG", file1);
             return systemConfigService.selectAllConfig().get("static_url").toString() + userAvatarPath + fileName;

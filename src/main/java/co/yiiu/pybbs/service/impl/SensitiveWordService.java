@@ -7,11 +7,11 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,10 +23,10 @@ import java.util.List;
 @Transactional
 public class SensitiveWordService implements ISensitiveWordService {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
-    @Autowired
+    @Resource
     private SensitiveWordMapper sensitiveWordMapper;
 
     @Override

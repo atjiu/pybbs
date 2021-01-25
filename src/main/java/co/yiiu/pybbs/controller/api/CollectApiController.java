@@ -5,8 +5,9 @@ import co.yiiu.pybbs.model.Collect;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.ICollectService;
 import co.yiiu.pybbs.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/collect")
 public class CollectApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private ICollectService collectService;
 
     // 收藏话题

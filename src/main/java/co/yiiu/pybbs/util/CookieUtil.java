@@ -1,11 +1,11 @@
 package co.yiiu.pybbs.util;
 
 import co.yiiu.pybbs.service.ISystemConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import java.util.Objects;
 @Component
 public class CookieUtil {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     public void setCookie(String key, String value) {

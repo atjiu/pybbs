@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -26,9 +27,10 @@ import java.io.IOException;
 @RequestMapping("/admin/sensitive_word")
 public class SensitiveWordAdminController extends BaseAdminController {
 
-    private Logger log = LoggerFactory.getLogger(SensitiveWordAdminController.class);
+    private final Logger log = LoggerFactory.getLogger(SensitiveWordAdminController.class);
 
     @Autowired
+    @Resource
     private ISensitiveWordService sensitiveWordService;
 
     @RequiresPermissions("sensitive_word:list")

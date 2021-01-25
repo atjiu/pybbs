@@ -8,10 +8,10 @@ import co.yiiu.pybbs.service.ICommentService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 
@@ -24,9 +24,9 @@ import java.util.Map;
 @RequestMapping("/api/comment")
 public class CommentApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
 
     // 创建评论

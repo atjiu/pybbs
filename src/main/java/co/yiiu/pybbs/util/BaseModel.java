@@ -8,10 +8,10 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -24,9 +24,9 @@ import java.util.*;
 @Component
 public class BaseModel {
 
-    private Logger log = LoggerFactory.getLogger(BaseModel.class);
+    private final Logger log = LoggerFactory.getLogger(BaseModel.class);
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     private static final long MINUTE = 60 * 1000;

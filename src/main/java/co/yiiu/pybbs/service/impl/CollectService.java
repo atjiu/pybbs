@@ -11,12 +11,12 @@ import co.yiiu.pybbs.util.Message;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,20 +30,20 @@ import java.util.Map;
 @Transactional
 public class CollectService implements ICollectService {
 
-    @Autowired
+    @Resource
     private CollectMapper collectMapper;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     @Lazy
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private INotificationService notificationService;
-    @Autowired
+    @Resource
     private EmailService emailService;
-    @Autowired
+    @Resource
     @Lazy
     private IUserService userService;
 

@@ -2,7 +2,6 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.interceptor.CommonInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -12,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.annotation.Resource;
 import java.util.Locale;
 
 /**
@@ -22,9 +22,9 @@ import java.util.Locale;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-    @Autowired
+    @Resource
     private CommonInterceptor commonInterceptor;
-    @Autowired
+    @Resource
     private UserInterceptor userInterceptor;
 
     @Override

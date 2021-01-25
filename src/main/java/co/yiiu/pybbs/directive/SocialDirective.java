@@ -3,9 +3,9 @@ package co.yiiu.pybbs.directive;
 import co.yiiu.pybbs.plugin.SocialPlugin;
 import freemarker.core.Environment;
 import freemarker.template.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 @Component
 public class SocialDirective implements TemplateDirectiveModel {
 
-    @Autowired
+    @Resource
     private SocialPlugin socialPlugin;
 
     @Override

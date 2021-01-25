@@ -5,11 +5,11 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.impl.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import co.yiiu.pybbs.util.HttpUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,11 +22,11 @@ import javax.servlet.http.HttpSession;
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
-    @Autowired
+    @Resource
     private CookieUtil cookieUtil;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private UserService userService;
 
     @Override

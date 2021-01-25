@@ -5,9 +5,9 @@ import co.yiiu.pybbs.service.impl.SystemConfigService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @Aspect
 public class CommentLayerPlugin {
 
-    @Autowired
+    @Resource
     private SystemConfigService systemConfigService;
 
     @Around("co.yiiu.pybbs.hook.CommentServiceHook.selectByTopicId()")

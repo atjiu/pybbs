@@ -5,9 +5,9 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,15 +21,15 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private ICollectService collectService;
-    @Autowired
+    @Resource
     private IOAuthUserService oAuthUserService;
 
     // 用户的个人信息

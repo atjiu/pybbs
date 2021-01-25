@@ -1,6 +1,6 @@
 package co.yiiu.pybbs.util.identicon.generator.impl;
 
-import co.yiiu.pybbs.util.identicon.generator.IBaseGenartor;
+import co.yiiu.pybbs.util.identicon.generator.IBaseGenerator;
 
 import java.awt.*;
 import java.util.Random;
@@ -10,7 +10,7 @@ import java.util.Random;
  * Copyright (c) 2016, All Rights Reserved.
  * https://yiiu.co
  */
-public class MyGenerator implements IBaseGenartor {
+public class MyGenerator implements IBaseGenerator {
 
     private Random random = new Random();
 

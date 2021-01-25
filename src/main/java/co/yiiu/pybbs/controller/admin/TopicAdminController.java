@@ -8,12 +8,12 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin/topic")
 public class TopicAdminController extends BaseAdminController {
 
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     private IIndexedService indexedService;
 
     @RequiresPermissions("topic:list")

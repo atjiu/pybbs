@@ -3,11 +3,11 @@ package co.yiiu.pybbs.config.service;
 import co.yiiu.pybbs.model.SensitiveWord;
 import co.yiiu.pybbs.service.ISensitiveWordService;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +21,7 @@ import java.util.Set;
 @DependsOn("mybatisPlusConfig")
 public class SensitiveWordFilterService {
 
-    @Autowired
+    @Resource
     private ISensitiveWordService sensitiveWordService;
 
     // 初始化过滤器

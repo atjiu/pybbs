@@ -3,11 +3,11 @@ package co.yiiu.pybbs.util;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,9 +21,9 @@ import java.io.IOException;
 @Component
 public class FileUtil {
 
-    private Logger log = LoggerFactory.getLogger(FileUtil.class);
+    private final Logger log = LoggerFactory.getLogger(FileUtil.class);
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     /**

@@ -5,7 +5,6 @@ import co.yiiu.pybbs.service.IAdminUserService;
 import co.yiiu.pybbs.service.IRoleService;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -24,9 +24,9 @@ import java.util.Date;
 @RequestMapping("/admin/admin_user")
 public class AdminUserAdminController extends BaseAdminController {
 
-    @Autowired
+    @Resource
     private IAdminUserService adminUserService;
-    @Autowired
+    @Resource
     private IRoleService roleService;
 
     @RequiresPermissions("admin_user:list")

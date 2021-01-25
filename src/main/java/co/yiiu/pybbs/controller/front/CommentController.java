@@ -4,12 +4,13 @@ import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.service.ICommentService;
 import co.yiiu.pybbs.service.ITopicService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/comment")
 public class CommentController extends BaseController {
 
-    @Autowired
+    @Resource
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
 
     // 编辑评论

@@ -4,10 +4,10 @@ import co.yiiu.pybbs.mapper.NotificationMapper;
 import co.yiiu.pybbs.model.Notification;
 import co.yiiu.pybbs.service.INotificationService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
 @Transactional
 public class NotificationService implements INotificationService {
 
-    @Autowired
+    @Resource
     private NotificationMapper notificationMapper;
 
     // 查询消息

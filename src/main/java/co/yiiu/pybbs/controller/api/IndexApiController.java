@@ -7,11 +7,11 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.*;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -24,19 +24,19 @@ import java.util.*;
 @RequestMapping("/api")
 public class IndexApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private CookieUtil cookieUtil;
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     private FileUtil fileUtil;
-    @Autowired
+    @Resource
     private ICodeService codeService;
 
     // 首页接口

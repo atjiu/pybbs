@@ -7,7 +7,7 @@ import java.awt.*;
  * Date: 15/1/10
  * Time: 下午2:43
  */
-public interface IBaseGenartor {
+public interface IBaseGenerator {
     /**
      * 将hash字符串转换为bool二维6*5数组
      *

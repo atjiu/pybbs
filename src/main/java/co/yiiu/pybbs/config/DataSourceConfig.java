@@ -3,11 +3,11 @@ package co.yiiu.pybbs.config;
 import co.yiiu.pybbs.util.SpringContextUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Autowired
+    @Resource
     private SiteConfig siteConfig;
 
     private HikariDataSource dataSource;

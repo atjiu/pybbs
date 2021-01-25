@@ -11,11 +11,11 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 @Component
@@ -24,7 +24,7 @@ public class SmsService {
 
     private Logger log = LoggerFactory.getLogger(SmsService.class);
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     private IAcsClient client;

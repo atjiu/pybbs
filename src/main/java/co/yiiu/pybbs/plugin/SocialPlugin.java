@@ -4,11 +4,11 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.exception.AuthException;
 import me.zhyd.oauth.request.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ import java.util.Set;
 @Component
 public class SocialPlugin {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     /**

@@ -10,7 +10,6 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.MyPage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +34,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/topic")
 public class TopicController extends BaseController {
 
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ICollectService collectService;
 
     // 话题详情

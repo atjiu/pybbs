@@ -7,9 +7,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @Aspect
 public class ElasticSearchPlugin {
 
-    @Autowired
+    @Resource
     private ElasticSearchService elasticSearchService;
-    @Autowired
+    @Resource
     private TopicMapper topicMapper;
 
     @Around("co.yiiu.pybbs.hook.TopicServiceHook.search()")

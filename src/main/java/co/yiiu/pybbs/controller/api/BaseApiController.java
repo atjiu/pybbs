@@ -5,11 +5,11 @@ import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 public class BaseApiController extends BaseController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
 
     protected Result success() {

@@ -12,9 +12,9 @@ import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,15 +30,15 @@ import java.util.Map;
 @RequestMapping("/api/topic")
 public class TopicApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ICollectService collectService;
 
     // 话题详情

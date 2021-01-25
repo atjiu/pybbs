@@ -4,7 +4,6 @@ import co.yiiu.pybbs.model.Permission;
 import co.yiiu.pybbs.service.IPermissionService;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/admin/permission")
 public class PermissionAdminController extends BaseAdminController {
 
-    @Autowired
+    @Resource
     private IPermissionService permissionService;
 
     @RequiresPermissions("permission:list")

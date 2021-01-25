@@ -13,9 +13,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +29,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     private final Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
 
-    @Autowired
+    @Resource
     private IAdminUserService adminUserService;
-    @Autowired
+    @Resource
     private IRoleService roleService;
-    @Autowired
+    @Resource
     private IPermissionService permissionService;
 
     // 用户权限配置

@@ -6,11 +6,11 @@ import co.yiiu.pybbs.util.LocaleMessageSourceUtil;
 import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -22,35 +22,35 @@ public class FreemarkerConfig {
 
     private Logger log = LoggerFactory.getLogger(FreeMarkerConfig.class);
 
-    @Autowired
+    @Resource
     private freemarker.template.Configuration configuration;
-    @Autowired
+    @Resource
     private TopicListDirective topicListDirective;
-    @Autowired
+    @Resource
     private OtherTopicDirective otherTopicDirective;
-    @Autowired
+    @Resource
     private NotificationsDirective notificationsDirective;
-    @Autowired
+    @Resource
     private ScoreDirective scoreDirective;
-    @Autowired
+    @Resource
     private SearchDirective searchDirective;
-    @Autowired
+    @Resource
     private TagsDirective tagsDirective;
-    @Autowired
+    @Resource
     private UserTopicsDirective userTopicsDirective;
-    @Autowired
+    @Resource
     private UserCommentsDirective userCommentsDirective;
-    @Autowired
+    @Resource
     private UserCollectsDirective userCollectsDirective;
-    @Autowired
+    @Resource
     private TopicCommentsDirective topicCommentsDirective;
-    @Autowired
+    @Resource
     private SocialDirective socialDirective;
-    @Autowired
+    @Resource
     private BaseModel baseModel;
-    @Autowired
+    @Resource
     private ShiroTag shiroTag;
-    @Autowired
+    @Resource
     private LocaleMessageSourceUtil localeMessageSourceUtil;
 
     @PostConstruct

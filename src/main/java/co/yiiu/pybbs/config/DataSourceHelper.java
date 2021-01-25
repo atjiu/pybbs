@@ -1,10 +1,10 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.util.SpringContextUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -20,7 +20,7 @@ import java.sql.Statement;
 @Configuration
 public class DataSourceHelper {
 
-    @Autowired
+    @Resource
     private SiteConfig siteConfig;
 
     @PostConstruct

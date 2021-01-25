@@ -6,12 +6,13 @@ import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -22,9 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/admin/tag")
 public class TagAdminController extends BaseAdminController {
 
-    @Autowired
+    @Resource
     private ITagService tagService;
-    @Autowired
+    @Resource
     private FileUtil fileUtil;
 
     @RequiresPermissions("tag:list")

@@ -4,10 +4,10 @@ import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class SystemConfigService implements ISystemConfigService {
 
-    @Autowired
+    @Resource
     private SystemConfigMapper systemConfigMapper;
 
-    private static Map SYSTEM_CONFIG;
+    private static Map<String, String> SYSTEM_CONFIG;
 
     @Override
-    public Map selectAllConfig() {
+    public Map<String, String> selectAllConfig() {
         List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
         SYSTEM_CONFIG = systemConfigs.stream().filter(systemConfig -> systemConfig.getPid() != 0).collect(Collectors
                 .toMap(SystemConfig::getKey, SystemConfig::getValue));
@@ -62,9 +62,9 @@ public class SystemConfigService implements ISystemConfigService {
     // 在更新系统设置后，清一下selectAllConfig()的缓存
     @Override
     public void update(List<Map<String, String>> list) {
-        for (Map map : list) {
-            String key = (String) map.get("name");
-            String value = (String) map.get("value");
+        for (Map<String, String> map : list) {
+            String key = map.get("name");
+            String value = map.get("value");
             // 如果密码没有变动，则不做修改
             if ((key.equals("mail_password") && value.equals("*******")) || (key.equals("redis_password") && value.equals
                     ("*******")) || (key.equals("oauth_github_client_secret") && value.equals("*******"))) {

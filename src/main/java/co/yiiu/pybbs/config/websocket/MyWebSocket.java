@@ -25,10 +25,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class MyWebSocket {
 
-    private static Logger log = LoggerFactory.getLogger(MyWebSocket.class);
+    private final static Logger log = LoggerFactory.getLogger(MyWebSocket.class);
 
     //在线人数
-    private static AtomicInteger online = new AtomicInteger(0);
+    private final static AtomicInteger online = new AtomicInteger(0);
     //所有的对象，用于群发
     public static Map<Session, UserWithWebSocketVO> webSockets = new ConcurrentHashMap<>();
 

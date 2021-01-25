@@ -12,13 +12,13 @@ import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,15 +30,15 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/oauth")
 public class OAuthController extends BaseController {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private IOAuthUserService oAuthUserService;
-    @Autowired
+    @Resource
     private CookieUtil cookieUtil;
-    @Autowired
+    @Resource
     private SocialPlugin socialPlugin;
 
     @GetMapping("/redirect/{type}")

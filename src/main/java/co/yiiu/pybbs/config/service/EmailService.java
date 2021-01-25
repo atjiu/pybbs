@@ -4,11 +4,11 @@ import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -24,11 +24,11 @@ import java.util.Properties;
 @DependsOn("mybatisPlusConfig")
 public class EmailService implements BaseService<Session> {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     private Session session;
-    private Logger log = LoggerFactory.getLogger(EmailService.class);
+    private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
     @Override
     public Session instance() {

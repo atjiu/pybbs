@@ -5,10 +5,10 @@ import co.yiiu.pybbs.service.ITopicService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import freemarker.core.Environment;
 import freemarker.template.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 
@@ -20,9 +20,9 @@ import java.util.Map;
 @Component
 public class SearchDirective implements TemplateDirectiveModel {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
 
     @Override

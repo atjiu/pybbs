@@ -69,6 +69,11 @@
                     $(this).attr("src", "/common/captcha?ver=" + date.getTime());
                 });
             });
+            document.getElementById("captcha").addEventListener("keypress", function (e) {
+                if (e.code.indexOf("Enter") !== -1) {
+                    document.getElementById("login_btn").click();
+                }
+            });
             $("#login_btn").click(function () {
                 var username = $("#username").val();
                 var password = $("#password").val();

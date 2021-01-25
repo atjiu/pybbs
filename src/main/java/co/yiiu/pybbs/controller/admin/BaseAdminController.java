@@ -5,7 +5,8 @@ import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.service.IAdminUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class BaseAdminController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private IAdminUserService adminUserService;
 
     // 可以将传递到controller里的参数中Date类型的从String转成Date类型的对象

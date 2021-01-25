@@ -2,10 +2,10 @@ package co.yiiu.pybbs.controller.front;
 
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.ISystemConfigService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class BaseController {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     protected String redirect(String path) {

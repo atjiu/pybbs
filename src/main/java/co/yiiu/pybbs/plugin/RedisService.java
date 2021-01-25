@@ -5,7 +5,6 @@ import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,6 +12,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.params.SetParams;
+
+import javax.annotation.Resource;
 
 /**
  * Created by tomoya.
@@ -23,10 +24,10 @@ import redis.clients.jedis.params.SetParams;
 @DependsOn("mybatisPlusConfig")
 public class RedisService implements BaseService<JedisPool> {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
     private JedisPool jedisPool;
-    private Logger log = LoggerFactory.getLogger(RedisService.class);
+    private final Logger log = LoggerFactory.getLogger(RedisService.class);
 
     public void setJedis(JedisPool jedisPool) {
         this.jedisPool = jedisPool;

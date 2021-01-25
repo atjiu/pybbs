@@ -5,7 +5,6 @@ import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.ICollectService;
 import co.yiiu.pybbs.service.IOAuthUserService;
 import co.yiiu.pybbs.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ICollectService collectService;
-    @Autowired
+    @Resource
     private IOAuthUserService oAuthUserService;
 
     @GetMapping("/{username}")

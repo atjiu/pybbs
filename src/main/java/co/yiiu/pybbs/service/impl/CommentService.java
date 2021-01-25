@@ -14,12 +14,12 @@ import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,19 +35,19 @@ public class CommentService implements ICommentService {
 
     private final Logger log = LoggerFactory.getLogger(CommentService.class);
 
-    @Autowired
+    @Resource
     private CommentMapper commentMapper;
-    @Autowired
+    @Resource
     @Lazy
     private ITopicService topicService;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    @Autowired
+    @Resource
     @Lazy
     private IUserService userService;
-    @Autowired
+    @Resource
     private INotificationService notificationService;
-    @Autowired
+    @Resource
     private EmailService emailService;
 
     // 根据话题id查询评论

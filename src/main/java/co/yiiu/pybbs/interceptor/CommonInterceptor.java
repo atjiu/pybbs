@@ -8,12 +8,12 @@ import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.IpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,11 +28,11 @@ import java.util.Map;
 public class CommonInterceptor implements HandlerInterceptor {
 
     private final Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private CookieUtil cookieUtil;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     @Override

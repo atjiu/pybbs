@@ -7,12 +7,12 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -24,9 +24,9 @@ import java.util.Map;
 @RequestMapping("/admin/comment")
 public class CommentAdminController extends BaseAdminController {
 
-    @Autowired
+    @Resource
     private ICommentService commentService;
-    @Autowired
+    @Resource
     private ITopicService topicService;
 
     @RequiresPermissions("comment:list")

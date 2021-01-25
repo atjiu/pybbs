@@ -9,10 +9,10 @@ import co.yiiu.pybbs.util.DateUtil;
 import co.yiiu.pybbs.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -25,11 +25,11 @@ import java.util.List;
 @Transactional
 public class CodeService implements ICodeService {
 
-    @Autowired
+    @Resource
     private CodeMapper codeMapper;
-    @Autowired
+    @Resource
     private EmailService emailService;
-    @Autowired
+    @Resource
     private SmsService smsService;
 
     // 递归生成code，防止code重复

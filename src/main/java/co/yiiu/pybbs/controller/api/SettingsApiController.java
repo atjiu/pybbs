@@ -9,10 +9,10 @@ import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -25,11 +25,11 @@ import java.util.Map;
 @RequestMapping("/api/settings")
 public class SettingsApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private IUserService userService;
-    @Autowired
+    @Resource
     private ICodeService codeService;
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
 
     // 更新用户个人信息

@@ -3,11 +3,11 @@ package co.yiiu.pybbs.controller.api;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.INotificationService;
 import co.yiiu.pybbs.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/api/notification")
 public class NotificationApiController extends BaseApiController {
 
-    @Autowired
+    @Resource
     private INotificationService notificationService;
 
     @GetMapping("/notRead")

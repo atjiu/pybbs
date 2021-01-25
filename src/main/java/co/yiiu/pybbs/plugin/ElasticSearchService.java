@@ -28,11 +28,11 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,9 +46,9 @@ import java.util.stream.Collectors;
 @DependsOn("mybatisPlusConfig")
 public class ElasticSearchService implements BaseService<RestHighLevelClient> {
 
-    @Autowired
+    @Resource
     private ISystemConfigService systemConfigService;
-    private Logger log = LoggerFactory.getLogger(ElasticSearchService.class);
+    private final Logger log = LoggerFactory.getLogger(ElasticSearchService.class);
     private RestHighLevelClient client;
     // 索引名
     private String name;

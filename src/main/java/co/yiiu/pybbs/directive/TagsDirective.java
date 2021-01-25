@@ -5,9 +5,9 @@ import co.yiiu.pybbs.service.ITagService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import freemarker.core.Environment;
 import freemarker.template.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class TagsDirective implements TemplateDirectiveModel {
 
-    @Autowired
+    @Resource
     private ITagService tagService;
 
     @Override
