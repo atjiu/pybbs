@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,20 +25,24 @@ import java.util.stream.Collectors;
 @Transactional
 public class PermissionService implements IPermissionService {
 
+    private static Map<String, List<Permission>> permissionsByRoleId = new HashMap<>();
+
     @Resource
     private PermissionMapper permissionMapper;
     @Resource
     private IRolePermissionService rolePermissionService;
 
-    // 根据角色id查询所有的权限
+    // 根据角色id查询所有的权限, 这个方法调用非常频繁，在内存里缓存一下
     @Override
     public List<Permission> selectByRoleId(Integer roleId) {
+        if (permissionsByRoleId.get("roleId_" + roleId) != null) return permissionsByRoleId.get("roleId_" + roleId);
         List<RolePermission> rolePermissions = rolePermissionService.selectByRoleId(roleId);
-        List<Integer> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).collect(Collectors
-                .toList());
+        List<Integer> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).collect(Collectors.toList());
         QueryWrapper<Permission> wrapper = new QueryWrapper<>();
         wrapper.lambda().in(Permission::getId, permissionIds);
-        return permissionMapper.selectList(wrapper);
+        List<Permission> permissions = permissionMapper.selectList(wrapper);
+        permissionsByRoleId.put("roleId_" + roleId, permissions);
+        return permissions;
     }
 
     // 根据父节点查询子节点
@@ -60,18 +65,21 @@ public class PermissionService implements IPermissionService {
 
     @Override
     public Permission insert(Permission permission) {
+        this.clearPermissionsCache();
         permissionMapper.insert(permission);
         return permission;
     }
 
     @Override
     public Permission update(Permission permission) {
+        this.clearPermissionsCache();
         permissionMapper.updateById(permission);
         return permission;
     }
 
     @Override
     public void delete(Integer id) {
+        this.clearPermissionsCache();
         Permission permission = permissionMapper.selectById(id);
         // 如果是父节点的话，要把所有子节点下的所有关联角色的记录都删了，否则会报错
         if (permission.getPid() == 0) {
@@ -88,5 +96,9 @@ public class PermissionService implements IPermissionService {
         }
         // 删除自己
         permissionMapper.deleteById(id);
+    }
+
+    private void clearPermissionsCache() {
+        permissionsByRoleId = new HashMap<>();
     }
 }

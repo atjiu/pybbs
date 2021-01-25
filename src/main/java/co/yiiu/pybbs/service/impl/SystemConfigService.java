@@ -29,9 +29,11 @@ public class SystemConfigService implements ISystemConfigService {
 
     @Override
     public Map<String, String> selectAllConfig() {
+        if (SYSTEM_CONFIG != null) return SYSTEM_CONFIG;
         List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
-        SYSTEM_CONFIG = systemConfigs.stream().filter(systemConfig -> systemConfig.getPid() != 0).collect(Collectors
-                .toMap(SystemConfig::getKey, SystemConfig::getValue));
+        SYSTEM_CONFIG = systemConfigs.stream()
+                .filter(systemConfig -> systemConfig.getPid() != 0)
+                .collect(Collectors.toMap(SystemConfig::getKey, SystemConfig::getValue));
         return SYSTEM_CONFIG;
     }
 
@@ -52,8 +54,9 @@ public class SystemConfigService implements ISystemConfigService {
                 (Collectors.toList());
         // 遍历父节点取父节点下的所有子节点
         p.forEach(systemConfig -> {
-            List<SystemConfig> collect = systemConfigs.stream().filter(systemConfig1 -> systemConfig1.getPid().equals
-                    (systemConfig.getId())).collect(Collectors.toList());
+            List<SystemConfig> collect = systemConfigs.stream()
+                    .filter(systemConfig1 -> systemConfig1.getPid().equals(systemConfig.getId()))
+                    .collect(Collectors.toList());
             map.put(systemConfig.getDescription(), collect);
         });
         return map;

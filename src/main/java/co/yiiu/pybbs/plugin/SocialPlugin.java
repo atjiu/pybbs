@@ -91,9 +91,9 @@ public class SocialPlugin {
      */
     public List<String> getAllAvailableSocialPlatform() {
         List<String> res = new LinkedList<>();
-        Map<String, Object> config = systemConfigService.selectAllConfig();
-        Set<Map.Entry<String, Object>> entrySet = config.entrySet();
-        for (Map.Entry<String, Object> entry : entrySet) {
+        Map<String, String> config = systemConfigService.selectAllConfig();
+        Set<Map.Entry<String, String>> entrySet = config.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
             String key = entry.getKey();
             if (key.startsWith("oauth_")) {
                 String type = key.split("_")[1];

@@ -11,7 +11,7 @@ import java.util.Map;
  * https://yiiu.co
  */
 public interface ISystemConfigService {
-    Map selectAllConfig();
+    Map<String, String> selectAllConfig();
 
     // 根据键取值
     SystemConfig selectByKey(String key);
