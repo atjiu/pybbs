@@ -97,7 +97,7 @@ public class UserService implements IUserService {
         user.setEmail(email);
         user.setBio(bio);
         user.setWebsite(website);
-        user.setActive(false);
+        user.setActive(systemConfigService.selectAllConfig().get("user_need_active").equals("0"));
         userMapper.insert(user);
         if (needActiveEmail) {
             // 发送激活邮件
