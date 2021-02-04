@@ -42,15 +42,17 @@
 </div>
 <script>
     var clientHeight = document.documentElement.clientHeight;
+    var uploadProgress = $(".upload-progress");
+    var uploadImageFileEle = $("#uploadImageFileEle");
 
     function uploadFile(type) {
         $("#type").val(type);
-        $("#uploadImageFileEle").click();
+        uploadImageFileEle.click();
     }
 
-    $("#uploadImageFileEle").change(function () {
+    uploadImageFileEle.change(function () {
         $(".upload-progress-div").removeClass("d-none");
-        $(".upload-progress").css("top", clientHeight * .4 + "px");
+        uploadProgress.css("top", clientHeight * .4 + "px");
         // var _m = layer.msg('上传中(' + upload_progress + '%)...', {icon: 16, shade: 0.5, time: -1});
         var fd = new FormData();
         var type = $("#type").val();
@@ -59,68 +61,54 @@
             fd.append("file", ele.files[i]);
         }
         fd.append("type", type);
-        fd.append("token", "${_user.token!}");
-        $.post({
-            url: "/api/upload",
-            data: fd,
-            dataType: 'json',
-            headers: {
-                'token': '${_user.token!}'
-            },
-            processData: false,
-            contentType: false,
-            xhr: function () { //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) { //检查upload属性是否存在
-                    //绑定progress事件的回调函数
-                    myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
-                }
-                return myXhr; //xhr对象返回给jQuery使用
-            },
-            success: function (data) {
-                // layer.close(_m);
-                if (data.code === 200) {
-                    if (data.detail.errors.length === 0) {
-                        suc("上传成功");
-                    } else {
-                        var error = "";
-                        for (var k = 0; k < data.detail.errors.length; k++) {
-                            error += data.detail.errors[k] + "<br/>";
-                        }
-                        err(error);
-                    }
-                    var oldContent = window.editor.getDoc().getValue();
-                    // if (oldContent) oldContent += '\n\n';
-                    var insertContent = "";
-                    for (var j = 0; j < data.detail.urls.length; j++) {
-                        var url = data.detail.urls[j];
-                        if (type === "topic") {
-                            insertContent += "![image](" + url + ")\n\n"
-                        } else if (type === "video") {
-                            insertContent += "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + url + "' type='video/mp4'></video>\n\n";
-                        }
-                    }
-                    window.editor.getDoc().setValue(oldContent + insertContent);
-                    window.editor.focus();
-                    //定位到文档的最后一个字符的位置
-                    window.editor.setCursor(window.editor.lineCount(), 0);
-                    $("#uploadImageForm")[0].reset();
-                } else {
-                    err(data.description);
-                }
-            }
-        })
-    });
 
-    //上传进度回调函数：
-    function progressHandlingFunction(e) {
-        if (e.lengthComputable) {
-            var percent = e.loaded / e.total * 100;
-            $(".upload-progress").text("正在上传(" + percent.toFixed(2) + "%)...");
-            if (percent === 100) {
-                $(".upload-progress-div").addClass("d-none");
-                $(".upload-progress").text("");
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.open('POST', '/api/upload');
+        xhr.setRequestHeader("token", "${_user.token!}");
+        xhr.onload = function () {
+            var data = xhr.response;
+            if (data.code === 200) {
+                if (data.detail.errors.length === 0) {
+                    suc("上传成功");
+                } else {
+                    var error = "";
+                    for (var k = 0; k < data.detail.errors.length; k++) {
+                        error += data.detail.errors[k] + "<br/>";
+                    }
+                    err(error);
+                }
+                var oldContent = window.editor.getDoc().getValue();
+                // if (oldContent) oldContent += '\n\n';
+                var insertContent = "";
+                for (var j = 0; j < data.detail.urls.length; j++) {
+                    var url = data.detail.urls[j];
+                    if (type === "topic") {
+                        insertContent += "![image](" + url + ")\n\n"
+                    } else if (type === "video") {
+                        insertContent += "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + url + "' type='video/mp4'></video>\n\n";
+                    }
+                }
+                window.editor.getDoc().setValue(oldContent + insertContent);
+                window.editor.focus();
+                //定位到文档的最后一个字符的位置
+                window.editor.setCursor(window.editor.lineCount(), 0);
+                document.getElementById("uploadImageForm").reset();
+            } else {
+                err(data.description);
             }
-        }
-    }
+        };
+        // 获取上传进度
+        xhr.upload.onprogress = function (event) {
+            if (event.lengthComputable) {
+                var percent = event.loaded / event.total * 100;
+                uploadProgress.text("正在上传(" + percent.toFixed(2) + "%)...");
+                if (percent === 100) {
+                    $(".upload-progress-div").addClass("d-none");
+                    $(".upload-progress").text("");
+                }
+            }
+        };
+        xhr.send(fd);
+    })
 </script>
