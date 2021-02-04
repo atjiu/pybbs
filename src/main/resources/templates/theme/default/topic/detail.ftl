@@ -104,6 +104,18 @@
                         height: 150px;
                     }
                 </style>
+            <#else>
+                <div class="card">
+                    <div class="card-header">
+                        添加一条新评论
+                    </div>
+                    <div class="card-body text-center">
+                        <br>
+                        登录后可以发表评论 <a href="/login" style="text-decoration: underline;">去登录</a>
+                        <br>
+                        <br>
+                    </div>
+                </div>
             </#if>
         </div>
         <div class="col-md-3 d-none d-md-block">
