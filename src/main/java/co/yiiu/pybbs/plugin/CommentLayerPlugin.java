@@ -58,7 +58,13 @@ public class CommentLayerPlugin {
                 } else {
                     int layer = newComments.get(idIndex).getLayer();
                     comment.setLayer(layer + 1);
-                    newComments.add(commentIdIndex == -1 ? idIndex + 1 : commentIdIndex + 1, comment);
+                    int count = 0;
+                    if (commentIdIndex != -1) {
+                        for (CommentsByTopic newComment : newComments) {
+                            if (newComments.get(commentIdIndex).getId().equals(newComment.getCommentId())) count++;
+                        }
+                    }
+                    newComments.add(commentIdIndex == -1 ? idIndex + 1 : commentIdIndex + 1 + count, comment);
                 }
             }
         }
