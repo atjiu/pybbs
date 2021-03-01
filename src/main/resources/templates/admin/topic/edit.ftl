@@ -26,8 +26,40 @@
                     </div>
                     <div class="form-group">
                         <label for="content">内容</label>
-                        <textarea name="content" id="content" class="form-control"
-                                  placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
+                        <#if topic.style == "MD">
+                            <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
+                            <style>
+                                .CodeMirror {
+                                    border: 1px solid #ddd;
+                                }
+                            </style>
+                            <script src="/static/theme/default/js/codemirror.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
+                            <textarea name="content" id="content" class="form-control"
+                                      placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
+                            <script type="text/javascript">
+                                CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
+                                CodeMirror.keyMap.default["Tab"] = "indentMore";
+                                var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+                                    lineNumbers: true,     // 显示行数
+                                    indentUnit: 4,         // 缩进单位为4
+                                    tabSize: 4,
+                                    matchBrackets: true,   // 括号匹配
+                                    mode: 'markdown',     // Markdown模式
+                                    lineWrapping: true,    // 自动换行
+                                });
+                            </script>
+                        <#elseif topic.style == "RICH">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/wangEditor/3.1.1/wangEditor.min.js"></script>
+                            <div id="content">${topic.content!}</div>
+                            <script type="text/javascript">
+                                const E = window.wangEditor;
+                                window._E = new E(document.getElementById("content"));
+                                window._E.create();
+                                window._E.config.height = 500;
+                            </script>
+                        </#if>
                     </div>
                     <div class="form-group">
                         <label for="tags">标签</label>
@@ -41,31 +73,11 @@
             </div>
         </div>
     </section>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
-    <style>
-        .CodeMirror {
-            border: 1px solid #ddd;
-        }
-    </style>
-    <script src="/static/theme/default/js/codemirror.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
     <script>
         $(function () {
-            CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
-            CodeMirror.keyMap.default["Tab"] = "indentMore";
-            var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
-                lineNumbers: true,     // 显示行数
-                indentUnit: 4,         // 缩进单位为4
-                tabSize: 4,
-                matchBrackets: true,   // 括号匹配
-                mode: 'markdown',     // Markdown模式
-                lineWrapping: true,    // 自动换行
-            });
-
             $("#btn").click(function () {
                 var title = $("#title").val();
-                var content = editor.getDoc().getValue();
+                var content = window.editor ? window.editor.getDoc().getValue() : window._E.txt.html();
                 var tags = $("#tags").val();
                 if (!title || title.length > 120) {
                     toast("请输入标题，且最大长度在120个字符以内");

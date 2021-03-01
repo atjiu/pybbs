@@ -42,15 +42,15 @@
 </div>
 <script>
     var clientHeight = document.documentElement.clientHeight;
-    var uploadProgress = $(".upload-progress");
-    var uploadImageFileEle = $("#uploadImageFileEle");
+    var uploadProgress = document.querySelector(".upload-progress");
+    var uploadImageFileEle = document.getElementById("uploadImageFileEle");
 
     function uploadFile(type) {
         $("#type").val(type);
         uploadImageFileEle.click();
     }
 
-    uploadImageFileEle.change(function () {
+    uploadImageFileEle.addEventListener("change", function () {
         $(".upload-progress-div").removeClass("d-none");
         uploadProgress.css("top", clientHeight * .4 + "px");
         // var _m = layer.msg('上传中(' + upload_progress + '%)...', {icon: 16, shade: 0.5, time: -1});
@@ -68,35 +68,31 @@
         xhr.setRequestHeader("token", "${_user.token!}");
         xhr.onload = function () {
             var data = xhr.response;
-            if (data.code === 200) {
-                if (data.detail.errors.length === 0) {
-                    suc("上传成功");
-                } else {
-                    var error = "";
-                    for (var k = 0; k < data.detail.errors.length; k++) {
-                        error += data.detail.errors[k] + "<br/>";
-                    }
-                    err(error);
-                }
-                var oldContent = window.editor.getDoc().getValue();
-                // if (oldContent) oldContent += '\n\n';
-                var insertContent = "";
-                for (var j = 0; j < data.detail.urls.length; j++) {
-                    var url = data.detail.urls[j];
-                    if (type === "topic") {
-                        insertContent += "![image](" + url + ")\n\n"
-                    } else if (type === "video") {
-                        insertContent += "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + url + "' type='video/mp4'></video>\n\n";
-                    }
-                }
-                window.editor.getDoc().setValue(oldContent + insertContent);
-                window.editor.focus();
-                //定位到文档的最后一个字符的位置
-                window.editor.setCursor(window.editor.lineCount(), 0);
-                document.getElementById("uploadImageForm").reset();
+            if (data.errno !== 0) {
+                suc("上传成功");
             } else {
-                err(data.description);
+                var error = "";
+                for (var k = 0; k < data.errors.length; k++) {
+                    error += data.errors[k] + "<br/>";
+                }
+                err(error);
             }
+            var oldContent = window.editor.getDoc().getValue();
+            // if (oldContent) oldContent += '\n\n';
+            var insertContent = "";
+            for (var j = 0; j < data.data.length; j++) {
+                var url = data.data[j].url;
+                if (type === "topic") {
+                    insertContent += "![image](" + url + ")\n\n"
+                } else if (type === "video") {
+                    insertContent += "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + url + "' type='video/mp4'></video>\n\n";
+                }
+            }
+            window.editor.getDoc().setValue(oldContent + insertContent);
+            window.editor.focus();
+            //定位到文档的最后一个字符的位置
+            window.editor.setCursor(window.editor.lineCount(), 0);
+            document.getElementById("uploadImageForm").reset();
         };
         // 获取上传进度
         xhr.upload.onprogress = function (event) {

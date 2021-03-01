@@ -5,12 +5,15 @@
             <div class="card">
                 <div class="card-header">
                     <a href="/">主页</a> / <a href="/topic/${topic.id}">${topic.title}</a> / 编辑评论
-                    <span class="pull-right">
-            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
-            <a href="javascript:uploadFile('video');">上传视频</a>
-          </span>
+                    <#if site?? && site.content_style?? && site.content_style == "MD">
+                        <span class="pull-right">
+                            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
+                            <a href="javascript:uploadFile('video');">上传视频</a>
+                        </span>
+                    </#if>
                 </div>
-                <textarea name="content" id="content" class="form-control">${comment.content?html}</textarea>
+                <#include "../components/editor.ftl"/>
+                <@editor _type="topic" _content="${comment.content!}" style="${comment.style!'MD'}"/>
                 <div class="card-body">
                     <button type="button" id="btn" class="btn btn-info">
                         <span class="glyphicon glyphicon-send"></span> 更新
@@ -19,34 +22,21 @@
             </div>
         </div>
         <div class="col-md-3 d-none d-md-block">
-            <#include "../components/markdown_guide.ftl"/>
+            <#if site?? && site.content_style?? && site.content_style == "MD">
+                <#include "../components/markdown_guide.ftl"/>
+            </#if>
             <#include "../components/create_topic_guide.ftl"/>
         </div>
     </div>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css" rel="stylesheet">
     <style>
         .CodeMirror {
             border-top: 0;
         }
     </style>
-    <script src="/static/theme/default/js/codemirror.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
     <script>
         $(function () {
-            CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
-            CodeMirror.keyMap.default["Tab"] = "indentMore";
-            window.editor = CodeMirror.fromTextArea(document.getElementById("content"), {
-                lineNumbers: true,     // 显示行数
-                indentUnit: 4,         // 缩进单位为4
-                tabSize: 4,
-                matchBrackets: true,   // 括号匹配
-                mode: 'markdown',     // Markdown模式
-                lineWrapping: true,    // 自动换行
-            });
-
             $("#btn").click(function () {
-                var content = window.editor.getDoc().getValue();
+                var content = window.editor ? window.editor.getDoc().getValue() : window._E.txt.html();
                 if (!content) {
                     err("请输入内容");
                     return;

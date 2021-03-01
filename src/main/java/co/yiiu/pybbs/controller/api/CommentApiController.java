@@ -5,6 +5,7 @@ import co.yiiu.pybbs.model.Comment;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.ICommentService;
+import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
@@ -28,6 +29,8 @@ public class CommentApiController extends BaseApiController {
     private ICommentService commentService;
     @Resource
     private ITopicService topicService;
+    @Resource
+    private ISystemConfigService systemConfigService;
 
     // 创建评论
     @PostMapping
@@ -44,14 +47,14 @@ public class CommentApiController extends BaseApiController {
         // 组装comment对象
         Comment comment = new Comment();
         comment.setCommentId(commentId);
+        comment.setStyle(systemConfigService.selectAllConfig().get("content_style"));
         comment.setContent(content);
         comment.setInTime(new Date());
         comment.setTopicId(topic.getId());
         comment.setUserId(user.getId());
         comment = commentService.insert(comment, topic, user);
         // 过滤评论内容
-        comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil
-                .MinMatchType));
+        comment.setContent(SensitiveWordUtil.replaceSensitiveWord(comment.getContent(), "*", SensitiveWordUtil.MinMatchType));
         return success(comment);
     }
 

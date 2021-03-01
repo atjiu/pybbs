@@ -18,6 +18,7 @@ public class Topic implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String title;
+    private String style; // 内容格式化，RICH，MD
     private String content;
     private Date inTime;
     private Date modifyTime;
@@ -34,6 +35,14 @@ public class Topic implements Serializable {
     private Boolean good;
     // 点赞用户的id英文,隔开的，要计算被多少人点赞过，可以通过英文,分隔这个字符串计算数量
     private String upIds;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
     public String getUpIds() {
         return upIds;

@@ -179,14 +179,14 @@ public class IndexApiController extends BaseApiController {
     // 上传图片
     @PostMapping("/upload")
     @ResponseBody
-    public Result upload(@RequestParam("file") MultipartFile[] files, String type, HttpSession session) {
+    public Object upload(@RequestParam("file") MultipartFile[] files, String type, HttpSession session) {
         User user = getApiUser();
         ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         ApiAssert.notEmpty(type, "上传文件类型不能为空");
-        Map<String, Object> map = new HashMap<>();
-        List<String> urls = new ArrayList<>();
+        List<Map<String, String>> urls = new ArrayList<>();
         List<String> errors = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
+            String url = null;
             MultipartFile file = files[i];
             String suffix = "." + file.getContentType().split("/")[1];
             if (!Arrays.asList(".jpg", ".png", ".gif", ".jpeg", ".mp4").contains(suffix.toLowerCase())) {
@@ -208,7 +208,6 @@ public class IndexApiController extends BaseApiController {
                     continue;
                 }
             }
-            String url = null;
             if (type.equalsIgnoreCase("avatar")) { // 上传头像
                 // 拿到上传后访问的url
                 url = fileUtil.upload(file, "avatar", "avatar/" + user.getUsername());
@@ -233,10 +232,16 @@ public class IndexApiController extends BaseApiController {
                 errors.add("第[" + (i + 1) + "]个文件异常: " + "上传的文件不存在或者上传过程发生了错误");
                 continue;
             }
-            urls.add(url);
+            Map<String, String> map = new HashMap<>();
+            map.put("url", url);
+            map.put("href", "");
+            map.put("alt", "");
+            urls.add(map);
         }
-        map.put("urls", urls);
-        map.put("errors", errors);
-        return success(map);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("errno", errors.size());
+        resultMap.put("data", urls);
+        resultMap.put("errors", errors);
+        return resultMap;
     }
 }

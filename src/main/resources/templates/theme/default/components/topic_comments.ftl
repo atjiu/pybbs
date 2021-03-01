@@ -44,7 +44,13 @@
                                         </#if>
                                     </div>
                                 </div>
-                                <div class="comment-detail-content ml-4 mt-3">${model.formatContent(comment.content)}</div>
+                                <div class="comment-detail-content ml-4 mt-3">
+                                    <#if comment.style == 'MD'>
+                                        ${model.formatContent(comment.content)}
+                                    <#elseif comment.style == 'RICH'>
+                                        ${comment.content!}
+                                    </#if>
+                                </div>
                             </div>
                         </div>
                         <#if comment?has_next>

@@ -18,11 +18,20 @@ public class Comment implements Serializable {
     private Integer id;
     private Integer topicId;
     private Integer userId;
+    private String style; // 内容格式化，RICH，MD
     private String content;
     private Date inTime;
     private Integer commentId;
     // 点赞用户的id
     private String upIds;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
     public String getUpIds() {
         return upIds;

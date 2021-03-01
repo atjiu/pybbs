@@ -49,7 +49,11 @@
                 </div>
                 <div class="divide"></div>
                 <div class="card-body topic-detail-content">
-                    ${model.formatContent(topic.content)}
+                    <#if topic.style == "MD">
+                        ${model.formatContent(topic.content)}
+                    <#elseif topic.style == "RICH">
+                        ${topic.content!}
+                    </#if>
                     <div>
                         <#list tags as tag>
                             <a href="/topic/tag/${tag.name}"><span class="badge badge-info">${tag.name}</span></a>
@@ -78,30 +82,34 @@
                     <div class="card-header">
                         添加一条新评论
                         <span class="pull-right">
-                            <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
-                            <a href="javascript:uploadFile('video');">上传视频</a>&nbsp;|
+                            <#if site?? && site.content_style?? && site.content_style == "MD">
+                                <a href="javascript:uploadFile('topic');">上传图片</a>&nbsp;|
+                                <a href="javascript:uploadFile('video');">上传视频</a>&nbsp;|
+                            </#if>
                             <a href="javascript:;" id="goTop">回到顶部</a>
                         </span>
                     </div>
                     <input type="hidden" name="commentId" id="commentId" value=""/>
-                    <textarea name="content" id="content" class="form-control"
-                              placeholder="添加一条评论，支持Markdown语法"></textarea>
+                    <#include "../components/editor.ftl"/>
+                    <@editor _type="topic" style="${site.content_style!'MD'}"/>
                     <div class="card-body">
                         <button id="comment_btn" class="btn btn-sm btn-info">
                             <span class="glyphicon glyphicon-send"></span> 评论
                         </button>
                     </div>
                 </div>
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/codemirror.min.css"
-                      rel="stylesheet">
-                <script src="/static/theme/default/js/codemirror.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/mode/markdown/markdown.min.js"></script>
-                <script
-                        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.47.0/addon/display/placeholder.min.js"></script>
                 <style>
                     .CodeMirror {
                         border-top: 0;
-                        height: 150px;
+                        height: 150px !important;
+                    }
+
+                    .w-e-toolbar {
+                        border: 0;
+                    }
+
+                    .w-e-text-container {
+                        height: 200px !important;
                     }
                 </style>
             <#else>
@@ -129,19 +137,9 @@
         <#if _user??>
         $(function () {
             hljs.initHighlightingOnLoad();
-            CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
-            CodeMirror.keyMap.default["Tab"] = "indentMore";
-            window.editor = CodeMirror.fromTextArea(document.getElementById("content"), {
-                lineNumbers: true,     // 显示行数
-                indentUnit: 4,         // 缩进单位为4
-                tabSize: 4,
-                matchBrackets: true,   // 括号匹配
-                mode: 'markdown',     // Markdown模式
-                lineWrapping: true,    // 自动换行
-            });
 
             $("#comment_btn").click(function () {
-                var content = window.editor.getDoc().getValue();
+                var content = window.editor ? window.editor.getDoc().getValue() : window._E.txt.html();
                 if (!content) {
                     err("请输入评论内容");
                     return;
@@ -248,12 +246,20 @@
         // 回复评论
         function commentThis(username, commentId) {
             $("#commentId").val(commentId);
-            var oldContent = window.editor.getDoc().getValue();
-            if (oldContent) oldContent += '\n';
-            window.editor.getDoc().setValue(oldContent + "@" + username + " ");
-            window.editor.focus();
-            //定位到文档的最后一个字符的位置
-            window.editor.setCursor(window.editor.lineCount(), 0);
+            if (window.editor) {
+                var oldContent = window.editor.getDoc().getValue();
+                if (oldContent) oldContent += '\n';
+                window.editor.getDoc().setValue(oldContent + "@" + username + " ");
+                window.editor.focus();
+                //定位到文档的最后一个字符的位置
+                window.editor.setCursor(window.editor.lineCount(), 0);
+            } else {
+                if (window._E.txt.text()) {
+                    window._E.txt.append('<a href="${site.baseUrl!}/user/' + username + '">@' + username + '</a>&nbsp;');
+                } else {
+                    window._E.txt.html('<a href="${site.baseUrl!}/user/' + username + '">@' + username + '</a>&nbsp;');
+                }
+            }
         }
 
         </#if>
@@ -262,7 +268,4 @@
             $('html, body').animate({scrollTop: 0}, 500);
         })
     </script>
-    <#if _user??>
-        <#include "../components/upload.ftl"/>
-    </#if>
 </@html>

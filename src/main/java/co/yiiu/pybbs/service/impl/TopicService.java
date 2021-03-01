@@ -101,6 +101,7 @@ public class TopicService implements ITopicService {
     public Topic insert(String title, String content, String tags, User user) {
         Topic topic = new Topic();
         topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
+        topic.setStyle(systemConfigService.selectAllConfig().get("content_style"));
         topic.setContent(content);
         topic.setInTime(new Date());
         topic.setUserId(user.getId());
