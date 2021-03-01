@@ -179,11 +179,12 @@ public class IndexApiController extends BaseApiController {
     // 上传图片
     @PostMapping("/upload")
     @ResponseBody
-    public Object upload(@RequestParam("file") MultipartFile[] files, String type, HttpSession session) {
+    public Result upload(@RequestParam("file") MultipartFile[] files, String type, HttpSession session) {
         User user = getApiUser();
         ApiAssert.isTrue(user.getActive(), "你的帐号还没有激活，请去个人设置页面激活帐号");
         ApiAssert.notEmpty(type, "上传文件类型不能为空");
-        List<Map<String, String>> urls = new ArrayList<>();
+        Map<String, Object> resultMap = new HashMap<>();
+        List<String> urls = new ArrayList<>();
         List<String> errors = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             String url = null;
@@ -232,16 +233,10 @@ public class IndexApiController extends BaseApiController {
                 errors.add("第[" + (i + 1) + "]个文件异常: " + "上传的文件不存在或者上传过程发生了错误");
                 continue;
             }
-            Map<String, String> map = new HashMap<>();
-            map.put("url", url);
-            map.put("href", "");
-            map.put("alt", "");
-            urls.add(map);
+            urls.add(url);
         }
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("errno", errors.size());
-        resultMap.put("data", urls);
+        resultMap.put("urls", urls);
         resultMap.put("errors", errors);
-        return resultMap;
+        return success(resultMap);
     }
 }

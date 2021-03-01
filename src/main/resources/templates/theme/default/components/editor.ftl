@@ -62,17 +62,16 @@
             xhr.setRequestHeader("token", "${_user.token!}");
             xhr.onload = function () {
                 var data = xhr.response;
-                if (data.errno === 0) {
+                if (data.code === 200) {
                     suc("上传成功");
+                    cb(data);
                 } else {
                     var error = "";
-                    for (var k = 0; k < data.errors.length; k++) {
-                        error += data.errors[k] + "<br/>";
+                    for (var k = 0; k < data.detail.errors.length; k++) {
+                        error += data.detail.errors[k] + "<br/>";
                     }
-                    console.log(111, error);
                     err(error);
                 }
-                cb(data);
             };
             // 获取上传进度
             xhr.upload.onprogress = function (event) {
@@ -119,8 +118,8 @@
                     var oldContent = window.editor.getDoc().getValue();
                     // if (oldContent) oldContent += '\n\n';
                     var insertContent = "";
-                    for (var j = 0; j < data.data.length; j++) {
-                        var url = data.data[j].url;
+                    for (var j = 0; j < data.detail.urls.length; j++) {
+                        var url = data.detail.urls[j];
                         if (type === "topic") {
                             insertContent += "![image](" + url + ")\n\n"
                         } else if (type === "video") {
@@ -151,8 +150,8 @@
                 // resultFiles 是 input 中选中的文件列表
                 // insertImgFn 是获取图片 url 后，插入到编辑器的方法
                 uploadImageWithProgress(resultFiles, function (data) {
-                    for (var j = 0; j < data.data.length; j++) {
-                        var url = data.data[j].url;
+                    for (var j = 0; j < data.detail.urls.length; j++) {
+                        var url = data.detail.urls[j];
                         // 上传图片，返回结果，将图片插入到编辑器中
                         insertImgFn(url);
                     }
