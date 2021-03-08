@@ -187,9 +187,9 @@ public class IndexApiController extends BaseApiController {
         List<String> urls = new ArrayList<>();
         List<String> errors = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
-            String url = null;
+            String url;
             MultipartFile file = files[i];
-            String suffix = "." + file.getContentType().split("/")[1];
+            String suffix = "." + Objects.requireNonNull(file.getContentType()).split("/")[1];
             if (!Arrays.asList(".jpg", ".png", ".gif", ".jpeg", ".mp4").contains(suffix.toLowerCase())) {
                 errors.add("第[" + (i + 1) + "]个文件异常: " + "文件格式不正确");
                 continue;
@@ -197,13 +197,13 @@ public class IndexApiController extends BaseApiController {
             long size = file.getSize();
             // 根据不同上传类型，对文件大小做校验
             if (type.equalsIgnoreCase("video")) {
-                int uploadVideoSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_video_size_limit").toString());
+                long uploadVideoSizeLimit = Long.parseLong(systemConfigService.selectAllConfig().get("upload_video_size_limit").toString());
                 if (size > uploadVideoSizeLimit * 1024 * 1024) {
                     errors.add("第[" + (i + 1) + "]个文件异常: " + "文件太大了，请上传文件大小在 " + uploadVideoSizeLimit + "MB 以内");
                     continue;
                 }
             } else {
-                int uploadImageSizeLimit = Integer.parseInt(systemConfigService.selectAllConfig().get("upload_image_size_limit").toString());
+                long uploadImageSizeLimit = Long.parseLong(systemConfigService.selectAllConfig().get("upload_image_size_limit").toString());
                 if (size > uploadImageSizeLimit * 1024 * 1024) {
                     errors.add("第[" + (i + 1) + "]个文件异常: " + "文件太大了，请上传文件大小在 " + uploadImageSizeLimit + "MB 以内");
                     continue;
@@ -239,4 +239,5 @@ public class IndexApiController extends BaseApiController {
         resultMap.put("errors", errors);
         return success(resultMap);
     }
+
 }

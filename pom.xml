@@ -191,6 +191,21 @@
             <artifactId>JustAuth</artifactId>
             <version>${justauth.version}</version>
         </dependency>
+
+        <!--云存储 OSS-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>2.8.3</version>
+        </dependency>
+
+        <!--云存储 七牛-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.4.0, 7.4.99]</version>
+        </dependency>
+
     </dependencies>
 
     <build>
