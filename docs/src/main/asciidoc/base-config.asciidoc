@@ -20,6 +20,10 @@ datasource_password:
 
 image:./images/2021-03-01-13-33.png[]
 
+*2021-03-08 新增云存储功能*
+
+image:./images/20210308113951.png[]
+
 有几个地方是必须要修改的，如下图中红框中的配置
 
 image:./images/QQ20190103-155656.png[]
