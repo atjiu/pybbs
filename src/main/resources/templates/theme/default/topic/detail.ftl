@@ -208,7 +208,7 @@
 
         // 点赞话题
         function voteTopic(id) {
-            req("get", "api/topic" + id + "/vote", "${_user.token!}", function (data) {
+            req("get", "/api/topic/" + id + "/vote", "${_user.token!}", function (data) {
                 if (data.code === 200) {
                     var voteTopicIcon = $("#vote_topic_icon_" + id);
                     if (voteTopicIcon.hasClass("fa-thumbs-up")) {
