@@ -80,16 +80,20 @@ public class FileUtil {
             if (!savePath.exists()) savePath.mkdirs();
 
             // 给上传的路径拼上文件名与后缀
-            String localPath = systemConfigService.selectAllConfig().get("upload_path").toString() + customPath + "/" +
-                    fileName + suffix;
+            String localPath = systemConfigService.selectAllConfig().get("upload_path").toString() + customPath + "/" + fileName + suffix;
+            File file1 = new File(localPath);
+            if (file1.exists()) {
+                file1.delete();
+            }
 
-            file.transferTo(new File(localPath));
+            file.transferTo(file1);
 
             // 上传成功后返回访问路径
-            return systemConfigService.selectAllConfig().get("static_url").toString() + customPath + "/" + fileName +
-                    suffix + "?v=" + StringUtil.randomNumber(1);
+            return systemConfigService.selectAllConfig().get("static_url") + customPath + "/" + fileName +
+                    suffix + "?v=" + StringUtil.randomNumber(6);
         } catch (IOException e) {
             log.error(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

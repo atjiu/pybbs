@@ -17,17 +17,17 @@
     });
 
     $("#refreshToken").on("click", function () {
-        req("get", "/api/settings/refreshToken", "${_user.token!}", function (data) {
+        req("get", "/api/settings/refreshToken", $("#userToken").text(), function (data) {
             if (data.code === 200) {
                 suc("刷新token成功");
-                $("#qrcode").html("");
-                $("#qrcode").qrcode({
-                    width: 180,
-                    height: 180,
-                    text: data.detail
-                });
-                $("#userToken").text(data.detail);
-                token = data.detail;
+                // $("#qrcode").html("");
+                // $("#qrcode").qrcode({
+                //     width: 180,
+                //     height: 180,
+                //     text: data.detail
+                // });
+                // $("#userToken").text(data.detail);
+                window.location.reload();
             } else {
                 err("刷新token失败");
             }
