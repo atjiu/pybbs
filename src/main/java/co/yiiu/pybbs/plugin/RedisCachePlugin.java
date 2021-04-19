@@ -136,7 +136,9 @@ public class RedisCachePlugin {
             return JsonUtil.jsonToObject(userJson, User.class);
         } else {
             Object returnValue = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
-            redisService.setString(String.format(RedisKeys.REDIS_USER_USERNAME_KEY, username), JsonUtil.objectToJson(returnValue));
+            if (returnValue != null) {
+                redisService.setString(String.format(RedisKeys.REDIS_USER_USERNAME_KEY, username), JsonUtil.objectToJson(returnValue));
+            }
             return returnValue;
         }
     }
@@ -150,7 +152,9 @@ public class RedisCachePlugin {
             return JsonUtil.jsonToObject(userJson, User.class);
         } else {
             Object returnValue = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
-            redisService.setString(String.format(RedisKeys.REDIS_USER_TOKEN_KEY, token), JsonUtil.objectToJson(returnValue));
+            if (returnValue != null) {
+                redisService.setString(String.format(RedisKeys.REDIS_USER_TOKEN_KEY, token), JsonUtil.objectToJson(returnValue));
+            }
             return returnValue;
         }
     }
@@ -164,7 +168,9 @@ public class RedisCachePlugin {
             return JsonUtil.jsonToObject(userJson, User.class);
         } else {
             Object returnValue = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
-            redisService.setString(String.format(RedisKeys.REDIS_USER_ID_KEY, id), JsonUtil.objectToJson(returnValue));
+            if (returnValue != null) {
+                redisService.setString(String.format(RedisKeys.REDIS_USER_ID_KEY, id), JsonUtil.objectToJson(returnValue));
+            }
             return returnValue;
         }
     }
