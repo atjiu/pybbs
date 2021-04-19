@@ -10,6 +10,7 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.MyPage;
+import co.yiiu.pybbs.util.SensitiveWordUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -64,6 +65,9 @@ public class TopicController extends BaseController {
         String ip = IpUtil.getIpAddr(request);
         ip = ip.replace(":", "_").replace(".", "_");
         topic = topicService.updateViewCount(topic, ip);
+
+        // 对内容进行过滤
+        topic.setContent(SensitiveWordUtil.replaceSensitiveWord(topic.getContent(), "*", SensitiveWordUtil.MinMatchType));
 
         model.addAttribute("topic", topic);
         model.addAttribute("tags", tags);

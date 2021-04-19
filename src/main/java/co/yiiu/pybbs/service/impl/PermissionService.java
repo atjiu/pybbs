@@ -32,6 +32,10 @@ public class PermissionService implements IPermissionService {
     @Resource
     private IRolePermissionService rolePermissionService;
 
+    public void clearRolePermissionCache() {
+        permissionsByRoleId.clear();
+    }
+
     // 根据角色id查询所有的权限, 这个方法调用非常频繁，在内存里缓存一下
     @Override
     public List<Permission> selectByRoleId(Integer roleId) {

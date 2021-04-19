@@ -73,8 +73,6 @@ public class BaseModel {
             }
         }
         content = MarkdownUtil.render(content);
-        // 先对内容进行过滤
-        content = SensitiveWordUtil.replaceSensitiveWord(content, "*", SensitiveWordUtil.MinMatchType);
         // 解析内容里的视频链接
         content = Jsoup.clean(content, Whitelist.relaxed().addTags("code", "pre", "video", "source")
                 .addAttributes("code", "class")

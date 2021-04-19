@@ -11,6 +11,10 @@ import java.util.Map;
  * https://yiiu.co
  */
 public interface IPermissionService {
+
+    // 更新角色关联的权限时调用一下，清除缓存，让权限实时生效
+    void clearRolePermissionCache();
+
     // 根据角色id查询所有的权限
     List<Permission> selectByRoleId(Integer roleId);
 

@@ -24,6 +24,8 @@ public class RoleService implements IRoleService {
     private RoleMapper roleMapper;
     @Resource
     private IRolePermissionService rolePermissionService;
+    @Resource
+    private PermissionService permissionService;
 
     @Override
     public Role selectById(Integer roleId) {
@@ -62,6 +64,8 @@ public class RoleService implements IRoleService {
             rolePermission.setPermissionId(permissionId);
             rolePermissionService.insert(rolePermission);
         }
+        // 清除缓存
+        permissionService.clearRolePermissionCache();
     }
 
     @Override
