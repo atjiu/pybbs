@@ -66,11 +66,15 @@
                     suc("上传成功");
                     cb(data);
                 } else {
-                    var error = "";
-                    for (var k = 0; k < data.detail.errors.length; k++) {
-                        error += data.detail.errors[k] + "<br/>";
+                    if (!data.detail) {
+                        err(data.description)
+                    } else {
+                        var error = "";
+                        for (var k = 0; k < data.detail.errors.length; k++) {
+                            error += data.detail.errors[k] + "<br/>";
+                        }
+                        err(error);
                     }
-                    err(error);
                 }
             };
             // 获取上传进度
@@ -106,10 +110,10 @@
             });
             window.editor.setSize('auto', '450px');
             var uploadImageFileEle = document.getElementById("uploadImageFileEle");
-            var type = document.getElementById("type").value;
+            var type = document.getElementById("type");
 
-            function uploadFile(type) {
-                $("#type").val(type);
+            function uploadFile(t) {
+                type.value = t;
                 uploadImageFileEle.click();
             }
 
@@ -120,9 +124,9 @@
                     var insertContent = "";
                     for (var j = 0; j < data.detail.urls.length; j++) {
                         var url = data.detail.urls[j];
-                        if (type === "topic") {
+                        if (type.value === "topic") {
                             insertContent += "![image](" + url + ")\n\n"
-                        } else if (type === "video") {
+                        } else if (type.value === "video") {
                             insertContent += "<video class='embed-responsive embed-responsive-16by9' controls><source src='" + url + "' type='video/mp4'></video>\n\n";
                         }
                     }
@@ -130,7 +134,7 @@
                     window.editor.focus();
                     //定位到文档的最后一个字符的位置
                     window.editor.setCursor(window.editor.lineCount(), 0);
-                    document.getElementById("uploadImageForm").reset();
+                    uploadImageFileEle.value = "";
                 });
             });
         </script>

@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by tomoya.
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
     public ModelAndView defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) throws Exception {
         // 当报错了，又不知道啥错的时候，把下面这行代码打开，就可以看到报错的堆信息了
         e.printStackTrace();
-        log.error(e.getMessage());
+//        log.error(e.getMessage());
         if (!HttpUtil.isApiRequest(request)) {
             response.setCharacterEncoding("utf-8");
             ModelAndView mav = new ModelAndView();
@@ -65,9 +66,9 @@ public class GlobalExceptionHandler {
         } else /*if (accept.contains("application/json"))*/ {
             Result result = new Result();
             result.setCode(201);
-            result.setDescription(e.getMessage());
+            result.setDescription("服务器出错啦~");
             response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(JsonUtil.objectToJson(result));
+            response.getWriter().write(Optional.ofNullable(JsonUtil.objectToJson(result)).orElse(""));
         }
         return null;
     }
@@ -82,6 +83,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ApiException.class)
     @ResponseBody
     public Result jsonErrorHandler(ApiException e) {
+        log.info("api exception: {}", e.getMessage());
         Result result = new Result();
         result.setCode(e.getCode());
         result.setDescription(e.getMessage());
