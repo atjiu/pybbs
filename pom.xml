@@ -25,7 +25,7 @@
         <mybatis-plus.version>3.0.7</mybatis-plus.version>
         <commonmark.version>0.12.1</commonmark.version>
         <guava.version>27.0-jre</guava.version>
-        <jsoup.version>1.11.3</jsoup.version>
+        <jsoup.version>1.14.2</jsoup.version>
         <mail.version>1.6.2</mail.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <jedis.version>3.0.0</jedis.version>
