@@ -6,6 +6,7 @@ import co.yiiu.pybbs.service.ICodeService;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
+import co.yiiu.pybbs.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -110,7 +111,7 @@ public class IndexController extends BaseController {
     @GetMapping("/search")
     public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {
         model.addAttribute("pageNo", pageNo);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("keyword", SecurityUtil.sanitizeInput(keyword));
         return render("search");
     }
 
