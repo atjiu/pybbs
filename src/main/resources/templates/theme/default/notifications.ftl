@@ -9,14 +9,18 @@
                 </div>
                 <div class="card-body">
                     <#include "components/notification.ftl"/>
-                    <@notification userId=_user.id read=0 limit=-1/>
+                    <#if _user??><@notification userId=_user.id read=0 limit=-1/>
+                    <#else>error: no such user
+                    </#if>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">已读消息</div>
                 <div class="card-body">
                     <#include "components/notification.ftl"/>
-                    <@notification userId=_user.id read=1 limit=20/>
+                    <#if _user??> <@notification userId=_user.id read=1 limit=20/>
+                    <#else>error: no such user
+                    </#if>
                 </div>
             </div>
         </div>
@@ -36,11 +40,13 @@
         });
 
         function markRead() {
+         <#if _user??>
             req("get", "/api/notification/markRead", '${_user.token!}', function (data) {
                 if (data.code === 200) {
                     window.location.reload();
                 }
             });
+          </#if>
         }
     </script>
 </@html>
