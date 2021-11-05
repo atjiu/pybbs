@@ -51,7 +51,6 @@ Project test cases have not been written yet!
 
 ## Feedback
 
-- [开发俱乐部](https://17dev.club/)
 - [issues](https://github.com/tomoya92/pybbs/issues)
 
 *Please clearly describe the problem recurring steps when asking questions*
