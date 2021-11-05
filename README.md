@@ -9,6 +9,16 @@
 
 如果发现了bug或者有好的建议，欢迎提issue，当然更欢迎 pr
 
+## 捐赠&商用付费
+
+- 个人学习使用永久免费
+- 商用授权一次性付费 **￥68.00** 永久使用
+
+![alipay](https://images.gitee.com/uploads/images/2021/0223/115428_99d1cc7f_82603.png)
+![wechat](https://images.gitee.com/uploads/images/2021/0223/115526_552f1c6a_82603.png)
+
+[捐赠列表](https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0)
+
 ## 文档
 
 [文档地址](https://tomoya92.github.io/pybbs/)
@@ -34,20 +44,6 @@
 
 没啥特色，跟3.0相比，也就在后台里加了个系统设置的配置 [各版本之间对比](#其它版本) ，可以配置一些3.0版本在 application.yml 里配置的东西，后面还会有增加
 
-放几张网站的截图
-
-**简洁的首页列表**
-
-![](./snapshot/1.png)
-
-**帖子详情页**
-
-![](./snapshot/2.png)
-
-**支持这么多网站的视频链接解析**
-
-![](./snapshot/3.png)
-
 ## 运行
 
 还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
@@ -68,7 +64,6 @@ mvn clean package
 
 ## 反馈
 
-- [开发俱乐部](https://17dev.club/)
 - [issues](https://github.com/tomoya92/pybbs/issues)
 - QQ群 1048094312
 
@@ -107,13 +102,20 @@ mvn clean package
 | APP          |                                                                     | [pybbsMD(Android)](https://github.com/tomoya92/pybbsMD) |                                                                                                                                  |                                                       |       |                                                                     |                                                                              ||
 | 前端         |                                                                     |                                                         |                                                                                                                                  |                                                       |       |                                                                     | [pybbs-front-react(React.js)](https://github.com/tomoya92/pybbs-front-react) ||
 
-## 捐赠
-
-![alipay](https://images.gitee.com/uploads/images/2021/0223/115428_99d1cc7f_82603.png)
-![wechat](https://images.gitee.com/uploads/images/2021/0223/115526_552f1c6a_82603.png)
-
-**如果觉得这个项目对你有帮助，欢迎捐赠！** [捐赠列表](https://github.com/tomoya92/pybbs/wiki/%E6%8D%90%E8%B5%A0)
-
 ## License
 
 GNU AGPLv3 (pybbs4.0开始，开源协议从MIT更改为GNU AGPLv3)
+
+---
+
+**简洁的首页列表**
+
+![](./snapshot/1.png)
+
+**帖子详情页**
+
+![](./snapshot/2.png)
+
+**支持这么多网站的视频链接解析**
+
+![](./snapshot/3.png)
