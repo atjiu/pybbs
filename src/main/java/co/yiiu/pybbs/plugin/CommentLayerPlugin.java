@@ -2,6 +2,7 @@ package co.yiiu.pybbs.plugin;
 
 import co.yiiu.pybbs.model.vo.CommentsByTopic;
 import co.yiiu.pybbs.service.impl.SystemConfigService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by tomoya.
@@ -28,7 +31,7 @@ public class CommentLayerPlugin {
         List<CommentsByTopic> newComments = (List<CommentsByTopic>) proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
         if (systemConfigService.selectAllConfig().get("comment_layer").equals("1")) {
             // 盖楼显示评论
-            return this.sortByLayer(newComments);
+            return this.sortByLayerV2(newComments);
         }
         return newComments;
     }
@@ -69,5 +72,42 @@ public class CommentLayerPlugin {
             }
         }
         return newComments;
+    }
+
+    private List<CommentsByTopic> sortByLayerV2(List<CommentsByTopic> comments) {
+        // 获取第一级评论
+        List<CommentsByTopic> firstComments = comments.stream().filter(
+                item -> item.getCommentId() == null).collect(Collectors.toList());
+        // 获取非一级评论
+        List<CommentsByTopic> otherComment = comments.stream().filter(
+                item -> item.getCommentId() != null).collect(Collectors.toList());
+        // 递归获取评论的回复 设置楼层（父楼层+1）
+        Map<Integer, List<CommentsByTopic>> otherCommentMap = otherComment.stream().collect(Collectors.groupingBy(item -> item.getCommentId()));
+        List<CommentsByTopic> resultList = new ArrayList<>();
+        for (CommentsByTopic firstComment : firstComments) {
+            resultList.add(firstComment);
+            List<CommentsByTopic> subComment = otherCommentMap.get(firstComment.getId());
+            if (CollectionUtils.isEmpty(subComment)) {
+                continue;
+            }
+            resultList = setCommentLayer(subComment, firstComment.getLayer(), otherCommentMap,resultList);
+
+        }
+        return resultList;
+    }
+
+    private List<CommentsByTopic> setCommentLayer(List<CommentsByTopic> subComments,Integer layer,
+                                                  Map<Integer,List<CommentsByTopic>> otherCommentMap,
+                                                  List<CommentsByTopic> resultList) {
+        for (CommentsByTopic topic : subComments) {
+            topic.setLayer(layer + 1);
+            resultList.add(topic);
+            List<CommentsByTopic> commentsByTopics = otherCommentMap.get(topic.getId());
+            if (CollectionUtils.isEmpty(commentsByTopics)) {
+                continue;
+            }
+            setCommentLayer(commentsByTopics,topic.getLayer(),otherCommentMap,resultList);
+        }
+        return resultList;
     }
 }
