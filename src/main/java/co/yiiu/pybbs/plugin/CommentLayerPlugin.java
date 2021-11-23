@@ -74,39 +74,39 @@ public class CommentLayerPlugin {
         return newComments;
     }
 
-    private List<CommentsByTopic> sortByLayerV2(List<CommentsByTopic> comments) {
-        // 获取第一级评论
-        List<CommentsByTopic> firstComments = comments.stream().filter(
-                item -> item.getCommentId() == null).collect(Collectors.toList());
-        // 获取非一级评论
-        List<CommentsByTopic> otherComment = comments.stream().filter(
-                item -> item.getCommentId() != null).collect(Collectors.toList());
-        // 递归获取评论的回复 设置楼层（父楼层+1）
-        Map<Integer, List<CommentsByTopic>> otherCommentMap = otherComment.stream().collect(Collectors.groupingBy(item -> item.getCommentId()));
-        List<CommentsByTopic> resultList = new ArrayList<>();
-        for (CommentsByTopic firstComment : firstComments) {
-            resultList.add(firstComment);
-            List<CommentsByTopic> subComment = otherCommentMap.get(firstComment.getId());
-            if (CollectionUtils.isEmpty(subComment)) {
+    private List<CommentsByTopic> sortByLayerV2(List<CommentsByTopic> comments){
+        List<CommentsByTopic> resultList = new ArrayList<>(comments.size());
+        int size = comments.size();
+        for(int i = 0; i< size; i++) {
+            CommentsByTopic commentsByTopic = comments.get(i);
+            if (commentsByTopic.getCommentId() != null) {
                 continue;
             }
-            resultList = setCommentLayer(subComment, firstComment.getLayer(), otherCommentMap,resultList);
+            resultList.add(commentsByTopic);
+            CommentsByTopic temp = commentsByTopic;
+            for(int j = 0; j < size; j++) {
+                CommentsByTopic nestedComment = comments.get(j);
+                if (nestedComment.getCommentId() == null) {
+                    continue;
+                }
+                if (!nestedComment.getCommentId().equals(commentsByTopic.getId()) && !nestedComment.getCommentId().equals(temp.getId())) {
+                    continue;
+                }
+                // 第一层
+                if (nestedComment.getCommentId().equals(commentsByTopic.getId())) {
+                    nestedComment.setLayer(1);
+                    resultList.add(nestedComment);
+                    temp = nestedComment;
+                    continue;
 
-        }
-        return resultList;
-    }
-
-    private List<CommentsByTopic> setCommentLayer(List<CommentsByTopic> subComments,Integer layer,
-                                                  Map<Integer,List<CommentsByTopic>> otherCommentMap,
-                                                  List<CommentsByTopic> resultList) {
-        for (CommentsByTopic topic : subComments) {
-            topic.setLayer(layer + 1);
-            resultList.add(topic);
-            List<CommentsByTopic> commentsByTopics = otherCommentMap.get(topic.getId());
-            if (CollectionUtils.isEmpty(commentsByTopics)) {
-                continue;
+                }
+                // 非一层
+                if (nestedComment.getCommentId().equals(temp.getId())) {
+                    nestedComment.setLayer(temp.getLayer() + 1);
+                    resultList.add(nestedComment);
+                    temp = nestedComment;
+                }
             }
-            setCommentLayer(commentsByTopics,topic.getLayer(),otherCommentMap,resultList);
         }
         return resultList;
     }
