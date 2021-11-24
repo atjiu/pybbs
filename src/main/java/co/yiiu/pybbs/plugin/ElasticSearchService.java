@@ -16,6 +16,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.IndicesOptions;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -187,6 +188,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
         try {
             if (this.instance() == null) return;
             BulkRequest requests = new BulkRequest();
+            requests.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
             Iterator<String> it = sources.keySet().iterator();
             int count = 0;
             while (it.hasNext()) {
@@ -212,6 +214,7 @@ public class ElasticSearchService implements BaseService<RestHighLevelClient> {
         try {
             if (this.instance() == null) return;
             BulkRequest requests = new BulkRequest();
+            requests.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
             int count = 0;
             for (Integer id : ids) {
                 count++;
