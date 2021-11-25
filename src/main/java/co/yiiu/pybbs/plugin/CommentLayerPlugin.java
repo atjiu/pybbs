@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,36 +77,45 @@ public class CommentLayerPlugin {
 
     private List<CommentsByTopic> sortByLayerV2(List<CommentsByTopic> comments){
         List<CommentsByTopic> resultList = new ArrayList<>(comments.size());
+        Map<Integer,CommentsByTopic> layerMap = new HashMap<>(comments.size());
         int size = comments.size();
+        List<Integer> resultIdList = new ArrayList<>(comments.size());
         for(int i = 0; i< size; i++) {
             CommentsByTopic commentsByTopic = comments.get(i);
             if (commentsByTopic.getCommentId() != null) {
                 continue;
             }
             resultList.add(commentsByTopic);
-            CommentsByTopic temp = commentsByTopic;
             for(int j = 0; j < size; j++) {
                 CommentsByTopic nestedComment = comments.get(j);
                 if (nestedComment.getCommentId() == null) {
                     continue;
                 }
-                if (!nestedComment.getCommentId().equals(commentsByTopic.getId()) && !nestedComment.getCommentId().equals(temp.getId())) {
+                Integer nestedCommentId = nestedComment.getId();
+                if (resultIdList.contains(nestedCommentId)) {
                     continue;
                 }
+
                 // 第一层
                 if (nestedComment.getCommentId().equals(commentsByTopic.getId())) {
                     nestedComment.setLayer(1);
                     resultList.add(nestedComment);
-                    temp = nestedComment;
+                    resultIdList.add(nestedCommentId);
+                    layerMap.put(nestedComment.getId(),nestedComment);
                     continue;
 
                 }
                 // 非一层
-                if (nestedComment.getCommentId().equals(temp.getId())) {
-                    nestedComment.setLayer(temp.getLayer() + 1);
-                    resultList.add(nestedComment);
-                    temp = nestedComment;
+                CommentsByTopic layer = layerMap.get(nestedComment.getCommentId());
+                if (layer == null) {
+                    continue;
                 }
+                nestedComment.setLayer(layerMap.get(nestedComment.getCommentId()).getLayer() + 1);
+                layerMap.put(nestedComment.getId(),nestedComment);
+                int index = resultList.indexOf(layer);
+                resultList.add(index+1,nestedComment);
+                resultIdList.add(nestedCommentId);
+
             }
         }
         return resultList;
