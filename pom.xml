@@ -27,7 +27,7 @@
         <guava.version>27.0-jre</guava.version>
         <jsoup.version>1.11.3</jsoup.version>
         <mail.version>1.6.2</mail.version>
-        <shiro-spring.version>1.4.0</shiro-spring.version>
+        <shiro-spring.version>1.7.1</shiro-spring.version>
         <jedis.version>3.0.0</jedis.version>
         <elasticsearch.version>6.5.3</elasticsearch.version>
         <flyway.version>5.2.1</flyway.version>
