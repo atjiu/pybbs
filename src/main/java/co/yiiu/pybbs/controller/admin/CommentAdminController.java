@@ -6,7 +6,6 @@ import co.yiiu.pybbs.service.ICommentService;
 import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
-import co.yiiu.pybbs.util.SecurityUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +33,9 @@ public class CommentAdminController extends BaseAdminController {
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
             username, Model model) {
-        startDate= SecurityUtil.sanitizeInput(startDate);
-        endDate= SecurityUtil.sanitizeInput(endDate);
-        username=SecurityUtil.sanitizeInput(username);
+//        startDate= SecurityUtil.sanitizeInput(startDate);
+//        endDate= SecurityUtil.sanitizeInput(endDate);
+//        username=SecurityUtil.sanitizeInput(username);
         if (StringUtils.isEmpty(startDate)) startDate = null;
         if (StringUtils.isEmpty(endDate)) endDate = null;
         if (StringUtils.isEmpty(username)) username = null;

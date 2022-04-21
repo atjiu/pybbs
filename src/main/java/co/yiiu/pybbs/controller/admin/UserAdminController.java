@@ -3,7 +3,6 @@ package co.yiiu.pybbs.controller.admin;
 import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
-import co.yiiu.pybbs.util.SecurityUtil;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -31,7 +30,7 @@ public class UserAdminController extends BaseAdminController {
     @RequiresPermissions("user:list")
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNo, String username, Model model) {
-        username= SecurityUtil.sanitizeInput(username);
+//        username= SecurityUtil.sanitizeInput(username);
         IPage<User> iPage = userService.selectAll(pageNo, username);
         model.addAttribute("page", iPage);
         model.addAttribute("username", username);

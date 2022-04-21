@@ -3,7 +3,6 @@ package co.yiiu.pybbs.controller.admin;
 import co.yiiu.pybbs.model.SensitiveWord;
 import co.yiiu.pybbs.service.ISensitiveWordService;
 import co.yiiu.pybbs.util.Result;
-import co.yiiu.pybbs.util.SecurityUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -37,7 +36,7 @@ public class SensitiveWordAdminController extends BaseAdminController {
     @RequiresPermissions("sensitive_word:list")
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNo, String word, Model model) {
-        word= SecurityUtil.sanitizeInput(word);
+//        word= SecurityUtil.sanitizeInput(word);
         model.addAttribute("page", sensitiveWordService.page(pageNo, word));
         model.addAttribute("word", word);
         return "admin/sensitive_word/list";

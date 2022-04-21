@@ -4,7 +4,6 @@ import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.service.ITagService;
 import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.Result;
-import co.yiiu.pybbs.util.SecurityUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
@@ -32,7 +31,7 @@ public class TagAdminController extends BaseAdminController {
     @RequiresPermissions("tag:list")
     @GetMapping("/list")
     public String list(@RequestParam(defaultValue = "1") Integer pageNo, String name, Model model) {
-        name= SecurityUtil.sanitizeInput(name);
+//        name= SecurityUtil.sanitizeInput(name);
         if (StringUtils.isEmpty(name)) name = null;
         IPage<Tag> page = tagService.selectAll(pageNo, null, name);
         model.addAttribute("page", page);
