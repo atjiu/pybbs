@@ -29,6 +29,8 @@ public interface ICommentService {
 
     Comment selectById(Integer id);
 
+    Comment selectByTgMessageId(Integer messageId);
+
     // 更新评论
     void update(Comment comment);
 

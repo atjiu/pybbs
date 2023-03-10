@@ -1,5 +1,7 @@
 package co.yiiu.pybbs.util;
 
+import co.yiiu.pybbs.model.Comment;
+import co.yiiu.pybbs.model.User;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -134,5 +136,9 @@ public class BaseModel {
 
     public boolean isEmpty(String txt) {
         return StringUtils.isEmpty(txt);
+    }
+
+    public long commentSize(List<Comment> comments, User user) {
+        return comments.stream().filter(comment -> comment.getStatus() || (user != null && comment.getUserId().equals(user.getId()) && !comment.getStatus())).count();
     }
 }

@@ -67,6 +67,16 @@ public class CommentAdminController extends BaseAdminController {
         return success();
     }
 
+    @RequiresPermissions("comment:examine")
+    @GetMapping("/examine")
+    @ResponseBody
+    public Result examine(Integer id) {
+        Comment comment = commentService.selectById(id);
+        comment.setStatus(true);
+        commentService.update(comment);
+        return success();
+    }
+
     @RequiresPermissions("comment:delete")
     @GetMapping("/delete")
     @ResponseBody

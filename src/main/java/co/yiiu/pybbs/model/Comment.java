@@ -24,6 +24,9 @@ public class Comment implements Serializable {
     private Integer commentId;
     // 点赞用户的id
     private String upIds;
+    private Integer tgMessageId;
+    // true: 通过，false: 审核中
+    private Boolean status;
 
     public String getStyle() {
         return style;
@@ -87,5 +90,21 @@ public class Comment implements Serializable {
 
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
+    }
+
+    public Integer getTgMessageId() {
+        return tgMessageId;
+    }
+
+    public void setTgMessageId(Integer tgMessageId) {
+        this.tgMessageId = tgMessageId;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

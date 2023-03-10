@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.service.impl;
 
 import co.yiiu.pybbs.config.service.EmailService;
+import co.yiiu.pybbs.config.service.TelegramBotService;
 import co.yiiu.pybbs.config.websocket.MyWebSocket;
 import co.yiiu.pybbs.mapper.CommentMapper;
 import co.yiiu.pybbs.model.Comment;
@@ -11,6 +12,7 @@ import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.Message;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
+import co.yiiu.pybbs.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,8 @@ public class CommentService implements ICommentService {
     private INotificationService notificationService;
     @Resource
     private EmailService emailService;
+    @Resource
+    private TelegramBotService telegramBotService;
 
     // 根据话题id查询评论
     @Override
@@ -81,6 +85,11 @@ public class CommentService implements ICommentService {
     // 保存评论
     @Override
     public Comment insert(Comment comment, Topic topic, User user) {
+        if (systemConfigService.selectAllConfig().get("comment_need_examine").equals("1")) {
+            comment.setStatus(false);// 审核中
+        } else {
+            comment.setStatus(true);// 无需审核
+        }
         commentMapper.insert(comment);
 
         // 话题的评论数+1
@@ -89,7 +98,7 @@ public class CommentService implements ICommentService {
 
         // 增加用户积分
         user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get
-                ("create_comment_score").toString()));
+                ("create_comment_score")));
         userService.update(user);
 
         // 通知
@@ -102,7 +111,7 @@ public class CommentService implements ICommentService {
 
                 String emailTitle = "你在话题 %s 下的评论被 %s 回复了，快去看看吧！";
                 // 如果开启了websocket，就发网页通知
-                if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")) {
+                if (systemConfigService.selectAllConfig().get("websocket").equals("1")) {
                     MyWebSocket.emit(targetComment.getUserId(), new Message("notifications", String.format(emailTitle, topic
                             .getTitle(), user.getUsername())));
                     MyWebSocket.emit(targetComment.getUserId(), new Message("notification_notread", 1));
@@ -113,7 +122,7 @@ public class CommentService implements ICommentService {
                     String emailContent = "回复内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
                     new Thread(() -> emailService.sendEmail(targetUser.getEmail(), String.format(emailTitle, topic.getTitle(),
                             user.getUsername()), String.format(emailContent, comment.getContent(), systemConfigService
-                            .selectAllConfig().get("base_url").toString(), topic.getId()))).start();
+                            .selectAllConfig().get("base_url"), topic.getId()))).start();
                 }
             }
         }
@@ -123,7 +132,7 @@ public class CommentService implements ICommentService {
             // 发送邮件通知
             String emailTitle = "%s 评论你的话题 %s 快去看看吧！";
             // 如果开启了websocket，就发网页通知
-            if (systemConfigService.selectAllConfig().get("websocket").toString().equals("1")) {
+            if (systemConfigService.selectAllConfig().get("websocket").equals("1")) {
                 MyWebSocket.emit(topic.getUserId(), new Message("notifications", String.format(emailTitle, user.getUsername()
                         , topic.getTitle())));
                 MyWebSocket.emit(topic.getUserId(), new Message("notification_notread", 1));
@@ -133,11 +142,28 @@ public class CommentService implements ICommentService {
                 String emailContent = "评论内容: %s <br><a href='%s/topic/%s' target='_blank'>传送门</a>";
                 new Thread(() -> emailService.sendEmail(targetUser.getEmail(), String.format(emailTitle, user.getUsername(),
                         topic.getTitle()), String.format(emailContent, comment.getContent(), systemConfigService.selectAllConfig
-                        ().get("base_url").toString(), topic.getId()))).start();
+                        ().get("base_url"), topic.getId()))).start();
             }
         }
 
         // 日志 TODO
+
+        // 发送TG通知
+        new Thread(() -> {
+            String formatMessage;
+            String domain = systemConfigService.selectAllConfig().get("base_url");
+            if (systemConfigService.selectAllConfig().get("content_style").equals("MD")) {
+                formatMessage = String.format("%s 评论了话题 [%s](%s) 内容： %s", user.getUsername(), topic.getTitle(), domain + "/topic/" + topic.getId(), StringUtil.removeSpecialChar(comment.getContent()));
+            } else {
+                formatMessage = String.format("%s 评论了话题 <a href=\"%s\">%s</a> 内容： %s", user.getUsername(), domain + "/topic/" + topic.getId(), topic.getTitle(), StringUtil.removeSpecialChar(comment.getContent()));
+            }
+            Integer message_id = telegramBotService.init().sendMessage(formatMessage, true, null);
+            Comment newComment = new Comment();
+            newComment.setId(comment.getId());
+            newComment.setTgMessageId(message_id);
+            commentMapper.updateById(newComment);
+
+        }).start();
 
         return comment;
     }
@@ -145,6 +171,14 @@ public class CommentService implements ICommentService {
     @Override
     public Comment selectById(Integer id) {
         return commentMapper.selectById(id);
+    }
+
+    @Override
+    public Comment selectByTgMessageId(Integer messageId) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Comment::getTgMessageId, messageId);
+        List<Comment> comments = commentMapper.selectList(wrapper);
+        return comments.size() > 0 ? comments.get(0) : null;
     }
 
     // 更新评论
@@ -163,10 +197,10 @@ public class CommentService implements ICommentService {
         Integer userScore = user.getScore();
         if (strings.contains(String.valueOf(user.getId()))) { // 取消点赞行为
             strings.remove(String.valueOf(user.getId()));
-            userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score").toString());
+            userScore -= Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score"));
         } else { // 点赞行为
             strings.add(String.valueOf(user.getId()));
-            userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score").toString());
+            userScore += Integer.parseInt(systemConfigService.selectAllConfig().get("up_comment_score"));
         }
         // 再把这些id按逗号隔开组成字符串
         comment.setUpIds(StringUtils.collectionToCommaDelimitedString(strings));

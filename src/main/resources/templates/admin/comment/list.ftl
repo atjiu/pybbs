@@ -46,12 +46,14 @@
                             <td>${comment.username!}</td>
                             <td>${comment.inTime!}</td>
                             <td>
+                                <#if sec.hasPermission("comment:examine") && !comment.status>
+                                    <button onclick="examineBtn('${comment.id}')" class="btn btn-xs btn-primary">审核通过</button>
+                                </#if>
                                 <#if sec.hasPermission("comment:edit")>
                                     <a href="/admin/comment/edit?id=${comment.id}" class="btn btn-xs btn-warning">编辑</a>
                                 </#if>
                                 <#if sec.hasPermission("comment:delete")>
-                                    <button onclick="deleteBtn('${comment.id}')" class="btn btn-xs btn-danger">删除
-                                    </button>
+                                    <button onclick="deleteBtn('${comment.id}')" class="btn btn-xs btn-danger">删除</button>
                                 </#if>
                             </td>
                         </tr>
@@ -84,6 +86,22 @@
                 todayHighlight: true,
             });
         });
+        <#if sec.hasPermission("comment:examine")>
+
+        function examineBtn(id) {
+            $.get("/admin/comment/examine?id=" + id, function (data) {
+                if (data.code === 200) {
+                    toast("成功", "success");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 700);
+                } else {
+                    toast(data.description);
+                }
+            })
+        }
+
+        </#if>
         <#if sec.hasPermission("comment:delete")>
 
         function deleteBtn(id) {
