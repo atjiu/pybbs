@@ -31,6 +31,7 @@ include::upload-config.asciidoc[]
 include::oauth-config.asciidoc[]
 include::sms-config.asciidoc[]
 include::ws-config.asciidoc[]
+include::telegram-config.asciidoc[tags=main]
 include::theme.asciidoc[]
 
 == 公网部署

@@ -18,7 +18,11 @@ datasource_password:
 
 关于其它的配置，启动程序 -> 访问后台 -> 系统设置 如图
 
-image:./images/2021-03-01-13-33.png[]
+image:./images/20230310.jpg[]
+
+*2023-03-10 新增Telegram接入收发消息功能*
+
+image:./images/20230310104837.png[]
 
 *2021-03-08 新增云存储功能*
 

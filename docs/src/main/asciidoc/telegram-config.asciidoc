@@ -1,0 +1,26 @@
+// tag::main[]
+
+=== Telegram配置
+
+这个功能目前主要是为了方便站长管理论坛的，接入tg后，当论坛内有新的评论会第一时间推送到tg上，站长可在tg上进行审核与删除的操作
+
+---
+
+因为tg在国内是被墙的状态，但它的api确实好用，所以就需要额外加一个配置项**代理**
+
+**代理怎么配置？**这个会的就不多说了，不会的就跳过这个功能吧！
+
+**tg那几项怎么配置？**参见这篇博客 https://atjiu.github.io/2023/03/09/telegram-bot-api/
+
+image:images/20230310104837.png[]
+
+配置好之后的使用效果如下视频（*如果在网页上看不到画面，可将其下载到本地打开观看*）
+
+++++
+<video controls>
+  <source src="videos/1678413054469.mp4" type="video/mp4">
+  Sorry, your browser doesn't support embedded videos.
+</video>
+++++
+
+// end::main[]
