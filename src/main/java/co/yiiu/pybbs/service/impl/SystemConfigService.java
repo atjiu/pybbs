@@ -6,6 +6,7 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.LinkedHashMap;
@@ -69,8 +70,8 @@ public class SystemConfigService implements ISystemConfigService {
             String key = map.get("name");
             String value = map.get("value");
             // 如果密码没有变动，则不做修改
-            if ((key.equals("mail_password") && value.equals("*******")) || (key.equals("redis_password") && value.equals
-                    ("*******")) || (key.equals("oauth_github_client_secret") && value.equals("*******"))) {
+            String type = this.selectByKey(key).getType();
+            if (!StringUtils.isEmpty(type) && type.equals("password") && value.equals("*******")) {
                 continue;
             }
             SystemConfig systemConfig = new SystemConfig();
@@ -93,5 +94,4 @@ public class SystemConfigService implements ISystemConfigService {
         // 更新SYSTEM_CONFIG
         SYSTEM_CONFIG = null;
     }
-
 }

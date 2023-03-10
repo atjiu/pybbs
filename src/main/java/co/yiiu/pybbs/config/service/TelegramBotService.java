@@ -6,11 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,7 +61,6 @@ public class TelegramBotService {
     }
 
     public Integer sendMessage(String message, boolean btn, Integer reply_to_message_id) {
-        System.out.println(message);
         if (StringUtils.isEmpty(accessToken) || StringUtils.isEmpty(chatId)) {
             log.info("Telegram Bot未启用或配置有误，跳过！！");
             return null;
@@ -111,5 +109,35 @@ public class TelegramBotService {
             return (Integer) ((Map) map1.get("result")).get("message_id");
         }
         return null;
+    }
+
+    public void setWebHook(Map<String, String> map) {
+        String baseUrl = map.get("base_url");
+        String secretToken = map.get("tg_webhook_secret_token");
+        String token = map.get("tg_access_token");
+        if (!StringUtils.isEmpty(baseUrl) && !StringUtils.isEmpty(secretToken) && !StringUtils.isEmpty(token)) {
+            if (secretToken.equals("*******")) {
+                secretToken = systemConfigService.selectAllConfig().get("tg_webhook_secret_token");
+            }
+            if (token.equals("*******")) {
+                token = systemConfigService.selectAllConfig().get("tg_access_token");
+            }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+            data.add("url", baseUrl + "/bot/tg/webhook");
+            data.add("secret_token", secretToken);
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(data, headers);
+
+            ResponseEntity<String> exchange = restTemplate.exchange("https://api.telegram.org/bot" + token + "/setWebhook", HttpMethod.POST, entity, String.class);
+            if (exchange.getStatusCodeValue() != 200) {
+                log.info("Telegram setWebhook失败，errorCode: {}", exchange.getStatusCode());
+            } else {
+                log.info("Telegram setWebhook成功");
+            }
+        } else {
+            log.info("Telegram未配置，路过setWebhook");
+        }
     }
 }
