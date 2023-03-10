@@ -537,8 +537,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_微信登录配置方法">4.9. 微信登录配置方法</a></li>
 <li><a href="#_短信验证码登录_注册">4.10. 短信验证码登录/注册</a></li>
 <li><a href="#_开启websocket">4.11. 开启WebSocket</a></li>
-<li><a href="#_内置主题">4.12. 内置主题</a></li>
-<li><a href="#_更换主题">4.13. 更换主题</a></li>
+<li><a href="#_telegram配置">4.12. Telegram配置</a></li>
+<li><a href="#_内置主题">4.13. 内置主题</a></li>
+<li><a href="#_更换主题">4.14. 更换主题</a></li>
 </ul>
 </li>
 <li><a href="#_公网部署">5. 公网部署</a>
@@ -938,7 +939,13 @@ release里打的包可能不是最新的
 <p>关于其它的配置，启动程序 &#8594; 访问后台 &#8594; 系统设置 如图</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src=".//images/2021-03-01-13-33.png" alt="2021-03-01-13-33"></span></p>
+<p><span class="image"><img src=".//images/20230310.jpg" alt="20230310"></span></p>
+</div>
+<div class="paragraph">
+<p><strong>2023-03-10 新增Telegram接入收发消息功能</strong></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src=".//images/20230310104837.png" alt="20230310104837"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>2021-03-08 新增云存储功能</strong></p>
@@ -1373,7 +1380,33 @@ release里打的包可能不是最新的
 </div>
 </div>
 <div class="sect2">
-<h3 id="_内置主题">4.12. 内置主题</h3>
+<h3 id="_telegram配置">4.12. Telegram配置</h3>
+<div class="paragraph">
+<p>这个功能目前主要是为了方便站长管理论坛的，接入tg后，当论坛内有新的评论会第一时间推送到tg上，站长可在tg上进行审核与删除的操作</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>因为tg在国内是被墙的状态，但它的api确实好用，所以就需要额外加一个配置项<strong>代理</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>代理怎么配置？</strong>这个会的就不多说了，不会的就跳过这个功能吧！</p>
+</div>
+<div class="paragraph">
+<p><strong>tg那几项怎么配置？</strong>参见这篇博客 <a href="https://atjiu.github.io/2023/03/09/telegram-bot-api/" class="bare">https://atjiu.github.io/2023/03/09/telegram-bot-api/</a></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src=".//images/20230310104837.png" alt="20230310104837"></span></p>
+</div>
+<div class="paragraph">
+<p>配置好之后的使用效果如下视频（<strong>如果在网页上看不到画面，可将其下载到本地打开观看</strong>）</p>
+</div>
+<video controls>
+  <source src="videos/1678413054469.mp4" type="video/mp4">
+  Sorry, your browser doesn't support embedded videos.
+</video>
+</div>
+<div class="sect2">
+<h3 id="_内置主题">4.13. 内置主题</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1386,7 +1419,7 @@ release里打的包可能不是最新的
 </div>
 </div>
 <div class="sect2">
-<h3 id="_更换主题">4.13. 更换主题</h3>
+<h3 id="_更换主题">4.14. 更换主题</h3>
 <div class="paragraph">
 <p>启动后，登录后台，可进行选择使用哪套，选择后保存，立即生效</p>
 </div>
@@ -4540,7 +4573,7 @@ init_connect='SET NAMES utf8mb4'</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-03-10 02:35:00 +00:00
+Last updated 2023-03-10 03:11:43 +00:00
 </div>
 </div>
 </body>
