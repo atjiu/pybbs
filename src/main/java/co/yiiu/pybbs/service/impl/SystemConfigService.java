@@ -27,10 +27,13 @@ public class SystemConfigService implements ISystemConfigService {
     private SystemConfigMapper systemConfigMapper;
 
     private static Map<String, String> SYSTEM_CONFIG;
+    private static Map<String, String> SYSTEM_CONFIG_WITHOUT_PASSWORD;
 
     @Override
     public Map<String, String> selectAllConfig() {
-        if (SYSTEM_CONFIG != null) return SYSTEM_CONFIG;
+        if (SYSTEM_CONFIG != null) {
+            return SYSTEM_CONFIG;
+        }
         List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
         SYSTEM_CONFIG = systemConfigs.stream()
                 .filter(systemConfig -> systemConfig.getPid() != 0)
@@ -83,6 +86,7 @@ public class SystemConfigService implements ISystemConfigService {
         }
         // 更新SYSTEM_CONFIG
         SYSTEM_CONFIG = null;
+        SYSTEM_CONFIG_WITHOUT_PASSWORD = null;
     }
 
     // 根据key更新数据
@@ -93,5 +97,18 @@ public class SystemConfigService implements ISystemConfigService {
         systemConfigMapper.update(systemConfig, wrapper);
         // 更新SYSTEM_CONFIG
         SYSTEM_CONFIG = null;
+        SYSTEM_CONFIG_WITHOUT_PASSWORD = null;
+    }
+
+    @Override
+    public Map<String, String> selectAllConfigWithoutPassword() {
+        if (SYSTEM_CONFIG_WITHOUT_PASSWORD != null) {
+            return SYSTEM_CONFIG_WITHOUT_PASSWORD;
+        }
+        List<SystemConfig> systemConfigs = systemConfigMapper.selectList(null);
+        SYSTEM_CONFIG_WITHOUT_PASSWORD = systemConfigs.stream()
+                .filter(systemConfig -> systemConfig.getPid() != 0 && !systemConfig.getType().equals("password"))
+                .collect(Collectors.toMap(SystemConfig::getKey, SystemConfig::getValue));
+        return SYSTEM_CONFIG_WITHOUT_PASSWORD;
     }
 }
