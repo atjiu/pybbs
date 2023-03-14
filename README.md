@@ -5,7 +5,7 @@
 当前版本：5.0，后面不折腾了，折腾不动了，就在这个版本上维护了
 
 - 前台地址：[http://localhost:8080/](http://localhost:8080/) 用户名密码自己注册
-- 后台地址：[http://localhost:8080/adminlogin](http://localhost:8080/adminlogin) 用户名: test 密码: 123123
+- 后台地址：[http://localhost:8080/adminlogin](http://localhost:8080/adminlogin) 用户名: admin 密码: 123123
 
 如果发现了bug或者有好的建议，欢迎提issue，当然更欢迎 pr
 
