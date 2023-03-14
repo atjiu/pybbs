@@ -10,7 +10,7 @@ image:./images/QQ20190725-111655.png[]
 ====
 *路径一定要是绝对路径*
 
-看到这还配置不好？请查看 https://tomoya92.github.io/pybbs/#_%E9%9D%9Enginx%E9%9D%99%E6%80%81%E6%98%A0%E5%B0%84%E9%85%8D%E7%BD%AE[非nginx静态映射配置]
+看到这还配置不好？请查看 https://atjiu.github.io/pybbs/#_%E9%9D%9Enginx%E9%9D%99%E6%80%81%E6%98%A0%E5%B0%84%E9%85%8D%E7%BD%AE[非nginx静态映射配置]
 ====
 
 === 非nginx静态映射配置

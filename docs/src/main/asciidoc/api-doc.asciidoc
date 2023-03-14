@@ -253,7 +253,7 @@ image:./images/captcha.gif[]
           "top": false,
           "upIds": "23,99",
           "id": 15,
-          "username": "tomoya92"
+          "username": "atjiu"
         }
       ],
       "total": 3,
@@ -739,7 +739,7 @@ image:./images/captcha.gif[]
         "id": 1,
         "oauthId": 6915570,
         "type": "GITHUB",
-        "login": "tomoya92",
+        "login": "atjiu",
         "inTime": 1548734221000,
         "bio": "hello world",
         "email": "py2qiuse@gmail.com",

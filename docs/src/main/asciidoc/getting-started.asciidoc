@@ -1,6 +1,6 @@
 === 开发人员搭建
 
-- git clone https://github.com/tomoya92/pybbs
+- git clone https://github.com/atjiu/pybbs
 - 使用idea打开，项目用的是idea开发的，如果你对eclipse熟悉，也是可以的
 - idea打开它会自动构建项目，构建工具是maven
 - 修改配置文件 `src/main/resources/application-dev.yml` 里的数据库相关配置
@@ -16,7 +16,7 @@
 release里打的包可能不是最新的
 
 - 首先保证你服务器上配置好了 java 环境，版本 jdk1.8 和 MySQL服务器，版本 5.7.x 其它可选环境配置参见 [网站准备工作](zh-cn/ready)
-- 然后下载最新的一键启动压缩包，下载地址：https://github.com/tomoya92/pybbs/releases
+- 然后下载最新的一键启动压缩包，下载地址：https://github.com/atjiu/pybbs/releases
 - 解压, 修改解压出来的文件夹里的 `application-prod.yml` 文件，只需要修改一个地方，就是数据库的连接信息，[配置方法](zh-cn/base)
 - 运行压缩包里的脚本 `sh start.sh`
 - 关闭服务运行 `sh shutdown.sh`
@@ -28,7 +28,7 @@ release里打的包可能不是最新的
 === docker运行
 
 - 保证服务器有docker和docker-compose环境
-- `git clone https://github.com/tomoya92/pybbs` 或 下载最新版
+- `git clone https://github.com/atjiu/pybbs` 或 下载最新版
 - cd pybbs进入项目
 - 运行 `docker-compose up -d` 命令启动容器，-d是后台运行的意思
 - 浏览器运行 `http://localhost:8080` , 后台地址 `http://localhost:8080/adminlogin` 后台用户名 admin 密码 123123
