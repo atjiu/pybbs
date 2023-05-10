@@ -6,6 +6,8 @@ import co.yiiu.pybbs.service.ICodeService;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -111,7 +113,8 @@ public class IndexController extends BaseController {
     public String search(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam String keyword, Model model) {
         model.addAttribute("pageNo", pageNo);
 //        model.addAttribute("keyword", SecurityUtil.sanitizeInput(keyword));
-        model.addAttribute("keyword", keyword);
+        keyword = Jsoup.clean(keyword, Whitelist.basic());
+        model.addAttribute("keyword", keyword.replace("\"", "").replace("'", ""));
         return render("search");
     }
 

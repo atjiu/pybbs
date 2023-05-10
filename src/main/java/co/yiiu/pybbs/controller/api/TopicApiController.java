@@ -84,6 +84,7 @@ public class TopicApiController extends BaseApiController {
         String content = body.get("content");
         String tag = body.get("tag");
         //    String tags = body.get("tags");
+        title = Jsoup.clean(title, Whitelist.basic());
         ApiAssert.notEmpty(title, "请输入标题");
         ApiAssert.isNull(topicService.selectByTitle(title), "话题标题重复");
         //    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);

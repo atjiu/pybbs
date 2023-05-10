@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.controller.admin;
 
+import co.yiiu.pybbs.exception.ApiAssert;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.service.IIndexedService;
@@ -8,6 +9,8 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -37,8 +40,8 @@ public class TopicAdminController extends BaseAdminController {
 
     @RequiresPermissions("topic:list")
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
-            username, Model model) {
+    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String username, Model model) {
+        if (username != null) username = username.replace("\"", "").replace("'", "");
         if (StringUtils.isEmpty(startDate)) startDate = null;
         if (StringUtils.isEmpty(endDate)) endDate = null;
         if (StringUtils.isEmpty(username)) username = null;
@@ -66,6 +69,9 @@ public class TopicAdminController extends BaseAdminController {
     @PostMapping("edit")
     @ResponseBody
     public Result update(Integer id, String title, String content, String tags) {
+        title = Jsoup.clean(title, Whitelist.basic());
+        ApiAssert.notEmpty(title, "话题标题不能为空");
+
         Topic topic = topicService.selectById(id);
         topic.setTitle(title);
         topic.setContent(content);

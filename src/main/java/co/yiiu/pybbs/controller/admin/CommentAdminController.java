@@ -31,8 +31,8 @@ public class CommentAdminController extends BaseAdminController {
 
     @RequiresPermissions("comment:list")
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String
-            username, Model model) {
+    public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String username, Model model) {
+        if (username != null) username = username.replace("\"", "").replace("'", "");
 //        startDate= SecurityUtil.sanitizeInput(startDate);
 //        endDate= SecurityUtil.sanitizeInput(endDate);
 //        username=SecurityUtil.sanitizeInput(username);
