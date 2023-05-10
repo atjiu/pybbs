@@ -31,6 +31,8 @@ public interface IUserService {
 
     User selectById(Integer id);
 
+    User selectByIdWithoutCache(Integer id);
+
     // 查询用户积分榜
     List<User> selectTop(Integer limit);
 

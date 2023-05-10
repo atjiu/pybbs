@@ -14,10 +14,15 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -176,6 +181,11 @@ public class UserService implements IUserService {
         return userMapper.selectById(id);
     }
 
+    @Override
+    public User selectByIdWithoutCache(Integer id) {
+        return userMapper.selectById(id);
+    }
+
     // 查询用户积分榜
     @Override
     public List<User> selectTop(Integer limit) {
@@ -188,6 +198,13 @@ public class UserService implements IUserService {
     @Override
     public void update(User user) {
         userMapper.updateById(user);
+        
+        // 更新session中的用户
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+                .getRequestAttributes())).getRequest();
+        HttpSession session = request.getSession();
+        session.setAttribute("_user", user);
+
         // 同类调用不走spring管理，无法使用aop编程调用
         SpringContextUtil.getBean(UserService.class).delRedisUser(user);
     }

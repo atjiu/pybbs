@@ -124,16 +124,18 @@ public class SettingsApiController extends BaseApiController {
     @PutMapping("/updatePassword")
     public Result updatePassword(@RequestBody Map<String, String> body) {
         User user = getApiUser();
+        user = userService.selectByIdWithoutCache(user.getId());
+
         String oldPassword = body.get("oldPassword");
         String newPassword = body.get("newPassword");
+
         ApiAssert.notEmpty(oldPassword, "请输入旧密码");
         ApiAssert.notEmpty(newPassword, "请输入新密码");
         ApiAssert.notTrue(oldPassword.equals(newPassword), "新密码怎么还是旧的？");
         ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword()), "旧密码不正确");
-        // 查询当前用户的最新信息
-        User user1 = userService.selectById(user.getId());
-        user1.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-        userService.update(user1);
+
+        user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        userService.update(user);
         return success();
     }
 

@@ -260,6 +260,9 @@
                 req("put", "/api/settings/updatePassword", {oldPassword, newPassword}, "${_user.token!}", function (data) {
                     if (data.code === 200) {
                         suc("修改密码成功");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 700);
                     } else {
                         err(data.description);
                     }
