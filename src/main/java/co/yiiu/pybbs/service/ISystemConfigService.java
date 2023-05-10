@@ -23,4 +23,6 @@ public interface ISystemConfigService {
 
     // 根据key更新数据
     void updateByKey(String key, SystemConfig systemConfig);
+
+    Map<String, String> selectAllConfigWithoutPassword();
 }

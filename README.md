@@ -46,7 +46,7 @@
 
 ## 运行
 
-还是看文档吧，更详细 [传送门](https://tomoya92.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
+还是看文档吧，更详细 [传送门](https://atjiu.github.io/pybbs/#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
 
 ## 手动打包
 
@@ -64,7 +64,7 @@ mvn clean package
 
 ## 反馈
 
-- [issues](https://github.com/tomoya92/pybbs/issues)
+- [issues](https://github.com/atjiu/pybbs/issues)
 - QQ群 1048094312
 
 *提问题的时候请将问题重现步骤描述清楚*
