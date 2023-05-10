@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * Created by tomoya.
  * Copyright (c) 2016, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {

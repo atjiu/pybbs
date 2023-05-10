@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public class Tag implements Serializable {
     private static final long serialVersionUID = 3257790983905872243L;

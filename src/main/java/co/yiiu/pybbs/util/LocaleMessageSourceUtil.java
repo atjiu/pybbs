@@ -10,7 +10,7 @@ import java.util.Locale;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 // 这个工具类代码来自 https://github.com/zl736732419/spring-boot-i18n/blob/master/src/main/java/com/zheng/utils
 // /LocaleMessageSourceUtil.java

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 @Component
 public class UserInterceptor implements HandlerInterceptor {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public class Permission implements Serializable {
     private static final long serialVersionUID = -2694960432845360318L;

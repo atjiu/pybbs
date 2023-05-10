@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public class BaseAdminController extends BaseApiController {
 

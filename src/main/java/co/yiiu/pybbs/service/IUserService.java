@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public interface IUserService {
     // 根据用户名查询用户，用于获取用户的信息比对密码

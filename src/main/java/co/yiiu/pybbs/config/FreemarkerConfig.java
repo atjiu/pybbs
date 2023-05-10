@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 @Configuration
 public class FreemarkerConfig {

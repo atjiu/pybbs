@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public class CommentsByTopic extends Comment implements Serializable {
     private static final long serialVersionUID = 8082073760910701836L;

@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 @Controller
 @RequestMapping("/admin/system")

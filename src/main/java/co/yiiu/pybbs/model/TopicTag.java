@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by tomoya.
  * Copyright (c) 2018, All Rights Reserved.
- * https://yiiu.co
+ * https://atjiu.github.io
  */
 public class TopicTag implements Serializable {
     private static final long serialVersionUID = -5028599844989220715L;
