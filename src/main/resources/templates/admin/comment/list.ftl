@@ -58,7 +58,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="5">${comment.content}</td>
+                            <td colspan="5">${model.formatContent(comment.content)}</td>
                         </tr>
                     </#list>
                     </tbody>
