@@ -78,7 +78,8 @@ public class TopicController extends BaseController {
 
     @GetMapping("/create")
     public String create(String tag, Model model) {
-        model.addAttribute("tag", tag);
+        Tag tag1 = tagService.selectByName(tag);
+        if (tag1 != null) model.addAttribute("tag", tag);
         return render("topic/create");
     }
 
