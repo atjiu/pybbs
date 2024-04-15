@@ -9,12 +9,13 @@
 
 如果发现了bug或者有好的建议，欢迎提issue，当然更欢迎 pr
 
-## 捐赠&商用付费
+## 版权
 
-- 个人学习使用永久免费
-- 商用授权一次性付费 **￥68.00** 永久使用
+本项目版权归本项目帐号所有
 
-![alipay](https://images.gitee.com/uploads/images/2021/0223/115428_99d1cc7f_82603.png)
+开源协议：AGPL
+
+二次开发或商用请遵守开源协议
 
 [捐赠列表](https://github.com/atjiu/pybbs/wiki/%E6%8D%90%E8%B5%A0)
 
