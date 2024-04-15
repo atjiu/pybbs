@@ -15,7 +15,6 @@
 - 商用授权一次性付费 **￥68.00** 永久使用
 
 ![alipay](https://images.gitee.com/uploads/images/2021/0223/115428_99d1cc7f_82603.png)
-![wechat](https://images.gitee.com/uploads/images/2021/0223/115526_552f1c6a_82603.png)
 
 [捐赠列表](https://github.com/atjiu/pybbs/wiki/%E6%8D%90%E8%B5%A0)
 
