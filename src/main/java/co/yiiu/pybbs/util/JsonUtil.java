@@ -46,4 +46,14 @@ public class JsonUtil {
             return null;
         }
     }
+
+    public static boolean isValid(String json) {
+        try {
+            objectMapper.readTree(json);
+            return true;
+        } catch (JsonProcessingException e) {
+            log.error("validate json string error: {}", e.getMessage());
+            return false;
+        }
+    }
 }

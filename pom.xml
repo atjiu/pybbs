@@ -190,6 +190,13 @@
             <groupId>me.zhyd.oauth</groupId>
             <artifactId>JustAuth</artifactId>
             <version>${justauth.version}</version>
+            <!-- 如果用不到第三方登录，可以将下面这个注释掉的 exclusions 打开，将justauth里用到的fastjson排队掉，这样就不会报漏洞了 -->
+            <!--<exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>-->
         </dependency>
 
         <!--云存储 OSS-->
