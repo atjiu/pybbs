@@ -137,7 +137,7 @@ public class TelegramBotService {
                 log.info("Telegram setWebhook成功");
             }
         } else {
-            log.info("Telegram未配置，路过setWebhook");
+            log.info("Telegram未配置，跳过setWebhook");
         }
     }
 }

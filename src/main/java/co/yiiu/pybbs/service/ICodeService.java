@@ -19,6 +19,9 @@ public interface ICodeService {
     // 验证邮箱验证码
     Code validateCode(Integer userId, String email, String mobile, String _code);
 
+    // 查询邮箱或手机验证码当天发送条数
+    Integer count(String email, String mobile);
+
     // 发送邮件
     boolean sendEmail(Integer userId, String email, String title, String content);
 

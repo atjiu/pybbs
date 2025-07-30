@@ -102,19 +102,19 @@ public class UserService implements IUserService {
         user.setEmail(email);
         user.setBio(bio);
         user.setWebsite(website);
-        user.setActive(systemConfigService.selectAllConfig().get("user_need_active").equals("0"));
+        user.setActive(true); // 邮箱即时验证，所以默认是激活状态
         userMapper.insert(user);
-        if (needActiveEmail) {
-            // 发送激活邮件
-            new Thread(() -> {
-                String title = "感谢注册%s，点击下面链接激活帐号";
-                String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
-                codeService.sendEmail(user.getId(), email, String.format(title, systemConfigService.selectAllConfig().get(
-                        "base_url").toString()), String.format(content,
-                        systemConfigService.selectAllConfig().get("name").toString(), systemConfigService.selectAllConfig().get(
-                                "base_url").toString(), email));
-            }).start();
-        }
+//        if (needActiveEmail) {
+//            // 发送激活邮件
+//            new Thread(() -> {
+//                String title = "感谢注册%s，点击下面链接激活帐号";
+//                String content = "如果不是你注册了%s，请忽略此邮件&nbsp;&nbsp;<a href='%s/active?email=%s&code=${code}'>点击激活</a>";
+//                codeService.sendEmail(user.getId(), email, String.format(title, systemConfigService.selectAllConfig().get(
+//                        "base_url").toString()), String.format(content,
+//                        systemConfigService.selectAllConfig().get("name").toString(), systemConfigService.selectAllConfig().get(
+//                                "base_url").toString(), email));
+//            }).start();
+//        }
         // 再查一下，有些数据库里默认值保存后，类里还是null
         return this.selectById(user.getId());
     }
@@ -198,7 +198,7 @@ public class UserService implements IUserService {
     @Override
     public void update(User user) {
         userMapper.updateById(user);
-        
+
         // 更新session中的用户
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
                 .getRequestAttributes())).getRequest();

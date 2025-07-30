@@ -92,14 +92,28 @@ public class CodeService implements ICodeService {
         LambdaQueryWrapper<Code> lambda = wrapper.lambda();
         if (email != null) {
             lambda.eq(Code::getEmail, email);
-            lambda.eq(Code::getUserId, userId);
         } else if (mobile != null) {
             lambda.eq(Code::getMobile, mobile);
         }
+        if (userId != null) lambda.eq(Code::getUserId, userId);
         lambda.eq(Code::getCode, _code);
         lambda.eq(Code::getUsed, false);
         lambda.gt(Code::getExpireTime, new Date());
         return codeMapper.selectOne(wrapper);
+    }
+
+    // 查询当天共发送多少条
+    public Integer count(String email, String mobile) {
+        if (email == null && mobile == null) return null;
+
+        Date now = new Date();
+        String today = DateUtil.formatDateTime(now, DateUtil.FORMAT_DATE);
+        LambdaQueryWrapper<Code> wrapper = new LambdaQueryWrapper<>();
+        if (email != null) wrapper.eq(Code::getEmail, email);
+        if (mobile != null) wrapper.eq(Code::getMobile, mobile);
+        wrapper.between(Code::getInTime, today + " 00:00:00", today + " 23:59:59");
+
+        return codeMapper.selectCount(wrapper);
     }
 
     // 发送邮件

@@ -11,7 +11,7 @@
         </div>
         <div class="right settings">
             <div style="margin-bottom: 15px; color: #a94442;">你的帐号还没有激活，请进入邮箱点击激活邮箱中的链接进行激活 或者 <a href="javascript:;"
-                                                                                                  id="sendActiveEmail">重新发送</a>
+                                                                                                                                id="sendActiveEmail">重新发送</a>
                 激活链接</strong></div>
             <form onsubmit="return;" id="baseDiv">
                 <fieldset>
@@ -203,16 +203,13 @@
                 }
                 $(this).attr("disabled", true);
                 $.ajax({
-                    url: '/api/settings/sendEmailCode',
+                    url: '/api/sendEmailCode',
                     cache: false,
                     async: false,
                     type: 'get',
                     dataType: 'json',
                     contentType: 'application/json',
                     data: {email: email},
-                    headers: {
-                        'token': '${_user.token!}'
-                    },
                     success: function (data) {
                         if (data.code === 200) {
                             alert("发送成功");

@@ -221,7 +221,9 @@
             $("#sendEmailCode").on("click", function () {
                 var loadingBtn = $(this).button("loading");
                 var email = $("#email").val();
-                req("get", "/api/settings/sendEmailCode", {email}, "${_user.token!}", function (data) {
+                req("get", "/api/sendEmailCode", {
+                    email: email,
+                }, function (data) {
                     if (data.code === 200) {
                         suc("发送成功");
                     } else {

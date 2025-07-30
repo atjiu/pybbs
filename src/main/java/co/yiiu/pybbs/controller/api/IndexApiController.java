@@ -91,9 +91,11 @@ public class IndexApiController extends BaseApiController {
         String username = body.get("username");
         String password = body.get("password");
         String email = body.get("email");
+        String emailCode = body.get("emailCode");
         String captcha = body.get("captcha");
         String _captcha = (String) session.getAttribute("_captcha");
         session.removeAttribute("_captcha");
+
         ApiAssert.notTrue(_captcha == null || StringUtils.isEmpty(captcha), "请输入验证码");
         ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
         ApiAssert.notEmpty(username, "请输入用户名");
@@ -101,12 +103,42 @@ public class IndexApiController extends BaseApiController {
         ApiAssert.notEmpty(email, "请输入邮箱");
         ApiAssert.isTrue(StringUtil.check(username, StringUtil.USERNAMEREGEX), "用户名只能为a-z,A-Z,0-9组合且2-16位");
         ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
+
+        if (systemConfigService.selectAllConfig().get("user_need_active").equals("1")) {
+            ApiAssert.notEmpty(emailCode, "请输入邮箱验证码");
+            Code code = codeService.validateCode(null, email, null, emailCode);
+            ApiAssert.notNull(code, "邮箱验证码错误");
+        }
+
         User user = userService.selectByUsername(username);
         ApiAssert.isNull(user, "用户名已存在");
         User emailUser = userService.selectByEmail(email);
         ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
-        user = userService.addUser(username, password, null, email, null, null, true);
+        user = userService.addUser(username, password, null, email, null, null, false);
         return this.doUserStorage(session, user);
+    }
+
+    // 发送邮箱验证码
+    @GetMapping("/sendEmailCode")
+    public Result sendEmailCode(String email) {
+        ApiAssert.notEmpty(email, "请输入邮箱 ");
+        ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
+        // 不能告知用户邮箱是否注册过
+//        User emailUser = userService.selectByEmail(email);
+//        ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
+
+        Integer count = codeService.count(email, null);
+        if (count != null && count > Integer.parseInt(systemConfigService.selectAllConfig().get("email_mobile_code_count"))) {
+            return error("邮箱验证码发送次数过多");
+        }
+
+        if (codeService.sendEmail(null, email,
+                String.format("感谢注册%s，邮箱验证码", systemConfigService.selectAllConfig().get("name").toString()),
+                "你的验证码是：<code>${code}</code><br>请在30分钟内使用")) {
+            return success();
+        } else {
+            return error("邮件发送失败，也可能是站长没有配置邮箱");
+        }
     }
 
     // 发送手机验证码
@@ -118,6 +150,12 @@ public class IndexApiController extends BaseApiController {
         ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
         ApiAssert.notEmpty(mobile, "请输入手机号");
         ApiAssert.isTrue(StringUtil.check(mobile, StringUtil.MOBILEREGEX), "请输入正确的手机号");
+
+        Integer count = codeService.count(null, mobile);
+        if (count != null && count > Integer.parseInt(systemConfigService.selectAllConfig().get("email_mobile_code_count"))) {
+            return error("短信验证码发送次数过多");
+        }
+
         boolean b = codeService.sendSms(mobile);
         if (!b) {
             return error("短信发送失败或者站长没有配置短信服务");

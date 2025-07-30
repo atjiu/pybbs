@@ -95,6 +95,7 @@
                     password: password,
                     captcha: captcha,
                 }, function (data) {
+                    $(".captcha").click();
                     if (data.code === 200) {
                         suc("登录成功");
                         setTimeout(function () {

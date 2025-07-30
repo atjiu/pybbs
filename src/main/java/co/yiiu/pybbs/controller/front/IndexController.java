@@ -82,9 +82,11 @@ public class IndexController extends BaseController {
 
     // 注册
     @GetMapping("/register")
-    public String register() {
+    public String register(HttpServletRequest request) {
         User user = getUser();
         if (user != null) return redirect("/");
+
+        request.setAttribute("user_need_active", systemConfigService.selectAllConfig().get("user_need_active"));
         return render("register");
     }
 

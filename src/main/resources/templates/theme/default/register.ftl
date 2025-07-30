@@ -15,10 +15,28 @@
                             <label for="password">密码</label>
                             <input type="password" id="password" name="password" class="form-control" placeholder="密码"/>
                         </div>
-                        <div class="form-group">
-                            <label for="email">邮箱</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="邮箱"/>
-                        </div>
+                        <#if user_need_active?? && user_need_active == "1">
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <div class="input-group">
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="邮箱"/>
+                                    <span class="input-group-append">
+                                        <button type="button" id="sendEmailCode" class="btn btn-info" autocomplete="off" data-loading-text="发送中...">发送验证码</button>
+                                    </span>
+                                </div>
+                            </div>
+                        <#else>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="邮箱"/>
+                            </div>
+                        </#if>
+                        <#if user_need_active?? && user_need_active == "1">
+                            <div class="form-group">
+                                <label for="emailCode">邮箱验证码</label>
+                                <input type="text" id="emailCode" name="emailCode" class="form-control" placeholder="邮箱验证码"/>
+                            </div>
+                        </#if>
                         <div class="form-group">
                             <label for="captcha">验证码</label>
                             <div class="input-group">
@@ -74,10 +92,25 @@
                     document.getElementById("register_btn").click();
                 }
             });
+            $("#sendEmailCode").on("click", function () {
+                var loadingBtn = $(this).button("loading");
+                var email = $("#email").val();
+                req("get", "/api/sendEmailCode", {
+                    email: email,
+                }, function (data) {
+                    if (data.code === 200) {
+                        suc("发送成功");
+                    } else {
+                        err(data.description);
+                    }
+                    loadingBtn.button("reset");
+                });
+            })
             $("#register_btn").click(function () {
                 var username = $("#username").val();
                 var password = $("#password").val();
                 var email = $("#email").val();
+                var emailCode = $("#emailCode").val();
                 var captcha = $("#captcha").val();
                 if (!username) {
                     err("请输入用户名");
@@ -91,6 +124,12 @@
                     err("请输入邮箱");
                     return;
                 }
+                <#if user_need_active?? && user_need_active == "1">
+                if (!emailCode) {
+                    err("请输入邮箱验证码");
+                    return;
+                }
+                </#if>
                 if (!captcha) {
                     err("请输入验证码");
                     return;
@@ -99,8 +138,10 @@
                     username: username,
                     password: password,
                     email: email,
+                    emailCode: emailCode,
                     captcha: captcha,
                 }, function (data) {
+                    $("#mobile_login_btn").click();
                     if (data.code === 200) {
                         suc("注册成功");
                         setTimeout(function () {
