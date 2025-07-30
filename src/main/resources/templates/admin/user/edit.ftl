@@ -65,24 +65,24 @@
                                 <input type="text" id="token" name="token" value="${user.token!}" class="form-control"
                                        placeholder="Token"/>
                                 <span class="input-group-btn">
-                  <button type="button" onclick="refreshToken(this)" class="btn btn-info" autocomplete="off"
-                          data-loading-text="刷新中...">刷新Token</button>
-                  <script>
-                    function refreshToken(self) {
-                        $(self).button("loading");
-                        $.get("/admin/user/refreshToken?id=${user.id}", function (data) {
-                            console.log(data)
-                            if (data.code === 200) {
-                                toast("成功", "success");
-                                $("#token").val(data.detail);
-                            } else {
-                                toast(data.description);
-                            }
-                            $(self).button("reset");
-                        });
-                    }
-                  </script>
-                </span>
+                                  <button type="button" onclick="refreshToken(this)" class="btn btn-info" autocomplete="off"
+                                          data-loading-text="刷新中...">刷新Token</button>
+                                  <script>
+                                    function refreshToken(self) {
+                                        $(self).button("loading");
+                                        $.get("/admin/user/refreshToken?id=${user.id}", function (data) {
+                                            console.log(data)
+                                            if (data.code === 200) {
+                                                toast("成功", "success");
+                                                $("#token").val(data.detail);
+                                            } else {
+                                                toast(data.description);
+                                            }
+                                            $(self).button("reset");
+                                        });
+                                    }
+                                  </script>
+                                </span>
                             </div>
                         </div>
                     </#if>
