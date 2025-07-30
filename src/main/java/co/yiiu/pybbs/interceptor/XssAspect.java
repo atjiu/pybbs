@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class XssAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
-            if (args[i] instanceof Map) {
+            if (args[i] instanceof Map && !(args[i] instanceof RedirectAttributes)) {
                 args[i] = sanitizeMap((Map<String, String>) args[i]);
             }
         }

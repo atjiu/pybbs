@@ -30,8 +30,8 @@ public class CookieUtil {
         ResponseCookie responseCookie = ResponseCookie.from(key, value)
                 // 设置 HttpOnly
                 .httpOnly(true)
-                // 设置 SameSite 为 Lax，不依赖浏览器默认行为
-                .sameSite("Lax")
+                // 设置 SameSite 为 Strict，不依赖浏览器默认行为
+                .sameSite("Strict")
                 // 设置 Cookie 路径为网站根路径
                 .path("/")
                 // 设置过期时间（单位：秒）
