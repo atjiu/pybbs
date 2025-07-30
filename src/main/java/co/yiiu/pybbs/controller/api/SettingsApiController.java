@@ -85,8 +85,9 @@ public class SettingsApiController extends BaseApiController {
         User user = getApiUser();
         ApiAssert.notEmpty(email, "请输入邮箱 ");
         ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
-        User emailUser = userService.selectByEmail(email);
-        ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
+        // 不能告知用户邮箱是否注册过
+//        User emailUser = userService.selectByEmail(email);
+//        ApiAssert.isNull(emailUser, "这个邮箱已经被注册过了，请更换一个邮箱");
         if (codeService.sendEmail(user.getId(), email, "修改邮箱验证码", "你的验证码是：<code>${code}</code><br>请在30分钟内使用")) {
             return success();
         } else {
