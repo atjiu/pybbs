@@ -51,6 +51,9 @@ public class UserAdminController extends BaseAdminController {
     @PostMapping("/edit")
     @ResponseBody
     public Result update(User user) {
+        if (!StringUtils.isEmpty(user.getPassword()) && !StringUtil.check(user.getPassword(), StringUtil.PASSWORDREGEX)) {
+            return error("密码：至少一个大写字母、至少一个小写字母、至少一个数字、至少16位");
+        }
         // 如果密码不为空，给加密一下再保存
         if (!StringUtils.isEmpty(user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

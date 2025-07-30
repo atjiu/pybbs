@@ -23,8 +23,8 @@ public class StringUtilTest {
 
     @Test
     public void test() {
-        String s = "PAYPALISHIRING";
-        convert(s, 3);
+        String s = "Abcdefght123456";
+        System.out.println(StringUtil.check(s, StringUtil.PASSWORDREGEX));
     }
 
     public void convert(String s, int numRows) {

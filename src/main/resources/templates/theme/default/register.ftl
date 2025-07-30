@@ -141,7 +141,7 @@
                     emailCode: emailCode,
                     captcha: captcha,
                 }, function (data) {
-                    $("#mobile_login_btn").click();
+                    $(".captcha").click();
                     if (data.code === 200) {
                         suc("注册成功");
                         setTimeout(function () {

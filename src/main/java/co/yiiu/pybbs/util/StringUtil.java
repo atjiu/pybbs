@@ -24,8 +24,8 @@ public class StringUtil {
     public static final String URLREGEX = "^((https|http)?:\\/\\/)[^\\s]+";
     // 用户名正则
     public static final String USERNAMEREGEX = "[a-z0-9A-Z]{2,16}";
-    // 密码正则
-    public static final String PASSWORDREGEX = "[a-z0-9A-Z]{6,32}";
+    // 密码正则 要求：至少一个大写字母、至少一个小写字母、至少一个数字、至少16位
+    public static final String PASSWORDREGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{16,}$";
     // 生成随机字符串用到的字符数组
     private static final char[] hexDigits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
             'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',

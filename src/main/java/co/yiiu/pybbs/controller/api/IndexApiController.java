@@ -100,6 +100,7 @@ public class IndexApiController extends BaseApiController {
         ApiAssert.notTrue(!_captcha.equalsIgnoreCase(captcha), "验证码不正确");
         ApiAssert.notEmpty(username, "请输入用户名");
         ApiAssert.notEmpty(password, "请输入密码");
+        ApiAssert.isTrue(StringUtil.check(password, StringUtil.PASSWORDREGEX), "密码：至少一个大写字母、至少一个小写字母、至少一个数字、至少16位");
         ApiAssert.notEmpty(email, "请输入邮箱");
         ApiAssert.isTrue(StringUtil.check(username, StringUtil.USERNAMEREGEX), "用户名只能为a-z,A-Z,0-9组合且2-16位");
         ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "请输入正确的邮箱地址");
