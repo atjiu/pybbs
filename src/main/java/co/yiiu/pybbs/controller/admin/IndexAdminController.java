@@ -95,6 +95,7 @@ public class IndexAdminController extends BaseAdminController {
                              HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String url = WebUtils.getSavedRequest(request) == null ? "/admin/index" : WebUtils.getSavedRequest(request).getRequestUrl();
         String captcha = (String) session.getAttribute("_captcha");
+        session.removeAttribute("_captcha");
         if (captcha == null || StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)) {
             redirectAttributes.addFlashAttribute("error", "验证码不正确");
             redirectAttributes.addFlashAttribute("username", username);
