@@ -10,8 +10,6 @@ import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.IpUtil;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -84,7 +82,6 @@ public class TopicApiController extends BaseApiController {
         String content = body.get("content");
         String tag = body.get("tag");
         //    String tags = body.get("tags");
-        title = Jsoup.clean(title, Whitelist.basic());
         ApiAssert.notEmpty(title, "请输入标题");
         ApiAssert.isNull(topicService.selectByTitle(title), "话题标题重复");
         //    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
@@ -108,7 +105,7 @@ public class TopicApiController extends BaseApiController {
         // 更新话题
         Topic topic = topicService.selectById(id);
         ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限修改别人的话题的？");
-        topic.setTitle(Jsoup.clean(title, Whitelist.none().addTags("video")));
+        topic.setTitle(title);
         topic.setContent(content);
         topic.setModifyTime(new Date());
         topicService.update(topic, null);

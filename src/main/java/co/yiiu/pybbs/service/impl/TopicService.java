@@ -8,8 +8,6 @@ import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +98,7 @@ public class TopicService implements ITopicService {
     @Override
     public Topic insert(String title, String content, String tags, User user) {
         Topic topic = new Topic();
-        topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
+        topic.setTitle(title);
         topic.setStyle(systemConfigService.selectAllConfig().get("content_style"));
         topic.setContent(content);
         topic.setInTime(new Date());
@@ -116,7 +114,7 @@ public class TopicService implements ITopicService {
         userService.update(user);
         if (!StringUtils.isEmpty(tags)) {
             // 保存标签
-            List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
+            List<Tag> tagList = tagService.insertTag(tags);
             // 处理标签与话题的关联
             topicTagService.insertTopicTag(topic.getId(), tagList);
         }
@@ -157,7 +155,7 @@ public class TopicService implements ITopicService {
             tagService.reduceTopicCount(topic.getId());
             if (!StringUtils.isEmpty(tags)) {
                 // 保存标签
-                List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
+                List<Tag> tagList = tagService.insertTag(tags);
                 // 处理标签与话题的关联
                 topicTagService.insertTopicTag(topic.getId(), tagList);
             }

@@ -9,8 +9,6 @@ import co.yiiu.pybbs.service.ITopicService;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -69,7 +67,6 @@ public class TopicAdminController extends BaseAdminController {
     @PostMapping("edit")
     @ResponseBody
     public Result update(Integer id, String title, String content, String tags) {
-        title = Jsoup.clean(title, Whitelist.basic());
         ApiAssert.notEmpty(title, "话题标题不能为空");
 
         Topic topic = topicService.selectById(id);

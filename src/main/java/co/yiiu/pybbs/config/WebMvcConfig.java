@@ -2,6 +2,8 @@ package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.interceptor.CommonInterceptor;
 import co.yiiu.pybbs.interceptor.UserInterceptor;
+import co.yiiu.pybbs.interceptor.XssSanitizingFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -26,6 +28,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     private CommonInterceptor commonInterceptor;
     @Resource
     private UserInterceptor userInterceptor;
+
+    @Bean
+    public FilterRegistrationBean<XssSanitizingFilter> xssFilterRegistration() {
+        FilterRegistrationBean<XssSanitizingFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new XssSanitizingFilter());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setOrder(1);
+        return registrationBean;
+    }
 
     @Override
     protected void addCorsMappings(CorsRegistry registry) {
