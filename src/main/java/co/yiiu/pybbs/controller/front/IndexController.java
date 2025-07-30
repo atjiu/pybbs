@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -119,14 +118,13 @@ public class IndexController extends BaseController {
 
     // 切换语言
     @GetMapping("changeLanguage")
-    public String changeLanguage(String lang, HttpSession session, HttpServletRequest request) {
-        String referer = request.getHeader("referer");
+    public String changeLanguage(String lang, HttpSession session) {
         if ("zh".equals(lang)) {
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.SIMPLIFIED_CHINESE);
         } else if ("en".equals(lang)) {
             session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, Locale.US);
         }
-        return StringUtils.isEmpty(referer) ? redirect("/") : redirect(referer);
+        return redirect("/");
     }
 
     // 激活帐号
