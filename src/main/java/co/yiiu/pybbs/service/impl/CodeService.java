@@ -99,7 +99,17 @@ public class CodeService implements ICodeService {
         lambda.eq(Code::getCode, _code);
         lambda.eq(Code::getUsed, false);
         lambda.gt(Code::getExpireTime, new Date());
-        return codeMapper.selectOne(wrapper);
+        Code code = codeMapper.selectOne(wrapper);
+
+        // 如果验证code通过，将code标记为已使用
+        if (code != null) {
+            Code code1 = new Code();
+            code1.setId(code.getId());
+            code1.setUsed(true);
+            codeMapper.updateById(code1);
+        }
+
+        return code;
     }
 
     // 查询当天共发送多少条
