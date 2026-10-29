@@ -56,6 +56,27 @@ public class SettingsApiController extends BaseApiController {
         return success();
     }
 
+    // 发送邮箱验证码，仅允许为当前登录用户的邮箱变更流程创建验证码
+    @GetMapping("/sendEmailCode")
+    public Result sendEmailCode(String email) {
+        User user = getApiUser();
+        ApiAssert.notEmpty(email, "请输入邮箱 ");
+        ApiAssert.isTrue(StringUtil.check(email, StringUtil.EMAILREGEX), "邮箱格式不正确");
+
+        Integer count = codeService.count(email, null);
+        if (count != null && count > Integer.parseInt(systemConfigService.selectAllConfig().get("email_mobile_code_count"))) {
+            return error("邮箱验证码发送次数过多");
+        }
+
+        if (codeService.sendEmail(user.getId(), email,
+                String.format("感谢%s，邮箱验证码", systemConfigService.selectAllConfig().get("name").toString()),
+                "你的验证码是：<code>${code}</code><br>请在30分钟内使用")) {
+            return success();
+        } else {
+            return error("邮件发送失败，也可能是站长没有配置邮箱");
+        }
+    }
+
     // 发送激活邮件
     @GetMapping("/sendActiveEmail")
     public Result sendActiveEmail() {
@@ -116,6 +137,7 @@ public class SettingsApiController extends BaseApiController {
 
         ApiAssert.notEmpty(oldPassword, "请输入旧密码");
         ApiAssert.notEmpty(newPassword, "请输入新密码");
+        ApiAssert.isTrue(StringUtil.check(newPassword, StringUtil.PASSWORDREGEX), "密码：至少一个大写字母、至少一个小写字母、至少一个数字、至少16位");
         ApiAssert.notTrue(oldPassword.equals(newPassword), "新密码怎么还是旧的？");
         ApiAssert.isTrue(new BCryptPasswordEncoder().matches(oldPassword, user.getPassword()), "旧密码不正确");
 
